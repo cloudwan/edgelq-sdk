@@ -746,6 +746,14 @@ func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareI
 	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfo{}
 }
 
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformation) HailoInfo() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformation) NvidiaInfo() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo{}
+}
+
 type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationOs struct{}
 
 func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationOs) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
@@ -1219,6 +1227,18 @@ func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareI
 	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsCacheInfo{}
 }
 
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Driver() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Latency() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Clock() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock{}
+}
+
 type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsVendor struct{}
 
 func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsVendor) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
@@ -1495,6 +1515,57 @@ func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwar
 }
 
 func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsCacheInfoSizeBytes) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) WithValue(value int64) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) WithValue(value int64) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2492,6 +2563,426 @@ func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwar
 }
 
 func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) Status() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) CliVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) Modules() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Status().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithValue(value []*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithArrayOfValues(values [][]*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithItemValue(value *device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) DevId() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) ControlProtoVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) FirmwareVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) LoggerVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) BoardName() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) SerialNumber() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) PartNumber() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) ProductName() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) NeuralNetworkCoreClockRate() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) Status() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) DriverVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) CudaVersion() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) Gpus() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().Status().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithValue(value []*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithArrayOfValues(values [][]*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithItemValue(value *device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Id() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) ProductName() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -14115,6 +14606,14 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardware
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfo{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformation) HailoInfo() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformation) NvidiaInfo() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationOs struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationOs) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -14588,6 +15087,18 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardware
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsCacheInfo{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Driver() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Latency() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessors) Clock() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsVendor struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsVendor) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -14864,6 +15375,57 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwa
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsCacheInfoSizeBytes) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsDriver) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) WithValue(value int64) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsLatency) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) WithValue(value int64) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationCpuProcessorsClock) WithArrayOfValues(values []int64) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -15861,6 +16423,426 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwa
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) Status() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) CliVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfo) Modules() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoCliVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithValue(value []*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithArrayOfValues(values [][]*device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) WithItemValue(value *device.Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) DevId() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) ControlProtoVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) FirmwareVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) LoggerVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) BoardName() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) SerialNumber() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) PartNumber() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) ProductName() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModules) NeuralNetworkCoreClockRate() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) Status() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) DriverVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) CudaVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfo) Gpus() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithValue(value []*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithArrayOfValues(values [][]*device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) WithItemValue(value *device.Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Id() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpus) ProductName() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

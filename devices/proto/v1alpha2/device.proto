@@ -555,6 +555,10 @@ message Device {
 
         MemoryInfo memory_info = 8;
 
+        HailoInfo hailo_info = 20;
+
+        NvidiaInfo nvidia_info = 21;
+
         message Capability {
           string name = 1;
 
@@ -627,6 +631,12 @@ message Device {
             int64 max_frequency_mhz = 10;
 
             repeated Cache cache_info = 11;
+
+            string driver = 12;
+
+            int64 latency = 13;
+
+            int64 clock = 14;
 
             message Cache {
               string type = 1;
@@ -740,6 +750,50 @@ message Device {
 
               int32 width_bits = 8;
             }
+          }
+        }
+
+        message HailoInfo {
+          string status = 1;
+
+          string cli_version = 2;
+
+          repeated HailoModuleInfo modules = 10;
+
+          message HailoModuleInfo {
+            string dev_id = 1;
+
+            string control_proto_version = 2;
+
+            string firmware_version = 3;
+
+            string logger_version = 4;
+
+            string board_name = 5;
+
+            string serial_number = 6;
+
+            string part_number = 7;
+
+            string product_name = 8;
+
+            string neural_network_core_clock_rate = 9;
+          }
+        }
+
+        message NvidiaInfo {
+          string status = 1;
+
+          string driver_version = 2;
+
+          string cuda_version = 3;
+
+          repeated GpuInfo gpus = 10;
+
+          message GpuInfo {
+            string id = 1;
+
+            string product_name = 2;
           }
         }
       }

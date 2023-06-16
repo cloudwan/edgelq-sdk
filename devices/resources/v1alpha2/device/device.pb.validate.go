@@ -597,6 +597,16 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation) GotenValidate() error {
 			return gotenvalidate.NewValidationError("HardwareInformation", "memoryInfo", obj.MemoryInfo, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.HailoInfo).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("HardwareInformation", "hailoInfo", obj.HailoInfo, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.NvidiaInfo).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("HardwareInformation", "nvidiaInfo", obj.NvidiaInfo, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -732,6 +742,38 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) GotenValidat
 	}
 	return nil
 }
+func (obj *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Modules {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("HailoInfo", "modules", obj.Modules[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Gpus {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NvidiaInfo", "gpus", obj.Gpus[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -838,6 +880,24 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) Goten
 	return nil
 }
 func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

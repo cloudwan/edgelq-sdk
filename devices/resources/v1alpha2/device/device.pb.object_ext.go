@@ -3521,6 +3521,26 @@ func (o *Device_Status_DeviceInfo_HardwareInformation) MakeDiffFieldMask(other *
 			}
 		}
 	}
+	{
+		subMask := o.GetHailoInfo().MakeDiffFieldMask(other.GetHailoInfo())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetNvidiaInfo().MakeDiffFieldMask(other.GetNvidiaInfo())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -3541,6 +3561,8 @@ func (o *Device_Status_DeviceInfo_HardwareInformation) Clone() *Device_Status_De
 	result.Network = o.Network.Clone()
 	result.Gpu = o.Gpu.Clone()
 	result.MemoryInfo = o.MemoryInfo.Clone()
+	result.HailoInfo = o.HailoInfo.Clone()
+	result.NvidiaInfo = o.NvidiaInfo.Clone()
 	return result
 }
 
@@ -3596,6 +3618,18 @@ func (o *Device_Status_DeviceInfo_HardwareInformation) Merge(source *Device_Stat
 			o.MemoryInfo = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
 		}
 		o.MemoryInfo.Merge(source.GetMemoryInfo())
+	}
+	if source.GetHailoInfo() != nil {
+		if o.HailoInfo == nil {
+			o.HailoInfo = new(Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+		}
+		o.HailoInfo.Merge(source.GetHailoInfo())
+	}
+	if source.GetNvidiaInfo() != nil {
+		if o.NvidiaInfo == nil {
+			o.NvidiaInfo = new(Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+		}
+		o.NvidiaInfo.Merge(source.GetNvidiaInfo())
 	}
 }
 
@@ -4330,6 +4364,189 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) MergeRaw(sourc
 	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo))
 }
 
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) GotenObjectExt() {}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask()
+	}
+
+	res := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	if o.GetStatus() != other.GetStatus() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus})
+	}
+	if o.GetCliVersion() != other.GetCliVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion})
+	}
+
+	if len(o.GetModules()) == len(other.GetModules()) {
+		for i, lValue := range o.GetModules() {
+			rValue := other.GetModules()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules})
+	}
+	return res
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) Clone() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo{}
+	result.Status = o.Status
+	result.CliVersion = o.CliVersion
+	result.Modules = make([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo, len(o.Modules))
+	for i, sourceValue := range o.Modules {
+		result.Modules[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) Merge(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	o.Status = source.GetStatus()
+	o.CliVersion = source.GetCliVersion()
+	for _, sourceValue := range source.GetModules() {
+		exists := false
+		for _, currentValue := range o.Modules {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo
+			if sourceValue != nil {
+				newDstElement = new(Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Modules = append(o.Modules, newDstElement)
+		}
+	}
+
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) GotenObjectExt() {}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask()
+	}
+
+	res := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	if o.GetStatus() != other.GetStatus() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus})
+	}
+	if o.GetDriverVersion() != other.GetDriverVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion})
+	}
+	if o.GetCudaVersion() != other.GetCudaVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion})
+	}
+
+	if len(o.GetGpus()) == len(other.GetGpus()) {
+		for i, lValue := range o.GetGpus() {
+			rValue := other.GetGpus()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus})
+	}
+	return res
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) Clone() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo{}
+	result.Status = o.Status
+	result.DriverVersion = o.DriverVersion
+	result.CudaVersion = o.CudaVersion
+	result.Gpus = make([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo, len(o.Gpus))
+	for i, sourceValue := range o.Gpus {
+		result.Gpus[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) Merge(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	o.Status = source.GetStatus()
+	o.DriverVersion = source.GetDriverVersion()
+	o.CudaVersion = source.GetCudaVersion()
+	for _, sourceValue := range source.GetGpus() {
+		exists := false
+		for _, currentValue := range o.Gpus {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
+			if sourceValue != nil {
+				newDstElement = new(Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Gpus = append(o.Gpus, newDstElement)
+		}
+	}
+
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
 func (o *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) GotenObjectExt() {}
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask {
@@ -4465,6 +4682,15 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) MakeDiffFie
 	} else {
 		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo})
 	}
+	if o.GetDriver() != other.GetDriver() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver})
+	}
+	if o.GetLatency() != other.GetLatency() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency})
+	}
+	if o.GetClock() != other.GetClock() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock})
+	}
 	return res
 }
 
@@ -4494,6 +4720,9 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) Clone() *De
 	for i, sourceValue := range o.CacheInfo {
 		result.CacheInfo[i] = sourceValue.Clone()
 	}
+	result.Driver = o.Driver
+	result.Latency = o.Latency
+	result.Clock = o.Clock
 	return result
 }
 
@@ -4547,6 +4776,9 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) Merge(sourc
 		}
 	}
 
+	o.Driver = source.GetDriver()
+	o.Latency = source.GetLatency()
+	o.Clock = source.GetClock()
 }
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -5131,4 +5363,149 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBa
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) GotenObjectExt() {}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask()
+	}
+
+	res := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	if o.GetDevId() != other.GetDevId() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId})
+	}
+	if o.GetControlProtoVersion() != other.GetControlProtoVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion})
+	}
+	if o.GetFirmwareVersion() != other.GetFirmwareVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion})
+	}
+	if o.GetLoggerVersion() != other.GetLoggerVersion() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion})
+	}
+	if o.GetBoardName() != other.GetBoardName() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName})
+	}
+	if o.GetSerialNumber() != other.GetSerialNumber() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber})
+	}
+	if o.GetPartNumber() != other.GetPartNumber() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber})
+	}
+	if o.GetProductName() != other.GetProductName() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName})
+	}
+	if o.GetNeuralNetworkCoreClockRate() != other.GetNeuralNetworkCoreClockRate() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate})
+	}
+	return res
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) Clone() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo{}
+	result.DevId = o.DevId
+	result.ControlProtoVersion = o.ControlProtoVersion
+	result.FirmwareVersion = o.FirmwareVersion
+	result.LoggerVersion = o.LoggerVersion
+	result.BoardName = o.BoardName
+	result.SerialNumber = o.SerialNumber
+	result.PartNumber = o.PartNumber
+	result.ProductName = o.ProductName
+	result.NeuralNetworkCoreClockRate = o.NeuralNetworkCoreClockRate
+	return result
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) Merge(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) {
+	o.DevId = source.GetDevId()
+	o.ControlProtoVersion = source.GetControlProtoVersion()
+	o.FirmwareVersion = source.GetFirmwareVersion()
+	o.LoggerVersion = source.GetLoggerVersion()
+	o.BoardName = source.GetBoardName()
+	o.SerialNumber = source.GetSerialNumber()
+	o.PartNumber = source.GetPartNumber()
+	o.ProductName = source.GetProductName()
+	o.NeuralNetworkCoreClockRate = source.GetNeuralNetworkCoreClockRate()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) GotenObjectExt() {}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask()
+	}
+
+	res := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	if o.GetId() != other.GetId() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId})
+	}
+	if o.GetProductName() != other.GetProductName() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName})
+	}
+	return res
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) Clone() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo{}
+	result.Id = o.Id
+	result.ProductName = o.ProductName
+	return result
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) Merge(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) {
+	o.Id = source.GetId()
+	o.ProductName = source.GetProductName()
+}
+
+func (o *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
 }

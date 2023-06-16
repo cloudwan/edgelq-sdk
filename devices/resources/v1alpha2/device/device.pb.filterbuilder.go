@@ -35648,6 +35648,14 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformation) MemoryInfo() *filt
 	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformation) HailoInfo() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformation) NvidiaInfo() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo{builder: b.builder}
+}
+
 type filterCndBuilderStatusDeviceInfoHardwareInformationOs struct {
 	builder *FilterBuilder
 }
@@ -37033,6 +37041,18 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessors) Cache
 	return &filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsCacheInfo{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessors) Driver() *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessors) Latency() *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessors) Clock() *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock{builder: b.builder}
+}
+
 type filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsVendor struct {
 	builder *FilterBuilder
 }
@@ -37999,6 +38019,183 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsCacheIn
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().CacheInfo().SizeBytes().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsDriver) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Driver().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsLatency) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Latency().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationCpuProcessorsClock) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().Cpu().Processors().Clock().WithValue(value),
 	})
 }
 
@@ -41149,6 +41346,1326 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemo
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Eq(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Neq(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Gt(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Gte(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Lt(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Lte(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) In(values []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) NotIn(values []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) compare(op gotenfilter.CompareOperator, value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Status() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) CliVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfo) Modules() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoStatus) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Status().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoCliVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().CliVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Eq(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Neq(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Gt(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Gte(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Lt(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Lte(value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) In(values [][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) NotIn(values [][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) Contains(value *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) ContainsAnyOf(values []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) ContainsAll(values []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) compare(op gotenfilter.CompareOperator, value []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) DevId() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) ControlProtoVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) FirmwareVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) LoggerVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) BoardName() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) SerialNumber() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) PartNumber() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) ProductName() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModules) NeuralNetworkCoreClockRate() *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesDevId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().DevId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesControlProtoVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ControlProtoVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesFirmwareVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().FirmwareVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesLoggerVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().LoggerVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesBoardName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().BoardName().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesSerialNumber) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().SerialNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesPartNumber) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().PartNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesProductName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().ProductName().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationHailoInfoModulesNeuralNetworkCoreClockRate) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().HailoInfo().Modules().NeuralNetworkCoreClockRate().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Eq(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Neq(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Gt(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Gte(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Lt(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Lte(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) In(values []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) NotIn(values []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) compare(op gotenfilter.CompareOperator, value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Status() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) DriverVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) CudaVersion() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfo) Gpus() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoStatus) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Status().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoDriverVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().DriverVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoCudaVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().CudaVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Eq(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Neq(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Gt(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Gte(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Lt(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Lte(value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) In(values [][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) NotIn(values [][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Contains(value *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) ContainsAnyOf(values []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) ContainsAll(values []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) compare(op gotenfilter.CompareOperator, value []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) Id() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpus) ProductName() *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().NvidiaInfo().Gpus().ProductName().WithValue(value),
 	})
 }
 

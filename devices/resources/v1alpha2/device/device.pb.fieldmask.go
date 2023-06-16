@@ -9229,6 +9229,8 @@ func FullDevice_Status_DeviceInfo_HardwareInformation_FieldMask() *Device_Status
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo})
 	return res
 }
 
@@ -9272,7 +9274,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) IsFull(
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -9302,7 +9304,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Reset()
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_FieldMask {
 	result := &Device_Status_DeviceInfo_HardwareInformation_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:         &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:       &Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask{},
@@ -9312,6 +9314,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtrac
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:    &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:        &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:  &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:         &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
@@ -9322,6 +9326,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtrac
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:    &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:        &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:  &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -9353,6 +9359,10 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtrac
 						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu] = FullDevice_Status_DeviceInfo_HardwareInformation_GPU_FieldMask()
 					case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo] = FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo] = FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo] = FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -9521,6 +9531,10 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 	wholeGpuAccepted := false
 	memoryInfoMask := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{}
 	wholeMemoryInfoAccepted := false
+	hailoInfoMask := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	wholeHailoInfoAccepted := false
+	nvidiaInfoMask := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	wholeNvidiaInfoAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -9550,6 +9564,12 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 				result.MemoryInfo = source.MemoryInfo
 				wholeMemoryInfoAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+				result.HailoInfo = source.HailoInfo
+				wholeHailoInfoAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+				result.NvidiaInfo = source.NvidiaInfo
+				wholeNvidiaInfoAccepted = true
 			}
 		case *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath:
 			switch tp.selector {
@@ -9569,6 +9589,10 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 				gpuMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationGPU_FieldPath))
 			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 				memoryInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+				hailoInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+				nvidiaInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath))
 			}
 		}
 	}
@@ -9595,6 +9619,12 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 	}
 	if wholeMemoryInfoAccepted == false && len(memoryInfoMask.Paths) > 0 {
 		result.MemoryInfo = memoryInfoMask.Project(source.GetMemoryInfo())
+	}
+	if wholeHailoInfoAccepted == false && len(hailoInfoMask.Paths) > 0 {
+		result.HailoInfo = hailoInfoMask.Project(source.GetHailoInfo())
+	}
+	if wholeNvidiaInfoAccepted == false && len(nvidiaInfoMask.Paths) > 0 {
+		result.NvidiaInfo = nvidiaInfoMask.Project(source.GetNvidiaInfo())
 	}
 	return result
 }
@@ -12414,6 +12444,605 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 	return len(fieldMask.Paths)
 }
 
+type Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules: &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules: &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules] = FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo), source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo{}
+	modulesMask := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	wholeModulesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+				result.Status = source.Status
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+				result.CliVersion = source.CliVersion
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+				result.Modules = source.Modules
+				wholeModulesAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+				modulesMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath))
+			}
+		}
+	}
+	if wholeModulesAccepted == false && len(modulesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetModules() {
+			result.Modules = append(result.Modules, modulesMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	removedSelectors := make([]bool, 4)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus] = FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo), source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo{}
+	gpusMask := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	wholeGpusAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+				result.Status = source.Status
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+				result.DriverVersion = source.DriverVersion
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+				result.CudaVersion = source.CudaVersion
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+				result.Gpus = source.Gpus
+				wholeGpusAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+				gpusMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath))
+			}
+		}
+	}
+	if wholeGpusAccepted == false && len(gpusMask.Paths) > 0 {
+		for _, sourceItem := range source.GetGpus() {
+			result.Gpus = append(result.Gpus, gpusMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask struct {
 	Paths []DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath
 }
@@ -12694,6 +13323,9 @@ func FullDevice_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask() 
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorFrequencyMhz})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock})
 	return res
 }
 
@@ -12737,7 +13369,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 14)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -12768,7 +13400,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask {
 	result := &Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 14)
 	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCapabilities: &Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask{},
 		DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:    &Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask{},
@@ -12980,6 +13612,12 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 			case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 				result.CacheInfo = source.CacheInfo
 				wholeCacheInfoAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+				result.Driver = source.Driver
+			case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+				result.Latency = source.Latency
+			case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+				result.Clock = source.Clock
 			}
 		case *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath:
 			switch tp.selector {
@@ -14999,6 +15637,541 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 9)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	removedSelectors := make([]bool, 9)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo), source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+				result.DevId = source.DevId
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+				result.ControlProtoVersion = source.ControlProtoVersion
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+				result.FirmwareVersion = source.FirmwareVersion
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+				result.LoggerVersion = source.LoggerVersion
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+				result.BoardName = source.BoardName
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+				result.SerialNumber = source.SerialNumber
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+				result.PartNumber = source.PartNumber
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+				result.ProductName = source.ProductName
+			case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+				result.NeuralNetworkCoreClockRate = source.NeuralNetworkCoreClockRate
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo), source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+				result.Id = source.Id
+			case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+				result.ProductName = source.ProductName
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

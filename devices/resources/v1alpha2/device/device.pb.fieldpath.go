@@ -22302,6 +22302,8 @@ const (
 	DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork    DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector = 5
 	DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu        DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector = 6
 	DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector = 7
+	DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo  DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector = 8
+	DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector = 9
 )
 
 func (s DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector) String() string {
@@ -22322,6 +22324,10 @@ func (s DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector) String() st
 		return "gpu"
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return "memory_info"
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return "hailo_info"
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return "nvidia_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", s))
 	}
@@ -22349,6 +22355,10 @@ func BuildDeviceStatusDeviceInfoHardwareInformation_FieldPath(fp gotenobject.Raw
 			return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu}, nil
 		case "memory_info", "memoryInfo", "memory-info":
 			return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo}, nil
+		case "hailo_info", "hailoInfo", "hailo-info":
+			return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo}, nil
+		case "nvidia_info", "nvidiaInfo", "nvidia-info":
+			return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -22399,6 +22409,18 @@ func BuildDeviceStatusDeviceInfoHardwareInformation_FieldPath(fp gotenobject.Raw
 				return nil, err
 			} else {
 				return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo, subPath: subpath}, nil
+			}
+		case "hailo_info", "hailoInfo", "hailo-info":
+			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo, subPath: subpath}, nil
+			}
+		case "nvidia_info", "nvidiaInfo", "nvidia-info":
+			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo, subPath: subpath}, nil
 			}
 		}
 	}
@@ -22477,6 +22499,14 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) Get(sourc
 			if source.MemoryInfo != nil {
 				values = append(values, source.MemoryInfo)
 			}
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+			if source.HailoInfo != nil {
+				values = append(values, source.HailoInfo)
+			}
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+			if source.NvidiaInfo != nil {
+				values = append(values, source.NvidiaInfo)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 		}
@@ -22515,6 +22545,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) GetSingle
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		res := source.GetMemoryInfo()
 		return res, res != nil
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		res := source.GetHailoInfo()
+		return res, res != nil
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		res := source.GetNvidiaInfo()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 	}
@@ -22543,6 +22579,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) GetDefaul
 		return (*Device_Status_DeviceInfo_HardwareInformation_GPU)(nil)
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return (*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)(nil)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return (*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)(nil)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return (*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 	}
@@ -22567,6 +22607,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) ClearValu
 			item.Gpu = nil
 		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 			item.MemoryInfo = nil
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+			item.HailoInfo = nil
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+			item.NvidiaInfo = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 		}
@@ -22604,6 +22648,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) WithIValu
 		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_GPU)}
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 	}
@@ -22632,6 +22680,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) WithIArra
 		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_HardwareInformation_GPU)}
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fp.selector))
 	}
@@ -22695,6 +22747,14 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) AsMemoryInfoS
 	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath)
 	return res, ok
 }
+func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) AsHailoInfoSubPath() (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) AsNvidiaInfoSubPath() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) String() string {
@@ -22725,6 +22785,10 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) Get(source *D
 		values = append(values, fps.subPath.GetRaw(source.GetGpu())...)
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		values = append(values, fps.subPath.GetRaw(source.GetMemoryInfo())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetHailoInfo())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetNvidiaInfo())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fps.selector))
 	}
@@ -22778,6 +22842,16 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) GetSingle(sou
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMemoryInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		if source.GetHailoInfo() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetHailoInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		if source.GetNvidiaInfo() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetNvidiaInfo())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fps.selector))
 	}
@@ -22811,6 +22885,10 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) ClearValue(it
 			fps.subPath.ClearValueRaw(item.Gpu)
 		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 			fps.subPath.ClearValueRaw(item.MemoryInfo)
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+			fps.subPath.ClearValueRaw(item.HailoInfo)
+		case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+			fps.subPath.ClearValueRaw(item.NvidiaInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fps.selector))
 		}
@@ -22927,6 +23005,14 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) AsM
 	res, ok := fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
 	return res, ok
 }
+func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) AsHailoInfoValue() (*Device_Status_DeviceInfo_HardwareInformation_HailoInfo, bool) {
+	res, ok := fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) AsNvidiaInfoValue() (*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo, bool) {
+	res, ok := fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object HardwareInformation
 func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation) {
@@ -22950,6 +23036,10 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) Set
 		(*target).Gpu = fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_GPU)
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		(*target).MemoryInfo = fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		(*target).HailoInfo = fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		(*target).NvidiaInfo = fpv.value.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fpv.selector))
 	}
@@ -22978,6 +23068,10 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathValue) Com
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:
 		return 0, false
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
+		return 0, false
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return 0, false
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fpv.selector))
@@ -23027,6 +23121,14 @@ func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) AsMemor
 	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) AsHailoInfoPathValue() (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) AsNvidiaInfoPathValue() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation) {
 	if *target == nil {
@@ -23049,6 +23151,10 @@ func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) SetTo(t
 		fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathValue).SetTo(&(*target).Gpu)
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue).SetTo(&(*target).MemoryInfo)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue).SetTo(&(*target).HailoInfo)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue).SetTo(&(*target).NvidiaInfo)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fpvs.Selector()))
 	}
@@ -23081,6 +23187,10 @@ func (fpvs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue) Compare
 		return fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathValue).CompareWith(source.GetGpu())
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue).CompareWith(source.GetMemoryInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue).CompareWith(source.GetHailoInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue).CompareWith(source.GetNvidiaInfo())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fpvs.Selector()))
 	}
@@ -23195,6 +23305,14 @@ func (fpaivs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemVal
 	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue) AsHailoInfoPathItemValue() (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue) AsNvidiaInfoPathItemValue() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'HardwareInformation'
 func (fpaivs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation) bool {
@@ -23215,6 +23333,10 @@ func (fpaivs *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemVal
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathArrayItemValue).ContainsValue(source.GetGpu())
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayItemValue).ContainsValue(source.GetMemoryInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue).ContainsValue(source.GetHailoInfo())
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue).ContainsValue(source.GetNvidiaInfo())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fpaivs.Selector()))
 	}
@@ -23287,6 +23409,14 @@ func (fpaov *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfV
 		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) {
 			values = append(values, v)
 		}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:
+		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
+		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -23320,6 +23450,14 @@ func (fpaov *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfV
 }
 func (fpaov *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues) AsMemoryInfoArrayOfValues() ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo, bool) {
 	res, ok := fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues) AsHailoInfoArrayOfValues() ([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo, bool) {
+	res, ok := fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayOfValues) AsNvidiaInfoArrayOfValues() ([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo, bool) {
+	res, ok := fpaov.values.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
 	return res, ok
 }
 
@@ -23363,6 +23501,14 @@ func (fpsaov *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValue
 }
 func (fpsaov *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues) AsMemoryInfoPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues) AsHailoInfoPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues) AsNvidiaInfoPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -29001,6 +29147,1394 @@ func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathAr
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+
+	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector int32
+
+const (
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus     DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector = 1
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules    DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector = 2
+)
+
+func (s DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		return "status"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		return "cli_version"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return "modules"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", s))
+	}
+}
+
+func BuildDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_HailoInfo")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "status":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus}, nil
+		case "cli_version", "cliVersion", "cli-version":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion}, nil
+		case "modules":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "modules":
+			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_HailoInfo", fp)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(fp)
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+			values = append(values, source.Status)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+			values = append(values, source.CliVersion)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+			for _, value := range source.GetModules() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		return source.GetStatus(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		return source.GetCliVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		res := source.GetModules()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return ([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+			item.Status = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+			item.CliVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+			item.Modules = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath)(nil)
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) Selector() DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) AsModulesSubPath() (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (values []interface{}) {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		for _, item := range source.GetModules() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// GetSingle returns value of selected field from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		if len(source.GetModules()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetModules()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+			for _, subItem := range item.Modules {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue {
+	return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues {
+	return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue {
+	return &DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue allows storing values for HailoInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue interface {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoInfo field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'HailoInfo' as interface{}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) AsStatusValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) AsCliVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) AsModulesValue() ([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo, bool) {
+	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object HailoInfo
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	}
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		(*target).Status = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		(*target).CliVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		(*target).Modules = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_HailoInfo'.
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCliVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) AsModulesPathValue() (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_HailoInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	}
+	switch fpvs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue allows storing single item in Path-specific values for HailoInfo according to their type
+// Present only for array (repeated) types.
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo) bool
+}
+
+// ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoInfo field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_HailoInfo as interface{}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue) AsModulesItemValue() (*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo, bool) {
+	res, ok := fpaiv.value.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	return res, ok
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'HailoInfo'
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayItemValue) AsModulesPathItemValue() (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'HailoInfo'
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) bool {
+	switch fpaivs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo: %d", fpaivs.Selector()))
+	}
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues allows storing slice of values for HailoInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoInfo field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorStatus:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorCliVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathSelectorModules:
+		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues) AsCliVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldTerminalPathArrayOfValues) AsModulesArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo, bool) {
+	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	return res, ok
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldSubPathArrayOfValues) AsModulesPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+
+	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector int32
+
+const (
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus        DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector = 1
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion   DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector = 2
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus          DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector = 3
+)
+
+func (s DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		return "status"
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		return "driver_version"
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		return "cuda_version"
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return "gpus"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", s))
+	}
+}
+
+func BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "status":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus}, nil
+		case "driver_version", "driverVersion", "driver-version":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion}, nil
+		case "cuda_version", "cudaVersion", "cuda-version":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion}, nil
+		case "gpus":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "gpus":
+			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo", fp)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(fp)
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+			values = append(values, source.Status)
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+			values = append(values, source.DriverVersion)
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+			values = append(values, source.CudaVersion)
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+			for _, value := range source.GetGpus() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		return source.GetStatus(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		return source.GetDriverVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		return source.GetCudaVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		res := source.GetGpus()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return ([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+			item.Status = ""
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+			item.DriverVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+			item.CudaVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+			item.Gpus = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath)(nil)
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) Selector() DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) AsGpusSubPath() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (values []interface{}) {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		for _, item := range source.GetGpus() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// GetSingle returns value of selected field from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		if len(source.GetGpus()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetGpus()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+			for _, subItem := range item.Gpus {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue {
+	return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues {
+	return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue {
+	return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue allows storing values for NvidiaInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue interface {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NvidiaInfo field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'NvidiaInfo' as interface{}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) AsStatusValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) AsDriverVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) AsCudaVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) AsGpusValue() ([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo, bool) {
+	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object NvidiaInfo
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	}
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		(*target).Status = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		(*target).DriverVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		(*target).CudaVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		(*target).Gpus = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo'.
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDriverVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCudaVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) AsGpusPathValue() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	}
+	switch fpvs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue allows storing single item in Path-specific values for NvidiaInfo according to their type
+// Present only for array (repeated) types.
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) bool
+}
+
+// ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NvidiaInfo field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo as interface{}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue) AsGpusItemValue() (*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo, bool) {
+	res, ok := fpaiv.value.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	return res, ok
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NvidiaInfo'
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayItemValue) AsGpusPathItemValue() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NvidiaInfo'
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) bool {
+	switch fpaivs.Selector() {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo: %d", fpaivs.Selector()))
+	}
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues allows storing slice of values for NvidiaInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NvidiaInfo field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorStatus:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorDriverVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorCudaVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathSelectorGpus:
+		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues) AsDriverVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues) AsCudaVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldTerminalPathArrayOfValues) AsGpusArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo, bool) {
+	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	return res, ok
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldSubPathArrayOfValues) AsGpusPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPathSelector
@@ -29534,6 +31068,9 @@ const (
 	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorFrequencyMhz    DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 8
 	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 9
 	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo       DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 10
+	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver          DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 11
+	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency         DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 12
+	DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock           DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector = 13
 )
 
 func (s DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector) String() string {
@@ -29560,6 +31097,12 @@ func (s DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelector)
 		return "max_frequency_mhz"
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		return "cache_info"
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		return "driver"
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		return "latency"
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		return "clock"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", s))
 	}
@@ -29593,6 +31136,12 @@ func BuildDeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPath(fp got
 			return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz}, nil
 		case "cache_info", "cacheInfo", "cache-info":
 			return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo}, nil
+		case "driver":
+			return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver}, nil
+		case "latency":
+			return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency}, nil
+		case "clock":
+			return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -29679,6 +31228,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 			for _, value := range source.GetCacheInfo() {
 				values = append(values, value)
 			}
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+			values = append(values, source.Driver)
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+			values = append(values, source.Latency)
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+			values = append(values, source.Clock)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 		}
@@ -29717,6 +31272,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		res := source.GetCacheInfo()
 		return res, res != nil
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		return source.GetDriver(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		return source.GetLatency(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		return source.GetClock(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 	}
@@ -29751,6 +31312,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 		return int64(0)
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		return ([]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)(nil)
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		return int64(0)
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		return int64(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 	}
@@ -29781,6 +31348,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 			item.MaxFrequencyMhz = int64(0)
 		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 			item.CacheInfo = nil
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+			item.Driver = ""
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+			item.Latency = int64(0)
+		case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+			item.Clock = int64(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 		}
@@ -29801,7 +31374,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorName ||
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorSerial ||
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorFrequencyMhz ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock
 }
 
 func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -29832,6 +31408,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, value: value.(int64)}
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, value: value.(int64)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, value: value.(int64)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 	}
@@ -29866,6 +31448,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, values: values.([]int64)}
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, values: values.([]int64)}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		return &DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath: *fp, values: values.([]int64)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fp.selector))
 	}
@@ -30107,6 +31695,18 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPa
 	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)
 	return res, ok
 }
+func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue) AsDriverValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue) AsLatencyValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue) AsClockValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Processor
 func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) {
@@ -30136,6 +31736,12 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPa
 		(*target).MaxFrequencyMhz = fpv.value.(int64)
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		(*target).CacheInfo = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		(*target).Driver = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		(*target).Latency = fpv.value.(int64)
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		(*target).Clock = fpv.value.(int64)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fpv.selector))
 	}
@@ -30243,6 +31849,36 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPa
 		}
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		return 0, false
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDriver()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetLatency()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetClock()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fpv.selector))
 	}
@@ -30487,6 +32123,18 @@ func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminal
 		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache) {
 			values = append(values, v)
 		}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorDriver:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorLatency:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorClock:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -30532,6 +32180,18 @@ func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminal
 }
 func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues) AsCacheInfoArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache, bool) {
 	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues) AsDriverArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues) AsLatencyArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayOfValues) AsClockArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
 	return res, ok
 }
 
@@ -35213,5 +36873,1141 @@ func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank
 }
 func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsWidthBitsArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+
+	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector int32
+
+const (
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId                      DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion        DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 1
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion            DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 2
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion              DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 3
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName                  DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 4
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber               DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 5
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber                 DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 6
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName                DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 7
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector = 8
+)
+
+func (s DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		return "dev_id"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		return "control_proto_version"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		return "firmware_version"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		return "logger_version"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		return "board_name"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		return "serial_number"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		return "part_number"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		return "product_name"
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		return "neural_network_core_clock_rate"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", s))
+	}
+}
+
+func BuildDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "dev_id", "devId", "dev-id":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId}, nil
+		case "control_proto_version", "controlProtoVersion", "control-proto-version":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion}, nil
+		case "firmware_version", "firmwareVersion", "firmware-version":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion}, nil
+		case "logger_version", "loggerVersion", "logger-version":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion}, nil
+		case "board_name", "boardName", "board-name":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName}, nil
+		case "serial_number", "serialNumber", "serial-number":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber}, nil
+		case "part_number", "partNumber", "part-number":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber}, nil
+		case "product_name", "productName", "product-name":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName}, nil
+		case "neural_network_core_clock_rate", "neuralNetworkCoreClockRate", "neural-network-core-clock-rate":
+			return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo", fp)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(fp)
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+			values = append(values, source.DevId)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+			values = append(values, source.ControlProtoVersion)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+			values = append(values, source.FirmwareVersion)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+			values = append(values, source.LoggerVersion)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+			values = append(values, source.BoardName)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+			values = append(values, source.SerialNumber)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+			values = append(values, source.PartNumber)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+			values = append(values, source.ProductName)
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+			values = append(values, source.NeuralNetworkCoreClockRate)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		return source.GetDevId(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		return source.GetControlProtoVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		return source.GetFirmwareVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		return source.GetLoggerVersion(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		return source.GetBoardName(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		return source.GetSerialNumber(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		return source.GetPartNumber(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		return source.GetProductName(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		return source.GetNeuralNetworkCoreClockRate(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+			item.DevId = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+			item.ControlProtoVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+			item.FirmwareVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+			item.LoggerVersion = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+			item.BoardName = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+			item.SerialNumber = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+			item.PartNumber = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+			item.ProductName = ""
+		case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+			item.NeuralNetworkCoreClockRate = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		return &DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue allows storing values for HailoModuleInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue interface {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoModuleInfo field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'HailoModuleInfo' as interface{}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsDevIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsControlProtoVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsFirmwareVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsLoggerVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsBoardNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsSerialNumberValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsPartNumberValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsProductNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) AsNeuralNetworkCoreClockRateValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object HailoModuleInfo
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	}
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		(*target).DevId = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		(*target).ControlProtoVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		(*target).FirmwareVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		(*target).LoggerVersion = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		(*target).BoardName = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		(*target).SerialNumber = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		(*target).PartNumber = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		(*target).ProductName = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		(*target).NeuralNetworkCoreClockRate = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo'.
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDevId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetControlProtoVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetFirmwareVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetLoggerVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetBoardName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetSerialNumber()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPartNumber()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProductName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNeuralNetworkCoreClockRate()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue allows storing single item in Path-specific values for HailoModuleInfo according to their type
+// Present only for array (repeated) types.
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) bool
+}
+
+// ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoModuleInfo field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo as interface{}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'HailoModuleInfo'
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues allows storing slice of values for HailoModuleInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing HailoModuleInfo field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorDevId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorControlProtoVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorFirmwareVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorLoggerVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorBoardName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorSerialNumber:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorPartNumber:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorProductName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPathSelectorNeuralNetworkCoreClockRate:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsDevIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsControlProtoVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsFirmwareVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsLoggerVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsBoardNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsSerialNumberArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsPartNumberArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsProductNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldTerminalPathArrayOfValues) AsNeuralNetworkCoreClockRateArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+
+	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector int32
+
+const (
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId          DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector = 1
+)
+
+func (s DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		return "id"
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		return "product_name"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", s))
+	}
+}
+
+func BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "id":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId}, nil
+		case "product_name", "productName", "product-name":
+			return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo", fp)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(fp)
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+			values = append(values, source.Id)
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+			values = append(values, source.ProductName)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		return source.GetId(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		return source.GetProductName(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+			item.Id = ""
+		case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+			item.ProductName = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		return &DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue allows storing values for GpuInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue interface {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing GpuInfo field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'GpuInfo' as interface{}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) AsIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) AsProductNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object GpuInfo
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	}
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		(*target).Id = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		(*target).ProductName = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo'.
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProductName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue allows storing single item in Path-specific values for GpuInfo according to their type
+// Present only for array (repeated) types.
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) bool
+}
+
+// ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing GpuInfo field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo as interface{}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'GpuInfo'
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues allows storing slice of values for GpuInfo fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath
+}
+
+func ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing GpuInfo field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPathSelectorProductName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues) AsIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldTerminalPathArrayOfValues) AsProductNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
