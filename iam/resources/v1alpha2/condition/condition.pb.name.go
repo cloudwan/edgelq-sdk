@@ -49,10 +49,10 @@ var (
 	_ = &project.Project{}
 )
 
-var condition_RegexpId = regexp.MustCompile("^(?P<condition_id>[\\w][\\w.-]{0,127})$")
-var regexPath = regexp.MustCompile("^conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
-var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
-var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
+var condition_RegexpId = regexp.MustCompile("^(?P<condition_id>[a-zA-Z0-9_.-]{1,128})$")
+var regexPath = regexp.MustCompile("^conditions/(?P<condition_id>-|[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[a-zA-Z0-9_.-]{1,128})$")
 
 func (r *Condition) MaybePopulateDefaults() error {
 	conditionInterface := interface{}(r)

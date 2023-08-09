@@ -49,8 +49,8 @@ var (
 	_ = &permission.Permission{}
 )
 
-var role_RegexpId = regexp.MustCompile("^(?P<role_id>[\\w][\\w.-]{0,127})$")
-var regexPath = regexp.MustCompile("^roles/(?P<role_id>-|[\\w][\\w.-]{0,127})$")
+var role_RegexpId = regexp.MustCompile("^(?P<role_id>[a-zA-Z0-9-]{1,128})$")
+var regexPath = regexp.MustCompile("^roles/(?P<role_id>-|[a-zA-Z0-9-]{1,128})$")
 
 func (r *Role) MaybePopulateDefaults() error {
 	roleInterface := interface{}(r)

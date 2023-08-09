@@ -103,6 +103,9 @@ type ProvisioningApprovalRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ProvisioningApprovalRequest
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
 	Name     *Name                               `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	Spec     *ProvisioningApprovalRequest_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
 	Status   *ProvisioningApprovalRequest_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`

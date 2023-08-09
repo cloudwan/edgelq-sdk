@@ -109,6 +109,9 @@ type ServiceAccountKey struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ServiceAccountKey
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Display name
 	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`

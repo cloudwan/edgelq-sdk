@@ -34,6 +34,9 @@ message RoleBinding {
   };
 
   // Name of RoleBinding
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w.|-]{1,128}
   string name = 1;
 
   // Role

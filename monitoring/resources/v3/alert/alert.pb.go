@@ -54,6 +54,9 @@ type Alert struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Alert
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-zA-Z0-9_.:-]{1,128}
 	Name        *Name          `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	Metadata    *ntt_meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
 	DisplayName string         `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`

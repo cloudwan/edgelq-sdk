@@ -49,8 +49,8 @@ var (
 	_ = &timestamp.Timestamp{}
 )
 
-var recoveryStoreShardingInfo_RegexpId = regexp.MustCompile("^(?P<recovery_store_sharding_info_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/recoveryStoreShardingInfos/(?P<recovery_store_sharding_info_id>-|[\\w][\\w.-]{0,127})$")
+var recoveryStoreShardingInfo_RegexpId = regexp.MustCompile("^(?P<recovery_store_sharding_info_id>[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/recoveryStoreShardingInfos/(?P<recovery_store_sharding_info_id>-|[a-zA-Z0-9_.-]{1,128})$")
 
 func (r *RecoveryStoreShardingInfo) MaybePopulateDefaults() error {
 	recoveryStoreShardingInfoInterface := interface{}(r)

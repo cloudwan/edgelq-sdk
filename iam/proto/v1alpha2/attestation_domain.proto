@@ -23,6 +23,9 @@ message AttestationDomain {
   ntt.types.Meta metadata = 1;
 
   // Name of AttestationDomain
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
   string name = 2;
 
   // Display name

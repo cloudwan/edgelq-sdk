@@ -52,6 +52,9 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of User
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [\\w.@|_-]{1,128}
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Full Name
 	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty" firestore:"fullName"`

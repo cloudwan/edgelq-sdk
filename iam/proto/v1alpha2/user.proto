@@ -19,6 +19,9 @@ message User {
   };
 
   // Name of User
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w.@|_-]{1,128}
   string name = 1;
 
   // Full Name

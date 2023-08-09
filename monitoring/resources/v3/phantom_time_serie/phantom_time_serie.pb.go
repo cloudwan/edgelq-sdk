@@ -58,6 +58,7 @@ type PhantomTimeSerie struct {
 	// Common resource Metadata
 	Metadata *ntt_meta.Meta `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
 	// Name of PhantomTimeSeries
+	// Name must contain base64 encoded string of TimeSeries key
 	Name *Name `protobuf:"bytes,100,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// TimeSerie key identifies unique TimeSeries tuple:
 	// <project, metric.type, metric.labels, resource.type, resource.labels>

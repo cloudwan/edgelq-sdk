@@ -128,6 +128,9 @@ type Notification struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Notification
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-zA-Z0-9_.:-]{1,128}
 	Name     *Name          `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	Metadata *ntt_meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
 	// Reference to alerting policy that this notification is for

@@ -71,6 +71,9 @@ type RoleBinding struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of RoleBinding
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [\\w.|-]{1,128}
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Role
 	Role *role.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=role,proto3" json:"role,omitempty" firestore:"role"`

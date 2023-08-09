@@ -62,6 +62,9 @@ type Organization struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Organization
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Official Name of Organization
 	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`

@@ -57,6 +57,9 @@ type AttestationDomain struct {
 	// Meta
 	Metadata *ntt_meta.Meta `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
 	// Name of AttestationDomain
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
 	Name *Name `protobuf:"bytes,2,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Display name
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`

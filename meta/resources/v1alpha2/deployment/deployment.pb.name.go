@@ -49,8 +49,8 @@ var (
 	_ = &service.Service{}
 )
 
-var deployment_RegexpId = regexp.MustCompile("^(?P<deployment_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[\\w][\\w.-]{0,127})/deployments/(?P<deployment_id>-|[\\w][\\w.-]{0,127})$")
+var deployment_RegexpId = regexp.MustCompile("^(?P<deployment_id>[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[\\w][\\w.-]{0,127})/deployments/(?P<deployment_id>-|[a-zA-Z0-9_.-]{1,128})$")
 
 func (r *Deployment) MaybePopulateDefaults() error {
 	deploymentInterface := interface{}(r)

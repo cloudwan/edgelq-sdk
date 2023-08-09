@@ -58,6 +58,9 @@ type Project struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Project
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// Title
 	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`

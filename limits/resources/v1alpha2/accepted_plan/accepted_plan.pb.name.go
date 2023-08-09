@@ -55,9 +55,9 @@ var (
 	_ = &meta_service.Service{}
 )
 
-var acceptedPlan_RegexpId = regexp.MustCompile("^(?P<accepted_plan_id>[\\w][\\w.-]{0,127})$")
-var regexPath = regexp.MustCompile("^acceptedPlans/(?P<accepted_plan_id>-|[\\w][\\w.-]{0,127})$")
-var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/acceptedPlans/(?P<accepted_plan_id>-|[\\w][\\w.-]{0,127})$")
+var acceptedPlan_RegexpId = regexp.MustCompile("^(?P<accepted_plan_id>[a-zA-Z0-9_.-]{1,128})$")
+var regexPath = regexp.MustCompile("^acceptedPlans/(?P<accepted_plan_id>-|[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/acceptedPlans/(?P<accepted_plan_id>-|[a-zA-Z0-9_.-]{1,128})$")
 
 func (r *AcceptedPlan) MaybePopulateDefaults() error {
 	acceptedPlanInterface := interface{}(r)

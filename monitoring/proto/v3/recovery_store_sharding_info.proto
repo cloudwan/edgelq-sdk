@@ -21,6 +21,9 @@ message RecoveryStoreShardingInfo {
   };
 
   // Name of RecoveryStoreShardingInfo
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.-]{1,128}
   string name = 1;
 
   // Period during which this sharding spec is valid.

@@ -194,6 +194,9 @@ type MetricDescriptor struct {
 	// Metadata
 	Metadata *ntt_meta.Meta `protobuf:"bytes,35,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
 	// The resource name of the metric descriptor.
+	// When creating a new instance, this field is optional and if not provided,
+	// it will be generated automatically. Last ID segment must conform to the
+	// following regex: [\\w./-]{4,128}
 	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
 	// The metric type, including its DNS name prefix. The type is not
 	// URL-encoded.  All user-defined metric types have the DNS name

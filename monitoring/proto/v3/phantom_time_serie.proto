@@ -26,6 +26,7 @@ message PhantomTimeSerie {
   ntt.types.Meta metadata = 11;
 
   // Name of PhantomTimeSeries
+  // Name must contain base64 encoded string of TimeSeries key
   string name = 100;
 
   // TimeSerie key identifies unique TimeSeries tuple:

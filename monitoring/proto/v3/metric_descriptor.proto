@@ -25,6 +25,9 @@ message MetricDescriptor {
   ntt.types.Meta metadata = 35;
 
   // The resource name of the metric descriptor.
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w./-]{4,128}
   string name = 1;
 
   // The metric type, including its DNS name prefix. The type is not
