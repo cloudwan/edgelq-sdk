@@ -936,6 +936,9 @@ func (ConnectResponseFieldPathBuilder) Close() ConnectResponsePathSelectorClose 
 func (ConnectResponseFieldPathBuilder) Error() ConnectResponsePathSelectorError {
 	return ConnectResponsePathSelectorError{}
 }
+func (ConnectResponseFieldPathBuilder) Pong() ConnectResponsePathSelectorPong {
+	return ConnectResponsePathSelectorPong{}
+}
 
 type ConnectResponsePathSelectorOpenResponse struct{}
 
@@ -1439,6 +1442,36 @@ func (s ConnectResponsePathSelectorErrorMessage) WithValue(value string) *Connec
 
 func (s ConnectResponsePathSelectorErrorMessage) WithArrayOfValues(values []string) *ConnectResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConnectResponse_FieldSubPathArrayOfValues)
+}
+
+type ConnectResponsePathSelectorPong struct{}
+
+func (ConnectResponsePathSelectorPong) FieldPath() *ConnectResponse_FieldTerminalPath {
+	return &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorPong}
+}
+
+func (s ConnectResponsePathSelectorPong) WithValue(value *Pong) *ConnectResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConnectResponse_FieldTerminalPathValue)
+}
+
+func (s ConnectResponsePathSelectorPong) WithArrayOfValues(values []*Pong) *ConnectResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConnectResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (ConnectResponsePathSelectorPong) WithSubPath(subPath Pong_FieldPath) *ConnectResponse_FieldSubPath {
+	return &ConnectResponse_FieldSubPath{selector: ConnectResponse_FieldPathSelectorPong, subPath: subPath}
+}
+
+func (s ConnectResponsePathSelectorPong) WithSubValue(subPathValue Pong_FieldPathValue) *ConnectResponse_FieldSubPathValue {
+	return &ConnectResponse_FieldSubPathValue{ConnectResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConnectResponsePathSelectorPong) WithSubArrayOfValues(subPathArrayOfValues Pong_FieldPathArrayOfValues) *ConnectResponse_FieldSubPathArrayOfValues {
+	return &ConnectResponse_FieldSubPathArrayOfValues{ConnectResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConnectResponsePathSelectorPong) WithSubArrayItemValue(subPathArrayItemValue Pong_FieldPathArrayItemValue) *ConnectResponse_FieldSubPathArrayItemValue {
+	return &ConnectResponse_FieldSubPathArrayItemValue{ConnectResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
 type ConnectResponseOpenResponseFieldPathBuilder struct{}
@@ -2090,6 +2123,9 @@ func (ListenResponseFieldPathBuilder) OpenChannelResponse() ListenResponsePathSe
 func (ListenResponseFieldPathBuilder) ResumeChannelResponse() ListenResponsePathSelectorResumeChannelResponse {
 	return ListenResponsePathSelectorResumeChannelResponse{}
 }
+func (ListenResponseFieldPathBuilder) Pong() ListenResponsePathSelectorPong {
+	return ListenResponsePathSelectorPong{}
+}
 
 type ListenResponsePathSelectorListening struct{}
 
@@ -2347,6 +2383,36 @@ func (s ListenResponsePathSelectorResumeChannelResponseLastMessageId) WithValue(
 
 func (s ListenResponsePathSelectorResumeChannelResponseLastMessageId) WithArrayOfValues(values []uint64) *ListenResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListenResponse_FieldSubPathArrayOfValues)
+}
+
+type ListenResponsePathSelectorPong struct{}
+
+func (ListenResponsePathSelectorPong) FieldPath() *ListenResponse_FieldTerminalPath {
+	return &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorPong}
+}
+
+func (s ListenResponsePathSelectorPong) WithValue(value *Pong) *ListenResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListenResponse_FieldTerminalPathValue)
+}
+
+func (s ListenResponsePathSelectorPong) WithArrayOfValues(values []*Pong) *ListenResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListenResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (ListenResponsePathSelectorPong) WithSubPath(subPath Pong_FieldPath) *ListenResponse_FieldSubPath {
+	return &ListenResponse_FieldSubPath{selector: ListenResponse_FieldPathSelectorPong, subPath: subPath}
+}
+
+func (s ListenResponsePathSelectorPong) WithSubValue(subPathValue Pong_FieldPathValue) *ListenResponse_FieldSubPathValue {
+	return &ListenResponse_FieldSubPathValue{ListenResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ListenResponsePathSelectorPong) WithSubArrayOfValues(subPathArrayOfValues Pong_FieldPathArrayOfValues) *ListenResponse_FieldSubPathArrayOfValues {
+	return &ListenResponse_FieldSubPathArrayOfValues{ListenResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ListenResponsePathSelectorPong) WithSubArrayItemValue(subPathArrayItemValue Pong_FieldPathArrayItemValue) *ListenResponse_FieldSubPathArrayItemValue {
+	return &ListenResponse_FieldSubPathArrayItemValue{ListenResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
 type ListenResponseListeningFieldPathBuilder struct{}
@@ -3334,6 +3400,9 @@ func (AcceptResponseFieldPathBuilder) Close() AcceptResponsePathSelectorClose {
 func (AcceptResponseFieldPathBuilder) Error() AcceptResponsePathSelectorError {
 	return AcceptResponsePathSelectorError{}
 }
+func (AcceptResponseFieldPathBuilder) Pong() AcceptResponsePathSelectorPong {
+	return AcceptResponsePathSelectorPong{}
+}
 
 type AcceptResponsePathSelectorData struct{}
 
@@ -3602,10 +3671,46 @@ func (s AcceptResponsePathSelectorErrorMessage) WithArrayOfValues(values []strin
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptResponse_FieldSubPathArrayOfValues)
 }
 
+type AcceptResponsePathSelectorPong struct{}
+
+func (AcceptResponsePathSelectorPong) FieldPath() *AcceptResponse_FieldTerminalPath {
+	return &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorPong}
+}
+
+func (s AcceptResponsePathSelectorPong) WithValue(value *Pong) *AcceptResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AcceptResponse_FieldTerminalPathValue)
+}
+
+func (s AcceptResponsePathSelectorPong) WithArrayOfValues(values []*Pong) *AcceptResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AcceptResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (AcceptResponsePathSelectorPong) WithSubPath(subPath Pong_FieldPath) *AcceptResponse_FieldSubPath {
+	return &AcceptResponse_FieldSubPath{selector: AcceptResponse_FieldPathSelectorPong, subPath: subPath}
+}
+
+func (s AcceptResponsePathSelectorPong) WithSubValue(subPathValue Pong_FieldPathValue) *AcceptResponse_FieldSubPathValue {
+	return &AcceptResponse_FieldSubPathValue{AcceptResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s AcceptResponsePathSelectorPong) WithSubArrayOfValues(subPathArrayOfValues Pong_FieldPathArrayOfValues) *AcceptResponse_FieldSubPathArrayOfValues {
+	return &AcceptResponse_FieldSubPathArrayOfValues{AcceptResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s AcceptResponsePathSelectorPong) WithSubArrayItemValue(subPathArrayItemValue Pong_FieldPathArrayItemValue) *AcceptResponse_FieldSubPathArrayItemValue {
+	return &AcceptResponse_FieldSubPathArrayItemValue{AcceptResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
 type PingFieldPathBuilder struct{}
 
 func NewPingFieldPathBuilder() PingFieldPathBuilder {
 	return PingFieldPathBuilder{}
+}
+
+type PongFieldPathBuilder struct{}
+
+func NewPongFieldPathBuilder() PongFieldPathBuilder {
+	return PongFieldPathBuilder{}
 }
 
 type DataFieldPathBuilder struct{}

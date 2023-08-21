@@ -594,6 +594,16 @@ func (o *ConnectResponse) MakeDiffFieldMask(other *ConnectResponse) *ConnectResp
 			}
 		}
 	}
+	{
+		subMask := o.GetPong().MakeDiffFieldMask(other.GetPong())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorPong})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ConnectResponse_FieldSubPath{selector: ConnectResponse_FieldPathSelectorPong, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -660,6 +670,14 @@ func (o *ConnectResponse) Clone() *ConnectResponse {
 			result.Message = &ConnectResponse_Error{}
 			result := result.Message.(*ConnectResponse_Error)
 			result.Error = o.Error.Clone()
+		}
+	}
+	if o, ok := o.Message.(*ConnectResponse_Pong); ok {
+		result.Message = (*ConnectResponse_Pong)(nil)
+		if o != nil {
+			result.Message = &ConnectResponse_Pong{}
+			result := result.Message.(*ConnectResponse_Pong)
+			result.Pong = o.Pong.Clone()
 		}
 	}
 	return result
@@ -765,6 +783,20 @@ func (o *ConnectResponse) Merge(source *ConnectResponse) {
 					o.Error = new(Error)
 				}
 				o.Error.Merge(source.Error)
+			}
+		}
+	}
+	if source, ok := source.GetMessage().(*ConnectResponse_Pong); ok {
+		if dstOneOf, ok := o.Message.(*ConnectResponse_Pong); !ok || dstOneOf == nil {
+			o.Message = &ConnectResponse_Pong{}
+		}
+		if source != nil {
+			o := o.Message.(*ConnectResponse_Pong)
+			if source.Pong != nil {
+				if o.Pong == nil {
+					o.Pong = new(Pong)
+				}
+				o.Pong.Merge(source.Pong)
 			}
 		}
 	}
@@ -1386,6 +1418,16 @@ func (o *ListenResponse) MakeDiffFieldMask(other *ListenResponse) *ListenRespons
 			}
 		}
 	}
+	{
+		subMask := o.GetPong().MakeDiffFieldMask(other.GetPong())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorPong})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ListenResponse_FieldSubPath{selector: ListenResponse_FieldPathSelectorPong, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -1420,6 +1462,14 @@ func (o *ListenResponse) Clone() *ListenResponse {
 			result.Message = &ListenResponse_ResumeChannelResponse_{}
 			result := result.Message.(*ListenResponse_ResumeChannelResponse_)
 			result.ResumeChannelResponse = o.ResumeChannelResponse.Clone()
+		}
+	}
+	if o, ok := o.Message.(*ListenResponse_Pong); ok {
+		result.Message = (*ListenResponse_Pong)(nil)
+		if o != nil {
+			result.Message = &ListenResponse_Pong{}
+			result := result.Message.(*ListenResponse_Pong)
+			result.Pong = o.Pong.Clone()
 		}
 	}
 	return result
@@ -1469,6 +1519,20 @@ func (o *ListenResponse) Merge(source *ListenResponse) {
 					o.ResumeChannelResponse = new(ListenResponse_ResumeChannelResponse)
 				}
 				o.ResumeChannelResponse.Merge(source.ResumeChannelResponse)
+			}
+		}
+	}
+	if source, ok := source.GetMessage().(*ListenResponse_Pong); ok {
+		if dstOneOf, ok := o.Message.(*ListenResponse_Pong); !ok || dstOneOf == nil {
+			o.Message = &ListenResponse_Pong{}
+		}
+		if source != nil {
+			o := o.Message.(*ListenResponse_Pong)
+			if source.Pong != nil {
+				if o.Pong == nil {
+					o.Pong = new(Pong)
+				}
+				o.Pong.Merge(source.Pong)
 			}
 		}
 	}
@@ -2178,6 +2242,16 @@ func (o *AcceptResponse) MakeDiffFieldMask(other *AcceptResponse) *AcceptRespons
 			}
 		}
 	}
+	{
+		subMask := o.GetPong().MakeDiffFieldMask(other.GetPong())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorPong})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &AcceptResponse_FieldSubPath{selector: AcceptResponse_FieldPathSelectorPong, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -2220,6 +2294,14 @@ func (o *AcceptResponse) Clone() *AcceptResponse {
 			result.Message = &AcceptResponse_Error{}
 			result := result.Message.(*AcceptResponse_Error)
 			result.Error = o.Error.Clone()
+		}
+	}
+	if o, ok := o.Message.(*AcceptResponse_Pong); ok {
+		result.Message = (*AcceptResponse_Pong)(nil)
+		if o != nil {
+			result.Message = &AcceptResponse_Pong{}
+			result := result.Message.(*AcceptResponse_Pong)
+			result.Pong = o.Pong.Clone()
 		}
 	}
 	return result
@@ -2286,6 +2368,20 @@ func (o *AcceptResponse) Merge(source *AcceptResponse) {
 			}
 		}
 	}
+	if source, ok := source.GetMessage().(*AcceptResponse_Pong); ok {
+		if dstOneOf, ok := o.Message.(*AcceptResponse_Pong); !ok || dstOneOf == nil {
+			o.Message = &AcceptResponse_Pong{}
+		}
+		if source != nil {
+			o := o.Message.(*AcceptResponse_Pong)
+			if source.Pong != nil {
+				if o.Pong == nil {
+					o.Pong = new(Pong)
+				}
+				o.Pong.Merge(source.Pong)
+			}
+		}
+	}
 }
 
 func (o *AcceptResponse) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -2335,6 +2431,51 @@ func (o *Ping) Merge(source *Ping) {
 
 func (o *Ping) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Ping))
+}
+
+func (o *Pong) GotenObjectExt() {}
+
+func (o *Pong) MakeFullFieldMask() *Pong_FieldMask {
+	return FullPong_FieldMask()
+}
+
+func (o *Pong) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPong_FieldMask()
+}
+
+func (o *Pong) MakeDiffFieldMask(other *Pong) *Pong_FieldMask {
+	if o == nil && other == nil {
+		return &Pong_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullPong_FieldMask()
+	}
+
+	res := &Pong_FieldMask{}
+	return res
+}
+
+func (o *Pong) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Pong))
+}
+
+func (o *Pong) Clone() *Pong {
+	if o == nil {
+		return nil
+	}
+	result := &Pong{}
+	return result
+}
+
+func (o *Pong) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Pong) Merge(source *Pong) {
+}
+
+func (o *Pong) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Pong))
 }
 
 func (o *Data) GotenObjectExt() {}

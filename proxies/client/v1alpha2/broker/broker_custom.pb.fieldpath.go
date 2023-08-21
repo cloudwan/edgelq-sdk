@@ -2430,6 +2430,7 @@ const (
 	ConnectResponse_FieldPathSelectorData             ConnectResponse_FieldPathSelector = 4
 	ConnectResponse_FieldPathSelectorClose            ConnectResponse_FieldPathSelector = 5
 	ConnectResponse_FieldPathSelectorError            ConnectResponse_FieldPathSelector = 6
+	ConnectResponse_FieldPathSelectorPong             ConnectResponse_FieldPathSelector = 7
 )
 
 func (s ConnectResponse_FieldPathSelector) String() string {
@@ -2448,6 +2449,8 @@ func (s ConnectResponse_FieldPathSelector) String() string {
 		return "close"
 	case ConnectResponse_FieldPathSelectorError:
 		return "error"
+	case ConnectResponse_FieldPathSelectorPong:
+		return "pong"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", s))
 	}
@@ -2473,6 +2476,8 @@ func BuildConnectResponse_FieldPath(fp gotenobject.RawFieldPath) (ConnectRespons
 			return &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorClose}, nil
 		case "error":
 			return &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorError}, nil
+		case "pong":
+			return &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorPong}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2517,6 +2522,12 @@ func BuildConnectResponse_FieldPath(fp gotenobject.RawFieldPath) (ConnectRespons
 				return nil, err
 			} else {
 				return &ConnectResponse_FieldSubPath{selector: ConnectResponse_FieldPathSelectorError, subPath: subpath}, nil
+			}
+		case "pong":
+			if subpath, err := BuildPong_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ConnectResponse_FieldSubPath{selector: ConnectResponse_FieldPathSelectorPong, subPath: subpath}, nil
 			}
 		}
 	}
@@ -2605,6 +2616,12 @@ func (fp *ConnectResponse_FieldTerminalPath) Get(source *ConnectResponse) (value
 					values = append(values, source.Error)
 				}
 			}
+		case ConnectResponse_FieldPathSelectorPong:
+			if source, ok := source.Message.(*ConnectResponse_Pong); ok && source != nil {
+				if source.Pong != nil {
+					values = append(values, source.Pong)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 		}
@@ -2640,6 +2657,9 @@ func (fp *ConnectResponse_FieldTerminalPath) GetSingle(source *ConnectResponse) 
 	case ConnectResponse_FieldPathSelectorError:
 		res := source.GetError()
 		return res, res != nil
+	case ConnectResponse_FieldPathSelectorPong:
+		res := source.GetPong()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 	}
@@ -2666,6 +2686,8 @@ func (fp *ConnectResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*Close)(nil)
 	case ConnectResponse_FieldPathSelectorError:
 		return (*Error)(nil)
+	case ConnectResponse_FieldPathSelectorPong:
+		return (*Pong)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 	}
@@ -2702,6 +2724,10 @@ func (fp *ConnectResponse_FieldTerminalPath) ClearValue(item *ConnectResponse) {
 			if item, ok := item.Message.(*ConnectResponse_Error); ok {
 				item.Error = nil
 			}
+		case ConnectResponse_FieldPathSelectorPong:
+			if item, ok := item.Message.(*ConnectResponse_Pong); ok {
+				item.Pong = nil
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 		}
@@ -2737,6 +2763,8 @@ func (fp *ConnectResponse_FieldTerminalPath) WithIValue(value interface{}) Conne
 		return &ConnectResponse_FieldTerminalPathValue{ConnectResponse_FieldTerminalPath: *fp, value: value.(*Close)}
 	case ConnectResponse_FieldPathSelectorError:
 		return &ConnectResponse_FieldTerminalPathValue{ConnectResponse_FieldTerminalPath: *fp, value: value.(*Error)}
+	case ConnectResponse_FieldPathSelectorPong:
+		return &ConnectResponse_FieldTerminalPathValue{ConnectResponse_FieldTerminalPath: *fp, value: value.(*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 	}
@@ -2763,6 +2791,8 @@ func (fp *ConnectResponse_FieldTerminalPath) WithIArrayOfValues(values interface
 		return &ConnectResponse_FieldTerminalPathArrayOfValues{ConnectResponse_FieldTerminalPath: *fp, values: values.([]*Close)}
 	case ConnectResponse_FieldPathSelectorError:
 		return &ConnectResponse_FieldTerminalPathArrayOfValues{ConnectResponse_FieldTerminalPath: *fp, values: values.([]*Error)}
+	case ConnectResponse_FieldPathSelectorPong:
+		return &ConnectResponse_FieldTerminalPathArrayOfValues{ConnectResponse_FieldTerminalPath: *fp, values: values.([]*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fp.selector))
 	}
@@ -2822,6 +2852,10 @@ func (fps *ConnectResponse_FieldSubPath) AsErrorSubPath() (Error_FieldPath, bool
 	res, ok := fps.subPath.(Error_FieldPath)
 	return res, ok
 }
+func (fps *ConnectResponse_FieldSubPath) AsPongSubPath() (Pong_FieldPath, bool) {
+	res, ok := fps.subPath.(Pong_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ConnectResponse_FieldSubPath) String() string {
@@ -2850,6 +2884,8 @@ func (fps *ConnectResponse_FieldSubPath) Get(source *ConnectResponse) (values []
 		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
 	case ConnectResponse_FieldPathSelectorError:
 		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	case ConnectResponse_FieldPathSelectorPong:
+		values = append(values, fps.subPath.GetRaw(source.GetPong())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fps.selector))
 	}
@@ -2898,6 +2934,11 @@ func (fps *ConnectResponse_FieldSubPath) GetSingle(source *ConnectResponse) (int
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetError())
+	case ConnectResponse_FieldPathSelectorPong:
+		if source.GetPong() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fps.selector))
 	}
@@ -2955,6 +2996,12 @@ func (fps *ConnectResponse_FieldSubPath) ClearValue(item *ConnectResponse) {
 			if item.Message != nil {
 				if item, ok := item.Message.(*ConnectResponse_Error); ok {
 					fps.subPath.ClearValueRaw(item.Error)
+				}
+			}
+		case ConnectResponse_FieldPathSelectorPong:
+			if item.Message != nil {
+				if item, ok := item.Message.(*ConnectResponse_Pong); ok {
+					fps.subPath.ClearValueRaw(item.Pong)
 				}
 			}
 		default:
@@ -3069,6 +3116,10 @@ func (fpv *ConnectResponse_FieldTerminalPathValue) AsErrorValue() (*Error, bool)
 	res, ok := fpv.value.(*Error)
 	return res, ok
 }
+func (fpv *ConnectResponse_FieldTerminalPathValue) AsPongValue() (*Pong, bool) {
+	res, ok := fpv.value.(*Pong)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ConnectResponse
 func (fpv *ConnectResponse_FieldTerminalPathValue) SetTo(target **ConnectResponse) {
@@ -3111,6 +3162,11 @@ func (fpv *ConnectResponse_FieldTerminalPathValue) SetTo(target **ConnectRespons
 			(*target).Message = &ConnectResponse_Error{}
 		}
 		(*target).Message.(*ConnectResponse_Error).Error = fpv.value.(*Error)
+	case ConnectResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*ConnectResponse_Pong); !ok {
+			(*target).Message = &ConnectResponse_Pong{}
+		}
+		(*target).Message.(*ConnectResponse_Pong).Pong = fpv.value.(*Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fpv.selector))
 	}
@@ -3137,6 +3193,8 @@ func (fpv *ConnectResponse_FieldTerminalPathValue) CompareWith(source *ConnectRe
 	case ConnectResponse_FieldPathSelectorClose:
 		return 0, false
 	case ConnectResponse_FieldPathSelectorError:
+		return 0, false
+	case ConnectResponse_FieldPathSelectorPong:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fpv.selector))
@@ -3182,6 +3240,10 @@ func (fpvs *ConnectResponse_FieldSubPathValue) AsErrorPathValue() (Error_FieldPa
 	res, ok := fpvs.subPathValue.(Error_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ConnectResponse_FieldSubPathValue) AsPongPathValue() (Pong_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(Pong_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ConnectResponse_FieldSubPathValue) SetTo(target **ConnectResponse) {
 	if *target == nil {
@@ -3223,6 +3285,11 @@ func (fpvs *ConnectResponse_FieldSubPathValue) SetTo(target **ConnectResponse) {
 			(*target).Message = &ConnectResponse_Error{}
 		}
 		fpvs.subPathValue.(Error_FieldPathValue).SetTo(&(*target).Message.(*ConnectResponse_Error).Error)
+	case ConnectResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*ConnectResponse_Pong); !ok {
+			(*target).Message = &ConnectResponse_Pong{}
+		}
+		fpvs.subPathValue.(Pong_FieldPathValue).SetTo(&(*target).Message.(*ConnectResponse_Pong).Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fpvs.Selector()))
 	}
@@ -3253,6 +3320,8 @@ func (fpvs *ConnectResponse_FieldSubPathValue) CompareWith(source *ConnectRespon
 		return fpvs.subPathValue.(Close_FieldPathValue).CompareWith(source.GetClose())
 	case ConnectResponse_FieldPathSelectorError:
 		return fpvs.subPathValue.(Error_FieldPathValue).CompareWith(source.GetError())
+	case ConnectResponse_FieldPathSelectorPong:
+		return fpvs.subPathValue.(Pong_FieldPathValue).CompareWith(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fpvs.Selector()))
 	}
@@ -3363,6 +3432,10 @@ func (fpaivs *ConnectResponse_FieldSubPathArrayItemValue) AsErrorPathItemValue()
 	res, ok := fpaivs.subPathItemValue.(Error_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ConnectResponse_FieldSubPathArrayItemValue) AsPongPathItemValue() (Pong_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ConnectResponse'
 func (fpaivs *ConnectResponse_FieldSubPathArrayItemValue) ContainsValue(source *ConnectResponse) bool {
@@ -3381,6 +3454,8 @@ func (fpaivs *ConnectResponse_FieldSubPathArrayItemValue) ContainsValue(source *
 		return fpaivs.subPathItemValue.(Close_FieldPathArrayItemValue).ContainsValue(source.GetClose())
 	case ConnectResponse_FieldPathSelectorError:
 		return fpaivs.subPathItemValue.(Error_FieldPathArrayItemValue).ContainsValue(source.GetError())
+	case ConnectResponse_FieldPathSelectorPong:
+		return fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue).ContainsValue(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fpaivs.Selector()))
 	}
@@ -3449,6 +3524,10 @@ func (fpaov *ConnectResponse_FieldTerminalPathArrayOfValues) GetRawValues() (val
 		for _, v := range fpaov.values.([]*Error) {
 			values = append(values, v)
 		}
+	case ConnectResponse_FieldPathSelectorPong:
+		for _, v := range fpaov.values.([]*Pong) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3478,6 +3557,10 @@ func (fpaov *ConnectResponse_FieldTerminalPathArrayOfValues) AsCloseArrayOfValue
 }
 func (fpaov *ConnectResponse_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]*Error, bool) {
 	res, ok := fpaov.values.([]*Error)
+	return res, ok
+}
+func (fpaov *ConnectResponse_FieldTerminalPathArrayOfValues) AsPongArrayOfValues() ([]*Pong, bool) {
+	res, ok := fpaov.values.([]*Pong)
 	return res, ok
 }
 
@@ -3517,6 +3600,10 @@ func (fpsaov *ConnectResponse_FieldSubPathArrayOfValues) AsClosePathArrayOfValue
 }
 func (fpsaov *ConnectResponse_FieldSubPathArrayOfValues) AsErrorPathArrayOfValues() (Error_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(Error_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ConnectResponse_FieldSubPathArrayOfValues) AsPongPathArrayOfValues() (Pong_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(Pong_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -7115,6 +7202,7 @@ const (
 	ListenResponse_FieldPathSelectorListening             ListenResponse_FieldPathSelector = 0
 	ListenResponse_FieldPathSelectorOpenChannelResponse   ListenResponse_FieldPathSelector = 1
 	ListenResponse_FieldPathSelectorResumeChannelResponse ListenResponse_FieldPathSelector = 2
+	ListenResponse_FieldPathSelectorPong                  ListenResponse_FieldPathSelector = 3
 )
 
 func (s ListenResponse_FieldPathSelector) String() string {
@@ -7125,6 +7213,8 @@ func (s ListenResponse_FieldPathSelector) String() string {
 		return "open_channel_response"
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return "resume_channel_response"
+	case ListenResponse_FieldPathSelectorPong:
+		return "pong"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", s))
 	}
@@ -7142,6 +7232,8 @@ func BuildListenResponse_FieldPath(fp gotenobject.RawFieldPath) (ListenResponse_
 			return &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorOpenChannelResponse}, nil
 		case "resume_channel_response", "resumeChannelResponse", "resume-channel-response":
 			return &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorResumeChannelResponse}, nil
+		case "pong":
+			return &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorPong}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -7162,6 +7254,12 @@ func BuildListenResponse_FieldPath(fp gotenobject.RawFieldPath) (ListenResponse_
 				return nil, err
 			} else {
 				return &ListenResponse_FieldSubPath{selector: ListenResponse_FieldPathSelectorResumeChannelResponse, subPath: subpath}, nil
+			}
+		case "pong":
+			if subpath, err := BuildPong_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ListenResponse_FieldSubPath{selector: ListenResponse_FieldPathSelectorPong, subPath: subpath}, nil
 			}
 		}
 	}
@@ -7226,6 +7324,12 @@ func (fp *ListenResponse_FieldTerminalPath) Get(source *ListenResponse) (values 
 					values = append(values, source.ResumeChannelResponse)
 				}
 			}
+		case ListenResponse_FieldPathSelectorPong:
+			if source, ok := source.Message.(*ListenResponse_Pong); ok && source != nil {
+				if source.Pong != nil {
+					values = append(values, source.Pong)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
 		}
@@ -7249,6 +7353,9 @@ func (fp *ListenResponse_FieldTerminalPath) GetSingle(source *ListenResponse) (i
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		res := source.GetResumeChannelResponse()
 		return res, res != nil
+	case ListenResponse_FieldPathSelectorPong:
+		res := source.GetPong()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
 	}
@@ -7267,6 +7374,8 @@ func (fp *ListenResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*ListenResponse_OpenChannelResponse)(nil)
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return (*ListenResponse_ResumeChannelResponse)(nil)
+	case ListenResponse_FieldPathSelectorPong:
+		return (*Pong)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
 	}
@@ -7286,6 +7395,10 @@ func (fp *ListenResponse_FieldTerminalPath) ClearValue(item *ListenResponse) {
 		case ListenResponse_FieldPathSelectorResumeChannelResponse:
 			if item, ok := item.Message.(*ListenResponse_ResumeChannelResponse_); ok {
 				item.ResumeChannelResponse = nil
+			}
+		case ListenResponse_FieldPathSelectorPong:
+			if item, ok := item.Message.(*ListenResponse_Pong); ok {
+				item.Pong = nil
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
@@ -7314,6 +7427,8 @@ func (fp *ListenResponse_FieldTerminalPath) WithIValue(value interface{}) Listen
 		return &ListenResponse_FieldTerminalPathValue{ListenResponse_FieldTerminalPath: *fp, value: value.(*ListenResponse_OpenChannelResponse)}
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return &ListenResponse_FieldTerminalPathValue{ListenResponse_FieldTerminalPath: *fp, value: value.(*ListenResponse_ResumeChannelResponse)}
+	case ListenResponse_FieldPathSelectorPong:
+		return &ListenResponse_FieldTerminalPathValue{ListenResponse_FieldTerminalPath: *fp, value: value.(*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
 	}
@@ -7332,6 +7447,8 @@ func (fp *ListenResponse_FieldTerminalPath) WithIArrayOfValues(values interface{
 		return &ListenResponse_FieldTerminalPathArrayOfValues{ListenResponse_FieldTerminalPath: *fp, values: values.([]*ListenResponse_OpenChannelResponse)}
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return &ListenResponse_FieldTerminalPathArrayOfValues{ListenResponse_FieldTerminalPath: *fp, values: values.([]*ListenResponse_ResumeChannelResponse)}
+	case ListenResponse_FieldPathSelectorPong:
+		return &ListenResponse_FieldTerminalPathArrayOfValues{ListenResponse_FieldTerminalPath: *fp, values: values.([]*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fp.selector))
 	}
@@ -7375,6 +7492,10 @@ func (fps *ListenResponse_FieldSubPath) AsResumeChannelResponseSubPath() (Listen
 	res, ok := fps.subPath.(ListenResponseResumeChannelResponse_FieldPath)
 	return res, ok
 }
+func (fps *ListenResponse_FieldSubPath) AsPongSubPath() (Pong_FieldPath, bool) {
+	res, ok := fps.subPath.(Pong_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ListenResponse_FieldSubPath) String() string {
@@ -7395,6 +7516,8 @@ func (fps *ListenResponse_FieldSubPath) Get(source *ListenResponse) (values []in
 		values = append(values, fps.subPath.GetRaw(source.GetOpenChannelResponse())...)
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		values = append(values, fps.subPath.GetRaw(source.GetResumeChannelResponse())...)
+	case ListenResponse_FieldPathSelectorPong:
+		values = append(values, fps.subPath.GetRaw(source.GetPong())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fps.selector))
 	}
@@ -7423,6 +7546,11 @@ func (fps *ListenResponse_FieldSubPath) GetSingle(source *ListenResponse) (inter
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetResumeChannelResponse())
+	case ListenResponse_FieldPathSelectorPong:
+		if source.GetPong() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fps.selector))
 	}
@@ -7456,6 +7584,12 @@ func (fps *ListenResponse_FieldSubPath) ClearValue(item *ListenResponse) {
 			if item.Message != nil {
 				if item, ok := item.Message.(*ListenResponse_ResumeChannelResponse_); ok {
 					fps.subPath.ClearValueRaw(item.ResumeChannelResponse)
+				}
+			}
+		case ListenResponse_FieldPathSelectorPong:
+			if item.Message != nil {
+				if item, ok := item.Message.(*ListenResponse_Pong); ok {
+					fps.subPath.ClearValueRaw(item.Pong)
 				}
 			}
 		default:
@@ -7554,6 +7688,10 @@ func (fpv *ListenResponse_FieldTerminalPathValue) AsResumeChannelResponseValue()
 	res, ok := fpv.value.(*ListenResponse_ResumeChannelResponse)
 	return res, ok
 }
+func (fpv *ListenResponse_FieldTerminalPathValue) AsPongValue() (*Pong, bool) {
+	res, ok := fpv.value.(*Pong)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListenResponse
 func (fpv *ListenResponse_FieldTerminalPathValue) SetTo(target **ListenResponse) {
@@ -7576,6 +7714,11 @@ func (fpv *ListenResponse_FieldTerminalPathValue) SetTo(target **ListenResponse)
 			(*target).Message = &ListenResponse_ResumeChannelResponse_{}
 		}
 		(*target).Message.(*ListenResponse_ResumeChannelResponse_).ResumeChannelResponse = fpv.value.(*ListenResponse_ResumeChannelResponse)
+	case ListenResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*ListenResponse_Pong); !ok {
+			(*target).Message = &ListenResponse_Pong{}
+		}
+		(*target).Message.(*ListenResponse_Pong).Pong = fpv.value.(*Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fpv.selector))
 	}
@@ -7594,6 +7737,8 @@ func (fpv *ListenResponse_FieldTerminalPathValue) CompareWith(source *ListenResp
 	case ListenResponse_FieldPathSelectorOpenChannelResponse:
 		return 0, false
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
+		return 0, false
+	case ListenResponse_FieldPathSelectorPong:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fpv.selector))
@@ -7623,6 +7768,10 @@ func (fpvs *ListenResponse_FieldSubPathValue) AsResumeChannelResponsePathValue()
 	res, ok := fpvs.subPathValue.(ListenResponseResumeChannelResponse_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ListenResponse_FieldSubPathValue) AsPongPathValue() (Pong_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(Pong_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ListenResponse_FieldSubPathValue) SetTo(target **ListenResponse) {
 	if *target == nil {
@@ -7644,6 +7793,11 @@ func (fpvs *ListenResponse_FieldSubPathValue) SetTo(target **ListenResponse) {
 			(*target).Message = &ListenResponse_ResumeChannelResponse_{}
 		}
 		fpvs.subPathValue.(ListenResponseResumeChannelResponse_FieldPathValue).SetTo(&(*target).Message.(*ListenResponse_ResumeChannelResponse_).ResumeChannelResponse)
+	case ListenResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*ListenResponse_Pong); !ok {
+			(*target).Message = &ListenResponse_Pong{}
+		}
+		fpvs.subPathValue.(Pong_FieldPathValue).SetTo(&(*target).Message.(*ListenResponse_Pong).Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fpvs.Selector()))
 	}
@@ -7666,6 +7820,8 @@ func (fpvs *ListenResponse_FieldSubPathValue) CompareWith(source *ListenResponse
 		return fpvs.subPathValue.(ListenResponseOpenChannelResponse_FieldPathValue).CompareWith(source.GetOpenChannelResponse())
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return fpvs.subPathValue.(ListenResponseResumeChannelResponse_FieldPathValue).CompareWith(source.GetResumeChannelResponse())
+	case ListenResponse_FieldPathSelectorPong:
+		return fpvs.subPathValue.(Pong_FieldPathValue).CompareWith(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fpvs.Selector()))
 	}
@@ -7760,6 +7916,10 @@ func (fpaivs *ListenResponse_FieldSubPathArrayItemValue) AsResumeChannelResponse
 	res, ok := fpaivs.subPathItemValue.(ListenResponseResumeChannelResponse_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ListenResponse_FieldSubPathArrayItemValue) AsPongPathItemValue() (Pong_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ListenResponse'
 func (fpaivs *ListenResponse_FieldSubPathArrayItemValue) ContainsValue(source *ListenResponse) bool {
@@ -7770,6 +7930,8 @@ func (fpaivs *ListenResponse_FieldSubPathArrayItemValue) ContainsValue(source *L
 		return fpaivs.subPathItemValue.(ListenResponseOpenChannelResponse_FieldPathArrayItemValue).ContainsValue(source.GetOpenChannelResponse())
 	case ListenResponse_FieldPathSelectorResumeChannelResponse:
 		return fpaivs.subPathItemValue.(ListenResponseResumeChannelResponse_FieldPathArrayItemValue).ContainsValue(source.GetResumeChannelResponse())
+	case ListenResponse_FieldPathSelectorPong:
+		return fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue).ContainsValue(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fpaivs.Selector()))
 	}
@@ -7822,6 +7984,10 @@ func (fpaov *ListenResponse_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]*ListenResponse_ResumeChannelResponse) {
 			values = append(values, v)
 		}
+	case ListenResponse_FieldPathSelectorPong:
+		for _, v := range fpaov.values.([]*Pong) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7835,6 +8001,10 @@ func (fpaov *ListenResponse_FieldTerminalPathArrayOfValues) AsOpenChannelRespons
 }
 func (fpaov *ListenResponse_FieldTerminalPathArrayOfValues) AsResumeChannelResponseArrayOfValues() ([]*ListenResponse_ResumeChannelResponse, bool) {
 	res, ok := fpaov.values.([]*ListenResponse_ResumeChannelResponse)
+	return res, ok
+}
+func (fpaov *ListenResponse_FieldTerminalPathArrayOfValues) AsPongArrayOfValues() ([]*Pong, bool) {
+	res, ok := fpaov.values.([]*Pong)
 	return res, ok
 }
 
@@ -7858,6 +8028,10 @@ func (fpsaov *ListenResponse_FieldSubPathArrayOfValues) AsOpenChannelResponsePat
 }
 func (fpsaov *ListenResponse_FieldSubPathArrayOfValues) AsResumeChannelResponsePathArrayOfValues() (ListenResponseResumeChannelResponse_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ListenResponseResumeChannelResponse_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ListenResponse_FieldSubPathArrayOfValues) AsPongPathArrayOfValues() (Pong_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(Pong_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -11493,6 +11667,7 @@ const (
 	AcceptResponse_FieldPathSelectorAck   AcceptResponse_FieldPathSelector = 1
 	AcceptResponse_FieldPathSelectorClose AcceptResponse_FieldPathSelector = 2
 	AcceptResponse_FieldPathSelectorError AcceptResponse_FieldPathSelector = 3
+	AcceptResponse_FieldPathSelectorPong  AcceptResponse_FieldPathSelector = 4
 )
 
 func (s AcceptResponse_FieldPathSelector) String() string {
@@ -11505,6 +11680,8 @@ func (s AcceptResponse_FieldPathSelector) String() string {
 		return "close"
 	case AcceptResponse_FieldPathSelectorError:
 		return "error"
+	case AcceptResponse_FieldPathSelectorPong:
+		return "pong"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", s))
 	}
@@ -11524,6 +11701,8 @@ func BuildAcceptResponse_FieldPath(fp gotenobject.RawFieldPath) (AcceptResponse_
 			return &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorClose}, nil
 		case "error":
 			return &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorError}, nil
+		case "pong":
+			return &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorPong}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -11550,6 +11729,12 @@ func BuildAcceptResponse_FieldPath(fp gotenobject.RawFieldPath) (AcceptResponse_
 				return nil, err
 			} else {
 				return &AcceptResponse_FieldSubPath{selector: AcceptResponse_FieldPathSelectorError, subPath: subpath}, nil
+			}
+		case "pong":
+			if subpath, err := BuildPong_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &AcceptResponse_FieldSubPath{selector: AcceptResponse_FieldPathSelectorPong, subPath: subpath}, nil
 			}
 		}
 	}
@@ -11620,6 +11805,12 @@ func (fp *AcceptResponse_FieldTerminalPath) Get(source *AcceptResponse) (values 
 					values = append(values, source.Error)
 				}
 			}
+		case AcceptResponse_FieldPathSelectorPong:
+			if source, ok := source.Message.(*AcceptResponse_Pong); ok && source != nil {
+				if source.Pong != nil {
+					values = append(values, source.Pong)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
 		}
@@ -11646,6 +11837,9 @@ func (fp *AcceptResponse_FieldTerminalPath) GetSingle(source *AcceptResponse) (i
 	case AcceptResponse_FieldPathSelectorError:
 		res := source.GetError()
 		return res, res != nil
+	case AcceptResponse_FieldPathSelectorPong:
+		res := source.GetPong()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
 	}
@@ -11666,6 +11860,8 @@ func (fp *AcceptResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*Close)(nil)
 	case AcceptResponse_FieldPathSelectorError:
 		return (*Error)(nil)
+	case AcceptResponse_FieldPathSelectorPong:
+		return (*Pong)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
 	}
@@ -11689,6 +11885,10 @@ func (fp *AcceptResponse_FieldTerminalPath) ClearValue(item *AcceptResponse) {
 		case AcceptResponse_FieldPathSelectorError:
 			if item, ok := item.Message.(*AcceptResponse_Error); ok {
 				item.Error = nil
+			}
+		case AcceptResponse_FieldPathSelectorPong:
+			if item, ok := item.Message.(*AcceptResponse_Pong); ok {
+				item.Pong = nil
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
@@ -11719,6 +11919,8 @@ func (fp *AcceptResponse_FieldTerminalPath) WithIValue(value interface{}) Accept
 		return &AcceptResponse_FieldTerminalPathValue{AcceptResponse_FieldTerminalPath: *fp, value: value.(*Close)}
 	case AcceptResponse_FieldPathSelectorError:
 		return &AcceptResponse_FieldTerminalPathValue{AcceptResponse_FieldTerminalPath: *fp, value: value.(*Error)}
+	case AcceptResponse_FieldPathSelectorPong:
+		return &AcceptResponse_FieldTerminalPathValue{AcceptResponse_FieldTerminalPath: *fp, value: value.(*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
 	}
@@ -11739,6 +11941,8 @@ func (fp *AcceptResponse_FieldTerminalPath) WithIArrayOfValues(values interface{
 		return &AcceptResponse_FieldTerminalPathArrayOfValues{AcceptResponse_FieldTerminalPath: *fp, values: values.([]*Close)}
 	case AcceptResponse_FieldPathSelectorError:
 		return &AcceptResponse_FieldTerminalPathArrayOfValues{AcceptResponse_FieldTerminalPath: *fp, values: values.([]*Error)}
+	case AcceptResponse_FieldPathSelectorPong:
+		return &AcceptResponse_FieldTerminalPathArrayOfValues{AcceptResponse_FieldTerminalPath: *fp, values: values.([]*Pong)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fp.selector))
 	}
@@ -11786,6 +11990,10 @@ func (fps *AcceptResponse_FieldSubPath) AsErrorSubPath() (Error_FieldPath, bool)
 	res, ok := fps.subPath.(Error_FieldPath)
 	return res, ok
 }
+func (fps *AcceptResponse_FieldSubPath) AsPongSubPath() (Pong_FieldPath, bool) {
+	res, ok := fps.subPath.(Pong_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *AcceptResponse_FieldSubPath) String() string {
@@ -11808,6 +12016,8 @@ func (fps *AcceptResponse_FieldSubPath) Get(source *AcceptResponse) (values []in
 		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
 	case AcceptResponse_FieldPathSelectorError:
 		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	case AcceptResponse_FieldPathSelectorPong:
+		values = append(values, fps.subPath.GetRaw(source.GetPong())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fps.selector))
 	}
@@ -11841,6 +12051,11 @@ func (fps *AcceptResponse_FieldSubPath) GetSingle(source *AcceptResponse) (inter
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetError())
+	case AcceptResponse_FieldPathSelectorPong:
+		if source.GetPong() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fps.selector))
 	}
@@ -11880,6 +12095,12 @@ func (fps *AcceptResponse_FieldSubPath) ClearValue(item *AcceptResponse) {
 			if item.Message != nil {
 				if item, ok := item.Message.(*AcceptResponse_Error); ok {
 					fps.subPath.ClearValueRaw(item.Error)
+				}
+			}
+		case AcceptResponse_FieldPathSelectorPong:
+			if item.Message != nil {
+				if item, ok := item.Message.(*AcceptResponse_Pong); ok {
+					fps.subPath.ClearValueRaw(item.Pong)
 				}
 			}
 		default:
@@ -11982,6 +12203,10 @@ func (fpv *AcceptResponse_FieldTerminalPathValue) AsErrorValue() (*Error, bool) 
 	res, ok := fpv.value.(*Error)
 	return res, ok
 }
+func (fpv *AcceptResponse_FieldTerminalPathValue) AsPongValue() (*Pong, bool) {
+	res, ok := fpv.value.(*Pong)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object AcceptResponse
 func (fpv *AcceptResponse_FieldTerminalPathValue) SetTo(target **AcceptResponse) {
@@ -12009,6 +12234,11 @@ func (fpv *AcceptResponse_FieldTerminalPathValue) SetTo(target **AcceptResponse)
 			(*target).Message = &AcceptResponse_Error{}
 		}
 		(*target).Message.(*AcceptResponse_Error).Error = fpv.value.(*Error)
+	case AcceptResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*AcceptResponse_Pong); !ok {
+			(*target).Message = &AcceptResponse_Pong{}
+		}
+		(*target).Message.(*AcceptResponse_Pong).Pong = fpv.value.(*Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fpv.selector))
 	}
@@ -12029,6 +12259,8 @@ func (fpv *AcceptResponse_FieldTerminalPathValue) CompareWith(source *AcceptResp
 	case AcceptResponse_FieldPathSelectorClose:
 		return 0, false
 	case AcceptResponse_FieldPathSelectorError:
+		return 0, false
+	case AcceptResponse_FieldPathSelectorPong:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fpv.selector))
@@ -12062,6 +12294,10 @@ func (fpvs *AcceptResponse_FieldSubPathValue) AsErrorPathValue() (Error_FieldPat
 	res, ok := fpvs.subPathValue.(Error_FieldPathValue)
 	return res, ok
 }
+func (fpvs *AcceptResponse_FieldSubPathValue) AsPongPathValue() (Pong_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(Pong_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *AcceptResponse_FieldSubPathValue) SetTo(target **AcceptResponse) {
 	if *target == nil {
@@ -12088,6 +12324,11 @@ func (fpvs *AcceptResponse_FieldSubPathValue) SetTo(target **AcceptResponse) {
 			(*target).Message = &AcceptResponse_Error{}
 		}
 		fpvs.subPathValue.(Error_FieldPathValue).SetTo(&(*target).Message.(*AcceptResponse_Error).Error)
+	case AcceptResponse_FieldPathSelectorPong:
+		if _, ok := (*target).Message.(*AcceptResponse_Pong); !ok {
+			(*target).Message = &AcceptResponse_Pong{}
+		}
+		fpvs.subPathValue.(Pong_FieldPathValue).SetTo(&(*target).Message.(*AcceptResponse_Pong).Pong)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fpvs.Selector()))
 	}
@@ -12112,6 +12353,8 @@ func (fpvs *AcceptResponse_FieldSubPathValue) CompareWith(source *AcceptResponse
 		return fpvs.subPathValue.(Close_FieldPathValue).CompareWith(source.GetClose())
 	case AcceptResponse_FieldPathSelectorError:
 		return fpvs.subPathValue.(Error_FieldPathValue).CompareWith(source.GetError())
+	case AcceptResponse_FieldPathSelectorPong:
+		return fpvs.subPathValue.(Pong_FieldPathValue).CompareWith(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fpvs.Selector()))
 	}
@@ -12210,6 +12453,10 @@ func (fpaivs *AcceptResponse_FieldSubPathArrayItemValue) AsErrorPathItemValue() 
 	res, ok := fpaivs.subPathItemValue.(Error_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *AcceptResponse_FieldSubPathArrayItemValue) AsPongPathItemValue() (Pong_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'AcceptResponse'
 func (fpaivs *AcceptResponse_FieldSubPathArrayItemValue) ContainsValue(source *AcceptResponse) bool {
@@ -12222,6 +12469,8 @@ func (fpaivs *AcceptResponse_FieldSubPathArrayItemValue) ContainsValue(source *A
 		return fpaivs.subPathItemValue.(Close_FieldPathArrayItemValue).ContainsValue(source.GetClose())
 	case AcceptResponse_FieldPathSelectorError:
 		return fpaivs.subPathItemValue.(Error_FieldPathArrayItemValue).ContainsValue(source.GetError())
+	case AcceptResponse_FieldPathSelectorPong:
+		return fpaivs.subPathItemValue.(Pong_FieldPathArrayItemValue).ContainsValue(source.GetPong())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fpaivs.Selector()))
 	}
@@ -12278,6 +12527,10 @@ func (fpaov *AcceptResponse_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]*Error) {
 			values = append(values, v)
 		}
+	case AcceptResponse_FieldPathSelectorPong:
+		for _, v := range fpaov.values.([]*Pong) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -12295,6 +12548,10 @@ func (fpaov *AcceptResponse_FieldTerminalPathArrayOfValues) AsCloseArrayOfValues
 }
 func (fpaov *AcceptResponse_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]*Error, bool) {
 	res, ok := fpaov.values.([]*Error)
+	return res, ok
+}
+func (fpaov *AcceptResponse_FieldTerminalPathArrayOfValues) AsPongArrayOfValues() ([]*Pong, bool) {
+	res, ok := fpaov.values.([]*Pong)
 	return res, ok
 }
 
@@ -12322,6 +12579,10 @@ func (fpsaov *AcceptResponse_FieldSubPathArrayOfValues) AsClosePathArrayOfValues
 }
 func (fpsaov *AcceptResponse_FieldSubPathArrayOfValues) AsErrorPathArrayOfValues() (Error_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(Error_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *AcceptResponse_FieldSubPathArrayOfValues) AsPongPathArrayOfValues() (Pong_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(Pong_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -12655,6 +12916,341 @@ type Ping_FieldTerminalPathArrayOfValues struct {
 var _ Ping_FieldPathArrayOfValues = (*Ping_FieldTerminalPathArrayOfValues)(nil)
 
 func (fpaov *Ping_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type Pong_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() Pong_FieldPathSelector
+	Get(source *Pong) []interface{}
+	GetSingle(source *Pong) (interface{}, bool)
+	ClearValue(item *Pong)
+
+	// Those methods build corresponding Pong_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) Pong_FieldPathValue
+	WithIArrayOfValues(values interface{}) Pong_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) Pong_FieldPathArrayItemValue
+}
+
+type Pong_FieldPathSelector int32
+
+func (s Pong_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", s))
+	}
+}
+
+func BuildPong_FieldPath(fp gotenobject.RawFieldPath) (Pong_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Pong")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Pong", fp)
+}
+
+func ParsePong_FieldPath(rawField string) (Pong_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildPong_FieldPath(fp)
+}
+
+func MustParsePong_FieldPath(rawField string) Pong_FieldPath {
+	fp, err := ParsePong_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type Pong_FieldTerminalPath struct {
+	selector Pong_FieldPathSelector
+}
+
+var _ Pong_FieldPath = (*Pong_FieldTerminalPath)(nil)
+
+func (fp *Pong_FieldTerminalPath) Selector() Pong_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *Pong_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *Pong_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Pong
+func (fp *Pong_FieldTerminalPath) Get(source *Pong) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *Pong_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Pong))
+}
+
+// GetSingle returns value pointed by specific field of from source Pong
+func (fp *Pong_FieldTerminalPath) GetSingle(source *Pong) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+	}
+}
+
+func (fp *Pong_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Pong))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *Pong_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+	}
+}
+
+func (fp *Pong_FieldTerminalPath) ClearValue(item *Pong) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *Pong_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Pong))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *Pong_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *Pong_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *Pong_FieldTerminalPath) WithIValue(value interface{}) Pong_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+	}
+}
+
+func (fp *Pong_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *Pong_FieldTerminalPath) WithIArrayOfValues(values interface{}) Pong_FieldPathArrayOfValues {
+	fpaov := &Pong_FieldTerminalPathArrayOfValues{Pong_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *Pong_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *Pong_FieldTerminalPath) WithIArrayItemValue(value interface{}) Pong_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fp.selector))
+	}
+}
+
+func (fp *Pong_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// Pong_FieldPathValue allows storing values for Pong fields according to their type
+type Pong_FieldPathValue interface {
+	Pong_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Pong)
+	CompareWith(*Pong) (cmp int, comparable bool)
+}
+
+func ParsePong_FieldPathValue(pathStr, valueStr string) (Pong_FieldPathValue, error) {
+	fp, err := ParsePong_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pong field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(Pong_FieldPathValue), nil
+}
+
+func MustParsePong_FieldPathValue(pathStr, valueStr string) Pong_FieldPathValue {
+	fpv, err := ParsePong_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type Pong_FieldTerminalPathValue struct {
+	Pong_FieldTerminalPath
+	value interface{}
+}
+
+var _ Pong_FieldPathValue = (*Pong_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Pong' as interface{}
+func (fpv *Pong_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object Pong
+func (fpv *Pong_FieldTerminalPathValue) SetTo(target **Pong) {
+	if *target == nil {
+		*target = new(Pong)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fpv.selector))
+	}
+}
+
+func (fpv *Pong_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Pong)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Pong_FieldTerminalPathValue' with the value under path in 'Pong'.
+func (fpv *Pong_FieldTerminalPathValue) CompareWith(source *Pong) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pong: %d", fpv.selector))
+	}
+}
+
+func (fpv *Pong_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Pong))
+}
+
+// Pong_FieldPathArrayItemValue allows storing single item in Path-specific values for Pong according to their type
+// Present only for array (repeated) types.
+type Pong_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	Pong_FieldPath
+	ContainsValue(*Pong) bool
+}
+
+// ParsePong_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePong_FieldPathArrayItemValue(pathStr, valueStr string) (Pong_FieldPathArrayItemValue, error) {
+	fp, err := ParsePong_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pong field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(Pong_FieldPathArrayItemValue), nil
+}
+
+func MustParsePong_FieldPathArrayItemValue(pathStr, valueStr string) Pong_FieldPathArrayItemValue {
+	fpaiv, err := ParsePong_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type Pong_FieldTerminalPathArrayItemValue struct {
+	Pong_FieldTerminalPath
+	value interface{}
+}
+
+var _ Pong_FieldPathArrayItemValue = (*Pong_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Pong as interface{}
+func (fpaiv *Pong_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *Pong_FieldTerminalPathArrayItemValue) GetSingle(source *Pong) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *Pong_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Pong))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Pong'
+func (fpaiv *Pong_FieldTerminalPathArrayItemValue) ContainsValue(source *Pong) bool {
+	slice := fpaiv.Pong_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// Pong_FieldPathArrayOfValues allows storing slice of values for Pong fields according to their type
+type Pong_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	Pong_FieldPath
+}
+
+func ParsePong_FieldPathArrayOfValues(pathStr, valuesStr string) (Pong_FieldPathArrayOfValues, error) {
+	fp, err := ParsePong_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pong field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(Pong_FieldPathArrayOfValues), nil
+}
+
+func MustParsePong_FieldPathArrayOfValues(pathStr, valuesStr string) Pong_FieldPathArrayOfValues {
+	fpaov, err := ParsePong_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type Pong_FieldTerminalPathArrayOfValues struct {
+	Pong_FieldTerminalPath
+	values interface{}
+}
+
+var _ Pong_FieldPathArrayOfValues = (*Pong_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *Pong_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	}
 	return

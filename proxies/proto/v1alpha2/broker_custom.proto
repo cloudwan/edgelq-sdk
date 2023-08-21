@@ -86,6 +86,8 @@ message ConnectResponse {
     Close close = 6;
 
     Error error = 7;
+
+    Pong pong = 8;
   }
 
   message OpenResponse {
@@ -165,6 +167,8 @@ message ListenResponse {
 
     // Notifies a channel was asked to be resumed by a client
     ResumeChannelResponse resume_channel_response = 3;
+
+    Pong pong = 4;
   }
 
   message Listening { uint64 session_id = 1; }
@@ -258,10 +262,14 @@ message AcceptResponse {
     Close close = 3;
 
     Error error = 4;
+
+    Pong pong = 5;
   }
 }
 
 message Ping {}
+
+message Pong {}
 
 message Data {
   uint64 id = 1;

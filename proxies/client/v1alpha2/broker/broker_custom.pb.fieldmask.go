@@ -1052,6 +1052,7 @@ func FullConnectResponse_FieldMask() *ConnectResponse_FieldMask {
 	res.Paths = append(res.Paths, &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorData})
 	res.Paths = append(res.Paths, &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorClose})
 	res.Paths = append(res.Paths, &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorError})
+	res.Paths = append(res.Paths, &ConnectResponse_FieldTerminalPath{selector: ConnectResponse_FieldPathSelectorPong})
 	return res
 }
 
@@ -1095,7 +1096,7 @@ func (fieldMask *ConnectResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ConnectResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1125,7 +1126,7 @@ func (fieldMask *ConnectResponse_FieldMask) Reset() {
 
 func (fieldMask *ConnectResponse_FieldMask) Subtract(other *ConnectResponse_FieldMask) *ConnectResponse_FieldMask {
 	result := &ConnectResponse_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[ConnectResponse_FieldPathSelector]gotenobject.FieldMask{
 		ConnectResponse_FieldPathSelectorOpenResponse:     &ConnectResponse_OpenResponse_FieldMask{},
 		ConnectResponse_FieldPathSelectorResumeResponse:   &ConnectResponse_ResumeResponse_FieldMask{},
@@ -1134,6 +1135,7 @@ func (fieldMask *ConnectResponse_FieldMask) Subtract(other *ConnectResponse_Fiel
 		ConnectResponse_FieldPathSelectorData:             &Data_FieldMask{},
 		ConnectResponse_FieldPathSelectorClose:            &Close_FieldMask{},
 		ConnectResponse_FieldPathSelectorError:            &Error_FieldMask{},
+		ConnectResponse_FieldPathSelectorPong:             &Pong_FieldMask{},
 	}
 	mySubMasks := map[ConnectResponse_FieldPathSelector]gotenobject.FieldMask{
 		ConnectResponse_FieldPathSelectorOpenResponse:     &ConnectResponse_OpenResponse_FieldMask{},
@@ -1143,6 +1145,7 @@ func (fieldMask *ConnectResponse_FieldMask) Subtract(other *ConnectResponse_Fiel
 		ConnectResponse_FieldPathSelectorData:             &Data_FieldMask{},
 		ConnectResponse_FieldPathSelectorClose:            &Close_FieldMask{},
 		ConnectResponse_FieldPathSelectorError:            &Error_FieldMask{},
+		ConnectResponse_FieldPathSelectorPong:             &Pong_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1172,6 +1175,8 @@ func (fieldMask *ConnectResponse_FieldMask) Subtract(other *ConnectResponse_Fiel
 						mySubMasks[ConnectResponse_FieldPathSelectorClose] = FullClose_FieldMask()
 					case ConnectResponse_FieldPathSelectorError:
 						mySubMasks[ConnectResponse_FieldPathSelectorError] = FullError_FieldMask()
+					case ConnectResponse_FieldPathSelectorPong:
+						mySubMasks[ConnectResponse_FieldPathSelectorPong] = FullPong_FieldMask()
 					}
 				} else if tp, ok := path.(*ConnectResponse_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1338,6 +1343,8 @@ func (fieldMask *ConnectResponse_FieldMask) Project(source *ConnectResponse) *Co
 	wholeCloseAccepted := false
 	errorMask := &Error_FieldMask{}
 	wholeErrorAccepted := false
+	pongMask := &Pong_FieldMask{}
+	wholePongAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1392,6 +1399,13 @@ func (fieldMask *ConnectResponse_FieldMask) Project(source *ConnectResponse) *Co
 					}
 				}
 				wholeErrorAccepted = true
+			case ConnectResponse_FieldPathSelectorPong:
+				if source, ok := source.Message.(*ConnectResponse_Pong); ok {
+					result.Message = &ConnectResponse_Pong{
+						Pong: source.Pong,
+					}
+				}
+				wholePongAccepted = true
 			}
 		case *ConnectResponse_FieldSubPath:
 			switch tp.selector {
@@ -1409,6 +1423,8 @@ func (fieldMask *ConnectResponse_FieldMask) Project(source *ConnectResponse) *Co
 				closeMask.AppendPath(tp.subPath.(Close_FieldPath))
 			case ConnectResponse_FieldPathSelectorError:
 				errorMask.AppendPath(tp.subPath.(Error_FieldPath))
+			case ConnectResponse_FieldPathSelectorPong:
+				pongMask.AppendPath(tp.subPath.(Pong_FieldPath))
 			}
 		}
 	}
@@ -1478,6 +1494,16 @@ func (fieldMask *ConnectResponse_FieldMask) Project(source *ConnectResponse) *Co
 			if asOneOf != nil {
 				oneOfRes := &ConnectResponse_Error{}
 				oneOfRes.Error = errorMask.Project(asOneOf.Error)
+				result.Message = oneOfRes
+			}
+		}
+	}
+	if wholePongAccepted == false && len(pongMask.Paths) > 0 {
+		if asOneOf, ok := source.Message.(*ConnectResponse_Pong); ok {
+			result.Message = (*ConnectResponse_Pong)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ConnectResponse_Pong{}
+				oneOfRes.Pong = pongMask.Project(asOneOf.Pong)
 				result.Message = oneOfRes
 			}
 		}
@@ -3432,6 +3458,7 @@ func FullListenResponse_FieldMask() *ListenResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorListening})
 	res.Paths = append(res.Paths, &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorOpenChannelResponse})
 	res.Paths = append(res.Paths, &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorResumeChannelResponse})
+	res.Paths = append(res.Paths, &ListenResponse_FieldTerminalPath{selector: ListenResponse_FieldPathSelectorPong})
 	return res
 }
 
@@ -3475,7 +3502,7 @@ func (fieldMask *ListenResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListenResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3505,16 +3532,18 @@ func (fieldMask *ListenResponse_FieldMask) Reset() {
 
 func (fieldMask *ListenResponse_FieldMask) Subtract(other *ListenResponse_FieldMask) *ListenResponse_FieldMask {
 	result := &ListenResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[ListenResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListenResponse_FieldPathSelectorListening:             &ListenResponse_Listening_FieldMask{},
 		ListenResponse_FieldPathSelectorOpenChannelResponse:   &ListenResponse_OpenChannelResponse_FieldMask{},
 		ListenResponse_FieldPathSelectorResumeChannelResponse: &ListenResponse_ResumeChannelResponse_FieldMask{},
+		ListenResponse_FieldPathSelectorPong:                  &Pong_FieldMask{},
 	}
 	mySubMasks := map[ListenResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListenResponse_FieldPathSelectorListening:             &ListenResponse_Listening_FieldMask{},
 		ListenResponse_FieldPathSelectorOpenChannelResponse:   &ListenResponse_OpenChannelResponse_FieldMask{},
 		ListenResponse_FieldPathSelectorResumeChannelResponse: &ListenResponse_ResumeChannelResponse_FieldMask{},
+		ListenResponse_FieldPathSelectorPong:                  &Pong_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -3536,6 +3565,8 @@ func (fieldMask *ListenResponse_FieldMask) Subtract(other *ListenResponse_FieldM
 						mySubMasks[ListenResponse_FieldPathSelectorOpenChannelResponse] = FullListenResponse_OpenChannelResponse_FieldMask()
 					case ListenResponse_FieldPathSelectorResumeChannelResponse:
 						mySubMasks[ListenResponse_FieldPathSelectorResumeChannelResponse] = FullListenResponse_ResumeChannelResponse_FieldMask()
+					case ListenResponse_FieldPathSelectorPong:
+						mySubMasks[ListenResponse_FieldPathSelectorPong] = FullPong_FieldMask()
 					}
 				} else if tp, ok := path.(*ListenResponse_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -3694,6 +3725,8 @@ func (fieldMask *ListenResponse_FieldMask) Project(source *ListenResponse) *List
 	wholeOpenChannelResponseAccepted := false
 	resumeChannelResponseMask := &ListenResponse_ResumeChannelResponse_FieldMask{}
 	wholeResumeChannelResponseAccepted := false
+	pongMask := &Pong_FieldMask{}
+	wholePongAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -3720,6 +3753,13 @@ func (fieldMask *ListenResponse_FieldMask) Project(source *ListenResponse) *List
 					}
 				}
 				wholeResumeChannelResponseAccepted = true
+			case ListenResponse_FieldPathSelectorPong:
+				if source, ok := source.Message.(*ListenResponse_Pong); ok {
+					result.Message = &ListenResponse_Pong{
+						Pong: source.Pong,
+					}
+				}
+				wholePongAccepted = true
 			}
 		case *ListenResponse_FieldSubPath:
 			switch tp.selector {
@@ -3729,6 +3769,8 @@ func (fieldMask *ListenResponse_FieldMask) Project(source *ListenResponse) *List
 				openChannelResponseMask.AppendPath(tp.subPath.(ListenResponseOpenChannelResponse_FieldPath))
 			case ListenResponse_FieldPathSelectorResumeChannelResponse:
 				resumeChannelResponseMask.AppendPath(tp.subPath.(ListenResponseResumeChannelResponse_FieldPath))
+			case ListenResponse_FieldPathSelectorPong:
+				pongMask.AppendPath(tp.subPath.(Pong_FieldPath))
 			}
 		}
 	}
@@ -3758,6 +3800,16 @@ func (fieldMask *ListenResponse_FieldMask) Project(source *ListenResponse) *List
 			if asOneOf != nil {
 				oneOfRes := &ListenResponse_ResumeChannelResponse_{}
 				oneOfRes.ResumeChannelResponse = resumeChannelResponseMask.Project(asOneOf.ResumeChannelResponse)
+				result.Message = oneOfRes
+			}
+		}
+	}
+	if wholePongAccepted == false && len(pongMask.Paths) > 0 {
+		if asOneOf, ok := source.Message.(*ListenResponse_Pong); ok {
+			result.Message = (*ListenResponse_Pong)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ListenResponse_Pong{}
+				oneOfRes.Pong = pongMask.Project(asOneOf.Pong)
 				result.Message = oneOfRes
 			}
 		}
@@ -5550,6 +5602,7 @@ func FullAcceptResponse_FieldMask() *AcceptResponse_FieldMask {
 	res.Paths = append(res.Paths, &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorAck})
 	res.Paths = append(res.Paths, &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorClose})
 	res.Paths = append(res.Paths, &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorError})
+	res.Paths = append(res.Paths, &AcceptResponse_FieldTerminalPath{selector: AcceptResponse_FieldPathSelectorPong})
 	return res
 }
 
@@ -5593,7 +5646,7 @@ func (fieldMask *AcceptResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AcceptResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -5623,18 +5676,20 @@ func (fieldMask *AcceptResponse_FieldMask) Reset() {
 
 func (fieldMask *AcceptResponse_FieldMask) Subtract(other *AcceptResponse_FieldMask) *AcceptResponse_FieldMask {
 	result := &AcceptResponse_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[AcceptResponse_FieldPathSelector]gotenobject.FieldMask{
 		AcceptResponse_FieldPathSelectorData:  &Data_FieldMask{},
 		AcceptResponse_FieldPathSelectorAck:   &Ack_FieldMask{},
 		AcceptResponse_FieldPathSelectorClose: &Close_FieldMask{},
 		AcceptResponse_FieldPathSelectorError: &Error_FieldMask{},
+		AcceptResponse_FieldPathSelectorPong:  &Pong_FieldMask{},
 	}
 	mySubMasks := map[AcceptResponse_FieldPathSelector]gotenobject.FieldMask{
 		AcceptResponse_FieldPathSelectorData:  &Data_FieldMask{},
 		AcceptResponse_FieldPathSelectorAck:   &Ack_FieldMask{},
 		AcceptResponse_FieldPathSelectorClose: &Close_FieldMask{},
 		AcceptResponse_FieldPathSelectorError: &Error_FieldMask{},
+		AcceptResponse_FieldPathSelectorPong:  &Pong_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -5658,6 +5713,8 @@ func (fieldMask *AcceptResponse_FieldMask) Subtract(other *AcceptResponse_FieldM
 						mySubMasks[AcceptResponse_FieldPathSelectorClose] = FullClose_FieldMask()
 					case AcceptResponse_FieldPathSelectorError:
 						mySubMasks[AcceptResponse_FieldPathSelectorError] = FullError_FieldMask()
+					case AcceptResponse_FieldPathSelectorPong:
+						mySubMasks[AcceptResponse_FieldPathSelectorPong] = FullPong_FieldMask()
 					}
 				} else if tp, ok := path.(*AcceptResponse_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -5818,6 +5875,8 @@ func (fieldMask *AcceptResponse_FieldMask) Project(source *AcceptResponse) *Acce
 	wholeCloseAccepted := false
 	errorMask := &Error_FieldMask{}
 	wholeErrorAccepted := false
+	pongMask := &Pong_FieldMask{}
+	wholePongAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -5851,6 +5910,13 @@ func (fieldMask *AcceptResponse_FieldMask) Project(source *AcceptResponse) *Acce
 					}
 				}
 				wholeErrorAccepted = true
+			case AcceptResponse_FieldPathSelectorPong:
+				if source, ok := source.Message.(*AcceptResponse_Pong); ok {
+					result.Message = &AcceptResponse_Pong{
+						Pong: source.Pong,
+					}
+				}
+				wholePongAccepted = true
 			}
 		case *AcceptResponse_FieldSubPath:
 			switch tp.selector {
@@ -5862,6 +5928,8 @@ func (fieldMask *AcceptResponse_FieldMask) Project(source *AcceptResponse) *Acce
 				closeMask.AppendPath(tp.subPath.(Close_FieldPath))
 			case AcceptResponse_FieldPathSelectorError:
 				errorMask.AppendPath(tp.subPath.(Error_FieldPath))
+			case AcceptResponse_FieldPathSelectorPong:
+				pongMask.AppendPath(tp.subPath.(Pong_FieldPath))
 			}
 		}
 	}
@@ -5901,6 +5969,16 @@ func (fieldMask *AcceptResponse_FieldMask) Project(source *AcceptResponse) *Acce
 			if asOneOf != nil {
 				oneOfRes := &AcceptResponse_Error{}
 				oneOfRes.Error = errorMask.Project(asOneOf.Error)
+				result.Message = oneOfRes
+			}
+		}
+	}
+	if wholePongAccepted == false && len(pongMask.Paths) > 0 {
+		if asOneOf, ok := source.Message.(*AcceptResponse_Pong); ok {
+			result.Message = (*AcceptResponse_Pong)(nil)
+			if asOneOf != nil {
+				oneOfRes := &AcceptResponse_Pong{}
+				oneOfRes.Pong = pongMask.Project(asOneOf.Pong)
 				result.Message = oneOfRes
 			}
 		}
@@ -6163,6 +6241,256 @@ func (fieldMask *Ping_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) g
 }
 
 func (fieldMask *Ping_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Pong_FieldMask struct {
+	Paths []Pong_FieldPath
+}
+
+func FullPong_FieldMask() *Pong_FieldMask {
+	res := &Pong_FieldMask{}
+	return res
+}
+
+func (fieldMask *Pong_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Pong_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Pong_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParsePong_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Pong_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 0)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*Pong_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Pong_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParsePong_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Pong_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Pong_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Pong_FieldMask) Subtract(other *Pong_FieldMask) *Pong_FieldMask {
+	result := &Pong_FieldMask{}
+	removedSelectors := make([]bool, 0)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *Pong_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Pong_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Pong_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Pong_FieldMask) FilterInputFields() *Pong_FieldMask {
+	result := &Pong_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Pong_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Pong_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]Pong_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParsePong_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Pong_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Pong_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pong_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Pong_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Pong_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pong_FieldMask) AppendPath(path Pong_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Pong_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(Pong_FieldPath))
+}
+
+func (fieldMask *Pong_FieldMask) GetPaths() []Pong_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Pong_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Pong_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePong_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Pong_FieldMask) Set(target, source *Pong) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Pong_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Pong), source.(*Pong))
+}
+
+func (fieldMask *Pong_FieldMask) Project(source *Pong) *Pong {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Pong{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *Pong_FieldTerminalPath:
+			switch tp.selector {
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Pong_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Pong))
+}
+
+func (fieldMask *Pong_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

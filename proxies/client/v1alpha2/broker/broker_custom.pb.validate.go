@@ -166,6 +166,12 @@ func (obj *ConnectResponse) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ConnectResponse", "error", opt.Error, "nested object validation failed", err)
 			}
 		}
+	case *ConnectResponse_Pong:
+		if subobj, ok := interface{}(opt.Pong).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConnectResponse", "pong", opt.Pong, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}
@@ -286,6 +292,12 @@ func (obj *ListenResponse) GotenValidate() error {
 		if subobj, ok := interface{}(opt.ResumeChannelResponse).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("ListenResponse", "resumeChannelResponse", opt.ResumeChannelResponse, "nested object validation failed", err)
+			}
+		}
+	case *ListenResponse_Pong:
+		if subobj, ok := interface{}(opt.Pong).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListenResponse", "pong", opt.Pong, "nested object validation failed", err)
 			}
 		}
 	default:
@@ -425,6 +437,12 @@ func (obj *AcceptResponse) GotenValidate() error {
 				return gotenvalidate.NewValidationError("AcceptResponse", "error", opt.Error, "nested object validation failed", err)
 			}
 		}
+	case *AcceptResponse_Pong:
+		if subobj, ok := interface{}(opt.Pong).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("AcceptResponse", "pong", opt.Pong, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}
@@ -434,6 +452,15 @@ func (obj *AcceptResponse) GotenValidate() error {
 	return nil
 }
 func (obj *Ping) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Pong) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
