@@ -406,7 +406,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.recoveryStoreShardingInfo != nil
+	return ref != nil && ref.recoveryStoreShardingInfo != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -414,10 +414,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetRecoveryStoreShardingInfo() *RecoveryStoreShardingInfo {
+	if ref == nil {
+		return nil
+	}
 	return ref.recoveryStoreShardingInfo
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*RecoveryStoreShardingInfo)(nil)
+	}
 	return ref.recoveryStoreShardingInfo
 }
 

@@ -379,7 +379,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.monitoredResourceDescriptor != nil
+	return ref != nil && ref.monitoredResourceDescriptor != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -387,10 +387,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetMonitoredResourceDescriptor() *MonitoredResourceDescriptor {
+	if ref == nil {
+		return nil
+	}
 	return ref.monitoredResourceDescriptor
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*MonitoredResourceDescriptor)(nil)
+	}
 	return ref.monitoredResourceDescriptor
 }
 

@@ -444,7 +444,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.roleBinding != nil
+	return ref != nil && ref.roleBinding != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -452,10 +452,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetRoleBinding() *RoleBinding {
+	if ref == nil {
+		return nil
+	}
 	return ref.roleBinding
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*RoleBinding)(nil)
+	}
 	return ref.roleBinding
 }
 

@@ -420,7 +420,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.limit != nil
+	return ref != nil && ref.limit != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -428,10 +428,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetLimit() *Limit {
+	if ref == nil {
+		return nil
+	}
 	return ref.limit
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Limit)(nil)
+	}
 	return ref.limit
 }
 

@@ -412,7 +412,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.secret != nil
+	return ref != nil && ref.secret != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -420,10 +420,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetSecret() *Secret {
+	if ref == nil {
+		return nil
+	}
 	return ref.secret
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Secret)(nil)
+	}
 	return ref.secret
 }
 

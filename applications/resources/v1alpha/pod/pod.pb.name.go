@@ -418,7 +418,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.pod != nil
+	return ref != nil && ref.pod != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -426,10 +426,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetPod() *Pod {
+	if ref == nil {
+		return nil
+	}
 	return ref.pod
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Pod)(nil)
+	}
 	return ref.pod
 }
 

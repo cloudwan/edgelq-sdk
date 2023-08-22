@@ -416,7 +416,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.distribution != nil
+	return ref != nil && ref.distribution != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -424,10 +424,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetDistribution() *Distribution {
+	if ref == nil {
+		return nil
+	}
 	return ref.distribution
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Distribution)(nil)
+	}
 	return ref.distribution
 }
 

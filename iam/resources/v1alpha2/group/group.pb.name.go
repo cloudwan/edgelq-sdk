@@ -440,7 +440,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.group != nil
+	return ref != nil && ref.group != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -448,10 +448,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetGroup() *Group {
+	if ref == nil {
+		return nil
+	}
 	return ref.group
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Group)(nil)
+	}
 	return ref.group
 }
 

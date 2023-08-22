@@ -383,7 +383,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.organization != nil
+	return ref != nil && ref.organization != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -391,10 +391,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetOrganization() *Organization {
+	if ref == nil {
+		return nil
+	}
 	return ref.organization
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Organization)(nil)
+	}
 	return ref.organization
 }
 

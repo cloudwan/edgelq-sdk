@@ -422,7 +422,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.provisioningApprovalRequest != nil
+	return ref != nil && ref.provisioningApprovalRequest != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -430,10 +430,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetProvisioningApprovalRequest() *ProvisioningApprovalRequest {
+	if ref == nil {
+		return nil
+	}
 	return ref.provisioningApprovalRequest
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*ProvisioningApprovalRequest)(nil)
+	}
 	return ref.provisioningApprovalRequest
 }
 

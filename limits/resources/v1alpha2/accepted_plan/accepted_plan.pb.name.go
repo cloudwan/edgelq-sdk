@@ -428,7 +428,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.acceptedPlan != nil
+	return ref != nil && ref.acceptedPlan != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -436,10 +436,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetAcceptedPlan() *AcceptedPlan {
+	if ref == nil {
+		return nil
+	}
 	return ref.acceptedPlan
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*AcceptedPlan)(nil)
+	}
 	return ref.acceptedPlan
 }
 

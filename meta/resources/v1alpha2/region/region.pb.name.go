@@ -377,7 +377,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.region != nil
+	return ref != nil && ref.region != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -385,10 +385,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetRegion() *Region {
+	if ref == nil {
+		return nil
+	}
 	return ref.region
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*Region)(nil)
+	}
 	return ref.region
 }
 

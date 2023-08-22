@@ -421,7 +421,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.phantomTimeSerie != nil
+	return ref != nil && ref.phantomTimeSerie != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -429,10 +429,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetPhantomTimeSerie() *PhantomTimeSerie {
+	if ref == nil {
+		return nil
+	}
 	return ref.phantomTimeSerie
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*PhantomTimeSerie)(nil)
+	}
 	return ref.phantomTimeSerie
 }
 

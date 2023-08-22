@@ -414,7 +414,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.projectInvitation != nil
+	return ref != nil && ref.projectInvitation != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -422,10 +422,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetProjectInvitation() *ProjectInvitation {
+	if ref == nil {
+		return nil
+	}
 	return ref.projectInvitation
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*ProjectInvitation)(nil)
+	}
 	return ref.projectInvitation
 }
 

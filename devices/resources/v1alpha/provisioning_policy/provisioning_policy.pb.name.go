@@ -418,7 +418,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.provisioningPolicy != nil
+	return ref != nil && ref.provisioningPolicy != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -426,10 +426,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetProvisioningPolicy() *ProvisioningPolicy {
+	if ref == nil {
+		return nil
+	}
 	return ref.provisioningPolicy
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*ProvisioningPolicy)(nil)
+	}
 	return ref.provisioningPolicy
 }
 

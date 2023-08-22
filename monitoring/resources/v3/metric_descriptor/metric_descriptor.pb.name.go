@@ -420,7 +420,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.metricDescriptor != nil
+	return ref != nil && ref.metricDescriptor != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -428,10 +428,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetMetricDescriptor() *MetricDescriptor {
+	if ref == nil {
+		return nil
+	}
 	return ref.metricDescriptor
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*MetricDescriptor)(nil)
+	}
 	return ref.metricDescriptor
 }
 

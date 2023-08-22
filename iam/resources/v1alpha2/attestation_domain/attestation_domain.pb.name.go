@@ -416,7 +416,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.attestationDomain != nil
+	return ref != nil && ref.attestationDomain != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -424,10 +424,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetAttestationDomain() *AttestationDomain {
+	if ref == nil {
+		return nil
+	}
 	return ref.attestationDomain
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*AttestationDomain)(nil)
+	}
 	return ref.attestationDomain
 }
 

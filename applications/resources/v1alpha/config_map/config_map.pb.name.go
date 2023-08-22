@@ -414,7 +414,7 @@ func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *Reference) Resolved() bool {
-	return ref.configMap != nil
+	return ref != nil && ref.configMap != nil
 }
 
 func (ref *Reference) ClearCached() {
@@ -422,10 +422,16 @@ func (ref *Reference) ClearCached() {
 }
 
 func (ref *Reference) GetConfigMap() *ConfigMap {
+	if ref == nil {
+		return nil
+	}
 	return ref.configMap
 }
 
 func (ref *Reference) GetRawResource() gotenresource.Resource {
+	if ref == nil {
+		return (*ConfigMap)(nil)
+	}
 	return ref.configMap
 }
 
