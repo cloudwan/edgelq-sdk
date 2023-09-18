@@ -3161,6 +3161,7 @@ func FullUpdateDistributionRequest_FieldMask() *UpdateDistributionRequest_FieldM
 	res.Paths = append(res.Paths, &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorDistribution})
 	res.Paths = append(res.Paths, &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateDistributionRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateDistributionRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateDistributionRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateDistributionRequest_FieldMask) Subtract(other *UpdateDistributionRequest_FieldMask) *UpdateDistributionRequest_FieldMask {
 	result := &UpdateDistributionRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateDistributionRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateDistributionRequest_FieldPathSelectorDistribution: &distribution.Distribution_FieldMask{},
 		UpdateDistributionRequest_FieldPathSelectorCas:          &UpdateDistributionRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateDistributionRequest_FieldMask) Project(source *UpdateDist
 			case UpdateDistributionRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateDistributionRequest_FieldSubPath:
 			switch tp.selector {

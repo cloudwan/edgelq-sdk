@@ -1374,6 +1374,9 @@ func (o *UpdateGroupRequest) MakeDiffFieldMask(other *UpdateGroupRequest) *Updat
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1389,6 +1392,7 @@ func (o *UpdateGroupRequest) Clone() *UpdateGroupRequest {
 	result.Group = o.Group.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*group.Group_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1418,6 +1422,7 @@ func (o *UpdateGroupRequest) Merge(source *UpdateGroupRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateGroupRequest) MergeRaw(source gotenobject.GotenObjectExt) {

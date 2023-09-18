@@ -3161,6 +3161,7 @@ func FullUpdateServiceAccountRequest_FieldMask() *UpdateServiceAccountRequest_Fi
 	res.Paths = append(res.Paths, &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount})
 	res.Paths = append(res.Paths, &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateServiceAccountRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateServiceAccountRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateServiceAccountRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateServiceAccountRequest_FieldMask) Subtract(other *UpdateServiceAccountRequest_FieldMask) *UpdateServiceAccountRequest_FieldMask {
 	result := &UpdateServiceAccountRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateServiceAccountRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateServiceAccountRequest_FieldPathSelectorServiceAccount: &service_account.ServiceAccount_FieldMask{},
 		UpdateServiceAccountRequest_FieldPathSelectorCas:            &UpdateServiceAccountRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateServiceAccountRequest_FieldMask) Project(source *UpdateSe
 			case UpdateServiceAccountRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateServiceAccountRequest_FieldSubPath:
 			switch tp.selector {

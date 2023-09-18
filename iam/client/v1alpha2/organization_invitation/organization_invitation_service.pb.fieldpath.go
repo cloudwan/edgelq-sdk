@@ -6581,6 +6581,7 @@ const (
 	UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation UpdateOrganizationInvitationRequest_FieldPathSelector = 0
 	UpdateOrganizationInvitationRequest_FieldPathSelectorUpdateMask             UpdateOrganizationInvitationRequest_FieldPathSelector = 1
 	UpdateOrganizationInvitationRequest_FieldPathSelectorCas                    UpdateOrganizationInvitationRequest_FieldPathSelector = 2
+	UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing           UpdateOrganizationInvitationRequest_FieldPathSelector = 3
 )
 
 func (s UpdateOrganizationInvitationRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateOrganizationInvitationRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateOrganizationInvitationRequest_FieldPath(fp gotenobject.RawFieldP
 			return &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) Get(source *Upd
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) GetSingle(sourc
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) GetDefault() in
 		return (*organization_invitation.OrganizationInvitation_FieldMask)(nil)
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		return (*UpdateOrganizationInvitationRequest_CAS)(nil)
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) ClearValue(item
 			item.UpdateMask = nil
 		case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) ClearValueRaw(i
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateOrganizationInvitationRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateOrganizationInvitationRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) WithIValue(valu
 		return &UpdateOrganizationInvitationRequest_FieldTerminalPathValue{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, value: value.(*organization_invitation.OrganizationInvitation_FieldMask)}
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		return &UpdateOrganizationInvitationRequest_FieldTerminalPathValue{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, value: value.(*UpdateOrganizationInvitationRequest_CAS)}
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateOrganizationInvitationRequest_FieldTerminalPathValue{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateOrganizationInvitationRequest_FieldTerminalPath) WithIArrayOfVal
 		return &UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, values: values.([]*organization_invitation.OrganizationInvitation_FieldMask)}
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		return &UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, values: values.([]*UpdateOrganizationInvitationRequest_CAS)}
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationInvitationRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateOrganizationInvitationRequest_FieldTerminalPathValue) AsCasValu
 	res, ok := fpv.value.(*UpdateOrganizationInvitationRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateOrganizationInvitationRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateOrganizationInvitationRequest
 func (fpv *UpdateOrganizationInvitationRequest_FieldTerminalPathValue) SetTo(target **UpdateOrganizationInvitationRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateOrganizationInvitationRequest_FieldTerminalPathValue) SetTo(tar
 		(*target).UpdateMask = fpv.value.(*organization_invitation.OrganizationInvitation_FieldMask)
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateOrganizationInvitationRequest_CAS)
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateOrganizationInvitationRequest_FieldTerminalPathValue) CompareWi
 		return 0, false
 	case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationInvitationRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues)
 		for _, v := range fpaov.values.([]*UpdateOrganizationInvitationRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues)
 }
 func (fpaov *UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateOrganizationInvitationRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateOrganizationInvitationRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

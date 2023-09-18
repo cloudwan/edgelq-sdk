@@ -3150,6 +3150,7 @@ func FullUpdateUserRequest_FieldMask() *UpdateUserRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorUser})
 	res.Paths = append(res.Paths, &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3193,7 +3194,7 @@ func (fieldMask *UpdateUserRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateUserRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3223,7 +3224,7 @@ func (fieldMask *UpdateUserRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateUserRequest_FieldMask) Subtract(other *UpdateUserRequest_FieldMask) *UpdateUserRequest_FieldMask {
 	result := &UpdateUserRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateUserRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateUserRequest_FieldPathSelectorUser: &user.User_FieldMask{},
 		UpdateUserRequest_FieldPathSelectorCas:  &UpdateUserRequest_CAS_FieldMask{},
@@ -3450,6 +3451,8 @@ func (fieldMask *UpdateUserRequest_FieldMask) Project(source *UpdateUserRequest)
 			case UpdateUserRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateUserRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateUserRequest_FieldSubPath:
 			switch tp.selector {

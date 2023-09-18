@@ -3161,6 +3161,7 @@ func FullUpdateNotificationChannelRequest_FieldMask() *UpdateNotificationChannel
 	res.Paths = append(res.Paths, &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorNotificationChannel})
 	res.Paths = append(res.Paths, &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateNotificationChannelRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateNotificationChannelRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateNotificationChannelRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateNotificationChannelRequest_FieldMask) Subtract(other *UpdateNotificationChannelRequest_FieldMask) *UpdateNotificationChannelRequest_FieldMask {
 	result := &UpdateNotificationChannelRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateNotificationChannelRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateNotificationChannelRequest_FieldPathSelectorNotificationChannel: &notification_channel.NotificationChannel_FieldMask{},
 		UpdateNotificationChannelRequest_FieldPathSelectorCas:                 &UpdateNotificationChannelRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateNotificationChannelRequest_FieldMask) Project(source *Upd
 			case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateNotificationChannelRequest_FieldSubPath:
 			switch tp.selector {

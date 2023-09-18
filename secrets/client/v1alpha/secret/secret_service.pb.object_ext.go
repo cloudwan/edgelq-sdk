@@ -1372,6 +1372,9 @@ func (o *UpdateSecretRequest) MakeDiffFieldMask(other *UpdateSecretRequest) *Upd
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateSecretRequest) Clone() *UpdateSecretRequest {
 	result.Secret = o.Secret.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*secret.Secret_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateSecretRequest) Merge(source *UpdateSecretRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateSecretRequest) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -6581,6 +6581,7 @@ const (
 	UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie UpdatePhantomTimeSerieRequest_FieldPathSelector = 0
 	UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask       UpdatePhantomTimeSerieRequest_FieldPathSelector = 1
 	UpdatePhantomTimeSerieRequest_FieldPathSelectorCas              UpdatePhantomTimeSerieRequest_FieldPathSelector = 2
+	UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing     UpdatePhantomTimeSerieRequest_FieldPathSelector = 3
 )
 
 func (s UpdatePhantomTimeSerieRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdatePhantomTimeSerieRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdatePhantomTimeSerieRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) Get(source *UpdatePha
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetSingle(source *Upd
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetDefault() interfac
 		return (*phantom_time_serie.PhantomTimeSerie_FieldMask)(nil)
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		return (*UpdatePhantomTimeSerieRequest_CAS)(nil)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) ClearValue(item *Upda
 			item.UpdateMask = nil
 		case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) ClearValueRaw(item pr
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value inte
 		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)}
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(*UpdatePhantomTimeSerieRequest_CAS)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)}
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]*UpdatePhantomTimeSerieRequest_CAS)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) AsCasValue() (*
 	res, ok := fpv.value.(*UpdatePhantomTimeSerieRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdatePhantomTimeSerieRequest
 func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) SetTo(target **UpdatePhantomTimeSerieRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).UpdateMask = fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdatePhantomTimeSerieRequest_CAS)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*UpdatePhantomTimeSerieRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsUpd
 }
 func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdatePhantomTimeSerieRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdatePhantomTimeSerieRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

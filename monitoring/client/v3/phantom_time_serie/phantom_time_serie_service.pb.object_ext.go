@@ -1372,6 +1372,9 @@ func (o *UpdatePhantomTimeSerieRequest) MakeDiffFieldMask(other *UpdatePhantomTi
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdatePhantomTimeSerieRequest) Clone() *UpdatePhantomTimeSerieRequest {
 	result.PhantomTimeSerie = o.PhantomTimeSerie.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*phantom_time_serie.PhantomTimeSerie_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdatePhantomTimeSerieRequest) Merge(source *UpdatePhantomTimeSerieRequ
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdatePhantomTimeSerieRequest) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -3040,6 +3040,9 @@ func (UpdateGroupRequestFieldPathBuilder) UpdateMask() UpdateGroupRequestPathSel
 func (UpdateGroupRequestFieldPathBuilder) Cas() UpdateGroupRequestPathSelectorCas {
 	return UpdateGroupRequestPathSelectorCas{}
 }
+func (UpdateGroupRequestFieldPathBuilder) AllowMissing() UpdateGroupRequestPathSelectorAllowMissing {
+	return UpdateGroupRequestPathSelectorAllowMissing{}
+}
 
 type UpdateGroupRequestPathSelectorGroup struct{}
 
@@ -4493,6 +4496,20 @@ func (s UpdateGroupRequestPathSelectorCasFieldMask) WithValue(value *group.Group
 
 func (s UpdateGroupRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*group.Group_FieldMask) *UpdateGroupRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateGroupRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateGroupRequestPathSelectorAllowMissing struct{}
+
+func (UpdateGroupRequestPathSelectorAllowMissing) FieldPath() *UpdateGroupRequest_FieldTerminalPath {
+	return &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateGroupRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateGroupRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateGroupRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateGroupRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateGroupRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateGroupRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateGroupRequestCASFieldPathBuilder struct{}

@@ -8742,6 +8742,9 @@ func (UpdatePodRequestFieldPathBuilder) UpdateMask() UpdatePodRequestPathSelecto
 func (UpdatePodRequestFieldPathBuilder) Cas() UpdatePodRequestPathSelectorCas {
 	return UpdatePodRequestPathSelectorCas{}
 }
+func (UpdatePodRequestFieldPathBuilder) AllowMissing() UpdatePodRequestPathSelectorAllowMissing {
+	return UpdatePodRequestPathSelectorAllowMissing{}
+}
 
 type UpdatePodRequestPathSelectorPod struct{}
 
@@ -13987,6 +13990,20 @@ func (s UpdatePodRequestPathSelectorCasFieldMask) WithValue(value *pod.Pod_Field
 
 func (s UpdatePodRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*pod.Pod_FieldMask) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorAllowMissing struct{}
+
+func (UpdatePodRequestPathSelectorAllowMissing) FieldPath() *UpdatePodRequest_FieldTerminalPath {
+	return &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdatePodRequestPathSelectorAllowMissing) WithValue(value bool) *UpdatePodRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdatePodRequestCASFieldPathBuilder struct{}

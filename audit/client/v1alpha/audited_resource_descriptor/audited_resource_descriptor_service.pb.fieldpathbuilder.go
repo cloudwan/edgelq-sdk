@@ -3725,6 +3725,9 @@ func (UpdateAuditedResourceDescriptorRequestFieldPathBuilder) UpdateMask() Updat
 func (UpdateAuditedResourceDescriptorRequestFieldPathBuilder) Cas() UpdateAuditedResourceDescriptorRequestPathSelectorCas {
 	return UpdateAuditedResourceDescriptorRequestPathSelectorCas{}
 }
+func (UpdateAuditedResourceDescriptorRequestFieldPathBuilder) AllowMissing() UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing {
+	return UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptor struct{}
 
@@ -5670,6 +5673,20 @@ func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasFieldMask) WithValu
 
 func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask) *UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing) FieldPath() *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath {
+	return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAuditedResourceDescriptorRequestCASFieldPathBuilder struct{}

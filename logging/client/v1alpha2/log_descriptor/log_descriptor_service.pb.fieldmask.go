@@ -3163,6 +3163,7 @@ func FullUpdateLogDescriptorRequest_FieldMask() *UpdateLogDescriptorRequest_Fiel
 	res.Paths = append(res.Paths, &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor})
 	res.Paths = append(res.Paths, &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3206,7 +3207,7 @@ func (fieldMask *UpdateLogDescriptorRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateLogDescriptorRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3236,7 +3237,7 @@ func (fieldMask *UpdateLogDescriptorRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateLogDescriptorRequest_FieldMask) Subtract(other *UpdateLogDescriptorRequest_FieldMask) *UpdateLogDescriptorRequest_FieldMask {
 	result := &UpdateLogDescriptorRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateLogDescriptorRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor: &log_descriptor.LogDescriptor_FieldMask{},
 		UpdateLogDescriptorRequest_FieldPathSelectorCas:           &UpdateLogDescriptorRequest_CAS_FieldMask{},
@@ -3463,6 +3464,8 @@ func (fieldMask *UpdateLogDescriptorRequest_FieldMask) Project(source *UpdateLog
 			case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateLogDescriptorRequest_FieldSubPath:
 			switch tp.selector {

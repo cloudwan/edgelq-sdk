@@ -3046,6 +3046,9 @@ func (UpdateServiceAccountRequestFieldPathBuilder) UpdateMask() UpdateServiceAcc
 func (UpdateServiceAccountRequestFieldPathBuilder) Cas() UpdateServiceAccountRequestPathSelectorCas {
 	return UpdateServiceAccountRequestPathSelectorCas{}
 }
+func (UpdateServiceAccountRequestFieldPathBuilder) AllowMissing() UpdateServiceAccountRequestPathSelectorAllowMissing {
+	return UpdateServiceAccountRequestPathSelectorAllowMissing{}
+}
 
 type UpdateServiceAccountRequestPathSelectorServiceAccount struct{}
 
@@ -4499,6 +4502,20 @@ func (s UpdateServiceAccountRequestPathSelectorCasFieldMask) WithValue(value *se
 
 func (s UpdateServiceAccountRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*service_account.ServiceAccount_FieldMask) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorAllowMissing struct{}
+
+func (UpdateServiceAccountRequestPathSelectorAllowMissing) FieldPath() *UpdateServiceAccountRequest_FieldTerminalPath {
+	return &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateServiceAccountRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateServiceAccountRequestCASFieldPathBuilder struct{}

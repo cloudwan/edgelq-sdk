@@ -3838,6 +3838,9 @@ func (UpdateAttestationDomainRequestFieldPathBuilder) UpdateMask() UpdateAttesta
 func (UpdateAttestationDomainRequestFieldPathBuilder) Cas() UpdateAttestationDomainRequestPathSelectorCas {
 	return UpdateAttestationDomainRequestPathSelectorCas{}
 }
+func (UpdateAttestationDomainRequestFieldPathBuilder) AllowMissing() UpdateAttestationDomainRequestPathSelectorAllowMissing {
+	return UpdateAttestationDomainRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAttestationDomainRequestPathSelectorAttestationDomain struct{}
 
@@ -5819,6 +5822,20 @@ func (s UpdateAttestationDomainRequestPathSelectorCasFieldMask) WithValue(value 
 
 func (s UpdateAttestationDomainRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*attestation_domain.AttestationDomain_FieldMask) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAllowMissing) FieldPath() *UpdateAttestationDomainRequest_FieldTerminalPath {
+	return &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAttestationDomainRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAttestationDomainRequestCASFieldPathBuilder struct{}

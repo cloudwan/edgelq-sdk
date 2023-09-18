@@ -3627,6 +3627,9 @@ func (UpdateRegionRequestFieldPathBuilder) UpdateMask() UpdateRegionRequestPathS
 func (UpdateRegionRequestFieldPathBuilder) Cas() UpdateRegionRequestPathSelectorCas {
 	return UpdateRegionRequestPathSelectorCas{}
 }
+func (UpdateRegionRequestFieldPathBuilder) AllowMissing() UpdateRegionRequestPathSelectorAllowMissing {
+	return UpdateRegionRequestPathSelectorAllowMissing{}
+}
 
 type UpdateRegionRequestPathSelectorRegion struct{}
 
@@ -5508,6 +5511,20 @@ func (s UpdateRegionRequestPathSelectorCasFieldMask) WithValue(value *region.Reg
 
 func (s UpdateRegionRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*region.Region_FieldMask) *UpdateRegionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRegionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRegionRequestPathSelectorAllowMissing struct{}
+
+func (UpdateRegionRequestPathSelectorAllowMissing) FieldPath() *UpdateRegionRequest_FieldTerminalPath {
+	return &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateRegionRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateRegionRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRegionRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateRegionRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateRegionRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRegionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateRegionRequestCASFieldPathBuilder struct{}

@@ -1372,6 +1372,9 @@ func (o *UpdateNotificationRequest) MakeDiffFieldMask(other *UpdateNotificationR
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateNotificationRequest_FieldTerminalPath{selector: UpdateNotificationRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateNotificationRequest) Clone() *UpdateNotificationRequest {
 	result.Notification = o.Notification.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*notification.Notification_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateNotificationRequest) Merge(source *UpdateNotificationRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateNotificationRequest) MergeRaw(source gotenobject.GotenObjectExt) {

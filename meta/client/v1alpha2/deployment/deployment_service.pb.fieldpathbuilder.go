@@ -2977,6 +2977,9 @@ func (UpdateDeploymentRequestFieldPathBuilder) UpdateMask() UpdateDeploymentRequ
 func (UpdateDeploymentRequestFieldPathBuilder) Cas() UpdateDeploymentRequestPathSelectorCas {
 	return UpdateDeploymentRequestPathSelectorCas{}
 }
+func (UpdateDeploymentRequestFieldPathBuilder) AllowMissing() UpdateDeploymentRequestPathSelectorAllowMissing {
+	return UpdateDeploymentRequestPathSelectorAllowMissing{}
+}
 
 type UpdateDeploymentRequestPathSelectorDeployment struct{}
 
@@ -4388,6 +4391,20 @@ func (s UpdateDeploymentRequestPathSelectorCasFieldMask) WithValue(value *deploy
 
 func (s UpdateDeploymentRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*deployment.Deployment_FieldMask) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateDeploymentRequestPathSelectorAllowMissing struct{}
+
+func (UpdateDeploymentRequestPathSelectorAllowMissing) FieldPath() *UpdateDeploymentRequest_FieldTerminalPath {
+	return &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateDeploymentRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateDeploymentRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateDeploymentRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateDeploymentRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateDeploymentRequestCASFieldPathBuilder struct{}

@@ -3176,6 +3176,9 @@ func (UpdateProvisioningApprovalRequestRequestFieldPathBuilder) UpdateMask() Upd
 func (UpdateProvisioningApprovalRequestRequestFieldPathBuilder) Cas() UpdateProvisioningApprovalRequestRequestPathSelectorCas {
 	return UpdateProvisioningApprovalRequestRequestPathSelectorCas{}
 }
+func (UpdateProvisioningApprovalRequestRequestFieldPathBuilder) AllowMissing() UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing {
+	return UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing{}
+}
 
 type UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequest struct{}
 
@@ -4713,6 +4716,20 @@ func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasFieldMask) WithVa
 
 func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask) *UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing struct{}
+
+func (UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing) FieldPath() *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath {
+	return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateProvisioningApprovalRequestRequestCASFieldPathBuilder struct{}

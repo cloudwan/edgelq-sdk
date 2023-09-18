@@ -6581,6 +6581,7 @@ const (
 	UpdateProvisioningPolicyRequest_FieldPathSelectorProvisioningPolicy UpdateProvisioningPolicyRequest_FieldPathSelector = 0
 	UpdateProvisioningPolicyRequest_FieldPathSelectorUpdateMask         UpdateProvisioningPolicyRequest_FieldPathSelector = 1
 	UpdateProvisioningPolicyRequest_FieldPathSelectorCas                UpdateProvisioningPolicyRequest_FieldPathSelector = 2
+	UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing       UpdateProvisioningPolicyRequest_FieldPathSelector = 3
 )
 
 func (s UpdateProvisioningPolicyRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateProvisioningPolicyRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateProvisioningPolicyRequest_FieldPath(fp gotenobject.RawFieldPath)
 			return &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) Get(source *UpdateP
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) GetSingle(source *U
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) GetDefault() interf
 		return (*provisioning_policy.ProvisioningPolicy_FieldMask)(nil)
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		return (*UpdateProvisioningPolicyRequest_CAS)(nil)
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) ClearValue(item *Up
 			item.UpdateMask = nil
 		case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) ClearValueRaw(item 
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateProvisioningPolicyRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateProvisioningPolicyRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) WithIValue(value in
 		return &UpdateProvisioningPolicyRequest_FieldTerminalPathValue{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, value: value.(*provisioning_policy.ProvisioningPolicy_FieldMask)}
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		return &UpdateProvisioningPolicyRequest_FieldTerminalPathValue{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, value: value.(*UpdateProvisioningPolicyRequest_CAS)}
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProvisioningPolicyRequest_FieldTerminalPathValue{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateProvisioningPolicyRequest_FieldTerminalPath) WithIArrayOfValues(
 		return &UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.ProvisioningPolicy_FieldMask)}
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		return &UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, values: values.([]*UpdateProvisioningPolicyRequest_CAS)}
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningPolicyRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateProvisioningPolicyRequest_FieldTerminalPathValue) AsCasValue() 
 	res, ok := fpv.value.(*UpdateProvisioningPolicyRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateProvisioningPolicyRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateProvisioningPolicyRequest
 func (fpv *UpdateProvisioningPolicyRequest_FieldTerminalPathValue) SetTo(target **UpdateProvisioningPolicyRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateProvisioningPolicyRequest_FieldTerminalPathValue) SetTo(target 
 		(*target).UpdateMask = fpv.value.(*provisioning_policy.ProvisioningPolicy_FieldMask)
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateProvisioningPolicyRequest_CAS)
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateProvisioningPolicyRequest_FieldTerminalPathValue) CompareWith(s
 		return 0, false
 	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues) Get
 		for _, v := range fpaov.values.([]*UpdateProvisioningPolicyRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues) AsU
 }
 func (fpaov *UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateProvisioningPolicyRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateProvisioningPolicyRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateProvisioningPolicyRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

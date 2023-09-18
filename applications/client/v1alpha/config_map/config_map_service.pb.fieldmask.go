@@ -3161,6 +3161,7 @@ func FullUpdateConfigMapRequest_FieldMask() *UpdateConfigMapRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorConfigMap})
 	res.Paths = append(res.Paths, &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateConfigMapRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateConfigMapRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateConfigMapRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateConfigMapRequest_FieldMask) Subtract(other *UpdateConfigMapRequest_FieldMask) *UpdateConfigMapRequest_FieldMask {
 	result := &UpdateConfigMapRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateConfigMapRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateConfigMapRequest_FieldPathSelectorConfigMap: &config_map.ConfigMap_FieldMask{},
 		UpdateConfigMapRequest_FieldPathSelectorCas:       &UpdateConfigMapRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateConfigMapRequest_FieldMask) Project(source *UpdateConfigM
 			case UpdateConfigMapRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateConfigMapRequest_FieldSubPath:
 			switch tp.selector {

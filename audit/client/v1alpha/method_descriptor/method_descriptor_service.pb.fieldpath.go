@@ -6416,6 +6416,7 @@ const (
 	UpdateMethodDescriptorRequest_FieldPathSelectorMethodDescriptor UpdateMethodDescriptorRequest_FieldPathSelector = 0
 	UpdateMethodDescriptorRequest_FieldPathSelectorUpdateMask       UpdateMethodDescriptorRequest_FieldPathSelector = 1
 	UpdateMethodDescriptorRequest_FieldPathSelectorCas              UpdateMethodDescriptorRequest_FieldPathSelector = 2
+	UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing     UpdateMethodDescriptorRequest_FieldPathSelector = 3
 )
 
 func (s UpdateMethodDescriptorRequest_FieldPathSelector) String() string {
@@ -6426,6 +6427,8 @@ func (s UpdateMethodDescriptorRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", s))
 	}
@@ -6443,6 +6446,8 @@ func BuildUpdateMethodDescriptorRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6515,6 +6520,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) Get(source *UpdateMet
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 		}
@@ -6538,6 +6545,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) GetSingle(source *Upd
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 	}
@@ -6556,6 +6565,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) GetDefault() interfac
 		return (*method_descriptor.MethodDescriptor_FieldMask)(nil)
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		return (*UpdateMethodDescriptorRequest_CAS)(nil)
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 	}
@@ -6570,6 +6581,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) ClearValue(item *Upda
 			item.UpdateMask = nil
 		case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 		}
@@ -6582,7 +6595,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) ClearValueRaw(item pr
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateMethodDescriptorRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateMethodDescriptorRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6597,6 +6611,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) WithIValue(value inte
 		return &UpdateMethodDescriptorRequest_FieldTerminalPathValue{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, value: value.(*method_descriptor.MethodDescriptor_FieldMask)}
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateMethodDescriptorRequest_FieldTerminalPathValue{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, value: value.(*UpdateMethodDescriptorRequest_CAS)}
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateMethodDescriptorRequest_FieldTerminalPathValue{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 	}
@@ -6615,6 +6631,8 @@ func (fp *UpdateMethodDescriptorRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*method_descriptor.MethodDescriptor_FieldMask)}
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*UpdateMethodDescriptorRequest_CAS)}
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMethodDescriptorRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fp.selector))
 	}
@@ -6812,6 +6830,10 @@ func (fpv *UpdateMethodDescriptorRequest_FieldTerminalPathValue) AsCasValue() (*
 	res, ok := fpv.value.(*UpdateMethodDescriptorRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateMethodDescriptorRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateMethodDescriptorRequest
 func (fpv *UpdateMethodDescriptorRequest_FieldTerminalPathValue) SetTo(target **UpdateMethodDescriptorRequest) {
@@ -6825,6 +6847,8 @@ func (fpv *UpdateMethodDescriptorRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).UpdateMask = fpv.value.(*method_descriptor.MethodDescriptor_FieldMask)
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateMethodDescriptorRequest_CAS)
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fpv.selector))
 	}
@@ -6844,6 +6868,16 @@ func (fpv *UpdateMethodDescriptorRequest_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fpv.selector))
 	}
@@ -7048,6 +7082,10 @@ func (fpaov *UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*UpdateMethodDescriptorRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7061,6 +7099,10 @@ func (fpaov *UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues) AsUpd
 }
 func (fpaov *UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateMethodDescriptorRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateMethodDescriptorRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

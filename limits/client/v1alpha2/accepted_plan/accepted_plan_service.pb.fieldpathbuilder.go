@@ -3775,6 +3775,9 @@ func (UpdateAcceptedPlanRequestFieldPathBuilder) UpdateMask() UpdateAcceptedPlan
 func (UpdateAcceptedPlanRequestFieldPathBuilder) Cas() UpdateAcceptedPlanRequestPathSelectorCas {
 	return UpdateAcceptedPlanRequestPathSelectorCas{}
 }
+func (UpdateAcceptedPlanRequestFieldPathBuilder) AllowMissing() UpdateAcceptedPlanRequestPathSelectorAllowMissing {
+	return UpdateAcceptedPlanRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAcceptedPlanRequestPathSelectorAcceptedPlan struct{}
 
@@ -5710,6 +5713,20 @@ func (s UpdateAcceptedPlanRequestPathSelectorCasFieldMask) WithValue(value *acce
 
 func (s UpdateAcceptedPlanRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*accepted_plan.AcceptedPlan_FieldMask) *UpdateAcceptedPlanRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAcceptedPlanRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAcceptedPlanRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAcceptedPlanRequestPathSelectorAllowMissing) FieldPath() *UpdateAcceptedPlanRequest_FieldTerminalPath {
+	return &UpdateAcceptedPlanRequest_FieldTerminalPath{selector: UpdateAcceptedPlanRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAcceptedPlanRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAcceptedPlanRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAcceptedPlanRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAcceptedPlanRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAcceptedPlanRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAcceptedPlanRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAcceptedPlanRequestCASFieldPathBuilder struct{}

@@ -1372,6 +1372,9 @@ func (o *UpdateDeviceRequest) MakeDiffFieldMask(other *UpdateDeviceRequest) *Upd
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateDeviceRequest) Clone() *UpdateDeviceRequest {
 	result.Device = o.Device.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*device.Device_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateDeviceRequest) Merge(source *UpdateDeviceRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateDeviceRequest) MergeRaw(source gotenobject.GotenObjectExt) {

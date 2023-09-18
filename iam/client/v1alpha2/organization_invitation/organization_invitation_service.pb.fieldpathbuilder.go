@@ -3773,6 +3773,9 @@ func (UpdateOrganizationInvitationRequestFieldPathBuilder) UpdateMask() UpdateOr
 func (UpdateOrganizationInvitationRequestFieldPathBuilder) Cas() UpdateOrganizationInvitationRequestPathSelectorCas {
 	return UpdateOrganizationInvitationRequestPathSelectorCas{}
 }
+func (UpdateOrganizationInvitationRequestFieldPathBuilder) AllowMissing() UpdateOrganizationInvitationRequestPathSelectorAllowMissing {
+	return UpdateOrganizationInvitationRequestPathSelectorAllowMissing{}
+}
 
 type UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitation struct{}
 
@@ -5700,6 +5703,20 @@ func (s UpdateOrganizationInvitationRequestPathSelectorCasFieldMask) WithValue(v
 
 func (s UpdateOrganizationInvitationRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*organization_invitation.OrganizationInvitation_FieldMask) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequestPathSelectorAllowMissing struct{}
+
+func (UpdateOrganizationInvitationRequestPathSelectorAllowMissing) FieldPath() *UpdateOrganizationInvitationRequest_FieldTerminalPath {
+	return &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateOrganizationInvitationRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateOrganizationInvitationRequestCASFieldPathBuilder struct{}

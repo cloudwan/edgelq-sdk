@@ -1374,6 +1374,9 @@ func (o *UpdateLogDescriptorRequest) MakeDiffFieldMask(other *UpdateLogDescripto
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1389,6 +1392,7 @@ func (o *UpdateLogDescriptorRequest) Clone() *UpdateLogDescriptorRequest {
 	result.LogDescriptor = o.LogDescriptor.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*log_descriptor.LogDescriptor_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1418,6 +1422,7 @@ func (o *UpdateLogDescriptorRequest) Merge(source *UpdateLogDescriptorRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateLogDescriptorRequest) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -3399,6 +3399,9 @@ func (UpdateLogDescriptorRequestFieldPathBuilder) UpdateMask() UpdateLogDescript
 func (UpdateLogDescriptorRequestFieldPathBuilder) Cas() UpdateLogDescriptorRequestPathSelectorCas {
 	return UpdateLogDescriptorRequestPathSelectorCas{}
 }
+func (UpdateLogDescriptorRequestFieldPathBuilder) AllowMissing() UpdateLogDescriptorRequestPathSelectorAllowMissing {
+	return UpdateLogDescriptorRequestPathSelectorAllowMissing{}
+}
 
 type UpdateLogDescriptorRequestPathSelectorLogDescriptor struct{}
 
@@ -5086,6 +5089,20 @@ func (s UpdateLogDescriptorRequestPathSelectorCasFieldMask) WithValue(value *log
 
 func (s UpdateLogDescriptorRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*log_descriptor.LogDescriptor_FieldMask) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorAllowMissing struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorAllowMissing) FieldPath() *UpdateLogDescriptorRequest_FieldTerminalPath {
+	return &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateLogDescriptorRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateLogDescriptorRequestCASFieldPathBuilder struct{}

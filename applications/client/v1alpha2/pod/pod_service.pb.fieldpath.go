@@ -6578,9 +6578,10 @@ type UpdatePodRequest_FieldPath interface {
 type UpdatePodRequest_FieldPathSelector int32
 
 const (
-	UpdatePodRequest_FieldPathSelectorPod        UpdatePodRequest_FieldPathSelector = 0
-	UpdatePodRequest_FieldPathSelectorUpdateMask UpdatePodRequest_FieldPathSelector = 1
-	UpdatePodRequest_FieldPathSelectorCas        UpdatePodRequest_FieldPathSelector = 2
+	UpdatePodRequest_FieldPathSelectorPod          UpdatePodRequest_FieldPathSelector = 0
+	UpdatePodRequest_FieldPathSelectorUpdateMask   UpdatePodRequest_FieldPathSelector = 1
+	UpdatePodRequest_FieldPathSelectorCas          UpdatePodRequest_FieldPathSelector = 2
+	UpdatePodRequest_FieldPathSelectorAllowMissing UpdatePodRequest_FieldPathSelector = 3
 )
 
 func (s UpdatePodRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdatePodRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdatePodRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdatePodRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdatePodRequ
 			return &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) Get(source *UpdatePodRequest) (val
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdatePodRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) GetSingle(source *UpdatePodRequest
 	case UpdatePodRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*pod.Pod_FieldMask)(nil)
 	case UpdatePodRequest_FieldPathSelectorCas:
 		return (*UpdatePodRequest_CAS)(nil)
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) ClearValue(item *UpdatePodRequest)
 			item.UpdateMask = nil
 		case UpdatePodRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdatePodRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) 
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdatePodRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdatePodRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdatePodRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdatePodRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdatePodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) WithIValue(value interface{}) Upda
 		return &UpdatePodRequest_FieldTerminalPathValue{UpdatePodRequest_FieldTerminalPath: *fp, value: value.(*pod.Pod_FieldMask)}
 	case UpdatePodRequest_FieldPathSelectorCas:
 		return &UpdatePodRequest_FieldTerminalPathValue{UpdatePodRequest_FieldTerminalPath: *fp, value: value.(*UpdatePodRequest_CAS)}
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePodRequest_FieldTerminalPathValue{UpdatePodRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdatePodRequest_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &UpdatePodRequest_FieldTerminalPathArrayOfValues{UpdatePodRequest_FieldTerminalPath: *fp, values: values.([]*pod.Pod_FieldMask)}
 	case UpdatePodRequest_FieldPathSelectorCas:
 		return &UpdatePodRequest_FieldTerminalPathArrayOfValues{UpdatePodRequest_FieldTerminalPath: *fp, values: values.([]*UpdatePodRequest_CAS)}
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePodRequest_FieldTerminalPathArrayOfValues{UpdatePodRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdatePodRequest_FieldTerminalPathValue) AsCasValue() (*UpdatePodRequ
 	res, ok := fpv.value.(*UpdatePodRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdatePodRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdatePodRequest
 func (fpv *UpdatePodRequest_FieldTerminalPathValue) SetTo(target **UpdatePodRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdatePodRequest_FieldTerminalPathValue) SetTo(target **UpdatePodRequ
 		(*target).UpdateMask = fpv.value.(*pod.Pod_FieldMask)
 	case UpdatePodRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdatePodRequest_CAS)
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdatePodRequest_FieldTerminalPathValue) CompareWith(source *UpdatePo
 		return 0, false
 	case UpdatePodRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdatePodRequest_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*UpdatePodRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdatePodRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdatePodRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArrayO
 }
 func (fpaov *UpdatePodRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdatePodRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdatePodRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdatePodRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

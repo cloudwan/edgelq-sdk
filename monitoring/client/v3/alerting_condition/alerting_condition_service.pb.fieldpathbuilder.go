@@ -4929,6 +4929,9 @@ func (UpdateAlertingConditionRequestFieldPathBuilder) UpdateMask() UpdateAlertin
 func (UpdateAlertingConditionRequestFieldPathBuilder) Cas() UpdateAlertingConditionRequestPathSelectorCas {
 	return UpdateAlertingConditionRequestPathSelectorCas{}
 }
+func (UpdateAlertingConditionRequestFieldPathBuilder) AllowMissing() UpdateAlertingConditionRequestPathSelectorAllowMissing {
+	return UpdateAlertingConditionRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAlertingConditionRequestPathSelectorAlertingCondition struct{}
 
@@ -7636,6 +7639,20 @@ func (s UpdateAlertingConditionRequestPathSelectorCasFieldMask) WithValue(value 
 
 func (s UpdateAlertingConditionRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*alerting_condition.AlertingCondition_FieldMask) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAllowMissing) FieldPath() *UpdateAlertingConditionRequest_FieldTerminalPath {
+	return &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAlertingConditionRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAlertingConditionRequestCASFieldPathBuilder struct{}

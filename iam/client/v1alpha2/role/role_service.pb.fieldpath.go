@@ -6415,9 +6415,10 @@ type UpdateRoleRequest_FieldPath interface {
 type UpdateRoleRequest_FieldPathSelector int32
 
 const (
-	UpdateRoleRequest_FieldPathSelectorRole       UpdateRoleRequest_FieldPathSelector = 0
-	UpdateRoleRequest_FieldPathSelectorUpdateMask UpdateRoleRequest_FieldPathSelector = 1
-	UpdateRoleRequest_FieldPathSelectorCas        UpdateRoleRequest_FieldPathSelector = 2
+	UpdateRoleRequest_FieldPathSelectorRole         UpdateRoleRequest_FieldPathSelector = 0
+	UpdateRoleRequest_FieldPathSelectorUpdateMask   UpdateRoleRequest_FieldPathSelector = 1
+	UpdateRoleRequest_FieldPathSelectorCas          UpdateRoleRequest_FieldPathSelector = 2
+	UpdateRoleRequest_FieldPathSelectorAllowMissing UpdateRoleRequest_FieldPathSelector = 3
 )
 
 func (s UpdateRoleRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdateRoleRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdateRoleRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateRoleRe
 			return &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) Get(source *UpdateRoleRequest) (v
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) GetSingle(source *UpdateRoleReque
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*role.Role_FieldMask)(nil)
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		return (*UpdateRoleRequest_CAS)(nil)
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) ClearValue(item *UpdateRoleReques
 			item.UpdateMask = nil
 		case UpdateRoleRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) ClearValueRaw(item proto.Message)
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateRoleRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateRoleRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateRoleRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateRoleRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateRoleRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) WithIValue(value interface{}) Upd
 		return &UpdateRoleRequest_FieldTerminalPathValue{UpdateRoleRequest_FieldTerminalPath: *fp, value: value.(*role.Role_FieldMask)}
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		return &UpdateRoleRequest_FieldTerminalPathValue{UpdateRoleRequest_FieldTerminalPath: *fp, value: value.(*UpdateRoleRequest_CAS)}
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRoleRequest_FieldTerminalPathValue{UpdateRoleRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdateRoleRequest_FieldTerminalPath) WithIArrayOfValues(values interfa
 		return &UpdateRoleRequest_FieldTerminalPathArrayOfValues{UpdateRoleRequest_FieldTerminalPath: *fp, values: values.([]*role.Role_FieldMask)}
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		return &UpdateRoleRequest_FieldTerminalPathArrayOfValues{UpdateRoleRequest_FieldTerminalPath: *fp, values: values.([]*UpdateRoleRequest_CAS)}
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRoleRequest_FieldTerminalPathArrayOfValues{UpdateRoleRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdateRoleRequest_FieldTerminalPathValue) AsCasValue() (*UpdateRoleRe
 	res, ok := fpv.value.(*UpdateRoleRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateRoleRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateRoleRequest
 func (fpv *UpdateRoleRequest_FieldTerminalPathValue) SetTo(target **UpdateRoleRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdateRoleRequest_FieldTerminalPathValue) SetTo(target **UpdateRoleRe
 		(*target).UpdateMask = fpv.value.(*role.Role_FieldMask)
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateRoleRequest_CAS)
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdateRoleRequest_FieldTerminalPathValue) CompareWith(source *UpdateR
 		return 0, false
 	case UpdateRoleRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdateRoleRequest_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]*UpdateRoleRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdateRoleRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArray
 }
 func (fpaov *UpdateRoleRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateRoleRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateRoleRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateRoleRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

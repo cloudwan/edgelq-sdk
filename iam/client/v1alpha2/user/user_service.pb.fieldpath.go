@@ -6415,9 +6415,10 @@ type UpdateUserRequest_FieldPath interface {
 type UpdateUserRequest_FieldPathSelector int32
 
 const (
-	UpdateUserRequest_FieldPathSelectorUser       UpdateUserRequest_FieldPathSelector = 0
-	UpdateUserRequest_FieldPathSelectorUpdateMask UpdateUserRequest_FieldPathSelector = 1
-	UpdateUserRequest_FieldPathSelectorCas        UpdateUserRequest_FieldPathSelector = 2
+	UpdateUserRequest_FieldPathSelectorUser         UpdateUserRequest_FieldPathSelector = 0
+	UpdateUserRequest_FieldPathSelectorUpdateMask   UpdateUserRequest_FieldPathSelector = 1
+	UpdateUserRequest_FieldPathSelectorCas          UpdateUserRequest_FieldPathSelector = 2
+	UpdateUserRequest_FieldPathSelectorAllowMissing UpdateUserRequest_FieldPathSelector = 3
 )
 
 func (s UpdateUserRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdateUserRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateUserRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdateUserRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateUserRe
 			return &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) Get(source *UpdateUserRequest) (v
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateUserRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) GetSingle(source *UpdateUserReque
 	case UpdateUserRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*user.User_FieldMask)(nil)
 	case UpdateUserRequest_FieldPathSelectorCas:
 		return (*UpdateUserRequest_CAS)(nil)
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) ClearValue(item *UpdateUserReques
 			item.UpdateMask = nil
 		case UpdateUserRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateUserRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) ClearValueRaw(item proto.Message)
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateUserRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateUserRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateUserRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateUserRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateUserRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) WithIValue(value interface{}) Upd
 		return &UpdateUserRequest_FieldTerminalPathValue{UpdateUserRequest_FieldTerminalPath: *fp, value: value.(*user.User_FieldMask)}
 	case UpdateUserRequest_FieldPathSelectorCas:
 		return &UpdateUserRequest_FieldTerminalPathValue{UpdateUserRequest_FieldTerminalPath: *fp, value: value.(*UpdateUserRequest_CAS)}
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		return &UpdateUserRequest_FieldTerminalPathValue{UpdateUserRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdateUserRequest_FieldTerminalPath) WithIArrayOfValues(values interfa
 		return &UpdateUserRequest_FieldTerminalPathArrayOfValues{UpdateUserRequest_FieldTerminalPath: *fp, values: values.([]*user.User_FieldMask)}
 	case UpdateUserRequest_FieldPathSelectorCas:
 		return &UpdateUserRequest_FieldTerminalPathArrayOfValues{UpdateUserRequest_FieldTerminalPath: *fp, values: values.([]*UpdateUserRequest_CAS)}
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		return &UpdateUserRequest_FieldTerminalPathArrayOfValues{UpdateUserRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdateUserRequest_FieldTerminalPathValue) AsCasValue() (*UpdateUserRe
 	res, ok := fpv.value.(*UpdateUserRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateUserRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateUserRequest
 func (fpv *UpdateUserRequest_FieldTerminalPathValue) SetTo(target **UpdateUserRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdateUserRequest_FieldTerminalPathValue) SetTo(target **UpdateUserRe
 		(*target).UpdateMask = fpv.value.(*user.User_FieldMask)
 	case UpdateUserRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateUserRequest_CAS)
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdateUserRequest_FieldTerminalPathValue) CompareWith(source *UpdateU
 		return 0, false
 	case UpdateUserRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateUserRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdateUserRequest_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]*UpdateUserRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateUserRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdateUserRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArray
 }
 func (fpaov *UpdateUserRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateUserRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateUserRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateUserRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

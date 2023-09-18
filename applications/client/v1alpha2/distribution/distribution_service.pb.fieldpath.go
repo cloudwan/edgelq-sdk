@@ -6581,6 +6581,7 @@ const (
 	UpdateDistributionRequest_FieldPathSelectorDistribution UpdateDistributionRequest_FieldPathSelector = 0
 	UpdateDistributionRequest_FieldPathSelectorUpdateMask   UpdateDistributionRequest_FieldPathSelector = 1
 	UpdateDistributionRequest_FieldPathSelectorCas          UpdateDistributionRequest_FieldPathSelector = 2
+	UpdateDistributionRequest_FieldPathSelectorAllowMissing UpdateDistributionRequest_FieldPathSelector = 3
 )
 
 func (s UpdateDistributionRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateDistributionRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateDistributionRequest_FieldPath(fp gotenobject.RawFieldPath) (Upda
 			return &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) Get(source *UpdateDistrib
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) GetSingle(source *UpdateD
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) GetDefault() interface{} 
 		return (*distribution.Distribution_FieldMask)(nil)
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		return (*UpdateDistributionRequest_CAS)(nil)
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) ClearValue(item *UpdateDi
 			item.UpdateMask = nil
 		case UpdateDistributionRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) ClearValueRaw(item proto.
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateDistributionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateDistributionRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateDistributionRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateDistributionRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateDistributionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) WithIValue(value interfac
 		return &UpdateDistributionRequest_FieldTerminalPathValue{UpdateDistributionRequest_FieldTerminalPath: *fp, value: value.(*distribution.Distribution_FieldMask)}
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		return &UpdateDistributionRequest_FieldTerminalPathValue{UpdateDistributionRequest_FieldTerminalPath: *fp, value: value.(*UpdateDistributionRequest_CAS)}
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDistributionRequest_FieldTerminalPathValue{UpdateDistributionRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateDistributionRequest_FieldTerminalPath) WithIArrayOfValues(values
 		return &UpdateDistributionRequest_FieldTerminalPathArrayOfValues{UpdateDistributionRequest_FieldTerminalPath: *fp, values: values.([]*distribution.Distribution_FieldMask)}
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		return &UpdateDistributionRequest_FieldTerminalPathArrayOfValues{UpdateDistributionRequest_FieldTerminalPath: *fp, values: values.([]*UpdateDistributionRequest_CAS)}
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDistributionRequest_FieldTerminalPathArrayOfValues{UpdateDistributionRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateDistributionRequest_FieldTerminalPathValue) AsCasValue() (*Upda
 	res, ok := fpv.value.(*UpdateDistributionRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateDistributionRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateDistributionRequest
 func (fpv *UpdateDistributionRequest_FieldTerminalPathValue) SetTo(target **UpdateDistributionRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateDistributionRequest_FieldTerminalPathValue) SetTo(target **Upda
 		(*target).UpdateMask = fpv.value.(*distribution.Distribution_FieldMask)
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateDistributionRequest_CAS)
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateDistributionRequest_FieldTerminalPathValue) CompareWith(source 
 		return 0, false
 	case UpdateDistributionRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateDistributionRequest_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]*UpdateDistributionRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateDistributionRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateDistributionRequest_FieldTerminalPathArrayOfValues) AsUpdateM
 }
 func (fpaov *UpdateDistributionRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateDistributionRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateDistributionRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateDistributionRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

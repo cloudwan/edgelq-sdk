@@ -528,6 +528,178 @@ func (o *CreateMetricDescriptorRequest) MergeRaw(source gotenobject.GotenObjectE
 	o.Merge(source.(*CreateMetricDescriptorRequest))
 }
 
+func (o *UpdateMetricDescriptorRequest) GotenObjectExt() {}
+
+func (o *UpdateMetricDescriptorRequest) MakeFullFieldMask() *UpdateMetricDescriptorRequest_FieldMask {
+	return FullUpdateMetricDescriptorRequest_FieldMask()
+}
+
+func (o *UpdateMetricDescriptorRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUpdateMetricDescriptorRequest_FieldMask()
+}
+
+func (o *UpdateMetricDescriptorRequest) MakeDiffFieldMask(other *UpdateMetricDescriptorRequest) *UpdateMetricDescriptorRequest_FieldMask {
+	if o == nil && other == nil {
+		return &UpdateMetricDescriptorRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUpdateMetricDescriptorRequest_FieldMask()
+	}
+
+	res := &UpdateMetricDescriptorRequest_FieldMask{}
+	{
+		subMask := o.GetMetricDescriptor().MakeDiffFieldMask(other.GetMetricDescriptor())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor, subPath: subpath})
+			}
+		}
+	}
+	if !proto.Equal(o.GetUpdateMask(), other.GetUpdateMask()) {
+		res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorUpdateMask})
+	}
+	{
+		subMask := o.GetCas().MakeDiffFieldMask(other.GetCas())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorCas})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorCas, subPath: subpath})
+			}
+		}
+	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorAllowMissing})
+	}
+	return res
+}
+
+func (o *UpdateMetricDescriptorRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UpdateMetricDescriptorRequest))
+}
+
+func (o *UpdateMetricDescriptorRequest) Clone() *UpdateMetricDescriptorRequest {
+	if o == nil {
+		return nil
+	}
+	result := &UpdateMetricDescriptorRequest{}
+	result.MetricDescriptor = o.MetricDescriptor.Clone()
+	result.UpdateMask = proto.Clone(o.UpdateMask).(*metric_descriptor.MetricDescriptor_FieldMask)
+	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
+	return result
+}
+
+func (o *UpdateMetricDescriptorRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UpdateMetricDescriptorRequest) Merge(source *UpdateMetricDescriptorRequest) {
+	if source.GetMetricDescriptor() != nil {
+		if o.MetricDescriptor == nil {
+			o.MetricDescriptor = new(metric_descriptor.MetricDescriptor)
+		}
+		o.MetricDescriptor.Merge(source.GetMetricDescriptor())
+	}
+	if source.GetUpdateMask() != nil {
+		if o.UpdateMask == nil {
+			o.UpdateMask = new(metric_descriptor.MetricDescriptor_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetUpdateMask().ToProtoFieldMask(), o.UpdateMask.ToProtoFieldMask())
+		if err := o.UpdateMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+	if source.GetCas() != nil {
+		if o.Cas == nil {
+			o.Cas = new(UpdateMetricDescriptorRequest_CAS)
+		}
+		o.Cas.Merge(source.GetCas())
+	}
+	o.AllowMissing = source.GetAllowMissing()
+}
+
+func (o *UpdateMetricDescriptorRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UpdateMetricDescriptorRequest))
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) GotenObjectExt() {}
+
+func (o *UpdateMetricDescriptorRequest_CAS) MakeFullFieldMask() *UpdateMetricDescriptorRequest_CAS_FieldMask {
+	return FullUpdateMetricDescriptorRequest_CAS_FieldMask()
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUpdateMetricDescriptorRequest_CAS_FieldMask()
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) MakeDiffFieldMask(other *UpdateMetricDescriptorRequest_CAS) *UpdateMetricDescriptorRequest_CAS_FieldMask {
+	if o == nil && other == nil {
+		return &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUpdateMetricDescriptorRequest_CAS_FieldMask()
+	}
+
+	res := &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	{
+		subMask := o.GetConditionalState().MakeDiffFieldMask(other.GetConditionalState())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdateMetricDescriptorRequestCAS_FieldTerminalPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdateMetricDescriptorRequestCAS_FieldSubPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState, subPath: subpath})
+			}
+		}
+	}
+	if !proto.Equal(o.GetFieldMask(), other.GetFieldMask()) {
+		res.Paths = append(res.Paths, &UpdateMetricDescriptorRequestCAS_FieldTerminalPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorFieldMask})
+	}
+	return res
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UpdateMetricDescriptorRequest_CAS))
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) Clone() *UpdateMetricDescriptorRequest_CAS {
+	if o == nil {
+		return nil
+	}
+	result := &UpdateMetricDescriptorRequest_CAS{}
+	result.ConditionalState = o.ConditionalState.Clone()
+	result.FieldMask = proto.Clone(o.FieldMask).(*metric_descriptor.MetricDescriptor_FieldMask)
+	return result
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) Merge(source *UpdateMetricDescriptorRequest_CAS) {
+	if source.GetConditionalState() != nil {
+		if o.ConditionalState == nil {
+			o.ConditionalState = new(metric_descriptor.MetricDescriptor)
+		}
+		o.ConditionalState.Merge(source.GetConditionalState())
+	}
+	if source.GetFieldMask() != nil {
+		if o.FieldMask == nil {
+			o.FieldMask = new(metric_descriptor.MetricDescriptor_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
+		if err := o.FieldMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+}
+
+func (o *UpdateMetricDescriptorRequest_CAS) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UpdateMetricDescriptorRequest_CAS))
+}
+
 func (o *DeleteMetricDescriptorRequest) GotenObjectExt() {}
 
 func (o *DeleteMetricDescriptorRequest) MakeFullFieldMask() *DeleteMetricDescriptorRequest_FieldMask {

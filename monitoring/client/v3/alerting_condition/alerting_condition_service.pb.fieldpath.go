@@ -6581,6 +6581,7 @@ const (
 	UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition UpdateAlertingConditionRequest_FieldPathSelector = 0
 	UpdateAlertingConditionRequest_FieldPathSelectorUpdateMask        UpdateAlertingConditionRequest_FieldPathSelector = 1
 	UpdateAlertingConditionRequest_FieldPathSelectorCas               UpdateAlertingConditionRequest_FieldPathSelector = 2
+	UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing      UpdateAlertingConditionRequest_FieldPathSelector = 3
 )
 
 func (s UpdateAlertingConditionRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateAlertingConditionRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateAlertingConditionRequest_FieldPath(fp gotenobject.RawFieldPath) 
 			return &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) Get(source *UpdateAl
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) GetSingle(source *Up
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) GetDefault() interfa
 		return (*alerting_condition.AlertingCondition_FieldMask)(nil)
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		return (*UpdateAlertingConditionRequest_CAS)(nil)
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) ClearValue(item *Upd
 			item.UpdateMask = nil
 		case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateAlertingConditionRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateAlertingConditionRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) WithIValue(value int
 		return &UpdateAlertingConditionRequest_FieldTerminalPathValue{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.AlertingCondition_FieldMask)}
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		return &UpdateAlertingConditionRequest_FieldTerminalPathValue{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, value: value.(*UpdateAlertingConditionRequest_CAS)}
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAlertingConditionRequest_FieldTerminalPathValue{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateAlertingConditionRequest_FieldTerminalPath) WithIArrayOfValues(v
 		return &UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.AlertingCondition_FieldMask)}
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		return &UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, values: values.([]*UpdateAlertingConditionRequest_CAS)}
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues{UpdateAlertingConditionRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateAlertingConditionRequest_FieldTerminalPathValue) AsCasValue() (
 	res, ok := fpv.value.(*UpdateAlertingConditionRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateAlertingConditionRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateAlertingConditionRequest
 func (fpv *UpdateAlertingConditionRequest_FieldTerminalPathValue) SetTo(target **UpdateAlertingConditionRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateAlertingConditionRequest_FieldTerminalPathValue) SetTo(target *
 		(*target).UpdateMask = fpv.value.(*alerting_condition.AlertingCondition_FieldMask)
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateAlertingConditionRequest_CAS)
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateAlertingConditionRequest_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*UpdateAlertingConditionRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues) AsUp
 }
 func (fpaov *UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateAlertingConditionRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateAlertingConditionRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateAlertingConditionRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

@@ -6578,9 +6578,10 @@ type UpdateSecretRequest_FieldPath interface {
 type UpdateSecretRequest_FieldPathSelector int32
 
 const (
-	UpdateSecretRequest_FieldPathSelectorSecret     UpdateSecretRequest_FieldPathSelector = 0
-	UpdateSecretRequest_FieldPathSelectorUpdateMask UpdateSecretRequest_FieldPathSelector = 1
-	UpdateSecretRequest_FieldPathSelectorCas        UpdateSecretRequest_FieldPathSelector = 2
+	UpdateSecretRequest_FieldPathSelectorSecret       UpdateSecretRequest_FieldPathSelector = 0
+	UpdateSecretRequest_FieldPathSelectorUpdateMask   UpdateSecretRequest_FieldPathSelector = 1
+	UpdateSecretRequest_FieldPathSelectorCas          UpdateSecretRequest_FieldPathSelector = 2
+	UpdateSecretRequest_FieldPathSelectorAllowMissing UpdateSecretRequest_FieldPathSelector = 3
 )
 
 func (s UpdateSecretRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateSecretRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateSecretRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateSecr
 			return &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) Get(source *UpdateSecretRequest
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) GetSingle(source *UpdateSecretR
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*secret.Secret_FieldMask)(nil)
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		return (*UpdateSecretRequest_CAS)(nil)
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) ClearValue(item *UpdateSecretRe
 			item.UpdateMask = nil
 		case UpdateSecretRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) ClearValueRaw(item proto.Messag
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateSecretRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateSecretRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateSecretRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateSecretRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateSecretRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) WithIValue(value interface{}) U
 		return &UpdateSecretRequest_FieldTerminalPathValue{UpdateSecretRequest_FieldTerminalPath: *fp, value: value.(*secret.Secret_FieldMask)}
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		return &UpdateSecretRequest_FieldTerminalPathValue{UpdateSecretRequest_FieldTerminalPath: *fp, value: value.(*UpdateSecretRequest_CAS)}
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		return &UpdateSecretRequest_FieldTerminalPathValue{UpdateSecretRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateSecretRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &UpdateSecretRequest_FieldTerminalPathArrayOfValues{UpdateSecretRequest_FieldTerminalPath: *fp, values: values.([]*secret.Secret_FieldMask)}
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		return &UpdateSecretRequest_FieldTerminalPathArrayOfValues{UpdateSecretRequest_FieldTerminalPath: *fp, values: values.([]*UpdateSecretRequest_CAS)}
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		return &UpdateSecretRequest_FieldTerminalPathArrayOfValues{UpdateSecretRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateSecretRequest_FieldTerminalPathValue) AsCasValue() (*UpdateSecr
 	res, ok := fpv.value.(*UpdateSecretRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateSecretRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateSecretRequest
 func (fpv *UpdateSecretRequest_FieldTerminalPathValue) SetTo(target **UpdateSecretRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateSecretRequest_FieldTerminalPathValue) SetTo(target **UpdateSecr
 		(*target).UpdateMask = fpv.value.(*secret.Secret_FieldMask)
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateSecretRequest_CAS)
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateSecretRequest_FieldTerminalPathValue) CompareWith(source *Updat
 		return 0, false
 	case UpdateSecretRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateSecretRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*UpdateSecretRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateSecretRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArr
 }
 func (fpaov *UpdateSecretRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateSecretRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateSecretRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateSecretRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

@@ -2985,6 +2985,9 @@ func (UpdatePermissionRequestFieldPathBuilder) UpdateMask() UpdatePermissionRequ
 func (UpdatePermissionRequestFieldPathBuilder) Cas() UpdatePermissionRequestPathSelectorCas {
 	return UpdatePermissionRequestPathSelectorCas{}
 }
+func (UpdatePermissionRequestFieldPathBuilder) AllowMissing() UpdatePermissionRequestPathSelectorAllowMissing {
+	return UpdatePermissionRequestPathSelectorAllowMissing{}
+}
 
 type UpdatePermissionRequestPathSelectorPermission struct{}
 
@@ -4438,6 +4441,20 @@ func (s UpdatePermissionRequestPathSelectorCasFieldMask) WithValue(value *permis
 
 func (s UpdatePermissionRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*permission.Permission_FieldMask) *UpdatePermissionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePermissionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePermissionRequestPathSelectorAllowMissing struct{}
+
+func (UpdatePermissionRequestPathSelectorAllowMissing) FieldPath() *UpdatePermissionRequest_FieldTerminalPath {
+	return &UpdatePermissionRequest_FieldTerminalPath{selector: UpdatePermissionRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdatePermissionRequestPathSelectorAllowMissing) WithValue(value bool) *UpdatePermissionRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePermissionRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePermissionRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdatePermissionRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePermissionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdatePermissionRequestCASFieldPathBuilder struct{}

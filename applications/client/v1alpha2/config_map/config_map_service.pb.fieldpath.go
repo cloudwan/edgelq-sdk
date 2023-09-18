@@ -6578,9 +6578,10 @@ type UpdateConfigMapRequest_FieldPath interface {
 type UpdateConfigMapRequest_FieldPathSelector int32
 
 const (
-	UpdateConfigMapRequest_FieldPathSelectorConfigMap  UpdateConfigMapRequest_FieldPathSelector = 0
-	UpdateConfigMapRequest_FieldPathSelectorUpdateMask UpdateConfigMapRequest_FieldPathSelector = 1
-	UpdateConfigMapRequest_FieldPathSelectorCas        UpdateConfigMapRequest_FieldPathSelector = 2
+	UpdateConfigMapRequest_FieldPathSelectorConfigMap    UpdateConfigMapRequest_FieldPathSelector = 0
+	UpdateConfigMapRequest_FieldPathSelectorUpdateMask   UpdateConfigMapRequest_FieldPathSelector = 1
+	UpdateConfigMapRequest_FieldPathSelectorCas          UpdateConfigMapRequest_FieldPathSelector = 2
+	UpdateConfigMapRequest_FieldPathSelectorAllowMissing UpdateConfigMapRequest_FieldPathSelector = 3
 )
 
 func (s UpdateConfigMapRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateConfigMapRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateConfigMapRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateC
 			return &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) Get(source *UpdateConfigMapR
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) GetSingle(source *UpdateConf
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*config_map.ConfigMap_FieldMask)(nil)
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		return (*UpdateConfigMapRequest_CAS)(nil)
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) ClearValue(item *UpdateConfi
 			item.UpdateMask = nil
 		case UpdateConfigMapRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateConfigMapRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateConfigMapRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateConfigMapRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateConfigMapRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateConfigMapRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) WithIValue(value interface{}
 		return &UpdateConfigMapRequest_FieldTerminalPathValue{UpdateConfigMapRequest_FieldTerminalPath: *fp, value: value.(*config_map.ConfigMap_FieldMask)}
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		return &UpdateConfigMapRequest_FieldTerminalPathValue{UpdateConfigMapRequest_FieldTerminalPath: *fp, value: value.(*UpdateConfigMapRequest_CAS)}
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		return &UpdateConfigMapRequest_FieldTerminalPathValue{UpdateConfigMapRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateConfigMapRequest_FieldTerminalPath) WithIArrayOfValues(values in
 		return &UpdateConfigMapRequest_FieldTerminalPathArrayOfValues{UpdateConfigMapRequest_FieldTerminalPath: *fp, values: values.([]*config_map.ConfigMap_FieldMask)}
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		return &UpdateConfigMapRequest_FieldTerminalPathArrayOfValues{UpdateConfigMapRequest_FieldTerminalPath: *fp, values: values.([]*UpdateConfigMapRequest_CAS)}
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		return &UpdateConfigMapRequest_FieldTerminalPathArrayOfValues{UpdateConfigMapRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateConfigMapRequest_FieldTerminalPathValue) AsCasValue() (*UpdateC
 	res, ok := fpv.value.(*UpdateConfigMapRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateConfigMapRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateConfigMapRequest
 func (fpv *UpdateConfigMapRequest_FieldTerminalPathValue) SetTo(target **UpdateConfigMapRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateConfigMapRequest_FieldTerminalPathValue) SetTo(target **UpdateC
 		(*target).UpdateMask = fpv.value.(*config_map.ConfigMap_FieldMask)
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateConfigMapRequest_CAS)
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateConfigMapRequest_FieldTerminalPathValue) CompareWith(source *Up
 		return 0, false
 	case UpdateConfigMapRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateConfigMapRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*UpdateConfigMapRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateConfigMapRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateConfigMapRequest_FieldTerminalPathArrayOfValues) AsUpdateMask
 }
 func (fpaov *UpdateConfigMapRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateConfigMapRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateConfigMapRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateConfigMapRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

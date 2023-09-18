@@ -1295,6 +1295,9 @@ func (o *UpdatePlanRequest) MakeDiffFieldMask(other *UpdatePlanRequest) *UpdateP
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdatePlanRequest_FieldTerminalPath{selector: UpdatePlanRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdatePlanRequest) Clone() *UpdatePlanRequest {
 	result.Plan = o.Plan.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*plan.Plan_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdatePlanRequest) Merge(source *UpdatePlanRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdatePlanRequest) MergeRaw(source gotenobject.GotenObjectExt) {

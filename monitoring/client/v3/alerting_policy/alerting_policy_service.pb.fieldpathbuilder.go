@@ -3747,6 +3747,9 @@ func (UpdateAlertingPolicyRequestFieldPathBuilder) UpdateMask() UpdateAlertingPo
 func (UpdateAlertingPolicyRequestFieldPathBuilder) Cas() UpdateAlertingPolicyRequestPathSelectorCas {
 	return UpdateAlertingPolicyRequestPathSelectorCas{}
 }
+func (UpdateAlertingPolicyRequestFieldPathBuilder) AllowMissing() UpdateAlertingPolicyRequestPathSelectorAllowMissing {
+	return UpdateAlertingPolicyRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAlertingPolicyRequestPathSelectorAlertingPolicy struct{}
 
@@ -5670,6 +5673,20 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasFieldMask) WithValue(value *al
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_FieldMask) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAllowMissing) FieldPath() *UpdateAlertingPolicyRequest_FieldTerminalPath {
+	return &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAlertingPolicyRequestCASFieldPathBuilder struct{}

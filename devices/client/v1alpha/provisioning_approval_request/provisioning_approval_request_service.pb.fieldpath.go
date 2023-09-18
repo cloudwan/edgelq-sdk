@@ -6581,6 +6581,7 @@ const (
 	UpdateProvisioningApprovalRequestRequest_FieldPathSelectorProvisioningApprovalRequest UpdateProvisioningApprovalRequestRequest_FieldPathSelector = 0
 	UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask                  UpdateProvisioningApprovalRequestRequest_FieldPathSelector = 1
 	UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas                         UpdateProvisioningApprovalRequestRequest_FieldPathSelector = 2
+	UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing                UpdateProvisioningApprovalRequestRequest_FieldPathSelector = 3
 )
 
 func (s UpdateProvisioningApprovalRequestRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateProvisioningApprovalRequestRequest_FieldPathSelector) String() str
 		return "update_mask"
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateProvisioningApprovalRequestRequest_FieldPath(fp gotenobject.RawF
 			return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) Get(source
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) GetSingle(
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) GetDefault
 		return (*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)(nil)
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		return (*UpdateProvisioningApprovalRequestRequest_CAS)(nil)
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) ClearValue
 			item.UpdateMask = nil
 		case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) ClearValue
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue
 		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, value: value.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)}
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, value: value.(*UpdateProvisioningApprovalRequestRequest_CAS)}
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) WithIArray
 		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, values: values.([]*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)}
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, values: values.([]*UpdateProvisioningApprovalRequestRequest_CAS)}
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues{UpdateProvisioningApprovalRequestRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue) AsCa
 	res, ok := fpv.value.(*UpdateProvisioningApprovalRequestRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateProvisioningApprovalRequestRequest
 func (fpv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue) SetTo(target **UpdateProvisioningApprovalRequestRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue) SetT
 		(*target).UpdateMask = fpv.value.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateProvisioningApprovalRequestRequest_CAS)
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathValue) Comp
 		return 0, false
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningApprovalRequestRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfVa
 		for _, v := range fpaov.values.([]*UpdateProvisioningApprovalRequestRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfVa
 }
 func (fpaov *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateProvisioningApprovalRequestRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateProvisioningApprovalRequestRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

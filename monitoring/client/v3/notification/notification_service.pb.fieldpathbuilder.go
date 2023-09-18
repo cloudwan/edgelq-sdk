@@ -4852,6 +4852,9 @@ func (UpdateNotificationRequestFieldPathBuilder) UpdateMask() UpdateNotification
 func (UpdateNotificationRequestFieldPathBuilder) Cas() UpdateNotificationRequestPathSelectorCas {
 	return UpdateNotificationRequestPathSelectorCas{}
 }
+func (UpdateNotificationRequestFieldPathBuilder) AllowMissing() UpdateNotificationRequestPathSelectorAllowMissing {
+	return UpdateNotificationRequestPathSelectorAllowMissing{}
+}
 
 type UpdateNotificationRequestPathSelectorNotification struct{}
 
@@ -7505,6 +7508,20 @@ func (s UpdateNotificationRequestPathSelectorCasFieldMask) WithValue(value *noti
 
 func (s UpdateNotificationRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*notification.Notification_FieldMask) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorAllowMissing struct{}
+
+func (UpdateNotificationRequestPathSelectorAllowMissing) FieldPath() *UpdateNotificationRequest_FieldTerminalPath {
+	return &UpdateNotificationRequest_FieldTerminalPath{selector: UpdateNotificationRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateNotificationRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateNotificationRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateNotificationRequestCASFieldPathBuilder struct{}

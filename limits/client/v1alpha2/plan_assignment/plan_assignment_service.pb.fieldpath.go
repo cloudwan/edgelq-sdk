@@ -6583,6 +6583,7 @@ const (
 	UpdatePlanAssignmentRequest_FieldPathSelectorPlanAssignment UpdatePlanAssignmentRequest_FieldPathSelector = 0
 	UpdatePlanAssignmentRequest_FieldPathSelectorUpdateMask     UpdatePlanAssignmentRequest_FieldPathSelector = 1
 	UpdatePlanAssignmentRequest_FieldPathSelectorCas            UpdatePlanAssignmentRequest_FieldPathSelector = 2
+	UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing   UpdatePlanAssignmentRequest_FieldPathSelector = 3
 )
 
 func (s UpdatePlanAssignmentRequest_FieldPathSelector) String() string {
@@ -6593,6 +6594,8 @@ func (s UpdatePlanAssignmentRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", s))
 	}
@@ -6610,6 +6613,8 @@ func BuildUpdatePlanAssignmentRequest_FieldPath(fp gotenobject.RawFieldPath) (Up
 			return &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6682,6 +6687,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) Get(source *UpdatePlanA
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 		}
@@ -6705,6 +6712,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) GetSingle(source *Updat
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 	}
@@ -6723,6 +6732,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) GetDefault() interface{
 		return (*plan_assignment.PlanAssignment_FieldMask)(nil)
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		return (*UpdatePlanAssignmentRequest_CAS)(nil)
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 	}
@@ -6737,6 +6748,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) ClearValue(item *Update
 			item.UpdateMask = nil
 		case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 		}
@@ -6749,7 +6762,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) ClearValueRaw(item prot
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdatePlanAssignmentRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdatePlanAssignmentRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6764,6 +6778,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) WithIValue(value interf
 		return &UpdatePlanAssignmentRequest_FieldTerminalPathValue{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment.PlanAssignment_FieldMask)}
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		return &UpdatePlanAssignmentRequest_FieldTerminalPathValue{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*UpdatePlanAssignmentRequest_CAS)}
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePlanAssignmentRequest_FieldTerminalPathValue{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 	}
@@ -6782,6 +6798,8 @@ func (fp *UpdatePlanAssignmentRequest_FieldTerminalPath) WithIArrayOfValues(valu
 		return &UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment.PlanAssignment_FieldMask)}
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		return &UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*UpdatePlanAssignmentRequest_CAS)}
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues{UpdatePlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fp.selector))
 	}
@@ -6979,6 +6997,10 @@ func (fpv *UpdatePlanAssignmentRequest_FieldTerminalPathValue) AsCasValue() (*Up
 	res, ok := fpv.value.(*UpdatePlanAssignmentRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdatePlanAssignmentRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdatePlanAssignmentRequest
 func (fpv *UpdatePlanAssignmentRequest_FieldTerminalPathValue) SetTo(target **UpdatePlanAssignmentRequest) {
@@ -6992,6 +7014,8 @@ func (fpv *UpdatePlanAssignmentRequest_FieldTerminalPathValue) SetTo(target **Up
 		(*target).UpdateMask = fpv.value.(*plan_assignment.PlanAssignment_FieldMask)
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdatePlanAssignmentRequest_CAS)
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fpv.selector))
 	}
@@ -7011,6 +7035,16 @@ func (fpv *UpdatePlanAssignmentRequest_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fpv.selector))
 	}
@@ -7215,6 +7249,10 @@ func (fpaov *UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]*UpdatePlanAssignmentRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7228,6 +7266,10 @@ func (fpaov *UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsUpdat
 }
 func (fpaov *UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdatePlanAssignmentRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdatePlanAssignmentRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdatePlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

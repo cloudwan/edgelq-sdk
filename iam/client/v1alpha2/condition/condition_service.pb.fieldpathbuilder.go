@@ -3312,6 +3312,9 @@ func (UpdateConditionRequestFieldPathBuilder) UpdateMask() UpdateConditionReques
 func (UpdateConditionRequestFieldPathBuilder) Cas() UpdateConditionRequestPathSelectorCas {
 	return UpdateConditionRequestPathSelectorCas{}
 }
+func (UpdateConditionRequestFieldPathBuilder) AllowMissing() UpdateConditionRequestPathSelectorAllowMissing {
+	return UpdateConditionRequestPathSelectorAllowMissing{}
+}
 
 type UpdateConditionRequestPathSelectorCondition struct{}
 
@@ -4941,6 +4944,20 @@ func (s UpdateConditionRequestPathSelectorCasFieldMask) WithValue(value *conditi
 
 func (s UpdateConditionRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*condition.Condition_FieldMask) *UpdateConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateConditionRequestPathSelectorAllowMissing struct{}
+
+func (UpdateConditionRequestPathSelectorAllowMissing) FieldPath() *UpdateConditionRequest_FieldTerminalPath {
+	return &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateConditionRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateConditionRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateConditionRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateConditionRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateConditionRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConditionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateConditionRequestCASFieldPathBuilder struct{}

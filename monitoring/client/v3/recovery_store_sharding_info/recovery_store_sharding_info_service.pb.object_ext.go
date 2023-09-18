@@ -1370,6 +1370,9 @@ func (o *UpdateRecoveryStoreShardingInfoRequest) MakeDiffFieldMask(other *Update
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1385,6 +1388,7 @@ func (o *UpdateRecoveryStoreShardingInfoRequest) Clone() *UpdateRecoveryStoreSha
 	result.RecoveryStoreShardingInfo = o.RecoveryStoreShardingInfo.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1414,6 +1418,7 @@ func (o *UpdateRecoveryStoreShardingInfoRequest) Merge(source *UpdateRecoverySto
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateRecoveryStoreShardingInfoRequest) MergeRaw(source gotenobject.GotenObjectExt) {

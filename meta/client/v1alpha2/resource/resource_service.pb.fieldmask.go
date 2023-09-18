@@ -3161,6 +3161,7 @@ func FullUpdateResourceRequest_FieldMask() *UpdateResourceRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorResource})
 	res.Paths = append(res.Paths, &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateResourceRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateResourceRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateResourceRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateResourceRequest_FieldMask) Subtract(other *UpdateResourceRequest_FieldMask) *UpdateResourceRequest_FieldMask {
 	result := &UpdateResourceRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateResourceRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateResourceRequest_FieldPathSelectorResource: &resource.Resource_FieldMask{},
 		UpdateResourceRequest_FieldPathSelectorCas:      &UpdateResourceRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateResourceRequest_FieldMask) Project(source *UpdateResource
 			case UpdateResourceRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateResourceRequest_FieldSubPath:
 			switch tp.selector {

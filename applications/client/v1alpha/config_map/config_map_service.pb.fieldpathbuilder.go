@@ -3239,6 +3239,9 @@ func (UpdateConfigMapRequestFieldPathBuilder) UpdateMask() UpdateConfigMapReques
 func (UpdateConfigMapRequestFieldPathBuilder) Cas() UpdateConfigMapRequestPathSelectorCas {
 	return UpdateConfigMapRequestPathSelectorCas{}
 }
+func (UpdateConfigMapRequestFieldPathBuilder) AllowMissing() UpdateConfigMapRequestPathSelectorAllowMissing {
+	return UpdateConfigMapRequestPathSelectorAllowMissing{}
+}
 
 type UpdateConfigMapRequestPathSelectorConfigMap struct{}
 
@@ -4826,6 +4829,20 @@ func (s UpdateConfigMapRequestPathSelectorCasFieldMask) WithValue(value *config_
 
 func (s UpdateConfigMapRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*config_map.ConfigMap_FieldMask) *UpdateConfigMapRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConfigMapRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateConfigMapRequestPathSelectorAllowMissing struct{}
+
+func (UpdateConfigMapRequestPathSelectorAllowMissing) FieldPath() *UpdateConfigMapRequest_FieldTerminalPath {
+	return &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateConfigMapRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateConfigMapRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateConfigMapRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateConfigMapRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateConfigMapRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConfigMapRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateConfigMapRequestCASFieldPathBuilder struct{}

@@ -6579,6 +6579,7 @@ const (
 	UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorRecoveryStoreShardingInfo UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector = 0
 	UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorUpdateMask                UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector = 1
 	UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas                       UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector = 2
+	UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing              UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector = 3
 )
 
 func (s UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector) String() string {
@@ -6589,6 +6590,8 @@ func (s UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector) String() strin
 		return "update_mask"
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", s))
 	}
@@ -6606,6 +6609,8 @@ func BuildUpdateRecoveryStoreShardingInfoRequest_FieldPath(fp gotenobject.RawFie
 			return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6678,6 +6683,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) Get(source *
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 		}
@@ -6701,6 +6708,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) GetSingle(so
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 	}
@@ -6719,6 +6728,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) GetDefault()
 		return (*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)(nil)
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		return (*UpdateRecoveryStoreShardingInfoRequest_CAS)(nil)
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 	}
@@ -6733,6 +6744,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) ClearValue(i
 			item.UpdateMask = nil
 		case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 		}
@@ -6745,7 +6758,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) ClearValueRa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6760,6 +6774,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) WithIValue(v
 		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, value: value.(*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)}
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, value: value.(*UpdateRecoveryStoreShardingInfoRequest_CAS)}
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 	}
@@ -6778,6 +6794,8 @@ func (fp *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath) WithIArrayOf
 		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, values: values.([]*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)}
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, values: values.([]*UpdateRecoveryStoreShardingInfoRequest_CAS)}
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues{UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fp.selector))
 	}
@@ -6975,6 +6993,10 @@ func (fpv *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue) AsCasV
 	res, ok := fpv.value.(*UpdateRecoveryStoreShardingInfoRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateRecoveryStoreShardingInfoRequest
 func (fpv *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue) SetTo(target **UpdateRecoveryStoreShardingInfoRequest) {
@@ -6988,6 +7010,8 @@ func (fpv *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue) SetTo(
 		(*target).UpdateMask = fpv.value.(*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateRecoveryStoreShardingInfoRequest_CAS)
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fpv.selector))
 	}
@@ -7007,6 +7031,16 @@ func (fpv *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue) Compar
 		return 0, false
 	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRecoveryStoreShardingInfoRequest: %d", fpv.selector))
 	}
@@ -7211,6 +7245,10 @@ func (fpaov *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValu
 		for _, v := range fpaov.values.([]*UpdateRecoveryStoreShardingInfoRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7224,6 +7262,10 @@ func (fpaov *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValu
 }
 func (fpaov *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateRecoveryStoreShardingInfoRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateRecoveryStoreShardingInfoRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

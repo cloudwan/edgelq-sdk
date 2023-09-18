@@ -3161,6 +3161,7 @@ func FullUpdateAlertingPolicyRequest_FieldMask() *UpdateAlertingPolicyRequest_Fi
 	res.Paths = append(res.Paths, &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy})
 	res.Paths = append(res.Paths, &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateAlertingPolicyRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAlertingPolicyRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateAlertingPolicyRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAlertingPolicyRequest_FieldMask) Subtract(other *UpdateAlertingPolicyRequest_FieldMask) *UpdateAlertingPolicyRequest_FieldMask {
 	result := &UpdateAlertingPolicyRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAlertingPolicyRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy: &alerting_policy.AlertingPolicy_FieldMask{},
 		UpdateAlertingPolicyRequest_FieldPathSelectorCas:            &UpdateAlertingPolicyRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateAlertingPolicyRequest_FieldMask) Project(source *UpdateAl
 			case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAlertingPolicyRequest_FieldSubPath:
 			switch tp.selector {

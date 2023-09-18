@@ -1372,6 +1372,9 @@ func (o *UpdateProjectInvitationRequest) MakeDiffFieldMask(other *UpdateProjectI
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateProjectInvitationRequest) Clone() *UpdateProjectInvitationRequest
 	result.ProjectInvitation = o.ProjectInvitation.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*project_invitation.ProjectInvitation_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateProjectInvitationRequest) Merge(source *UpdateProjectInvitationRe
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateProjectInvitationRequest) MergeRaw(source gotenobject.GotenObjectExt) {

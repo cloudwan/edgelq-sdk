@@ -3432,6 +3432,9 @@ func (UpdateUserRequestFieldPathBuilder) UpdateMask() UpdateUserRequestPathSelec
 func (UpdateUserRequestFieldPathBuilder) Cas() UpdateUserRequestPathSelectorCas {
 	return UpdateUserRequestPathSelectorCas{}
 }
+func (UpdateUserRequestFieldPathBuilder) AllowMissing() UpdateUserRequestPathSelectorAllowMissing {
+	return UpdateUserRequestPathSelectorAllowMissing{}
+}
 
 type UpdateUserRequestPathSelectorUser struct{}
 
@@ -5183,6 +5186,20 @@ func (s UpdateUserRequestPathSelectorCasFieldMask) WithValue(value *user.User_Fi
 
 func (s UpdateUserRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*user.User_FieldMask) *UpdateUserRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateUserRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateUserRequestPathSelectorAllowMissing struct{}
+
+func (UpdateUserRequestPathSelectorAllowMissing) FieldPath() *UpdateUserRequest_FieldTerminalPath {
+	return &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateUserRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateUserRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateUserRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateUserRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateUserRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateUserRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateUserRequestCASFieldPathBuilder struct{}

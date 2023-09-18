@@ -3161,6 +3161,7 @@ func FullUpdateServiceAccountKeyRequest_FieldMask() *UpdateServiceAccountKeyRequ
 	res.Paths = append(res.Paths, &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorServiceAccountKey})
 	res.Paths = append(res.Paths, &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateServiceAccountKeyRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateServiceAccountKeyRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateServiceAccountKeyRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateServiceAccountKeyRequest_FieldMask) Subtract(other *UpdateServiceAccountKeyRequest_FieldMask) *UpdateServiceAccountKeyRequest_FieldMask {
 	result := &UpdateServiceAccountKeyRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateServiceAccountKeyRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateServiceAccountKeyRequest_FieldPathSelectorServiceAccountKey: &service_account_key.ServiceAccountKey_FieldMask{},
 		UpdateServiceAccountKeyRequest_FieldPathSelectorCas:               &UpdateServiceAccountKeyRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateServiceAccountKeyRequest_FieldMask) Project(source *Updat
 			case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateServiceAccountKeyRequest_FieldSubPath:
 			switch tp.selector {

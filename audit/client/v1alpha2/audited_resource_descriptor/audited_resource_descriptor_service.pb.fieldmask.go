@@ -3148,6 +3148,7 @@ func FullUpdateAuditedResourceDescriptorRequest_FieldMask() *UpdateAuditedResour
 	res.Paths = append(res.Paths, &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAuditedResourceDescriptor})
 	res.Paths = append(res.Paths, &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3191,7 +3192,7 @@ func (fieldMask *UpdateAuditedResourceDescriptorRequest_FieldMask) IsFull() bool
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAuditedResourceDescriptorRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3221,7 +3222,7 @@ func (fieldMask *UpdateAuditedResourceDescriptorRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAuditedResourceDescriptorRequest_FieldMask) Subtract(other *UpdateAuditedResourceDescriptorRequest_FieldMask) *UpdateAuditedResourceDescriptorRequest_FieldMask {
 	result := &UpdateAuditedResourceDescriptorRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAuditedResourceDescriptorRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAuditedResourceDescriptor: &audited_resource_descriptor.AuditedResourceDescriptor_FieldMask{},
 		UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:                       &UpdateAuditedResourceDescriptorRequest_CAS_FieldMask{},
@@ -3448,6 +3449,8 @@ func (fieldMask *UpdateAuditedResourceDescriptorRequest_FieldMask) Project(sourc
 			case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAuditedResourceDescriptorRequest_FieldSubPath:
 			switch tp.selector {

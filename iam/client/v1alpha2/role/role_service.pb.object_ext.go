@@ -1295,6 +1295,9 @@ func (o *UpdateRoleRequest) MakeDiffFieldMask(other *UpdateRoleRequest) *UpdateR
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdateRoleRequest) Clone() *UpdateRoleRequest {
 	result.Role = o.Role.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*role.Role_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdateRoleRequest) Merge(source *UpdateRoleRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateRoleRequest) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -189,35 +189,6 @@ message WatchMetricDescriptorsResponse {
   }
 }
 
-// Request message for method
-// [UpdateMetricDescriptor][ntt.monitoring.v3.UpdateMetricDescriptor]
-message UpdateMetricDescriptorRequest {
-  // MetricDescriptor resource body
-  MetricDescriptor metric_descriptor = 2;
-
-  // FieldMask applied to request - change will be applied only for fields in
-  // the mask
-  google.protobuf.FieldMask update_mask = 3;
-
-  // Conditional update applied to request if update should be executed only for
-  // specific resource state. If this field is populated, then server will fetch
-  // existing resource, compare with the one stored in the cas field (after
-  // applying field mask) and proceed with update only and only if they match.
-  // Otherwise RPC error Aborted will be returned.
-  CAS cas = 4;
-
-  // CAS - Compare and Swap. This object is used if user wants to make update
-  // conditional based upon previous resource version.
-  message CAS {
-    // Conditional desired state of a resource before update.
-    MetricDescriptor conditional_state = 1;
-
-    // Field paths from conditional state of resource server should check and
-    // compare.
-    google.protobuf.FieldMask field_mask = 2;
-  }
-}
-
 // MetricDescriptor service API for Monitoring
 service MetricDescriptorService {
   option (google.api.default_host) = "monitoring.edgelq.com";
@@ -247,15 +218,6 @@ service MetricDescriptorService {
     };
   }
 
-  // UpdateMetricDescriptor
-  rpc UpdateMetricDescriptor(UpdateMetricDescriptorRequest)
-      returns (MetricDescriptor) {
-    option (google.api.http) = {
-      put : "/v3/{metric_descriptor.name=projects/*/metricDescriptors/*}"
-      body : "metric_descriptor"
-    };
-  }
-
   // GetMetricDescriptor
   rpc GetMetricDescriptor(GetMetricDescriptorRequest)
       returns (MetricDescriptor) {
@@ -269,6 +231,15 @@ service MetricDescriptorService {
       returns (MetricDescriptor) {
     option (google.api.http) = {
       post : "/v3/{parent=projects/*}/metricDescriptors"
+      body : "metric_descriptor"
+    };
+  }
+
+  // UpdateMetricDescriptor
+  rpc UpdateMetricDescriptor(UpdateMetricDescriptorRequest)
+      returns (MetricDescriptor) {
+    option (google.api.http) = {
+      put : "/v3/{metric_descriptor.name=projects/*/metricDescriptors/*}"
       body : "metric_descriptor"
     };
   }

@@ -6583,6 +6583,7 @@ const (
 	UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor UpdateLogDescriptorRequest_FieldPathSelector = 0
 	UpdateLogDescriptorRequest_FieldPathSelectorUpdateMask    UpdateLogDescriptorRequest_FieldPathSelector = 1
 	UpdateLogDescriptorRequest_FieldPathSelectorCas           UpdateLogDescriptorRequest_FieldPathSelector = 2
+	UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing  UpdateLogDescriptorRequest_FieldPathSelector = 3
 )
 
 func (s UpdateLogDescriptorRequest_FieldPathSelector) String() string {
@@ -6593,6 +6594,8 @@ func (s UpdateLogDescriptorRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", s))
 	}
@@ -6610,6 +6613,8 @@ func BuildUpdateLogDescriptorRequest_FieldPath(fp gotenobject.RawFieldPath) (Upd
 			return &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateLogDescriptorRequest_FieldTerminalPath{selector: UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6682,6 +6687,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) Get(source *UpdateLogDes
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 		}
@@ -6705,6 +6712,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) GetSingle(source *Update
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 	}
@@ -6723,6 +6732,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) GetDefault() interface{}
 		return (*log_descriptor.LogDescriptor_FieldMask)(nil)
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		return (*UpdateLogDescriptorRequest_CAS)(nil)
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 	}
@@ -6737,6 +6748,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) ClearValue(item *UpdateL
 			item.UpdateMask = nil
 		case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 		}
@@ -6749,7 +6762,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) ClearValueRaw(item proto
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateLogDescriptorRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateLogDescriptorRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6764,6 +6778,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) WithIValue(value interfa
 		return &UpdateLogDescriptorRequest_FieldTerminalPathValue{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, value: value.(*log_descriptor.LogDescriptor_FieldMask)}
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateLogDescriptorRequest_FieldTerminalPathValue{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, value: value.(*UpdateLogDescriptorRequest_CAS)}
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateLogDescriptorRequest_FieldTerminalPathValue{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 	}
@@ -6782,6 +6798,8 @@ func (fp *UpdateLogDescriptorRequest_FieldTerminalPath) WithIArrayOfValues(value
 		return &UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*log_descriptor.LogDescriptor_FieldMask)}
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*UpdateLogDescriptorRequest_CAS)}
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateLogDescriptorRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fp.selector))
 	}
@@ -6979,6 +6997,10 @@ func (fpv *UpdateLogDescriptorRequest_FieldTerminalPathValue) AsCasValue() (*Upd
 	res, ok := fpv.value.(*UpdateLogDescriptorRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateLogDescriptorRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateLogDescriptorRequest
 func (fpv *UpdateLogDescriptorRequest_FieldTerminalPathValue) SetTo(target **UpdateLogDescriptorRequest) {
@@ -6992,6 +7014,8 @@ func (fpv *UpdateLogDescriptorRequest_FieldTerminalPathValue) SetTo(target **Upd
 		(*target).UpdateMask = fpv.value.(*log_descriptor.LogDescriptor_FieldMask)
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateLogDescriptorRequest_CAS)
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fpv.selector))
 	}
@@ -7011,6 +7035,16 @@ func (fpv *UpdateLogDescriptorRequest_FieldTerminalPathValue) CompareWith(source
 		return 0, false
 	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fpv.selector))
 	}
@@ -7215,6 +7249,10 @@ func (fpaov *UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		for _, v := range fpaov.values.([]*UpdateLogDescriptorRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateLogDescriptorRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7228,6 +7266,10 @@ func (fpaov *UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues) AsUpdate
 }
 func (fpaov *UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateLogDescriptorRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateLogDescriptorRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateLogDescriptorRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

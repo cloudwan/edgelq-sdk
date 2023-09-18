@@ -100,6 +100,42 @@ func (obj *CreateMetricDescriptorRequest) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *UpdateMetricDescriptorRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.MetricDescriptor == nil {
+		return gotenvalidate.NewValidationError("UpdateMetricDescriptorRequest", "metricDescriptor", obj.MetricDescriptor, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.MetricDescriptor).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateMetricDescriptorRequest", "metricDescriptor", obj.MetricDescriptor, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Cas).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateMetricDescriptorRequest", "cas", obj.Cas, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateMetricDescriptorRequest_CAS) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.ConditionalState).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *DeleteMetricDescriptorRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

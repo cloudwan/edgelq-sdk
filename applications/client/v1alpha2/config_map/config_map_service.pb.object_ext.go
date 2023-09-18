@@ -1372,6 +1372,9 @@ func (o *UpdateConfigMapRequest) MakeDiffFieldMask(other *UpdateConfigMapRequest
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateConfigMapRequest_FieldTerminalPath{selector: UpdateConfigMapRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateConfigMapRequest) Clone() *UpdateConfigMapRequest {
 	result.ConfigMap = o.ConfigMap.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*config_map.ConfigMap_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateConfigMapRequest) Merge(source *UpdateConfigMapRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateConfigMapRequest) MergeRaw(source gotenobject.GotenObjectExt) {

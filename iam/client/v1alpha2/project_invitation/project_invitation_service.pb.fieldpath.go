@@ -6581,6 +6581,7 @@ const (
 	UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation UpdateProjectInvitationRequest_FieldPathSelector = 0
 	UpdateProjectInvitationRequest_FieldPathSelectorUpdateMask        UpdateProjectInvitationRequest_FieldPathSelector = 1
 	UpdateProjectInvitationRequest_FieldPathSelectorCas               UpdateProjectInvitationRequest_FieldPathSelector = 2
+	UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing      UpdateProjectInvitationRequest_FieldPathSelector = 3
 )
 
 func (s UpdateProjectInvitationRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateProjectInvitationRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateProjectInvitationRequest_FieldPath(fp gotenobject.RawFieldPath) 
 			return &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) Get(source *UpdatePr
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) GetSingle(source *Up
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) GetDefault() interfa
 		return (*project_invitation.ProjectInvitation_FieldMask)(nil)
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		return (*UpdateProjectInvitationRequest_CAS)(nil)
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) ClearValue(item *Upd
 			item.UpdateMask = nil
 		case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateProjectInvitationRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateProjectInvitationRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) WithIValue(value int
 		return &UpdateProjectInvitationRequest_FieldTerminalPathValue{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.ProjectInvitation_FieldMask)}
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		return &UpdateProjectInvitationRequest_FieldTerminalPathValue{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, value: value.(*UpdateProjectInvitationRequest_CAS)}
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProjectInvitationRequest_FieldTerminalPathValue{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateProjectInvitationRequest_FieldTerminalPath) WithIArrayOfValues(v
 		return &UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.ProjectInvitation_FieldMask)}
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		return &UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, values: values.([]*UpdateProjectInvitationRequest_CAS)}
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues{UpdateProjectInvitationRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateProjectInvitationRequest_FieldTerminalPathValue) AsCasValue() (
 	res, ok := fpv.value.(*UpdateProjectInvitationRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateProjectInvitationRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateProjectInvitationRequest
 func (fpv *UpdateProjectInvitationRequest_FieldTerminalPathValue) SetTo(target **UpdateProjectInvitationRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateProjectInvitationRequest_FieldTerminalPathValue) SetTo(target *
 		(*target).UpdateMask = fpv.value.(*project_invitation.ProjectInvitation_FieldMask)
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateProjectInvitationRequest_CAS)
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateProjectInvitationRequest_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*UpdateProjectInvitationRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues) AsUp
 }
 func (fpaov *UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateProjectInvitationRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateProjectInvitationRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

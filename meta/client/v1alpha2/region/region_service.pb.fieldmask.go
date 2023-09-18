@@ -3150,6 +3150,7 @@ func FullUpdateRegionRequest_FieldMask() *UpdateRegionRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorRegion})
 	res.Paths = append(res.Paths, &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3193,7 +3194,7 @@ func (fieldMask *UpdateRegionRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateRegionRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3223,7 +3224,7 @@ func (fieldMask *UpdateRegionRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateRegionRequest_FieldMask) Subtract(other *UpdateRegionRequest_FieldMask) *UpdateRegionRequest_FieldMask {
 	result := &UpdateRegionRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateRegionRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateRegionRequest_FieldPathSelectorRegion: &region.Region_FieldMask{},
 		UpdateRegionRequest_FieldPathSelectorCas:    &UpdateRegionRequest_CAS_FieldMask{},
@@ -3450,6 +3451,8 @@ func (fieldMask *UpdateRegionRequest_FieldMask) Project(source *UpdateRegionRequ
 			case UpdateRegionRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateRegionRequest_FieldSubPath:
 			switch tp.selector {

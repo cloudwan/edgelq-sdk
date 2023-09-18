@@ -3096,6 +3096,7 @@ func FullUpdateRoleRequest_FieldMask() *UpdateRoleRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorRole})
 	res.Paths = append(res.Paths, &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3139,7 +3140,7 @@ func (fieldMask *UpdateRoleRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateRoleRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3169,7 +3170,7 @@ func (fieldMask *UpdateRoleRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateRoleRequest_FieldMask) Subtract(other *UpdateRoleRequest_FieldMask) *UpdateRoleRequest_FieldMask {
 	result := &UpdateRoleRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateRoleRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateRoleRequest_FieldPathSelectorRole: &role.Role_FieldMask{},
 		UpdateRoleRequest_FieldPathSelectorCas:  &UpdateRoleRequest_CAS_FieldMask{},
@@ -3365,6 +3366,8 @@ func (fieldMask *UpdateRoleRequest_FieldMask) Project(source *UpdateRoleRequest)
 			case UpdateRoleRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateRoleRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateRoleRequest_FieldSubPath:
 			switch tp.selector {

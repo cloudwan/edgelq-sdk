@@ -1372,6 +1372,9 @@ func (o *UpdateAlertingConditionRequest) MakeDiffFieldMask(other *UpdateAlerting
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateAlertingConditionRequest) Clone() *UpdateAlertingConditionRequest
 	result.AlertingCondition = o.AlertingCondition.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*alerting_condition.AlertingCondition_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateAlertingConditionRequest) Merge(source *UpdateAlertingConditionRe
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateAlertingConditionRequest) MergeRaw(source gotenobject.GotenObjectExt) {

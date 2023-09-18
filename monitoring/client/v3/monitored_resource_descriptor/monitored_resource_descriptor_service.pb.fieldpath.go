@@ -4590,6 +4590,7 @@ const (
 	UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorMonitoredResourceDescriptor UpdateMonitoredResourceDescriptorRequest_FieldPathSelector = 0
 	UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorUpdateMask                  UpdateMonitoredResourceDescriptorRequest_FieldPathSelector = 1
 	UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas                         UpdateMonitoredResourceDescriptorRequest_FieldPathSelector = 2
+	UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing                UpdateMonitoredResourceDescriptorRequest_FieldPathSelector = 3
 )
 
 func (s UpdateMonitoredResourceDescriptorRequest_FieldPathSelector) String() string {
@@ -4600,6 +4601,8 @@ func (s UpdateMonitoredResourceDescriptorRequest_FieldPathSelector) String() str
 		return "update_mask"
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", s))
 	}
@@ -4617,6 +4620,8 @@ func BuildUpdateMonitoredResourceDescriptorRequest_FieldPath(fp gotenobject.RawF
 			return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -4689,6 +4694,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) Get(source
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 		}
@@ -4712,6 +4719,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) GetSingle(
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -4730,6 +4739,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) GetDefault
 		return (*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)(nil)
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		return (*UpdateMonitoredResourceDescriptorRequest_CAS)(nil)
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -4744,6 +4755,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) ClearValue
 			item.UpdateMask = nil
 		case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 		}
@@ -4756,7 +4769,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) ClearValue
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -4771,6 +4785,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIValue
 		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)}
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(*UpdateMonitoredResourceDescriptorRequest_CAS)}
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -4789,6 +4805,8 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIArray
 		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)}
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*UpdateMonitoredResourceDescriptorRequest_CAS)}
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -4986,6 +5004,10 @@ func (fpv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue) AsCa
 	res, ok := fpv.value.(*UpdateMonitoredResourceDescriptorRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateMonitoredResourceDescriptorRequest
 func (fpv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue) SetTo(target **UpdateMonitoredResourceDescriptorRequest) {
@@ -4999,6 +5021,8 @@ func (fpv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue) SetT
 		(*target).UpdateMask = fpv.value.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateMonitoredResourceDescriptorRequest_CAS)
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fpv.selector))
 	}
@@ -5018,6 +5042,16 @@ func (fpv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue) Comp
 		return 0, false
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fpv.selector))
 	}
@@ -5222,6 +5256,10 @@ func (fpaov *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfVa
 		for _, v := range fpaov.values.([]*UpdateMonitoredResourceDescriptorRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -5235,6 +5273,10 @@ func (fpaov *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfVa
 }
 func (fpaov *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateMonitoredResourceDescriptorRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateMonitoredResourceDescriptorRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

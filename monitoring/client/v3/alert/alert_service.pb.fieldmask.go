@@ -3161,6 +3161,7 @@ func FullUpdateAlertRequest_FieldMask() *UpdateAlertRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateAlertRequest_FieldTerminalPath{selector: UpdateAlertRequest_FieldPathSelectorAlert})
 	res.Paths = append(res.Paths, &UpdateAlertRequest_FieldTerminalPath{selector: UpdateAlertRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAlertRequest_FieldTerminalPath{selector: UpdateAlertRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAlertRequest_FieldTerminalPath{selector: UpdateAlertRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateAlertRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAlertRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateAlertRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAlertRequest_FieldMask) Subtract(other *UpdateAlertRequest_FieldMask) *UpdateAlertRequest_FieldMask {
 	result := &UpdateAlertRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAlertRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAlertRequest_FieldPathSelectorAlert: &alert.Alert_FieldMask{},
 		UpdateAlertRequest_FieldPathSelectorCas:   &UpdateAlertRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateAlertRequest_FieldMask) Project(source *UpdateAlertReques
 			case UpdateAlertRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAlertRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAlertRequest_FieldSubPath:
 			switch tp.selector {

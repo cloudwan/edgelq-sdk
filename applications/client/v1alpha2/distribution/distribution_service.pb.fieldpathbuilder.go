@@ -10084,6 +10084,9 @@ func (UpdateDistributionRequestFieldPathBuilder) UpdateMask() UpdateDistribution
 func (UpdateDistributionRequestFieldPathBuilder) Cas() UpdateDistributionRequestPathSelectorCas {
 	return UpdateDistributionRequestPathSelectorCas{}
 }
+func (UpdateDistributionRequestFieldPathBuilder) AllowMissing() UpdateDistributionRequestPathSelectorAllowMissing {
+	return UpdateDistributionRequestPathSelectorAllowMissing{}
+}
 
 type UpdateDistributionRequestPathSelectorDistribution struct{}
 
@@ -16217,6 +16220,20 @@ func (s UpdateDistributionRequestPathSelectorCasFieldMask) WithValue(value *dist
 
 func (s UpdateDistributionRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*distribution.Distribution_FieldMask) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateDistributionRequestPathSelectorAllowMissing struct{}
+
+func (UpdateDistributionRequestPathSelectorAllowMissing) FieldPath() *UpdateDistributionRequest_FieldTerminalPath {
+	return &UpdateDistributionRequest_FieldTerminalPath{selector: UpdateDistributionRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateDistributionRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateDistributionRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateDistributionRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateDistributionRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateDistributionRequestCASFieldPathBuilder struct{}

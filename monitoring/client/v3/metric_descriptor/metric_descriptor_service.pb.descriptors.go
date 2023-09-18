@@ -36,9 +36,9 @@ var (
 	batchGetMetricDescriptorsDescriptor *BatchGetMetricDescriptorsDescriptor
 	watchMetricDescriptorDescriptor     *WatchMetricDescriptorDescriptor
 	watchMetricDescriptorsDescriptor    *WatchMetricDescriptorsDescriptor
-	updateMetricDescriptorDescriptor    *UpdateMetricDescriptorDescriptor
 	getMetricDescriptorDescriptor       *GetMetricDescriptorDescriptor
 	createMetricDescriptorDescriptor    *CreateMetricDescriptorDescriptor
+	updateMetricDescriptorDescriptor    *UpdateMetricDescriptorDescriptor
 	deleteMetricDescriptorDescriptor    *DeleteMetricDescriptorDescriptor
 	listMetricDescriptorsDescriptor     *ListMetricDescriptorsDescriptor
 )
@@ -589,179 +589,6 @@ func GetWatchMetricDescriptorsDescriptor() *WatchMetricDescriptorsDescriptor {
 	return watchMetricDescriptorsDescriptor
 }
 
-type UpdateMetricDescriptorDescriptor struct{}
-
-type UpdateMetricDescriptorDescriptorClientMsgHandle struct{}
-
-type UpdateMetricDescriptorDescriptorServerMsgHandle struct{}
-
-func (d *UpdateMetricDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
-	return &UpdateMetricDescriptorRequest{}
-}
-
-func (d *UpdateMetricDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
-	return &metric_descriptor.MetricDescriptor{}
-}
-
-func (d *UpdateMetricDescriptorDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *UpdateMetricDescriptorDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *UpdateMetricDescriptorDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *UpdateMetricDescriptorDescriptor) IsCollection() bool {
-	return false
-}
-
-func (d *UpdateMetricDescriptorDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *UpdateMetricDescriptorDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *UpdateMetricDescriptorDescriptor) RequestHasResourceBody() bool {
-	return true
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetVerb() string {
-	return "update"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetMethodName() string {
-	return "UpdateMetricDescriptor"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetFullMethodName() string {
-	return "/ntt.monitoring.v3.MetricDescriptorService/UpdateMetricDescriptor"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetProtoPkgName() string {
-	return "ntt.monitoring.v3"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetApiName() string {
-	return "MetricDescriptorService"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetServiceDomain() string {
-	return "monitoring.edgelq.com"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetServiceVersion() string {
-	return "v3"
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return metricDescriptorServiceDescriptor
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return metric_descriptor.GetDescriptor()
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &UpdateMetricDescriptorDescriptorClientMsgHandle{}
-}
-
-func (d *UpdateMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &UpdateMetricDescriptorDescriptorServerMsgHandle{}
-}
-
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateMetricDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*UpdateMetricDescriptorRequest) *metric_descriptor.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		res := typedMsg.GetMetricDescriptor()
-		if name := res.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*metric_descriptor.Name)(nil)
-}
-
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*UpdateMetricDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*UpdateMetricDescriptorRequest) []*metric_descriptor.Name
-	})
-	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateMetricDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*UpdateMetricDescriptorRequest) *metric_descriptor.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		if name := typedMsg.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*metric_descriptor.Name)(nil)
-}
-
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
-	})
-	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func GetUpdateMetricDescriptorDescriptor() *UpdateMetricDescriptorDescriptor {
-	return updateMetricDescriptorDescriptor
-}
-
 type GetMetricDescriptorDescriptor struct{}
 
 type GetMetricDescriptorDescriptorClientMsgHandle struct{}
@@ -1100,6 +927,179 @@ func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(
 
 func GetCreateMetricDescriptorDescriptor() *CreateMetricDescriptorDescriptor {
 	return createMetricDescriptorDescriptor
+}
+
+type UpdateMetricDescriptorDescriptor struct{}
+
+type UpdateMetricDescriptorDescriptorClientMsgHandle struct{}
+
+type UpdateMetricDescriptorDescriptorServerMsgHandle struct{}
+
+func (d *UpdateMetricDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
+	return &UpdateMetricDescriptorRequest{}
+}
+
+func (d *UpdateMetricDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
+	return &metric_descriptor.MetricDescriptor{}
+}
+
+func (d *UpdateMetricDescriptorDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *UpdateMetricDescriptorDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *UpdateMetricDescriptorDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *UpdateMetricDescriptorDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *UpdateMetricDescriptorDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *UpdateMetricDescriptorDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *UpdateMetricDescriptorDescriptor) RequestHasResourceBody() bool {
+	return true
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetVerb() string {
+	return "update"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetMethodName() string {
+	return "UpdateMetricDescriptor"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v3.MetricDescriptorService/UpdateMetricDescriptor"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v3"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetApiName() string {
+	return "MetricDescriptorService"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetServiceVersion() string {
+	return "v3"
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return metricDescriptorServiceDescriptor
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return metric_descriptor.GetDescriptor()
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdateMetricDescriptorDescriptorClientMsgHandle{}
+}
+
+func (d *UpdateMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdateMetricDescriptorDescriptorServerMsgHandle{}
+}
+
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*UpdateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*UpdateMetricDescriptorRequest) *metric_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		res := typedMsg.GetMetricDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
+}
+
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*UpdateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*UpdateMetricDescriptorRequest) []*metric_descriptor.Name
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*UpdateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*UpdateMetricDescriptorRequest) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
+}
+
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetUpdateMetricDescriptorDescriptor() *UpdateMetricDescriptorDescriptor {
+	return updateMetricDescriptorDescriptor
 }
 
 type DeleteMetricDescriptorDescriptor struct{}
@@ -1443,9 +1443,9 @@ func (d *MetricDescriptorServiceDescriptor) AllMethodDescriptors() []gotenclient
 		batchGetMetricDescriptorsDescriptor,
 		watchMetricDescriptorDescriptor,
 		watchMetricDescriptorsDescriptor,
-		updateMetricDescriptorDescriptor,
 		getMetricDescriptorDescriptor,
 		createMetricDescriptorDescriptor,
+		updateMetricDescriptorDescriptor,
 		deleteMetricDescriptorDescriptor,
 		listMetricDescriptorsDescriptor,
 	}
@@ -1480,18 +1480,18 @@ func initDescriptors() {
 	batchGetMetricDescriptorsDescriptor = &BatchGetMetricDescriptorsDescriptor{}
 	watchMetricDescriptorDescriptor = &WatchMetricDescriptorDescriptor{}
 	watchMetricDescriptorsDescriptor = &WatchMetricDescriptorsDescriptor{}
-	updateMetricDescriptorDescriptor = &UpdateMetricDescriptorDescriptor{}
 	getMetricDescriptorDescriptor = &GetMetricDescriptorDescriptor{}
 	createMetricDescriptorDescriptor = &CreateMetricDescriptorDescriptor{}
+	updateMetricDescriptorDescriptor = &UpdateMetricDescriptorDescriptor{}
 	deleteMetricDescriptorDescriptor = &DeleteMetricDescriptorDescriptor{}
 	listMetricDescriptorsDescriptor = &ListMetricDescriptorsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(metricDescriptorServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetMetricDescriptorsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchMetricDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchMetricDescriptorsDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(updateMetricDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getMetricDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createMetricDescriptorDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(updateMetricDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteMetricDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listMetricDescriptorsDescriptor)
 }

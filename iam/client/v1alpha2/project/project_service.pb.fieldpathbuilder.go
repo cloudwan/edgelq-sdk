@@ -4067,6 +4067,9 @@ func (UpdateProjectRequestFieldPathBuilder) UpdateMask() UpdateProjectRequestPat
 func (UpdateProjectRequestFieldPathBuilder) Cas() UpdateProjectRequestPathSelectorCas {
 	return UpdateProjectRequestPathSelectorCas{}
 }
+func (UpdateProjectRequestFieldPathBuilder) AllowMissing() UpdateProjectRequestPathSelectorAllowMissing {
+	return UpdateProjectRequestPathSelectorAllowMissing{}
+}
 
 type UpdateProjectRequestPathSelectorProject struct{}
 
@@ -6236,6 +6239,20 @@ func (s UpdateProjectRequestPathSelectorCasFieldMask) WithValue(value *project.P
 
 func (s UpdateProjectRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*project.Project_FieldMask) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorAllowMissing struct{}
+
+func (UpdateProjectRequestPathSelectorAllowMissing) FieldPath() *UpdateProjectRequest_FieldTerminalPath {
+	return &UpdateProjectRequest_FieldTerminalPath{selector: UpdateProjectRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateProjectRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateProjectRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateProjectRequestCASFieldPathBuilder struct{}

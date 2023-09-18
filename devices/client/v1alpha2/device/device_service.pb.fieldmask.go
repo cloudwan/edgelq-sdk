@@ -3161,6 +3161,7 @@ func FullUpdateDeviceRequest_FieldMask() *UpdateDeviceRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorDevice})
 	res.Paths = append(res.Paths, &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateDeviceRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateDeviceRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateDeviceRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateDeviceRequest_FieldMask) Subtract(other *UpdateDeviceRequest_FieldMask) *UpdateDeviceRequest_FieldMask {
 	result := &UpdateDeviceRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateDeviceRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateDeviceRequest_FieldPathSelectorDevice: &device.Device_FieldMask{},
 		UpdateDeviceRequest_FieldPathSelectorCas:    &UpdateDeviceRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateDeviceRequest_FieldMask) Project(source *UpdateDeviceRequ
 			case UpdateDeviceRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateDeviceRequest_FieldSubPath:
 			switch tp.selector {

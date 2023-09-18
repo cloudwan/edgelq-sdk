@@ -3109,6 +3109,9 @@ func (UpdateSecretRequestFieldPathBuilder) UpdateMask() UpdateSecretRequestPathS
 func (UpdateSecretRequestFieldPathBuilder) Cas() UpdateSecretRequestPathSelectorCas {
 	return UpdateSecretRequestPathSelectorCas{}
 }
+func (UpdateSecretRequestFieldPathBuilder) AllowMissing() UpdateSecretRequestPathSelectorAllowMissing {
+	return UpdateSecretRequestPathSelectorAllowMissing{}
+}
 
 type UpdateSecretRequestPathSelectorSecret struct{}
 
@@ -4608,6 +4611,20 @@ func (s UpdateSecretRequestPathSelectorCasFieldMask) WithValue(value *secret.Sec
 
 func (s UpdateSecretRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*secret.Secret_FieldMask) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorAllowMissing struct{}
+
+func (UpdateSecretRequestPathSelectorAllowMissing) FieldPath() *UpdateSecretRequest_FieldTerminalPath {
+	return &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateSecretRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateSecretRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateSecretRequestCASFieldPathBuilder struct{}

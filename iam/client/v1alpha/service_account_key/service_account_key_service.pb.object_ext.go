@@ -1372,6 +1372,9 @@ func (o *UpdateServiceAccountKeyRequest) MakeDiffFieldMask(other *UpdateServiceA
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateServiceAccountKeyRequest) Clone() *UpdateServiceAccountKeyRequest
 	result.ServiceAccountKey = o.ServiceAccountKey.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*service_account_key.ServiceAccountKey_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateServiceAccountKeyRequest) Merge(source *UpdateServiceAccountKeyRe
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateServiceAccountKeyRequest) MergeRaw(source gotenobject.GotenObjectExt) {

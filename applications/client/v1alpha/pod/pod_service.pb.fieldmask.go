@@ -3161,6 +3161,7 @@ func FullUpdatePodRequest_FieldMask() *UpdatePodRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorPod})
 	res.Paths = append(res.Paths, &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdatePodRequest_FieldTerminalPath{selector: UpdatePodRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdatePodRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdatePodRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdatePodRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdatePodRequest_FieldMask) Subtract(other *UpdatePodRequest_FieldMask) *UpdatePodRequest_FieldMask {
 	result := &UpdatePodRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdatePodRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdatePodRequest_FieldPathSelectorPod: &pod.Pod_FieldMask{},
 		UpdatePodRequest_FieldPathSelectorCas: &UpdatePodRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdatePodRequest_FieldMask) Project(source *UpdatePodRequest) *
 			case UpdatePodRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdatePodRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdatePodRequest_FieldSubPath:
 			switch tp.selector {

@@ -6415,9 +6415,10 @@ type UpdateProjectRequest_FieldPath interface {
 type UpdateProjectRequest_FieldPathSelector int32
 
 const (
-	UpdateProjectRequest_FieldPathSelectorProject    UpdateProjectRequest_FieldPathSelector = 0
-	UpdateProjectRequest_FieldPathSelectorUpdateMask UpdateProjectRequest_FieldPathSelector = 1
-	UpdateProjectRequest_FieldPathSelectorCas        UpdateProjectRequest_FieldPathSelector = 2
+	UpdateProjectRequest_FieldPathSelectorProject      UpdateProjectRequest_FieldPathSelector = 0
+	UpdateProjectRequest_FieldPathSelectorUpdateMask   UpdateProjectRequest_FieldPathSelector = 1
+	UpdateProjectRequest_FieldPathSelectorCas          UpdateProjectRequest_FieldPathSelector = 2
+	UpdateProjectRequest_FieldPathSelectorAllowMissing UpdateProjectRequest_FieldPathSelector = 3
 )
 
 func (s UpdateProjectRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdateProjectRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdateProjectRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdatePro
 			return &UpdateProjectRequest_FieldTerminalPath{selector: UpdateProjectRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateProjectRequest_FieldTerminalPath{selector: UpdateProjectRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateProjectRequest_FieldTerminalPath{selector: UpdateProjectRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) Get(source *UpdateProjectReque
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) GetSingle(source *UpdateProjec
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*project.Project_FieldMask)(nil)
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		return (*UpdateProjectRequest_CAS)(nil)
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) ClearValue(item *UpdateProject
 			item.UpdateMask = nil
 		case UpdateProjectRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) ClearValueRaw(item proto.Messa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateProjectRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateProjectRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateProjectRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateProjectRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateProjectRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) WithIValue(value interface{}) 
 		return &UpdateProjectRequest_FieldTerminalPathValue{UpdateProjectRequest_FieldTerminalPath: *fp, value: value.(*project.Project_FieldMask)}
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		return &UpdateProjectRequest_FieldTerminalPathValue{UpdateProjectRequest_FieldTerminalPath: *fp, value: value.(*UpdateProjectRequest_CAS)}
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProjectRequest_FieldTerminalPathValue{UpdateProjectRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdateProjectRequest_FieldTerminalPath) WithIArrayOfValues(values inte
 		return &UpdateProjectRequest_FieldTerminalPathArrayOfValues{UpdateProjectRequest_FieldTerminalPath: *fp, values: values.([]*project.Project_FieldMask)}
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		return &UpdateProjectRequest_FieldTerminalPathArrayOfValues{UpdateProjectRequest_FieldTerminalPath: *fp, values: values.([]*UpdateProjectRequest_CAS)}
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		return &UpdateProjectRequest_FieldTerminalPathArrayOfValues{UpdateProjectRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdateProjectRequest_FieldTerminalPathValue) AsCasValue() (*UpdatePro
 	res, ok := fpv.value.(*UpdateProjectRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateProjectRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateProjectRequest
 func (fpv *UpdateProjectRequest_FieldTerminalPathValue) SetTo(target **UpdateProjectRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdateProjectRequest_FieldTerminalPathValue) SetTo(target **UpdatePro
 		(*target).UpdateMask = fpv.value.(*project.Project_FieldMask)
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateProjectRequest_CAS)
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdateProjectRequest_FieldTerminalPathValue) CompareWith(source *Upda
 		return 0, false
 	case UpdateProjectRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdateProjectRequest_FieldTerminalPathArrayOfValues) GetRawValues()
 		for _, v := range fpaov.values.([]*UpdateProjectRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateProjectRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdateProjectRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskAr
 }
 func (fpaov *UpdateProjectRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateProjectRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateProjectRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateProjectRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

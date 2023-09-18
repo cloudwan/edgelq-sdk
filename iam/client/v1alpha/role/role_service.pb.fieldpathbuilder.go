@@ -1445,6 +1445,9 @@ func (UpdateRoleRequestFieldPathBuilder) UpdateMask() UpdateRoleRequestPathSelec
 func (UpdateRoleRequestFieldPathBuilder) Cas() UpdateRoleRequestPathSelectorCas {
 	return UpdateRoleRequestPathSelectorCas{}
 }
+func (UpdateRoleRequestFieldPathBuilder) AllowMissing() UpdateRoleRequestPathSelectorAllowMissing {
+	return UpdateRoleRequestPathSelectorAllowMissing{}
+}
 
 type UpdateRoleRequestPathSelectorRole struct{}
 
@@ -1866,6 +1869,20 @@ func (s UpdateRoleRequestPathSelectorCasFieldMask) WithValue(value *role.Role_Fi
 
 func (s UpdateRoleRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*role.Role_FieldMask) *UpdateRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorAllowMissing struct{}
+
+func (UpdateRoleRequestPathSelectorAllowMissing) FieldPath() *UpdateRoleRequest_FieldTerminalPath {
+	return &UpdateRoleRequest_FieldTerminalPath{selector: UpdateRoleRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateRoleRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateRoleRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateRoleRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateRoleRequestCASFieldPathBuilder struct{}

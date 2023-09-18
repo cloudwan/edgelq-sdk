@@ -3101,6 +3101,9 @@ func (UpdateResourceRequestFieldPathBuilder) UpdateMask() UpdateResourceRequestP
 func (UpdateResourceRequestFieldPathBuilder) Cas() UpdateResourceRequestPathSelectorCas {
 	return UpdateResourceRequestPathSelectorCas{}
 }
+func (UpdateResourceRequestFieldPathBuilder) AllowMissing() UpdateResourceRequestPathSelectorAllowMissing {
+	return UpdateResourceRequestPathSelectorAllowMissing{}
+}
 
 type UpdateResourceRequestPathSelectorResource struct{}
 
@@ -4596,6 +4599,20 @@ func (s UpdateResourceRequestPathSelectorCasFieldMask) WithValue(value *resource
 
 func (s UpdateResourceRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*resource.Resource_FieldMask) *UpdateResourceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateResourceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateResourceRequestPathSelectorAllowMissing struct{}
+
+func (UpdateResourceRequestPathSelectorAllowMissing) FieldPath() *UpdateResourceRequest_FieldTerminalPath {
+	return &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateResourceRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateResourceRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateResourceRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateResourceRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateResourceRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateResourceRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateResourceRequestCASFieldPathBuilder struct{}

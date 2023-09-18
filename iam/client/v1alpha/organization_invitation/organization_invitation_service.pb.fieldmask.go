@@ -3107,6 +3107,7 @@ func FullUpdateOrganizationInvitationRequest_FieldMask() *UpdateOrganizationInvi
 	res.Paths = append(res.Paths, &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation})
 	res.Paths = append(res.Paths, &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateOrganizationInvitationRequest_FieldTerminalPath{selector: UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3150,7 +3151,7 @@ func (fieldMask *UpdateOrganizationInvitationRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateOrganizationInvitationRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3180,7 +3181,7 @@ func (fieldMask *UpdateOrganizationInvitationRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateOrganizationInvitationRequest_FieldMask) Subtract(other *UpdateOrganizationInvitationRequest_FieldMask) *UpdateOrganizationInvitationRequest_FieldMask {
 	result := &UpdateOrganizationInvitationRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateOrganizationInvitationRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation: &organization_invitation.OrganizationInvitation_FieldMask{},
 		UpdateOrganizationInvitationRequest_FieldPathSelectorCas:                    &UpdateOrganizationInvitationRequest_CAS_FieldMask{},
@@ -3376,6 +3377,8 @@ func (fieldMask *UpdateOrganizationInvitationRequest_FieldMask) Project(source *
 			case UpdateOrganizationInvitationRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateOrganizationInvitationRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateOrganizationInvitationRequest_FieldSubPath:
 			switch tp.selector {

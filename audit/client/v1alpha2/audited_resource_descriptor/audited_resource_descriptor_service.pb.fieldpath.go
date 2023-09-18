@@ -6416,6 +6416,7 @@ const (
 	UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAuditedResourceDescriptor UpdateAuditedResourceDescriptorRequest_FieldPathSelector = 0
 	UpdateAuditedResourceDescriptorRequest_FieldPathSelectorUpdateMask                UpdateAuditedResourceDescriptorRequest_FieldPathSelector = 1
 	UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas                       UpdateAuditedResourceDescriptorRequest_FieldPathSelector = 2
+	UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing              UpdateAuditedResourceDescriptorRequest_FieldPathSelector = 3
 )
 
 func (s UpdateAuditedResourceDescriptorRequest_FieldPathSelector) String() string {
@@ -6426,6 +6427,8 @@ func (s UpdateAuditedResourceDescriptorRequest_FieldPathSelector) String() strin
 		return "update_mask"
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", s))
 	}
@@ -6443,6 +6446,8 @@ func BuildUpdateAuditedResourceDescriptorRequest_FieldPath(fp gotenobject.RawFie
 			return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPath{selector: UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6515,6 +6520,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) Get(source *
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 		}
@@ -6538,6 +6545,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) GetSingle(so
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -6556,6 +6565,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) GetDefault()
 		return (*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)(nil)
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		return (*UpdateAuditedResourceDescriptorRequest_CAS)(nil)
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -6570,6 +6581,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) ClearValue(i
 			item.UpdateMask = nil
 		case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 		}
@@ -6582,7 +6595,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) ClearValueRa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateAuditedResourceDescriptorRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateAuditedResourceDescriptorRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6597,6 +6611,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) WithIValue(v
 		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)}
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(*UpdateAuditedResourceDescriptorRequest_CAS)}
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -6615,6 +6631,8 @@ func (fp *UpdateAuditedResourceDescriptorRequest_FieldTerminalPath) WithIArrayOf
 		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)}
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]*UpdateAuditedResourceDescriptorRequest_CAS)}
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues{UpdateAuditedResourceDescriptorRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fp.selector))
 	}
@@ -6812,6 +6830,10 @@ func (fpv *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue) AsCasV
 	res, ok := fpv.value.(*UpdateAuditedResourceDescriptorRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateAuditedResourceDescriptorRequest
 func (fpv *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue) SetTo(target **UpdateAuditedResourceDescriptorRequest) {
@@ -6825,6 +6847,8 @@ func (fpv *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue) SetTo(
 		(*target).UpdateMask = fpv.value.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateAuditedResourceDescriptorRequest_CAS)
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fpv.selector))
 	}
@@ -6844,6 +6868,16 @@ func (fpv *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathValue) Compar
 		return 0, false
 	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAuditedResourceDescriptorRequest: %d", fpv.selector))
 	}
@@ -7048,6 +7082,10 @@ func (fpaov *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValu
 		for _, v := range fpaov.values.([]*UpdateAuditedResourceDescriptorRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateAuditedResourceDescriptorRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7061,6 +7099,10 @@ func (fpaov *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValu
 }
 func (fpaov *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateAuditedResourceDescriptorRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateAuditedResourceDescriptorRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateAuditedResourceDescriptorRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

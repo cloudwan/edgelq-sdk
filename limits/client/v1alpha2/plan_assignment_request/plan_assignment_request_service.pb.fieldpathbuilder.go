@@ -5024,6 +5024,9 @@ func (UpdatePlanAssignmentRequestRequestFieldPathBuilder) UpdateMask() UpdatePla
 func (UpdatePlanAssignmentRequestRequestFieldPathBuilder) Cas() UpdatePlanAssignmentRequestRequestPathSelectorCas {
 	return UpdatePlanAssignmentRequestRequestPathSelectorCas{}
 }
+func (UpdatePlanAssignmentRequestRequestFieldPathBuilder) AllowMissing() UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing {
+	return UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing{}
+}
 
 type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequest struct{}
 
@@ -7789,6 +7792,20 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasFieldMask) WithValue(va
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*plan_assignment_request.PlanAssignmentRequest_FieldMask) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldTerminalPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing) WithValue(value bool) *UpdatePlanAssignmentRequestRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdatePlanAssignmentRequestRequestCASFieldPathBuilder struct{}

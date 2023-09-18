@@ -6578,9 +6578,10 @@ type UpdateDeploymentRequest_FieldPath interface {
 type UpdateDeploymentRequest_FieldPathSelector int32
 
 const (
-	UpdateDeploymentRequest_FieldPathSelectorDeployment UpdateDeploymentRequest_FieldPathSelector = 0
-	UpdateDeploymentRequest_FieldPathSelectorUpdateMask UpdateDeploymentRequest_FieldPathSelector = 1
-	UpdateDeploymentRequest_FieldPathSelectorCas        UpdateDeploymentRequest_FieldPathSelector = 2
+	UpdateDeploymentRequest_FieldPathSelectorDeployment   UpdateDeploymentRequest_FieldPathSelector = 0
+	UpdateDeploymentRequest_FieldPathSelectorUpdateMask   UpdateDeploymentRequest_FieldPathSelector = 1
+	UpdateDeploymentRequest_FieldPathSelectorCas          UpdateDeploymentRequest_FieldPathSelector = 2
+	UpdateDeploymentRequest_FieldPathSelectorAllowMissing UpdateDeploymentRequest_FieldPathSelector = 3
 )
 
 func (s UpdateDeploymentRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateDeploymentRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateDeploymentRequest_FieldPath(fp gotenobject.RawFieldPath) (Update
 			return &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) Get(source *UpdateDeploymen
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) GetSingle(source *UpdateDep
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*deployment.Deployment_FieldMask)(nil)
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		return (*UpdateDeploymentRequest_CAS)(nil)
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) ClearValue(item *UpdateDepl
 			item.UpdateMask = nil
 		case UpdateDeploymentRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateDeploymentRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateDeploymentRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateDeploymentRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateDeploymentRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateDeploymentRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) WithIValue(value interface{
 		return &UpdateDeploymentRequest_FieldTerminalPathValue{UpdateDeploymentRequest_FieldTerminalPath: *fp, value: value.(*deployment.Deployment_FieldMask)}
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		return &UpdateDeploymentRequest_FieldTerminalPathValue{UpdateDeploymentRequest_FieldTerminalPath: *fp, value: value.(*UpdateDeploymentRequest_CAS)}
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDeploymentRequest_FieldTerminalPathValue{UpdateDeploymentRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateDeploymentRequest_FieldTerminalPath) WithIArrayOfValues(values i
 		return &UpdateDeploymentRequest_FieldTerminalPathArrayOfValues{UpdateDeploymentRequest_FieldTerminalPath: *fp, values: values.([]*deployment.Deployment_FieldMask)}
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		return &UpdateDeploymentRequest_FieldTerminalPathArrayOfValues{UpdateDeploymentRequest_FieldTerminalPath: *fp, values: values.([]*UpdateDeploymentRequest_CAS)}
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDeploymentRequest_FieldTerminalPathArrayOfValues{UpdateDeploymentRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateDeploymentRequest_FieldTerminalPathValue) AsCasValue() (*Update
 	res, ok := fpv.value.(*UpdateDeploymentRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateDeploymentRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateDeploymentRequest
 func (fpv *UpdateDeploymentRequest_FieldTerminalPathValue) SetTo(target **UpdateDeploymentRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateDeploymentRequest_FieldTerminalPathValue) SetTo(target **Update
 		(*target).UpdateMask = fpv.value.(*deployment.Deployment_FieldMask)
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateDeploymentRequest_CAS)
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateDeploymentRequest_FieldTerminalPathValue) CompareWith(source *U
 		return 0, false
 	case UpdateDeploymentRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateDeploymentRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]*UpdateDeploymentRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateDeploymentRequest_FieldTerminalPathArrayOfValues) AsUpdateMas
 }
 func (fpaov *UpdateDeploymentRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateDeploymentRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateDeploymentRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateDeploymentRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

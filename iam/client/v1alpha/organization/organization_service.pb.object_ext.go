@@ -1295,6 +1295,9 @@ func (o *UpdateOrganizationRequest) MakeDiffFieldMask(other *UpdateOrganizationR
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdateOrganizationRequest) Clone() *UpdateOrganizationRequest {
 	result.Organization = o.Organization.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*organization.Organization_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdateOrganizationRequest) Merge(source *UpdateOrganizationRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateOrganizationRequest) MergeRaw(source gotenobject.GotenObjectExt) {

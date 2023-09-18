@@ -3161,6 +3161,7 @@ func FullUpdateAcceptedPlanRequest_FieldMask() *UpdateAcceptedPlanRequest_FieldM
 	res.Paths = append(res.Paths, &UpdateAcceptedPlanRequest_FieldTerminalPath{selector: UpdateAcceptedPlanRequest_FieldPathSelectorAcceptedPlan})
 	res.Paths = append(res.Paths, &UpdateAcceptedPlanRequest_FieldTerminalPath{selector: UpdateAcceptedPlanRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAcceptedPlanRequest_FieldTerminalPath{selector: UpdateAcceptedPlanRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAcceptedPlanRequest_FieldTerminalPath{selector: UpdateAcceptedPlanRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateAcceptedPlanRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAcceptedPlanRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateAcceptedPlanRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAcceptedPlanRequest_FieldMask) Subtract(other *UpdateAcceptedPlanRequest_FieldMask) *UpdateAcceptedPlanRequest_FieldMask {
 	result := &UpdateAcceptedPlanRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAcceptedPlanRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAcceptedPlanRequest_FieldPathSelectorAcceptedPlan: &accepted_plan.AcceptedPlan_FieldMask{},
 		UpdateAcceptedPlanRequest_FieldPathSelectorCas:          &UpdateAcceptedPlanRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateAcceptedPlanRequest_FieldMask) Project(source *UpdateAcce
 			case UpdateAcceptedPlanRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAcceptedPlanRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAcceptedPlanRequest_FieldSubPath:
 			switch tp.selector {

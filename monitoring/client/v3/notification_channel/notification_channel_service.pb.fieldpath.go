@@ -6581,6 +6581,7 @@ const (
 	UpdateNotificationChannelRequest_FieldPathSelectorNotificationChannel UpdateNotificationChannelRequest_FieldPathSelector = 0
 	UpdateNotificationChannelRequest_FieldPathSelectorUpdateMask          UpdateNotificationChannelRequest_FieldPathSelector = 1
 	UpdateNotificationChannelRequest_FieldPathSelectorCas                 UpdateNotificationChannelRequest_FieldPathSelector = 2
+	UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing        UpdateNotificationChannelRequest_FieldPathSelector = 3
 )
 
 func (s UpdateNotificationChannelRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateNotificationChannelRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateNotificationChannelRequest_FieldPath(fp gotenobject.RawFieldPath
 			return &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) Get(source *Update
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) GetSingle(source *
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) GetDefault() inter
 		return (*notification_channel.NotificationChannel_FieldMask)(nil)
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		return (*UpdateNotificationChannelRequest_CAS)(nil)
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) ClearValue(item *U
 			item.UpdateMask = nil
 		case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) ClearValueRaw(item
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateNotificationChannelRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateNotificationChannelRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) WithIValue(value i
 		return &UpdateNotificationChannelRequest_FieldTerminalPathValue{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, value: value.(*notification_channel.NotificationChannel_FieldMask)}
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		return &UpdateNotificationChannelRequest_FieldTerminalPathValue{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, value: value.(*UpdateNotificationChannelRequest_CAS)}
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		return &UpdateNotificationChannelRequest_FieldTerminalPathValue{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateNotificationChannelRequest_FieldTerminalPath) WithIArrayOfValues
 		return &UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, values: values.([]*notification_channel.NotificationChannel_FieldMask)}
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		return &UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, values: values.([]*UpdateNotificationChannelRequest_CAS)}
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		return &UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues{UpdateNotificationChannelRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateNotificationChannelRequest_FieldTerminalPathValue) AsCasValue()
 	res, ok := fpv.value.(*UpdateNotificationChannelRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateNotificationChannelRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateNotificationChannelRequest
 func (fpv *UpdateNotificationChannelRequest_FieldTerminalPathValue) SetTo(target **UpdateNotificationChannelRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateNotificationChannelRequest_FieldTerminalPathValue) SetTo(target
 		(*target).UpdateMask = fpv.value.(*notification_channel.NotificationChannel_FieldMask)
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateNotificationChannelRequest_CAS)
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateNotificationChannelRequest_FieldTerminalPathValue) CompareWith(
 		return 0, false
 	case UpdateNotificationChannelRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateNotificationChannelRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues) Ge
 		for _, v := range fpaov.values.([]*UpdateNotificationChannelRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues) As
 }
 func (fpaov *UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateNotificationChannelRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateNotificationChannelRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

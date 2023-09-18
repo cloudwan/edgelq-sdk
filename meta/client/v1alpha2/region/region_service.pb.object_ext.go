@@ -1295,6 +1295,9 @@ func (o *UpdateRegionRequest) MakeDiffFieldMask(other *UpdateRegionRequest) *Upd
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdateRegionRequest) Clone() *UpdateRegionRequest {
 	result.Region = o.Region.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*region.Region_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdateRegionRequest) Merge(source *UpdateRegionRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateRegionRequest) MergeRaw(source gotenobject.GotenObjectExt) {

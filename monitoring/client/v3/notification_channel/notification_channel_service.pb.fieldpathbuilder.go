@@ -4198,6 +4198,9 @@ func (UpdateNotificationChannelRequestFieldPathBuilder) UpdateMask() UpdateNotif
 func (UpdateNotificationChannelRequestFieldPathBuilder) Cas() UpdateNotificationChannelRequestPathSelectorCas {
 	return UpdateNotificationChannelRequestPathSelectorCas{}
 }
+func (UpdateNotificationChannelRequestFieldPathBuilder) AllowMissing() UpdateNotificationChannelRequestPathSelectorAllowMissing {
+	return UpdateNotificationChannelRequestPathSelectorAllowMissing{}
+}
 
 type UpdateNotificationChannelRequestPathSelectorNotificationChannel struct{}
 
@@ -6423,6 +6426,20 @@ func (s UpdateNotificationChannelRequestPathSelectorCasFieldMask) WithValue(valu
 
 func (s UpdateNotificationChannelRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*notification_channel.NotificationChannel_FieldMask) *UpdateNotificationChannelRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationChannelRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationChannelRequestPathSelectorAllowMissing struct{}
+
+func (UpdateNotificationChannelRequestPathSelectorAllowMissing) FieldPath() *UpdateNotificationChannelRequest_FieldTerminalPath {
+	return &UpdateNotificationChannelRequest_FieldTerminalPath{selector: UpdateNotificationChannelRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateNotificationChannelRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateNotificationChannelRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationChannelRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateNotificationChannelRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationChannelRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateNotificationChannelRequestCASFieldPathBuilder struct{}

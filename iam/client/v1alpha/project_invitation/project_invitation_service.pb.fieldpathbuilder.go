@@ -1750,6 +1750,9 @@ func (UpdateProjectInvitationRequestFieldPathBuilder) UpdateMask() UpdateProject
 func (UpdateProjectInvitationRequestFieldPathBuilder) Cas() UpdateProjectInvitationRequestPathSelectorCas {
 	return UpdateProjectInvitationRequestPathSelectorCas{}
 }
+func (UpdateProjectInvitationRequestFieldPathBuilder) AllowMissing() UpdateProjectInvitationRequestPathSelectorAllowMissing {
+	return UpdateProjectInvitationRequestPathSelectorAllowMissing{}
+}
 
 type UpdateProjectInvitationRequestPathSelectorProjectInvitation struct{}
 
@@ -2335,6 +2338,20 @@ func (s UpdateProjectInvitationRequestPathSelectorCasFieldMask) WithValue(value 
 
 func (s UpdateProjectInvitationRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*project_invitation.ProjectInvitation_FieldMask) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequestPathSelectorAllowMissing struct{}
+
+func (UpdateProjectInvitationRequestPathSelectorAllowMissing) FieldPath() *UpdateProjectInvitationRequest_FieldTerminalPath {
+	return &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateProjectInvitationRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateProjectInvitationRequestCASFieldPathBuilder struct{}

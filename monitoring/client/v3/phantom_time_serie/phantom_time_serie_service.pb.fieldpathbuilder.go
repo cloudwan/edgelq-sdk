@@ -5579,6 +5579,9 @@ func (UpdatePhantomTimeSerieRequestFieldPathBuilder) UpdateMask() UpdatePhantomT
 func (UpdatePhantomTimeSerieRequestFieldPathBuilder) Cas() UpdatePhantomTimeSerieRequestPathSelectorCas {
 	return UpdatePhantomTimeSerieRequestPathSelectorCas{}
 }
+func (UpdatePhantomTimeSerieRequestFieldPathBuilder) AllowMissing() UpdatePhantomTimeSerieRequestPathSelectorAllowMissing {
+	return UpdatePhantomTimeSerieRequestPathSelectorAllowMissing{}
+}
 
 type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie struct{}
 
@@ -8718,6 +8721,20 @@ func (s UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask) WithValue(value *
 
 func (s UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorAllowMissing struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorAllowMissing) FieldPath() *UpdatePhantomTimeSerieRequest_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorAllowMissing) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdatePhantomTimeSerieRequestCASFieldPathBuilder struct{}

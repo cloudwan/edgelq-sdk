@@ -1372,6 +1372,9 @@ func (o *UpdateProvisioningApprovalRequestRequest) MakeDiffFieldMask(other *Upda
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateProvisioningApprovalRequestRequest) Clone() *UpdateProvisioningAp
 	result.ProvisioningApprovalRequest = o.ProvisioningApprovalRequest.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateProvisioningApprovalRequestRequest) Merge(source *UpdateProvision
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateProvisioningApprovalRequestRequest) MergeRaw(source gotenobject.GotenObjectExt) {

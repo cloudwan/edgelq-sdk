@@ -2472,6 +2472,9 @@ func (UpdateMonitoredResourceDescriptorRequestFieldPathBuilder) UpdateMask() Upd
 func (UpdateMonitoredResourceDescriptorRequestFieldPathBuilder) Cas() UpdateMonitoredResourceDescriptorRequestPathSelectorCas {
 	return UpdateMonitoredResourceDescriptorRequestPathSelectorCas{}
 }
+func (UpdateMonitoredResourceDescriptorRequestFieldPathBuilder) AllowMissing() UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing {
+	return UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing{}
+}
 
 type UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptor struct{}
 
@@ -4369,6 +4372,20 @@ func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasFieldMask) WithVa
 
 func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing struct{}
+
+func (UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing) FieldPath() *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath {
+	return &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateMonitoredResourceDescriptorRequestCASFieldPathBuilder struct{}

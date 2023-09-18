@@ -3148,6 +3148,7 @@ func FullUpdateMethodDescriptorRequest_FieldMask() *UpdateMethodDescriptorReques
 	res.Paths = append(res.Paths, &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorMethodDescriptor})
 	res.Paths = append(res.Paths, &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3191,7 +3192,7 @@ func (fieldMask *UpdateMethodDescriptorRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateMethodDescriptorRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3221,7 +3222,7 @@ func (fieldMask *UpdateMethodDescriptorRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateMethodDescriptorRequest_FieldMask) Subtract(other *UpdateMethodDescriptorRequest_FieldMask) *UpdateMethodDescriptorRequest_FieldMask {
 	result := &UpdateMethodDescriptorRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateMethodDescriptorRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateMethodDescriptorRequest_FieldPathSelectorMethodDescriptor: &method_descriptor.MethodDescriptor_FieldMask{},
 		UpdateMethodDescriptorRequest_FieldPathSelectorCas:              &UpdateMethodDescriptorRequest_CAS_FieldMask{},
@@ -3448,6 +3449,8 @@ func (fieldMask *UpdateMethodDescriptorRequest_FieldMask) Project(source *Update
 			case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateMethodDescriptorRequest_FieldSubPath:
 			switch tp.selector {

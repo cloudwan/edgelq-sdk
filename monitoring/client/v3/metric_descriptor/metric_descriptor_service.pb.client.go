@@ -52,9 +52,9 @@ type MetricDescriptorServiceClient interface {
 	BatchGetMetricDescriptors(ctx context.Context, in *BatchGetMetricDescriptorsRequest, opts ...grpc.CallOption) (*BatchGetMetricDescriptorsResponse, error)
 	WatchMetricDescriptor(ctx context.Context, in *WatchMetricDescriptorRequest, opts ...grpc.CallOption) (WatchMetricDescriptorClientStream, error)
 	WatchMetricDescriptors(ctx context.Context, in *WatchMetricDescriptorsRequest, opts ...grpc.CallOption) (WatchMetricDescriptorsClientStream, error)
-	UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
 	GetMetricDescriptor(ctx context.Context, in *GetMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
 	CreateMetricDescriptor(ctx context.Context, in *CreateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
+	UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
 	DeleteMetricDescriptor(ctx context.Context, in *DeleteMetricDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	ListMetricDescriptors(ctx context.Context, in *ListMetricDescriptorsRequest, opts ...grpc.CallOption) (*ListMetricDescriptorsResponse, error)
 }
@@ -150,15 +150,6 @@ func (x *watchMetricDescriptorsWatchMetricDescriptorsClient) Recv() (*WatchMetri
 	return m, nil
 }
 
-func (c *client) UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error) {
-	out := new(metric_descriptor.MetricDescriptor)
-	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MetricDescriptorService/UpdateMetricDescriptor", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *client) GetMetricDescriptor(ctx context.Context, in *GetMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error) {
 	out := new(metric_descriptor.MetricDescriptor)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MetricDescriptorService/GetMetricDescriptor", in, out, opts...)
@@ -171,6 +162,15 @@ func (c *client) GetMetricDescriptor(ctx context.Context, in *GetMetricDescripto
 func (c *client) CreateMetricDescriptor(ctx context.Context, in *CreateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error) {
 	out := new(metric_descriptor.MetricDescriptor)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MetricDescriptorService/CreateMetricDescriptor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error) {
+	out := new(metric_descriptor.MetricDescriptor)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MetricDescriptorService/UpdateMetricDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

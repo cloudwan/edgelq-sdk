@@ -6415,9 +6415,10 @@ type UpdatePermissionRequest_FieldPath interface {
 type UpdatePermissionRequest_FieldPathSelector int32
 
 const (
-	UpdatePermissionRequest_FieldPathSelectorPermission UpdatePermissionRequest_FieldPathSelector = 0
-	UpdatePermissionRequest_FieldPathSelectorUpdateMask UpdatePermissionRequest_FieldPathSelector = 1
-	UpdatePermissionRequest_FieldPathSelectorCas        UpdatePermissionRequest_FieldPathSelector = 2
+	UpdatePermissionRequest_FieldPathSelectorPermission   UpdatePermissionRequest_FieldPathSelector = 0
+	UpdatePermissionRequest_FieldPathSelectorUpdateMask   UpdatePermissionRequest_FieldPathSelector = 1
+	UpdatePermissionRequest_FieldPathSelectorCas          UpdatePermissionRequest_FieldPathSelector = 2
+	UpdatePermissionRequest_FieldPathSelectorAllowMissing UpdatePermissionRequest_FieldPathSelector = 3
 )
 
 func (s UpdatePermissionRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdatePermissionRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdatePermissionRequest_FieldPath(fp gotenobject.RawFieldPath) (Update
 			return &UpdatePermissionRequest_FieldTerminalPath{selector: UpdatePermissionRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdatePermissionRequest_FieldTerminalPath{selector: UpdatePermissionRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdatePermissionRequest_FieldTerminalPath{selector: UpdatePermissionRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) Get(source *UpdatePermissio
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) GetSingle(source *UpdatePer
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*permission.Permission_FieldMask)(nil)
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		return (*UpdatePermissionRequest_CAS)(nil)
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) ClearValue(item *UpdatePerm
 			item.UpdateMask = nil
 		case UpdatePermissionRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdatePermissionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdatePermissionRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdatePermissionRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdatePermissionRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdatePermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) WithIValue(value interface{
 		return &UpdatePermissionRequest_FieldTerminalPathValue{UpdatePermissionRequest_FieldTerminalPath: *fp, value: value.(*permission.Permission_FieldMask)}
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		return &UpdatePermissionRequest_FieldTerminalPathValue{UpdatePermissionRequest_FieldTerminalPath: *fp, value: value.(*UpdatePermissionRequest_CAS)}
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePermissionRequest_FieldTerminalPathValue{UpdatePermissionRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) WithIArrayOfValues(values i
 		return &UpdatePermissionRequest_FieldTerminalPathArrayOfValues{UpdatePermissionRequest_FieldTerminalPath: *fp, values: values.([]*permission.Permission_FieldMask)}
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		return &UpdatePermissionRequest_FieldTerminalPathArrayOfValues{UpdatePermissionRequest_FieldTerminalPath: *fp, values: values.([]*UpdatePermissionRequest_CAS)}
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		return &UpdatePermissionRequest_FieldTerminalPathArrayOfValues{UpdatePermissionRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdatePermissionRequest_FieldTerminalPathValue) AsCasValue() (*Update
 	res, ok := fpv.value.(*UpdatePermissionRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdatePermissionRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdatePermissionRequest
 func (fpv *UpdatePermissionRequest_FieldTerminalPathValue) SetTo(target **UpdatePermissionRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdatePermissionRequest_FieldTerminalPathValue) SetTo(target **Update
 		(*target).UpdateMask = fpv.value.(*permission.Permission_FieldMask)
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdatePermissionRequest_CAS)
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdatePermissionRequest_FieldTerminalPathValue) CompareWith(source *U
 		return 0, false
 	case UpdatePermissionRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdatePermissionRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]*UpdatePermissionRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdatePermissionRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdatePermissionRequest_FieldTerminalPathArrayOfValues) AsUpdateMas
 }
 func (fpaov *UpdatePermissionRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdatePermissionRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdatePermissionRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdatePermissionRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

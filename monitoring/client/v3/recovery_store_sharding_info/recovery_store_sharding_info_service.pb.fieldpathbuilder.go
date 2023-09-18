@@ -3290,6 +3290,9 @@ func (UpdateRecoveryStoreShardingInfoRequestFieldPathBuilder) UpdateMask() Updat
 func (UpdateRecoveryStoreShardingInfoRequestFieldPathBuilder) Cas() UpdateRecoveryStoreShardingInfoRequestPathSelectorCas {
 	return UpdateRecoveryStoreShardingInfoRequestPathSelectorCas{}
 }
+func (UpdateRecoveryStoreShardingInfoRequestFieldPathBuilder) AllowMissing() UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing {
+	return UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing{}
+}
 
 type UpdateRecoveryStoreShardingInfoRequestPathSelectorRecoveryStoreShardingInfo struct{}
 
@@ -4911,6 +4914,20 @@ func (s UpdateRecoveryStoreShardingInfoRequestPathSelectorCasFieldMask) WithValu
 
 func (s UpdateRecoveryStoreShardingInfoRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask) *UpdateRecoveryStoreShardingInfoRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRecoveryStoreShardingInfoRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing struct{}
+
+func (UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing) FieldPath() *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath {
+	return &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateRecoveryStoreShardingInfoRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateRecoveryStoreShardingInfoRequestCASFieldPathBuilder struct{}

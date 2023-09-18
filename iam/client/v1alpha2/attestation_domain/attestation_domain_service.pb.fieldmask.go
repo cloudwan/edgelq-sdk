@@ -3161,6 +3161,7 @@ func FullUpdateAttestationDomainRequest_FieldMask() *UpdateAttestationDomainRequ
 	res.Paths = append(res.Paths, &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain})
 	res.Paths = append(res.Paths, &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateAttestationDomainRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAttestationDomainRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateAttestationDomainRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAttestationDomainRequest_FieldMask) Subtract(other *UpdateAttestationDomainRequest_FieldMask) *UpdateAttestationDomainRequest_FieldMask {
 	result := &UpdateAttestationDomainRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAttestationDomainRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain: &attestation_domain.AttestationDomain_FieldMask{},
 		UpdateAttestationDomainRequest_FieldPathSelectorCas:               &UpdateAttestationDomainRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateAttestationDomainRequest_FieldMask) Project(source *Updat
 			case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAttestationDomainRequest_FieldSubPath:
 			switch tp.selector {

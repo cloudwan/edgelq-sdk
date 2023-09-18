@@ -3107,6 +3107,7 @@ func FullUpdateSecretRequest_FieldMask() *UpdateSecretRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorSecret})
 	res.Paths = append(res.Paths, &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateSecretRequest_FieldTerminalPath{selector: UpdateSecretRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3150,7 +3151,7 @@ func (fieldMask *UpdateSecretRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateSecretRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3180,7 +3181,7 @@ func (fieldMask *UpdateSecretRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateSecretRequest_FieldMask) Subtract(other *UpdateSecretRequest_FieldMask) *UpdateSecretRequest_FieldMask {
 	result := &UpdateSecretRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateSecretRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateSecretRequest_FieldPathSelectorSecret: &secret.Secret_FieldMask{},
 		UpdateSecretRequest_FieldPathSelectorCas:    &UpdateSecretRequest_CAS_FieldMask{},
@@ -3376,6 +3377,8 @@ func (fieldMask *UpdateSecretRequest_FieldMask) Project(source *UpdateSecretRequ
 			case UpdateSecretRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateSecretRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateSecretRequest_FieldSubPath:
 			switch tp.selector {

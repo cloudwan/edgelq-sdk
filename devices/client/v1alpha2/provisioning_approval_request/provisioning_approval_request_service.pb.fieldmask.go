@@ -3162,6 +3162,7 @@ func FullUpdateProvisioningApprovalRequestRequest_FieldMask() *UpdateProvisionin
 	res.Paths = append(res.Paths, &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorProvisioningApprovalRequest})
 	res.Paths = append(res.Paths, &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3205,7 +3206,7 @@ func (fieldMask *UpdateProvisioningApprovalRequestRequest_FieldMask) IsFull() bo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateProvisioningApprovalRequestRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3235,7 +3236,7 @@ func (fieldMask *UpdateProvisioningApprovalRequestRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateProvisioningApprovalRequestRequest_FieldMask) Subtract(other *UpdateProvisioningApprovalRequestRequest_FieldMask) *UpdateProvisioningApprovalRequestRequest_FieldMask {
 	result := &UpdateProvisioningApprovalRequestRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateProvisioningApprovalRequestRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateProvisioningApprovalRequestRequest_FieldPathSelectorProvisioningApprovalRequest: &provisioning_approval_request.ProvisioningApprovalRequest_FieldMask{},
 		UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:                         &UpdateProvisioningApprovalRequestRequest_CAS_FieldMask{},
@@ -3462,6 +3463,8 @@ func (fieldMask *UpdateProvisioningApprovalRequestRequest_FieldMask) Project(sou
 			case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateProvisioningApprovalRequestRequest_FieldSubPath:
 			switch tp.selector {

@@ -3150,6 +3150,7 @@ func FullUpdateOrganizationRequest_FieldMask() *UpdateOrganizationRequest_FieldM
 	res.Paths = append(res.Paths, &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorOrganization})
 	res.Paths = append(res.Paths, &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3193,7 +3194,7 @@ func (fieldMask *UpdateOrganizationRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateOrganizationRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3223,7 +3224,7 @@ func (fieldMask *UpdateOrganizationRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateOrganizationRequest_FieldMask) Subtract(other *UpdateOrganizationRequest_FieldMask) *UpdateOrganizationRequest_FieldMask {
 	result := &UpdateOrganizationRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateOrganizationRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateOrganizationRequest_FieldPathSelectorOrganization: &organization.Organization_FieldMask{},
 		UpdateOrganizationRequest_FieldPathSelectorCas:          &UpdateOrganizationRequest_CAS_FieldMask{},
@@ -3450,6 +3451,8 @@ func (fieldMask *UpdateOrganizationRequest_FieldMask) Project(source *UpdateOrga
 			case UpdateOrganizationRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateOrganizationRequest_FieldSubPath:
 			switch tp.selector {

@@ -3161,6 +3161,7 @@ func FullUpdatePhantomTimeSerieRequest_FieldMask() *UpdatePhantomTimeSerieReques
 	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie})
 	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdatePhantomTimeSerieRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Subtract(other *UpdatePhantomTimeSerieRequest_FieldMask) *UpdatePhantomTimeSerieRequest_FieldMask {
 	result := &UpdatePhantomTimeSerieRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdatePhantomTimeSerieRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
 		UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:              &UpdatePhantomTimeSerieRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Project(source *Update
 			case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdatePhantomTimeSerieRequest_FieldSubPath:
 			switch tp.selector {

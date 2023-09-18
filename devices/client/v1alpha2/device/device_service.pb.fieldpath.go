@@ -6578,9 +6578,10 @@ type UpdateDeviceRequest_FieldPath interface {
 type UpdateDeviceRequest_FieldPathSelector int32
 
 const (
-	UpdateDeviceRequest_FieldPathSelectorDevice     UpdateDeviceRequest_FieldPathSelector = 0
-	UpdateDeviceRequest_FieldPathSelectorUpdateMask UpdateDeviceRequest_FieldPathSelector = 1
-	UpdateDeviceRequest_FieldPathSelectorCas        UpdateDeviceRequest_FieldPathSelector = 2
+	UpdateDeviceRequest_FieldPathSelectorDevice       UpdateDeviceRequest_FieldPathSelector = 0
+	UpdateDeviceRequest_FieldPathSelectorUpdateMask   UpdateDeviceRequest_FieldPathSelector = 1
+	UpdateDeviceRequest_FieldPathSelectorCas          UpdateDeviceRequest_FieldPathSelector = 2
+	UpdateDeviceRequest_FieldPathSelectorAllowMissing UpdateDeviceRequest_FieldPathSelector = 3
 )
 
 func (s UpdateDeviceRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateDeviceRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateDeviceRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateDevi
 			return &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateDeviceRequest_FieldTerminalPath{selector: UpdateDeviceRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) Get(source *UpdateDeviceRequest
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) GetSingle(source *UpdateDeviceR
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*device.Device_FieldMask)(nil)
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		return (*UpdateDeviceRequest_CAS)(nil)
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) ClearValue(item *UpdateDeviceRe
 			item.UpdateMask = nil
 		case UpdateDeviceRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) ClearValueRaw(item proto.Messag
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateDeviceRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateDeviceRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateDeviceRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateDeviceRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateDeviceRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) WithIValue(value interface{}) U
 		return &UpdateDeviceRequest_FieldTerminalPathValue{UpdateDeviceRequest_FieldTerminalPath: *fp, value: value.(*device.Device_FieldMask)}
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		return &UpdateDeviceRequest_FieldTerminalPathValue{UpdateDeviceRequest_FieldTerminalPath: *fp, value: value.(*UpdateDeviceRequest_CAS)}
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDeviceRequest_FieldTerminalPathValue{UpdateDeviceRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateDeviceRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &UpdateDeviceRequest_FieldTerminalPathArrayOfValues{UpdateDeviceRequest_FieldTerminalPath: *fp, values: values.([]*device.Device_FieldMask)}
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		return &UpdateDeviceRequest_FieldTerminalPathArrayOfValues{UpdateDeviceRequest_FieldTerminalPath: *fp, values: values.([]*UpdateDeviceRequest_CAS)}
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		return &UpdateDeviceRequest_FieldTerminalPathArrayOfValues{UpdateDeviceRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateDeviceRequest_FieldTerminalPathValue) AsCasValue() (*UpdateDevi
 	res, ok := fpv.value.(*UpdateDeviceRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateDeviceRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateDeviceRequest
 func (fpv *UpdateDeviceRequest_FieldTerminalPathValue) SetTo(target **UpdateDeviceRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateDeviceRequest_FieldTerminalPathValue) SetTo(target **UpdateDevi
 		(*target).UpdateMask = fpv.value.(*device.Device_FieldMask)
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateDeviceRequest_CAS)
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateDeviceRequest_FieldTerminalPathValue) CompareWith(source *Updat
 		return 0, false
 	case UpdateDeviceRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeviceRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateDeviceRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*UpdateDeviceRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateDeviceRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateDeviceRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArr
 }
 func (fpaov *UpdateDeviceRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateDeviceRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateDeviceRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateDeviceRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

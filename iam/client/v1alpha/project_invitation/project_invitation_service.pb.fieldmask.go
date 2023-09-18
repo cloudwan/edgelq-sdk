@@ -3107,6 +3107,7 @@ func FullUpdateProjectInvitationRequest_FieldMask() *UpdateProjectInvitationRequ
 	res.Paths = append(res.Paths, &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation})
 	res.Paths = append(res.Paths, &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateProjectInvitationRequest_FieldTerminalPath{selector: UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3150,7 +3151,7 @@ func (fieldMask *UpdateProjectInvitationRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateProjectInvitationRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3180,7 +3181,7 @@ func (fieldMask *UpdateProjectInvitationRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateProjectInvitationRequest_FieldMask) Subtract(other *UpdateProjectInvitationRequest_FieldMask) *UpdateProjectInvitationRequest_FieldMask {
 	result := &UpdateProjectInvitationRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateProjectInvitationRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation: &project_invitation.ProjectInvitation_FieldMask{},
 		UpdateProjectInvitationRequest_FieldPathSelectorCas:               &UpdateProjectInvitationRequest_CAS_FieldMask{},
@@ -3376,6 +3377,8 @@ func (fieldMask *UpdateProjectInvitationRequest_FieldMask) Project(source *Updat
 			case UpdateProjectInvitationRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateProjectInvitationRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateProjectInvitationRequest_FieldSubPath:
 			switch tp.selector {

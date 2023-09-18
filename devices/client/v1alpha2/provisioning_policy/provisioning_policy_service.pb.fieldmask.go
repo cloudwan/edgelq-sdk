@@ -3161,6 +3161,7 @@ func FullUpdateProvisioningPolicyRequest_FieldMask() *UpdateProvisioningPolicyRe
 	res.Paths = append(res.Paths, &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorProvisioningPolicy})
 	res.Paths = append(res.Paths, &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateProvisioningPolicyRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateProvisioningPolicyRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateProvisioningPolicyRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateProvisioningPolicyRequest_FieldMask) Subtract(other *UpdateProvisioningPolicyRequest_FieldMask) *UpdateProvisioningPolicyRequest_FieldMask {
 	result := &UpdateProvisioningPolicyRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateProvisioningPolicyRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateProvisioningPolicyRequest_FieldPathSelectorProvisioningPolicy: &provisioning_policy.ProvisioningPolicy_FieldMask{},
 		UpdateProvisioningPolicyRequest_FieldPathSelectorCas:                &UpdateProvisioningPolicyRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateProvisioningPolicyRequest_FieldMask) Project(source *Upda
 			case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateProvisioningPolicyRequest_FieldSubPath:
 			switch tp.selector {

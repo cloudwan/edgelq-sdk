@@ -1215,6 +1215,659 @@ func (fieldMask *CreateMetricDescriptorRequest_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type UpdateMetricDescriptorRequest_FieldMask struct {
+	Paths []UpdateMetricDescriptorRequest_FieldPath
+}
+
+func FullUpdateMetricDescriptorRequest_FieldMask() *UpdateMetricDescriptorRequest_FieldMask {
+	res := &UpdateMetricDescriptorRequest_FieldMask{}
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor})
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorUpdateMask})
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequest_FieldTerminalPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorAllowMissing})
+	return res
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseUpdateMetricDescriptorRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UpdateMetricDescriptorRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUpdateMetricDescriptorRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Subtract(other *UpdateMetricDescriptorRequest_FieldMask) *UpdateMetricDescriptorRequest_FieldMask {
+	result := &UpdateMetricDescriptorRequest_FieldMask{}
+	removedSelectors := make([]bool, 4)
+	otherSubMasks := map[UpdateMetricDescriptorRequest_FieldPathSelector]gotenobject.FieldMask{
+		UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor: &metric_descriptor.MetricDescriptor_FieldMask{},
+		UpdateMetricDescriptorRequest_FieldPathSelectorCas:              &UpdateMetricDescriptorRequest_CAS_FieldMask{},
+	}
+	mySubMasks := map[UpdateMetricDescriptorRequest_FieldPathSelector]gotenobject.FieldMask{
+		UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor: &metric_descriptor.MetricDescriptor_FieldMask{},
+		UpdateMetricDescriptorRequest_FieldPathSelectorCas:              &UpdateMetricDescriptorRequest_CAS_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UpdateMetricDescriptorRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *UpdateMetricDescriptorRequest_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*UpdateMetricDescriptorRequest_FieldTerminalPath); ok {
+					switch tp.selector {
+					case UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+						mySubMasks[UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor] = metric_descriptor.FullMetricDescriptor_FieldMask()
+					case UpdateMetricDescriptorRequest_FieldPathSelectorCas:
+						mySubMasks[UpdateMetricDescriptorRequest_FieldPathSelectorCas] = FullUpdateMetricDescriptorRequest_CAS_FieldMask()
+					}
+				} else if tp, ok := path.(*UpdateMetricDescriptorRequest_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UpdateMetricDescriptorRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) FilterInputFields() *UpdateMetricDescriptorRequest_FieldMask {
+	result := &UpdateMetricDescriptorRequest_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+			if _, ok := path.(*UpdateMetricDescriptorRequest_FieldTerminalPath); ok {
+				for _, subpath := range metric_descriptor.FullMetricDescriptor_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdateMetricDescriptorRequest_FieldSubPath); ok {
+				selectedMask := &metric_descriptor.MetricDescriptor_FieldMask{
+					Paths: []metric_descriptor.MetricDescriptor_FieldPath{sub.subPath.(metric_descriptor.MetricDescriptor_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor, subPath: allowedPath})
+				}
+			}
+		case UpdateMetricDescriptorRequest_FieldPathSelectorCas:
+			if _, ok := path.(*UpdateMetricDescriptorRequest_FieldTerminalPath); ok {
+				for _, subpath := range FullUpdateMetricDescriptorRequest_CAS_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdateMetricDescriptorRequest_FieldSubPath); ok {
+				selectedMask := &UpdateMetricDescriptorRequest_CAS_FieldMask{
+					Paths: []UpdateMetricDescriptorRequestCAS_FieldPath{sub.subPath.(UpdateMetricDescriptorRequestCAS_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequest_FieldSubPath{selector: UpdateMetricDescriptorRequest_FieldPathSelectorCas, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UpdateMetricDescriptorRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUpdateMetricDescriptorRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UpdateMetricDescriptorRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UpdateMetricDescriptorRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) AppendPath(path UpdateMetricDescriptorRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UpdateMetricDescriptorRequest_FieldPath))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) GetPaths() []UpdateMetricDescriptorRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUpdateMetricDescriptorRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Set(target, source *UpdateMetricDescriptorRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UpdateMetricDescriptorRequest), source.(*UpdateMetricDescriptorRequest))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) Project(source *UpdateMetricDescriptorRequest) *UpdateMetricDescriptorRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UpdateMetricDescriptorRequest{}
+	metricDescriptorMask := &metric_descriptor.MetricDescriptor_FieldMask{}
+	wholeMetricDescriptorAccepted := false
+	casMask := &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	wholeCasAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UpdateMetricDescriptorRequest_FieldTerminalPath:
+			switch tp.selector {
+			case UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+				result.MetricDescriptor = source.MetricDescriptor
+				wholeMetricDescriptorAccepted = true
+			case UpdateMetricDescriptorRequest_FieldPathSelectorUpdateMask:
+				result.UpdateMask = source.UpdateMask
+			case UpdateMetricDescriptorRequest_FieldPathSelectorCas:
+				result.Cas = source.Cas
+				wholeCasAccepted = true
+			case UpdateMetricDescriptorRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
+			}
+		case *UpdateMetricDescriptorRequest_FieldSubPath:
+			switch tp.selector {
+			case UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+				metricDescriptorMask.AppendPath(tp.subPath.(metric_descriptor.MetricDescriptor_FieldPath))
+			case UpdateMetricDescriptorRequest_FieldPathSelectorCas:
+				casMask.AppendPath(tp.subPath.(UpdateMetricDescriptorRequestCAS_FieldPath))
+			}
+		}
+	}
+	if wholeMetricDescriptorAccepted == false && len(metricDescriptorMask.Paths) > 0 {
+		result.MetricDescriptor = metricDescriptorMask.Project(source.GetMetricDescriptor())
+	}
+	if wholeCasAccepted == false && len(casMask.Paths) > 0 {
+		result.Cas = casMask.Project(source.GetCas())
+	}
+	return result
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UpdateMetricDescriptorRequest))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type UpdateMetricDescriptorRequest_CAS_FieldMask struct {
+	Paths []UpdateMetricDescriptorRequestCAS_FieldPath
+}
+
+func FullUpdateMetricDescriptorRequest_CAS_FieldMask() *UpdateMetricDescriptorRequest_CAS_FieldMask {
+	res := &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequestCAS_FieldTerminalPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState})
+	res.Paths = append(res.Paths, &UpdateMetricDescriptorRequestCAS_FieldTerminalPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorFieldMask})
+	return res
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseUpdateMetricDescriptorRequestCAS_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UpdateMetricDescriptorRequestCAS_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUpdateMetricDescriptorRequestCAS_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Subtract(other *UpdateMetricDescriptorRequest_CAS_FieldMask) *UpdateMetricDescriptorRequest_CAS_FieldMask {
+	result := &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[UpdateMetricDescriptorRequestCAS_FieldPathSelector]gotenobject.FieldMask{
+		UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState: &metric_descriptor.MetricDescriptor_FieldMask{},
+	}
+	mySubMasks := map[UpdateMetricDescriptorRequestCAS_FieldPathSelector]gotenobject.FieldMask{
+		UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState: &metric_descriptor.MetricDescriptor_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UpdateMetricDescriptorRequestCAS_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *UpdateMetricDescriptorRequestCAS_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*UpdateMetricDescriptorRequestCAS_FieldTerminalPath); ok {
+					switch tp.selector {
+					case UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState:
+						mySubMasks[UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState] = metric_descriptor.FullMetricDescriptor_FieldMask()
+					}
+				} else if tp, ok := path.(*UpdateMetricDescriptorRequestCAS_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &UpdateMetricDescriptorRequestCAS_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UpdateMetricDescriptorRequest_CAS_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) FilterInputFields() *UpdateMetricDescriptorRequest_CAS_FieldMask {
+	result := &UpdateMetricDescriptorRequest_CAS_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState:
+			if _, ok := path.(*UpdateMetricDescriptorRequestCAS_FieldTerminalPath); ok {
+				for _, subpath := range metric_descriptor.FullMetricDescriptor_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequestCAS_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdateMetricDescriptorRequestCAS_FieldSubPath); ok {
+				selectedMask := &metric_descriptor.MetricDescriptor_FieldMask{
+					Paths: []metric_descriptor.MetricDescriptor_FieldPath{sub.subPath.(metric_descriptor.MetricDescriptor_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdateMetricDescriptorRequestCAS_FieldSubPath{selector: UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UpdateMetricDescriptorRequestCAS_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUpdateMetricDescriptorRequestCAS_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UpdateMetricDescriptorRequest_CAS_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UpdateMetricDescriptorRequest_CAS_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) AppendPath(path UpdateMetricDescriptorRequestCAS_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UpdateMetricDescriptorRequestCAS_FieldPath))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) GetPaths() []UpdateMetricDescriptorRequestCAS_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUpdateMetricDescriptorRequestCAS_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Set(target, source *UpdateMetricDescriptorRequest_CAS) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UpdateMetricDescriptorRequest_CAS), source.(*UpdateMetricDescriptorRequest_CAS))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) Project(source *UpdateMetricDescriptorRequest_CAS) *UpdateMetricDescriptorRequest_CAS {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UpdateMetricDescriptorRequest_CAS{}
+	conditionalStateMask := &metric_descriptor.MetricDescriptor_FieldMask{}
+	wholeConditionalStateAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UpdateMetricDescriptorRequestCAS_FieldTerminalPath:
+			switch tp.selector {
+			case UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState:
+				result.ConditionalState = source.ConditionalState
+				wholeConditionalStateAccepted = true
+			case UpdateMetricDescriptorRequestCAS_FieldPathSelectorFieldMask:
+				result.FieldMask = source.FieldMask
+			}
+		case *UpdateMetricDescriptorRequestCAS_FieldSubPath:
+			switch tp.selector {
+			case UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState:
+				conditionalStateMask.AppendPath(tp.subPath.(metric_descriptor.MetricDescriptor_FieldPath))
+			}
+		}
+	}
+	if wholeConditionalStateAccepted == false && len(conditionalStateMask.Paths) > 0 {
+		result.ConditionalState = conditionalStateMask.Project(source.GetConditionalState())
+	}
+	return result
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UpdateMetricDescriptorRequest_CAS))
+}
+
+func (fieldMask *UpdateMetricDescriptorRequest_CAS_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type DeleteMetricDescriptorRequest_FieldMask struct {
 	Paths []DeleteMetricDescriptorRequest_FieldPath
 }

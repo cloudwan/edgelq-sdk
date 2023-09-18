@@ -3159,6 +3159,7 @@ func FullUpdateRecoveryStoreShardingInfoRequest_FieldMask() *UpdateRecoveryStore
 	res.Paths = append(res.Paths, &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorRecoveryStoreShardingInfo})
 	res.Paths = append(res.Paths, &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath{selector: UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3202,7 +3203,7 @@ func (fieldMask *UpdateRecoveryStoreShardingInfoRequest_FieldMask) IsFull() bool
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateRecoveryStoreShardingInfoRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3232,7 +3233,7 @@ func (fieldMask *UpdateRecoveryStoreShardingInfoRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateRecoveryStoreShardingInfoRequest_FieldMask) Subtract(other *UpdateRecoveryStoreShardingInfoRequest_FieldMask) *UpdateRecoveryStoreShardingInfoRequest_FieldMask {
 	result := &UpdateRecoveryStoreShardingInfoRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateRecoveryStoreShardingInfoRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorRecoveryStoreShardingInfo: &recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask{},
 		UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:                       &UpdateRecoveryStoreShardingInfoRequest_CAS_FieldMask{},
@@ -3459,6 +3460,8 @@ func (fieldMask *UpdateRecoveryStoreShardingInfoRequest_FieldMask) Project(sourc
 			case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateRecoveryStoreShardingInfoRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateRecoveryStoreShardingInfoRequest_FieldSubPath:
 			switch tp.selector {

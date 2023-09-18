@@ -6581,6 +6581,7 @@ const (
 	UpdateServiceAccountKeyRequest_FieldPathSelectorServiceAccountKey UpdateServiceAccountKeyRequest_FieldPathSelector = 0
 	UpdateServiceAccountKeyRequest_FieldPathSelectorUpdateMask        UpdateServiceAccountKeyRequest_FieldPathSelector = 1
 	UpdateServiceAccountKeyRequest_FieldPathSelectorCas               UpdateServiceAccountKeyRequest_FieldPathSelector = 2
+	UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing      UpdateServiceAccountKeyRequest_FieldPathSelector = 3
 )
 
 func (s UpdateServiceAccountKeyRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateServiceAccountKeyRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateServiceAccountKeyRequest_FieldPath(fp gotenobject.RawFieldPath) 
 			return &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateServiceAccountKeyRequest_FieldTerminalPath{selector: UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) Get(source *UpdateSe
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) GetSingle(source *Up
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) GetDefault() interfa
 		return (*service_account_key.ServiceAccountKey_FieldMask)(nil)
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		return (*UpdateServiceAccountKeyRequest_CAS)(nil)
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) ClearValue(item *Upd
 			item.UpdateMask = nil
 		case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateServiceAccountKeyRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateServiceAccountKeyRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) WithIValue(value int
 		return &UpdateServiceAccountKeyRequest_FieldTerminalPathValue{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, value: value.(*service_account_key.ServiceAccountKey_FieldMask)}
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		return &UpdateServiceAccountKeyRequest_FieldTerminalPathValue{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, value: value.(*UpdateServiceAccountKeyRequest_CAS)}
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateServiceAccountKeyRequest_FieldTerminalPathValue{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateServiceAccountKeyRequest_FieldTerminalPath) WithIArrayOfValues(v
 		return &UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, values: values.([]*service_account_key.ServiceAccountKey_FieldMask)}
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		return &UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, values: values.([]*UpdateServiceAccountKeyRequest_CAS)}
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountKeyRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateServiceAccountKeyRequest_FieldTerminalPathValue) AsCasValue() (
 	res, ok := fpv.value.(*UpdateServiceAccountKeyRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateServiceAccountKeyRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateServiceAccountKeyRequest
 func (fpv *UpdateServiceAccountKeyRequest_FieldTerminalPathValue) SetTo(target **UpdateServiceAccountKeyRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateServiceAccountKeyRequest_FieldTerminalPathValue) SetTo(target *
 		(*target).UpdateMask = fpv.value.(*service_account_key.ServiceAccountKey_FieldMask)
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateServiceAccountKeyRequest_CAS)
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateServiceAccountKeyRequest_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case UpdateServiceAccountKeyRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountKeyRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*UpdateServiceAccountKeyRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateServiceAccountKeyRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues) AsUp
 }
 func (fpaov *UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateServiceAccountKeyRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateServiceAccountKeyRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateServiceAccountKeyRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

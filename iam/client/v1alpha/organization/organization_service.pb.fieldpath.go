@@ -6418,6 +6418,7 @@ const (
 	UpdateOrganizationRequest_FieldPathSelectorOrganization UpdateOrganizationRequest_FieldPathSelector = 0
 	UpdateOrganizationRequest_FieldPathSelectorUpdateMask   UpdateOrganizationRequest_FieldPathSelector = 1
 	UpdateOrganizationRequest_FieldPathSelectorCas          UpdateOrganizationRequest_FieldPathSelector = 2
+	UpdateOrganizationRequest_FieldPathSelectorAllowMissing UpdateOrganizationRequest_FieldPathSelector = 3
 )
 
 func (s UpdateOrganizationRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdateOrganizationRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdateOrganizationRequest_FieldPath(fp gotenobject.RawFieldPath) (Upda
 			return &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) Get(source *UpdateOrganiz
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) GetSingle(source *UpdateO
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) GetDefault() interface{} 
 		return (*organization.Organization_FieldMask)(nil)
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		return (*UpdateOrganizationRequest_CAS)(nil)
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) ClearValue(item *UpdateOr
 			item.UpdateMask = nil
 		case UpdateOrganizationRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) ClearValueRaw(item proto.
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateOrganizationRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateOrganizationRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateOrganizationRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateOrganizationRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateOrganizationRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) WithIValue(value interfac
 		return &UpdateOrganizationRequest_FieldTerminalPathValue{UpdateOrganizationRequest_FieldTerminalPath: *fp, value: value.(*organization.Organization_FieldMask)}
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		return &UpdateOrganizationRequest_FieldTerminalPathValue{UpdateOrganizationRequest_FieldTerminalPath: *fp, value: value.(*UpdateOrganizationRequest_CAS)}
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateOrganizationRequest_FieldTerminalPathValue{UpdateOrganizationRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdateOrganizationRequest_FieldTerminalPath) WithIArrayOfValues(values
 		return &UpdateOrganizationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationRequest_FieldTerminalPath: *fp, values: values.([]*organization.Organization_FieldMask)}
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		return &UpdateOrganizationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationRequest_FieldTerminalPath: *fp, values: values.([]*UpdateOrganizationRequest_CAS)}
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		return &UpdateOrganizationRequest_FieldTerminalPathArrayOfValues{UpdateOrganizationRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdateOrganizationRequest_FieldTerminalPathValue) AsCasValue() (*Upda
 	res, ok := fpv.value.(*UpdateOrganizationRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateOrganizationRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateOrganizationRequest
 func (fpv *UpdateOrganizationRequest_FieldTerminalPathValue) SetTo(target **UpdateOrganizationRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdateOrganizationRequest_FieldTerminalPathValue) SetTo(target **Upda
 		(*target).UpdateMask = fpv.value.(*organization.Organization_FieldMask)
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateOrganizationRequest_CAS)
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdateOrganizationRequest_FieldTerminalPathValue) CompareWith(source 
 		return 0, false
 	case UpdateOrganizationRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdateOrganizationRequest_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]*UpdateOrganizationRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateOrganizationRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdateOrganizationRequest_FieldTerminalPathArrayOfValues) AsUpdateM
 }
 func (fpaov *UpdateOrganizationRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateOrganizationRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateOrganizationRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateOrganizationRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

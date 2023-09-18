@@ -288,6 +288,13 @@ message UpdatePermissionRequest {
   // Otherwise RPC error Aborted will be returned.
   CAS cas = 4;
 
+  // If set to true, and the resource is not found,
+  // a new resource will be created.  In this situation,
+  // 'field_mask' is ignored.
+  //
+  // https://google.aip.dev/134#create-or-update
+  bool allow_missing = 5;
+
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
   message CAS {

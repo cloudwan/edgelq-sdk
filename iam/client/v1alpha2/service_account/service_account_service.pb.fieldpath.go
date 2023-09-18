@@ -6581,6 +6581,7 @@ const (
 	UpdateServiceAccountRequest_FieldPathSelectorServiceAccount UpdateServiceAccountRequest_FieldPathSelector = 0
 	UpdateServiceAccountRequest_FieldPathSelectorUpdateMask     UpdateServiceAccountRequest_FieldPathSelector = 1
 	UpdateServiceAccountRequest_FieldPathSelectorCas            UpdateServiceAccountRequest_FieldPathSelector = 2
+	UpdateServiceAccountRequest_FieldPathSelectorAllowMissing   UpdateServiceAccountRequest_FieldPathSelector = 3
 )
 
 func (s UpdateServiceAccountRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateServiceAccountRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateServiceAccountRequest_FieldPath(fp gotenobject.RawFieldPath) (Up
 			return &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateServiceAccountRequest_FieldTerminalPath{selector: UpdateServiceAccountRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) Get(source *UpdateServi
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) GetSingle(source *Updat
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) GetDefault() interface{
 		return (*service_account.ServiceAccount_FieldMask)(nil)
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		return (*UpdateServiceAccountRequest_CAS)(nil)
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) ClearValue(item *Update
 			item.UpdateMask = nil
 		case UpdateServiceAccountRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) ClearValueRaw(item prot
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateServiceAccountRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateServiceAccountRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateServiceAccountRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateServiceAccountRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateServiceAccountRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) WithIValue(value interf
 		return &UpdateServiceAccountRequest_FieldTerminalPathValue{UpdateServiceAccountRequest_FieldTerminalPath: *fp, value: value.(*service_account.ServiceAccount_FieldMask)}
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		return &UpdateServiceAccountRequest_FieldTerminalPathValue{UpdateServiceAccountRequest_FieldTerminalPath: *fp, value: value.(*UpdateServiceAccountRequest_CAS)}
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		return &UpdateServiceAccountRequest_FieldTerminalPathValue{UpdateServiceAccountRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateServiceAccountRequest_FieldTerminalPath) WithIArrayOfValues(valu
 		return &UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountRequest_FieldTerminalPath: *fp, values: values.([]*service_account.ServiceAccount_FieldMask)}
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		return &UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountRequest_FieldTerminalPath: *fp, values: values.([]*UpdateServiceAccountRequest_CAS)}
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		return &UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues{UpdateServiceAccountRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateServiceAccountRequest_FieldTerminalPathValue) AsCasValue() (*Up
 	res, ok := fpv.value.(*UpdateServiceAccountRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateServiceAccountRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateServiceAccountRequest
 func (fpv *UpdateServiceAccountRequest_FieldTerminalPathValue) SetTo(target **UpdateServiceAccountRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateServiceAccountRequest_FieldTerminalPathValue) SetTo(target **Up
 		(*target).UpdateMask = fpv.value.(*service_account.ServiceAccount_FieldMask)
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateServiceAccountRequest_CAS)
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateServiceAccountRequest_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case UpdateServiceAccountRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]*UpdateServiceAccountRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateServiceAccountRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues) AsUpdat
 }
 func (fpaov *UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateServiceAccountRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateServiceAccountRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateServiceAccountRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

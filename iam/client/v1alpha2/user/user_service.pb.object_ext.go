@@ -1295,6 +1295,9 @@ func (o *UpdateUserRequest) MakeDiffFieldMask(other *UpdateUserRequest) *UpdateU
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateUserRequest_FieldTerminalPath{selector: UpdateUserRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdateUserRequest) Clone() *UpdateUserRequest {
 	result.User = o.User.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*user.User_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdateUserRequest) Merge(source *UpdateUserRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateUserRequest) MergeRaw(source gotenobject.GotenObjectExt) {

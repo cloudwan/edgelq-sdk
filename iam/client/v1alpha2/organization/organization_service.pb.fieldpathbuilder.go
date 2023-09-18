@@ -4065,6 +4065,9 @@ func (UpdateOrganizationRequestFieldPathBuilder) UpdateMask() UpdateOrganization
 func (UpdateOrganizationRequestFieldPathBuilder) Cas() UpdateOrganizationRequestPathSelectorCas {
 	return UpdateOrganizationRequestPathSelectorCas{}
 }
+func (UpdateOrganizationRequestFieldPathBuilder) AllowMissing() UpdateOrganizationRequestPathSelectorAllowMissing {
+	return UpdateOrganizationRequestPathSelectorAllowMissing{}
+}
 
 type UpdateOrganizationRequestPathSelectorOrganization struct{}
 
@@ -6234,6 +6237,20 @@ func (s UpdateOrganizationRequestPathSelectorCasFieldMask) WithValue(value *orga
 
 func (s UpdateOrganizationRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*organization.Organization_FieldMask) *UpdateOrganizationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationRequestPathSelectorAllowMissing struct{}
+
+func (UpdateOrganizationRequestPathSelectorAllowMissing) FieldPath() *UpdateOrganizationRequest_FieldTerminalPath {
+	return &UpdateOrganizationRequest_FieldTerminalPath{selector: UpdateOrganizationRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateOrganizationRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateOrganizationRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateOrganizationRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateOrganizationRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateOrganizationRequestCASFieldPathBuilder struct{}

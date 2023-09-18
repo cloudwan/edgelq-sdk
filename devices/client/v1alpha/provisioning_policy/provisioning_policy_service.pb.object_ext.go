@@ -1372,6 +1372,9 @@ func (o *UpdateProvisioningPolicyRequest) MakeDiffFieldMask(other *UpdateProvisi
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateProvisioningPolicyRequest_FieldTerminalPath{selector: UpdateProvisioningPolicyRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1387,6 +1390,7 @@ func (o *UpdateProvisioningPolicyRequest) Clone() *UpdateProvisioningPolicyReque
 	result.ProvisioningPolicy = o.ProvisioningPolicy.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*provisioning_policy.ProvisioningPolicy_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1416,6 +1420,7 @@ func (o *UpdateProvisioningPolicyRequest) Merge(source *UpdateProvisioningPolicy
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateProvisioningPolicyRequest) MergeRaw(source gotenobject.GotenObjectExt) {

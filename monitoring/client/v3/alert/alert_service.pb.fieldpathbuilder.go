@@ -4730,6 +4730,9 @@ func (UpdateAlertRequestFieldPathBuilder) UpdateMask() UpdateAlertRequestPathSel
 func (UpdateAlertRequestFieldPathBuilder) Cas() UpdateAlertRequestPathSelectorCas {
 	return UpdateAlertRequestPathSelectorCas{}
 }
+func (UpdateAlertRequestFieldPathBuilder) AllowMissing() UpdateAlertRequestPathSelectorAllowMissing {
+	return UpdateAlertRequestPathSelectorAllowMissing{}
+}
 
 type UpdateAlertRequestPathSelectorAlert struct{}
 
@@ -7303,6 +7306,20 @@ func (s UpdateAlertRequestPathSelectorCasFieldMask) WithValue(value *alert.Alert
 
 func (s UpdateAlertRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*alert.Alert_FieldMask) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertRequestPathSelectorAllowMissing struct{}
+
+func (UpdateAlertRequestPathSelectorAllowMissing) FieldPath() *UpdateAlertRequest_FieldTerminalPath {
+	return &UpdateAlertRequest_FieldTerminalPath{selector: UpdateAlertRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateAlertRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateAlertRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateAlertRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateAlertRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateAlertRequestCASFieldPathBuilder struct{}

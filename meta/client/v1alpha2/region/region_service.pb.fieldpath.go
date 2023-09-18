@@ -6415,9 +6415,10 @@ type UpdateRegionRequest_FieldPath interface {
 type UpdateRegionRequest_FieldPathSelector int32
 
 const (
-	UpdateRegionRequest_FieldPathSelectorRegion     UpdateRegionRequest_FieldPathSelector = 0
-	UpdateRegionRequest_FieldPathSelectorUpdateMask UpdateRegionRequest_FieldPathSelector = 1
-	UpdateRegionRequest_FieldPathSelectorCas        UpdateRegionRequest_FieldPathSelector = 2
+	UpdateRegionRequest_FieldPathSelectorRegion       UpdateRegionRequest_FieldPathSelector = 0
+	UpdateRegionRequest_FieldPathSelectorUpdateMask   UpdateRegionRequest_FieldPathSelector = 1
+	UpdateRegionRequest_FieldPathSelectorCas          UpdateRegionRequest_FieldPathSelector = 2
+	UpdateRegionRequest_FieldPathSelectorAllowMissing UpdateRegionRequest_FieldPathSelector = 3
 )
 
 func (s UpdateRegionRequest_FieldPathSelector) String() string {
@@ -6428,6 +6429,8 @@ func (s UpdateRegionRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", s))
 	}
@@ -6445,6 +6448,8 @@ func BuildUpdateRegionRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateRegi
 			return &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateRegionRequest_FieldTerminalPath{selector: UpdateRegionRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6517,6 +6522,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) Get(source *UpdateRegionRequest
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 		}
@@ -6540,6 +6547,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) GetSingle(source *UpdateRegionR
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 	}
@@ -6558,6 +6567,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*region.Region_FieldMask)(nil)
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		return (*UpdateRegionRequest_CAS)(nil)
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 	}
@@ -6572,6 +6583,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) ClearValue(item *UpdateRegionRe
 			item.UpdateMask = nil
 		case UpdateRegionRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 		}
@@ -6584,7 +6597,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) ClearValueRaw(item proto.Messag
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateRegionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateRegionRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateRegionRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateRegionRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6599,6 +6613,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) WithIValue(value interface{}) U
 		return &UpdateRegionRequest_FieldTerminalPathValue{UpdateRegionRequest_FieldTerminalPath: *fp, value: value.(*region.Region_FieldMask)}
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		return &UpdateRegionRequest_FieldTerminalPathValue{UpdateRegionRequest_FieldTerminalPath: *fp, value: value.(*UpdateRegionRequest_CAS)}
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRegionRequest_FieldTerminalPathValue{UpdateRegionRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 	}
@@ -6617,6 +6633,8 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &UpdateRegionRequest_FieldTerminalPathArrayOfValues{UpdateRegionRequest_FieldTerminalPath: *fp, values: values.([]*region.Region_FieldMask)}
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		return &UpdateRegionRequest_FieldTerminalPathArrayOfValues{UpdateRegionRequest_FieldTerminalPath: *fp, values: values.([]*UpdateRegionRequest_CAS)}
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRegionRequest_FieldTerminalPathArrayOfValues{UpdateRegionRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fp.selector))
 	}
@@ -6814,6 +6832,10 @@ func (fpv *UpdateRegionRequest_FieldTerminalPathValue) AsCasValue() (*UpdateRegi
 	res, ok := fpv.value.(*UpdateRegionRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateRegionRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateRegionRequest
 func (fpv *UpdateRegionRequest_FieldTerminalPathValue) SetTo(target **UpdateRegionRequest) {
@@ -6827,6 +6849,8 @@ func (fpv *UpdateRegionRequest_FieldTerminalPathValue) SetTo(target **UpdateRegi
 		(*target).UpdateMask = fpv.value.(*region.Region_FieldMask)
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateRegionRequest_CAS)
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fpv.selector))
 	}
@@ -6846,6 +6870,16 @@ func (fpv *UpdateRegionRequest_FieldTerminalPathValue) CompareWith(source *Updat
 		return 0, false
 	case UpdateRegionRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fpv.selector))
 	}
@@ -7050,6 +7084,10 @@ func (fpaov *UpdateRegionRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*UpdateRegionRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateRegionRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7063,6 +7101,10 @@ func (fpaov *UpdateRegionRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArr
 }
 func (fpaov *UpdateRegionRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateRegionRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateRegionRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateRegionRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

@@ -3150,6 +3150,7 @@ func FullUpdatePlanRequest_FieldMask() *UpdatePlanRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdatePlanRequest_FieldTerminalPath{selector: UpdatePlanRequest_FieldPathSelectorPlan})
 	res.Paths = append(res.Paths, &UpdatePlanRequest_FieldTerminalPath{selector: UpdatePlanRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdatePlanRequest_FieldTerminalPath{selector: UpdatePlanRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdatePlanRequest_FieldTerminalPath{selector: UpdatePlanRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3193,7 +3194,7 @@ func (fieldMask *UpdatePlanRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdatePlanRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3223,7 +3224,7 @@ func (fieldMask *UpdatePlanRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdatePlanRequest_FieldMask) Subtract(other *UpdatePlanRequest_FieldMask) *UpdatePlanRequest_FieldMask {
 	result := &UpdatePlanRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdatePlanRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdatePlanRequest_FieldPathSelectorPlan: &plan.Plan_FieldMask{},
 		UpdatePlanRequest_FieldPathSelectorCas:  &UpdatePlanRequest_CAS_FieldMask{},
@@ -3450,6 +3451,8 @@ func (fieldMask *UpdatePlanRequest_FieldMask) Project(source *UpdatePlanRequest)
 			case UpdatePlanRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdatePlanRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdatePlanRequest_FieldSubPath:
 			switch tp.selector {

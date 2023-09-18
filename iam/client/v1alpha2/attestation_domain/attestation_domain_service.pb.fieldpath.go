@@ -6581,6 +6581,7 @@ const (
 	UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain UpdateAttestationDomainRequest_FieldPathSelector = 0
 	UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask        UpdateAttestationDomainRequest_FieldPathSelector = 1
 	UpdateAttestationDomainRequest_FieldPathSelectorCas               UpdateAttestationDomainRequest_FieldPathSelector = 2
+	UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing      UpdateAttestationDomainRequest_FieldPathSelector = 3
 )
 
 func (s UpdateAttestationDomainRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateAttestationDomainRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateAttestationDomainRequest_FieldPath(fp gotenobject.RawFieldPath) 
 			return &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateAttestationDomainRequest_FieldTerminalPath{selector: UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) Get(source *UpdateAt
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) GetSingle(source *Up
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) GetDefault() interfa
 		return (*attestation_domain.AttestationDomain_FieldMask)(nil)
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		return (*UpdateAttestationDomainRequest_CAS)(nil)
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) ClearValue(item *Upd
 			item.UpdateMask = nil
 		case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) WithIValue(value int
 		return &UpdateAttestationDomainRequest_FieldTerminalPathValue{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, value: value.(*attestation_domain.AttestationDomain_FieldMask)}
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		return &UpdateAttestationDomainRequest_FieldTerminalPathValue{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, value: value.(*UpdateAttestationDomainRequest_CAS)}
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAttestationDomainRequest_FieldTerminalPathValue{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) WithIArrayOfValues(v
 		return &UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, values: values.([]*attestation_domain.AttestationDomain_FieldMask)}
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		return &UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, values: values.([]*UpdateAttestationDomainRequest_CAS)}
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues{UpdateAttestationDomainRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateAttestationDomainRequest_FieldTerminalPathValue) AsCasValue() (
 	res, ok := fpv.value.(*UpdateAttestationDomainRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateAttestationDomainRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateAttestationDomainRequest
 func (fpv *UpdateAttestationDomainRequest_FieldTerminalPathValue) SetTo(target **UpdateAttestationDomainRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateAttestationDomainRequest_FieldTerminalPathValue) SetTo(target *
 		(*target).UpdateMask = fpv.value.(*attestation_domain.AttestationDomain_FieldMask)
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateAttestationDomainRequest_CAS)
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateAttestationDomainRequest_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*UpdateAttestationDomainRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateAttestationDomainRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues) AsUp
 }
 func (fpaov *UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateAttestationDomainRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateAttestationDomainRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateAttestationDomainRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

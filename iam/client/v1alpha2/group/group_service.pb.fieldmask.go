@@ -3163,6 +3163,7 @@ func FullUpdateGroupRequest_FieldMask() *UpdateGroupRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorGroup})
 	res.Paths = append(res.Paths, &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateGroupRequest_FieldTerminalPath{selector: UpdateGroupRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3206,7 +3207,7 @@ func (fieldMask *UpdateGroupRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateGroupRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3236,7 +3237,7 @@ func (fieldMask *UpdateGroupRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateGroupRequest_FieldMask) Subtract(other *UpdateGroupRequest_FieldMask) *UpdateGroupRequest_FieldMask {
 	result := &UpdateGroupRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateGroupRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateGroupRequest_FieldPathSelectorGroup: &group.Group_FieldMask{},
 		UpdateGroupRequest_FieldPathSelectorCas:   &UpdateGroupRequest_CAS_FieldMask{},
@@ -3463,6 +3464,8 @@ func (fieldMask *UpdateGroupRequest_FieldMask) Project(source *UpdateGroupReques
 			case UpdateGroupRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateGroupRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateGroupRequest_FieldSubPath:
 			switch tp.selector {

@@ -1295,6 +1295,9 @@ func (o *UpdatePermissionRequest) MakeDiffFieldMask(other *UpdatePermissionReque
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdatePermissionRequest_FieldTerminalPath{selector: UpdatePermissionRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdatePermissionRequest) Clone() *UpdatePermissionRequest {
 	result.Permission = o.Permission.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*permission.Permission_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdatePermissionRequest) Merge(source *UpdatePermissionRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdatePermissionRequest) MergeRaw(source gotenobject.GotenObjectExt) {

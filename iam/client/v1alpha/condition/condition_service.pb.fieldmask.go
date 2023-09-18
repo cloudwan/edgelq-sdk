@@ -3109,6 +3109,7 @@ func FullUpdateConditionRequest_FieldMask() *UpdateConditionRequest_FieldMask {
 	res.Paths = append(res.Paths, &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorCondition})
 	res.Paths = append(res.Paths, &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3152,7 +3153,7 @@ func (fieldMask *UpdateConditionRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateConditionRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3182,7 +3183,7 @@ func (fieldMask *UpdateConditionRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateConditionRequest_FieldMask) Subtract(other *UpdateConditionRequest_FieldMask) *UpdateConditionRequest_FieldMask {
 	result := &UpdateConditionRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateConditionRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateConditionRequest_FieldPathSelectorCondition: &condition.Condition_FieldMask{},
 		UpdateConditionRequest_FieldPathSelectorCas:       &UpdateConditionRequest_CAS_FieldMask{},
@@ -3378,6 +3379,8 @@ func (fieldMask *UpdateConditionRequest_FieldMask) Project(source *UpdateConditi
 			case UpdateConditionRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateConditionRequest_FieldSubPath:
 			switch tp.selector {

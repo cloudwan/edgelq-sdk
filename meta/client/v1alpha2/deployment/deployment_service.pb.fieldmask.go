@@ -3161,6 +3161,7 @@ func FullUpdateDeploymentRequest_FieldMask() *UpdateDeploymentRequest_FieldMask 
 	res.Paths = append(res.Paths, &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorDeployment})
 	res.Paths = append(res.Paths, &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateDeploymentRequest_FieldTerminalPath{selector: UpdateDeploymentRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateDeploymentRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateDeploymentRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateDeploymentRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateDeploymentRequest_FieldMask) Subtract(other *UpdateDeploymentRequest_FieldMask) *UpdateDeploymentRequest_FieldMask {
 	result := &UpdateDeploymentRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateDeploymentRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateDeploymentRequest_FieldPathSelectorDeployment: &deployment.Deployment_FieldMask{},
 		UpdateDeploymentRequest_FieldPathSelectorCas:        &UpdateDeploymentRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateDeploymentRequest_FieldMask) Project(source *UpdateDeploy
 			case UpdateDeploymentRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateDeploymentRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateDeploymentRequest_FieldSubPath:
 			switch tp.selector {

@@ -3163,6 +3163,7 @@ func FullUpdateRoleBindingRequest_FieldMask() *UpdateRoleBindingRequest_FieldMas
 	res.Paths = append(res.Paths, &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding})
 	res.Paths = append(res.Paths, &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3206,7 +3207,7 @@ func (fieldMask *UpdateRoleBindingRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateRoleBindingRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3236,7 +3237,7 @@ func (fieldMask *UpdateRoleBindingRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateRoleBindingRequest_FieldMask) Subtract(other *UpdateRoleBindingRequest_FieldMask) *UpdateRoleBindingRequest_FieldMask {
 	result := &UpdateRoleBindingRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateRoleBindingRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateRoleBindingRequest_FieldPathSelectorRoleBinding: &role_binding.RoleBinding_FieldMask{},
 		UpdateRoleBindingRequest_FieldPathSelectorCas:         &UpdateRoleBindingRequest_CAS_FieldMask{},
@@ -3463,6 +3464,8 @@ func (fieldMask *UpdateRoleBindingRequest_FieldMask) Project(source *UpdateRoleB
 			case UpdateRoleBindingRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateRoleBindingRequest_FieldSubPath:
 			switch tp.selector {

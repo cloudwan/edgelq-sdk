@@ -920,6 +920,9 @@ func (o *UpdateMonitoredResourceDescriptorRequest) MakeDiffFieldMask(other *Upda
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -935,6 +938,7 @@ func (o *UpdateMonitoredResourceDescriptorRequest) Clone() *UpdateMonitoredResou
 	result.MonitoredResourceDescriptor = o.MonitoredResourceDescriptor.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -964,6 +968,7 @@ func (o *UpdateMonitoredResourceDescriptorRequest) Merge(source *UpdateMonitored
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateMonitoredResourceDescriptorRequest) MergeRaw(source gotenobject.GotenObjectExt) {

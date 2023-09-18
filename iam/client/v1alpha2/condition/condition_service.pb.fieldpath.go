@@ -6580,9 +6580,10 @@ type UpdateConditionRequest_FieldPath interface {
 type UpdateConditionRequest_FieldPathSelector int32
 
 const (
-	UpdateConditionRequest_FieldPathSelectorCondition  UpdateConditionRequest_FieldPathSelector = 0
-	UpdateConditionRequest_FieldPathSelectorUpdateMask UpdateConditionRequest_FieldPathSelector = 1
-	UpdateConditionRequest_FieldPathSelectorCas        UpdateConditionRequest_FieldPathSelector = 2
+	UpdateConditionRequest_FieldPathSelectorCondition    UpdateConditionRequest_FieldPathSelector = 0
+	UpdateConditionRequest_FieldPathSelectorUpdateMask   UpdateConditionRequest_FieldPathSelector = 1
+	UpdateConditionRequest_FieldPathSelectorCas          UpdateConditionRequest_FieldPathSelector = 2
+	UpdateConditionRequest_FieldPathSelectorAllowMissing UpdateConditionRequest_FieldPathSelector = 3
 )
 
 func (s UpdateConditionRequest_FieldPathSelector) String() string {
@@ -6593,6 +6594,8 @@ func (s UpdateConditionRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", s))
 	}
@@ -6610,6 +6613,8 @@ func BuildUpdateConditionRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateC
 			return &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateConditionRequest_FieldTerminalPath{selector: UpdateConditionRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6682,6 +6687,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) Get(source *UpdateConditionR
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 		}
@@ -6705,6 +6712,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) GetSingle(source *UpdateCond
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 	}
@@ -6723,6 +6732,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*condition.Condition_FieldMask)(nil)
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		return (*UpdateConditionRequest_CAS)(nil)
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 	}
@@ -6737,6 +6748,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) ClearValue(item *UpdateCondi
 			item.UpdateMask = nil
 		case UpdateConditionRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 		}
@@ -6749,7 +6762,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateConditionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateConditionRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateConditionRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateConditionRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6764,6 +6778,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) WithIValue(value interface{}
 		return &UpdateConditionRequest_FieldTerminalPathValue{UpdateConditionRequest_FieldTerminalPath: *fp, value: value.(*condition.Condition_FieldMask)}
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		return &UpdateConditionRequest_FieldTerminalPathValue{UpdateConditionRequest_FieldTerminalPath: *fp, value: value.(*UpdateConditionRequest_CAS)}
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateConditionRequest_FieldTerminalPathValue{UpdateConditionRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 	}
@@ -6782,6 +6798,8 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) WithIArrayOfValues(values in
 		return &UpdateConditionRequest_FieldTerminalPathArrayOfValues{UpdateConditionRequest_FieldTerminalPath: *fp, values: values.([]*condition.Condition_FieldMask)}
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		return &UpdateConditionRequest_FieldTerminalPathArrayOfValues{UpdateConditionRequest_FieldTerminalPath: *fp, values: values.([]*UpdateConditionRequest_CAS)}
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		return &UpdateConditionRequest_FieldTerminalPathArrayOfValues{UpdateConditionRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fp.selector))
 	}
@@ -6979,6 +6997,10 @@ func (fpv *UpdateConditionRequest_FieldTerminalPathValue) AsCasValue() (*UpdateC
 	res, ok := fpv.value.(*UpdateConditionRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateConditionRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateConditionRequest
 func (fpv *UpdateConditionRequest_FieldTerminalPathValue) SetTo(target **UpdateConditionRequest) {
@@ -6992,6 +7014,8 @@ func (fpv *UpdateConditionRequest_FieldTerminalPathValue) SetTo(target **UpdateC
 		(*target).UpdateMask = fpv.value.(*condition.Condition_FieldMask)
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateConditionRequest_CAS)
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fpv.selector))
 	}
@@ -7011,6 +7035,16 @@ func (fpv *UpdateConditionRequest_FieldTerminalPathValue) CompareWith(source *Up
 		return 0, false
 	case UpdateConditionRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fpv.selector))
 	}
@@ -7215,6 +7249,10 @@ func (fpaov *UpdateConditionRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*UpdateConditionRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateConditionRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7228,6 +7266,10 @@ func (fpaov *UpdateConditionRequest_FieldTerminalPathArrayOfValues) AsUpdateMask
 }
 func (fpaov *UpdateConditionRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateConditionRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateConditionRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateConditionRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

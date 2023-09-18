@@ -3500,6 +3500,9 @@ func (UpdateMethodDescriptorRequestFieldPathBuilder) UpdateMask() UpdateMethodDe
 func (UpdateMethodDescriptorRequestFieldPathBuilder) Cas() UpdateMethodDescriptorRequestPathSelectorCas {
 	return UpdateMethodDescriptorRequestPathSelectorCas{}
 }
+func (UpdateMethodDescriptorRequestFieldPathBuilder) AllowMissing() UpdateMethodDescriptorRequestPathSelectorAllowMissing {
+	return UpdateMethodDescriptorRequestPathSelectorAllowMissing{}
+}
 
 type UpdateMethodDescriptorRequestPathSelectorMethodDescriptor struct{}
 
@@ -5295,6 +5298,20 @@ func (s UpdateMethodDescriptorRequestPathSelectorCasFieldMask) WithValue(value *
 
 func (s UpdateMethodDescriptorRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*method_descriptor.MethodDescriptor_FieldMask) *UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateMethodDescriptorRequestPathSelectorAllowMissing struct{}
+
+func (UpdateMethodDescriptorRequestPathSelectorAllowMissing) FieldPath() *UpdateMethodDescriptorRequest_FieldTerminalPath {
+	return &UpdateMethodDescriptorRequest_FieldTerminalPath{selector: UpdateMethodDescriptorRequest_FieldPathSelectorAllowMissing}
+}
+
+func (s UpdateMethodDescriptorRequestPathSelectorAllowMissing) WithValue(value bool) *UpdateMethodDescriptorRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateMethodDescriptorRequest_FieldTerminalPathValue)
+}
+
+func (s UpdateMethodDescriptorRequestPathSelectorAllowMissing) WithArrayOfValues(values []bool) *UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMethodDescriptorRequest_FieldTerminalPathArrayOfValues)
 }
 
 type UpdateMethodDescriptorRequestCASFieldPathBuilder struct{}

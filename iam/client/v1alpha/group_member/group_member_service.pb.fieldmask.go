@@ -3161,6 +3161,7 @@ func FullUpdateGroupMemberRequest_FieldMask() *UpdateGroupMemberRequest_FieldMas
 	res.Paths = append(res.Paths, &UpdateGroupMemberRequest_FieldTerminalPath{selector: UpdateGroupMemberRequest_FieldPathSelectorGroupMember})
 	res.Paths = append(res.Paths, &UpdateGroupMemberRequest_FieldTerminalPath{selector: UpdateGroupMemberRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateGroupMemberRequest_FieldTerminalPath{selector: UpdateGroupMemberRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateGroupMemberRequest_FieldTerminalPath{selector: UpdateGroupMemberRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateGroupMemberRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateGroupMemberRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateGroupMemberRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateGroupMemberRequest_FieldMask) Subtract(other *UpdateGroupMemberRequest_FieldMask) *UpdateGroupMemberRequest_FieldMask {
 	result := &UpdateGroupMemberRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateGroupMemberRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateGroupMemberRequest_FieldPathSelectorGroupMember: &group_member.GroupMember_FieldMask{},
 		UpdateGroupMemberRequest_FieldPathSelectorCas:         &UpdateGroupMemberRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateGroupMemberRequest_FieldMask) Project(source *UpdateGroup
 			case UpdateGroupMemberRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateGroupMemberRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateGroupMemberRequest_FieldSubPath:
 			switch tp.selector {

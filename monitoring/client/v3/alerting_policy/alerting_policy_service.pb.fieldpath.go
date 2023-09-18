@@ -6581,6 +6581,7 @@ const (
 	UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy UpdateAlertingPolicyRequest_FieldPathSelector = 0
 	UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask     UpdateAlertingPolicyRequest_FieldPathSelector = 1
 	UpdateAlertingPolicyRequest_FieldPathSelectorCas            UpdateAlertingPolicyRequest_FieldPathSelector = 2
+	UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing   UpdateAlertingPolicyRequest_FieldPathSelector = 3
 )
 
 func (s UpdateAlertingPolicyRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateAlertingPolicyRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateAlertingPolicyRequest_FieldPath(fp gotenobject.RawFieldPath) (Up
 			return &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateAlertingPolicyRequest_FieldTerminalPath{selector: UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) Get(source *UpdateAlert
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) GetSingle(source *Updat
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) GetDefault() interface{
 		return (*alerting_policy.AlertingPolicy_FieldMask)(nil)
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		return (*UpdateAlertingPolicyRequest_CAS)(nil)
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) ClearValue(item *Update
 			item.UpdateMask = nil
 		case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) ClearValueRaw(item prot
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interf
 		return &UpdateAlertingPolicyRequest_FieldTerminalPathValue{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, value: value.(*alerting_policy.AlertingPolicy_FieldMask)}
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		return &UpdateAlertingPolicyRequest_FieldTerminalPathValue{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, value: value.(*UpdateAlertingPolicyRequest_CAS)}
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAlertingPolicyRequest_FieldTerminalPathValue{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) WithIArrayOfValues(valu
 		return &UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, values: values.([]*alerting_policy.AlertingPolicy_FieldMask)}
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		return &UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, values: values.([]*UpdateAlertingPolicyRequest_CAS)}
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		return &UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues{UpdateAlertingPolicyRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateAlertingPolicyRequest_FieldTerminalPathValue) AsCasValue() (*Up
 	res, ok := fpv.value.(*UpdateAlertingPolicyRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateAlertingPolicyRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateAlertingPolicyRequest
 func (fpv *UpdateAlertingPolicyRequest_FieldTerminalPathValue) SetTo(target **UpdateAlertingPolicyRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateAlertingPolicyRequest_FieldTerminalPathValue) SetTo(target **Up
 		(*target).UpdateMask = fpv.value.(*alerting_policy.AlertingPolicy_FieldMask)
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateAlertingPolicyRequest_CAS)
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateAlertingPolicyRequest_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]*UpdateAlertingPolicyRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues) AsUpdat
 }
 func (fpaov *UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateAlertingPolicyRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateAlertingPolicyRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateAlertingPolicyRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

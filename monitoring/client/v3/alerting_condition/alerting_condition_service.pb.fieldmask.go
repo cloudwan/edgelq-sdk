@@ -3161,6 +3161,7 @@ func FullUpdateAlertingConditionRequest_FieldMask() *UpdateAlertingConditionRequ
 	res.Paths = append(res.Paths, &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition})
 	res.Paths = append(res.Paths, &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdateAlertingConditionRequest_FieldTerminalPath{selector: UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3204,7 +3205,7 @@ func (fieldMask *UpdateAlertingConditionRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdateAlertingConditionRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3234,7 +3235,7 @@ func (fieldMask *UpdateAlertingConditionRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdateAlertingConditionRequest_FieldMask) Subtract(other *UpdateAlertingConditionRequest_FieldMask) *UpdateAlertingConditionRequest_FieldMask {
 	result := &UpdateAlertingConditionRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdateAlertingConditionRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition: &alerting_condition.AlertingCondition_FieldMask{},
 		UpdateAlertingConditionRequest_FieldPathSelectorCas:               &UpdateAlertingConditionRequest_CAS_FieldMask{},
@@ -3461,6 +3462,8 @@ func (fieldMask *UpdateAlertingConditionRequest_FieldMask) Project(source *Updat
 			case UpdateAlertingConditionRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdateAlertingConditionRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdateAlertingConditionRequest_FieldSubPath:
 			switch tp.selector {

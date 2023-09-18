@@ -6580,9 +6580,10 @@ type UpdateRoleBindingRequest_FieldPath interface {
 type UpdateRoleBindingRequest_FieldPathSelector int32
 
 const (
-	UpdateRoleBindingRequest_FieldPathSelectorRoleBinding UpdateRoleBindingRequest_FieldPathSelector = 0
-	UpdateRoleBindingRequest_FieldPathSelectorUpdateMask  UpdateRoleBindingRequest_FieldPathSelector = 1
-	UpdateRoleBindingRequest_FieldPathSelectorCas         UpdateRoleBindingRequest_FieldPathSelector = 2
+	UpdateRoleBindingRequest_FieldPathSelectorRoleBinding  UpdateRoleBindingRequest_FieldPathSelector = 0
+	UpdateRoleBindingRequest_FieldPathSelectorUpdateMask   UpdateRoleBindingRequest_FieldPathSelector = 1
+	UpdateRoleBindingRequest_FieldPathSelectorCas          UpdateRoleBindingRequest_FieldPathSelector = 2
+	UpdateRoleBindingRequest_FieldPathSelectorAllowMissing UpdateRoleBindingRequest_FieldPathSelector = 3
 )
 
 func (s UpdateRoleBindingRequest_FieldPathSelector) String() string {
@@ -6593,6 +6594,8 @@ func (s UpdateRoleBindingRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", s))
 	}
@@ -6610,6 +6613,8 @@ func BuildUpdateRoleBindingRequest_FieldPath(fp gotenobject.RawFieldPath) (Updat
 			return &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateRoleBindingRequest_FieldTerminalPath{selector: UpdateRoleBindingRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6682,6 +6687,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) Get(source *UpdateRoleBind
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 		}
@@ -6705,6 +6712,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) GetSingle(source *UpdateRo
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 	}
@@ -6723,6 +6732,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*role_binding.RoleBinding_FieldMask)(nil)
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		return (*UpdateRoleBindingRequest_CAS)(nil)
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 	}
@@ -6737,6 +6748,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) ClearValue(item *UpdateRol
 			item.UpdateMask = nil
 		case UpdateRoleBindingRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 		}
@@ -6749,7 +6762,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) ClearValueRaw(item proto.M
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateRoleBindingRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateRoleBindingRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateRoleBindingRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateRoleBindingRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateRoleBindingRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6764,6 +6778,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) WithIValue(value interface
 		return &UpdateRoleBindingRequest_FieldTerminalPathValue{UpdateRoleBindingRequest_FieldTerminalPath: *fp, value: value.(*role_binding.RoleBinding_FieldMask)}
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		return &UpdateRoleBindingRequest_FieldTerminalPathValue{UpdateRoleBindingRequest_FieldTerminalPath: *fp, value: value.(*UpdateRoleBindingRequest_CAS)}
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRoleBindingRequest_FieldTerminalPathValue{UpdateRoleBindingRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 	}
@@ -6782,6 +6798,8 @@ func (fp *UpdateRoleBindingRequest_FieldTerminalPath) WithIArrayOfValues(values 
 		return &UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues{UpdateRoleBindingRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.RoleBinding_FieldMask)}
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		return &UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues{UpdateRoleBindingRequest_FieldTerminalPath: *fp, values: values.([]*UpdateRoleBindingRequest_CAS)}
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		return &UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues{UpdateRoleBindingRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fp.selector))
 	}
@@ -6979,6 +6997,10 @@ func (fpv *UpdateRoleBindingRequest_FieldTerminalPathValue) AsCasValue() (*Updat
 	res, ok := fpv.value.(*UpdateRoleBindingRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateRoleBindingRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateRoleBindingRequest
 func (fpv *UpdateRoleBindingRequest_FieldTerminalPathValue) SetTo(target **UpdateRoleBindingRequest) {
@@ -6992,6 +7014,8 @@ func (fpv *UpdateRoleBindingRequest_FieldTerminalPathValue) SetTo(target **Updat
 		(*target).UpdateMask = fpv.value.(*role_binding.RoleBinding_FieldMask)
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateRoleBindingRequest_CAS)
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fpv.selector))
 	}
@@ -7011,6 +7035,16 @@ func (fpv *UpdateRoleBindingRequest_FieldTerminalPathValue) CompareWith(source *
 		return 0, false
 	case UpdateRoleBindingRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fpv.selector))
 	}
@@ -7215,6 +7249,10 @@ func (fpaov *UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues) GetRawValu
 		for _, v := range fpaov.values.([]*UpdateRoleBindingRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateRoleBindingRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7228,6 +7266,10 @@ func (fpaov *UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues) AsUpdateMa
 }
 func (fpaov *UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateRoleBindingRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateRoleBindingRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateRoleBindingRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

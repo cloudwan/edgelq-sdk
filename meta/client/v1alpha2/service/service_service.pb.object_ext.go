@@ -1295,6 +1295,9 @@ func (o *UpdateServiceRequest) MakeDiffFieldMask(other *UpdateServiceRequest) *U
 			}
 		}
 	}
+	if o.GetAllowMissing() != other.GetAllowMissing() {
+		res.Paths = append(res.Paths, &UpdateServiceRequest_FieldTerminalPath{selector: UpdateServiceRequest_FieldPathSelectorAllowMissing})
+	}
 	return res
 }
 
@@ -1310,6 +1313,7 @@ func (o *UpdateServiceRequest) Clone() *UpdateServiceRequest {
 	result.Service = o.Service.Clone()
 	result.UpdateMask = proto.Clone(o.UpdateMask).(*service.Service_FieldMask)
 	result.Cas = o.Cas.Clone()
+	result.AllowMissing = o.AllowMissing
 	return result
 }
 
@@ -1339,6 +1343,7 @@ func (o *UpdateServiceRequest) Merge(source *UpdateServiceRequest) {
 		}
 		o.Cas.Merge(source.GetCas())
 	}
+	o.AllowMissing = source.GetAllowMissing()
 }
 
 func (o *UpdateServiceRequest) MergeRaw(source gotenobject.GotenObjectExt) {

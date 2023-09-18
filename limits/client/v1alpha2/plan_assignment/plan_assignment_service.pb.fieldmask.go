@@ -3163,6 +3163,7 @@ func FullUpdatePlanAssignmentRequest_FieldMask() *UpdatePlanAssignmentRequest_Fi
 	res.Paths = append(res.Paths, &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorPlanAssignment})
 	res.Paths = append(res.Paths, &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorUpdateMask})
 	res.Paths = append(res.Paths, &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorCas})
+	res.Paths = append(res.Paths, &UpdatePlanAssignmentRequest_FieldTerminalPath{selector: UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing})
 	return res
 }
 
@@ -3206,7 +3207,7 @@ func (fieldMask *UpdatePlanAssignmentRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*UpdatePlanAssignmentRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3236,7 +3237,7 @@ func (fieldMask *UpdatePlanAssignmentRequest_FieldMask) Reset() {
 
 func (fieldMask *UpdatePlanAssignmentRequest_FieldMask) Subtract(other *UpdatePlanAssignmentRequest_FieldMask) *UpdatePlanAssignmentRequest_FieldMask {
 	result := &UpdatePlanAssignmentRequest_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[UpdatePlanAssignmentRequest_FieldPathSelector]gotenobject.FieldMask{
 		UpdatePlanAssignmentRequest_FieldPathSelectorPlanAssignment: &plan_assignment.PlanAssignment_FieldMask{},
 		UpdatePlanAssignmentRequest_FieldPathSelectorCas:            &UpdatePlanAssignmentRequest_CAS_FieldMask{},
@@ -3463,6 +3464,8 @@ func (fieldMask *UpdatePlanAssignmentRequest_FieldMask) Project(source *UpdatePl
 			case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
 				result.Cas = source.Cas
 				wholeCasAccepted = true
+			case UpdatePlanAssignmentRequest_FieldPathSelectorAllowMissing:
+				result.AllowMissing = source.AllowMissing
 			}
 		case *UpdatePlanAssignmentRequest_FieldSubPath:
 			switch tp.selector {

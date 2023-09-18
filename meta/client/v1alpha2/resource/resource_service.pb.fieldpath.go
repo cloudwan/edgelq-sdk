@@ -6578,9 +6578,10 @@ type UpdateResourceRequest_FieldPath interface {
 type UpdateResourceRequest_FieldPathSelector int32
 
 const (
-	UpdateResourceRequest_FieldPathSelectorResource   UpdateResourceRequest_FieldPathSelector = 0
-	UpdateResourceRequest_FieldPathSelectorUpdateMask UpdateResourceRequest_FieldPathSelector = 1
-	UpdateResourceRequest_FieldPathSelectorCas        UpdateResourceRequest_FieldPathSelector = 2
+	UpdateResourceRequest_FieldPathSelectorResource     UpdateResourceRequest_FieldPathSelector = 0
+	UpdateResourceRequest_FieldPathSelectorUpdateMask   UpdateResourceRequest_FieldPathSelector = 1
+	UpdateResourceRequest_FieldPathSelectorCas          UpdateResourceRequest_FieldPathSelector = 2
+	UpdateResourceRequest_FieldPathSelectorAllowMissing UpdateResourceRequest_FieldPathSelector = 3
 )
 
 func (s UpdateResourceRequest_FieldPathSelector) String() string {
@@ -6591,6 +6592,8 @@ func (s UpdateResourceRequest_FieldPathSelector) String() string {
 		return "update_mask"
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		return "cas"
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		return "allow_missing"
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", s))
 	}
@@ -6608,6 +6611,8 @@ func BuildUpdateResourceRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdateRe
 			return &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorUpdateMask}, nil
 		case "cas":
 			return &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorCas}, nil
+		case "allow_missing", "allowMissing", "allow-missing":
+			return &UpdateResourceRequest_FieldTerminalPath{selector: UpdateResourceRequest_FieldPathSelectorAllowMissing}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -6680,6 +6685,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) Get(source *UpdateResourceReq
 			if source.Cas != nil {
 				values = append(values, source.Cas)
 			}
+		case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+			values = append(values, source.AllowMissing)
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 		}
@@ -6703,6 +6710,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) GetSingle(source *UpdateResou
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		res := source.GetCas()
 		return res, res != nil
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		return source.GetAllowMissing(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 	}
@@ -6721,6 +6730,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*resource.Resource_FieldMask)(nil)
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		return (*UpdateResourceRequest_CAS)(nil)
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 	}
@@ -6735,6 +6746,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) ClearValue(item *UpdateResour
 			item.UpdateMask = nil
 		case UpdateResourceRequest_FieldPathSelectorCas:
 			item.Cas = nil
+		case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+			item.AllowMissing = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 		}
@@ -6747,7 +6760,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) ClearValueRaw(item proto.Mess
 
 // IsLeaf - whether field path is holds simple value
 func (fp *UpdateResourceRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UpdateResourceRequest_FieldPathSelectorUpdateMask
+	return fp.selector == UpdateResourceRequest_FieldPathSelectorUpdateMask ||
+		fp.selector == UpdateResourceRequest_FieldPathSelectorAllowMissing
 }
 
 func (fp *UpdateResourceRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6762,6 +6776,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) WithIValue(value interface{})
 		return &UpdateResourceRequest_FieldTerminalPathValue{UpdateResourceRequest_FieldTerminalPath: *fp, value: value.(*resource.Resource_FieldMask)}
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		return &UpdateResourceRequest_FieldTerminalPathValue{UpdateResourceRequest_FieldTerminalPath: *fp, value: value.(*UpdateResourceRequest_CAS)}
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		return &UpdateResourceRequest_FieldTerminalPathValue{UpdateResourceRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 	}
@@ -6780,6 +6796,8 @@ func (fp *UpdateResourceRequest_FieldTerminalPath) WithIArrayOfValues(values int
 		return &UpdateResourceRequest_FieldTerminalPathArrayOfValues{UpdateResourceRequest_FieldTerminalPath: *fp, values: values.([]*resource.Resource_FieldMask)}
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		return &UpdateResourceRequest_FieldTerminalPathArrayOfValues{UpdateResourceRequest_FieldTerminalPath: *fp, values: values.([]*UpdateResourceRequest_CAS)}
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		return &UpdateResourceRequest_FieldTerminalPathArrayOfValues{UpdateResourceRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fp.selector))
 	}
@@ -6977,6 +6995,10 @@ func (fpv *UpdateResourceRequest_FieldTerminalPathValue) AsCasValue() (*UpdateRe
 	res, ok := fpv.value.(*UpdateResourceRequest_CAS)
 	return res, ok
 }
+func (fpv *UpdateResourceRequest_FieldTerminalPathValue) AsAllowMissingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object UpdateResourceRequest
 func (fpv *UpdateResourceRequest_FieldTerminalPathValue) SetTo(target **UpdateResourceRequest) {
@@ -6990,6 +7012,8 @@ func (fpv *UpdateResourceRequest_FieldTerminalPathValue) SetTo(target **UpdateRe
 		(*target).UpdateMask = fpv.value.(*resource.Resource_FieldMask)
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		(*target).Cas = fpv.value.(*UpdateResourceRequest_CAS)
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		(*target).AllowMissing = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fpv.selector))
 	}
@@ -7009,6 +7033,16 @@ func (fpv *UpdateResourceRequest_FieldTerminalPathValue) CompareWith(source *Upd
 		return 0, false
 	case UpdateResourceRequest_FieldPathSelectorCas:
 		return 0, false
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAllowMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateResourceRequest: %d", fpv.selector))
 	}
@@ -7213,6 +7247,10 @@ func (fpaov *UpdateResourceRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]*UpdateResourceRequest_CAS) {
 			values = append(values, v)
 		}
+	case UpdateResourceRequest_FieldPathSelectorAllowMissing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7226,6 +7264,10 @@ func (fpaov *UpdateResourceRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskA
 }
 func (fpaov *UpdateResourceRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdateResourceRequest_CAS, bool) {
 	res, ok := fpaov.values.([]*UpdateResourceRequest_CAS)
+	return res, ok
+}
+func (fpaov *UpdateResourceRequest_FieldTerminalPathArrayOfValues) AsAllowMissingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
