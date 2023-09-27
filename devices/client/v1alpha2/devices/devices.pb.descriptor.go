@@ -12,11 +12,13 @@ import (
 // proto imports
 import (
 	broker_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/broker"
+	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/customized_image"
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
 	project_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/project"
 	provisioning_approval_request_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_approval_request"
 	provisioning_policy_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_policy"
 	public_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/public"
+	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
@@ -31,6 +33,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &customized_image.CustomizedImage{}
+	_ = &customized_image_client.GetCustomizedImageRequest{}
 	_ = &device.Device{}
 	_ = &device_client.GetDeviceRequest{}
 	_ = &project.Project{}
@@ -67,6 +71,7 @@ func (d *DevicesDescriptor) GetNextVersion() string {
 
 func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 	return []gotenresource.Descriptor{
+		customized_image.GetDescriptor(),
 		device.GetDescriptor(),
 		project.GetDescriptor(),
 		provisioning_approval_request.GetDescriptor(),
@@ -77,6 +82,7 @@ func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor 
 func (d *DevicesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
 		broker_client.GetBrokerServiceDescriptor(),
+		customized_image_client.GetCustomizedImageServiceDescriptor(),
 		device_client.GetDeviceServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
 		provisioning_approval_request_client.GetProvisioningApprovalRequestServiceDescriptor(),

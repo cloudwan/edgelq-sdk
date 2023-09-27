@@ -4,6 +4,9 @@ package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/devices/proto/v1alpha2/broker_custom.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/broker_service.proto";
+import "edgelq-sdk/devices/proto/v1alpha2/customized_image.proto";
+import "edgelq-sdk/devices/proto/v1alpha2/customized_image_custom.proto";
+import "edgelq-sdk/devices/proto/v1alpha2/customized_image_service.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_custom.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_service.proto";

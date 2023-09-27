@@ -7,11 +7,13 @@ package devices_access
 import (
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
+	customized_image_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/customized_image"
 	device_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/device"
 	project_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/project"
 	provisioning_approval_request_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/provisioning_approval_request"
 	provisioning_policy_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/provisioning_policy"
 	devices_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/devices"
+	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
@@ -21,6 +23,7 @@ import (
 type DevicesApiAccess interface {
 	gotenresource.Access
 
+	customized_image.CustomizedImageAccess
 	device.DeviceAccess
 	project.ProjectAccess
 	provisioning_approval_request.ProvisioningApprovalRequestAccess
@@ -30,6 +33,7 @@ type DevicesApiAccess interface {
 type apiDevicesAccess struct {
 	gotenresource.Access
 
+	customized_image.CustomizedImageAccess
 	device.DeviceAccess
 	project.ProjectAccess
 	provisioning_approval_request.ProvisioningApprovalRequestAccess
@@ -38,6 +42,7 @@ type apiDevicesAccess struct {
 
 func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
+	customizedImageAccess := customized_image_access.NewApiCustomizedImageAccess(client)
 	deviceAccess := device_access.NewApiDeviceAccess(client)
 	projectAccess := project_access.NewApiProjectAccess(client)
 	provisioningApprovalRequestAccess := provisioning_approval_request_access.NewApiProvisioningApprovalRequestAccess(client)
@@ -46,12 +51,14 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 	return &apiDevicesAccess{
 		Access: gotenresource.NewCompositeAccess(
 
+			customized_image.AsAnyCastAccess(customizedImageAccess),
 			device.AsAnyCastAccess(deviceAccess),
 			project.AsAnyCastAccess(projectAccess),
 			provisioning_approval_request.AsAnyCastAccess(provisioningApprovalRequestAccess),
 			provisioning_policy.AsAnyCastAccess(provisioningPolicyAccess),
 		),
 
+		CustomizedImageAccess:             customizedImageAccess,
 		DeviceAccess:                      deviceAccess,
 		ProjectAccess:                     projectAccess,
 		ProvisioningApprovalRequestAccess: provisioningApprovalRequestAccess,

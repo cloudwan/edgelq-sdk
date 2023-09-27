@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/devices/proto/v1alpha2/customized_image.proto";
+import "edgelq-sdk/devices/proto/v1alpha2/customized_image_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/customized_image;customized_image_client";
+option java_multiple_files = false;
+option java_outer_classname = "CustomizedImageCustomProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
+
+// Request message for method [RequestUrl][ntt.devices.v1alpha2.RequestUrl]
+message RequestUrlRequest {
+  //  reference of ntt.devices.v1alpha2.CustomizedImage
+  string name = 1;
+}
+
+// Response message for method [RequestUrl][ntt.devices.v1alpha2.RequestUrl]
+message RequestUrlResponse {
+  string url = 1;
+
+  repeated string headers = 2;
+}
