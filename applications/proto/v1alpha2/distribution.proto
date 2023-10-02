@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ntt.applications.v1alpha2;
 
-import "edgelq-sdk/applications/proto/v1alpha2/pod.proto";
+import "edgelq-sdk/applications/proto/v1alpha2/common.proto";
 import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
 
@@ -43,7 +43,7 @@ message Distribution {
     message Template {
       ntt.types.Meta metadata = 1;
 
-      Pod.Spec spec = 2;
+      PodSpec spec = 2;
     }
   }
 

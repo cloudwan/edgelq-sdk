@@ -16,7 +16,7 @@ import (
 
 // proto imports
 import (
-	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 )
@@ -34,7 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &pod.Pod{}
+	_ = &common.PodSpec{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
 )
@@ -358,7 +358,7 @@ func (o *Distribution_Spec_Template) Merge(source *Distribution_Spec_Template) {
 	}
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
-			o.Spec = new(pod.Pod_Spec)
+			o.Spec = new(common.PodSpec)
 		}
 		o.Spec.Merge(source.GetSpec())
 	}

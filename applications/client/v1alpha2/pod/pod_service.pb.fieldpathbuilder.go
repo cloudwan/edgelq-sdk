@@ -6,6 +6,8 @@ package pod_client
 
 // proto imports
 import (
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
+	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
@@ -30,6 +32,8 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &common.PodSpec{}
+	_ = &distribution.Distribution{}
 	_ = &pod.Pod{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
@@ -229,6 +233,10 @@ func (BatchGetPodsResponsePathSelectorPods) Metadata() BatchGetPodsResponsePathS
 
 func (BatchGetPodsResponsePathSelectorPods) Spec() BatchGetPodsResponsePathSelectorPodsSpec {
 	return BatchGetPodsResponsePathSelectorPodsSpec{}
+}
+
+func (BatchGetPodsResponsePathSelectorPods) Distribution() BatchGetPodsResponsePathSelectorPodsDistribution {
+	return BatchGetPodsResponsePathSelectorPodsDistribution{}
 }
 
 func (BatchGetPodsResponsePathSelectorPods) Status() BatchGetPodsResponsePathSelectorPodsStatus {
@@ -880,11 +888,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpec) FieldPath() *BatchGetPodsRespons
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpec) WithValue(value *pod.Pod_Spec) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpec) WithValue(value *common.PodSpec) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpec) WithArrayOfValues(values []*pod.Pod_Spec) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpec) WithArrayOfValues(values []*common.PodSpec) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -946,15 +954,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainers) FieldPath() *BatchGetP
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithValue(value []*common.PodSpec_Container) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainers) WithItemValue(value *common.PodSpec_Container) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1049,15 +1057,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) FieldPath() *BatchG
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithValue(value []*pod.EnvVar) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithValue(value []*common.EnvVar) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithItemValue(value *pod.EnvVar) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnv) WithItemValue(value *common.EnvVar) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1116,11 +1124,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) FieldPath(
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1141,11 +1149,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKey
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1221,11 +1229,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1352,11 +1360,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersResources) FieldPath() *
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1457,11 +1465,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersSecurityContext) FieldPa
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1495,15 +1503,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) FieldPath(
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1600,11 +1608,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFrom) FieldPath() *Ba
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1646,11 +1654,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) Fie
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1705,11 +1713,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) FieldP
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1781,11 +1789,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecRestartPolicy) FieldPath() *BatchG
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1798,15 +1806,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) FieldPath() *Bat
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1840,15 +1848,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumes) FieldPath() *BatchGetPods
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithValue(value []*pod.Volume) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithValue(value []*common.Volume) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithItemValue(value *pod.Volume) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumes) WithItemValue(value *common.Volume) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1894,11 +1902,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPath) FieldPath() *Batc
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1936,11 +1944,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPathType) FieldPath() *
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1953,11 +1961,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesSecret) FieldPath() *BatchG
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2003,15 +2011,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) FieldPath() *B
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -2121,11 +2129,11 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMap) FieldPath() *Bat
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2171,15 +2179,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) FieldPath()
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -2306,15 +2314,15 @@ func (BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) FieldPath() *Bat
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -2399,6 +2407,23 @@ func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMountsSubPath) WithVal
 }
 
 func (s BatchGetPodsResponsePathSelectorPodsSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsDistribution struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsDistribution) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Distribution().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsDistribution) WithValue(value *distribution.Reference) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsDistribution) WithArrayOfValues(values []*distribution.Reference) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3008,6 +3033,10 @@ func (ListPodsResponsePathSelectorPods) Metadata() ListPodsResponsePathSelectorP
 
 func (ListPodsResponsePathSelectorPods) Spec() ListPodsResponsePathSelectorPodsSpec {
 	return ListPodsResponsePathSelectorPodsSpec{}
+}
+
+func (ListPodsResponsePathSelectorPods) Distribution() ListPodsResponsePathSelectorPodsDistribution {
+	return ListPodsResponsePathSelectorPodsDistribution{}
 }
 
 func (ListPodsResponsePathSelectorPods) Status() ListPodsResponsePathSelectorPodsStatus {
@@ -3659,11 +3688,11 @@ func (ListPodsResponsePathSelectorPodsSpec) FieldPath() *ListPodsResponse_FieldS
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpec) WithValue(value *pod.Pod_Spec) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpec) WithValue(value *common.PodSpec) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpec) WithArrayOfValues(values []*pod.Pod_Spec) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpec) WithArrayOfValues(values []*common.PodSpec) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3725,15 +3754,15 @@ func (ListPodsResponsePathSelectorPodsSpecContainers) FieldPath() *ListPodsRespo
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainers) WithValue(value []*common.PodSpec_Container) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainers) WithItemValue(value *common.PodSpec_Container) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -3828,15 +3857,15 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnv) FieldPath() *ListPodsRe
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithValue(value []*pod.EnvVar) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithValue(value []*common.EnvVar) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithItemValue(value *pod.EnvVar) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnv) WithItemValue(value *common.EnvVar) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -3895,11 +3924,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) FieldPath() *L
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3920,11 +3949,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef)
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4000,11 +4029,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) Fi
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4131,11 +4160,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersResources) FieldPath() *List
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4236,11 +4265,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersSecurityContext) FieldPath()
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4274,15 +4303,15 @@ func (ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) FieldPath() *L
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -4379,11 +4408,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvFrom) FieldPath() *ListPo
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4425,11 +4454,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) FieldPa
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4484,11 +4513,11 @@ func (ListPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) FieldPath(
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4560,11 +4589,11 @@ func (ListPodsResponsePathSelectorPodsSpecRestartPolicy) FieldPath() *ListPodsRe
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4577,15 +4606,15 @@ func (ListPodsResponsePathSelectorPodsSpecImagePullSecrets) FieldPath() *ListPod
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -4619,15 +4648,15 @@ func (ListPodsResponsePathSelectorPodsSpecVolumes) FieldPath() *ListPodsResponse
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithValue(value []*pod.Volume) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithValue(value []*common.Volume) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithItemValue(value *pod.Volume) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumes) WithItemValue(value *common.Volume) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -4673,11 +4702,11 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesHostPath) FieldPath() *ListPods
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4715,11 +4744,11 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesHostPathType) FieldPath() *List
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4732,11 +4761,11 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesSecret) FieldPath() *ListPodsRe
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4782,15 +4811,15 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) FieldPath() *ListP
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -4900,11 +4929,11 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesConfigMap) FieldPath() *ListPod
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4950,15 +4979,15 @@ func (ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) FieldPath() *Li
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -5085,15 +5114,15 @@ func (ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) FieldPath() *ListPod
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *ListPodsResponse_FieldSubPathArrayItemValue {
+func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -5178,6 +5207,23 @@ func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMountsSubPath) WithValue(v
 }
 
 func (s ListPodsResponsePathSelectorPodsSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsDistribution struct{}
+
+func (ListPodsResponsePathSelectorPodsDistribution) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Distribution().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsDistribution) WithValue(value *distribution.Reference) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsDistribution) WithArrayOfValues(values []*distribution.Reference) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -6187,6 +6233,10 @@ func (CreatePodRequestPathSelectorPod) Spec() CreatePodRequestPathSelectorPodSpe
 	return CreatePodRequestPathSelectorPodSpec{}
 }
 
+func (CreatePodRequestPathSelectorPod) Distribution() CreatePodRequestPathSelectorPodDistribution {
+	return CreatePodRequestPathSelectorPodDistribution{}
+}
+
 func (CreatePodRequestPathSelectorPod) Status() CreatePodRequestPathSelectorPodStatus {
 	return CreatePodRequestPathSelectorPodStatus{}
 }
@@ -6836,11 +6886,11 @@ func (CreatePodRequestPathSelectorPodSpec) FieldPath() *CreatePodRequest_FieldSu
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpec) WithValue(value *pod.Pod_Spec) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpec) WithValue(value *common.PodSpec) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpec) WithArrayOfValues(values []*pod.Pod_Spec) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpec) WithArrayOfValues(values []*common.PodSpec) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6902,15 +6952,15 @@ func (CreatePodRequestPathSelectorPodSpecContainers) FieldPath() *CreatePodReque
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainers) WithValue(value []*common.PodSpec_Container) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecContainers) WithItemValue(value *common.PodSpec_Container) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -7005,15 +7055,15 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnv) FieldPath() *CreatePodRe
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithValue(value []*pod.EnvVar) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithValue(value []*common.EnvVar) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithItemValue(value *pod.EnvVar) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnv) WithItemValue(value *common.EnvVar) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -7072,11 +7122,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvValueFrom) FieldPath() *Cr
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7097,11 +7147,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) 
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7177,11 +7227,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) Fie
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7308,11 +7358,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersResources) FieldPath() *Creat
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7413,11 +7463,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersSecurityContext) FieldPath() 
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7451,15 +7501,15 @@ func (CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) FieldPath() *Cr
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -7556,11 +7606,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvFrom) FieldPath() *CreateP
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7602,11 +7652,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) FieldPat
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7661,11 +7711,11 @@ func (CreatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) FieldPath()
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7737,11 +7787,11 @@ func (CreatePodRequestPathSelectorPodSpecRestartPolicy) FieldPath() *CreatePodRe
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7754,15 +7804,15 @@ func (CreatePodRequestPathSelectorPodSpecImagePullSecrets) FieldPath() *CreatePo
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -7796,15 +7846,15 @@ func (CreatePodRequestPathSelectorPodSpecVolumes) FieldPath() *CreatePodRequest_
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumes) WithValue(value []*pod.Volume) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumes) WithValue(value []*common.Volume) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumes) WithItemValue(value *pod.Volume) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumes) WithItemValue(value *common.Volume) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -7850,11 +7900,11 @@ func (CreatePodRequestPathSelectorPodSpecVolumesHostPath) FieldPath() *CreatePod
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7892,11 +7942,11 @@ func (CreatePodRequestPathSelectorPodSpecVolumesHostPathType) FieldPath() *Creat
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7909,11 +7959,11 @@ func (CreatePodRequestPathSelectorPodSpecVolumesSecret) FieldPath() *CreatePodRe
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7959,15 +8009,15 @@ func (CreatePodRequestPathSelectorPodSpecVolumesSecretItems) FieldPath() *Create
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -8077,11 +8127,11 @@ func (CreatePodRequestPathSelectorPodSpecVolumesConfigMap) FieldPath() *CreatePo
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8127,15 +8177,15 @@ func (CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) FieldPath() *Cre
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -8262,15 +8312,15 @@ func (CreatePodRequestPathSelectorPodSpecHostVolumeMounts) FieldPath() *CreatePo
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *CreatePodRequest_FieldSubPathArrayItemValue {
+func (s CreatePodRequestPathSelectorPodSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -8355,6 +8405,23 @@ func (s CreatePodRequestPathSelectorPodSpecHostVolumeMountsSubPath) WithValue(va
 }
 
 func (s CreatePodRequestPathSelectorPodSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodDistribution struct{}
+
+func (CreatePodRequestPathSelectorPodDistribution) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Distribution().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodDistribution) WithValue(value *distribution.Reference) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodDistribution) WithArrayOfValues(values []*distribution.Reference) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8798,6 +8865,10 @@ func (UpdatePodRequestPathSelectorPod) Metadata() UpdatePodRequestPathSelectorPo
 
 func (UpdatePodRequestPathSelectorPod) Spec() UpdatePodRequestPathSelectorPodSpec {
 	return UpdatePodRequestPathSelectorPodSpec{}
+}
+
+func (UpdatePodRequestPathSelectorPod) Distribution() UpdatePodRequestPathSelectorPodDistribution {
+	return UpdatePodRequestPathSelectorPodDistribution{}
 }
 
 func (UpdatePodRequestPathSelectorPod) Status() UpdatePodRequestPathSelectorPodStatus {
@@ -9449,11 +9520,11 @@ func (UpdatePodRequestPathSelectorPodSpec) FieldPath() *UpdatePodRequest_FieldSu
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpec) WithValue(value *pod.Pod_Spec) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpec) WithValue(value *common.PodSpec) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpec) WithArrayOfValues(values []*pod.Pod_Spec) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpec) WithArrayOfValues(values []*common.PodSpec) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -9515,15 +9586,15 @@ func (UpdatePodRequestPathSelectorPodSpecContainers) FieldPath() *UpdatePodReque
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainers) WithValue(value []*common.PodSpec_Container) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainers) WithItemValue(value *common.PodSpec_Container) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -9618,15 +9689,15 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnv) FieldPath() *UpdatePodRe
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithValue(value []*pod.EnvVar) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithValue(value []*common.EnvVar) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithItemValue(value *pod.EnvVar) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnv) WithItemValue(value *common.EnvVar) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -9685,11 +9756,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvValueFrom) FieldPath() *Up
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -9710,11 +9781,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) 
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -9790,11 +9861,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) Fie
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -9921,11 +9992,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersResources) FieldPath() *Updat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10026,11 +10097,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersSecurityContext) FieldPath() 
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10064,15 +10135,15 @@ func (UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) FieldPath() *Up
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10169,11 +10240,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvFrom) FieldPath() *UpdateP
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10215,11 +10286,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) FieldPat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10274,11 +10345,11 @@ func (UpdatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) FieldPath()
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10350,11 +10421,11 @@ func (UpdatePodRequestPathSelectorPodSpecRestartPolicy) FieldPath() *UpdatePodRe
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10367,15 +10438,15 @@ func (UpdatePodRequestPathSelectorPodSpecImagePullSecrets) FieldPath() *UpdatePo
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10409,15 +10480,15 @@ func (UpdatePodRequestPathSelectorPodSpecVolumes) FieldPath() *UpdatePodRequest_
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithValue(value []*pod.Volume) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithValue(value []*common.Volume) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithItemValue(value *pod.Volume) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumes) WithItemValue(value *common.Volume) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10463,11 +10534,11 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesHostPath) FieldPath() *UpdatePod
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10505,11 +10576,11 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesHostPathType) FieldPath() *Updat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10522,11 +10593,11 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesSecret) FieldPath() *UpdatePodRe
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10572,15 +10643,15 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) FieldPath() *Update
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10690,11 +10761,11 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesConfigMap) FieldPath() *UpdatePo
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10740,15 +10811,15 @@ func (UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) FieldPath() *Upd
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10875,15 +10946,15 @@ func (UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) FieldPath() *UpdatePo
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -10968,6 +11039,23 @@ func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMountsSubPath) WithValue(va
 }
 
 func (s UpdatePodRequestPathSelectorPodSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodDistribution struct{}
+
+func (UpdatePodRequestPathSelectorPodDistribution) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Distribution().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodDistribution) WithValue(value *distribution.Reference) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodDistribution) WithArrayOfValues(values []*distribution.Reference) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11432,6 +11520,10 @@ func (UpdatePodRequestPathSelectorCasConditionalState) Metadata() UpdatePodReque
 
 func (UpdatePodRequestPathSelectorCasConditionalState) Spec() UpdatePodRequestPathSelectorCasConditionalStateSpec {
 	return UpdatePodRequestPathSelectorCasConditionalStateSpec{}
+}
+
+func (UpdatePodRequestPathSelectorCasConditionalState) Distribution() UpdatePodRequestPathSelectorCasConditionalStateDistribution {
+	return UpdatePodRequestPathSelectorCasConditionalStateDistribution{}
 }
 
 func (UpdatePodRequestPathSelectorCasConditionalState) Status() UpdatePodRequestPathSelectorCasConditionalStateStatus {
@@ -12083,11 +12175,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpec) FieldPath() *UpdatePo
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpec) WithValue(value *pod.Pod_Spec) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpec) WithValue(value *common.PodSpec) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpec) WithArrayOfValues(values []*pod.Pod_Spec) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpec) WithArrayOfValues(values []*common.PodSpec) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12149,15 +12241,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) FieldPath()
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithValue(value []*common.PodSpec_Container) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainers) WithItemValue(value *common.PodSpec_Container) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -12252,15 +12344,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) FieldPat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithValue(value []*pod.EnvVar) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithValue(value []*common.EnvVar) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithItemValue(value *pod.EnvVar) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnv) WithItemValue(value *common.EnvVar) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -12319,11 +12411,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFrom)
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12344,11 +12436,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromC
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12424,11 +12516,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromS
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12555,11 +12647,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersResources) Fi
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12660,11 +12752,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersSecurityConte
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12698,15 +12790,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts)
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -12803,11 +12895,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFrom) Fiel
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12849,11 +12941,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromConfig
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12908,11 +13000,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromSecret
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12984,11 +13076,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecRestartPolicy) FieldPat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13001,15 +13093,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) Field
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -13043,15 +13135,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) FieldPath() *U
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithValue(value []*pod.Volume) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithValue(value []*common.Volume) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithItemValue(value *pod.Volume) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumes) WithItemValue(value *common.Volume) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -13097,11 +13189,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPath) FieldP
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13139,11 +13231,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPathType) Fi
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13156,11 +13248,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecret) FieldPat
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13206,15 +13298,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) Fie
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -13324,11 +13416,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMap) Field
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13374,15 +13466,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) 
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -13509,15 +13601,15 @@ func (UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) Field
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
@@ -13602,6 +13694,23 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMountsSubPa
 }
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateDistribution struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateDistribution) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Distribution().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateDistribution) WithValue(value *distribution.Reference) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateDistribution) WithArrayOfValues(values []*distribution.Reference) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -14070,6 +14179,10 @@ func (UpdatePodRequest_CASPathSelectorConditionalState) Metadata() UpdatePodRequ
 
 func (UpdatePodRequest_CASPathSelectorConditionalState) Spec() UpdatePodRequest_CASPathSelectorConditionalStateSpec {
 	return UpdatePodRequest_CASPathSelectorConditionalStateSpec{}
+}
+
+func (UpdatePodRequest_CASPathSelectorConditionalState) Distribution() UpdatePodRequest_CASPathSelectorConditionalStateDistribution {
+	return UpdatePodRequest_CASPathSelectorConditionalStateDistribution{}
 }
 
 func (UpdatePodRequest_CASPathSelectorConditionalState) Status() UpdatePodRequest_CASPathSelectorConditionalStateStatus {
@@ -14721,11 +14834,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpec) FieldPath() *UpdateP
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpec) WithValue(value *pod.Pod_Spec) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpec) WithValue(value *common.PodSpec) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpec) WithArrayOfValues(values []*pod.Pod_Spec) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpec) WithArrayOfValues(values []*common.PodSpec) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -14787,15 +14900,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) FieldPath(
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithValue(value []*common.PodSpec_Container) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainers) WithItemValue(value *common.PodSpec_Container) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -14890,15 +15003,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) FieldPa
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithValue(value []*pod.EnvVar) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithValue(value []*common.EnvVar) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithItemValue(value *pod.EnvVar) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnv) WithItemValue(value *common.EnvVar) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -14957,11 +15070,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -14982,11 +15095,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15062,11 +15175,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFrom
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15193,11 +15306,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersResources) F
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15298,11 +15411,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersSecurityCont
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15336,15 +15449,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -15441,11 +15554,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFrom) Fie
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15487,11 +15600,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromConfi
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15546,11 +15659,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromSecre
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15622,11 +15735,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecRestartPolicy) FieldPa
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15639,15 +15752,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) Fiel
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -15681,15 +15794,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) FieldPath() *
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithValue(value []*pod.Volume) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithValue(value []*common.Volume) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithItemValue(value *pod.Volume) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumes) WithItemValue(value *common.Volume) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -15735,11 +15848,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPath) Field
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15777,11 +15890,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPathType) F
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15794,11 +15907,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecret) FieldPa
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -15844,15 +15957,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) Fi
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -15962,11 +16075,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMap) Fiel
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -16012,15 +16125,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems)
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -16147,15 +16260,15 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) Fiel
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -16240,6 +16353,23 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMountsSubP
 }
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateDistribution struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateDistribution) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Distribution().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateDistribution) WithValue(value *distribution.Reference) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateDistribution) WithArrayOfValues(values []*distribution.Reference) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 

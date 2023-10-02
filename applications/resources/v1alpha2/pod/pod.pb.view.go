@@ -12,9 +12,10 @@ import (
 
 // proto imports
 import (
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
+	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -27,9 +28,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common.PodSpec{}
+	_ = &distribution.Distribution{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
-	_ = &devices_device.Device{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -42,7 +44,7 @@ func ResourceViewFieldMask(viewName view.View, extraMask *Pod_FieldMask) *Pod_Fi
 	case view.View_FULL:
 		return nil
 	case view.View_BASIC:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "spec.node", "status.phase", "metadata.tags", "metadata.labels")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "spec.node", "distribution", "status.phase", "metadata.tags", "metadata.labels")
 		break
 	case view.View_NAME:
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")
