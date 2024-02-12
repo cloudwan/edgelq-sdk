@@ -59,9 +59,9 @@ message Device {
     // `OSReady` in Status.Conditions.
     string os_version = 2;
 
-    NetworkConfig net_config = 3;
+    NetplanConfig netplan_config = 11;
 
-    string net_config_mode = 4;
+    NetworkConfigMode netplan_api_config_mode = 12;
 
     // The URL is dynamically constructed once the device is created or updated.
     // The URL will be based on the device hardware information
@@ -82,82 +82,46 @@ message Device {
 
     ProxyConfig proxy_config = 10;
 
-    // NetworkConfig defines the network configuration of the Device.
-    // These fields are subset of the netplan configuration.
-    message NetworkConfig {
+    Location location = 13;
+
+    message NetworkingConfig {
       int32 version = 1;
 
-      repeated EthOpts ethernets = 2;
+      string renderer = 9;
 
-      repeated WifiOpts wifis = 3;
+      map<string, EthOpts> ethernets = 10;
 
-      repeated BridgesOpts bridges = 4;
+      map<string, WifiOpts> wifis = 11;
 
-      repeated BondsOpts bonds = 5;
+      map<string, BridgesOpts> bridges = 12;
 
-      repeated TunnelsOpts tunnels = 6;
+      map<string, BondsOpts> bonds = 13;
 
-      repeated VlansOpts vlans = 7;
+      map<string, TunnelsOpts> tunnels = 14;
+
+      map<string, VlansOpts> vlans = 15;
+
+      map<string, ModemOpts> modems = 16;
 
       message CommonOpts {
-        string renderer = 1;
-
-        bool dhcp4 = 2;
-
-        bool dhcp6 = 3;
-
-        bool ipv6_privacy = 4;
-
-        repeated string link_local = 5;
-
-        bool critical = 6;
-
-        string dhcp_identifier = 7;
-
-        DHCPOverrides dhcp4_overrides = 8;
-
-        DHCPOverrides dhcp6_overrides = 9;
-
-        bool accept_ra = 10;
-
-        repeated string addresses = 11;
-
-        string gateway4 = 12;
-
-        string gateway6 = 13;
-
-        Nameservers nameservers = 14;
-
-        string macaddress = 15;
-
-        int32 mtu = 16;
-
-        bool optional = 17;
-
-        repeated string optional_addresses = 18;
-
-        repeated Routes routes = 19;
-
-        RoutingPolicy routing_policy = 20;
-
-        Auth auth = 21;
-
         message DHCPOverrides {
-          bool use_dns = 1;
+          bool use_dns = 1 [ json_name = "use-dns" ];
 
-          bool use_ntp = 2;
+          bool use_ntp = 2 [ json_name = "use-ntp" ];
 
-          bool send_hostname = 3;
+          bool send_hostname = 3 [ json_name = "send-hostname" ];
 
-          bool use_hostname = 4;
+          bool use_hostname = 4 [ json_name = "use-hostname" ];
 
-          bool use_mtu = 5;
+          bool use_mtu = 5 [ json_name = "use-mtu" ];
 
           string hostname = 6;
 
-          bool use_routes = 7;
+          bool use_routes = 7 [ json_name = "use-routes" ];
 
-          string route_metric = 8;
+          int32 route_metric = 9 [ json_name = "route-metric" ];
+
+          reserved 8;
         }
 
         message Nameservers {
@@ -173,7 +137,7 @@ message Device {
 
           string via = 3;
 
-          bool on_link = 4;
+          bool on_link = 4 [ json_name = "on-link" ];
 
           int32 metric = 5;
 
@@ -195,11 +159,11 @@ message Device {
 
           int32 mark = 5;
 
-          int32 type_of_service = 6;
+          int32 type_of_service = 6 [ json_name = "type-of-service" ];
         }
 
         message Auth {
-          string key = 1;
+          string key_management = 1 [ json_name = "key-management" ];
 
           string password = 2;
 
@@ -207,28 +171,74 @@ message Device {
 
           string identity = 4;
 
-          string anonymous_identity = 5;
+          string anonymous_identity = 5 [ json_name = "anonymous-identity" ];
 
-          string ca_certificate = 6;
+          string ca_certificate = 6 [ json_name = "ca-certificate" ];
 
-          string client_certificate = 7;
+          string client_certificate = 7 [ json_name = "client-certificate" ];
 
-          string client_key = 8;
+          string client_key = 8 [ json_name = "client-key" ];
 
-          string client_key_password = 9;
+          string client_key_password = 9 [ json_name = "client-key-password" ];
+
+          string phase2_auth = 10 [ json_name = "phase2-auth" ];
         }
       }
 
       message EthOpts {
         Match match = 1;
 
-        string set_name = 2;
+        string set_name = 2 [ json_name = "set-name" ];
 
         bool wakeonlan = 3;
 
-        CommonOpts opts = 4;
+        string renderer = 6;
 
-        string name = 5;
+        bool dhcp4 = 7;
+
+        bool dhcp6 = 8;
+
+        bool ipv6_privacy = 9 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 10 [ json_name = "link-local" ];
+
+        bool critical = 11;
+
+        string dhcp_identifier = 12 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 13
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 14
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 15;
+
+        repeated string addresses = 16;
+
+        CommonOpts.Nameservers nameservers = 17;
+
+        string macaddress = 18;
+
+        int32 mtu = 19;
+
+        bool optional = 20;
+
+        repeated string optional_addresses = 21
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 22;
+
+        CommonOpts.RoutingPolicy routing_policy = 23
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 24;
+
+        // Deprecated
+        string gateway4 = 25;
+
+        // Deprecated
+        string gateway6 = 26;
 
         message Match {
           string name = 1;
@@ -237,20 +247,80 @@ message Device {
 
           string driver = 3;
         }
+
+        reserved 4, 5;
       }
 
       message WifiOpts {
         Match match = 1;
 
-        string set_name = 2;
+        string set_name = 2 [ json_name = "set-name" ];
 
         bool wakeonlan = 3;
 
-        CommonOpts opts = 4;
+        map<string, AccessPoint> access_points = 5
+            [ json_name = "access-points" ];
 
-        repeated AccessPoint access_points = 5;
+        // This enables WakeOnWLan on supported devices. Not all drivers support
+        // all options. May be any combination of any, disconnect, magic_pkt,
+        // gtk_rekey_failure, eap_identity_req, four_way_handshake,
+        // rfkill_release or tcp (NetworkManager only). Or the exclusive default
+        // flag (the default).
+        repeated string wakeonwlan = 28;
 
-        string name = 6;
+        // This can be used to define the radio’s regulatory domain, to make use
+        // of additional WiFi channels outside the “world domain”. Takes an ISO
+        // / IEC 3166 country code (like GB) or 00 to reset to the “world
+        // domain”
+        string regulatory_domain = 29 [ json_name = "regulatory-domain" ];
+
+        string renderer = 7;
+
+        bool dhcp4 = 8;
+
+        bool dhcp6 = 9;
+
+        bool ipv6_privacy = 10 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 11 [ json_name = "link-local" ];
+
+        bool critical = 12;
+
+        string dhcp_identifier = 13 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 14
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 15
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 16;
+
+        repeated string addresses = 17;
+
+        CommonOpts.Nameservers nameservers = 18;
+
+        string macaddress = 19;
+
+        int32 mtu = 20;
+
+        bool optional = 21;
+
+        repeated string optional_addresses = 22
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 23;
+
+        CommonOpts.RoutingPolicy routing_policy = 24
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 25;
+
+        // Deprecated
+        string gateway4 = 26;
+
+        // Deprecated
+        string gateway6 = 27;
 
         message Match {
           string name = 1;
@@ -261,93 +331,200 @@ message Device {
         }
 
         message AccessPoint {
-          string name = 1;
-
+          // Setting password here is equivalent to using auth with
+          // key-management: psk
           string password = 2;
 
           string mode = 3;
+
+          string bssid = 4;
+
+          string band = 5;
+
+          string channel = 6;
+
+          string hidden = 7;
+
+          CommonOpts.Auth auth = 8;
+
+          reserved 1;
         }
+
+        reserved 4, 6;
       }
 
       message BridgesOpts {
-        CommonOpts opts = 1;
-
         repeated string interfaces = 2;
 
         Parameters parameters = 3;
 
-        string name = 4;
+        string renderer = 5;
+
+        bool dhcp4 = 6;
+
+        bool dhcp6 = 7;
+
+        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 9 [ json_name = "link-local" ];
+
+        bool critical = 10;
+
+        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 14;
+
+        repeated string addresses = 15;
+
+        CommonOpts.Nameservers nameservers = 16;
+
+        string macaddress = 17;
+
+        int32 mtu = 18;
+
+        bool optional = 19;
+
+        repeated string optional_addresses = 20
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 21;
+
+        CommonOpts.RoutingPolicy routing_policy = 22
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 23;
+
+        // Deprecated
+        string gateway4 = 24;
+
+        // Deprecated
+        string gateway6 = 25;
 
         message Parameters {
-          int32 ageing_time = 1;
+          int32 ageing_time = 1 [ json_name = "ageing-time" ];
 
           int32 priority = 2;
 
-          int32 port_priority = 3;
+          int32 port_priority = 3 [ json_name = "port-priority" ];
 
-          int32 forward_delay = 4;
+          int32 forward_delay = 4 [ json_name = "forward-delay" ];
 
-          int32 hello_time = 5;
+          int32 hello_time = 5 [ json_name = "hello-time" ];
 
-          int32 max_age = 6;
+          int32 max_age = 6 [ json_name = "max-age" ];
 
-          int32 path_cost = 7;
+          int32 path_cost = 7 [ json_name = "path-cost" ];
 
           bool stp = 8;
         }
+
+        reserved 1, 4;
       }
 
       message BondsOpts {
-        CommonOpts opts = 1;
-
         repeated string interfaces = 2;
 
         Parameters parameters = 3;
 
-        string name = 4;
+        string renderer = 5;
+
+        bool dhcp4 = 6;
+
+        bool dhcp6 = 7;
+
+        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 9 [ json_name = "link-local" ];
+
+        bool critical = 10;
+
+        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 14;
+
+        repeated string addresses = 15;
+
+        CommonOpts.Nameservers nameservers = 16;
+
+        string macaddress = 17;
+
+        int32 mtu = 18;
+
+        bool optional = 19;
+
+        repeated string optional_addresses = 20
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 21;
+
+        CommonOpts.RoutingPolicy routing_policy = 22
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 23;
+
+        // Deprecated
+        string gateway4 = 24;
+
+        // Deprecated
+        string gateway6 = 25;
 
         message Parameters {
           string mode = 1;
 
-          int32 lacp_rate = 2;
+          int32 lacp_rate = 2 [ json_name = "lacp-rate" ];
 
-          int32 mii_monitor_interval = 3;
+          int32 mii_monitor_interval = 3 [ json_name = "mii-monitor-interval" ];
 
-          int32 min_links = 4;
+          int32 min_links = 4 [ json_name = "min-links" ];
 
-          int32 transmit_hash_policy = 5;
+          int32 transmit_hash_policy = 5 [ json_name = "transmit-hash-policy" ];
 
-          int32 ad_select = 6;
+          int32 ad_select = 6 [ json_name = "ad-select" ];
 
-          int32 all_slaves_active = 7;
+          int32 all_slaves_active = 7 [ json_name = "all-slaves-active" ];
 
-          bool arp_ip_targets = 8;
+          bool arp_ip_targets = 8 [ json_name = "arp-ip-targets" ];
 
-          string arp_validate = 9;
+          string arp_validate = 9 [ json_name = "arp-validate" ];
 
-          string arp_all_targets = 10;
+          string arp_all_targets = 10 [ json_name = "arp-all-targets" ];
 
-          string up_delay = 11;
+          string up_delay = 11 [ json_name = "up-delay" ];
 
-          string fail_over_mac_policy = 12;
+          string fail_over_mac_policy = 12
+              [ json_name = "fail-over-mac-policy" ];
 
-          int32 gratuitous_arp = 13;
+          int32 gratuitous_arp = 13 [ json_name = "gratuitous-arp" ];
 
-          string packets_per_slave = 14;
+          string packets_per_slave = 14 [ json_name = "packets-per-slave" ];
 
-          string primary_reselect_policy = 15;
+          string primary_reselect_policy = 15
+              [ json_name = "primary-reselect-policy" ];
 
-          string resend_igmp = 16;
+          string resend_igmp = 16 [ json_name = "resend-igmp" ];
 
-          string learn_packet_interval = 17;
+          string learn_packet_interval = 17
+              [ json_name = "learn-packet-interval" ];
 
           string primary = 18;
         }
+
+        reserved 1, 4;
       }
 
       message TunnelsOpts {
-        CommonOpts opts = 1;
-
         string mode = 2;
 
         string local = 3;
@@ -356,25 +533,195 @@ message Device {
 
         int32 key = 5;
 
-        string name = 6;
+        string renderer = 7;
+
+        bool dhcp4 = 8;
+
+        bool dhcp6 = 9;
+
+        bool ipv6_privacy = 10 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 11 [ json_name = "link-local" ];
+
+        bool critical = 12;
+
+        string dhcp_identifier = 13 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 14
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 15
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 16;
+
+        repeated string addresses = 17;
+
+        CommonOpts.Nameservers nameservers = 18;
+
+        string macaddress = 19;
+
+        int32 mtu = 20;
+
+        bool optional = 21;
+
+        repeated string optional_addresses = 22
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 23;
+
+        CommonOpts.RoutingPolicy routing_policy = 24
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 25;
+
+        // Deprecated
+        string gateway4 = 26;
+
+        // Deprecated
+        string gateway6 = 27;
 
         message Key {
           int32 input = 1;
 
           int32 output = 2;
         }
+
+        reserved 1, 6;
       }
 
       message VlansOpts {
-        CommonOpts opts = 1;
-
         int32 id = 2;
 
         string link = 3;
 
-        string name = 4;
+        string renderer = 5;
+
+        bool dhcp4 = 6;
+
+        bool dhcp6 = 7;
+
+        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 9 [ json_name = "link-local" ];
+
+        bool critical = 10;
+
+        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 14;
+
+        repeated string addresses = 15;
+
+        CommonOpts.Nameservers nameservers = 16;
+
+        string macaddress = 17;
+
+        int32 mtu = 18;
+
+        bool optional = 19;
+
+        repeated string optional_addresses = 20
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 21;
+
+        CommonOpts.RoutingPolicy routing_policy = 22
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 23;
+
+        // Deprecated
+        string gateway4 = 24;
+
+        // Deprecated
+        string gateway6 = 25;
+
+        reserved 1, 4;
       }
+
+      message ModemOpts {
+        string apn = 1;
+
+        string username = 2;
+
+        string password = 3;
+
+        string number = 4;
+
+        string network_id = 5 [ json_name = "network-id" ];
+
+        string device_id = 6 [ json_name = "device-id" ];
+
+        string pin = 7;
+
+        string sim_id = 8 [ json_name = "sim-id" ];
+
+        string sim_operator_id = 9 [ json_name = "sim-operator-id" ];
+
+        bool auto_config = 11 [ json_name = "auto-config" ];
+
+        string renderer = 12;
+
+        bool dhcp4 = 13;
+
+        bool dhcp6 = 14;
+
+        bool ipv6_privacy = 15 [ json_name = "ipv6-privacy" ];
+
+        repeated string link_local = 16 [ json_name = "link-local" ];
+
+        bool critical = 17;
+
+        string dhcp_identifier = 18 [ json_name = "dhcp-identifier" ];
+
+        CommonOpts.DHCPOverrides dhcp4_overrides = 19
+            [ json_name = "dhcp4-overrides" ];
+
+        CommonOpts.DHCPOverrides dhcp6_overrides = 20
+            [ json_name = "dhcp6-overrides" ];
+
+        bool accept_ra = 21;
+
+        repeated string addresses = 22;
+
+        CommonOpts.Nameservers nameservers = 23;
+
+        string macaddress = 24;
+
+        int32 mtu = 25;
+
+        bool optional = 26;
+
+        repeated string optional_addresses = 27
+            [ json_name = "optional-addresses" ];
+
+        repeated CommonOpts.Routes routes = 28;
+
+        CommonOpts.RoutingPolicy routing_policy = 29
+            [ json_name = "routing-policy" ];
+
+        CommonOpts.Auth auth = 30;
+
+        // Deprecated
+        string gateway4 = 31;
+
+        // Deprecated
+        string gateway6 = 32;
+
+        reserved 10;
+      }
+
+      reserved 2, 3, 4, 5, 6, 7, 8;
     }
+
+    message NetplanConfig { NetworkingConfig network = 1; }
 
     // SSHConfig defines the ssh configuration for the Device.
     message SSHConfig {
@@ -470,7 +817,30 @@ message Device {
       string https_proxy = 2;
 
       string no_proxy = 3;
+
+      // By default proxy is applicable for all interfaces
+      // configuring proxy_interfaces allows to restrict proxy setting to be
+      // used only with specific interfaces At present this is only used for
+      // Control Plane (for eg LTE fallback)
+      repeated string proxy_interfaces = 4;
     }
+
+    // Device location of the device.
+    message Location {
+      string address = 1;
+
+      string placement = 2;
+    }
+
+    // MERGE or REPLACE the api netplan_config with the baked in config in the
+    // device
+    enum NetworkConfigMode {
+      MERGE = 0;
+
+      REPLACE = 1;
+    }
+
+    reserved 3, 4;
   }
 
   message Status {
@@ -541,6 +911,10 @@ message Device {
 
       HardwareInformation hardware_information = 102;
 
+      map<string, NetworkInterface> network_interfaces = 103;
+
+      ControlPlaneInterfaceInfo control_plane_interface_info = 104;
+
       message HardwareInformation {
         OS os = 1;
 
@@ -561,6 +935,8 @@ message Device {
         HailoInfo hailo_info = 20;
 
         NvidiaInfo nvidia_info = 21;
+
+        repeated ModemStatus modem_status = 22;
 
         message Capability {
           string name = 1;
@@ -799,6 +1175,339 @@ message Device {
             string product_name = 2;
           }
         }
+
+        message ModemStatus {
+          Modem modem = 1;
+
+          message RegistrationSettings {
+            string drx_cycle = 1;
+
+            string mico_mode = 2;
+          }
+
+          message FiveGNr { RegistrationSettings registration_settings = 1; }
+
+          message Settings {
+            string apn = 1;
+
+            string ip_type = 2;
+
+            string password = 3;
+
+            string user = 4;
+          }
+
+          message InitialBearer {
+            string dbus_path = 1;
+
+            Settings settings = 2;
+          }
+
+          message Eps {
+            InitialBearer initial_bearer = 1;
+
+            string ue_mode_operation = 2;
+          }
+
+          message ThreeGpp {
+            FiveGNr fiveg_nr = 1;
+
+            repeated string enabled_locks = 2;
+
+            Eps eps = 3;
+
+            string imei = 4;
+
+            string operator_code = 5;
+
+            string operator_name = 6;
+
+            string packet_service_state = 7;
+
+            string pco = 8;
+
+            string registration_state = 9;
+          }
+
+          message Cdma {
+            string activation_state = 1;
+
+            string cdma1x_registration_state = 2;
+
+            string esn = 3;
+
+            string evdo_registration_state = 4;
+
+            string meid = 5;
+
+            string nid = 6;
+
+            string sid = 7;
+          }
+
+          message SignalQuality {
+            string recent = 1;
+
+            string value = 2;
+          }
+
+          message Generic {
+            repeated string access_technologies = 1;
+
+            repeated string bearers = 2;
+
+            string carrier_configuration = 3;
+
+            string carrier_configuration_revision = 4;
+
+            repeated string current_bands = 5;
+
+            repeated string current_capabilities = 6;
+
+            string current_modes = 7;
+
+            string device = 8;
+
+            string device_identifier = 9;
+
+            repeated string drivers = 10;
+
+            string equipment_identifier = 11;
+
+            string hardware_revision = 12;
+
+            string manufacturer = 13;
+
+            string model = 14;
+
+            repeated string own_numbers = 15;
+
+            string plugin = 16;
+
+            repeated string ports = 17;
+
+            string power_state = 18;
+
+            string primary_port = 19;
+
+            string primary_sim_slot = 20;
+
+            string revision = 21;
+
+            SignalQuality signal_quality = 22;
+
+            string sim = 23;
+
+            repeated string sim_slots = 24;
+
+            string state = 25;
+
+            string state_failed_reason = 26;
+
+            repeated string supported_bands = 27;
+
+            repeated string supported_capabilities = 28;
+
+            repeated string supported_ip_families = 29;
+
+            repeated string supported_modes = 30;
+
+            string unlock_required = 31;
+
+            repeated string unlock_retries = 32;
+          }
+
+          message Signal5g {
+            string error_rate = 1;
+
+            string rsrp = 2;
+
+            string rsrq = 3;
+
+            string snr = 4;
+          }
+
+          message SignalCdma1x {
+            string ecio = 1;
+
+            string error_rate = 2;
+
+            string rssi = 3;
+          }
+
+          message SignalEvdo {
+            string ecio = 1;
+
+            string error_rate = 2;
+
+            string io = 3;
+
+            string rssi = 4;
+
+            string sinr = 5;
+          }
+
+          message SignalGsm {
+            string error_rate = 1;
+
+            string rssi = 2;
+          }
+
+          message SignalLte {
+            string error_rate = 1;
+
+            string rsrp = 2;
+
+            string rsrq = 3;
+
+            string rssi = 4;
+
+            string snr = 5;
+          }
+
+          message SignalRefresh { string rate = 1; }
+
+          message SignalThreshold {
+            string error_rate = 1;
+
+            string rssi = 2;
+          }
+
+          message SignalUmts {
+            string ecio = 1;
+
+            string error_rate = 2;
+
+            string rscp = 3;
+
+            string rssi = 4;
+          }
+
+          message Signal {
+            Signal5g five_g = 1;
+
+            SignalCdma1x cdma1x = 2;
+
+            SignalEvdo evdo = 3;
+
+            SignalGsm gsm = 4;
+
+            SignalLte lte_signal = 5;
+
+            SignalRefresh refresh = 6;
+
+            SignalThreshold threshold = 7;
+
+            SignalUmts umts = 8;
+          }
+
+          message SimStatus {
+            string dbus_path = 1;
+
+            string active = 2;
+
+            string eid = 3;
+
+            repeated string emergency_numbers = 4;
+
+            string esim_status = 5;
+
+            string gid1 = 6;
+
+            string gid2 = 7;
+
+            string iccid = 8;
+
+            string imsi = 9;
+
+            string operator_code = 10;
+
+            string operator_name = 11;
+
+            string removability = 12;
+
+            string sim_type = 13;
+          }
+
+          message Modem {
+            ThreeGpp three_g_pp = 1;
+
+            Cdma cdma = 2;
+
+            string dbus_path = 3;
+
+            Generic generic = 4;
+
+            Signal signal = 5;
+
+            map<string, SimStatus> sim_status = 7;
+
+            reserved 6;
+          }
+        }
+      }
+
+      // Network Interface
+      message NetworkInterface {
+        string interface_name = 1;
+
+        repeated string ip_address_v4 = 2;
+
+        repeated string external_ip_address_v4 = 3;
+
+        repeated string ip_address_v6 = 4;
+
+        repeated string external_ip_address_v6 = 5;
+
+        // Asinfo describes the ISP (ASN) details for the interface
+        // This is resolved automatically from the external_ip_address.
+        ASInfo as_info = 10;
+
+        // Carrier.
+        Carrier carrier = 14;
+
+        message ASInfo {
+          // AS Number string example AS7018
+          string asn = 1;
+
+          // AS Owner name example AT&T Services, Inc.
+          string name = 2;
+
+          // Domain name example att.com
+          string domain = 3;
+
+          // Routes exported from this ASN example 12.128.0.0/9
+          repeated string routes = 4;
+
+          // ASN Owner type example isp(AT&T) / hosting(google)/ business
+          // (Amazon)
+          string asn_type = 5;
+        }
+
+        message Carrier {
+          // Mobile network carrier name example AT&T
+          string name = 1;
+
+          // Mobile country code example 214
+          string mobile_country_code = 2;
+
+          // Mobile network code example 7
+          string mobile_network_code = 3;
+
+          // Mobile location area code example 2862
+          string location_area_code = 4;
+        }
+      }
+
+      message ControlPlaneInterfaceInfo {
+        string active_control_plane_interface = 1;
+
+        bool usesProxy = 2;
+
+        // is_fallback would be true if droplet could not connect using the best
+        // default route and explicitly uses this interface to connect to api
+        // endpoint
+        bool is_fallback = 3;
       }
     }
   }

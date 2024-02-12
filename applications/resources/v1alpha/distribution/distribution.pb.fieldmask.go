@@ -20,7 +20,7 @@ import (
 
 // proto imports
 import (
-	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/pod"
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 )
@@ -42,7 +42,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &pod.Pod{}
+	_ = &common.PodSpec{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
 )
@@ -1061,11 +1061,11 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Subtract(other *Distribut
 	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[DistributionSpecTemplate_FieldPathSelector]gotenobject.FieldMask{
 		DistributionSpecTemplate_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
-		DistributionSpecTemplate_FieldPathSelectorSpec:     &pod.Pod_Spec_FieldMask{},
+		DistributionSpecTemplate_FieldPathSelectorSpec:     &common.PodSpec_FieldMask{},
 	}
 	mySubMasks := map[DistributionSpecTemplate_FieldPathSelector]gotenobject.FieldMask{
 		DistributionSpecTemplate_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
-		DistributionSpecTemplate_FieldPathSelectorSpec:     &pod.Pod_Spec_FieldMask{},
+		DistributionSpecTemplate_FieldPathSelectorSpec:     &common.PodSpec_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1084,7 +1084,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Subtract(other *Distribut
 					case DistributionSpecTemplate_FieldPathSelectorMetadata:
 						mySubMasks[DistributionSpecTemplate_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
 					case DistributionSpecTemplate_FieldPathSelectorSpec:
-						mySubMasks[DistributionSpecTemplate_FieldPathSelectorSpec] = pod.FullPod_Spec_FieldMask()
+						mySubMasks[DistributionSpecTemplate_FieldPathSelectorSpec] = common.FullPodSpec_FieldMask()
 					}
 				} else if tp, ok := path.(*DistributionSpecTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1257,7 +1257,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Project(source *Distribut
 	result := &Distribution_Spec_Template{}
 	metadataMask := &ntt_meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specMask := &pod.Pod_Spec_FieldMask{}
+	specMask := &common.PodSpec_FieldMask{}
 	wholeSpecAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -1276,7 +1276,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Project(source *Distribut
 			case DistributionSpecTemplate_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
 			case DistributionSpecTemplate_FieldPathSelectorSpec:
-				specMask.AppendPath(tp.subPath.(pod.PodSpec_FieldPath))
+				specMask.AppendPath(tp.subPath.(common.PodSpec_FieldPath))
 			}
 		}
 	}

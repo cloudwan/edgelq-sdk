@@ -102,4 +102,8 @@ message TimeSerie {
 }
 
 // Used for reporting rollups
-message BulkTimeSeries { repeated TimeSerie time_series = 1; }
+message BulkTimeSeries {
+  repeated TimeSerie time_series = 1;
+
+  bool phantom_flag = 2;
+}

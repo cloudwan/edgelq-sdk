@@ -724,6 +724,7 @@ type BulkTimeSeries_FieldMask struct {
 func FullBulkTimeSeries_FieldMask() *BulkTimeSeries_FieldMask {
 	res := &BulkTimeSeries_FieldMask{}
 	res.Paths = append(res.Paths, &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorTimeSeries})
+	res.Paths = append(res.Paths, &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorPhantomFlag})
 	return res
 }
 
@@ -767,7 +768,7 @@ func (fieldMask *BulkTimeSeries_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BulkTimeSeries_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -797,7 +798,7 @@ func (fieldMask *BulkTimeSeries_FieldMask) Reset() {
 
 func (fieldMask *BulkTimeSeries_FieldMask) Subtract(other *BulkTimeSeries_FieldMask) *BulkTimeSeries_FieldMask {
 	result := &BulkTimeSeries_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[BulkTimeSeries_FieldPathSelector]gotenobject.FieldMask{
 		BulkTimeSeries_FieldPathSelectorTimeSeries: &TimeSerie_FieldMask{},
 	}
@@ -982,6 +983,8 @@ func (fieldMask *BulkTimeSeries_FieldMask) Project(source *BulkTimeSeries) *Bulk
 			case BulkTimeSeries_FieldPathSelectorTimeSeries:
 				result.TimeSeries = source.TimeSeries
 				wholeTimeSeriesAccepted = true
+			case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+				result.PhantomFlag = source.PhantomFlag
 			}
 		case *BulkTimeSeries_FieldSubPath:
 			switch tp.selector {

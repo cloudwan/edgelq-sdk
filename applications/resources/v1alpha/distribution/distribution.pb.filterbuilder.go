@@ -11,7 +11,7 @@ import (
 
 // proto imports
 import (
-	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/pod"
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
@@ -34,7 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &pod.Pod{}
+	_ = &common.PodSpec{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
 	_ = &devices_device.Device{}
@@ -4700,37 +4700,37 @@ type filterCndBuilderSpecTemplateSpec struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Eq(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Eq(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Neq(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Neq(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Gt(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Gt(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Gte(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Gte(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Lt(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Lt(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) Lte(value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) Lte(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) In(values []*pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) In(values []*common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) NotIn(values []*pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) NotIn(values []*common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().WithArrayOfValues(values),
 	})
@@ -4748,7 +4748,7 @@ func (b *filterCndBuilderSpecTemplateSpec) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpec) compare(op gotenfilter.CompareOperator, value *pod.Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpec) compare(op gotenfilter.CompareOperator, value *common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().WithValue(value),
@@ -4850,37 +4850,37 @@ type filterCndBuilderSpecTemplateSpecContainers struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Eq(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Eq(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Neq(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Neq(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Gt(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Gt(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Gte(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Gte(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Lt(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Lt(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Lte(value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Lte(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) In(values [][]*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) In(values [][]*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) NotIn(values [][]*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) NotIn(values [][]*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().WithArrayOfValues(values),
 	})
@@ -4898,7 +4898,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainers) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) Contains(value *pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) Contains(value *common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().FieldPath(),
@@ -4906,7 +4906,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainers) Contains(value *pod.Pod_Spe
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAnyOf(values []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAnyOf(values []*common.PodSpec_Container) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4919,7 +4919,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAnyOf(values []*pod
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAll(values []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAll(values []*common.PodSpec_Container) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4932,7 +4932,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainers) ContainsAll(values []*pod.P
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainers) compare(op gotenfilter.CompareOperator, value []*pod.Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainers) compare(op gotenfilter.CompareOperator, value []*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().WithValue(value),
@@ -5169,37 +5169,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnv struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Eq(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Eq(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Neq(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Neq(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Gt(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Gt(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Gte(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Gte(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Lt(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Lt(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Lte(value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Lte(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) In(values [][]*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) In(values [][]*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) NotIn(values [][]*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) NotIn(values [][]*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().WithArrayOfValues(values),
 	})
@@ -5217,7 +5217,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnv) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Contains(value *pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Contains(value *common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().FieldPath(),
@@ -5225,7 +5225,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnv) Contains(value *pod.EnvV
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAnyOf(values []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAnyOf(values []*common.EnvVar) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5238,7 +5238,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAnyOf(values []*
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAll(values []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAll(values []*common.EnvVar) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5251,7 +5251,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnv) ContainsAll(values []*po
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnv) compare(op gotenfilter.CompareOperator, value []*pod.EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnv) compare(op gotenfilter.CompareOperator, value []*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().WithValue(value),
@@ -5392,37 +5392,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvValueFrom struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Eq(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Eq(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Neq(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Neq(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Gt(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Gt(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Gte(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Gte(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Lt(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Lt(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Lte(value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) Lte(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) In(values []*pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) In(values []*common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) NotIn(values []*pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) NotIn(values []*common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().WithArrayOfValues(values),
 	})
@@ -5440,7 +5440,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) IsNan() *Filter
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) compare(op gotenfilter.CompareOperator, value *pod.EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFrom) compare(op gotenfilter.CompareOperator, value *common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().WithValue(value),
@@ -5459,37 +5459,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef struc
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Eq(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Eq(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Neq(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Neq(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Gt(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Gt(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Gte(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Gte(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Lt(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Lt(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Lte(value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) Lte(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) In(values []*pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) In(values []*common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) NotIn(values []*pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) NotIn(values []*common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithArrayOfValues(values),
 	})
@@ -5507,7 +5507,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) compare(op gotenfilter.CompareOperator, value *pod.ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) compare(op gotenfilter.CompareOperator, value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithValue(value),
@@ -5707,37 +5707,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Eq(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Eq(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Neq(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Neq(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Gt(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Gt(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Gte(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Gte(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Lt(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Lt(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Lte(value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) Lte(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) In(values []*pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) In(values []*common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) NotIn(values []*pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) NotIn(values []*common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithArrayOfValues(values),
 	})
@@ -5755,7 +5755,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) IsN
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) compare(op gotenfilter.CompareOperator, value *pod.SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvValueFromSecretKeyRef) compare(op gotenfilter.CompareOperator, value *common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithValue(value),
@@ -6132,37 +6132,37 @@ type filterCndBuilderSpecTemplateSpecContainersResources struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Eq(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Eq(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Neq(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Neq(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Gt(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Gt(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Gte(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Gte(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Lt(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Lt(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) Lte(value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) Lte(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) In(values []*pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) In(values []*common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Resources().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) NotIn(values []*pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) NotIn(values []*common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Resources().WithArrayOfValues(values),
 	})
@@ -6180,7 +6180,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersResources) IsNan() *FilterBui
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersResources) compare(op gotenfilter.CompareOperator, value *pod.Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersResources) compare(op gotenfilter.CompareOperator, value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().Resources().WithValue(value),
@@ -6445,37 +6445,37 @@ type filterCndBuilderSpecTemplateSpecContainersSecurityContext struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Eq(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Eq(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Neq(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Neq(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Gt(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Gt(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Gte(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Gte(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Lt(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Lt(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Lte(value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) Lte(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) In(values []*pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) In(values []*common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().SecurityContext().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) NotIn(values []*pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) NotIn(values []*common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().SecurityContext().WithArrayOfValues(values),
 	})
@@ -6493,7 +6493,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) IsNan() *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) compare(op gotenfilter.CompareOperator, value *pod.SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersSecurityContext) compare(op gotenfilter.CompareOperator, value *common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().SecurityContext().WithValue(value),
@@ -6567,37 +6567,37 @@ type filterCndBuilderSpecTemplateSpecContainersVolumeMounts struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Eq(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Eq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Neq(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Neq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Gt(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Gt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Gte(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Gte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Lt(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Lt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Lte(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Lte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) In(values [][]*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) In(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) NotIn(values [][]*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) NotIn(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts().WithArrayOfValues(values),
 	})
@@ -6615,7 +6615,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) IsNan() *Filter
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Contains(value *pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Contains(value *common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts().FieldPath(),
@@ -6623,7 +6623,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) Contains(value 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAnyOf(values []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAnyOf(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6636,7 +6636,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAnyOf(v
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAll(values []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAll(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6649,7 +6649,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) ContainsAll(val
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) compare(op gotenfilter.CompareOperator, value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersVolumeMounts) compare(op gotenfilter.CompareOperator, value []*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().VolumeMounts().WithValue(value),
@@ -6912,37 +6912,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvFrom struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Eq(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Eq(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Neq(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Neq(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Gt(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Gt(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Gte(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Gte(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Lt(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Lt(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Lte(value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) Lte(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) In(values []*pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) In(values []*common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) NotIn(values []*pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) NotIn(values []*common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().WithArrayOfValues(values),
 	})
@@ -6960,7 +6960,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) IsNan() *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) compare(op gotenfilter.CompareOperator, value *pod.EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFrom) compare(op gotenfilter.CompareOperator, value *common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().WithValue(value),
@@ -7042,37 +7042,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Eq(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Eq(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Neq(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Neq(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Gt(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Gt(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Gte(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Gte(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Lt(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Lt(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Lte(value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) Lte(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) In(values []*pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) In(values []*common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().ConfigMapRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) NotIn(values []*pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) NotIn(values []*common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().ConfigMapRef().WithArrayOfValues(values),
 	})
@@ -7090,7 +7090,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) IsNan() 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) compare(op gotenfilter.CompareOperator, value *pod.ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromConfigMapRef) compare(op gotenfilter.CompareOperator, value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().ConfigMapRef().WithValue(value),
@@ -7227,37 +7227,37 @@ type filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Eq(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Eq(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Neq(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Neq(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Gt(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Gt(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Gte(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Gte(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Lt(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Lt(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Lte(value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) Lte(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) In(values []*pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) In(values []*common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().SecretRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) NotIn(values []*pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) NotIn(values []*common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().SecretRef().WithArrayOfValues(values),
 	})
@@ -7275,7 +7275,7 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) IsNan() *Fi
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) compare(op gotenfilter.CompareOperator, value *pod.SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRef) compare(op gotenfilter.CompareOperator, value *common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().EnvFrom().SecretRef().WithValue(value),
@@ -7471,37 +7471,37 @@ type filterCndBuilderSpecTemplateSpecRestartPolicy struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Eq(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Eq(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Neq(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Neq(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Gt(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Gt(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Gte(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Gte(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Lt(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Lt(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Lte(value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) Lte(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) In(values []pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) In(values []common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().RestartPolicy().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) NotIn(values []pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) NotIn(values []common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().RestartPolicy().WithArrayOfValues(values),
 	})
@@ -7519,7 +7519,7 @@ func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) compare(op gotenfilter.CompareOperator, value pod.Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecRestartPolicy) compare(op gotenfilter.CompareOperator, value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().RestartPolicy().WithValue(value),
@@ -7530,37 +7530,37 @@ type filterCndBuilderSpecTemplateSpecImagePullSecrets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Eq(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Eq(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Neq(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Neq(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Gt(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Gt(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Gte(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Gte(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Lt(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Lt(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Lte(value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Lte(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) In(values [][]*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) In(values [][]*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) NotIn(values [][]*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) NotIn(values [][]*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets().WithArrayOfValues(values),
 	})
@@ -7578,7 +7578,7 @@ func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) IsNan() *FilterBuilde
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Contains(value *pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Contains(value *common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets().FieldPath(),
@@ -7586,7 +7586,7 @@ func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) Contains(value *pod.L
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAnyOf(values []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAnyOf(values []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -7599,7 +7599,7 @@ func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAnyOf(values 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAll(values []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAll(values []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -7612,7 +7612,7 @@ func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) ContainsAll(values []
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) compare(op gotenfilter.CompareOperator, value []*pod.LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecImagePullSecrets) compare(op gotenfilter.CompareOperator, value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().ImagePullSecrets().WithValue(value),
@@ -7686,37 +7686,37 @@ type filterCndBuilderSpecTemplateSpecVolumes struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Eq(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Eq(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Neq(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Neq(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Gt(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Gt(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Gte(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Gte(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Lt(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Lt(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Lte(value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Lte(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) In(values [][]*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) In(values [][]*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) NotIn(values [][]*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) NotIn(values [][]*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().WithArrayOfValues(values),
 	})
@@ -7734,7 +7734,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumes) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) Contains(value *pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) Contains(value *common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().FieldPath(),
@@ -7742,7 +7742,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumes) Contains(value *pod.Volume) *F
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAnyOf(values []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAnyOf(values []*common.Volume) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -7755,7 +7755,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAnyOf(values []*pod.Vo
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAll(values []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAll(values []*common.Volume) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -7768,7 +7768,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumes) ContainsAll(values []*pod.Volu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumes) compare(op gotenfilter.CompareOperator, value []*pod.Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumes) compare(op gotenfilter.CompareOperator, value []*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().WithValue(value),
@@ -7854,37 +7854,37 @@ type filterCndBuilderSpecTemplateSpecVolumesHostPath struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Eq(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Eq(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Neq(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Neq(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Gt(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Gt(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Gte(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Gte(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Lt(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Lt(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Lte(value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) Lte(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) In(values []*pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) In(values []*common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) NotIn(values []*pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) NotIn(values []*common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().WithArrayOfValues(values),
 	})
@@ -7902,7 +7902,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) IsNan() *FilterBuilder
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) compare(op gotenfilter.CompareOperator, value *pod.HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPath) compare(op gotenfilter.CompareOperator, value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().WithValue(value),
@@ -7980,37 +7980,37 @@ type filterCndBuilderSpecTemplateSpecVolumesHostPathType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Eq(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Eq(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Neq(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Neq(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Gt(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Gt(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Gte(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Gte(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Lt(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Lt(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Lte(value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) Lte(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) In(values []pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) In(values []common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().Type().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) NotIn(values []pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) NotIn(values []common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().Type().WithArrayOfValues(values),
 	})
@@ -8028,7 +8028,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) IsNan() *FilterBui
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) compare(op gotenfilter.CompareOperator, value pod.HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesHostPathType) compare(op gotenfilter.CompareOperator, value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().HostPath().Type().WithValue(value),
@@ -8039,37 +8039,37 @@ type filterCndBuilderSpecTemplateSpecVolumesSecret struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Eq(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Eq(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Neq(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Neq(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Gt(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Gt(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Gte(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Gte(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Lt(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Lt(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Lte(value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) Lte(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) In(values []*pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) In(values []*common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) NotIn(values []*pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) NotIn(values []*common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().WithArrayOfValues(values),
 	})
@@ -8087,7 +8087,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) compare(op gotenfilter.CompareOperator, value *pod.SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecret) compare(op gotenfilter.CompareOperator, value *common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().WithValue(value),
@@ -8173,37 +8173,37 @@ type filterCndBuilderSpecTemplateSpecVolumesSecretItems struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Eq(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Eq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Neq(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Neq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Gt(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Gt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Gte(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Gte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Lt(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Lt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Lte(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Lte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) In(values [][]*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) In(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) NotIn(values [][]*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) NotIn(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items().WithArrayOfValues(values),
 	})
@@ -8221,7 +8221,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) IsNan() *FilterBuil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Contains(value *pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Contains(value *common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items().FieldPath(),
@@ -8229,7 +8229,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) Contains(value *pod
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAnyOf(values []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAnyOf(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -8242,7 +8242,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAnyOf(value
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAll(values []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAll(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -8255,7 +8255,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) ContainsAll(values 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) compare(op gotenfilter.CompareOperator, value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesSecretItems) compare(op gotenfilter.CompareOperator, value []*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().Secret().Items().WithValue(value),
@@ -8573,37 +8573,37 @@ type filterCndBuilderSpecTemplateSpecVolumesConfigMap struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Eq(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Eq(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Neq(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Neq(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Gt(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Gt(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Gte(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Gte(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Lt(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Lt(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Lte(value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) Lte(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) In(values []*pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) In(values []*common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) NotIn(values []*pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) NotIn(values []*common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().WithArrayOfValues(values),
 	})
@@ -8621,7 +8621,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) IsNan() *FilterBuilde
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) compare(op gotenfilter.CompareOperator, value *pod.ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMap) compare(op gotenfilter.CompareOperator, value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().WithValue(value),
@@ -8707,37 +8707,37 @@ type filterCndBuilderSpecTemplateSpecVolumesConfigMapItems struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Eq(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Eq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Neq(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Neq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Gt(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Gt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Gte(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Gte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Lt(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Lt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Lte(value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Lte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) In(values [][]*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) In(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) NotIn(values [][]*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) NotIn(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items().WithArrayOfValues(values),
 	})
@@ -8755,7 +8755,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) IsNan() *FilterB
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Contains(value *pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Contains(value *common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items().FieldPath(),
@@ -8763,7 +8763,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) Contains(value *
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAnyOf(values []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAnyOf(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -8776,7 +8776,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAnyOf(va
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAll(values []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAll(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -8789,7 +8789,7 @@ func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) ContainsAll(valu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) compare(op gotenfilter.CompareOperator, value []*pod.KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecVolumesConfigMapItems) compare(op gotenfilter.CompareOperator, value []*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Volumes().ConfigMap().Items().WithValue(value),
@@ -9166,37 +9166,37 @@ type filterCndBuilderSpecTemplateSpecHostVolumeMounts struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Eq(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Eq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Neq(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Neq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Gt(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Gt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Gte(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Gte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Lt(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Lt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Lte(value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Lte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) In(values [][]*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) In(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) NotIn(values [][]*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) NotIn(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().WithArrayOfValues(values),
 	})
@@ -9214,7 +9214,7 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) IsNan() *FilterBuilde
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Contains(value *pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Contains(value *common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().FieldPath(),
@@ -9222,7 +9222,7 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) Contains(value *pod.V
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAnyOf(values []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAnyOf(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -9235,7 +9235,7 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAnyOf(values 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAll(values []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAll(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -9248,7 +9248,7 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) ContainsAll(values []
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) compare(op gotenfilter.CompareOperator, value []*pod.VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSpecHostVolumeMounts) compare(op gotenfilter.CompareOperator, value []*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().WithValue(value),

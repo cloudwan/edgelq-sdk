@@ -1162,6 +1162,7 @@ type ListenForConnectionsResponse_FieldMask struct {
 func FullListenForConnectionsResponse_FieldMask() *ListenForConnectionsResponse_FieldMask {
 	res := &ListenForConnectionsResponse_FieldMask{}
 	res.Paths = append(res.Paths, &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorChannelRequested})
+	res.Paths = append(res.Paths, &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive})
 	return res
 }
 
@@ -1205,7 +1206,7 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListenForConnectionsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1235,12 +1236,14 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListenForConnectionsResponse_FieldMask) Subtract(other *ListenForConnectionsResponse_FieldMask) *ListenForConnectionsResponse_FieldMask {
 	result := &ListenForConnectionsResponse_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[ListenForConnectionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListenForConnectionsResponse_FieldPathSelectorChannelRequested: &ListenForConnectionsResponse_ChannelRequested_FieldMask{},
+		ListenForConnectionsResponse_FieldPathSelectorKeepAlive:        &ListenForConnectionsResponse_KeepAlive_FieldMask{},
 	}
 	mySubMasks := map[ListenForConnectionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListenForConnectionsResponse_FieldPathSelectorChannelRequested: &ListenForConnectionsResponse_ChannelRequested_FieldMask{},
+		ListenForConnectionsResponse_FieldPathSelectorKeepAlive:        &ListenForConnectionsResponse_KeepAlive_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1258,6 +1261,8 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) Subtract(other *ListenF
 					switch tp.selector {
 					case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 						mySubMasks[ListenForConnectionsResponse_FieldPathSelectorChannelRequested] = FullListenForConnectionsResponse_ChannelRequested_FieldMask()
+					case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+						mySubMasks[ListenForConnectionsResponse_FieldPathSelectorKeepAlive] = FullListenForConnectionsResponse_KeepAlive_FieldMask()
 					}
 				} else if tp, ok := path.(*ListenForConnectionsResponse_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1412,6 +1417,8 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) Project(source *ListenF
 	result := &ListenForConnectionsResponse{}
 	channelRequestedMask := &ListenForConnectionsResponse_ChannelRequested_FieldMask{}
 	wholeChannelRequestedAccepted := false
+	keepAliveMask := &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	wholeKeepAliveAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1424,11 +1431,20 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) Project(source *ListenF
 					}
 				}
 				wholeChannelRequestedAccepted = true
+			case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+				if source, ok := source.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok {
+					result.Msg = &ListenForConnectionsResponse_KeepAlive_{
+						KeepAlive: source.KeepAlive,
+					}
+				}
+				wholeKeepAliveAccepted = true
 			}
 		case *ListenForConnectionsResponse_FieldSubPath:
 			switch tp.selector {
 			case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 				channelRequestedMask.AppendPath(tp.subPath.(ListenForConnectionsResponseChannelRequested_FieldPath))
+			case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+				keepAliveMask.AppendPath(tp.subPath.(ListenForConnectionsResponseKeepAlive_FieldPath))
 			}
 		}
 	}
@@ -1438,6 +1454,16 @@ func (fieldMask *ListenForConnectionsResponse_FieldMask) Project(source *ListenF
 			if asOneOf != nil {
 				oneOfRes := &ListenForConnectionsResponse_ChannelRequested_{}
 				oneOfRes.ChannelRequested = channelRequestedMask.Project(asOneOf.ChannelRequested)
+				result.Msg = oneOfRes
+			}
+		}
+	}
+	if wholeKeepAliveAccepted == false && len(keepAliveMask.Paths) > 0 {
+		if asOneOf, ok := source.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok {
+			result.Msg = (*ListenForConnectionsResponse_KeepAlive_)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ListenForConnectionsResponse_KeepAlive_{}
+				oneOfRes.KeepAlive = keepAliveMask.Project(asOneOf.KeepAlive)
 				result.Msg = oneOfRes
 			}
 		}
@@ -1709,6 +1735,256 @@ func (fieldMask *ListenForConnectionsResponse_ChannelRequested_FieldMask) Projec
 }
 
 func (fieldMask *ListenForConnectionsResponse_ChannelRequested_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ListenForConnectionsResponse_KeepAlive_FieldMask struct {
+	Paths []ListenForConnectionsResponseKeepAlive_FieldPath
+}
+
+func FullListenForConnectionsResponse_KeepAlive_FieldMask() *ListenForConnectionsResponse_KeepAlive_FieldMask {
+	res := &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	return res
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 0)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ListenForConnectionsResponseKeepAlive_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseListenForConnectionsResponseKeepAlive_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Subtract(other *ListenForConnectionsResponse_KeepAlive_FieldMask) *ListenForConnectionsResponse_KeepAlive_FieldMask {
+	result := &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	removedSelectors := make([]bool, 0)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ListenForConnectionsResponseKeepAlive_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ListenForConnectionsResponse_KeepAlive_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) FilterInputFields() *ListenForConnectionsResponse_KeepAlive_FieldMask {
+	result := &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ListenForConnectionsResponseKeepAlive_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ListenForConnectionsResponse_KeepAlive_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ListenForConnectionsResponse_KeepAlive_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) AppendPath(path ListenForConnectionsResponseKeepAlive_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ListenForConnectionsResponseKeepAlive_FieldPath))
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) GetPaths() []ListenForConnectionsResponseKeepAlive_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Set(target, source *ListenForConnectionsResponse_KeepAlive) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ListenForConnectionsResponse_KeepAlive), source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) Project(source *ListenForConnectionsResponse_KeepAlive) *ListenForConnectionsResponse_KeepAlive {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ListenForConnectionsResponse_KeepAlive{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ListenForConnectionsResponseKeepAlive_FieldTerminalPath:
+			switch tp.selector {
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+func (fieldMask *ListenForConnectionsResponse_KeepAlive_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

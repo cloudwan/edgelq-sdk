@@ -283,6 +283,9 @@ func NewListenForConnectionsResponseFieldPathBuilder() ListenForConnectionsRespo
 func (ListenForConnectionsResponseFieldPathBuilder) ChannelRequested() ListenForConnectionsResponsePathSelectorChannelRequested {
 	return ListenForConnectionsResponsePathSelectorChannelRequested{}
 }
+func (ListenForConnectionsResponseFieldPathBuilder) KeepAlive() ListenForConnectionsResponsePathSelectorKeepAlive {
+	return ListenForConnectionsResponsePathSelectorKeepAlive{}
+}
 
 type ListenForConnectionsResponsePathSelectorChannelRequested struct{}
 
@@ -377,6 +380,36 @@ func (s ListenForConnectionsResponsePathSelectorChannelRequestedArg) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*ListenForConnectionsResponse_FieldSubPathArrayOfValues)
 }
 
+type ListenForConnectionsResponsePathSelectorKeepAlive struct{}
+
+func (ListenForConnectionsResponsePathSelectorKeepAlive) FieldPath() *ListenForConnectionsResponse_FieldTerminalPath {
+	return &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive}
+}
+
+func (s ListenForConnectionsResponsePathSelectorKeepAlive) WithValue(value *ListenForConnectionsResponse_KeepAlive) *ListenForConnectionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListenForConnectionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListenForConnectionsResponsePathSelectorKeepAlive) WithArrayOfValues(values []*ListenForConnectionsResponse_KeepAlive) *ListenForConnectionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListenForConnectionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (ListenForConnectionsResponsePathSelectorKeepAlive) WithSubPath(subPath ListenForConnectionsResponseKeepAlive_FieldPath) *ListenForConnectionsResponse_FieldSubPath {
+	return &ListenForConnectionsResponse_FieldSubPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive, subPath: subPath}
+}
+
+func (s ListenForConnectionsResponsePathSelectorKeepAlive) WithSubValue(subPathValue ListenForConnectionsResponseKeepAlive_FieldPathValue) *ListenForConnectionsResponse_FieldSubPathValue {
+	return &ListenForConnectionsResponse_FieldSubPathValue{ListenForConnectionsResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ListenForConnectionsResponsePathSelectorKeepAlive) WithSubArrayOfValues(subPathArrayOfValues ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues) *ListenForConnectionsResponse_FieldSubPathArrayOfValues {
+	return &ListenForConnectionsResponse_FieldSubPathArrayOfValues{ListenForConnectionsResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ListenForConnectionsResponsePathSelectorKeepAlive) WithSubArrayItemValue(subPathArrayItemValue ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue) *ListenForConnectionsResponse_FieldSubPathArrayItemValue {
+	return &ListenForConnectionsResponse_FieldSubPathArrayItemValue{ListenForConnectionsResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
 type ListenForConnectionsResponseChannelRequestedFieldPathBuilder struct{}
 
 func NewListenForConnectionsResponseChannelRequestedFieldPathBuilder() ListenForConnectionsResponseChannelRequestedFieldPathBuilder {
@@ -432,6 +465,12 @@ func (s ListenForConnectionsResponse_ChannelRequestedPathSelectorArg) WithValue(
 
 func (s ListenForConnectionsResponse_ChannelRequestedPathSelectorArg) WithArrayOfValues(values []string) *ListenForConnectionsResponseChannelRequested_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListenForConnectionsResponseChannelRequested_FieldTerminalPathArrayOfValues)
+}
+
+type ListenForConnectionsResponseKeepAliveFieldPathBuilder struct{}
+
+func NewListenForConnectionsResponseKeepAliveFieldPathBuilder() ListenForConnectionsResponseKeepAliveFieldPathBuilder {
+	return ListenForConnectionsResponseKeepAliveFieldPathBuilder{}
 }
 
 type OpenConnectionChannelSocketRequestFieldPathBuilder struct{}

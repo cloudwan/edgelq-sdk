@@ -10,17 +10,19 @@ import (
 
 // proto imports
 import (
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/common"
+	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
+	_ = &common.PodSpec{}
+	_ = &distribution.Distribution{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
-	_ = &devices_device.Device{}
 	_ = &timestamp.Timestamp{}
 )
 

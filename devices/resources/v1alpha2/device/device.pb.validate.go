@@ -93,9 +93,9 @@ func (obj *Device_Spec) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if subobj, ok := interface{}(obj.NetConfig).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.NetplanConfig).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "netConfig", obj.NetConfig, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("Spec", "netplanConfig", obj.NetplanConfig, "nested object validation failed", err)
 		}
 	}
 	if subobj, ok := interface{}(obj.SshConfig).(gotenvalidate.Validator); ok {
@@ -116,6 +116,11 @@ func (obj *Device_Spec) GotenValidate() error {
 	if subobj, ok := interface{}(obj.ProxyConfig).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Spec", "proxyConfig", obj.ProxyConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Location).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Spec", "location", obj.Location, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -167,50 +172,22 @@ func (obj *Device_PublicListingSpec) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	for idx, elem := range obj.Ethernets {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "ethernets", obj.Ethernets[idx], "nested object validation failed", err)
-			}
-		}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
 	}
-	for idx, elem := range obj.Wifis {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "wifis", obj.Wifis[idx], "nested object validation failed", err)
-			}
-		}
+	return nil
+}
+func (obj *Device_Spec_NetplanConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
-	for idx, elem := range obj.Bridges {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "bridges", obj.Bridges[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	for idx, elem := range obj.Bonds {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "bonds", obj.Bonds[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	for idx, elem := range obj.Tunnels {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "tunnels", obj.Tunnels[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	for idx, elem := range obj.Vlans {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("NetworkConfig", "vlans", obj.Vlans[idx], "nested object validation failed", err)
-			}
+	if subobj, ok := interface{}(obj.Network).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetplanConfig", "network", obj.Network, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -261,48 +238,25 @@ func (obj *Device_Spec_ProxyConfig) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts) GotenValidate() error {
+func (obj *Device_Spec_Location) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CommonOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CommonOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CommonOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
-		}
-	}
-	for idx, elem := range obj.Routes {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("CommonOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CommonOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CommonOpts", "auth", obj.Auth, "nested object validation failed", err)
-		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_EthOpts) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_CommonOpts) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_NetworkingConfig_EthOpts) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -311,9 +265,36 @@ func (obj *Device_Spec_NetworkConfig_EthOpts) GotenValidate() error {
 			return gotenvalidate.NewValidationError("EthOpts", "match", obj.Match, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("EthOpts", "opts", obj.Opts, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("EthOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("EthOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("EthOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("EthOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("EthOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("EthOpts", "auth", obj.Auth, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -321,7 +302,7 @@ func (obj *Device_Spec_NetworkConfig_EthOpts) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_WifiOpts) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_WifiOpts) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -330,16 +311,36 @@ func (obj *Device_Spec_NetworkConfig_WifiOpts) GotenValidate() error {
 			return gotenvalidate.NewValidationError("WifiOpts", "match", obj.Match, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("WifiOpts", "opts", obj.Opts, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("WifiOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
 		}
 	}
-	for idx, elem := range obj.AccessPoints {
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WifiOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WifiOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("WifiOpts", "accessPoints", obj.AccessPoints[idx], "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("WifiOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
 			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WifiOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WifiOpts", "auth", obj.Auth, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -347,51 +348,91 @@ func (obj *Device_Spec_NetworkConfig_WifiOpts) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_BridgesOpts) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_BridgesOpts) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("BridgesOpts", "opts", obj.Opts, "nested object validation failed", err)
-		}
 	}
 	if subobj, ok := interface{}(obj.Parameters).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("BridgesOpts", "parameters", obj.Parameters, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BridgesOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BridgesOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BridgesOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("BridgesOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BridgesOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BridgesOpts", "auth", obj.Auth, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_BondsOpts) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_BondsOpts) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("BondsOpts", "opts", obj.Opts, "nested object validation failed", err)
-		}
 	}
 	if subobj, ok := interface{}(obj.Parameters).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("BondsOpts", "parameters", obj.Parameters, "nested object validation failed", err)
 		}
 	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Spec_NetworkConfig_TunnelsOpts) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("TunnelsOpts", "opts", obj.Opts, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("BondsOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BondsOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BondsOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("BondsOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BondsOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("BondsOpts", "auth", obj.Auth, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -399,13 +440,40 @@ func (obj *Device_Spec_NetworkConfig_TunnelsOpts) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_VlansOpts) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_TunnelsOpts) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("VlansOpts", "opts", obj.Opts, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("TunnelsOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TunnelsOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TunnelsOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TunnelsOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TunnelsOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TunnelsOpts", "auth", obj.Auth, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -413,7 +481,89 @@ func (obj *Device_Spec_NetworkConfig_VlansOpts) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_VlansOpts) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("VlansOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("VlansOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("VlansOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("VlansOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("VlansOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("VlansOpts", "auth", obj.Auth, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_NetworkingConfig_ModemOpts) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Dhcp4Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemOpts", "dhcp4Overrides", obj.Dhcp4Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Dhcp6Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemOpts", "dhcp6Overrides", obj.Dhcp6Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ModemOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemOpts", "routingPolicy", obj.RoutingPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemOpts", "auth", obj.Auth, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -422,7 +572,7 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) GotenValidate() e
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts_Nameservers) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_CommonOpts_Nameservers) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -431,7 +581,7 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts_Nameservers) GotenValidate() err
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts_Routes) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_CommonOpts_Routes) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -440,7 +590,7 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts_Routes) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -449,7 +599,7 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) GotenValidate() e
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_CommonOpts_Auth) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_CommonOpts_Auth) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -458,7 +608,7 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts_Auth) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_EthOpts_Match) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_EthOpts_Match) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -467,7 +617,7 @@ func (obj *Device_Spec_NetworkConfig_EthOpts_Match) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_WifiOpts_Match) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_WifiOpts_Match) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -476,7 +626,21 @@ func (obj *Device_Spec_NetworkConfig_WifiOpts_Match) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_WifiOpts_AccessPoint) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Auth).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("AccessPoint", "auth", obj.Auth, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_NetworkingConfig_BridgesOpts_Parameters) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -485,7 +649,7 @@ func (obj *Device_Spec_NetworkConfig_WifiOpts_AccessPoint) GotenValidate() error
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_BridgesOpts_Parameters) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_BondsOpts_Parameters) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -494,16 +658,7 @@ func (obj *Device_Spec_NetworkConfig_BridgesOpts_Parameters) GotenValidate() err
 	}
 	return nil
 }
-func (obj *Device_Spec_NetworkConfig_BondsOpts_Parameters) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Spec_NetworkConfig_TunnelsOpts_Key) GotenValidate() error {
+func (obj *Device_Spec_NetworkingConfig_TunnelsOpts_Key) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -546,6 +701,11 @@ func (obj *Device_Status_DeviceInfo) GotenValidate() error {
 	if subobj, ok := interface{}(obj.HardwareInformation).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("DeviceInfo", "hardwareInformation", obj.HardwareInformation, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ControlPlaneInterfaceInfo).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("DeviceInfo", "controlPlaneInterfaceInfo", obj.ControlPlaneInterfaceInfo, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -606,6 +766,41 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("HardwareInformation", "nvidiaInfo", obj.NvidiaInfo, "nested object validation failed", err)
 		}
+	}
+	for idx, elem := range obj.ModemStatus {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("HardwareInformation", "modemStatus", obj.ModemStatus[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_NetworkInterface) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.AsInfo).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetworkInterface", "asInfo", obj.AsInfo, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Carrier).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetworkInterface", "carrier", obj.Carrier, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -774,6 +969,20 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) GotenValidat
 	}
 	return nil
 }
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Modem).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModemStatus", "modem", obj.Modem, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -898,6 +1107,294 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInf
 	return nil
 }
 func (obj *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.RegistrationSettings).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("FiveGNr", "registrationSettings", obj.RegistrationSettings, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Settings).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("InitialBearer", "settings", obj.Settings, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.InitialBearer).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Eps", "initialBearer", obj.InitialBearer, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.FivegNr).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ThreeGpp", "fivegNr", obj.FivegNr, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Eps).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ThreeGpp", "eps", obj.Eps, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.SignalQuality).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Generic", "signalQuality", obj.SignalQuality, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.FiveG).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "fiveG", obj.FiveG, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Cdma1X).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "cdma1X", obj.Cdma1X, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Evdo).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "evdo", obj.Evdo, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Gsm).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "gsm", obj.Gsm, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.LteSignal).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "lteSignal", obj.LteSignal, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Refresh).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "refresh", obj.Refresh, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Threshold).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "threshold", obj.Threshold, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Umts).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Signal", "umts", obj.Umts, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.ThreeGPp).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Modem", "threeGPp", obj.ThreeGPp, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Cdma).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Modem", "cdma", obj.Cdma, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Generic).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Modem", "generic", obj.Generic, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Signal).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Modem", "signal", obj.Signal, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_NetworkInterface_ASInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_NetworkInterface_Carrier) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

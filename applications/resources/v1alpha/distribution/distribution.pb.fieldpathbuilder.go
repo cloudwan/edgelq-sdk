@@ -6,7 +6,7 @@ package distribution
 
 // proto imports
 import (
-	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/pod"
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
@@ -23,7 +23,7 @@ import (
 
 // make sure we're using proto imports
 var (
-	_ = &pod.Pod{}
+	_ = &common.PodSpec{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
 	_ = &devices_device.Device{}
@@ -1529,11 +1529,11 @@ func (DistributionPathSelectorSpecTemplateSpec) FieldPath() *Distribution_FieldS
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpec) WithValue(value *pod.Pod_Spec) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpec) WithValue(value *common.PodSpec) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpec) WithArrayOfValues(values []*pod.Pod_Spec) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpec) WithArrayOfValues(values []*common.PodSpec) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1595,15 +1595,15 @@ func (DistributionPathSelectorSpecTemplateSpecContainers) FieldPath() *Distribut
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainers) WithValue(value []*common.PodSpec_Container) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainers) WithItemValue(value *common.PodSpec_Container) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -1698,15 +1698,15 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnv) FieldPath() *Distri
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithValue(value []*pod.EnvVar) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithValue(value []*common.EnvVar) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithItemValue(value *pod.EnvVar) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnv) WithItemValue(value *common.EnvVar) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -1765,11 +1765,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvValueFrom) FieldPath(
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1790,11 +1790,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromConfigMapKey
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1870,11 +1870,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromSecretKeyRef
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2001,11 +2001,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersResources) FieldPath() *
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2106,11 +2106,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersSecurityContext) FieldPa
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2144,15 +2144,15 @@ func (DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) FieldPath(
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -2249,11 +2249,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvFrom) FieldPath() *Di
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2295,11 +2295,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvFromConfigMapRef) Fie
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2354,11 +2354,11 @@ func (DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRef) FieldP
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2430,11 +2430,11 @@ func (DistributionPathSelectorSpecTemplateSpecRestartPolicy) FieldPath() *Distri
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2447,15 +2447,15 @@ func (DistributionPathSelectorSpecTemplateSpecImagePullSecrets) FieldPath() *Dis
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -2489,15 +2489,15 @@ func (DistributionPathSelectorSpecTemplateSpecVolumes) FieldPath() *Distribution
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithValue(value []*pod.Volume) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithValue(value []*common.Volume) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithItemValue(value *pod.Volume) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumes) WithItemValue(value *common.Volume) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -2543,11 +2543,11 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesHostPath) FieldPath() *Dist
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2585,11 +2585,11 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesHostPathType) FieldPath() *
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2602,11 +2602,11 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesSecret) FieldPath() *Distri
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2652,15 +2652,15 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) FieldPath() *D
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -2770,11 +2770,11 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesConfigMap) FieldPath() *Dis
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -2820,15 +2820,15 @@ func (DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) FieldPath()
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -2955,15 +2955,15 @@ func (DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) FieldPath() *Dis
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -3908,11 +3908,11 @@ func (Distribution_SpecPathSelectorTemplateSpec) FieldPath() *DistributionSpec_F
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpec) WithValue(value *pod.Pod_Spec) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpec) WithValue(value *common.PodSpec) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpec) WithArrayOfValues(values []*pod.Pod_Spec) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpec) WithArrayOfValues(values []*common.PodSpec) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3974,15 +3974,15 @@ func (Distribution_SpecPathSelectorTemplateSpecContainers) FieldPath() *Distribu
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithValue(value []*common.PodSpec_Container) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainers) WithItemValue(value *common.PodSpec_Container) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -4077,15 +4077,15 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnv) FieldPath() *Distr
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithValue(value []*pod.EnvVar) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithValue(value []*common.EnvVar) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithItemValue(value *pod.EnvVar) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnv) WithItemValue(value *common.EnvVar) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -4144,11 +4144,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFrom) FieldPath
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4169,11 +4169,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromConfigMapKe
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4249,11 +4249,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromSecretKeyRe
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4380,11 +4380,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersResources) FieldPath() 
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4485,11 +4485,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersSecurityContext) FieldP
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4523,15 +4523,15 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) FieldPath
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -4628,11 +4628,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom) FieldPath() *D
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4674,11 +4674,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvFromConfigMapRef) Fi
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4733,11 +4733,11 @@ func (Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRef) Field
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4809,11 +4809,11 @@ func (Distribution_SpecPathSelectorTemplateSpecRestartPolicy) FieldPath() *Distr
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4826,15 +4826,15 @@ func (Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) FieldPath() *Di
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -4868,15 +4868,15 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumes) FieldPath() *Distributio
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithValue(value []*pod.Volume) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithValue(value []*common.Volume) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithItemValue(value *pod.Volume) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumes) WithItemValue(value *common.Volume) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -4922,11 +4922,11 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesHostPath) FieldPath() *Dis
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4964,11 +4964,11 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesHostPathType) FieldPath() 
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -4981,11 +4981,11 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesSecret) FieldPath() *Distr
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -5031,15 +5031,15 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) FieldPath() *
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -5149,11 +5149,11 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesConfigMap) FieldPath() *Di
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -5199,15 +5199,15 @@ func (Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) FieldPath(
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -5334,15 +5334,15 @@ func (Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) FieldPath() *Di
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -6069,27 +6069,27 @@ func (Distribution_Spec_TemplatePathSelectorSpec) FieldPath() *DistributionSpecT
 	return &DistributionSpecTemplate_FieldTerminalPath{selector: DistributionSpecTemplate_FieldPathSelectorSpec}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpec) WithValue(value *pod.Pod_Spec) *DistributionSpecTemplate_FieldTerminalPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpec) WithValue(value *common.PodSpec) *DistributionSpecTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldTerminalPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpec) WithArrayOfValues(values []*pod.Pod_Spec) *DistributionSpecTemplate_FieldTerminalPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpec) WithArrayOfValues(values []*common.PodSpec) *DistributionSpecTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (Distribution_Spec_TemplatePathSelectorSpec) WithSubPath(subPath pod.PodSpec_FieldPath) *DistributionSpecTemplate_FieldSubPath {
+func (Distribution_Spec_TemplatePathSelectorSpec) WithSubPath(subPath common.PodSpec_FieldPath) *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{selector: DistributionSpecTemplate_FieldPathSelectorSpec, subPath: subPath}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubValue(subPathValue pod.PodSpec_FieldPathValue) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubValue(subPathValue common.PodSpec_FieldPathValue) *DistributionSpecTemplate_FieldSubPathValue {
 	return &DistributionSpecTemplate_FieldSubPathValue{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues pod.PodSpec_FieldPathArrayOfValues) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues common.PodSpec_FieldPathArrayOfValues) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return &DistributionSpecTemplate_FieldSubPathArrayOfValues{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue pod.PodSpec_FieldPathArrayItemValue) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue common.PodSpec_FieldPathArrayItemValue) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return &DistributionSpecTemplate_FieldSubPathArrayItemValue{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -6130,7 +6130,7 @@ type Distribution_Spec_TemplatePathSelectorSpecNode struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecNode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Node().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Node().FieldPath(),
 	}
 }
 
@@ -6147,19 +6147,19 @@ type Distribution_Spec_TemplatePathSelectorSpecContainers struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainers) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithValue(value []*pod.Pod_Spec_Container) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithValue(value []*common.PodSpec_Container) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithArrayOfValues(values [][]*pod.Pod_Spec_Container) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithArrayOfValues(values [][]*common.PodSpec_Container) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithItemValue(value *pod.Pod_Spec_Container) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainers) WithItemValue(value *common.PodSpec_Container) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -6208,7 +6208,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersArgs struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersArgs) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Args().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Args().FieldPath(),
 	}
 }
 
@@ -6229,7 +6229,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersCommand struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersCommand) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Command().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Command().FieldPath(),
 	}
 }
 
@@ -6250,19 +6250,19 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnv struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnv) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithValue(value []*pod.EnvVar) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithValue(value []*common.EnvVar) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithArrayOfValues(values [][]*pod.EnvVar) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithArrayOfValues(values [][]*common.EnvVar) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithItemValue(value *pod.EnvVar) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnv) WithItemValue(value *common.EnvVar) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -6283,7 +6283,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().Name().FieldPath(),
 	}
 }
 
@@ -6300,7 +6300,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValue struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValue) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().Value().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().Value().FieldPath(),
 	}
 }
 
@@ -6317,15 +6317,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom) WithValue(value *pod.EnvVarSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom) WithValue(value *common.EnvVarSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom) WithArrayOfValues(values []*pod.EnvVarSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFrom) WithArrayOfValues(values []*common.EnvVarSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6342,15 +6342,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRef) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *pod.ConfigMapKeySelector) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRef) WithValue(value *common.ConfigMapKeySelector) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*pod.ConfigMapKeySelector) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRef) WithArrayOfValues(values []*common.ConfigMapKeySelector) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6371,7 +6371,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRefName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Name().FieldPath(),
 	}
 }
 
@@ -6388,7 +6388,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRefKey) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Key().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Key().FieldPath(),
 	}
 }
 
@@ -6405,7 +6405,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromConfigMapKeyRefOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().ConfigMapKeyRef().Optional().FieldPath(),
 	}
 }
 
@@ -6422,15 +6422,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRef) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRef) WithValue(value *pod.SecretKeySelector) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRef) WithValue(value *common.SecretKeySelector) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*pod.SecretKeySelector) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRef) WithArrayOfValues(values []*common.SecretKeySelector) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6451,7 +6451,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRefName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Name().FieldPath(),
 	}
 }
 
@@ -6468,7 +6468,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRefKey) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Key().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Key().FieldPath(),
 	}
 }
 
@@ -6485,7 +6485,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRe
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvValueFromSecretKeyRefOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Env().ValueFrom().SecretKeyRef().Optional().FieldPath(),
 	}
 }
 
@@ -6502,7 +6502,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersImage struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersImage) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Image().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Image().FieldPath(),
 	}
 }
 
@@ -6519,7 +6519,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersImagePullPolicy struct{
 func (Distribution_Spec_TemplatePathSelectorSpecContainersImagePullPolicy) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().ImagePullPolicy().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().ImagePullPolicy().FieldPath(),
 	}
 }
 
@@ -6536,7 +6536,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Name().FieldPath(),
 	}
 }
 
@@ -6553,15 +6553,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersResources struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersResources) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Resources().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Resources().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersResources) WithValue(value *pod.Pod_Spec_Container_ResourceRequirements) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersResources) WithValue(value *common.PodSpec_Container_ResourceRequirements) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersResources) WithArrayOfValues(values []*pod.Pod_Spec_Container_ResourceRequirements) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersResources) WithArrayOfValues(values []*common.PodSpec_Container_ResourceRequirements) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6578,7 +6578,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersResourcesLimits struct{
 func (Distribution_Spec_TemplatePathSelectorSpecContainersResourcesLimits) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Resources().Limits().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Resources().Limits().FieldPath(),
 	}
 }
 
@@ -6601,7 +6601,7 @@ type Distribution_Spec_TemplateMapPathSelectorSpecContainersResourcesLimits stru
 func (s Distribution_Spec_TemplateMapPathSelectorSpecContainersResourcesLimits) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Resources().Limits().WithKey(s.key).FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Resources().Limits().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -6618,7 +6618,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersResourcesRequests struc
 func (Distribution_Spec_TemplatePathSelectorSpecContainersResourcesRequests) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Resources().Requests().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Resources().Requests().FieldPath(),
 	}
 }
 
@@ -6641,7 +6641,7 @@ type Distribution_Spec_TemplateMapPathSelectorSpecContainersResourcesRequests st
 func (s Distribution_Spec_TemplateMapPathSelectorSpecContainersResourcesRequests) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().Resources().Requests().WithKey(s.key).FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().Resources().Requests().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -6658,15 +6658,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext struct{
 func (Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().SecurityContext().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().SecurityContext().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext) WithValue(value *pod.SecurityContext) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext) WithValue(value *common.SecurityContext) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext) WithArrayOfValues(values []*pod.SecurityContext) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContext) WithArrayOfValues(values []*common.SecurityContext) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6679,7 +6679,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContextPrivileg
 func (Distribution_Spec_TemplatePathSelectorSpecContainersSecurityContextPrivileged) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().SecurityContext().Privileged().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().SecurityContext().Privileged().FieldPath(),
 	}
 }
 
@@ -6696,19 +6696,19 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithValue(value []*pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithValue(value []*common.VolumeMount) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithItemValue(value *pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMounts) WithItemValue(value *common.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -6733,7 +6733,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsName struct
 func (Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().Name().FieldPath(),
 	}
 }
 
@@ -6750,7 +6750,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsReadOnly st
 func (Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsReadOnly) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().ReadOnly().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().ReadOnly().FieldPath(),
 	}
 }
 
@@ -6767,7 +6767,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsMountPath s
 func (Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsMountPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().MountPath().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().MountPath().FieldPath(),
 	}
 }
 
@@ -6784,7 +6784,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsSubPath str
 func (Distribution_Spec_TemplatePathSelectorSpecContainersVolumeMountsSubPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().SubPath().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().VolumeMounts().SubPath().FieldPath(),
 	}
 }
 
@@ -6801,15 +6801,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom) WithValue(value *pod.EnvFromSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom) WithValue(value *common.EnvFromSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom) WithArrayOfValues(values []*pod.EnvFromSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom) WithArrayOfValues(values []*common.EnvFromSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6830,7 +6830,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromPrefix struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromPrefix) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().Prefix().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().Prefix().FieldPath(),
 	}
 }
 
@@ -6847,15 +6847,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef str
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef) WithValue(value *pod.ConfigMapEnvSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef) WithValue(value *common.ConfigMapEnvSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*pod.ConfigMapEnvSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRef) WithArrayOfValues(values []*common.ConfigMapEnvSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6872,7 +6872,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRefName
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRefName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().Name().FieldPath(),
 	}
 }
 
@@ -6889,7 +6889,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRefOpti
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromConfigMapRefOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().ConfigMapRef().Optional().FieldPath(),
 	}
 }
 
@@ -6906,15 +6906,15 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef struct
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef) WithValue(value *pod.SecretEnvSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef) WithValue(value *common.SecretEnvSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*pod.SecretEnvSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRef) WithArrayOfValues(values []*common.SecretEnvSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6931,7 +6931,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRefName st
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRefName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().Name().FieldPath(),
 	}
 }
 
@@ -6948,7 +6948,7 @@ type Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRefOptiona
 func (Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRefOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().EnvFrom().SecretRef().Optional().FieldPath(),
 	}
 }
 
@@ -6965,7 +6965,7 @@ type Distribution_Spec_TemplatePathSelectorSpecHostNetwork struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecHostNetwork) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostNetwork().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostNetwork().FieldPath(),
 	}
 }
 
@@ -6982,15 +6982,15 @@ type Distribution_Spec_TemplatePathSelectorSpecRestartPolicy struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecRestartPolicy) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().RestartPolicy().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().RestartPolicy().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecRestartPolicy) WithValue(value pod.Pod_Spec_RestartPolicy) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecRestartPolicy) WithValue(value common.PodSpec_RestartPolicy) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecRestartPolicy) WithArrayOfValues(values []pod.Pod_Spec_RestartPolicy) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecRestartPolicy) WithArrayOfValues(values []common.PodSpec_RestartPolicy) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6999,19 +6999,19 @@ type Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().ImagePullSecrets().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().ImagePullSecrets().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithValue(value []*pod.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithValue(value []*common.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithArrayOfValues(values [][]*pod.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithArrayOfValues(values [][]*common.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithItemValue(value *pod.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecImagePullSecrets) WithItemValue(value *common.LocalObjectReferenceSecret) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -7024,7 +7024,7 @@ type Distribution_Spec_TemplatePathSelectorSpecImagePullSecretsName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecImagePullSecretsName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().ImagePullSecrets().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().ImagePullSecrets().Name().FieldPath(),
 	}
 }
 
@@ -7041,19 +7041,19 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumes struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumes) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithValue(value []*pod.Volume) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithValue(value []*common.Volume) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithArrayOfValues(values [][]*pod.Volume) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithArrayOfValues(values [][]*common.Volume) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithItemValue(value *pod.Volume) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumes) WithItemValue(value *common.Volume) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -7078,7 +7078,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Name().FieldPath(),
 	}
 }
 
@@ -7095,15 +7095,15 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().HostPath().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().HostPath().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath) WithValue(value *pod.HostPathVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath) WithValue(value *common.HostPathVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath) WithArrayOfValues(values []*pod.HostPathVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPath) WithArrayOfValues(values []*common.HostPathVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -7120,7 +7120,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathPath struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().HostPath().Path().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().HostPath().Path().FieldPath(),
 	}
 }
 
@@ -7137,15 +7137,15 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().HostPath().Type().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().HostPath().Type().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType) WithValue(value pod.HostPathVolumeSource_Type) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType) WithValue(value common.HostPathVolumeSource_Type) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType) WithArrayOfValues(values []pod.HostPathVolumeSource_Type) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesHostPathType) WithArrayOfValues(values []common.HostPathVolumeSource_Type) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -7154,15 +7154,15 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecret struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecret) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecret) WithValue(value *pod.SecretVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecret) WithValue(value *common.SecretVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecret) WithArrayOfValues(values []*pod.SecretVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecret) WithArrayOfValues(values []*common.SecretVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -7187,7 +7187,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretSecretName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretSecretName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().SecretName().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().SecretName().FieldPath(),
 	}
 }
 
@@ -7204,19 +7204,19 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithValue(value []*pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithValue(value []*common.KeyToPath) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithArrayOfValues(values [][]*pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithArrayOfValues(values [][]*common.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithItemValue(value *pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItems) WithItemValue(value *common.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -7237,7 +7237,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsKey struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsKey) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Key().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Key().FieldPath(),
 	}
 }
 
@@ -7254,7 +7254,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsPath struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Path().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Path().FieldPath(),
 	}
 }
 
@@ -7271,7 +7271,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsMode struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretItemsMode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Mode().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().Items().Mode().FieldPath(),
 	}
 }
 
@@ -7288,7 +7288,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretDefaultMode struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretDefaultMode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().DefaultMode().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().DefaultMode().FieldPath(),
 	}
 }
 
@@ -7305,7 +7305,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesSecretOptional struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesSecretOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().Secret().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().Secret().Optional().FieldPath(),
 	}
 }
 
@@ -7322,15 +7322,15 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap) WithValue(value *pod.ConfigMapVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap) WithValue(value *common.ConfigMapVolumeSource) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap) WithArrayOfValues(values []*pod.ConfigMapVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMap) WithArrayOfValues(values []*common.ConfigMapVolumeSource) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -7355,7 +7355,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Name().FieldPath(),
 	}
 }
 
@@ -7372,19 +7372,19 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithValue(value []*pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithValue(value []*common.KeyToPath) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithArrayOfValues(values [][]*common.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithItemValue(value *pod.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItems) WithItemValue(value *common.KeyToPath) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -7405,7 +7405,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsKey struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsKey) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Key().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Key().FieldPath(),
 	}
 }
 
@@ -7422,7 +7422,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsPath struct{
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Path().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Path().FieldPath(),
 	}
 }
 
@@ -7439,7 +7439,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsMode struct{
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapItemsMode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Mode().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Items().Mode().FieldPath(),
 	}
 }
 
@@ -7456,7 +7456,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapDefaultMode struc
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapDefaultMode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().DefaultMode().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().DefaultMode().FieldPath(),
 	}
 }
 
@@ -7473,7 +7473,7 @@ type Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapOptional struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecVolumesConfigMapOptional) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Optional().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Volumes().ConfigMap().Optional().FieldPath(),
 	}
 }
 
@@ -7490,7 +7490,7 @@ type Distribution_Spec_TemplatePathSelectorSpecCompose struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecCompose) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().Compose().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().Compose().FieldPath(),
 	}
 }
 
@@ -7507,19 +7507,19 @@ type Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostVolumeMounts().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostVolumeMounts().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithValue(value []*pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithValue(value []*common.VolumeMount) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithArrayOfValues(values [][]*pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithArrayOfValues(values [][]*common.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithItemValue(value *pod.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts) WithItemValue(value *common.VolumeMount) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -7544,7 +7544,7 @@ type Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsName struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostVolumeMounts().Name().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostVolumeMounts().Name().FieldPath(),
 	}
 }
 
@@ -7561,7 +7561,7 @@ type Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsReadOnly struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsReadOnly) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostVolumeMounts().ReadOnly().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostVolumeMounts().ReadOnly().FieldPath(),
 	}
 }
 
@@ -7578,7 +7578,7 @@ type Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsMountPath struct{
 func (Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsMountPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostVolumeMounts().MountPath().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostVolumeMounts().MountPath().FieldPath(),
 	}
 }
 
@@ -7595,7 +7595,7 @@ type Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsSubPath struct{}
 func (Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsSubPath) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
-		subPath:  pod.NewPodSpecFieldPathBuilder().HostVolumeMounts().SubPath().FieldPath(),
+		subPath:  common.NewPodSpecFieldPathBuilder().HostVolumeMounts().SubPath().FieldPath(),
 	}
 }
 

@@ -424,14 +424,15 @@ func FullDevice_Spec_FieldMask() *Device_Spec_FieldMask {
 	res := &Device_Spec_FieldMask{}
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorServiceAccount})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorOsVersion})
-	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorNetConfig})
-	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorNetConfigMode})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorNetplanConfig})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorNetplanApiConfigMode})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorOsImageUrl})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorSshConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorAttestationConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorProxyConfig})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLocation})
 	return res
 }
 
@@ -475,7 +476,7 @@ func (fieldMask *Device_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -505,20 +506,22 @@ func (fieldMask *Device_Spec_FieldMask) Reset() {
 
 func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *Device_Spec_FieldMask {
 	result := &Device_Spec_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpec_FieldPathSelectorNetConfig:         &Device_Spec_NetworkConfig_FieldMask{},
+		DeviceSpec_FieldPathSelectorNetplanConfig:     &Device_Spec_NetplanConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorSshConfig:         &Device_Spec_SSHConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorAttestationConfig: &Device_Spec_AttestationConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorLoggingConfig:     &Device_Spec_LoggingConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorProxyConfig:       &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceSpec_FieldPathSelectorLocation:          &Device_Spec_Location_FieldMask{},
 	}
 	mySubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpec_FieldPathSelectorNetConfig:         &Device_Spec_NetworkConfig_FieldMask{},
+		DeviceSpec_FieldPathSelectorNetplanConfig:     &Device_Spec_NetplanConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorSshConfig:         &Device_Spec_SSHConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorAttestationConfig: &Device_Spec_AttestationConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorLoggingConfig:     &Device_Spec_LoggingConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorProxyConfig:       &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceSpec_FieldPathSelectorLocation:          &Device_Spec_Location_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -534,8 +537,8 @@ func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
 				if tp, ok := path.(*DeviceSpec_FieldTerminalPath); ok {
 					switch tp.selector {
-					case DeviceSpec_FieldPathSelectorNetConfig:
-						mySubMasks[DeviceSpec_FieldPathSelectorNetConfig] = FullDevice_Spec_NetworkConfig_FieldMask()
+					case DeviceSpec_FieldPathSelectorNetplanConfig:
+						mySubMasks[DeviceSpec_FieldPathSelectorNetplanConfig] = FullDevice_Spec_NetplanConfig_FieldMask()
 					case DeviceSpec_FieldPathSelectorSshConfig:
 						mySubMasks[DeviceSpec_FieldPathSelectorSshConfig] = FullDevice_Spec_SSHConfig_FieldMask()
 					case DeviceSpec_FieldPathSelectorAttestationConfig:
@@ -544,6 +547,8 @@ func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *
 						mySubMasks[DeviceSpec_FieldPathSelectorLoggingConfig] = FullDevice_Spec_LoggingConfig_FieldMask()
 					case DeviceSpec_FieldPathSelectorProxyConfig:
 						mySubMasks[DeviceSpec_FieldPathSelectorProxyConfig] = FullDevice_Spec_ProxyConfig_FieldMask()
+					case DeviceSpec_FieldPathSelectorLocation:
+						mySubMasks[DeviceSpec_FieldPathSelectorLocation] = FullDevice_Spec_Location_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceSpec_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -696,8 +701,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 		return source
 	}
 	result := &Device_Spec{}
-	netConfigMask := &Device_Spec_NetworkConfig_FieldMask{}
-	wholeNetConfigAccepted := false
+	netplanConfigMask := &Device_Spec_NetplanConfig_FieldMask{}
+	wholeNetplanConfigAccepted := false
 	sshConfigMask := &Device_Spec_SSHConfig_FieldMask{}
 	wholeSshConfigAccepted := false
 	attestationConfigMask := &Device_Spec_AttestationConfig_FieldMask{}
@@ -706,6 +711,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 	wholeLoggingConfigAccepted := false
 	proxyConfigMask := &Device_Spec_ProxyConfig_FieldMask{}
 	wholeProxyConfigAccepted := false
+	locationMask := &Device_Spec_Location_FieldMask{}
+	wholeLocationAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -715,11 +722,11 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 				result.ServiceAccount = source.ServiceAccount
 			case DeviceSpec_FieldPathSelectorOsVersion:
 				result.OsVersion = source.OsVersion
-			case DeviceSpec_FieldPathSelectorNetConfig:
-				result.NetConfig = source.NetConfig
-				wholeNetConfigAccepted = true
-			case DeviceSpec_FieldPathSelectorNetConfigMode:
-				result.NetConfigMode = source.NetConfigMode
+			case DeviceSpec_FieldPathSelectorNetplanConfig:
+				result.NetplanConfig = source.NetplanConfig
+				wholeNetplanConfigAccepted = true
+			case DeviceSpec_FieldPathSelectorNetplanApiConfigMode:
+				result.NetplanApiConfigMode = source.NetplanApiConfigMode
 			case DeviceSpec_FieldPathSelectorOsImageUrl:
 				result.OsImageUrl = source.OsImageUrl
 			case DeviceSpec_FieldPathSelectorSshConfig:
@@ -736,11 +743,14 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 			case DeviceSpec_FieldPathSelectorProxyConfig:
 				result.ProxyConfig = source.ProxyConfig
 				wholeProxyConfigAccepted = true
+			case DeviceSpec_FieldPathSelectorLocation:
+				result.Location = source.Location
+				wholeLocationAccepted = true
 			}
 		case *DeviceSpec_FieldSubPath:
 			switch tp.selector {
-			case DeviceSpec_FieldPathSelectorNetConfig:
-				netConfigMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfig_FieldPath))
+			case DeviceSpec_FieldPathSelectorNetplanConfig:
+				netplanConfigMask.AppendPath(tp.subPath.(DeviceSpecNetplanConfig_FieldPath))
 			case DeviceSpec_FieldPathSelectorSshConfig:
 				sshConfigMask.AppendPath(tp.subPath.(DeviceSpecSSHConfig_FieldPath))
 			case DeviceSpec_FieldPathSelectorAttestationConfig:
@@ -749,11 +759,13 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 				loggingConfigMask.AppendPath(tp.subPath.(DeviceSpecLoggingConfig_FieldPath))
 			case DeviceSpec_FieldPathSelectorProxyConfig:
 				proxyConfigMask.AppendPath(tp.subPath.(DeviceSpecProxyConfig_FieldPath))
+			case DeviceSpec_FieldPathSelectorLocation:
+				locationMask.AppendPath(tp.subPath.(DeviceSpecLocation_FieldPath))
 			}
 		}
 	}
-	if wholeNetConfigAccepted == false && len(netConfigMask.Paths) > 0 {
-		result.NetConfig = netConfigMask.Project(source.GetNetConfig())
+	if wholeNetplanConfigAccepted == false && len(netplanConfigMask.Paths) > 0 {
+		result.NetplanConfig = netplanConfigMask.Project(source.GetNetplanConfig())
 	}
 	if wholeSshConfigAccepted == false && len(sshConfigMask.Paths) > 0 {
 		result.SshConfig = sshConfigMask.Project(source.GetSshConfig())
@@ -766,6 +778,9 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 	}
 	if wholeProxyConfigAccepted == false && len(proxyConfigMask.Paths) > 0 {
 		result.ProxyConfig = proxyConfigMask.Project(source.GetProxyConfig())
+	}
+	if wholeLocationAccepted == false && len(locationMask.Paths) > 0 {
+		result.Location = locationMask.Project(source.GetLocation())
 	}
 	return result
 }
@@ -1378,23 +1393,25 @@ func (fieldMask *Device_PublicListingSpec_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_FieldMask struct {
-	Paths []DeviceSpecNetworkConfig_FieldPath
+type Device_Spec_NetworkingConfig_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfig_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_FieldMask() *Device_Spec_NetworkConfig_FieldMask {
-	res := &Device_Spec_NetworkConfig_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorVersion})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorEthernets})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorWifis})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorBridges})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorBonds})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorTunnels})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfig_FieldTerminalPath{selector: DeviceSpecNetworkConfig_FieldPathSelectorVlans})
+func FullDevice_Spec_NetworkingConfig_FieldMask() *Device_Spec_NetworkingConfig_FieldMask {
+	res := &Device_Spec_NetworkingConfig_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorVersion})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorEthernets})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorWifis})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorBridges})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorBonds})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorTunnels})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorVlans})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfig_FieldTerminalPath{selector: DeviceSpecNetworkingConfig_FieldPathSelectorModems})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1406,7 +1423,7 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) String() string {
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1419,9 +1436,9 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) EncodeFirestore() (*firest
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfig_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfig_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -1430,13 +1447,13 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) DecodeFirestore(fpbv *fire
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfig_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1448,79 +1465,33 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfig_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfig_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Subtract(other *Device_Spec_NetworkConfig_FieldMask) *Device_Spec_NetworkConfig_FieldMask {
-	result := &Device_Spec_NetworkConfig_FieldMask{}
-	removedSelectors := make([]bool, 7)
-	otherSubMasks := map[DeviceSpecNetworkConfig_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfig_FieldPathSelectorEthernets: &Device_Spec_NetworkConfig_EthOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorWifis:     &Device_Spec_NetworkConfig_WifiOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorBridges:   &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorBonds:     &Device_Spec_NetworkConfig_BondsOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorTunnels:   &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorVlans:     &Device_Spec_NetworkConfig_VlansOpts_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfig_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfig_FieldPathSelectorEthernets: &Device_Spec_NetworkConfig_EthOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorWifis:     &Device_Spec_NetworkConfig_WifiOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorBridges:   &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorBonds:     &Device_Spec_NetworkConfig_BondsOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorTunnels:   &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{},
-		DeviceSpecNetworkConfig_FieldPathSelectorVlans:     &Device_Spec_NetworkConfig_VlansOpts_FieldMask{},
-	}
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_FieldMask) *Device_Spec_NetworkingConfig_FieldMask {
+	result := &Device_Spec_NetworkingConfig_FieldMask{}
+	removedSelectors := make([]bool, 9)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfig_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfig_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfig_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfig_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfig_FieldPathSelectorEthernets:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorEthernets] = FullDevice_Spec_NetworkConfig_EthOpts_FieldMask()
-					case DeviceSpecNetworkConfig_FieldPathSelectorWifis:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorWifis] = FullDevice_Spec_NetworkConfig_WifiOpts_FieldMask()
-					case DeviceSpecNetworkConfig_FieldPathSelectorBridges:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorBridges] = FullDevice_Spec_NetworkConfig_BridgesOpts_FieldMask()
-					case DeviceSpecNetworkConfig_FieldPathSelectorBonds:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorBonds] = FullDevice_Spec_NetworkConfig_BondsOpts_FieldMask()
-					case DeviceSpecNetworkConfig_FieldPathSelectorTunnels:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorTunnels] = FullDevice_Spec_NetworkConfig_TunnelsOpts_FieldMask()
-					case DeviceSpecNetworkConfig_FieldPathSelectorVlans:
-						mySubMasks[DeviceSpecNetworkConfig_FieldPathSelectorVlans] = FullDevice_Spec_NetworkConfig_VlansOpts_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfig_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfig_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
+			result.Paths = append(result.Paths, path)
 		}
 	}
 
@@ -1530,19 +1501,19 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Subtract(other *Device_Spe
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_FieldMask {
-	result := &Device_Spec_NetworkConfig_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_FieldMask {
+	result := &Device_Spec_NetworkingConfig_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -1550,13 +1521,13 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) ToProtoFieldMask() *fieldm
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfig_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfig_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfig_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1566,12 +1537,12 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) FromProtoFieldMask(protoFi
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1582,15 +1553,15 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Unmarshal(data []byte) err
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1601,22 +1572,22 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) UnmarshalJSON(data []byte)
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) AppendPath(path DeviceSpecNetworkConfig_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) AppendPath(path DeviceSpecNetworkingConfig_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfig_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfig_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) GetPaths() []DeviceSpecNetworkConfig_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) GetPaths() []DeviceSpecNetworkingConfig_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1627,8 +1598,8 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) GetRawPaths() []gotenobjec
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfig_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfig_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1636,7 +1607,7 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) SetFromCliFlag(raw string)
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Set(target, source *Device_Spec_NetworkConfig) {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Set(target, source *Device_Spec_NetworkingConfig) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1647,111 +1618,436 @@ func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Set(target, source *Device
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig), source.(*Device_Spec_NetworkConfig))
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig), source.(*Device_Spec_NetworkingConfig))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) Project(source *Device_Spec_NetworkConfig) *Device_Spec_NetworkConfig {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Project(source *Device_Spec_NetworkingConfig) *Device_Spec_NetworkingConfig {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig{}
-	ethernetsMask := &Device_Spec_NetworkConfig_EthOpts_FieldMask{}
+	result := &Device_Spec_NetworkingConfig{}
+	var ethernetsMapKeys []string
 	wholeEthernetsAccepted := false
-	wifisMask := &Device_Spec_NetworkConfig_WifiOpts_FieldMask{}
+	var wifisMapKeys []string
 	wholeWifisAccepted := false
-	bridgesMask := &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{}
+	var bridgesMapKeys []string
 	wholeBridgesAccepted := false
-	bondsMask := &Device_Spec_NetworkConfig_BondsOpts_FieldMask{}
+	var bondsMapKeys []string
 	wholeBondsAccepted := false
-	tunnelsMask := &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{}
+	var tunnelsMapKeys []string
 	wholeTunnelsAccepted := false
-	vlansMask := &Device_Spec_NetworkConfig_VlansOpts_FieldMask{}
+	var vlansMapKeys []string
 	wholeVlansAccepted := false
+	var modemsMapKeys []string
+	wholeModemsAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfig_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfig_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfig_FieldPathSelectorVersion:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorVersion:
 				result.Version = source.Version
-			case DeviceSpecNetworkConfig_FieldPathSelectorEthernets:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfig_FieldPathSelectorEthernets:
 				result.Ethernets = source.Ethernets
 				wholeEthernetsAccepted = true
-			case DeviceSpecNetworkConfig_FieldPathSelectorWifis:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorWifis:
 				result.Wifis = source.Wifis
 				wholeWifisAccepted = true
-			case DeviceSpecNetworkConfig_FieldPathSelectorBridges:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorBridges:
 				result.Bridges = source.Bridges
 				wholeBridgesAccepted = true
-			case DeviceSpecNetworkConfig_FieldPathSelectorBonds:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorBonds:
 				result.Bonds = source.Bonds
 				wholeBondsAccepted = true
-			case DeviceSpecNetworkConfig_FieldPathSelectorTunnels:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorTunnels:
 				result.Tunnels = source.Tunnels
 				wholeTunnelsAccepted = true
-			case DeviceSpecNetworkConfig_FieldPathSelectorVlans:
+			case DeviceSpecNetworkingConfig_FieldPathSelectorVlans:
 				result.Vlans = source.Vlans
 				wholeVlansAccepted = true
+			case DeviceSpecNetworkingConfig_FieldPathSelectorModems:
+				result.Modems = source.Modems
+				wholeModemsAccepted = true
 			}
-		case *DeviceSpecNetworkConfig_FieldSubPath:
+		case *DeviceSpecNetworkingConfig_FieldPathMap:
 			switch tp.selector {
-			case DeviceSpecNetworkConfig_FieldPathSelectorEthernets:
-				ethernetsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigEthOpts_FieldPath))
-			case DeviceSpecNetworkConfig_FieldPathSelectorWifis:
-				wifisMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigWifiOpts_FieldPath))
-			case DeviceSpecNetworkConfig_FieldPathSelectorBridges:
-				bridgesMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigBridgesOpts_FieldPath))
-			case DeviceSpecNetworkConfig_FieldPathSelectorBonds:
-				bondsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigBondsOpts_FieldPath))
-			case DeviceSpecNetworkConfig_FieldPathSelectorTunnels:
-				tunnelsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigTunnelsOpts_FieldPath))
-			case DeviceSpecNetworkConfig_FieldPathSelectorVlans:
-				vlansMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigVlansOpts_FieldPath))
+			case DeviceSpecNetworkingConfig_FieldPathSelectorEthernets:
+				ethernetsMapKeys = append(ethernetsMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorWifis:
+				wifisMapKeys = append(wifisMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorBridges:
+				bridgesMapKeys = append(bridgesMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorBonds:
+				bondsMapKeys = append(bondsMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorTunnels:
+				tunnelsMapKeys = append(tunnelsMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorVlans:
+				vlansMapKeys = append(vlansMapKeys, tp.key)
+			case DeviceSpecNetworkingConfig_FieldPathSelectorModems:
+				modemsMapKeys = append(modemsMapKeys, tp.key)
 			}
 		}
 	}
-	if wholeEthernetsAccepted == false && len(ethernetsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetEthernets() {
-			result.Ethernets = append(result.Ethernets, ethernetsMask.Project(sourceItem))
+	if wholeEthernetsAccepted == false && len(ethernetsMapKeys) > 0 && source.GetEthernets() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_EthOpts{}
+		sourceMap := source.GetEthernets()
+		for _, key := range ethernetsMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Ethernets = copiedMap
 	}
-	if wholeWifisAccepted == false && len(wifisMask.Paths) > 0 {
-		for _, sourceItem := range source.GetWifis() {
-			result.Wifis = append(result.Wifis, wifisMask.Project(sourceItem))
+	if wholeWifisAccepted == false && len(wifisMapKeys) > 0 && source.GetWifis() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_WifiOpts{}
+		sourceMap := source.GetWifis()
+		for _, key := range wifisMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Wifis = copiedMap
 	}
-	if wholeBridgesAccepted == false && len(bridgesMask.Paths) > 0 {
-		for _, sourceItem := range source.GetBridges() {
-			result.Bridges = append(result.Bridges, bridgesMask.Project(sourceItem))
+	if wholeBridgesAccepted == false && len(bridgesMapKeys) > 0 && source.GetBridges() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_BridgesOpts{}
+		sourceMap := source.GetBridges()
+		for _, key := range bridgesMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Bridges = copiedMap
 	}
-	if wholeBondsAccepted == false && len(bondsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetBonds() {
-			result.Bonds = append(result.Bonds, bondsMask.Project(sourceItem))
+	if wholeBondsAccepted == false && len(bondsMapKeys) > 0 && source.GetBonds() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_BondsOpts{}
+		sourceMap := source.GetBonds()
+		for _, key := range bondsMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Bonds = copiedMap
 	}
-	if wholeTunnelsAccepted == false && len(tunnelsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetTunnels() {
-			result.Tunnels = append(result.Tunnels, tunnelsMask.Project(sourceItem))
+	if wholeTunnelsAccepted == false && len(tunnelsMapKeys) > 0 && source.GetTunnels() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_TunnelsOpts{}
+		sourceMap := source.GetTunnels()
+		for _, key := range tunnelsMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Tunnels = copiedMap
 	}
-	if wholeVlansAccepted == false && len(vlansMask.Paths) > 0 {
-		for _, sourceItem := range source.GetVlans() {
-			result.Vlans = append(result.Vlans, vlansMask.Project(sourceItem))
+	if wholeVlansAccepted == false && len(vlansMapKeys) > 0 && source.GetVlans() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_VlansOpts{}
+		sourceMap := source.GetVlans()
+		for _, key := range vlansMapKeys {
+			copiedMap[key] = sourceMap[key]
 		}
+		result.Vlans = copiedMap
+	}
+	if wholeModemsAccepted == false && len(modemsMapKeys) > 0 && source.GetModems() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_ModemOpts{}
+		sourceMap := source.GetModems()
+		for _, key := range modemsMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.Modems = copiedMap
 	}
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig))
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetplanConfig_FieldMask struct {
+	Paths []DeviceSpecNetplanConfig_FieldPath
+}
+
+func FullDevice_Spec_NetplanConfig_FieldMask() *Device_Spec_NetplanConfig_FieldMask {
+	res := &Device_Spec_NetplanConfig_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetplanConfig_FieldTerminalPath{selector: DeviceSpecNetplanConfig_FieldPathSelectorNetwork})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetplanConfig_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetplanConfig_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetplanConfig_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Subtract(other *Device_Spec_NetplanConfig_FieldMask) *Device_Spec_NetplanConfig_FieldMask {
+	result := &Device_Spec_NetplanConfig_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[DeviceSpecNetplanConfig_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetplanConfig_FieldPathSelectorNetwork: &Device_Spec_NetworkingConfig_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetplanConfig_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetplanConfig_FieldPathSelectorNetwork: &Device_Spec_NetworkingConfig_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetplanConfig_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetplanConfig_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetplanConfig_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetplanConfig_FieldPathSelectorNetwork:
+						mySubMasks[DeviceSpecNetplanConfig_FieldPathSelectorNetwork] = FullDevice_Spec_NetworkingConfig_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetplanConfig_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetplanConfig_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetplanConfig_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FilterInputFields() *Device_Spec_NetplanConfig_FieldMask {
+	result := &Device_Spec_NetplanConfig_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetplanConfig_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetplanConfig_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetplanConfig_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetplanConfig_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) AppendPath(path DeviceSpecNetplanConfig_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetplanConfig_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) GetPaths() []DeviceSpecNetplanConfig_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetplanConfig_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Set(target, source *Device_Spec_NetplanConfig) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetplanConfig), source.(*Device_Spec_NetplanConfig))
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Project(source *Device_Spec_NetplanConfig) *Device_Spec_NetplanConfig {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetplanConfig{}
+	networkMask := &Device_Spec_NetworkingConfig_FieldMask{}
+	wholeNetworkAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetplanConfig_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetplanConfig_FieldPathSelectorNetwork:
+				result.Network = source.Network
+				wholeNetworkAccepted = true
+			}
+		case *DeviceSpecNetplanConfig_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetplanConfig_FieldPathSelectorNetwork:
+				networkMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfig_FieldPath))
+			}
+		}
+	}
+	if wholeNetworkAccepted == false && len(networkMask.Paths) > 0 {
+		result.Network = networkMask.Project(source.GetNetwork())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetplanConfig))
+}
+
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -2595,6 +2891,7 @@ func FullDevice_Spec_ProxyConfig_FieldMask() *Device_Spec_ProxyConfig_FieldMask 
 	res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpProxy})
 	res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy})
 	res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorNoProxy})
+	res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorProxyInterfaces})
 	return res
 }
 
@@ -2638,7 +2935,7 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceSpecProxyConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2668,7 +2965,7 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) Reset() {
 
 func (fieldMask *Device_Spec_ProxyConfig_FieldMask) Subtract(other *Device_Spec_ProxyConfig_FieldMask) *Device_Spec_ProxyConfig_FieldMask {
 	result := &Device_Spec_ProxyConfig_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2828,6 +3125,8 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) Project(source *Device_Spec_
 				result.HttpsProxy = source.HttpsProxy
 			case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
 				result.NoProxy = source.NoProxy
+			case DeviceSpecProxyConfig_FieldPathSelectorProxyInterfaces:
+				result.ProxyInterfaces = source.ProxyInterfaces
 			}
 		}
 	}
@@ -2845,37 +3144,18 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOpts_FieldPath
+type Device_Spec_Location_FieldMask struct {
+	Paths []DeviceSpecLocation_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRenderer})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorIpv6Privacy})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorLinkLocal})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorCritical})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcpIdentifier})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAcceptRa})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAddresses})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorGateway4})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorGateway6})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorMacaddress})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorMtu})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorOptional})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorOptionalAddresses})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth})
+func FullDevice_Spec_Location_FieldMask() *Device_Spec_Location_FieldMask {
+	res := &Device_Spec_Location_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecLocation_FieldTerminalPath{selector: DeviceSpecLocation_FieldPathSelectorAddress})
+	res.Paths = append(res.Paths, &DeviceSpecLocation_FieldTerminalPath{selector: DeviceSpecLocation_FieldPathSelectorPlacement})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) String() string {
+func (fieldMask *Device_Spec_Location_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -2887,7 +3167,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) String() string
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_Location_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -2900,9 +3180,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) EncodeFirestore
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_Location_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOpts_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecLocation_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -2911,13 +3191,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) DecodeFirestore
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_Location_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 21)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecLocation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -2929,79 +3209,33 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_Location_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOpts_FieldPath(raw)
+		return ParseDeviceSpecLocation_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_Location_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Reset() {
+func (fieldMask *Device_Spec_Location_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	removedSelectors := make([]bool, 21)
-	otherSubMasks := map[DeviceSpecNetworkConfigCommonOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigCommonOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{},
-		DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{},
-	}
+func (fieldMask *Device_Spec_Location_FieldMask) Subtract(other *Device_Spec_Location_FieldMask) *Device_Spec_Location_FieldMask {
+	result := &Device_Spec_Location_FieldMask{}
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath:
+		case *DeviceSpecLocation_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigCommonOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask()
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask()
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask()
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkConfig_CommonOpts_Routes_FieldMask()
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask()
-					case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:
-						mySubMasks[DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkConfig_CommonOpts_Auth_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigCommonOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigCommonOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
+			result.Paths = append(result.Paths, path)
 		}
 	}
 
@@ -3011,19 +3245,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Subtract(other 
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_FieldMask))
+func (fieldMask *Device_Spec_Location_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_Location_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
+func (fieldMask *Device_Spec_Location_FieldMask) FilterInputFields() *Device_Spec_Location_FieldMask {
+	result := &Device_Spec_Location_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_Location_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -3031,13 +3265,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) ToProtoFieldMas
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_Location_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecLocation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOpts_FieldPath(strPath)
+		path, err := ParseDeviceSpecLocation_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -3047,12 +3281,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) FromProtoFieldM
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_Location_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_Location_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -3063,15 +3297,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Unmarshal(data 
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Size() int {
+func (fieldMask *Device_Spec_Location_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_Location_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_Location_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -3082,22 +3316,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) UnmarshalJSON(d
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOpts_FieldPath) {
+func (fieldMask *Device_Spec_Location_FieldMask) AppendPath(path DeviceSpecLocation_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
+func (fieldMask *Device_Spec_Location_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecLocation_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOpts_FieldPath {
+func (fieldMask *Device_Spec_Location_FieldMask) GetPaths() []DeviceSpecLocation_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_Location_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -3108,8 +3342,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) GetRawPaths() [
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOpts_FieldPath(raw)
+func (fieldMask *Device_Spec_Location_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecLocation_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -3117,7 +3351,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) SetFromCliFlag(
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts) {
+func (fieldMask *Device_Spec_Location_FieldMask) Set(target, source *Device_Spec_Location) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -3128,98 +3362,2432 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Set(target, sou
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts), source.(*Device_Spec_NetworkConfig_CommonOpts))
+func (fieldMask *Device_Spec_Location_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_Location), source.(*Device_Spec_Location))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts) *Device_Spec_NetworkConfig_CommonOpts {
+func (fieldMask *Device_Spec_Location_FieldMask) Project(source *Device_Spec_Location) *Device_Spec_Location {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts{}
-	dhcp4OverridesMask := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	result := &Device_Spec_Location{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecLocation_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecLocation_FieldPathSelectorAddress:
+				result.Address = source.Address
+			case DeviceSpecLocation_FieldPathSelectorPlacement:
+				result.Placement = source.Placement
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_Location_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_Location))
+}
+
+func (fieldMask *Device_Spec_Location_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_CommonOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_CommonOpts_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_FieldMask{}
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 0)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigCommonOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_FieldMask{}
+	removedSelectors := make([]bool, 0)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigCommonOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigCommonOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts), source.(*Device_Spec_NetworkingConfig_CommonOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts) *Device_Spec_NetworkingConfig_CommonOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_CommonOpts{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigCommonOpts_FieldTerminalPath:
+			switch tp.selector {
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_EthOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigEthOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_EthOpts_FieldMask() *Device_Spec_NetworkingConfig_EthOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_EthOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorSetName})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorWakeonlan})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorGateway6})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigEthOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 24)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigEthOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_EthOpts_FieldMask) *Device_Spec_NetworkingConfig_EthOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_EthOpts_FieldMask{}
+	removedSelectors := make([]bool, 24)
+	otherSubMasks := map[DeviceSpecNetworkingConfigEthOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch:          &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigEthOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch:          &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigEthOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch] = FullDevice_Spec_NetworkingConfig_EthOpts_Match_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigEthOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigEthOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_EthOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_EthOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_EthOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigEthOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigEthOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_EthOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_EthOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigEthOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigEthOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigEthOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigEthOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_EthOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_EthOpts), source.(*Device_Spec_NetworkingConfig_EthOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_EthOpts) *Device_Spec_NetworkingConfig_EthOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_EthOpts{}
+	matchMask := &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{}
+	wholeMatchAccepted := false
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
 	wholeDhcp4OverridesAccepted := false
-	dhcp6OverridesMask := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
 	wholeDhcp6OverridesAccepted := false
-	nameserversMask := &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{}
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
 	wholeNameserversAccepted := false
-	routesMask := &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{}
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
 	wholeRoutesAccepted := false
-	routingPolicyMask := &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
 	wholeRoutingPolicyAccepted := false
-	authMask := &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{}
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
 	wholeAuthAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigEthOpts_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRenderer:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch:
+				result.Match = source.Match
+				wholeMatchAccepted = true
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorSetName:
+				result.SetName = source.SetName
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorWakeonlan:
+				result.Wakeonlan = source.Wakeonlan
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRenderer:
 				result.Renderer = source.Renderer
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4:
 				result.Dhcp4 = source.Dhcp4
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6:
 				result.Dhcp6 = source.Dhcp6
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorIpv6Privacy:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorIpv6Privacy:
 				result.Ipv6Privacy = source.Ipv6Privacy
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorLinkLocal:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorLinkLocal:
 				result.LinkLocal = source.LinkLocal
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorCritical:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorCritical:
 				result.Critical = source.Critical
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcpIdentifier:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcpIdentifier:
 				result.DhcpIdentifier = source.DhcpIdentifier
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides:
 				result.Dhcp4Overrides = source.Dhcp4Overrides
 				wholeDhcp4OverridesAccepted = true
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides:
 				result.Dhcp6Overrides = source.Dhcp6Overrides
 				wholeDhcp6OverridesAccepted = true
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAcceptRa:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAcceptRa:
 				result.AcceptRa = source.AcceptRa
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAddresses:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAddresses:
 				result.Addresses = source.Addresses
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorGateway4:
-				result.Gateway4 = source.Gateway4
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorGateway6:
-				result.Gateway6 = source.Gateway6
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers:
 				result.Nameservers = source.Nameservers
 				wholeNameserversAccepted = true
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorMacaddress:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMacaddress:
 				result.Macaddress = source.Macaddress
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorMtu:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMtu:
 				result.Mtu = source.Mtu
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorOptional:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorOptional:
 				result.Optional = source.Optional
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorOptionalAddresses:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorOptionalAddresses:
 				result.OptionalAddresses = source.OptionalAddresses
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes:
 				result.Routes = source.Routes
 				wholeRoutesAccepted = true
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy:
 				result.RoutingPolicy = source.RoutingPolicy
 				wholeRoutingPolicyAccepted = true
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth:
 				result.Auth = source.Auth
 				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
 			}
-		case *DeviceSpecNetworkConfigCommonOpts_FieldSubPath:
+		case *DeviceSpecNetworkingConfigEthOpts_FieldSubPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides:
-				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath))
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides:
-				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath))
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:
-				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath))
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:
-				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath))
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:
-				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath))
-			case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:
-				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOptsAuth_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorMatch:
+				matchMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigEthOptsMatch_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigEthOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
+			}
+		}
+	}
+	if wholeMatchAccepted == false && len(matchMask.Paths) > 0 {
+		result.Match = matchMask.Project(source.GetMatch())
+	}
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_EthOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_WifiOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigWifiOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_WifiOpts_FieldMask() *Device_Spec_NetworkingConfig_WifiOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_WifiOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorSetName})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorWakeonlan})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAccessPoints})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorWakeonwlan})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRegulatoryDomain})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorGateway6})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigWifiOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 27)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigWifiOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) *Device_Spec_NetworkingConfig_WifiOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_FieldMask{}
+	removedSelectors := make([]bool, 27)
+	otherSubMasks := map[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch:          &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch:          &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigWifiOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch] = FullDevice_Spec_NetworkingConfig_WifiOpts_Match_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigWifiOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigWifiOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_WifiOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_WifiOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigWifiOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigWifiOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigWifiOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigWifiOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigWifiOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_WifiOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_WifiOpts), source.(*Device_Spec_NetworkingConfig_WifiOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_WifiOpts) *Device_Spec_NetworkingConfig_WifiOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_WifiOpts{}
+	matchMask := &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{}
+	wholeMatchAccepted := false
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
+	var accessPointsMapKeys []string
+	wholeAccessPointsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigWifiOpts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch:
+				result.Match = source.Match
+				wholeMatchAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorSetName:
+				result.SetName = source.SetName
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorWakeonlan:
+				result.Wakeonlan = source.Wakeonlan
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAccessPoints:
+				result.AccessPoints = source.AccessPoints
+				wholeAccessPointsAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorWakeonwlan:
+				result.Wakeonwlan = source.Wakeonwlan
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRegulatoryDomain:
+				result.RegulatoryDomain = source.RegulatoryDomain
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
+			}
+		case *DeviceSpecNetworkingConfigWifiOpts_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorMatch:
+				matchMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
+			}
+		case *DeviceSpecNetworkingConfigWifiOpts_FieldPathMap:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigWifiOpts_FieldPathSelectorAccessPoints:
+				accessPointsMapKeys = append(accessPointsMapKeys, tp.key)
+			}
+		}
+	}
+	if wholeMatchAccepted == false && len(matchMask.Paths) > 0 {
+		result.Match = matchMask.Project(source.GetMatch())
+	}
+	if wholeAccessPointsAccepted == false && len(accessPointsMapKeys) > 0 && source.GetAccessPoints() != nil {
+		copiedMap := map[string]*Device_Spec_NetworkingConfig_WifiOpts_AccessPoint{}
+		sourceMap := source.GetAccessPoints()
+		for _, key := range accessPointsMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.AccessPoints = copiedMap
+	}
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_WifiOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_BridgesOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigBridgesOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_BridgesOpts_FieldMask() *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_BridgesOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorInterfaces})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorGateway6})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigBridgesOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 23)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigBridgesOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BridgesOpts_FieldMask{}
+	removedSelectors := make([]bool, 23)
+	otherSubMasks := map[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters:     &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters:     &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigBridgesOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters] = FullDevice_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigBridgesOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigBridgesOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_BridgesOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BridgesOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBridgesOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigBridgesOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigBridgesOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigBridgesOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigBridgesOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigBridgesOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_BridgesOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_BridgesOpts), source.(*Device_Spec_NetworkingConfig_BridgesOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_BridgesOpts) *Device_Spec_NetworkingConfig_BridgesOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_BridgesOpts{}
+	parametersMask := &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{}
+	wholeParametersAccepted := false
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigBridgesOpts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorInterfaces:
+				result.Interfaces = source.Interfaces
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters:
+				result.Parameters = source.Parameters
+				wholeParametersAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
+			}
+		case *DeviceSpecNetworkingConfigBridgesOpts_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorParameters:
+				parametersMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigBridgesOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
+			}
+		}
+	}
+	if wholeParametersAccepted == false && len(parametersMask.Paths) > 0 {
+		result.Parameters = parametersMask.Project(source.GetParameters())
+	}
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_BridgesOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_BondsOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigBondsOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_BondsOpts_FieldMask() *Device_Spec_NetworkingConfig_BondsOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_BondsOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorInterfaces})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorGateway6})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigBondsOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 23)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigBondsOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) *Device_Spec_NetworkingConfig_BondsOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BondsOpts_FieldMask{}
+	removedSelectors := make([]bool, 23)
+	otherSubMasks := map[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters:     &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters:     &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigBondsOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters] = FullDevice_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigBondsOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigBondsOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_BondsOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_BondsOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BondsOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBondsOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigBondsOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigBondsOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigBondsOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigBondsOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigBondsOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_BondsOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_BondsOpts), source.(*Device_Spec_NetworkingConfig_BondsOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_BondsOpts) *Device_Spec_NetworkingConfig_BondsOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_BondsOpts{}
+	parametersMask := &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{}
+	wholeParametersAccepted := false
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigBondsOpts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorInterfaces:
+				result.Interfaces = source.Interfaces
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters:
+				result.Parameters = source.Parameters
+				wholeParametersAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
+			}
+		case *DeviceSpecNetworkingConfigBondsOpts_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorParameters:
+				parametersMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigBondsOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
+			}
+		}
+	}
+	if wholeParametersAccepted == false && len(parametersMask.Paths) > 0 {
+		result.Parameters = parametersMask.Project(source.GetParameters())
+	}
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_BondsOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigTunnelsOpts_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_TunnelsOpts_FieldMask() *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMode})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRemote})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorKey})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorGateway6})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigTunnelsOpts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 25)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigTunnelsOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask{}
+	removedSelectors := make([]bool, 25)
+	otherSubMasks := map[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigTunnelsOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigTunnelsOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigTunnelsOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigTunnelsOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigTunnelsOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigTunnelsOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigTunnelsOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigTunnelsOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigTunnelsOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_TunnelsOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_TunnelsOpts), source.(*Device_Spec_NetworkingConfig_TunnelsOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_TunnelsOpts) *Device_Spec_NetworkingConfig_TunnelsOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts{}
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigTunnelsOpts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMode:
+				result.Mode = source.Mode
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorLocal:
+				result.Local = source.Local
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRemote:
+				result.Remote = source.Remote
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorKey:
+				result.Key = source.Key
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
+			}
+		case *DeviceSpecNetworkingConfigTunnelsOpts_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigTunnelsOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
 			}
 		}
 	}
@@ -3246,32 +5814,50 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) Project(source 
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts))
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_TunnelsOpts))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_EthOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigEthOpts_FieldPath
+type Device_Spec_NetworkingConfig_VlansOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigVlansOpts_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_EthOpts_FieldMask() *Device_Spec_NetworkConfig_EthOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_EthOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOpts_FieldPathSelectorSetName})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOpts_FieldPathSelectorWakeonlan})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOpts_FieldPathSelectorName})
+func FullDevice_Spec_NetworkingConfig_VlansOpts_FieldMask() *Device_Spec_NetworkingConfig_VlansOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_VlansOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorId})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorLink})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorGateway6})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -3283,7 +5869,7 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) String() string {
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -3296,9 +5882,9 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) EncodeFirestore() 
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigEthOpts_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigVlansOpts_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -3307,13 +5893,13 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) DecodeFirestore(fp
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 23)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigEthOpts_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -3325,51 +5911,67 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigEthOpts_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigVlansOpts_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_EthOpts_FieldMask) *Device_Spec_NetworkConfig_EthOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_EthOpts_FieldMask{}
-	removedSelectors := make([]bool, 5)
-	otherSubMasks := map[DeviceSpecNetworkConfigEthOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch: &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{},
-		DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:  &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) *Device_Spec_NetworkingConfig_VlansOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_VlansOpts_FieldMask{}
+	removedSelectors := make([]bool, 23)
+	otherSubMasks := map[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
 	}
-	mySubMasks := map[DeviceSpecNetworkConfigEthOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch: &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{},
-		DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:  &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
+	mySubMasks := map[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigEthOpts_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigEthOpts_FieldSubPath:
+		case *DeviceSpecNetworkingConfigVlansOpts_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigEthOpts_FieldTerminalPath); ok {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath); ok {
 					switch tp.selector {
-					case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch:
-						mySubMasks[DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch] = FullDevice_Spec_NetworkConfig_EthOpts_Match_FieldMask()
-					case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
 					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigEthOpts_FieldSubPath); ok {
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigVlansOpts_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -3380,7 +5982,7 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Subtract(other *De
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigEthOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigVlansOpts_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -3391,19 +5993,19 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Subtract(other *De
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_EthOpts_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_VlansOpts_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_EthOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_EthOpts_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_VlansOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_VlansOpts_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -3411,13 +6013,13 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) ToProtoFieldMask()
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigEthOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigVlansOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigEthOpts_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigVlansOpts_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -3427,12 +6029,12 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) FromProtoFieldMask
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_EthOpts_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -3443,15 +6045,15 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Unmarshal(data []b
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_EthOpts_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_VlansOpts_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -3462,22 +6064,22 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) UnmarshalJSON(data
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigEthOpts_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigVlansOpts_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigEthOpts_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigVlansOpts_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigEthOpts_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigVlansOpts_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -3488,8 +6090,8 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) GetRawPaths() []go
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigEthOpts_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigVlansOpts_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -3497,7 +6099,7 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) SetFromCliFlag(raw
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_EthOpts) {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_VlansOpts) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -3508,1644 +6110,180 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Set(target, source
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_EthOpts), source.(*Device_Spec_NetworkConfig_EthOpts))
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_VlansOpts), source.(*Device_Spec_NetworkingConfig_VlansOpts))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_EthOpts) *Device_Spec_NetworkConfig_EthOpts {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_VlansOpts) *Device_Spec_NetworkingConfig_VlansOpts {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_EthOpts{}
-	matchMask := &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{}
-	wholeMatchAccepted := false
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
+	result := &Device_Spec_NetworkingConfig_VlansOpts{}
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigEthOpts_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigVlansOpts_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch:
-				result.Match = source.Match
-				wholeMatchAccepted = true
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorSetName:
-				result.SetName = source.SetName
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorWakeonlan:
-				result.Wakeonlan = source.Wakeonlan
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorName:
-				result.Name = source.Name
-			}
-		case *DeviceSpecNetworkConfigEthOpts_FieldSubPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch:
-				matchMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigEthOptsMatch_FieldPath))
-			case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
-			}
-		}
-	}
-	if wholeMatchAccepted == false && len(matchMask.Paths) > 0 {
-		result.Match = matchMask.Project(source.GetMatch())
-	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_EthOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Spec_NetworkConfig_WifiOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigWifiOpts_FieldPath
-}
-
-func FullDevice_Spec_NetworkConfig_WifiOpts_FieldMask() *Device_Spec_NetworkConfig_WifiOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_WifiOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorSetName})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorWakeonlan})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorName})
-	return res
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigWifiOpts_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 6)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigWifiOpts_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_WifiOpts_FieldMask) *Device_Spec_NetworkConfig_WifiOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_FieldMask{}
-	removedSelectors := make([]bool, 6)
-	otherSubMasks := map[DeviceSpecNetworkConfigWifiOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:        &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{},
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:         &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints: &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigWifiOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:        &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{},
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:         &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints: &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigWifiOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:
-						mySubMasks[DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch] = FullDevice_Spec_NetworkConfig_WifiOpts_Match_FieldMask()
-					case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
-					case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints:
-						mySubMasks[DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints] = FullDevice_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigWifiOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigWifiOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_WifiOpts_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_WifiOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigWifiOpts_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigWifiOpts_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigWifiOpts_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigWifiOpts_FieldPath))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigWifiOpts_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigWifiOpts_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_WifiOpts) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_WifiOpts), source.(*Device_Spec_NetworkConfig_WifiOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_WifiOpts) *Device_Spec_NetworkConfig_WifiOpts {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Spec_NetworkConfig_WifiOpts{}
-	matchMask := &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{}
-	wholeMatchAccepted := false
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
-	accessPointsMask := &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{}
-	wholeAccessPointsAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:
-				result.Match = source.Match
-				wholeMatchAccepted = true
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorSetName:
-				result.SetName = source.SetName
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorWakeonlan:
-				result.Wakeonlan = source.Wakeonlan
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints:
-				result.AccessPoints = source.AccessPoints
-				wholeAccessPointsAccepted = true
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorName:
-				result.Name = source.Name
-			}
-		case *DeviceSpecNetworkConfigWifiOpts_FieldSubPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:
-				matchMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigWifiOptsMatch_FieldPath))
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
-			case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints:
-				accessPointsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath))
-			}
-		}
-	}
-	if wholeMatchAccepted == false && len(matchMask.Paths) > 0 {
-		result.Match = matchMask.Project(source.GetMatch())
-	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
-	}
-	if wholeAccessPointsAccepted == false && len(accessPointsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetAccessPoints() {
-			result.AccessPoints = append(result.AccessPoints, accessPointsMask.Project(sourceItem))
-		}
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_WifiOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Spec_NetworkConfig_BridgesOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigBridgesOpts_FieldPath
-}
-
-func FullDevice_Spec_NetworkConfig_BridgesOpts_FieldMask() *Device_Spec_NetworkConfig_BridgesOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorInterfaces})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorName})
-	return res
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigBridgesOpts_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigBridgesOpts_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) *Device_Spec_NetworkConfig_BridgesOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{}
-	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[DeviceSpecNetworkConfigBridgesOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:       &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters: &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigBridgesOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:       &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters: &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
-					case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters:
-						mySubMasks[DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters] = FullDevice_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigBridgesOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigBridgesOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_BridgesOpts_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_BridgesOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_BridgesOpts_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigBridgesOpts_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigBridgesOpts_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Spec_NetworkConfig_BridgesOpts_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigBridgesOpts_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigBridgesOpts_FieldPath))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigBridgesOpts_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigBridgesOpts_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_BridgesOpts) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_BridgesOpts), source.(*Device_Spec_NetworkConfig_BridgesOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_BridgesOpts) *Device_Spec_NetworkConfig_BridgesOpts {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Spec_NetworkConfig_BridgesOpts{}
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
-	parametersMask := &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{}
-	wholeParametersAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorInterfaces:
-				result.Interfaces = source.Interfaces
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters:
-				result.Parameters = source.Parameters
-				wholeParametersAccepted = true
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorName:
-				result.Name = source.Name
-			}
-		case *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
-			case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters:
-				parametersMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath))
-			}
-		}
-	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
-	}
-	if wholeParametersAccepted == false && len(parametersMask.Paths) > 0 {
-		result.Parameters = parametersMask.Project(source.GetParameters())
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_BridgesOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Spec_NetworkConfig_BondsOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigBondsOpts_FieldPath
-}
-
-func FullDevice_Spec_NetworkConfig_BondsOpts_FieldMask() *Device_Spec_NetworkConfig_BondsOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_BondsOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorInterfaces})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorName})
-	return res
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigBondsOpts_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigBondsOpts_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_BondsOpts_FieldMask) *Device_Spec_NetworkConfig_BondsOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_BondsOpts_FieldMask{}
-	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[DeviceSpecNetworkConfigBondsOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:       &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters: &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigBondsOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:       &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-		DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters: &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigBondsOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
-					case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters:
-						mySubMasks[DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters] = FullDevice_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigBondsOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigBondsOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_BondsOpts_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_BondsOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_BondsOpts_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigBondsOpts_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigBondsOpts_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_BondsOpts_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Spec_NetworkConfig_BondsOpts_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigBondsOpts_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigBondsOpts_FieldPath))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigBondsOpts_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigBondsOpts_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_BondsOpts) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_BondsOpts), source.(*Device_Spec_NetworkConfig_BondsOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_BondsOpts) *Device_Spec_NetworkConfig_BondsOpts {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Spec_NetworkConfig_BondsOpts{}
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
-	parametersMask := &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{}
-	wholeParametersAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorInterfaces:
-				result.Interfaces = source.Interfaces
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters:
-				result.Parameters = source.Parameters
-				wholeParametersAccepted = true
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorName:
-				result.Name = source.Name
-			}
-		case *DeviceSpecNetworkConfigBondsOpts_FieldSubPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
-			case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters:
-				parametersMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigBondsOptsParameters_FieldPath))
-			}
-		}
-	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
-	}
-	if wholeParametersAccepted == false && len(parametersMask.Paths) > 0 {
-		result.Parameters = parametersMask.Project(source.GetParameters())
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_BondsOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Spec_NetworkConfig_TunnelsOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigTunnelsOpts_FieldPath
-}
-
-func FullDevice_Spec_NetworkConfig_TunnelsOpts_FieldMask() *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorMode})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorLocal})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorRemote})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorKey})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorName})
-	return res
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigTunnelsOpts_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 6)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigTunnelsOpts_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{}
-	removedSelectors := make([]bool, 6)
-	otherSubMasks := map[DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts: &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts: &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_TunnelsOpts_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_TunnelsOpts_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigTunnelsOpts_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigTunnelsOpts_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigTunnelsOpts_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigTunnelsOpts_FieldPath))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigTunnelsOpts_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigTunnelsOpts_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_TunnelsOpts) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_TunnelsOpts), source.(*Device_Spec_NetworkConfig_TunnelsOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_TunnelsOpts) *Device_Spec_NetworkConfig_TunnelsOpts {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Spec_NetworkConfig_TunnelsOpts{}
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorMode:
-				result.Mode = source.Mode
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorLocal:
-				result.Local = source.Local
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorRemote:
-				result.Remote = source.Remote
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorKey:
-				result.Key = source.Key
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorName:
-				result.Name = source.Name
-			}
-		case *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
-			}
-		}
-	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_TunnelsOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Spec_NetworkConfig_VlansOpts_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigVlansOpts_FieldPath
-}
-
-func FullDevice_Spec_NetworkConfig_VlansOpts_FieldMask() *Device_Spec_NetworkConfig_VlansOpts_FieldMask {
-	res := &Device_Spec_NetworkConfig_VlansOpts_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorId})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorLink})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath{selector: DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorName})
-	return res
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigVlansOpts_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigVlansOpts_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Subtract(other *Device_Spec_NetworkConfig_VlansOpts_FieldMask) *Device_Spec_NetworkConfig_VlansOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_VlansOpts_FieldMask{}
-	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[DeviceSpecNetworkConfigVlansOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts: &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-	}
-	mySubMasks := map[DeviceSpecNetworkConfigVlansOpts_FieldPathSelector]gotenobject.FieldMask{
-		DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts: &Device_Spec_NetworkConfig_CommonOpts_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceSpecNetworkConfigVlansOpts_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts:
-						mySubMasks[DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts] = FullDevice_Spec_NetworkConfig_CommonOpts_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceSpecNetworkConfigVlansOpts_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceSpecNetworkConfigVlansOpts_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_VlansOpts_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_VlansOpts_FieldMask {
-	result := &Device_Spec_NetworkConfig_VlansOpts_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigVlansOpts_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigVlansOpts_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_VlansOpts_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Spec_NetworkConfig_VlansOpts_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) AppendPath(path DeviceSpecNetworkConfigVlansOpts_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigVlansOpts_FieldPath))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) GetPaths() []DeviceSpecNetworkConfigVlansOpts_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigVlansOpts_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Set(target, source *Device_Spec_NetworkConfig_VlansOpts) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_VlansOpts), source.(*Device_Spec_NetworkConfig_VlansOpts))
-}
-
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) Project(source *Device_Spec_NetworkConfig_VlansOpts) *Device_Spec_NetworkConfig_VlansOpts {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Spec_NetworkConfig_VlansOpts{}
-	optsMask := &Device_Spec_NetworkConfig_CommonOpts_FieldMask{}
-	wholeOptsAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts:
-				result.Opts = source.Opts
-				wholeOptsAccepted = true
-			case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorId:
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorId:
 				result.Id = source.Id
-			case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorLink:
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorLink:
 				result.Link = source.Link
-			case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorName:
-				result.Name = source.Name
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
 			}
-		case *DeviceSpecNetworkConfigVlansOpts_FieldSubPath:
+		case *DeviceSpecNetworkingConfigVlansOpts_FieldSubPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts:
-				optsMask.AppendPath(tp.subPath.(DeviceSpecNetworkConfigCommonOpts_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigVlansOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
 			}
 		}
 	}
-	if wholeOptsAccepted == false && len(optsMask.Paths) > 0 {
-		result.Opts = optsMask.Project(source.GetOpts())
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
 	}
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_VlansOpts))
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_VlansOpts))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_VlansOpts_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath
+type Device_Spec_NetworkingConfig_ModemOpts_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigModemOpts_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseDns})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseNtp})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorSendHostname})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseHostname})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseMtu})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorHostname})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseRoutes})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorRouteMetric})
+func FullDevice_Spec_NetworkingConfig_ModemOpts_FieldMask() *Device_Spec_NetworkingConfig_ModemOpts_FieldMask {
+	res := &Device_Spec_NetworkingConfig_ModemOpts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorApn})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorUsername})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorPassword})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNumber})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNetworkId})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDeviceId})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorPin})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorSimId})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorSimOperatorId})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAutoConfig})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRenderer})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorIpv6Privacy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorLinkLocal})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorCritical})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcpIdentifier})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAcceptRa})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorOptional})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorOptionalAddresses})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorGateway4})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath{selector: DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorGateway6})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -5157,7 +6295,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) S
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -5170,9 +6308,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) E
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigModemOpts_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -5181,13 +6319,432 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) D
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 31)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecNetworkingConfigModemOpts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) *Device_Spec_NetworkingConfig_ModemOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_ModemOpts_FieldMask{}
+	removedSelectors := make([]bool, 31)
+	otherSubMasks := map[DeviceSpecNetworkingConfigModemOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigModemOpts_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides: &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers:    &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes:         &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy:  &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{},
+		DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth:           &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigModemOpts_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides] = FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask()
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers] = FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask()
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes] = FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask()
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy] = FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask()
+					case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigModemOpts_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigModemOpts_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_ModemOpts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_ModemOpts_FieldMask {
+	result := &Device_Spec_NetworkingConfig_ModemOpts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigModemOpts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecNetworkingConfigModemOpts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_NetworkingConfig_ModemOpts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) AppendPath(path DeviceSpecNetworkingConfigModemOpts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigModemOpts_FieldPath))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) GetPaths() []DeviceSpecNetworkingConfigModemOpts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigModemOpts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_ModemOpts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_ModemOpts), source.(*Device_Spec_NetworkingConfig_ModemOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Project(source *Device_Spec_NetworkingConfig_ModemOpts) *Device_Spec_NetworkingConfig_ModemOpts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_NetworkingConfig_ModemOpts{}
+	dhcp4OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp4OverridesAccepted := false
+	dhcp6OverridesMask := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	wholeDhcp6OverridesAccepted := false
+	nameserversMask := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	wholeNameserversAccepted := false
+	routesMask := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	wholeRoutesAccepted := false
+	routingPolicyMask := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	wholeRoutingPolicyAccepted := false
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecNetworkingConfigModemOpts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorApn:
+				result.Apn = source.Apn
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorUsername:
+				result.Username = source.Username
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorPassword:
+				result.Password = source.Password
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNumber:
+				result.Number = source.Number
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNetworkId:
+				result.NetworkId = source.NetworkId
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDeviceId:
+				result.DeviceId = source.DeviceId
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorPin:
+				result.Pin = source.Pin
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorSimId:
+				result.SimId = source.SimId
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorSimOperatorId:
+				result.SimOperatorId = source.SimOperatorId
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAutoConfig:
+				result.AutoConfig = source.AutoConfig
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRenderer:
+				result.Renderer = source.Renderer
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4:
+				result.Dhcp4 = source.Dhcp4
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6:
+				result.Dhcp6 = source.Dhcp6
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorIpv6Privacy:
+				result.Ipv6Privacy = source.Ipv6Privacy
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorLinkLocal:
+				result.LinkLocal = source.LinkLocal
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorCritical:
+				result.Critical = source.Critical
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcpIdentifier:
+				result.DhcpIdentifier = source.DhcpIdentifier
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides:
+				result.Dhcp4Overrides = source.Dhcp4Overrides
+				wholeDhcp4OverridesAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides:
+				result.Dhcp6Overrides = source.Dhcp6Overrides
+				wholeDhcp6OverridesAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAcceptRa:
+				result.AcceptRa = source.AcceptRa
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers:
+				result.Nameservers = source.Nameservers
+				wholeNameserversAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorMacaddress:
+				result.Macaddress = source.Macaddress
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorMtu:
+				result.Mtu = source.Mtu
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorOptional:
+				result.Optional = source.Optional
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorOptionalAddresses:
+				result.OptionalAddresses = source.OptionalAddresses
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+				wholeRoutesAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy:
+				result.RoutingPolicy = source.RoutingPolicy
+				wholeRoutingPolicyAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorGateway4:
+				result.Gateway4 = source.Gateway4
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorGateway6:
+				result.Gateway6 = source.Gateway6
+			}
+		case *DeviceSpecNetworkingConfigModemOpts_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp4Overrides:
+				dhcp4OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorDhcp6Overrides:
+				dhcp6OverridesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorNameservers:
+				nameserversMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutes:
+				routesMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorRoutingPolicy:
+				routingPolicyMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
+			case DeviceSpecNetworkingConfigModemOpts_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
+			}
+		}
+	}
+	if wholeDhcp4OverridesAccepted == false && len(dhcp4OverridesMask.Paths) > 0 {
+		result.Dhcp4Overrides = dhcp4OverridesMask.Project(source.GetDhcp4Overrides())
+	}
+	if wholeDhcp6OverridesAccepted == false && len(dhcp6OverridesMask.Paths) > 0 {
+		result.Dhcp6Overrides = dhcp6OverridesMask.Project(source.GetDhcp6Overrides())
+	}
+	if wholeNameserversAccepted == false && len(nameserversMask.Paths) > 0 {
+		result.Nameservers = nameserversMask.Project(source.GetNameservers())
+	}
+	if wholeRoutesAccepted == false && len(routesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetRoutes() {
+			result.Routes = append(result.Routes, routesMask.Project(sourceItem))
+		}
+	}
+	if wholeRoutingPolicyAccepted == false && len(routingPolicyMask.Paths) > 0 {
+		result.RoutingPolicy = routingPolicyMask.Project(source.GetRoutingPolicy())
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_ModemOpts))
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath
+}
+
+func FullDevice_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseDns})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseNtp})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorSendHostname})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseHostname})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseMtu})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorHostname})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseRoutes})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorRouteMetric})
+	return res
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -5199,27 +6756,27 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) I
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
 	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -5235,19 +6792,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) S
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -5255,13 +6812,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) T
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -5271,12 +6828,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) F
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5287,15 +6844,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) U
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5306,22 +6863,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) U
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -5332,8 +6889,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) G
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -5341,7 +6898,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) S
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -5352,38 +6909,38 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) S
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides), source.(*Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides), source.(*Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides) *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides{}
+	result := &Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseDns:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseDns:
 				result.UseDns = source.UseDns
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseNtp:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseNtp:
 				result.UseNtp = source.UseNtp
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorSendHostname:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorSendHostname:
 				result.SendHostname = source.SendHostname
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseHostname:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseHostname:
 				result.UseHostname = source.UseHostname
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseMtu:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseMtu:
 				result.UseMtu = source.UseMtu
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorHostname:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorHostname:
 				result.Hostname = source.Hostname
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseRoutes:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorUseRoutes:
 				result.UseRoutes = source.UseRoutes
-			case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorRouteMetric:
+			case DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPathSelectorRouteMetric:
 				result.RouteMetric = source.RouteMetric
 			}
 		}
@@ -5391,29 +6948,29 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) P
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath
+type Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorSearch})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorAddresses})
+func FullDevice_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsNameservers_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPathSelectorSearch})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsNameservers_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPathSelectorAddresses})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -5425,7 +6982,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Str
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -5438,9 +6995,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Enc
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOptsNameservers_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -5449,13 +7006,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Dec
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOptsNameservers_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -5467,27 +7024,27 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) IsF
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOptsNameservers_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
 	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsNameservers_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -5503,19 +7060,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Sub
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -5523,13 +7080,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) ToP
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOptsNameservers_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -5539,12 +7096,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Fro
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5555,15 +7112,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Unm
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5574,22 +7131,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Unm
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOptsNameservers_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -5600,8 +7157,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Get
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOptsNameservers_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -5609,7 +7166,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Set
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts_Nameservers) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts_Nameservers) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -5620,26 +7177,26 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Set
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts_Nameservers), source.(*Device_Spec_NetworkConfig_CommonOpts_Nameservers))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts_Nameservers), source.(*Device_Spec_NetworkingConfig_CommonOpts_Nameservers))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts_Nameservers) *Device_Spec_NetworkConfig_CommonOpts_Nameservers {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts_Nameservers) *Device_Spec_NetworkingConfig_CommonOpts_Nameservers {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts_Nameservers{}
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Nameservers{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsNameservers_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorSearch:
+			case DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPathSelectorSearch:
 				result.Search = source.Search
-			case DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorAddresses:
+			case DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPathSelectorAddresses:
 				result.Addresses = source.Addresses
 			}
 		}
@@ -5647,35 +7204,35 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) Pro
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts_Nameservers))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts_Nameservers))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Nameservers_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath
+type Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_Routes_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorFrom})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorTo})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorVia})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorOnLink})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorMetric})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorType})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorScope})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorTable})
+func FullDevice_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorFrom})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorTo})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorVia})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorOnLink})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorMetric})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorType})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorScope})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorTable})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -5687,7 +7244,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) String()
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -5700,9 +7257,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) EncodeFi
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOptsRoutes_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -5711,13 +7268,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) DecodeFi
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -5729,27 +7286,27 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) IsFull()
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOptsRoutes_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
 	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -5765,19 +7322,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Subtract
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -5785,13 +7342,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) ToProtoF
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOptsRoutes_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -5801,12 +7358,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) FromProt
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5817,15 +7374,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Unmarsha
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -5836,22 +7393,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Unmarsha
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOptsRoutes_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -5862,8 +7419,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) GetRawPa
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOptsRoutes_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -5871,7 +7428,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) SetFromC
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts_Routes) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts_Routes) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -5882,38 +7439,38 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Set(targ
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts_Routes), source.(*Device_Spec_NetworkConfig_CommonOpts_Routes))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts_Routes), source.(*Device_Spec_NetworkingConfig_CommonOpts_Routes))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts_Routes) *Device_Spec_NetworkConfig_CommonOpts_Routes {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts_Routes) *Device_Spec_NetworkingConfig_CommonOpts_Routes {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts_Routes{}
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Routes{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsRoutes_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorFrom:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorFrom:
 				result.From = source.From
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorTo:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorTo:
 				result.To = source.To
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorVia:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorVia:
 				result.Via = source.Via
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorOnLink:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorOnLink:
 				result.OnLink = source.OnLink
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorMetric:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorMetric:
 				result.Metric = source.Metric
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorType:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorType:
 				result.Type = source.Type
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorScope:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorScope:
 				result.Scope = source.Scope
-			case DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorTable:
+			case DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPathSelectorTable:
 				result.Table = source.Table
 			}
 		}
@@ -5921,33 +7478,33 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) Project(
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts_Routes))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts_Routes))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Routes_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath
+type Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorFrom})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTo})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTable})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorPriority})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorMark})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTypeOfService})
+func FullDevice_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorFrom})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTo})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTable})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorPriority})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorMark})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTypeOfService})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -5959,7 +7516,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) S
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -5972,9 +7529,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) E
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -5983,13 +7540,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) D
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -6001,27 +7558,27 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) I
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
 	removedSelectors := make([]bool, 6)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -6037,19 +7594,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) S
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -6057,13 +7614,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) T
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -6073,12 +7630,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) F
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6089,15 +7646,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) U
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6108,22 +7665,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) U
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -6134,8 +7691,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) G
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -6143,7 +7700,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) S
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -6154,34 +7711,34 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) S
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy), source.(*Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy), source.(*Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy) *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy{}
+	result := &Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorFrom:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorFrom:
 				result.From = source.From
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTo:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTo:
 				result.To = source.To
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTable:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTable:
 				result.Table = source.Table
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorPriority:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorPriority:
 				result.Priority = source.Priority
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorMark:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorMark:
 				result.Mark = source.Mark
-			case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTypeOfService:
+			case DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPathSelectorTypeOfService:
 				result.TypeOfService = source.TypeOfService
 			}
 		}
@@ -6189,36 +7746,37 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) P
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigCommonOptsAuth_FieldPath
+type Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_CommonOpts_Auth_FieldMask() *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask {
-	res := &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorKey})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorPassword})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorMethod})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorIdentity})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorAnonymousIdentity})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorCaCertificate})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientCertificate})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientKey})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientKeyPassword})
+func FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask() *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask {
+	res := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorKeyManagement})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorPassword})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorMethod})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorIdentity})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorAnonymousIdentity})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorCaCertificate})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientCertificate})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientKey})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientKeyPassword})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath{selector: DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorPhase2Auth})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -6230,7 +7788,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) String() s
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -6243,9 +7801,9 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) EncodeFire
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigCommonOptsAuth_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigCommonOptsAuth_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -6254,13 +7812,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) DecodeFire
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -6272,27 +7830,27 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) IsFull() b
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigCommonOptsAuth_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigCommonOptsAuth_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Subtract(other *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{}
-	removedSelectors := make([]bool, 9)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	removedSelectors := make([]bool, 10)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -6308,19 +7866,19 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Subtract(o
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask {
-	result := &Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask {
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -6328,13 +7886,13 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) ToProtoFie
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigCommonOptsAuth_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigCommonOptsAuth_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigCommonOptsAuth_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -6344,12 +7902,12 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) FromProtoF
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6360,15 +7918,15 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Unmarshal(
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6379,22 +7937,22 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) UnmarshalJ
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) AppendPath(path DeviceSpecNetworkConfigCommonOptsAuth_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) AppendPath(path DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigCommonOptsAuth_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) GetPaths() []DeviceSpecNetworkConfigCommonOptsAuth_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) GetPaths() []DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -6405,8 +7963,8 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) GetRawPath
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigCommonOptsAuth_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigCommonOptsAuth_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -6414,7 +7972,7 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) SetFromCli
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Set(target, source *Device_Spec_NetworkConfig_CommonOpts_Auth) {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_CommonOpts_Auth) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -6425,71 +7983,73 @@ func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Set(target
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_CommonOpts_Auth), source.(*Device_Spec_NetworkConfig_CommonOpts_Auth))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_CommonOpts_Auth), source.(*Device_Spec_NetworkingConfig_CommonOpts_Auth))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) Project(source *Device_Spec_NetworkConfig_CommonOpts_Auth) *Device_Spec_NetworkConfig_CommonOpts_Auth {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Project(source *Device_Spec_NetworkingConfig_CommonOpts_Auth) *Device_Spec_NetworkingConfig_CommonOpts_Auth {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_CommonOpts_Auth{}
+	result := &Device_Spec_NetworkingConfig_CommonOpts_Auth{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigCommonOptsAuth_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorKey:
-				result.Key = source.Key
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorPassword:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorKeyManagement:
+				result.KeyManagement = source.KeyManagement
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorPassword:
 				result.Password = source.Password
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorMethod:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorMethod:
 				result.Method = source.Method
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorIdentity:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorIdentity:
 				result.Identity = source.Identity
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorAnonymousIdentity:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorAnonymousIdentity:
 				result.AnonymousIdentity = source.AnonymousIdentity
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorCaCertificate:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorCaCertificate:
 				result.CaCertificate = source.CaCertificate
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientCertificate:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientCertificate:
 				result.ClientCertificate = source.ClientCertificate
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientKey:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientKey:
 				result.ClientKey = source.ClientKey
-			case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientKeyPassword:
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorClientKeyPassword:
 				result.ClientKeyPassword = source.ClientKeyPassword
+			case DeviceSpecNetworkingConfigCommonOptsAuth_FieldPathSelectorPhase2Auth:
+				result.Phase2Auth = source.Phase2Auth
 			}
 		}
 	}
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_CommonOpts_Auth))
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_CommonOpts_Auth))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_CommonOpts_Auth_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_EthOpts_Match_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigEthOptsMatch_FieldPath
+type Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigEthOptsMatch_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_EthOpts_Match_FieldMask() *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask {
-	res := &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorMacaddress})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorDriver})
+func FullDevice_Spec_NetworkingConfig_EthOpts_Match_FieldMask() *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask {
+	res := &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorDriver})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -6501,7 +8061,7 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) String() str
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -6514,9 +8074,9 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) EncodeFirest
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigEthOptsMatch_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigEthOptsMatch_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -6525,13 +8085,13 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) DecodeFirest
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -6543,27 +8103,27 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) IsFull() boo
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigEthOptsMatch_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigEthOptsMatch_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Subtract(other *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask {
-	result := &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask {
+	result := &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{}
 	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -6579,19 +8139,19 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Subtract(oth
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_EthOpts_Match_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask {
-	result := &Device_Spec_NetworkConfig_EthOpts_Match_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask {
+	result := &Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -6599,13 +8159,13 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) ToProtoField
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigEthOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigEthOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigEthOptsMatch_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigEthOptsMatch_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -6615,12 +8175,12 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) FromProtoFie
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6631,15 +8191,15 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Unmarshal(da
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6650,22 +8210,22 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) UnmarshalJSO
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) AppendPath(path DeviceSpecNetworkConfigEthOptsMatch_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) AppendPath(path DeviceSpecNetworkingConfigEthOptsMatch_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigEthOptsMatch_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigEthOptsMatch_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) GetPaths() []DeviceSpecNetworkConfigEthOptsMatch_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) GetPaths() []DeviceSpecNetworkingConfigEthOptsMatch_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -6676,8 +8236,8 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) GetRawPaths(
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigEthOptsMatch_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigEthOptsMatch_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -6685,7 +8245,7 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) SetFromCliFl
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Set(target, source *Device_Spec_NetworkConfig_EthOpts_Match) {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_EthOpts_Match) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -6696,28 +8256,28 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Set(target, 
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_EthOpts_Match), source.(*Device_Spec_NetworkConfig_EthOpts_Match))
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_EthOpts_Match), source.(*Device_Spec_NetworkingConfig_EthOpts_Match))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Project(source *Device_Spec_NetworkConfig_EthOpts_Match) *Device_Spec_NetworkConfig_EthOpts_Match {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Project(source *Device_Spec_NetworkingConfig_EthOpts_Match) *Device_Spec_NetworkingConfig_EthOpts_Match {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_EthOpts_Match{}
+	result := &Device_Spec_NetworkingConfig_EthOpts_Match{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigEthOptsMatch_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorName:
+			case DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorName:
 				result.Name = source.Name
-			case DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorMacaddress:
+			case DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorMacaddress:
 				result.Macaddress = source.Macaddress
-			case DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorDriver:
+			case DeviceSpecNetworkingConfigEthOptsMatch_FieldPathSelectorDriver:
 				result.Driver = source.Driver
 			}
 		}
@@ -6725,30 +8285,30 @@ func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) Project(sour
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_EthOpts_Match))
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_EthOpts_Match))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_EthOpts_Match_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigWifiOptsMatch_FieldPath
+type Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_WifiOpts_Match_FieldMask() *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask {
-	res := &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorMacaddress})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorDriver})
+func FullDevice_Spec_NetworkingConfig_WifiOpts_Match_FieldMask() *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask {
+	res := &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorMacaddress})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorDriver})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -6760,7 +8320,7 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) String() st
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -6773,9 +8333,9 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) EncodeFires
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigWifiOptsMatch_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigWifiOptsMatch_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -6784,13 +8344,13 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) DecodeFires
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -6802,27 +8362,27 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) IsFull() bo
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigWifiOptsMatch_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigWifiOptsMatch_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Subtract(other *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{}
 	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -6838,19 +8398,19 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Subtract(ot
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -6858,13 +8418,13 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) ToProtoFiel
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigWifiOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigWifiOptsMatch_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigWifiOptsMatch_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -6874,12 +8434,12 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) FromProtoFi
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6890,15 +8450,15 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Unmarshal(d
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -6909,22 +8469,22 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) UnmarshalJS
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) AppendPath(path DeviceSpecNetworkConfigWifiOptsMatch_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) AppendPath(path DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigWifiOptsMatch_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) GetPaths() []DeviceSpecNetworkConfigWifiOptsMatch_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) GetPaths() []DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -6935,8 +8495,8 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) GetRawPaths
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigWifiOptsMatch_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigWifiOptsMatch_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -6944,7 +8504,7 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) SetFromCliF
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Set(target, source *Device_Spec_NetworkConfig_WifiOpts_Match) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_WifiOpts_Match) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -6955,28 +8515,28 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Set(target,
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_WifiOpts_Match), source.(*Device_Spec_NetworkConfig_WifiOpts_Match))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_WifiOpts_Match), source.(*Device_Spec_NetworkingConfig_WifiOpts_Match))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Project(source *Device_Spec_NetworkConfig_WifiOpts_Match) *Device_Spec_NetworkConfig_WifiOpts_Match {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Project(source *Device_Spec_NetworkingConfig_WifiOpts_Match) *Device_Spec_NetworkingConfig_WifiOpts_Match {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_WifiOpts_Match{}
+	result := &Device_Spec_NetworkingConfig_WifiOpts_Match{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigWifiOptsMatch_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorName:
+			case DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorName:
 				result.Name = source.Name
-			case DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorMacaddress:
+			case DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorMacaddress:
 				result.Macaddress = source.Macaddress
-			case DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorDriver:
+			case DeviceSpecNetworkingConfigWifiOptsMatch_FieldPathSelectorDriver:
 				result.Driver = source.Driver
 			}
 		}
@@ -6984,30 +8544,34 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) Project(sou
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_WifiOpts_Match))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_WifiOpts_Match))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_Match_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath
+type Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask() *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask {
-	res := &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorPassword})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorMode})
+func FullDevice_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask() *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask {
+	res := &Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorPassword})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorMode})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorBssid})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorBand})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorChannel})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorHidden})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath{selector: DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -7019,7 +8583,7 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Strin
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -7032,9 +8596,9 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Encod
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -7043,13 +8607,13 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Decod
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -7061,33 +8625,59 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) IsFul
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Subtract(other *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{}
-	removedSelectors := make([]bool, 3)
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask{}
+	removedSelectors := make([]bool, 7)
+	otherSubMasks := map[DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth: &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth: &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth:
+						mySubMasks[DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth] = FullDevice_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -7097,19 +8687,19 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Subtr
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask {
-	result := &Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask {
+	result := &Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -7117,13 +8707,13 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) ToPro
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -7133,12 +8723,12 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) FromP
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7149,15 +8739,15 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Unmar
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7168,22 +8758,22 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Unmar
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) AppendPath(path DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) AppendPath(path DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) GetPaths() []DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) GetPaths() []DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -7194,8 +8784,8 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) GetRa
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -7203,7 +8793,7 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) SetFr
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Set(target, source *Device_Spec_NetworkConfig_WifiOpts_AccessPoint) {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -7214,64 +8804,83 @@ func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Set(t
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_WifiOpts_AccessPoint), source.(*Device_Spec_NetworkConfig_WifiOpts_AccessPoint))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_WifiOpts_AccessPoint), source.(*Device_Spec_NetworkingConfig_WifiOpts_AccessPoint))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) Project(source *Device_Spec_NetworkConfig_WifiOpts_AccessPoint) *Device_Spec_NetworkConfig_WifiOpts_AccessPoint {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Project(source *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint) *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_WifiOpts_AccessPoint{}
+	result := &Device_Spec_NetworkingConfig_WifiOpts_AccessPoint{}
+	authMask := &Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask{}
+	wholeAuthAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorName:
-				result.Name = source.Name
-			case DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorPassword:
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorPassword:
 				result.Password = source.Password
-			case DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorMode:
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorMode:
 				result.Mode = source.Mode
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorBssid:
+				result.Bssid = source.Bssid
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorBand:
+				result.Band = source.Band
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorChannel:
+				result.Channel = source.Channel
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorHidden:
+				result.Hidden = source.Hidden
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth:
+				result.Auth = source.Auth
+				wholeAuthAccepted = true
+			}
+		case *DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPathSelectorAuth:
+				authMask.AppendPath(tp.subPath.(DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath))
 			}
 		}
+	}
+	if wholeAuthAccepted == false && len(authMask.Paths) > 0 {
+		result.Auth = authMask.Project(source.GetAuth())
 	}
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_WifiOpts_AccessPoint))
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_WifiOpts_AccessPoint))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_WifiOpts_AccessPoint_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath
+type Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask() *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask {
-	res := &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorAgeingTime})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPriority})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPortPriority})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorForwardDelay})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorHelloTime})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorMaxAge})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPathCost})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorStp})
+func FullDevice_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask() *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask {
+	res := &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorAgeingTime})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPriority})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPortPriority})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorForwardDelay})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorHelloTime})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorMaxAge})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPathCost})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorStp})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -7283,7 +8892,7 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Str
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -7296,9 +8905,9 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Enc
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigBridgesOptsParameters_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -7307,13 +8916,13 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Dec
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -7325,27 +8934,27 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) IsF
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigBridgesOptsParameters_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Subtract(other *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask {
-	result := &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{}
 	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -7361,19 +8970,19 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Sub
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask {
-	result := &Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -7381,13 +8990,13 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) ToP
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigBridgesOptsParameters_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -7397,12 +9006,12 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Fro
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7413,15 +9022,15 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Unm
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7432,22 +9041,22 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Unm
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) AppendPath(path DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) AppendPath(path DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) GetPaths() []DeviceSpecNetworkConfigBridgesOptsParameters_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) GetPaths() []DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -7458,8 +9067,8 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Get
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigBridgesOptsParameters_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -7467,7 +9076,7 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Set
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Set(target, source *Device_Spec_NetworkConfig_BridgesOpts_Parameters) {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_BridgesOpts_Parameters) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -7478,38 +9087,38 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Set
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_BridgesOpts_Parameters), source.(*Device_Spec_NetworkConfig_BridgesOpts_Parameters))
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_BridgesOpts_Parameters), source.(*Device_Spec_NetworkingConfig_BridgesOpts_Parameters))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Project(source *Device_Spec_NetworkConfig_BridgesOpts_Parameters) *Device_Spec_NetworkConfig_BridgesOpts_Parameters {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Project(source *Device_Spec_NetworkingConfig_BridgesOpts_Parameters) *Device_Spec_NetworkingConfig_BridgesOpts_Parameters {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_BridgesOpts_Parameters{}
+	result := &Device_Spec_NetworkingConfig_BridgesOpts_Parameters{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigBridgesOptsParameters_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorAgeingTime:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorAgeingTime:
 				result.AgeingTime = source.AgeingTime
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPriority:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPriority:
 				result.Priority = source.Priority
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPortPriority:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPortPriority:
 				result.PortPriority = source.PortPriority
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorForwardDelay:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorForwardDelay:
 				result.ForwardDelay = source.ForwardDelay
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorHelloTime:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorHelloTime:
 				result.HelloTime = source.HelloTime
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorMaxAge:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorMaxAge:
 				result.MaxAge = source.MaxAge
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPathCost:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorPathCost:
 				result.PathCost = source.PathCost
-			case DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorStp:
+			case DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPathSelectorStp:
 				result.Stp = source.Stp
 			}
 		}
@@ -7517,45 +9126,45 @@ func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) Pro
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_BridgesOpts_Parameters))
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_BridgesOpts_Parameters))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BridgesOpts_Parameters_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigBondsOptsParameters_FieldPath
+type Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask() *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask {
-	res := &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMode})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorLacpRate})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMiiMonitorInterval})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMinLinks})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorTransmitHashPolicy})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorAdSelect})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorAllSlavesActive})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpIpTargets})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpValidate})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpAllTargets})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorUpDelay})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorFailOverMacPolicy})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorGratuitousArp})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPacketsPerSlave})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPrimaryReselectPolicy})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorResendIgmp})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorLearnPacketInterval})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPrimary})
+func FullDevice_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask() *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask {
+	res := &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMode})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorLacpRate})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMiiMonitorInterval})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMinLinks})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorTransmitHashPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorAdSelect})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorAllSlavesActive})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpIpTargets})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpValidate})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpAllTargets})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorUpDelay})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorFailOverMacPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorGratuitousArp})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPacketsPerSlave})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPrimaryReselectPolicy})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorResendIgmp})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorLearnPacketInterval})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath{selector: DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPrimary})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -7567,7 +9176,7 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Strin
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -7580,9 +9189,9 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Encod
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigBondsOptsParameters_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigBondsOptsParameters_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -7591,13 +9200,13 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Decod
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 18)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -7609,27 +9218,27 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) IsFul
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigBondsOptsParameters_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigBondsOptsParameters_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Subtract(other *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask {
-	result := &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{}
 	removedSelectors := make([]bool, 18)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -7645,19 +9254,19 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Subtr
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask {
-	result := &Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask {
+	result := &Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -7665,13 +9274,13 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) ToPro
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigBondsOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigBondsOptsParameters_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigBondsOptsParameters_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -7681,12 +9290,12 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) FromP
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7697,15 +9306,15 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Unmar
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7716,22 +9325,22 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Unmar
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) AppendPath(path DeviceSpecNetworkConfigBondsOptsParameters_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) AppendPath(path DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigBondsOptsParameters_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) GetPaths() []DeviceSpecNetworkConfigBondsOptsParameters_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) GetPaths() []DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -7742,8 +9351,8 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) GetRa
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigBondsOptsParameters_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigBondsOptsParameters_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -7751,7 +9360,7 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) SetFr
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Set(target, source *Device_Spec_NetworkConfig_BondsOpts_Parameters) {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_BondsOpts_Parameters) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -7762,58 +9371,58 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Set(t
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_BondsOpts_Parameters), source.(*Device_Spec_NetworkConfig_BondsOpts_Parameters))
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_BondsOpts_Parameters), source.(*Device_Spec_NetworkingConfig_BondsOpts_Parameters))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Project(source *Device_Spec_NetworkConfig_BondsOpts_Parameters) *Device_Spec_NetworkConfig_BondsOpts_Parameters {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Project(source *Device_Spec_NetworkingConfig_BondsOpts_Parameters) *Device_Spec_NetworkingConfig_BondsOpts_Parameters {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_BondsOpts_Parameters{}
+	result := &Device_Spec_NetworkingConfig_BondsOpts_Parameters{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigBondsOptsParameters_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMode:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMode:
 				result.Mode = source.Mode
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorLacpRate:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorLacpRate:
 				result.LacpRate = source.LacpRate
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMiiMonitorInterval:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMiiMonitorInterval:
 				result.MiiMonitorInterval = source.MiiMonitorInterval
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorMinLinks:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorMinLinks:
 				result.MinLinks = source.MinLinks
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorTransmitHashPolicy:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorTransmitHashPolicy:
 				result.TransmitHashPolicy = source.TransmitHashPolicy
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorAdSelect:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorAdSelect:
 				result.AdSelect = source.AdSelect
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorAllSlavesActive:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorAllSlavesActive:
 				result.AllSlavesActive = source.AllSlavesActive
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpIpTargets:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpIpTargets:
 				result.ArpIpTargets = source.ArpIpTargets
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpValidate:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpValidate:
 				result.ArpValidate = source.ArpValidate
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorArpAllTargets:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorArpAllTargets:
 				result.ArpAllTargets = source.ArpAllTargets
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorUpDelay:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorUpDelay:
 				result.UpDelay = source.UpDelay
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorFailOverMacPolicy:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorFailOverMacPolicy:
 				result.FailOverMacPolicy = source.FailOverMacPolicy
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorGratuitousArp:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorGratuitousArp:
 				result.GratuitousArp = source.GratuitousArp
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPacketsPerSlave:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPacketsPerSlave:
 				result.PacketsPerSlave = source.PacketsPerSlave
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPrimaryReselectPolicy:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPrimaryReselectPolicy:
 				result.PrimaryReselectPolicy = source.PrimaryReselectPolicy
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorResendIgmp:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorResendIgmp:
 				result.ResendIgmp = source.ResendIgmp
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorLearnPacketInterval:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorLearnPacketInterval:
 				result.LearnPacketInterval = source.LearnPacketInterval
-			case DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPrimary:
+			case DeviceSpecNetworkingConfigBondsOptsParameters_FieldPathSelectorPrimary:
 				result.Primary = source.Primary
 			}
 		}
@@ -7821,29 +9430,29 @@ func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) Proje
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_BondsOpts_Parameters))
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_BondsOpts_Parameters))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_BondsOpts_Parameters_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask struct {
-	Paths []DeviceSpecNetworkConfigTunnelsOptsKey_FieldPath
+type Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask struct {
+	Paths []DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath
 }
 
-func FullDevice_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask() *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask {
-	res := &Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorInput})
-	res.Paths = append(res.Paths, &DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath{selector: DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorOutput})
+func FullDevice_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask() *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask {
+	res := &Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOptsKey_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPathSelectorInput})
+	res.Paths = append(res.Paths, &DeviceSpecNetworkingConfigTunnelsOptsKey_FieldTerminalPath{selector: DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPathSelectorOutput})
 	return res
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) String() string {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -7855,7 +9464,7 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) String() s
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -7868,9 +9477,9 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) EncodeFire
 	}, nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecNetworkConfigTunnelsOptsKey_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -7879,13 +9488,13 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) DecodeFire
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) IsFull() bool {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceSpecNetworkingConfigTunnelsOptsKey_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -7897,27 +9506,27 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) IsFull() b
 	return true
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceSpecNetworkConfigTunnelsOptsKey_FieldPath(raw)
+		return ParseDeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) ProtoMessage() {}
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ProtoMessage() {}
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Reset() {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Subtract(other *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask {
-	result := &Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Subtract(other *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask {
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask{}
 	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigTunnelsOptsKey_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -7933,19 +9542,19 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Subtract(o
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask))
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) FilterInputFields() *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask {
-	result := &Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FilterInputFields() *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask {
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -7953,13 +9562,13 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) ToProtoFie
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceSpecNetworkConfigTunnelsOptsKey_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceSpecNetworkConfigTunnelsOptsKey_FieldPath(strPath)
+		path, err := ParseDeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -7969,12 +9578,12 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) FromProtoF
 }
 
 // implement methods required by customType
-func (fieldMask Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -7985,15 +9594,15 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Unmarshal(
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Size() int {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -8004,22 +9613,22 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) UnmarshalJ
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) AppendPath(path DeviceSpecNetworkConfigTunnelsOptsKey_FieldPath) {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) AppendPath(path DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkConfigTunnelsOptsKey_FieldPath))
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) GetPaths() []DeviceSpecNetworkConfigTunnelsOptsKey_FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) GetPaths() []DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -8030,8 +9639,8 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) GetRawPath
 	return rawPaths
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceSpecNetworkConfigTunnelsOptsKey_FieldPath(raw)
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -8039,7 +9648,7 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) SetFromCli
 	return nil
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Set(target, source *Device_Spec_NetworkConfig_TunnelsOpts_Key) {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Set(target, source *Device_Spec_NetworkingConfig_TunnelsOpts_Key) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -8050,26 +9659,26 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Set(target
 	}
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Spec_NetworkConfig_TunnelsOpts_Key), source.(*Device_Spec_NetworkConfig_TunnelsOpts_Key))
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_NetworkingConfig_TunnelsOpts_Key), source.(*Device_Spec_NetworkingConfig_TunnelsOpts_Key))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Project(source *Device_Spec_NetworkConfig_TunnelsOpts_Key) *Device_Spec_NetworkConfig_TunnelsOpts_Key {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Project(source *Device_Spec_NetworkingConfig_TunnelsOpts_Key) *Device_Spec_NetworkingConfig_TunnelsOpts_Key {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Spec_NetworkConfig_TunnelsOpts_Key{}
+	result := &Device_Spec_NetworkingConfig_TunnelsOpts_Key{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath:
+		case *DeviceSpecNetworkingConfigTunnelsOptsKey_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorInput:
+			case DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPathSelectorInput:
 				result.Input = source.Input
-			case DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorOutput:
+			case DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPathSelectorOutput:
 				result.Output = source.Output
 			}
 		}
@@ -8077,11 +9686,11 @@ func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) Project(so
 	return result
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Spec_NetworkConfig_TunnelsOpts_Key))
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_NetworkingConfig_TunnelsOpts_Key))
 }
 
-func (fieldMask *Device_Spec_NetworkConfig_TunnelsOpts_Key_FieldMask) PathsCount() int {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -8918,6 +10527,8 @@ func FullDevice_Status_DeviceInfo_FieldMask() *Device_Status_DeviceInfo_FieldMas
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorOsVersion})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorDriver})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo})
 	return res
 }
 
@@ -8961,7 +10572,7 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfo_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -8991,12 +10602,14 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_FieldMask) *Device_Status_DeviceInfo_FieldMask {
 	result := &Device_Status_DeviceInfo_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[DeviceStatusDeviceInfo_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation: &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:       &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo: &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatusDeviceInfo_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation: &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:       &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo: &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -9014,6 +10627,8 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Subtract(other *Device_Stat
 					switch tp.selector {
 					case DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:
 						mySubMasks[DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation] = FullDevice_Status_DeviceInfo_HardwareInformation_FieldMask()
+					case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
+						mySubMasks[DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo] = FullDevice_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatusDeviceInfo_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -9168,6 +10783,10 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 	result := &Device_Status_DeviceInfo{}
 	hardwareInformationMask := &Device_Status_DeviceInfo_HardwareInformation_FieldMask{}
 	wholeHardwareInformationAccepted := false
+	controlPlaneInterfaceInfoMask := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{}
+	wholeControlPlaneInterfaceInfoAccepted := false
+	var networkInterfacesMapKeys []string
+	wholeNetworkInterfacesAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -9190,16 +10809,40 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 			case DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:
 				result.HardwareInformation = source.HardwareInformation
 				wholeHardwareInformationAccepted = true
+			case DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces:
+				result.NetworkInterfaces = source.NetworkInterfaces
+				wholeNetworkInterfacesAccepted = true
+			case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
+				result.ControlPlaneInterfaceInfo = source.ControlPlaneInterfaceInfo
+				wholeControlPlaneInterfaceInfoAccepted = true
 			}
 		case *DeviceStatusDeviceInfo_FieldSubPath:
 			switch tp.selector {
 			case DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:
 				hardwareInformationMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformation_FieldPath))
+			case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
+				controlPlaneInterfaceInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath))
+			}
+		case *DeviceStatusDeviceInfo_FieldPathMap:
+			switch tp.selector {
+			case DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces:
+				networkInterfacesMapKeys = append(networkInterfacesMapKeys, tp.key)
 			}
 		}
 	}
 	if wholeHardwareInformationAccepted == false && len(hardwareInformationMask.Paths) > 0 {
 		result.HardwareInformation = hardwareInformationMask.Project(source.GetHardwareInformation())
+	}
+	if wholeNetworkInterfacesAccepted == false && len(networkInterfacesMapKeys) > 0 && source.GetNetworkInterfaces() != nil {
+		copiedMap := map[string]*Device_Status_DeviceInfo_NetworkInterface{}
+		sourceMap := source.GetNetworkInterfaces()
+		for _, key := range networkInterfacesMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.NetworkInterfaces = copiedMap
+	}
+	if wholeControlPlaneInterfaceInfoAccepted == false && len(controlPlaneInterfaceInfoMask.Paths) > 0 {
+		result.ControlPlaneInterfaceInfo = controlPlaneInterfaceInfoMask.Project(source.GetControlPlaneInterfaceInfo())
 	}
 	return result
 }
@@ -9231,6 +10874,7 @@ func FullDevice_Status_DeviceInfo_HardwareInformation_FieldMask() *Device_Status
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus})
 	return res
 }
 
@@ -9274,7 +10918,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) IsFull(
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -9304,30 +10948,32 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Reset()
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_FieldMask {
 	result := &Device_Status_DeviceInfo_HardwareInformation_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:         &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:       &Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorSystem:     &Device_Status_DeviceInfo_HardwareInformation_System_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorCpu:        &Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBlock:      &Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:    &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:        &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:  &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:          &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:        &Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorSystem:      &Device_Status_DeviceInfo_HardwareInformation_System_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorCpu:         &Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBlock:       &Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:     &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:         &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:  &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:   &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:  &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:         &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:       &Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorSystem:     &Device_Status_DeviceInfo_HardwareInformation_System_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorCpu:        &Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBlock:      &Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:    &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:        &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:  &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
-		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo: &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:          &Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:        &Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorSystem:      &Device_Status_DeviceInfo_HardwareInformation_System_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorCpu:         &Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBlock:       &Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:     &Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:         &Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:  &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo:   &Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:  &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -9363,6 +11009,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Subtrac
 						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorHailoInfo] = FullDevice_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask()
 					case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
 						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo] = FullDevice_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -9535,6 +11183,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 	wholeHailoInfoAccepted := false
 	nvidiaInfoMask := &Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask{}
 	wholeNvidiaInfoAccepted := false
+	modemStatusMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{}
+	wholeModemStatusAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -9570,6 +11220,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
 				result.NvidiaInfo = source.NvidiaInfo
 				wholeNvidiaInfoAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus:
+				result.ModemStatus = source.ModemStatus
+				wholeModemStatusAccepted = true
 			}
 		case *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath:
 			switch tp.selector {
@@ -9593,6 +11246,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 				hailoInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath))
 			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNvidiaInfo:
 				nvidiaInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorModemStatus:
+				modemStatusMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath))
 			}
 		}
 	}
@@ -9626,6 +11281,11 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 	if wholeNvidiaInfoAccepted == false && len(nvidiaInfoMask.Paths) > 0 {
 		result.NvidiaInfo = nvidiaInfoMask.Project(source.GetNvidiaInfo())
 	}
+	if wholeModemStatusAccepted == false && len(modemStatusMask.Paths) > 0 {
+		for _, sourceItem := range source.GetModemStatus() {
+			result.ModemStatus = append(result.ModemStatus, modemStatusMask.Project(sourceItem))
+		}
+	}
 	return result
 }
 
@@ -9634,6 +11294,585 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Project
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_NetworkInterface_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoNetworkInterface_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_NetworkInterface_FieldMask() *Device_Status_DeviceInfo_NetworkInterface_FieldMask {
+	res := &Device_Status_DeviceInfo_NetworkInterface_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorInterfaceName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorIpAddressV4})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorExternalIpAddressV4})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorIpAddressV6})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorExternalIpAddressV6})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 7)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Subtract(other *Device_Status_DeviceInfo_NetworkInterface_FieldMask) *Device_Status_DeviceInfo_NetworkInterface_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_FieldMask{}
+	removedSelectors := make([]bool, 7)
+	otherSubMasks := map[DeviceStatusDeviceInfoNetworkInterface_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo:  &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{},
+		DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier: &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoNetworkInterface_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo:  &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{},
+		DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier: &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoNetworkInterface_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo:
+						mySubMasks[DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo] = FullDevice_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask()
+					case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier:
+						mySubMasks[DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier] = FullDevice_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoNetworkInterface_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoNetworkInterface_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_NetworkInterface_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_NetworkInterface_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterface_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) AppendPath(path DeviceStatusDeviceInfoNetworkInterface_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoNetworkInterface_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) GetPaths() []DeviceStatusDeviceInfoNetworkInterface_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Set(target, source *Device_Status_DeviceInfo_NetworkInterface) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_NetworkInterface), source.(*Device_Status_DeviceInfo_NetworkInterface))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Project(source *Device_Status_DeviceInfo_NetworkInterface) *Device_Status_DeviceInfo_NetworkInterface {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_NetworkInterface{}
+	asInfoMask := &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{}
+	wholeAsInfoAccepted := false
+	carrierMask := &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{}
+	wholeCarrierAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterface_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorInterfaceName:
+				result.InterfaceName = source.InterfaceName
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorIpAddressV4:
+				result.IpAddressV4 = source.IpAddressV4
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorExternalIpAddressV4:
+				result.ExternalIpAddressV4 = source.ExternalIpAddressV4
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorIpAddressV6:
+				result.IpAddressV6 = source.IpAddressV6
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorExternalIpAddressV6:
+				result.ExternalIpAddressV6 = source.ExternalIpAddressV6
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo:
+				result.AsInfo = source.AsInfo
+				wholeAsInfoAccepted = true
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier:
+				result.Carrier = source.Carrier
+				wholeCarrierAccepted = true
+			}
+		case *DeviceStatusDeviceInfoNetworkInterface_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorAsInfo:
+				asInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath))
+			case DeviceStatusDeviceInfoNetworkInterface_FieldPathSelectorCarrier:
+				carrierMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath))
+			}
+		}
+	}
+	if wholeAsInfoAccepted == false && len(asInfoMask.Paths) > 0 {
+		result.AsInfo = asInfoMask.Project(source.GetAsInfo())
+	}
+	if wholeCarrierAccepted == false && len(carrierMask.Paths) > 0 {
+		result.Carrier = carrierMask.Project(source.GetCarrier())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_NetworkInterface))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask() *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorActiveControlPlaneInterface})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorUsesProxy})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorIsFallback})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo), source.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Project(source *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorActiveControlPlaneInterface:
+				result.ActiveControlPlaneInterface = source.ActiveControlPlaneInterface
+			case DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorUsesProxy:
+				result.UsesProxy = source.UsesProxy
+			case DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathSelectorIsFallback:
+				result.IsFallback = source.IsFallback
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -13043,6 +15282,296 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMa
 	return len(fieldMask.Paths)
 }
 
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus{}
+	modemMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{}
+	wholeModemAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem:
+				result.Modem = source.Modem
+				wholeModemAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPathSelectorModem:
+				modemMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath))
+			}
+		}
+	}
+	if wholeModemAccepted == false && len(modemMask.Paths) > 0 {
+		result.Modem = modemMask.Project(source.GetModem())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask struct {
 	Paths []DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath
 }
@@ -16172,6 +18701,6302 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPathSelectorDrxCycle})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPathSelectorMicoMode})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPathSelectorDrxCycle:
+				result.DrxCycle = source.DrxCycle
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPathSelectorMicoMode:
+				result.MicoMode = source.MicoMode
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr{}
+	registrationSettingsMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask{}
+	wholeRegistrationSettingsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings:
+				result.RegistrationSettings = source.RegistrationSettings
+				wholeRegistrationSettingsAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPathSelectorRegistrationSettings:
+				registrationSettingsMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath))
+			}
+		}
+	}
+	if wholeRegistrationSettingsAccepted == false && len(registrationSettingsMask.Paths) > 0 {
+		result.RegistrationSettings = registrationSettingsMask.Project(source.GetRegistrationSettings())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorApn})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorIpType})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorPassword})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorUser})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorApn:
+				result.Apn = source.Apn
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorIpType:
+				result.IpType = source.IpType
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorPassword:
+				result.Password = source.Password
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPathSelectorUser:
+				result.User = source.User
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorDbusPath})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer{}
+	settingsMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask{}
+	wholeSettingsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorDbusPath:
+				result.DbusPath = source.DbusPath
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings:
+				result.Settings = source.Settings
+				wholeSettingsAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPathSelectorSettings:
+				settingsMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath))
+			}
+		}
+	}
+	if wholeSettingsAccepted == false && len(settingsMask.Paths) > 0 {
+		result.Settings = settingsMask.Project(source.GetSettings())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorUeModeOperation})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps{}
+	initialBearerMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask{}
+	wholeInitialBearerAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer:
+				result.InitialBearer = source.InitialBearer
+				wholeInitialBearerAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorUeModeOperation:
+				result.UeModeOperation = source.UeModeOperation
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPathSelectorInitialBearer:
+				initialBearerMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath))
+			}
+		}
+	}
+	if wholeInitialBearerAccepted == false && len(initialBearerMask.Paths) > 0 {
+		result.InitialBearer = initialBearerMask.Project(source.GetInitialBearer())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEnabledLocks})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorImei})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorOperatorCode})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorOperatorName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorPacketServiceState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorPco})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorRegistrationState})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 9)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{}
+	removedSelectors := make([]bool, 9)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp{}
+	fivegNrMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask{}
+	wholeFivegNrAccepted := false
+	epsMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask{}
+	wholeEpsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr:
+				result.FivegNr = source.FivegNr
+				wholeFivegNrAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEnabledLocks:
+				result.EnabledLocks = source.EnabledLocks
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps:
+				result.Eps = source.Eps
+				wholeEpsAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorImei:
+				result.Imei = source.Imei
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorOperatorCode:
+				result.OperatorCode = source.OperatorCode
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorOperatorName:
+				result.OperatorName = source.OperatorName
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorPacketServiceState:
+				result.PacketServiceState = source.PacketServiceState
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorPco:
+				result.Pco = source.Pco
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorRegistrationState:
+				result.RegistrationState = source.RegistrationState
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorFivegNr:
+				fivegNrMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPathSelectorEps:
+				epsMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath))
+			}
+		}
+	}
+	if wholeFivegNrAccepted == false && len(fivegNrMask.Paths) > 0 {
+		result.FivegNr = fivegNrMask.Project(source.GetFivegNr())
+	}
+	if wholeEpsAccepted == false && len(epsMask.Paths) > 0 {
+		result.Eps = epsMask.Project(source.GetEps())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorActivationState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorCdma1xRegistrationState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorEsn})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorEvdoRegistrationState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorMeid})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorNid})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorSid})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 7)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{}
+	removedSelectors := make([]bool, 7)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorActivationState:
+				result.ActivationState = source.ActivationState
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorCdma1xRegistrationState:
+				result.Cdma1XRegistrationState = source.Cdma1XRegistrationState
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorEsn:
+				result.Esn = source.Esn
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorEvdoRegistrationState:
+				result.EvdoRegistrationState = source.EvdoRegistrationState
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorMeid:
+				result.Meid = source.Meid
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorNid:
+				result.Nid = source.Nid
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPathSelectorSid:
+				result.Sid = source.Sid
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPathSelectorRecent})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPathSelectorValue})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPathSelectorRecent:
+				result.Recent = source.Recent
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPathSelectorValue:
+				result.Value = source.Value
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorAccessTechnologies})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorBearers})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCarrierConfiguration})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCarrierConfigurationRevision})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentBands})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentCapabilities})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentModes})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDevice})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDeviceIdentifier})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDrivers})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorEquipmentIdentifier})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorHardwareRevision})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorManufacturer})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorModel})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorOwnNumbers})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPlugin})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPorts})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPowerState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPrimaryPort})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPrimarySimSlot})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorRevision})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSim})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSimSlots})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorState})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorStateFailedReason})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedBands})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedCapabilities})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedIpFamilies})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedModes})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorUnlockRequired})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorUnlockRetries})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 32)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{}
+	removedSelectors := make([]bool, 32)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic{}
+	signalQualityMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask{}
+	wholeSignalQualityAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorAccessTechnologies:
+				result.AccessTechnologies = source.AccessTechnologies
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorBearers:
+				result.Bearers = source.Bearers
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCarrierConfiguration:
+				result.CarrierConfiguration = source.CarrierConfiguration
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCarrierConfigurationRevision:
+				result.CarrierConfigurationRevision = source.CarrierConfigurationRevision
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentBands:
+				result.CurrentBands = source.CurrentBands
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentCapabilities:
+				result.CurrentCapabilities = source.CurrentCapabilities
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorCurrentModes:
+				result.CurrentModes = source.CurrentModes
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDevice:
+				result.Device = source.Device
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDeviceIdentifier:
+				result.DeviceIdentifier = source.DeviceIdentifier
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorDrivers:
+				result.Drivers = source.Drivers
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorEquipmentIdentifier:
+				result.EquipmentIdentifier = source.EquipmentIdentifier
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorHardwareRevision:
+				result.HardwareRevision = source.HardwareRevision
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorManufacturer:
+				result.Manufacturer = source.Manufacturer
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorModel:
+				result.Model = source.Model
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorOwnNumbers:
+				result.OwnNumbers = source.OwnNumbers
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPlugin:
+				result.Plugin = source.Plugin
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPorts:
+				result.Ports = source.Ports
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPowerState:
+				result.PowerState = source.PowerState
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPrimaryPort:
+				result.PrimaryPort = source.PrimaryPort
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorPrimarySimSlot:
+				result.PrimarySimSlot = source.PrimarySimSlot
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorRevision:
+				result.Revision = source.Revision
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality:
+				result.SignalQuality = source.SignalQuality
+				wholeSignalQualityAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSim:
+				result.Sim = source.Sim
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSimSlots:
+				result.SimSlots = source.SimSlots
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorState:
+				result.State = source.State
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorStateFailedReason:
+				result.StateFailedReason = source.StateFailedReason
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedBands:
+				result.SupportedBands = source.SupportedBands
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedCapabilities:
+				result.SupportedCapabilities = source.SupportedCapabilities
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedIpFamilies:
+				result.SupportedIpFamilies = source.SupportedIpFamilies
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSupportedModes:
+				result.SupportedModes = source.SupportedModes
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorUnlockRequired:
+				result.UnlockRequired = source.UnlockRequired
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorUnlockRetries:
+				result.UnlockRetries = source.UnlockRetries
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPathSelectorSignalQuality:
+				signalQualityMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath))
+			}
+		}
+	}
+	if wholeSignalQualityAccepted == false && len(signalQualityMask.Paths) > 0 {
+		result.SignalQuality = signalQualityMask.Project(source.GetSignalQuality())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorRsrp})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorRsrq})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorSnr})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorRsrp:
+				result.Rsrp = source.Rsrp
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorRsrq:
+				result.Rsrq = source.Rsrq
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPathSelectorSnr:
+				result.Snr = source.Snr
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorEcio})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorRssi})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorEcio:
+				result.Ecio = source.Ecio
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorEcio})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorIo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorRssi})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorSinr})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorEcio:
+				result.Ecio = source.Ecio
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorIo:
+				result.Io = source.Io
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPathSelectorSinr:
+				result.Sinr = source.Sinr
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPathSelectorRssi})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRsrp})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRsrq})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRssi})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorSnr})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRsrp:
+				result.Rsrp = source.Rsrp
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRsrq:
+				result.Rsrq = source.Rsrq
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPathSelectorSnr:
+				result.Snr = source.Snr
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPathSelectorRate})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPathSelectorRate:
+				result.Rate = source.Rate
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPathSelectorRssi})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorEcio})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorErrorRate})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorRscp})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorRssi})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorEcio:
+				result.Ecio = source.Ecio
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorErrorRate:
+				result.ErrorRate = source.ErrorRate
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorRscp:
+				result.Rscp = source.Rscp
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPathSelectorRssi:
+				result.Rssi = source.Rssi
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 8)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{}
+	removedSelectors := make([]bool, 8)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X:    &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo:      &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm:       &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh:   &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts:      &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X:    &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo:      &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm:       &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh:   &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts:      &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal{}
+	fiveGMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask{}
+	wholeFiveGAccepted := false
+	cdma1XMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask{}
+	wholeCdma1XAccepted := false
+	evdoMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask{}
+	wholeEvdoAccepted := false
+	gsmMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask{}
+	wholeGsmAccepted := false
+	lteSignalMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask{}
+	wholeLteSignalAccepted := false
+	refreshMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask{}
+	wholeRefreshAccepted := false
+	thresholdMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask{}
+	wholeThresholdAccepted := false
+	umtsMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask{}
+	wholeUmtsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG:
+				result.FiveG = source.FiveG
+				wholeFiveGAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X:
+				result.Cdma1X = source.Cdma1X
+				wholeCdma1XAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo:
+				result.Evdo = source.Evdo
+				wholeEvdoAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm:
+				result.Gsm = source.Gsm
+				wholeGsmAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal:
+				result.LteSignal = source.LteSignal
+				wholeLteSignalAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh:
+				result.Refresh = source.Refresh
+				wholeRefreshAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold:
+				result.Threshold = source.Threshold
+				wholeThresholdAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts:
+				result.Umts = source.Umts
+				wholeUmtsAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorFiveG:
+				fiveGMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorCdma1X:
+				cdma1XMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorEvdo:
+				evdoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorGsm:
+				gsmMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorLteSignal:
+				lteSignalMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorRefresh:
+				refreshMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorThreshold:
+				thresholdMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPathSelectorUmts:
+				umtsMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath))
+			}
+		}
+	}
+	if wholeFiveGAccepted == false && len(fiveGMask.Paths) > 0 {
+		result.FiveG = fiveGMask.Project(source.GetFiveG())
+	}
+	if wholeCdma1XAccepted == false && len(cdma1XMask.Paths) > 0 {
+		result.Cdma1X = cdma1XMask.Project(source.GetCdma1X())
+	}
+	if wholeEvdoAccepted == false && len(evdoMask.Paths) > 0 {
+		result.Evdo = evdoMask.Project(source.GetEvdo())
+	}
+	if wholeGsmAccepted == false && len(gsmMask.Paths) > 0 {
+		result.Gsm = gsmMask.Project(source.GetGsm())
+	}
+	if wholeLteSignalAccepted == false && len(lteSignalMask.Paths) > 0 {
+		result.LteSignal = lteSignalMask.Project(source.GetLteSignal())
+	}
+	if wholeRefreshAccepted == false && len(refreshMask.Paths) > 0 {
+		result.Refresh = refreshMask.Project(source.GetRefresh())
+	}
+	if wholeThresholdAccepted == false && len(thresholdMask.Paths) > 0 {
+		result.Threshold = thresholdMask.Project(source.GetThreshold())
+	}
+	if wholeUmtsAccepted == false && len(umtsMask.Paths) > 0 {
+		result.Umts = umtsMask.Project(source.GetUmts())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorDbusPath})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorActive})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEid})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEmergencyNumbers})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEsimStatus})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorGid1})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorGid2})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorIccid})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorImsi})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorOperatorCode})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorOperatorName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorRemovability})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorSimType})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 13)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask{}
+	removedSelectors := make([]bool, 13)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorDbusPath:
+				result.DbusPath = source.DbusPath
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorActive:
+				result.Active = source.Active
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEid:
+				result.Eid = source.Eid
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEmergencyNumbers:
+				result.EmergencyNumbers = source.EmergencyNumbers
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorEsimStatus:
+				result.EsimStatus = source.EsimStatus
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorGid1:
+				result.Gid1 = source.Gid1
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorGid2:
+				result.Gid2 = source.Gid2
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorIccid:
+				result.Iccid = source.Iccid
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorImsi:
+				result.Imsi = source.Imsi
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorOperatorCode:
+				result.OperatorCode = source.OperatorCode
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorOperatorName:
+				result.OperatorName = source.OperatorName
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorRemovability:
+				result.Removability = source.Removability
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPathSelectorSimType:
+				result.SimType = source.SimType
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorDbusPath})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSimStatus})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{}
+	removedSelectors := make([]bool, 6)
+	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric:  &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal:   &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp: &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma:     &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric:  &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal:   &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal] = FullDevice_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem), source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem{}
+	threeGPpMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask{}
+	wholeThreeGPpAccepted := false
+	cdmaMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask{}
+	wholeCdmaAccepted := false
+	genericMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask{}
+	wholeGenericAccepted := false
+	signalMask := &Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask{}
+	wholeSignalAccepted := false
+	var simStatusMapKeys []string
+	wholeSimStatusAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp:
+				result.ThreeGPp = source.ThreeGPp
+				wholeThreeGPpAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma:
+				result.Cdma = source.Cdma
+				wholeCdmaAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorDbusPath:
+				result.DbusPath = source.DbusPath
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric:
+				result.Generic = source.Generic
+				wholeGenericAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal:
+				result.Signal = source.Signal
+				wholeSignalAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSimStatus:
+				result.SimStatus = source.SimStatus
+				wholeSimStatusAccepted = true
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorThreeGPp:
+				threeGPpMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorCdma:
+				cdmaMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorGeneric:
+				genericMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSignal:
+				signalMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath))
+			}
+		case *DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathMap:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPathSelectorSimStatus:
+				simStatusMapKeys = append(simStatusMapKeys, tp.key)
+			}
+		}
+	}
+	if wholeThreeGPpAccepted == false && len(threeGPpMask.Paths) > 0 {
+		result.ThreeGPp = threeGPpMask.Project(source.GetThreeGPp())
+	}
+	if wholeCdmaAccepted == false && len(cdmaMask.Paths) > 0 {
+		result.Cdma = cdmaMask.Project(source.GetCdma())
+	}
+	if wholeGenericAccepted == false && len(genericMask.Paths) > 0 {
+		result.Generic = genericMask.Project(source.GetGeneric())
+	}
+	if wholeSignalAccepted == false && len(signalMask.Paths) > 0 {
+		result.Signal = signalMask.Project(source.GetSignal())
+	}
+	if wholeSimStatusAccepted == false && len(simStatusMapKeys) > 0 && source.GetSimStatus() != nil {
+		copiedMap := map[string]*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus{}
+		sourceMap := source.GetSimStatus()
+		for _, key := range simStatusMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.SimStatus = copiedMap
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask() *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask {
+	res := &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorAsn})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorDomain})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorRoutes})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorAsnType})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) AppendPath(path DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) GetPaths() []DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Set(target, source *Device_Status_DeviceInfo_NetworkInterface_ASInfo) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_NetworkInterface_ASInfo), source.(*Device_Status_DeviceInfo_NetworkInterface_ASInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Project(source *Device_Status_DeviceInfo_NetworkInterface_ASInfo) *Device_Status_DeviceInfo_NetworkInterface_ASInfo {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_NetworkInterface_ASInfo{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorAsn:
+				result.Asn = source.Asn
+			case DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorName:
+				result.Name = source.Name
+			case DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorDomain:
+				result.Domain = source.Domain
+			case DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorRoutes:
+				result.Routes = source.Routes
+			case DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPathSelectorAsnType:
+				result.AsnType = source.AsnType
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_NetworkInterface_ASInfo))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask() *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask {
+	res := &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorMobileCountryCode})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorMobileNetworkCode})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath{selector: DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorLocationAreaCode})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Subtract(other *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask {
+	result := &Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) AppendPath(path DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) GetPaths() []DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Set(target, source *Device_Status_DeviceInfo_NetworkInterface_Carrier) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_NetworkInterface_Carrier), source.(*Device_Status_DeviceInfo_NetworkInterface_Carrier))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Project(source *Device_Status_DeviceInfo_NetworkInterface_Carrier) *Device_Status_DeviceInfo_NetworkInterface_Carrier {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_NetworkInterface_Carrier{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorName:
+				result.Name = source.Name
+			case DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorMobileCountryCode:
+				result.MobileCountryCode = source.MobileCountryCode
+			case DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorMobileNetworkCode:
+				result.MobileNetworkCode = source.MobileNetworkCode
+			case DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPathSelectorLocationAreaCode:
+				result.LocationAreaCode = source.LocationAreaCode
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_NetworkInterface_Carrier))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

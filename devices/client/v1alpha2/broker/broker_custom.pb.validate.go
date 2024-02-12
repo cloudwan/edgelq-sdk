@@ -115,6 +115,12 @@ func (obj *ListenForConnectionsResponse) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ListenForConnectionsResponse", "channelRequested", opt.ChannelRequested, "nested object validation failed", err)
 			}
 		}
+	case *ListenForConnectionsResponse_KeepAlive_:
+		if subobj, ok := interface{}(opt.KeepAlive).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListenForConnectionsResponse", "keepAlive", opt.KeepAlive, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}
@@ -124,6 +130,15 @@ func (obj *ListenForConnectionsResponse) GotenValidate() error {
 	return nil
 }
 func (obj *ListenForConnectionsResponse_ChannelRequested) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ListenForConnectionsResponse_KeepAlive) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

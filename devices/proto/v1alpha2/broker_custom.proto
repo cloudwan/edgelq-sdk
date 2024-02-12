@@ -50,6 +50,9 @@ message ListenForConnectionsResponse {
   oneof msg {
     // Notifies a new channel has been requested by a client.
     ChannelRequested channel_requested = 1;
+
+    // Keepalive
+    KeepAlive keep_alive = 2;
   }
 
   message ChannelRequested {
@@ -62,6 +65,8 @@ message ListenForConnectionsResponse {
     // Initial argument (optional)
     string arg = 3;
   }
+
+  message KeepAlive {}
 }
 
 // Request message for method

@@ -11,6 +11,8 @@ import (
 
 // proto imports
 import (
+	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/common"
+	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
@@ -33,6 +35,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common.PodSpec{}
+	_ = &distribution.Distribution{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
 	_ = &devices_device.Device{}
@@ -200,6 +204,10 @@ func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 
 func (b *filterCndBuilder) Spec() *filterCndBuilderSpec {
 	return &filterCndBuilderSpec{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Distribution() *filterCndBuilderDistribution {
+	return &filterCndBuilderDistribution{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Status() *filterCndBuilderStatus {
@@ -2193,37 +2201,37 @@ type filterCndBuilderSpec struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpec) Eq(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Eq(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpec) Neq(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Neq(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpec) Gt(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Gt(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpec) Gte(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Gte(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpec) Lt(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Lt(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpec) Lte(value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Lte(value *common.PodSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpec) In(values []*Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) In(values []*common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpec) NotIn(values []*Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) NotIn(values []*common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().WithArrayOfValues(values),
 	})
@@ -2241,7 +2249,7 @@ func (b *filterCndBuilderSpec) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpec) compare(op gotenfilter.CompareOperator, value *Pod_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) compare(op gotenfilter.CompareOperator, value *common.PodSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().WithValue(value),
@@ -2343,37 +2351,37 @@ type filterCndBuilderSpecContainers struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainers) Eq(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Eq(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainers) Neq(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Neq(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainers) Gt(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Gt(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainers) Gte(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Gte(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainers) Lt(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Lt(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainers) Lte(value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Lte(value []*common.PodSpec_Container) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainers) In(values [][]*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) In(values [][]*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainers) NotIn(values [][]*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) NotIn(values [][]*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().WithArrayOfValues(values),
 	})
@@ -2391,7 +2399,7 @@ func (b *filterCndBuilderSpecContainers) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainers) Contains(value *Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) Contains(value *common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Containers().FieldPath(),
@@ -2399,7 +2407,7 @@ func (b *filterCndBuilderSpecContainers) Contains(value *Pod_Spec_Container) *Fi
 	})
 }
 
-func (b *filterCndBuilderSpecContainers) ContainsAnyOf(values []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) ContainsAnyOf(values []*common.PodSpec_Container) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2412,7 +2420,7 @@ func (b *filterCndBuilderSpecContainers) ContainsAnyOf(values []*Pod_Spec_Contai
 	})
 }
 
-func (b *filterCndBuilderSpecContainers) ContainsAll(values []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) ContainsAll(values []*common.PodSpec_Container) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2425,7 +2433,7 @@ func (b *filterCndBuilderSpecContainers) ContainsAll(values []*Pod_Spec_Containe
 	})
 }
 
-func (b *filterCndBuilderSpecContainers) compare(op gotenfilter.CompareOperator, value []*Pod_Spec_Container) *FilterBuilder {
+func (b *filterCndBuilderSpecContainers) compare(op gotenfilter.CompareOperator, value []*common.PodSpec_Container) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().WithValue(value),
@@ -2662,37 +2670,37 @@ type filterCndBuilderSpecContainersEnv struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Eq(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Eq(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Neq(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Neq(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Gt(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Gt(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Gte(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Gte(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Lt(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Lt(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Lte(value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Lte(value []*common.EnvVar) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnv) In(values [][]*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) In(values [][]*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnv) NotIn(values [][]*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) NotIn(values [][]*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().WithArrayOfValues(values),
 	})
@@ -2710,7 +2718,7 @@ func (b *filterCndBuilderSpecContainersEnv) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnv) Contains(value *EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) Contains(value *common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Containers().Env().FieldPath(),
@@ -2718,7 +2726,7 @@ func (b *filterCndBuilderSpecContainersEnv) Contains(value *EnvVar) *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnv) ContainsAnyOf(values []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) ContainsAnyOf(values []*common.EnvVar) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers().Env()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2731,7 +2739,7 @@ func (b *filterCndBuilderSpecContainersEnv) ContainsAnyOf(values []*EnvVar) *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnv) ContainsAll(values []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) ContainsAll(values []*common.EnvVar) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers().Env()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2744,7 +2752,7 @@ func (b *filterCndBuilderSpecContainersEnv) ContainsAll(values []*EnvVar) *Filte
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnv) compare(op gotenfilter.CompareOperator, value []*EnvVar) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnv) compare(op gotenfilter.CompareOperator, value []*common.EnvVar) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().Env().WithValue(value),
@@ -2885,37 +2893,37 @@ type filterCndBuilderSpecContainersEnvValueFrom struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Eq(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Eq(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Neq(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Neq(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Gt(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Gt(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Gte(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Gte(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Lt(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Lt(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) Lte(value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) Lte(value *common.EnvVarSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) In(values []*EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) In(values []*common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) NotIn(values []*EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) NotIn(values []*common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().WithArrayOfValues(values),
 	})
@@ -2933,7 +2941,7 @@ func (b *filterCndBuilderSpecContainersEnvValueFrom) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFrom) compare(op gotenfilter.CompareOperator, value *EnvVarSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFrom) compare(op gotenfilter.CompareOperator, value *common.EnvVarSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().WithValue(value),
@@ -2952,37 +2960,37 @@ type filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Eq(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Eq(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Neq(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Neq(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Gt(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Gt(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Gte(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Gte(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Lt(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Lt(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Lte(value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) Lte(value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) In(values []*ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) In(values []*common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) NotIn(values []*ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) NotIn(values []*common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithArrayOfValues(values),
 	})
@@ -3000,7 +3008,7 @@ func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) IsNan() *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) compare(op gotenfilter.CompareOperator, value *ConfigMapKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromConfigMapKeyRef) compare(op gotenfilter.CompareOperator, value *common.ConfigMapKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().ConfigMapKeyRef().WithValue(value),
@@ -3200,37 +3208,37 @@ type filterCndBuilderSpecContainersEnvValueFromSecretKeyRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Eq(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Eq(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Neq(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Neq(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Gt(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Gt(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Gte(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Gte(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Lt(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Lt(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Lte(value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) Lte(value *common.SecretKeySelector) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) In(values []*SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) In(values []*common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) NotIn(values []*SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) NotIn(values []*common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithArrayOfValues(values),
 	})
@@ -3248,7 +3256,7 @@ func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) IsNan() *Filter
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) compare(op gotenfilter.CompareOperator, value *SecretKeySelector) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvValueFromSecretKeyRef) compare(op gotenfilter.CompareOperator, value *common.SecretKeySelector) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().Env().ValueFrom().SecretKeyRef().WithValue(value),
@@ -3625,37 +3633,37 @@ type filterCndBuilderSpecContainersResources struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersResources) Eq(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Eq(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) Neq(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Neq(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) Gt(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Gt(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) Gte(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Gte(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) Lt(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Lt(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) Lte(value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) Lte(value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersResources) In(values []*Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) In(values []*common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Resources().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersResources) NotIn(values []*Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) NotIn(values []*common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().Resources().WithArrayOfValues(values),
 	})
@@ -3673,7 +3681,7 @@ func (b *filterCndBuilderSpecContainersResources) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersResources) compare(op gotenfilter.CompareOperator, value *Pod_Spec_Container_ResourceRequirements) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersResources) compare(op gotenfilter.CompareOperator, value *common.PodSpec_Container_ResourceRequirements) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().Resources().WithValue(value),
@@ -3938,37 +3946,37 @@ type filterCndBuilderSpecContainersSecurityContext struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Eq(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Eq(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Neq(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Neq(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Gt(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Gt(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Gte(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Gte(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Lt(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Lt(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) Lte(value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) Lte(value *common.SecurityContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) In(values []*SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) In(values []*common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().SecurityContext().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) NotIn(values []*SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) NotIn(values []*common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().SecurityContext().WithArrayOfValues(values),
 	})
@@ -3986,7 +3994,7 @@ func (b *filterCndBuilderSpecContainersSecurityContext) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersSecurityContext) compare(op gotenfilter.CompareOperator, value *SecurityContext) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersSecurityContext) compare(op gotenfilter.CompareOperator, value *common.SecurityContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().SecurityContext().WithValue(value),
@@ -4060,37 +4068,37 @@ type filterCndBuilderSpecContainersVolumeMounts struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Eq(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Eq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Neq(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Neq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Gt(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Gt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Gte(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Gte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Lt(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Lt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Lte(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Lte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) In(values [][]*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) In(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().VolumeMounts().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) NotIn(values [][]*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) NotIn(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().VolumeMounts().WithArrayOfValues(values),
 	})
@@ -4108,7 +4116,7 @@ func (b *filterCndBuilderSpecContainersVolumeMounts) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) Contains(value *VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) Contains(value *common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Containers().VolumeMounts().FieldPath(),
@@ -4116,7 +4124,7 @@ func (b *filterCndBuilderSpecContainersVolumeMounts) Contains(value *VolumeMount
 	})
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAnyOf(values []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAnyOf(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers().VolumeMounts()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4129,7 +4137,7 @@ func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAnyOf(values []*Vol
 	})
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAll(values []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAll(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Containers().VolumeMounts()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4142,7 +4150,7 @@ func (b *filterCndBuilderSpecContainersVolumeMounts) ContainsAll(values []*Volum
 	})
 }
 
-func (b *filterCndBuilderSpecContainersVolumeMounts) compare(op gotenfilter.CompareOperator, value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersVolumeMounts) compare(op gotenfilter.CompareOperator, value []*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().VolumeMounts().WithValue(value),
@@ -4405,37 +4413,37 @@ type filterCndBuilderSpecContainersEnvFrom struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Eq(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Eq(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Neq(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Neq(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Gt(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Gt(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Gte(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Gte(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Lt(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Lt(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) Lte(value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) Lte(value *common.EnvFromSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) In(values []*EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) In(values []*common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) NotIn(values []*EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) NotIn(values []*common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().WithArrayOfValues(values),
 	})
@@ -4453,7 +4461,7 @@ func (b *filterCndBuilderSpecContainersEnvFrom) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFrom) compare(op gotenfilter.CompareOperator, value *EnvFromSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFrom) compare(op gotenfilter.CompareOperator, value *common.EnvFromSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().WithValue(value),
@@ -4535,37 +4543,37 @@ type filterCndBuilderSpecContainersEnvFromConfigMapRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Eq(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Eq(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Neq(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Neq(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Gt(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Gt(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Gte(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Gte(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Lt(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Lt(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Lte(value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) Lte(value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) In(values []*ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) In(values []*common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().ConfigMapRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) NotIn(values []*ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) NotIn(values []*common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().ConfigMapRef().WithArrayOfValues(values),
 	})
@@ -4583,7 +4591,7 @@ func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) IsNan() *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) compare(op gotenfilter.CompareOperator, value *ConfigMapEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromConfigMapRef) compare(op gotenfilter.CompareOperator, value *common.ConfigMapEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().ConfigMapRef().WithValue(value),
@@ -4720,37 +4728,37 @@ type filterCndBuilderSpecContainersEnvFromSecretRef struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Eq(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Eq(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Neq(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Neq(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Gt(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Gt(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Gte(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Gte(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Lt(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Lt(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Lte(value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) Lte(value *common.SecretEnvSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) In(values []*SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) In(values []*common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().SecretRef().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) NotIn(values []*SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) NotIn(values []*common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().SecretRef().WithArrayOfValues(values),
 	})
@@ -4768,7 +4776,7 @@ func (b *filterCndBuilderSpecContainersEnvFromSecretRef) IsNan() *FilterBuilder 
 	})
 }
 
-func (b *filterCndBuilderSpecContainersEnvFromSecretRef) compare(op gotenfilter.CompareOperator, value *SecretEnvSource) *FilterBuilder {
+func (b *filterCndBuilderSpecContainersEnvFromSecretRef) compare(op gotenfilter.CompareOperator, value *common.SecretEnvSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Containers().EnvFrom().SecretRef().WithValue(value),
@@ -4964,37 +4972,37 @@ type filterCndBuilderSpecRestartPolicy struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Eq(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Eq(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Neq(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Neq(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Gt(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Gt(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Gte(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Gte(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Lt(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Lt(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) Lte(value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) Lte(value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) In(values []Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) In(values []common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().RestartPolicy().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) NotIn(values []Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) NotIn(values []common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().RestartPolicy().WithArrayOfValues(values),
 	})
@@ -5012,7 +5020,7 @@ func (b *filterCndBuilderSpecRestartPolicy) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecRestartPolicy) compare(op gotenfilter.CompareOperator, value Pod_Spec_RestartPolicy) *FilterBuilder {
+func (b *filterCndBuilderSpecRestartPolicy) compare(op gotenfilter.CompareOperator, value common.PodSpec_RestartPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().RestartPolicy().WithValue(value),
@@ -5023,37 +5031,37 @@ type filterCndBuilderSpecImagePullSecrets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Eq(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Eq(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Neq(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Neq(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Gt(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Gt(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Gte(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Gte(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Lt(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Lt(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Lte(value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Lte(value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) In(values [][]*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) In(values [][]*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().ImagePullSecrets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) NotIn(values [][]*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) NotIn(values [][]*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().ImagePullSecrets().WithArrayOfValues(values),
 	})
@@ -5071,7 +5079,7 @@ func (b *filterCndBuilderSpecImagePullSecrets) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) Contains(value *LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) Contains(value *common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().ImagePullSecrets().FieldPath(),
@@ -5079,7 +5087,7 @@ func (b *filterCndBuilderSpecImagePullSecrets) Contains(value *LocalObjectRefere
 	})
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) ContainsAnyOf(values []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) ContainsAnyOf(values []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().ImagePullSecrets()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5092,7 +5100,7 @@ func (b *filterCndBuilderSpecImagePullSecrets) ContainsAnyOf(values []*LocalObje
 	})
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) ContainsAll(values []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) ContainsAll(values []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().ImagePullSecrets()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5105,7 +5113,7 @@ func (b *filterCndBuilderSpecImagePullSecrets) ContainsAll(values []*LocalObject
 	})
 }
 
-func (b *filterCndBuilderSpecImagePullSecrets) compare(op gotenfilter.CompareOperator, value []*LocalObjectReferenceSecret) *FilterBuilder {
+func (b *filterCndBuilderSpecImagePullSecrets) compare(op gotenfilter.CompareOperator, value []*common.LocalObjectReferenceSecret) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().ImagePullSecrets().WithValue(value),
@@ -5179,37 +5187,37 @@ type filterCndBuilderSpecVolumes struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumes) Eq(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Eq(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) Neq(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Neq(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) Gt(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Gt(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) Gte(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Gte(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) Lt(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Lt(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) Lte(value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Lte(value []*common.Volume) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumes) In(values [][]*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) In(values [][]*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumes) NotIn(values [][]*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) NotIn(values [][]*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().WithArrayOfValues(values),
 	})
@@ -5227,7 +5235,7 @@ func (b *filterCndBuilderSpecVolumes) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumes) Contains(value *Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) Contains(value *common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Volumes().FieldPath(),
@@ -5235,7 +5243,7 @@ func (b *filterCndBuilderSpecVolumes) Contains(value *Volume) *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumes) ContainsAnyOf(values []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) ContainsAnyOf(values []*common.Volume) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5248,7 +5256,7 @@ func (b *filterCndBuilderSpecVolumes) ContainsAnyOf(values []*Volume) *FilterBui
 	})
 }
 
-func (b *filterCndBuilderSpecVolumes) ContainsAll(values []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) ContainsAll(values []*common.Volume) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5261,7 +5269,7 @@ func (b *filterCndBuilderSpecVolumes) ContainsAll(values []*Volume) *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderSpecVolumes) compare(op gotenfilter.CompareOperator, value []*Volume) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumes) compare(op gotenfilter.CompareOperator, value []*common.Volume) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().WithValue(value),
@@ -5347,37 +5355,37 @@ type filterCndBuilderSpecVolumesHostPath struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Eq(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Eq(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Neq(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Neq(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Gt(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Gt(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Gte(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Gte(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Lt(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Lt(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) Lte(value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) Lte(value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) In(values []*HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) In(values []*common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().HostPath().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) NotIn(values []*HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) NotIn(values []*common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().HostPath().WithArrayOfValues(values),
 	})
@@ -5395,7 +5403,7 @@ func (b *filterCndBuilderSpecVolumesHostPath) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesHostPath) compare(op gotenfilter.CompareOperator, value *HostPathVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPath) compare(op gotenfilter.CompareOperator, value *common.HostPathVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().HostPath().WithValue(value),
@@ -5473,37 +5481,37 @@ type filterCndBuilderSpecVolumesHostPathType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Eq(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Eq(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Neq(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Neq(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Gt(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Gt(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Gte(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Gte(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Lt(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Lt(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) Lte(value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) Lte(value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) In(values []HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) In(values []common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().HostPath().Type().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) NotIn(values []HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) NotIn(values []common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().HostPath().Type().WithArrayOfValues(values),
 	})
@@ -5521,7 +5529,7 @@ func (b *filterCndBuilderSpecVolumesHostPathType) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesHostPathType) compare(op gotenfilter.CompareOperator, value HostPathVolumeSource_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesHostPathType) compare(op gotenfilter.CompareOperator, value common.HostPathVolumeSource_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().HostPath().Type().WithValue(value),
@@ -5532,37 +5540,37 @@ type filterCndBuilderSpecVolumesSecret struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Eq(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Eq(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Neq(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Neq(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Gt(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Gt(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Gte(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Gte(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Lt(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Lt(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) Lte(value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) Lte(value *common.SecretVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) In(values []*SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) In(values []*common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().Secret().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) NotIn(values []*SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) NotIn(values []*common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().Secret().WithArrayOfValues(values),
 	})
@@ -5580,7 +5588,7 @@ func (b *filterCndBuilderSpecVolumesSecret) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecret) compare(op gotenfilter.CompareOperator, value *SecretVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecret) compare(op gotenfilter.CompareOperator, value *common.SecretVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().Secret().WithValue(value),
@@ -5666,37 +5674,37 @@ type filterCndBuilderSpecVolumesSecretItems struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Eq(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Eq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Neq(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Neq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Gt(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Gt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Gte(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Gte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Lt(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Lt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Lte(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Lte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) In(values [][]*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) In(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().Secret().Items().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) NotIn(values [][]*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) NotIn(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().Secret().Items().WithArrayOfValues(values),
 	})
@@ -5714,7 +5722,7 @@ func (b *filterCndBuilderSpecVolumesSecretItems) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) Contains(value *KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) Contains(value *common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Volumes().Secret().Items().FieldPath(),
@@ -5722,7 +5730,7 @@ func (b *filterCndBuilderSpecVolumesSecretItems) Contains(value *KeyToPath) *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAnyOf(values []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAnyOf(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes().Secret().Items()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5735,7 +5743,7 @@ func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAnyOf(values []*KeyToPa
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAll(values []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAll(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes().Secret().Items()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -5748,7 +5756,7 @@ func (b *filterCndBuilderSpecVolumesSecretItems) ContainsAll(values []*KeyToPath
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesSecretItems) compare(op gotenfilter.CompareOperator, value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesSecretItems) compare(op gotenfilter.CompareOperator, value []*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().Secret().Items().WithValue(value),
@@ -6066,37 +6074,37 @@ type filterCndBuilderSpecVolumesConfigMap struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Eq(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Eq(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Neq(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Neq(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Gt(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Gt(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Gte(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Gte(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Lt(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Lt(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) Lte(value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) Lte(value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) In(values []*ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) In(values []*common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) NotIn(values []*ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) NotIn(values []*common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().WithArrayOfValues(values),
 	})
@@ -6114,7 +6122,7 @@ func (b *filterCndBuilderSpecVolumesConfigMap) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMap) compare(op gotenfilter.CompareOperator, value *ConfigMapVolumeSource) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMap) compare(op gotenfilter.CompareOperator, value *common.ConfigMapVolumeSource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().WithValue(value),
@@ -6200,37 +6208,37 @@ type filterCndBuilderSpecVolumesConfigMapItems struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Eq(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Eq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Neq(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Neq(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Gt(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Gt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Gte(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Gte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Lt(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Lt(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Lte(value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Lte(value []*common.KeyToPath) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) In(values [][]*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) In(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) NotIn(values [][]*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) NotIn(values [][]*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items().WithArrayOfValues(values),
 	})
@@ -6248,7 +6256,7 @@ func (b *filterCndBuilderSpecVolumesConfigMapItems) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) Contains(value *KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) Contains(value *common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items().FieldPath(),
@@ -6256,7 +6264,7 @@ func (b *filterCndBuilderSpecVolumesConfigMapItems) Contains(value *KeyToPath) *
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAnyOf(values []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAnyOf(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6269,7 +6277,7 @@ func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAnyOf(values []*KeyT
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAll(values []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAll(values []*common.KeyToPath) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6282,7 +6290,7 @@ func (b *filterCndBuilderSpecVolumesConfigMapItems) ContainsAll(values []*KeyToP
 	})
 }
 
-func (b *filterCndBuilderSpecVolumesConfigMapItems) compare(op gotenfilter.CompareOperator, value []*KeyToPath) *FilterBuilder {
+func (b *filterCndBuilderSpecVolumesConfigMapItems) compare(op gotenfilter.CompareOperator, value []*common.KeyToPath) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().Volumes().ConfigMap().Items().WithValue(value),
@@ -6659,37 +6667,37 @@ type filterCndBuilderSpecHostVolumeMounts struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Eq(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Eq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Neq(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Neq(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Gt(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Gt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Gte(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Gte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Lt(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Lt(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Lte(value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Lte(value []*common.VolumeMount) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) In(values [][]*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) In(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().HostVolumeMounts().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) NotIn(values [][]*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) NotIn(values [][]*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Spec().HostVolumeMounts().WithArrayOfValues(values),
 	})
@@ -6707,7 +6715,7 @@ func (b *filterCndBuilderSpecHostVolumeMounts) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) Contains(value *VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) Contains(value *common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPodFieldPathBuilder().Spec().HostVolumeMounts().FieldPath(),
@@ -6715,7 +6723,7 @@ func (b *filterCndBuilderSpecHostVolumeMounts) Contains(value *VolumeMount) *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAnyOf(values []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAnyOf(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().HostVolumeMounts()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6728,7 +6736,7 @@ func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAnyOf(values []*VolumeMou
 	})
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAll(values []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAll(values []*common.VolumeMount) *FilterBuilder {
 	pathSelector := NewPodFieldPathBuilder().Spec().HostVolumeMounts()
 	itemValues := make([]Pod_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6741,7 +6749,7 @@ func (b *filterCndBuilderSpecHostVolumeMounts) ContainsAll(values []*VolumeMount
 	})
 }
 
-func (b *filterCndBuilderSpecHostVolumeMounts) compare(op gotenfilter.CompareOperator, value []*VolumeMount) *FilterBuilder {
+func (b *filterCndBuilderSpecHostVolumeMounts) compare(op gotenfilter.CompareOperator, value []*common.VolumeMount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().HostVolumeMounts().WithValue(value),
@@ -6997,6 +7005,65 @@ func (b *filterCndBuilderSpecHostVolumeMountsSubPath) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Spec().HostVolumeMounts().SubPath().WithValue(value),
+	})
+}
+
+type filterCndBuilderDistribution struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDistribution) Eq(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDistribution) Neq(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDistribution) Gt(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDistribution) Gte(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDistribution) Lt(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDistribution) Lte(value *distribution.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDistribution) In(values []*distribution.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Distribution().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDistribution) NotIn(values []*distribution.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Distribution().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDistribution) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPodFieldPathBuilder().Distribution().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDistribution) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPodFieldPathBuilder().Distribution().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDistribution) compare(op gotenfilter.CompareOperator, value *distribution.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Pod_FieldPathValue: NewPodFieldPathBuilder().Distribution().WithValue(value),
 	})
 }
 

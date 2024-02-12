@@ -45,8 +45,8 @@ var (
 	_ = &ntt_meta.Meta{}
 )
 
-var permission_RegexpId = regexp.MustCompile("^(?P<permission_id>[\\w@!\\\\.|-]{4,128})$")
-var regexPath = regexp.MustCompile("^permissions/(?P<permission_id>-|[\\w@!\\\\.|-]{4,128})$")
+var permission_RegexpId = regexp.MustCompile("^(?P<permission_id>[\\w@!\\\\.|-]{4,256})$")
+var regexPath = regexp.MustCompile("^permissions/(?P<permission_id>-|[\\w@!\\\\.|-]{4,256})$")
 
 func (r *Permission) MaybePopulateDefaults() error {
 	permissionInterface := interface{}(r)

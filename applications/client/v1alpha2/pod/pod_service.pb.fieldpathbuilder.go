@@ -2452,6 +2452,10 @@ func (BatchGetPodsResponsePathSelectorPodsStatus) ContainerStatuses() BatchGetPo
 	return BatchGetPodsResponsePathSelectorPodsStatusContainerStatuses{}
 }
 
+func (BatchGetPodsResponsePathSelectorPodsStatus) Error() BatchGetPodsResponsePathSelectorPodsStatusError {
+	return BatchGetPodsResponsePathSelectorPodsStatusError{}
+}
+
 type BatchGetPodsResponsePathSelectorPodsStatusPhase struct{}
 
 func (BatchGetPodsResponsePathSelectorPodsStatusPhase) FieldPath() *BatchGetPodsResponse_FieldSubPath {
@@ -2802,6 +2806,23 @@ func (s BatchGetPodsResponsePathSelectorPodsStatusContainerStatusesTerminatedCon
 }
 
 func (s BatchGetPodsResponsePathSelectorPodsStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsStatusError struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsStatusError) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Status().Error().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsStatusError) WithValue(value string) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsStatusError) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -5252,6 +5273,10 @@ func (ListPodsResponsePathSelectorPodsStatus) ContainerStatuses() ListPodsRespon
 	return ListPodsResponsePathSelectorPodsStatusContainerStatuses{}
 }
 
+func (ListPodsResponsePathSelectorPodsStatus) Error() ListPodsResponsePathSelectorPodsStatusError {
+	return ListPodsResponsePathSelectorPodsStatusError{}
+}
+
 type ListPodsResponsePathSelectorPodsStatusPhase struct{}
 
 func (ListPodsResponsePathSelectorPodsStatusPhase) FieldPath() *ListPodsResponse_FieldSubPath {
@@ -5602,6 +5627,23 @@ func (s ListPodsResponsePathSelectorPodsStatusContainerStatusesTerminatedContain
 }
 
 func (s ListPodsResponsePathSelectorPodsStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsStatusError struct{}
+
+func (ListPodsResponsePathSelectorPodsStatusError) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Status().Error().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsStatusError) WithValue(value string) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsStatusError) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -8450,6 +8492,10 @@ func (CreatePodRequestPathSelectorPodStatus) ContainerStatuses() CreatePodReques
 	return CreatePodRequestPathSelectorPodStatusContainerStatuses{}
 }
 
+func (CreatePodRequestPathSelectorPodStatus) Error() CreatePodRequestPathSelectorPodStatusError {
+	return CreatePodRequestPathSelectorPodStatusError{}
+}
+
 type CreatePodRequestPathSelectorPodStatusPhase struct{}
 
 func (CreatePodRequestPathSelectorPodStatusPhase) FieldPath() *CreatePodRequest_FieldSubPath {
@@ -8800,6 +8846,23 @@ func (s CreatePodRequestPathSelectorPodStatusContainerStatusesTerminatedContaine
 }
 
 func (s CreatePodRequestPathSelectorPodStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodStatusError struct{}
+
+func (CreatePodRequestPathSelectorPodStatusError) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Status().Error().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodStatusError) WithValue(value string) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodStatusError) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11084,6 +11147,10 @@ func (UpdatePodRequestPathSelectorPodStatus) ContainerStatuses() UpdatePodReques
 	return UpdatePodRequestPathSelectorPodStatusContainerStatuses{}
 }
 
+func (UpdatePodRequestPathSelectorPodStatus) Error() UpdatePodRequestPathSelectorPodStatusError {
+	return UpdatePodRequestPathSelectorPodStatusError{}
+}
+
 type UpdatePodRequestPathSelectorPodStatusPhase struct{}
 
 func (UpdatePodRequestPathSelectorPodStatusPhase) FieldPath() *UpdatePodRequest_FieldSubPath {
@@ -11434,6 +11501,23 @@ func (s UpdatePodRequestPathSelectorPodStatusContainerStatusesTerminatedContaine
 }
 
 func (s UpdatePodRequestPathSelectorPodStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodStatusError struct{}
+
+func (UpdatePodRequestPathSelectorPodStatusError) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Status().Error().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodStatusError) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodStatusError) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13739,6 +13823,10 @@ func (UpdatePodRequestPathSelectorCasConditionalStateStatus) ContainerStatuses()
 	return UpdatePodRequestPathSelectorCasConditionalStateStatusContainerStatuses{}
 }
 
+func (UpdatePodRequestPathSelectorCasConditionalStateStatus) Error() UpdatePodRequestPathSelectorCasConditionalStateStatusError {
+	return UpdatePodRequestPathSelectorCasConditionalStateStatusError{}
+}
+
 type UpdatePodRequestPathSelectorCasConditionalStateStatusPhase struct{}
 
 func (UpdatePodRequestPathSelectorCasConditionalStateStatusPhase) FieldPath() *UpdatePodRequest_FieldSubPath {
@@ -14089,6 +14177,23 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateStatusContainerStatusesTe
 }
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateStatusError struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateStatusError) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Status().Error().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateStatusError) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateStatusError) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -16398,6 +16503,10 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateStatus) ContainerStatuses(
 	return UpdatePodRequest_CASPathSelectorConditionalStateStatusContainerStatuses{}
 }
 
+func (UpdatePodRequest_CASPathSelectorConditionalStateStatus) Error() UpdatePodRequest_CASPathSelectorConditionalStateStatusError {
+	return UpdatePodRequest_CASPathSelectorConditionalStateStatusError{}
+}
+
 type UpdatePodRequest_CASPathSelectorConditionalStateStatusPhase struct{}
 
 func (UpdatePodRequest_CASPathSelectorConditionalStateStatusPhase) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
@@ -16748,6 +16857,23 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateStatusContainerStatusesT
 }
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateStatusContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateStatusError struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateStatusError) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Status().Error().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateStatusError) WithValue(value string) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateStatusError) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 

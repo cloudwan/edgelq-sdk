@@ -1986,12 +1986,15 @@ type ListenForConnectionsResponse_FieldPathSelector int32
 
 const (
 	ListenForConnectionsResponse_FieldPathSelectorChannelRequested ListenForConnectionsResponse_FieldPathSelector = 0
+	ListenForConnectionsResponse_FieldPathSelectorKeepAlive        ListenForConnectionsResponse_FieldPathSelector = 1
 )
 
 func (s ListenForConnectionsResponse_FieldPathSelector) String() string {
 	switch s {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return "channel_requested"
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return "keep_alive"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", s))
 	}
@@ -2005,6 +2008,8 @@ func BuildListenForConnectionsResponse_FieldPath(fp gotenobject.RawFieldPath) (L
 		switch fp[0] {
 		case "channel_requested", "channelRequested", "channel-requested":
 			return &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorChannelRequested}, nil
+		case "keep_alive", "keepAlive", "keep-alive":
+			return &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2013,6 +2018,12 @@ func BuildListenForConnectionsResponse_FieldPath(fp gotenobject.RawFieldPath) (L
 				return nil, err
 			} else {
 				return &ListenForConnectionsResponse_FieldSubPath{selector: ListenForConnectionsResponse_FieldPathSelectorChannelRequested, subPath: subpath}, nil
+			}
+		case "keep_alive", "keepAlive", "keep-alive":
+			if subpath, err := BuildListenForConnectionsResponseKeepAlive_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ListenForConnectionsResponse_FieldSubPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive, subPath: subpath}, nil
 			}
 		}
 	}
@@ -2065,6 +2076,12 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) Get(source *ListenForC
 					values = append(values, source.ChannelRequested)
 				}
 			}
+		case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+			if source, ok := source.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok && source != nil {
+				if source.KeepAlive != nil {
+					values = append(values, source.KeepAlive)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
 		}
@@ -2082,6 +2099,9 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) GetSingle(source *List
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		res := source.GetChannelRequested()
 		return res, res != nil
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		res := source.GetKeepAlive()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
 	}
@@ -2096,6 +2116,8 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) GetDefault() interface
 	switch fp.selector {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return (*ListenForConnectionsResponse_ChannelRequested)(nil)
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return (*ListenForConnectionsResponse_KeepAlive)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
 	}
@@ -2107,6 +2129,10 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) ClearValue(item *Liste
 		case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 			if item, ok := item.Msg.(*ListenForConnectionsResponse_ChannelRequested_); ok {
 				item.ChannelRequested = nil
+			}
+		case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+			if item, ok := item.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok {
+				item.KeepAlive = nil
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
@@ -2131,6 +2157,8 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) WithIValue(value inter
 	switch fp.selector {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return &ListenForConnectionsResponse_FieldTerminalPathValue{ListenForConnectionsResponse_FieldTerminalPath: *fp, value: value.(*ListenForConnectionsResponse_ChannelRequested)}
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return &ListenForConnectionsResponse_FieldTerminalPathValue{ListenForConnectionsResponse_FieldTerminalPath: *fp, value: value.(*ListenForConnectionsResponse_KeepAlive)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
 	}
@@ -2145,6 +2173,8 @@ func (fp *ListenForConnectionsResponse_FieldTerminalPath) WithIArrayOfValues(val
 	switch fp.selector {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return &ListenForConnectionsResponse_FieldTerminalPathArrayOfValues{ListenForConnectionsResponse_FieldTerminalPath: *fp, values: values.([]*ListenForConnectionsResponse_ChannelRequested)}
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return &ListenForConnectionsResponse_FieldTerminalPathArrayOfValues{ListenForConnectionsResponse_FieldTerminalPath: *fp, values: values.([]*ListenForConnectionsResponse_KeepAlive)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fp.selector))
 	}
@@ -2180,6 +2210,10 @@ func (fps *ListenForConnectionsResponse_FieldSubPath) AsChannelRequestedSubPath(
 	res, ok := fps.subPath.(ListenForConnectionsResponseChannelRequested_FieldPath)
 	return res, ok
 }
+func (fps *ListenForConnectionsResponse_FieldSubPath) AsKeepAliveSubPath() (ListenForConnectionsResponseKeepAlive_FieldPath, bool) {
+	res, ok := fps.subPath.(ListenForConnectionsResponseKeepAlive_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ListenForConnectionsResponse_FieldSubPath) String() string {
@@ -2196,6 +2230,8 @@ func (fps *ListenForConnectionsResponse_FieldSubPath) Get(source *ListenForConne
 	switch fps.selector {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		values = append(values, fps.subPath.GetRaw(source.GetChannelRequested())...)
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		values = append(values, fps.subPath.GetRaw(source.GetKeepAlive())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fps.selector))
 	}
@@ -2214,6 +2250,11 @@ func (fps *ListenForConnectionsResponse_FieldSubPath) GetSingle(source *ListenFo
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetChannelRequested())
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		if source.GetKeepAlive() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetKeepAlive())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fps.selector))
 	}
@@ -2235,6 +2276,12 @@ func (fps *ListenForConnectionsResponse_FieldSubPath) ClearValue(item *ListenFor
 			if item.Msg != nil {
 				if item, ok := item.Msg.(*ListenForConnectionsResponse_ChannelRequested_); ok {
 					fps.subPath.ClearValueRaw(item.ChannelRequested)
+				}
+			}
+		case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+			if item.Msg != nil {
+				if item, ok := item.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok {
+					fps.subPath.ClearValueRaw(item.KeepAlive)
 				}
 			}
 		default:
@@ -2325,6 +2372,10 @@ func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) AsChannelRequest
 	res, ok := fpv.value.(*ListenForConnectionsResponse_ChannelRequested)
 	return res, ok
 }
+func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) AsKeepAliveValue() (*ListenForConnectionsResponse_KeepAlive, bool) {
+	res, ok := fpv.value.(*ListenForConnectionsResponse_KeepAlive)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListenForConnectionsResponse
 func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) SetTo(target **ListenForConnectionsResponse) {
@@ -2337,6 +2388,11 @@ func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) SetTo(target **L
 			(*target).Msg = &ListenForConnectionsResponse_ChannelRequested_{}
 		}
 		(*target).Msg.(*ListenForConnectionsResponse_ChannelRequested_).ChannelRequested = fpv.value.(*ListenForConnectionsResponse_ChannelRequested)
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		if _, ok := (*target).Msg.(*ListenForConnectionsResponse_KeepAlive_); !ok {
+			(*target).Msg = &ListenForConnectionsResponse_KeepAlive_{}
+		}
+		(*target).Msg.(*ListenForConnectionsResponse_KeepAlive_).KeepAlive = fpv.value.(*ListenForConnectionsResponse_KeepAlive)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fpv.selector))
 	}
@@ -2351,6 +2407,8 @@ func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) SetToRaw(target 
 func (fpv *ListenForConnectionsResponse_FieldTerminalPathValue) CompareWith(source *ListenForConnectionsResponse) (int, bool) {
 	switch fpv.selector {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
+		return 0, false
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fpv.selector))
@@ -2372,6 +2430,10 @@ func (fpvs *ListenForConnectionsResponse_FieldSubPathValue) AsChannelRequestedPa
 	res, ok := fpvs.subPathValue.(ListenForConnectionsResponseChannelRequested_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ListenForConnectionsResponse_FieldSubPathValue) AsKeepAlivePathValue() (ListenForConnectionsResponseKeepAlive_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ListenForConnectionsResponseKeepAlive_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ListenForConnectionsResponse_FieldSubPathValue) SetTo(target **ListenForConnectionsResponse) {
 	if *target == nil {
@@ -2383,6 +2445,11 @@ func (fpvs *ListenForConnectionsResponse_FieldSubPathValue) SetTo(target **Liste
 			(*target).Msg = &ListenForConnectionsResponse_ChannelRequested_{}
 		}
 		fpvs.subPathValue.(ListenForConnectionsResponseChannelRequested_FieldPathValue).SetTo(&(*target).Msg.(*ListenForConnectionsResponse_ChannelRequested_).ChannelRequested)
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		if _, ok := (*target).Msg.(*ListenForConnectionsResponse_KeepAlive_); !ok {
+			(*target).Msg = &ListenForConnectionsResponse_KeepAlive_{}
+		}
+		fpvs.subPathValue.(ListenForConnectionsResponseKeepAlive_FieldPathValue).SetTo(&(*target).Msg.(*ListenForConnectionsResponse_KeepAlive_).KeepAlive)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fpvs.Selector()))
 	}
@@ -2401,6 +2468,8 @@ func (fpvs *ListenForConnectionsResponse_FieldSubPathValue) CompareWith(source *
 	switch fpvs.Selector() {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return fpvs.subPathValue.(ListenForConnectionsResponseChannelRequested_FieldPathValue).CompareWith(source.GetChannelRequested())
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return fpvs.subPathValue.(ListenForConnectionsResponseKeepAlive_FieldPathValue).CompareWith(source.GetKeepAlive())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fpvs.Selector()))
 	}
@@ -2487,12 +2556,18 @@ func (fpaivs *ListenForConnectionsResponse_FieldSubPathArrayItemValue) AsChannel
 	res, ok := fpaivs.subPathItemValue.(ListenForConnectionsResponseChannelRequested_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ListenForConnectionsResponse_FieldSubPathArrayItemValue) AsKeepAlivePathItemValue() (ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ListenForConnectionsResponse'
 func (fpaivs *ListenForConnectionsResponse_FieldSubPathArrayItemValue) ContainsValue(source *ListenForConnectionsResponse) bool {
 	switch fpaivs.Selector() {
 	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
 		return fpaivs.subPathItemValue.(ListenForConnectionsResponseChannelRequested_FieldPathArrayItemValue).ContainsValue(source.GetChannelRequested())
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		return fpaivs.subPathItemValue.(ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue).ContainsValue(source.GetKeepAlive())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fpaivs.Selector()))
 	}
@@ -2537,11 +2612,19 @@ func (fpaov *ListenForConnectionsResponse_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]*ListenForConnectionsResponse_ChannelRequested) {
 			values = append(values, v)
 		}
+	case ListenForConnectionsResponse_FieldPathSelectorKeepAlive:
+		for _, v := range fpaov.values.([]*ListenForConnectionsResponse_KeepAlive) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *ListenForConnectionsResponse_FieldTerminalPathArrayOfValues) AsChannelRequestedArrayOfValues() ([]*ListenForConnectionsResponse_ChannelRequested, bool) {
 	res, ok := fpaov.values.([]*ListenForConnectionsResponse_ChannelRequested)
+	return res, ok
+}
+func (fpaov *ListenForConnectionsResponse_FieldTerminalPathArrayOfValues) AsKeepAliveArrayOfValues() ([]*ListenForConnectionsResponse_KeepAlive, bool) {
+	res, ok := fpaov.values.([]*ListenForConnectionsResponse_KeepAlive)
 	return res, ok
 }
 
@@ -2557,6 +2640,10 @@ func (fpsaov *ListenForConnectionsResponse_FieldSubPathArrayOfValues) GetRawValu
 }
 func (fpsaov *ListenForConnectionsResponse_FieldSubPathArrayOfValues) AsChannelRequestedPathArrayOfValues() (ListenForConnectionsResponseChannelRequested_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ListenForConnectionsResponseChannelRequested_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ListenForConnectionsResponse_FieldSubPathArrayOfValues) AsKeepAlivePathArrayOfValues() (ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -3021,6 +3108,341 @@ func (fpaov *ListenForConnectionsResponseChannelRequested_FieldTerminalPathArray
 func (fpaov *ListenForConnectionsResponseChannelRequested_FieldTerminalPathArrayOfValues) AsArgArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ListenForConnectionsResponseKeepAlive_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ListenForConnectionsResponseKeepAlive_FieldPathSelector
+	Get(source *ListenForConnectionsResponse_KeepAlive) []interface{}
+	GetSingle(source *ListenForConnectionsResponse_KeepAlive) (interface{}, bool)
+	ClearValue(item *ListenForConnectionsResponse_KeepAlive)
+
+	// Those methods build corresponding ListenForConnectionsResponseKeepAlive_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ListenForConnectionsResponseKeepAlive_FieldPathValue
+	WithIArrayOfValues(values interface{}) ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue
+}
+
+type ListenForConnectionsResponseKeepAlive_FieldPathSelector int32
+
+func (s ListenForConnectionsResponseKeepAlive_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", s))
+	}
+}
+
+func BuildListenForConnectionsResponseKeepAlive_FieldPath(fp gotenobject.RawFieldPath) (ListenForConnectionsResponseKeepAlive_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ListenForConnectionsResponse_KeepAlive")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListenForConnectionsResponse_KeepAlive", fp)
+}
+
+func ParseListenForConnectionsResponseKeepAlive_FieldPath(rawField string) (ListenForConnectionsResponseKeepAlive_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildListenForConnectionsResponseKeepAlive_FieldPath(fp)
+}
+
+func MustParseListenForConnectionsResponseKeepAlive_FieldPath(rawField string) ListenForConnectionsResponseKeepAlive_FieldPath {
+	fp, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ListenForConnectionsResponseKeepAlive_FieldTerminalPath struct {
+	selector ListenForConnectionsResponseKeepAlive_FieldPathSelector
+}
+
+var _ ListenForConnectionsResponseKeepAlive_FieldPath = (*ListenForConnectionsResponseKeepAlive_FieldTerminalPath)(nil)
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) Selector() ListenForConnectionsResponseKeepAlive_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ListenForConnectionsResponse_KeepAlive
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) Get(source *ListenForConnectionsResponse_KeepAlive) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+// GetSingle returns value pointed by specific field of from source ListenForConnectionsResponse_KeepAlive
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) GetSingle(source *ListenForConnectionsResponse_KeepAlive) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+	}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+	}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) ClearValue(item *ListenForConnectionsResponse_KeepAlive) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithIValue(value interface{}) ListenForConnectionsResponseKeepAlive_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+	}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues {
+	fpaov := &ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayOfValues{ListenForConnectionsResponseKeepAlive_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithIArrayItemValue(value interface{}) ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fp.selector))
+	}
+}
+
+func (fp *ListenForConnectionsResponseKeepAlive_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ListenForConnectionsResponseKeepAlive_FieldPathValue allows storing values for KeepAlive fields according to their type
+type ListenForConnectionsResponseKeepAlive_FieldPathValue interface {
+	ListenForConnectionsResponseKeepAlive_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ListenForConnectionsResponse_KeepAlive)
+	CompareWith(*ListenForConnectionsResponse_KeepAlive) (cmp int, comparable bool)
+}
+
+func ParseListenForConnectionsResponseKeepAlive_FieldPathValue(pathStr, valueStr string) (ListenForConnectionsResponseKeepAlive_FieldPathValue, error) {
+	fp, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing KeepAlive field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ListenForConnectionsResponseKeepAlive_FieldPathValue), nil
+}
+
+func MustParseListenForConnectionsResponseKeepAlive_FieldPathValue(pathStr, valueStr string) ListenForConnectionsResponseKeepAlive_FieldPathValue {
+	fpv, err := ParseListenForConnectionsResponseKeepAlive_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue struct {
+	ListenForConnectionsResponseKeepAlive_FieldTerminalPath
+	value interface{}
+}
+
+var _ ListenForConnectionsResponseKeepAlive_FieldPathValue = (*ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'KeepAlive' as interface{}
+func (fpv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object KeepAlive
+func (fpv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue) SetTo(target **ListenForConnectionsResponse_KeepAlive) {
+	if *target == nil {
+		*target = new(ListenForConnectionsResponse_KeepAlive)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fpv.selector))
+	}
+}
+
+func (fpv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ListenForConnectionsResponse_KeepAlive)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue' with the value under path in 'ListenForConnectionsResponse_KeepAlive'.
+func (fpv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue) CompareWith(source *ListenForConnectionsResponse_KeepAlive) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse_KeepAlive: %d", fpv.selector))
+	}
+}
+
+func (fpv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+// ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue allows storing single item in Path-specific values for KeepAlive according to their type
+// Present only for array (repeated) types.
+type ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ListenForConnectionsResponseKeepAlive_FieldPath
+	ContainsValue(*ListenForConnectionsResponse_KeepAlive) bool
+}
+
+// ParseListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue(pathStr, valueStr string) (ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue, error) {
+	fp, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing KeepAlive field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue), nil
+}
+
+func MustParseListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue(pathStr, valueStr string) ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue {
+	fpaiv, err := ParseListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue struct {
+	ListenForConnectionsResponseKeepAlive_FieldTerminalPath
+	value interface{}
+}
+
+var _ ListenForConnectionsResponseKeepAlive_FieldPathArrayItemValue = (*ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ListenForConnectionsResponse_KeepAlive as interface{}
+func (fpaiv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue) GetSingle(source *ListenForConnectionsResponse_KeepAlive) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'KeepAlive'
+func (fpaiv *ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayItemValue) ContainsValue(source *ListenForConnectionsResponse_KeepAlive) bool {
+	slice := fpaiv.ListenForConnectionsResponseKeepAlive_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues allows storing slice of values for KeepAlive fields according to their type
+type ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ListenForConnectionsResponseKeepAlive_FieldPath
+}
+
+func ParseListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues(pathStr, valuesStr string) (ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues, error) {
+	fp, err := ParseListenForConnectionsResponseKeepAlive_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing KeepAlive field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues), nil
+}
+
+func MustParseListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues(pathStr, valuesStr string) ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues {
+	fpaov, err := ParseListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayOfValues struct {
+	ListenForConnectionsResponseKeepAlive_FieldTerminalPath
+	values interface{}
+}
+
+var _ ListenForConnectionsResponseKeepAlive_FieldPathArrayOfValues = (*ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ListenForConnectionsResponseKeepAlive_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
 }
 
 // FieldPath provides implementation to handle

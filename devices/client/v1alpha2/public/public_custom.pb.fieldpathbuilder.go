@@ -881,12 +881,12 @@ func (ListPublicDevicesResponsePathSelectorDevicesSpec) OsVersion() ListPublicDe
 	return ListPublicDevicesResponsePathSelectorDevicesSpecOsVersion{}
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpec) NetConfig() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig{}
+func (ListPublicDevicesResponsePathSelectorDevicesSpec) NetplanConfig() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig{}
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpec) NetConfigMode() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode{}
+func (ListPublicDevicesResponsePathSelectorDevicesSpec) NetplanApiConfigMode() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode{}
 }
 
 func (ListPublicDevicesResponsePathSelectorDevicesSpec) OsImageUrl() ListPublicDevicesResponsePathSelectorDevicesSpecOsImageUrl {
@@ -911,6 +911,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesSpec) LoggingConfig() ListPubl
 
 func (ListPublicDevicesResponsePathSelectorDevicesSpec) ProxyConfig() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig {
 	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpec) Location() ListPublicDevicesResponsePathSelectorDevicesSpecLocation {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecLocation{}
 }
 
 type ListPublicDevicesResponsePathSelectorDevicesSpecServiceAccount struct{}
@@ -947,9520 +951,408 @@ func (s ListPublicDevicesResponsePathSelectorDevicesSpecOsVersion) WithArrayOfVa
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) WithValue(value *device.Device_Spec_NetworkConfig) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig) WithValue(value *device.Device_Spec_NetplanConfig) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig) WithArrayOfValues(values []*device.Device_Spec_NetplanConfig) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Version() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion{}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfig) Network() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork{}
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Ethernets() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Wifis() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Bridges() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Bonds() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Tunnels() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfig) Vlans() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Version().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVersion) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) WithValue(value []*device.Device_Spec_NetworkConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) WithItemValue(value *device.Device_Spec_NetworkConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) Match() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) SetName() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) Wakeonlan() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernets) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Match().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) WithValue(value *device.Device_Spec_NetworkConfig_EthOpts_Match) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_EthOpts_Match) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatch) Driver() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Match().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Match().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Match().Driver().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsMatchDriver) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().SetName().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsSetName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Wakeonlan().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsWakeonlan) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().Via().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().OnLink().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().Metric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().Type().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().Scope().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Routes().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().Mark().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().Method().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().Identity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().CaCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().ClientCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().ClientKey().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Opts().Auth().ClientKeyPassword().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Ethernets().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigEthernetsName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) WithValue(value []*device.Device_Spec_NetworkConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) WithItemValue(value *device.Device_Spec_NetworkConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) Match() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) SetName() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) Wakeonlan() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) AccessPoints() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifis) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Match().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) WithValue(value *device.Device_Spec_NetworkConfig_WifiOpts_Match) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_WifiOpts_Match) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatch) Driver() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Match().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Match().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Match().Driver().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisMatchDriver) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().SetName().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisSetName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Wakeonlan().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisWakeonlan) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().Via().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().OnLink().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().Metric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().Type().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().Scope().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Routes().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().Mark().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().Method().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().Identity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().CaCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().ClientCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().ClientKey().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Opts().Auth().ClientKeyPassword().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().AccessPoints().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) WithValue(value []*device.Device_Spec_NetworkConfig_WifiOpts_AccessPoint) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_WifiOpts_AccessPoint) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) WithItemValue(value *device.Device_Spec_NetworkConfig_WifiOpts_AccessPoint) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPoints) Mode() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().AccessPoints().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().AccessPoints().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().AccessPoints().Mode().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisAccessPointsMode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Wifis().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigWifisName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) WithValue(value []*device.Device_Spec_NetworkConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) WithItemValue(value *device.Device_Spec_NetworkConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) Interfaces() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) Parameters() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridges) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().Via().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().OnLink().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().Metric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().Type().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().Scope().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Routes().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().Mark().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().Method().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().Identity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().CaCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().ClientCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().ClientKey().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Opts().Auth().ClientKeyPassword().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Interfaces().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesInterfaces) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) WithValue(value *device.Device_Spec_NetworkConfig_BridgesOpts_Parameters) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_BridgesOpts_Parameters) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) AgeingTime() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) PortPriority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) ForwardDelay() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) HelloTime() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) MaxAge() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) PathCost() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParameters) Stp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().AgeingTime().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersAgeingTime) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().PortPriority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPortPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().ForwardDelay().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersForwardDelay) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().HelloTime().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersHelloTime) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().MaxAge().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersMaxAge) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().PathCost().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersPathCost) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Parameters().Stp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesParametersStp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bridges().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBridgesName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) WithValue(value []*device.Device_Spec_NetworkConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) WithItemValue(value *device.Device_Spec_NetworkConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) Interfaces() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) Parameters() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBonds) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().Via().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().OnLink().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().Metric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().Type().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().Scope().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Routes().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().Mark().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().Method().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().Identity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().CaCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().ClientCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().ClientKey().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Opts().Auth().ClientKeyPassword().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Interfaces().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsInterfaces) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) WithValue(value *device.Device_Spec_NetworkConfig_BondsOpts_Parameters) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_BondsOpts_Parameters) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) Mode() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) LacpRate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) MiiMonitorInterval() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) MinLinks() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) TransmitHashPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) AdSelect() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) AllSlavesActive() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) ArpIpTargets() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) ArpValidate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) ArpAllTargets() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) UpDelay() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) FailOverMacPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) GratuitousArp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) PacketsPerSlave() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) PrimaryReselectPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) ResendIgmp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) LearnPacketInterval() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParameters) Primary() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().Mode().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().LacpRate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLacpRate) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().MiiMonitorInterval().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMiiMonitorInterval) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().MinLinks().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersMinLinks) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().TransmitHashPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersTransmitHashPolicy) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().AdSelect().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAdSelect) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().AllSlavesActive().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersAllSlavesActive) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().ArpIpTargets().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpIpTargets) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().ArpValidate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpValidate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().ArpAllTargets().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersArpAllTargets) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().UpDelay().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersUpDelay) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().FailOverMacPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersFailOverMacPolicy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().GratuitousArp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersGratuitousArp) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().PacketsPerSlave().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPacketsPerSlave) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().PrimaryReselectPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimaryReselectPolicy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().ResendIgmp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersResendIgmp) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().LearnPacketInterval().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersLearnPacketInterval) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Parameters().Primary().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsParametersPrimary) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Bonds().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigBondsName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) WithValue(value []*device.Device_Spec_NetworkConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) WithItemValue(value *device.Device_Spec_NetworkConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Mode() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Local() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Remote() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnels) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().Via().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().OnLink().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().Metric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().Type().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().Scope().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Routes().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().Table().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().Priority().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().Mark().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().Password().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().Method().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().Identity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().CaCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().ClientCertificate().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().ClientKey().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Opts().Auth().ClientKeyPassword().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Mode().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsMode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Local().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsLocal) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Remote().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsRemote) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Key().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsKey) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Tunnels().Name().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigTunnelsName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) WithValue(value []*device.Device_Spec_NetworkConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) WithItemValue(value *device.Device_Spec_NetworkConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) Opts() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) Id() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) Link() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlans) Name() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Dhcp4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Dhcp6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Ipv6Privacy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) LinkLocal() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Critical() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) DhcpIdentifier() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Dhcp4Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Dhcp6Overrides() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) AcceptRa() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Gateway4() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Gateway6() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6 {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Nameservers() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Macaddress() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Mtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Optional() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) OptionalAddresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Routes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) RoutingPolicy() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOpts) Auth() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Renderer().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Ipv6Privacy().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsIpv6Privacy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().LinkLocal().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsLinkLocal) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Critical().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsCritical) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().DhcpIdentifier().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcpIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp4Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp4OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) UseDns() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) UseNtp() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) SendHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) UseHostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) UseMtu() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) Hostname() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) UseRoutes() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6Overrides) RouteMetric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().UseDns().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseDns) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().UseNtp().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseNtp) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().SendHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesSendHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().UseHostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseHostname) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().UseMtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseMtu) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().Hostname().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesHostname) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().UseRoutes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesUseRoutes) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Dhcp6Overrides().RouteMetric().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsDhcp6OverridesRouteMetric) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().AcceptRa().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAcceptRa) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Gateway4().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6 struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Gateway6().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsGateway6) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Nameservers().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Nameservers) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers) Search() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameservers) Addresses() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Nameservers().Search().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversSearch) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Nameservers().Addresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsNameserversAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Macaddress().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMacaddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Mtu().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsMtu) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Optional().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptional) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().OptionalAddresses().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsOptionalAddresses) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) WithValue(value []*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) WithArrayOfValues(values [][]*device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) WithItemValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Routes) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) Via() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) OnLink() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) Metric() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) Type() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) Scope() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutes) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().From().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().To().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().Via().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) WithValue(value *device.Device_Spec_NetworkingConfig) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesVia) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().OnLink().FieldPath(),
-	}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Version() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Renderer() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesOnLink) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Ethernets() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets{}
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().Metric().FieldPath(),
-	}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Wifis() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Bridges() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesMetric) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Bonds() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds{}
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().Type().FieldPath(),
-	}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Tunnels() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Vlans() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans{}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetwork) Modems() ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems{}
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().Scope().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Version().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesScope) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVersion) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Routes().Table().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Renderer().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutesTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkRenderer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Ethernets().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) From() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom{}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkEthernets) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets{key: key}
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) To() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo{}
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets struct {
+	key string
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) Table() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) Priority() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) Mark() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicy) TypeOfService() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService{}
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().From().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets) WithValue(value *device.Device_Spec_NetworkingConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyFrom) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_EthOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().To().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Wifis().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().Table().FieldPath(),
-	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkWifis) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTable) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis struct {
+	key string
 }
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().Priority().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Wifis().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis) WithValue(value *device.Device_Spec_NetworkingConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyPriority) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_WifiOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().Mark().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Bridges().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyMark) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().RoutingPolicy().TypeOfService().FieldPath(),
-	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBridges) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsRoutingPolicyTypeOfService) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges struct {
+	key string
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Bridges().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) WithValue(value *device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges) WithValue(value *device.Device_Spec_NetworkingConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) WithArrayOfValues(values []*device.Device_Spec_NetworkConfig_CommonOpts_Auth) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BridgesOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) Key() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) Password() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) Method() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) Identity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) AnonymousIdentity() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) CaCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) ClientCertificate() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) ClientKey() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey{}
-}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuth) ClientKeyPassword() ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword {
-	return ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword{}
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().Key().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Bonds().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().Password().FieldPath(),
-	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkBonds) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds struct {
+	key string
 }
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().Method().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Bonds().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds) WithValue(value *device.Device_Spec_NetworkingConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthMethod) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BondsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().Identity().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Tunnels().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().AnonymousIdentity().FieldPath(),
-	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkTunnels) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthAnonymousIdentity) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels struct {
+	key string
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().CaCertificate().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels) WithValue(value *device.Device_Spec_NetworkingConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthCaCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().ClientCertificate().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Vlans().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientCertificate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().ClientKey().FieldPath(),
-	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkVlans) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKey) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans struct {
+	key string
 }
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Opts().Auth().ClientKeyPassword().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Vlans().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans) WithValue(value *device.Device_Spec_NetworkingConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansOptsAuthClientKeyPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_VlansOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Id().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Modems().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId) WithValue(value int32) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansId) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Link().FieldPath(),
-	}
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanConfigNetworkModems) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems {
+	return ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems{key: key}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansLink) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+type ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems struct {
+	key string
 }
-
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfig().Vlans().Name().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanConfig().Network().Modems().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems) WithValue(value *device.Device_Spec_NetworkingConfig_ModemOpts) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigVlansName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponseMapPathSelectorDevicesSpecNetplanConfigNetworkModems) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_ModemOpts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode struct{}
+type ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetConfigMode().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().NetplanApiConfigMode().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode) WithValue(value device.Device_Spec_NetworkConfigMode) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetConfigMode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecNetplanApiConfigMode) WithArrayOfValues(values []device.Device_Spec_NetworkConfigMode) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -11161,6 +2053,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) NoProxy() Lis
 	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) ProxyInterfaces() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -11209,6 +2105,86 @@ func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy) With
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigProxyInterfaces) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecLocation struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecLocation) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().Location().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocation) WithValue(value *device.Device_Spec_Location) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocation) WithArrayOfValues(values []*device.Device_Spec_Location) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecLocation) Address() ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecLocation) Placement() ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().Location().Address().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocationAddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().Location().Placement().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecLocationPlacement) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -11504,6 +2480,14 @@ func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfo) HardwareInfo
 	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformation{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfo) NetworkInterfaces() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfo) ControlPlaneInterfaceInfo() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoArchitecture struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoArchitecture) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -11678,6 +2662,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInform
 
 func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformation) NvidiaInfo() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationNvidiaInfo {
 	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationNvidiaInfo{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformation) ModemStatus() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus{}
 }
 
 type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationOs struct{}
@@ -13909,6 +4897,2368 @@ func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInfo
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationNvidiaInfoGpusProductName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus) WithValue(value []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus) WithArrayOfValues(values [][]*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus) WithItemValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatus) Modem() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) ThreeGPp() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) Cdma() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) DbusPath() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) Generic() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) Signal() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModem) SimStatus() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) FivegNr() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) EnabledLocks() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) Eps() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) Imei() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) OperatorCode() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) OperatorName() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) PacketServiceState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) Pco() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPp) RegistrationState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().FivegNr().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNr) RegistrationSettings() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().FivegNr().RegistrationSettings().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings) DrxCycle() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettings) MicoMode() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().FivegNr().RegistrationSettings().DrxCycle().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsDrxCycle) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().FivegNr().RegistrationSettings().MicoMode().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpFivegNrRegistrationSettingsMicoMode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().EnabledLocks().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEnabledLocks) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps) InitialBearer() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEps) UeModeOperation() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer) DbusPath() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearer) Settings() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().DbusPath().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerDbusPath) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().Settings().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) Apn() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) IpType() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) Password() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettings) User() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().Settings().Apn().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsApn) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().Settings().IpType().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsIpType) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().Settings().Password().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsPassword) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().InitialBearer().Settings().User().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsInitialBearerSettingsUser) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Eps().UeModeOperation().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpEpsUeModeOperation) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Imei().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpImei) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().OperatorCode().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorCode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().OperatorName().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpOperatorName) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().PacketServiceState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPacketServiceState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().Pco().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpPco) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().ThreeGPp().RegistrationState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemThreeGPpRegistrationState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) ActivationState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) Cdma1XRegistrationState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) Esn() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) EvdoRegistrationState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) Meid() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) Nid() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdma) Sid() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().ActivationState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaActivationState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().Cdma1XRegistrationState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaCdma1XRegistrationState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().Esn().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEsn) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().EvdoRegistrationState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaEvdoRegistrationState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().Meid().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaMeid) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().Nid().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaNid) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Cdma().Sid().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemCdmaSid) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().DbusPath().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemDbusPath) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) AccessTechnologies() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Bearers() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) CarrierConfiguration() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) CarrierConfigurationRevision() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) CurrentBands() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) CurrentCapabilities() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) CurrentModes() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Device() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) DeviceIdentifier() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Drivers() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) EquipmentIdentifier() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) HardwareRevision() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Manufacturer() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Model() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) OwnNumbers() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Plugin() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Ports() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) PowerState() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) PrimaryPort() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) PrimarySimSlot() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Revision() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SignalQuality() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) Sim() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SimSlots() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) State() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) StateFailedReason() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SupportedBands() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SupportedCapabilities() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SupportedIpFamilies() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) SupportedModes() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) UnlockRequired() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGeneric) UnlockRetries() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().AccessTechnologies().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericAccessTechnologies) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Bearers().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericBearers) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().CarrierConfiguration().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfiguration) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().CarrierConfigurationRevision().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCarrierConfigurationRevision) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().CurrentBands().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentBands) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().CurrentCapabilities().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentCapabilities) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().CurrentModes().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericCurrentModes) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Device().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDevice) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().DeviceIdentifier().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDeviceIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Drivers().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericDrivers) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().EquipmentIdentifier().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericEquipmentIdentifier) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().HardwareRevision().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericHardwareRevision) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Manufacturer().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericManufacturer) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Model().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericModel) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().OwnNumbers().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericOwnNumbers) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Plugin().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPlugin) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Ports().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPorts) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().PowerState().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPowerState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().PrimaryPort().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimaryPort) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().PrimarySimSlot().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericPrimarySimSlot) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Revision().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericRevision) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SignalQuality().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality) Recent() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQuality) Value() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SignalQuality().Recent().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityRecent) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SignalQuality().Value().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSignalQualityValue) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().Sim().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSim) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SimSlots().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSimSlots) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().State().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericState) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().StateFailedReason().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericStateFailedReason) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SupportedBands().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedBands) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SupportedCapabilities().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedCapabilities) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SupportedIpFamilies().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedIpFamilies) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().SupportedModes().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericSupportedModes) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().UnlockRequired().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRequired) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Generic().UnlockRetries().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries) WithValue(value []string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries) WithArrayOfValues(values [][]string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemGenericUnlockRetries) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) FiveG() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Cdma1X() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Evdo() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Gsm() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) LteSignal() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Refresh() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Threshold() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignal) Umts() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FiveG().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) Rsrp() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) Rsrq() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveG) Snr() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FiveG().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FiveG().Rsrp().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrp) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FiveG().Rsrq().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGRsrq) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().FiveG().Snr().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalFiveGSnr) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Cdma1X().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) Ecio() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1X) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Cdma1X().Ecio().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XEcio) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Cdma1X().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Cdma1X().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalCdma1XRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) Ecio() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) Io() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdo) Sinr() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().Ecio().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoEcio) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().Io().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoIo) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Evdo().Sinr().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalEvdoSinr) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Gsm().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsm) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Gsm().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Gsm().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalGsmRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) Rsrp() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) Rsrq() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignal) Snr() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().Rsrp().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrp) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().Rsrq().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRsrq) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().LteSignal().Snr().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalLteSignalSnr) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Refresh().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefresh) Rate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Refresh().Rate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalRefreshRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Threshold().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThreshold) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Threshold().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Threshold().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalThresholdRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Umts().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) Ecio() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) ErrorRate() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) Rscp() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmts) Rssi() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Umts().Ecio().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsEcio) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Umts().ErrorRate().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsErrorRate) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Umts().Rscp().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRscp) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().Signal().Umts().Rssi().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSignalUmtsRssi) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().SimStatus().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) WithValue(value map[string]*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) WithArrayOfValues(values []map[string]*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus {
+	return ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus{key: key}
+}
+
+type ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus struct {
+	key string
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().ModemStatus().Modem().SimStatus().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) WithValue(value *device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoHardwareInformationModemStatusModemSimStatus) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().NetworkInterfaces().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces) WithValue(value map[string]*device.Device_Status_DeviceInfo_NetworkInterface) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces) WithArrayOfValues(values []map[string]*device.Device_Status_DeviceInfo_NetworkInterface) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoNetworkInterfaces) WithKey(key string) ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces {
+	return ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces{key: key}
+}
+
+type ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces struct {
+	key string
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().NetworkInterfaces().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces) WithValue(value *device.Device_Status_DeviceInfo_NetworkInterface) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponseMapPathSelectorDevicesStatusDeviceInfoNetworkInterfaces) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_NetworkInterface) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().ControlPlaneInterfaceInfo().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) WithValue(value *device.Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) WithArrayOfValues(values []*device.Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) ActiveControlPlaneInterface() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) UsesProxy() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfo) IsFallback() ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().ControlPlaneInterfaceInfo().ActiveControlPlaneInterface().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoActiveControlPlaneInterface) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().ControlPlaneInterfaceInfo().UsesProxy().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoUsesProxy) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().DeviceInfo().ControlPlaneInterfaceInfo().IsFallback().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoControlPlaneInterfaceInfoIsFallback) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

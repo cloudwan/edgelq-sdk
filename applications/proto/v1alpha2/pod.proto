@@ -47,6 +47,9 @@ message Pod {
     // container_statuses lists individual status of the containers.
     repeated Container container_statuses = 2;
 
+    // Error message if Status.Phase is FAILED.
+    string error = 3;
+
     // Container defines status of a Container.
     message Container {
       // name is the name of the container

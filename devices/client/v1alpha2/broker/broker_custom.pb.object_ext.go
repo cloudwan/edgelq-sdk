@@ -375,6 +375,16 @@ func (o *ListenForConnectionsResponse) MakeDiffFieldMask(other *ListenForConnect
 			}
 		}
 	}
+	{
+		subMask := o.GetKeepAlive().MakeDiffFieldMask(other.GetKeepAlive())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ListenForConnectionsResponse_FieldTerminalPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ListenForConnectionsResponse_FieldSubPath{selector: ListenForConnectionsResponse_FieldPathSelectorKeepAlive, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -393,6 +403,14 @@ func (o *ListenForConnectionsResponse) Clone() *ListenForConnectionsResponse {
 			result.Msg = &ListenForConnectionsResponse_ChannelRequested_{}
 			result := result.Msg.(*ListenForConnectionsResponse_ChannelRequested_)
 			result.ChannelRequested = o.ChannelRequested.Clone()
+		}
+	}
+	if o, ok := o.Msg.(*ListenForConnectionsResponse_KeepAlive_); ok {
+		result.Msg = (*ListenForConnectionsResponse_KeepAlive_)(nil)
+		if o != nil {
+			result.Msg = &ListenForConnectionsResponse_KeepAlive_{}
+			result := result.Msg.(*ListenForConnectionsResponse_KeepAlive_)
+			result.KeepAlive = o.KeepAlive.Clone()
 		}
 	}
 	return result
@@ -414,6 +432,20 @@ func (o *ListenForConnectionsResponse) Merge(source *ListenForConnectionsRespons
 					o.ChannelRequested = new(ListenForConnectionsResponse_ChannelRequested)
 				}
 				o.ChannelRequested.Merge(source.ChannelRequested)
+			}
+		}
+	}
+	if source, ok := source.GetMsg().(*ListenForConnectionsResponse_KeepAlive_); ok {
+		if dstOneOf, ok := o.Msg.(*ListenForConnectionsResponse_KeepAlive_); !ok || dstOneOf == nil {
+			o.Msg = &ListenForConnectionsResponse_KeepAlive_{}
+		}
+		if source != nil {
+			o := o.Msg.(*ListenForConnectionsResponse_KeepAlive_)
+			if source.KeepAlive != nil {
+				if o.KeepAlive == nil {
+					o.KeepAlive = new(ListenForConnectionsResponse_KeepAlive)
+				}
+				o.KeepAlive.Merge(source.KeepAlive)
 			}
 		}
 	}
@@ -481,6 +513,51 @@ func (o *ListenForConnectionsResponse_ChannelRequested) Merge(source *ListenForC
 
 func (o *ListenForConnectionsResponse_ChannelRequested) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ListenForConnectionsResponse_ChannelRequested))
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) GotenObjectExt() {}
+
+func (o *ListenForConnectionsResponse_KeepAlive) MakeFullFieldMask() *ListenForConnectionsResponse_KeepAlive_FieldMask {
+	return FullListenForConnectionsResponse_KeepAlive_FieldMask()
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullListenForConnectionsResponse_KeepAlive_FieldMask()
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) MakeDiffFieldMask(other *ListenForConnectionsResponse_KeepAlive) *ListenForConnectionsResponse_KeepAlive_FieldMask {
+	if o == nil && other == nil {
+		return &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullListenForConnectionsResponse_KeepAlive_FieldMask()
+	}
+
+	res := &ListenForConnectionsResponse_KeepAlive_FieldMask{}
+	return res
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ListenForConnectionsResponse_KeepAlive))
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) Clone() *ListenForConnectionsResponse_KeepAlive {
+	if o == nil {
+		return nil
+	}
+	result := &ListenForConnectionsResponse_KeepAlive{}
+	return result
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) Merge(source *ListenForConnectionsResponse_KeepAlive) {
+}
+
+func (o *ListenForConnectionsResponse_KeepAlive) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ListenForConnectionsResponse_KeepAlive))
 }
 
 func (o *OpenConnectionChannelSocketRequest) GotenObjectExt() {}

@@ -955,6 +955,7 @@ type PodStatus_FieldPathSelector int32
 const (
 	PodStatus_FieldPathSelectorPhase             PodStatus_FieldPathSelector = 0
 	PodStatus_FieldPathSelectorContainerStatuses PodStatus_FieldPathSelector = 1
+	PodStatus_FieldPathSelectorError             PodStatus_FieldPathSelector = 2
 )
 
 func (s PodStatus_FieldPathSelector) String() string {
@@ -963,6 +964,8 @@ func (s PodStatus_FieldPathSelector) String() string {
 		return "phase"
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		return "container_statuses"
+	case PodStatus_FieldPathSelectorError:
+		return "error"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", s))
 	}
@@ -978,6 +981,8 @@ func BuildPodStatus_FieldPath(fp gotenobject.RawFieldPath) (PodStatus_FieldPath,
 			return &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorPhase}, nil
 		case "container_statuses", "containerStatuses", "container-statuses":
 			return &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorContainerStatuses}, nil
+		case "error":
+			return &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorError}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1038,6 +1043,8 @@ func (fp *PodStatus_FieldTerminalPath) Get(source *Pod_Status) (values []interfa
 			for _, value := range source.GetContainerStatuses() {
 				values = append(values, value)
 			}
+		case PodStatus_FieldPathSelectorError:
+			values = append(values, source.Error)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 		}
@@ -1057,6 +1064,8 @@ func (fp *PodStatus_FieldTerminalPath) GetSingle(source *Pod_Status) (interface{
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		res := source.GetContainerStatuses()
 		return res, res != nil
+	case PodStatus_FieldPathSelectorError:
+		return source.GetError(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 	}
@@ -1073,6 +1082,8 @@ func (fp *PodStatus_FieldTerminalPath) GetDefault() interface{} {
 		return Pod_Status_PHASE_UNSPECIFIED
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		return ([]*Pod_Status_Container)(nil)
+	case PodStatus_FieldPathSelectorError:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 	}
@@ -1085,6 +1096,8 @@ func (fp *PodStatus_FieldTerminalPath) ClearValue(item *Pod_Status) {
 			item.Phase = Pod_Status_PHASE_UNSPECIFIED
 		case PodStatus_FieldPathSelectorContainerStatuses:
 			item.ContainerStatuses = nil
+		case PodStatus_FieldPathSelectorError:
+			item.Error = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 		}
@@ -1097,7 +1110,8 @@ func (fp *PodStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *PodStatus_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PodStatus_FieldPathSelectorPhase
+	return fp.selector == PodStatus_FieldPathSelectorPhase ||
+		fp.selector == PodStatus_FieldPathSelectorError
 }
 
 func (fp *PodStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1110,6 +1124,8 @@ func (fp *PodStatus_FieldTerminalPath) WithIValue(value interface{}) PodStatus_F
 		return &PodStatus_FieldTerminalPathValue{PodStatus_FieldTerminalPath: *fp, value: value.(Pod_Status_Phase)}
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		return &PodStatus_FieldTerminalPathValue{PodStatus_FieldTerminalPath: *fp, value: value.([]*Pod_Status_Container)}
+	case PodStatus_FieldPathSelectorError:
+		return &PodStatus_FieldTerminalPathValue{PodStatus_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 	}
@@ -1126,6 +1142,8 @@ func (fp *PodStatus_FieldTerminalPath) WithIArrayOfValues(values interface{}) Po
 		return &PodStatus_FieldTerminalPathArrayOfValues{PodStatus_FieldTerminalPath: *fp, values: values.([]Pod_Status_Phase)}
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		return &PodStatus_FieldTerminalPathArrayOfValues{PodStatus_FieldTerminalPath: *fp, values: values.([][]*Pod_Status_Container)}
+	case PodStatus_FieldPathSelectorError:
+		return &PodStatus_FieldTerminalPathArrayOfValues{PodStatus_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fp.selector))
 	}
@@ -1312,6 +1330,10 @@ func (fpv *PodStatus_FieldTerminalPathValue) AsContainerStatusesValue() ([]*Pod_
 	res, ok := fpv.value.([]*Pod_Status_Container)
 	return res, ok
 }
+func (fpv *PodStatus_FieldTerminalPathValue) AsErrorValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Status
 func (fpv *PodStatus_FieldTerminalPathValue) SetTo(target **Pod_Status) {
@@ -1323,6 +1345,8 @@ func (fpv *PodStatus_FieldTerminalPathValue) SetTo(target **Pod_Status) {
 		(*target).Phase = fpv.value.(Pod_Status_Phase)
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		(*target).ContainerStatuses = fpv.value.([]*Pod_Status_Container)
+	case PodStatus_FieldPathSelectorError:
+		(*target).Error = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fpv.selector))
 	}
@@ -1348,6 +1372,16 @@ func (fpv *PodStatus_FieldTerminalPathValue) CompareWith(source *Pod_Status) (in
 		}
 	case PodStatus_FieldPathSelectorContainerStatuses:
 		return 0, false
+	case PodStatus_FieldPathSelectorError:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetError()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fpv.selector))
 	}
@@ -1538,6 +1572,10 @@ func (fpaov *PodStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([][]*Pod_Status_Container) {
 			values = append(values, v)
 		}
+	case PodStatus_FieldPathSelectorError:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1547,6 +1585,10 @@ func (fpaov *PodStatus_FieldTerminalPathArrayOfValues) AsPhaseArrayOfValues() ([
 }
 func (fpaov *PodStatus_FieldTerminalPathArrayOfValues) AsContainerStatusesArrayOfValues() ([][]*Pod_Status_Container, bool) {
 	res, ok := fpaov.values.([][]*Pod_Status_Container)
+	return res, ok
+}
+func (fpaov *PodStatus_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

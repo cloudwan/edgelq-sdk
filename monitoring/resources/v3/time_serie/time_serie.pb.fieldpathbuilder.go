@@ -2032,6 +2032,9 @@ func NewBulkTimeSeriesFieldPathBuilder() BulkTimeSeriesFieldPathBuilder {
 func (BulkTimeSeriesFieldPathBuilder) TimeSeries() BulkTimeSeriesPathSelectorTimeSeries {
 	return BulkTimeSeriesPathSelectorTimeSeries{}
 }
+func (BulkTimeSeriesFieldPathBuilder) PhantomFlag() BulkTimeSeriesPathSelectorPhantomFlag {
+	return BulkTimeSeriesPathSelectorPhantomFlag{}
+}
 
 type BulkTimeSeriesPathSelectorTimeSeries struct{}
 
@@ -3232,4 +3235,18 @@ func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationGroupByFields) With
 
 func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationGroupByFields) WithItemValue(value string) *BulkTimeSeries_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BulkTimeSeries_FieldSubPathArrayItemValue)
+}
+
+type BulkTimeSeriesPathSelectorPhantomFlag struct{}
+
+func (BulkTimeSeriesPathSelectorPhantomFlag) FieldPath() *BulkTimeSeries_FieldTerminalPath {
+	return &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorPhantomFlag}
+}
+
+func (s BulkTimeSeriesPathSelectorPhantomFlag) WithValue(value bool) *BulkTimeSeries_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldTerminalPathValue)
+}
+
+func (s BulkTimeSeriesPathSelectorPhantomFlag) WithArrayOfValues(values []bool) *BulkTimeSeries_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldTerminalPathArrayOfValues)
 }

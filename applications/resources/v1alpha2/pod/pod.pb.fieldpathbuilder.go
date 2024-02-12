@@ -2311,6 +2311,10 @@ func (PodPathSelectorStatus) ContainerStatuses() PodPathSelectorStatusContainerS
 	return PodPathSelectorStatusContainerStatuses{}
 }
 
+func (PodPathSelectorStatus) Error() PodPathSelectorStatusError {
+	return PodPathSelectorStatusError{}
+}
+
 type PodPathSelectorStatusPhase struct{}
 
 func (PodPathSelectorStatusPhase) FieldPath() *Pod_FieldSubPath {
@@ -2664,6 +2668,23 @@ func (s PodPathSelectorStatusContainerStatusesTerminatedContainerId) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
+type PodPathSelectorStatusError struct{}
+
+func (PodPathSelectorStatusError) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorStatus,
+		subPath:  NewPodStatusFieldPathBuilder().Error().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorStatusError) WithValue(value string) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorStatusError) WithArrayOfValues(values []string) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
 type PodStatusFieldPathBuilder struct{}
 
 func NewPodStatusFieldPathBuilder() PodStatusFieldPathBuilder {
@@ -2674,6 +2695,9 @@ func (PodStatusFieldPathBuilder) Phase() Pod_StatusPathSelectorPhase {
 }
 func (PodStatusFieldPathBuilder) ContainerStatuses() Pod_StatusPathSelectorContainerStatuses {
 	return Pod_StatusPathSelectorContainerStatuses{}
+}
+func (PodStatusFieldPathBuilder) Error() Pod_StatusPathSelectorError {
+	return Pod_StatusPathSelectorError{}
 }
 
 type Pod_StatusPathSelectorPhase struct{}
@@ -3036,6 +3060,20 @@ func (s Pod_StatusPathSelectorContainerStatusesTerminatedContainerId) WithValue(
 
 func (s Pod_StatusPathSelectorContainerStatusesTerminatedContainerId) WithArrayOfValues(values []string) *PodStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
+}
+
+type Pod_StatusPathSelectorError struct{}
+
+func (Pod_StatusPathSelectorError) FieldPath() *PodStatus_FieldTerminalPath {
+	return &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorError}
+}
+
+func (s Pod_StatusPathSelectorError) WithValue(value string) *PodStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatus_FieldTerminalPathValue)
+}
+
+func (s Pod_StatusPathSelectorError) WithArrayOfValues(values []string) *PodStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldTerminalPathArrayOfValues)
 }
 
 type PodStatusContainerFieldPathBuilder struct{}

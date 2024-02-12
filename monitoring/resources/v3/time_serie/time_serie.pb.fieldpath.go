@@ -1809,13 +1809,16 @@ type BulkTimeSeries_FieldPath interface {
 type BulkTimeSeries_FieldPathSelector int32
 
 const (
-	BulkTimeSeries_FieldPathSelectorTimeSeries BulkTimeSeries_FieldPathSelector = 0
+	BulkTimeSeries_FieldPathSelectorTimeSeries  BulkTimeSeries_FieldPathSelector = 0
+	BulkTimeSeries_FieldPathSelectorPhantomFlag BulkTimeSeries_FieldPathSelector = 1
 )
 
 func (s BulkTimeSeries_FieldPathSelector) String() string {
 	switch s {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		return "time_series"
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		return "phantom_flag"
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", s))
 	}
@@ -1829,6 +1832,8 @@ func BuildBulkTimeSeries_FieldPath(fp gotenobject.RawFieldPath) (BulkTimeSeries_
 		switch fp[0] {
 		case "time_series", "timeSeries", "time-series":
 			return &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorTimeSeries}, nil
+		case "phantom_flag", "phantomFlag", "phantom-flag":
+			return &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorPhantomFlag}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1887,6 +1892,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) Get(source *BulkTimeSeries) (values 
 			for _, value := range source.GetTimeSeries() {
 				values = append(values, value)
 			}
+		case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+			values = append(values, source.PhantomFlag)
 		default:
 			panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 		}
@@ -1904,6 +1911,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) GetSingle(source *BulkTimeSeries) (i
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		res := source.GetTimeSeries()
 		return res, res != nil
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		return source.GetPhantomFlag(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 	}
@@ -1918,6 +1927,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		return ([]*TimeSerie)(nil)
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 	}
@@ -1928,6 +1939,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) ClearValue(item *BulkTimeSeries) {
 		switch fp.selector {
 		case BulkTimeSeries_FieldPathSelectorTimeSeries:
 			item.TimeSeries = nil
+		case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+			item.PhantomFlag = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 		}
@@ -1940,7 +1953,7 @@ func (fp *BulkTimeSeries_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BulkTimeSeries_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == BulkTimeSeries_FieldPathSelectorPhantomFlag
 }
 
 func (fp *BulkTimeSeries_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1951,6 +1964,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) WithIValue(value interface{}) BulkTi
 	switch fp.selector {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		return &BulkTimeSeries_FieldTerminalPathValue{BulkTimeSeries_FieldTerminalPath: *fp, value: value.([]*TimeSerie)}
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		return &BulkTimeSeries_FieldTerminalPathValue{BulkTimeSeries_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 	}
@@ -1965,6 +1980,8 @@ func (fp *BulkTimeSeries_FieldTerminalPath) WithIArrayOfValues(values interface{
 	switch fp.selector {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		return &BulkTimeSeries_FieldTerminalPathArrayOfValues{BulkTimeSeries_FieldTerminalPath: *fp, values: values.([][]*TimeSerie)}
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		return &BulkTimeSeries_FieldTerminalPathArrayOfValues{BulkTimeSeries_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fp.selector))
 	}
@@ -2147,6 +2164,10 @@ func (fpv *BulkTimeSeries_FieldTerminalPathValue) AsTimeSeriesValue() ([]*TimeSe
 	res, ok := fpv.value.([]*TimeSerie)
 	return res, ok
 }
+func (fpv *BulkTimeSeries_FieldTerminalPathValue) AsPhantomFlagValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object BulkTimeSeries
 func (fpv *BulkTimeSeries_FieldTerminalPathValue) SetTo(target **BulkTimeSeries) {
@@ -2156,6 +2177,8 @@ func (fpv *BulkTimeSeries_FieldTerminalPathValue) SetTo(target **BulkTimeSeries)
 	switch fpv.selector {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		(*target).TimeSeries = fpv.value.([]*TimeSerie)
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		(*target).PhantomFlag = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fpv.selector))
 	}
@@ -2171,6 +2194,16 @@ func (fpv *BulkTimeSeries_FieldTerminalPathValue) CompareWith(source *BulkTimeSe
 	switch fpv.selector {
 	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		return 0, false
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetPhantomFlag()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fpv.selector))
 	}
@@ -2357,11 +2390,19 @@ func (fpaov *BulkTimeSeries_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([][]*TimeSerie) {
 			values = append(values, v)
 		}
+	case BulkTimeSeries_FieldPathSelectorPhantomFlag:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *BulkTimeSeries_FieldTerminalPathArrayOfValues) AsTimeSeriesArrayOfValues() ([][]*TimeSerie, bool) {
 	res, ok := fpaov.values.([][]*TimeSerie)
+	return res, ok
+}
+func (fpaov *BulkTimeSeries_FieldTerminalPathArrayOfValues) AsPhantomFlagArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

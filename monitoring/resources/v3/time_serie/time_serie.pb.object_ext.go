@@ -325,6 +325,9 @@ func (o *BulkTimeSeries) MakeDiffFieldMask(other *BulkTimeSeries) *BulkTimeSerie
 	} else {
 		res.Paths = append(res.Paths, &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorTimeSeries})
 	}
+	if o.GetPhantomFlag() != other.GetPhantomFlag() {
+		res.Paths = append(res.Paths, &BulkTimeSeries_FieldTerminalPath{selector: BulkTimeSeries_FieldPathSelectorPhantomFlag})
+	}
 	return res
 }
 
@@ -341,6 +344,7 @@ func (o *BulkTimeSeries) Clone() *BulkTimeSeries {
 	for i, sourceValue := range o.TimeSeries {
 		result.TimeSeries[i] = sourceValue.Clone()
 	}
+	result.PhantomFlag = o.PhantomFlag
 	return result
 }
 
@@ -367,6 +371,7 @@ func (o *BulkTimeSeries) Merge(source *BulkTimeSeries) {
 		}
 	}
 
+	o.PhantomFlag = source.GetPhantomFlag()
 }
 
 func (o *BulkTimeSeries) MergeRaw(source gotenobject.GotenObjectExt) {
