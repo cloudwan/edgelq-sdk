@@ -2144,10 +2144,12 @@ type DeviceStatus_FieldPath interface {
 type DeviceStatus_FieldPathSelector int32
 
 const (
-	DeviceStatus_FieldPathSelectorAddresses         DeviceStatus_FieldPathSelector = 0
-	DeviceStatus_FieldPathSelectorConditions        DeviceStatus_FieldPathSelector = 1
-	DeviceStatus_FieldPathSelectorDeviceInfo        DeviceStatus_FieldPathSelector = 2
-	DeviceStatus_FieldPathSelectorAttestationStatus DeviceStatus_FieldPathSelector = 3
+	DeviceStatus_FieldPathSelectorAddresses          DeviceStatus_FieldPathSelector = 0
+	DeviceStatus_FieldPathSelectorConditions         DeviceStatus_FieldPathSelector = 1
+	DeviceStatus_FieldPathSelectorNetworkConfigState DeviceStatus_FieldPathSelector = 2
+	DeviceStatus_FieldPathSelectorProxyConfigStatus  DeviceStatus_FieldPathSelector = 3
+	DeviceStatus_FieldPathSelectorDeviceInfo         DeviceStatus_FieldPathSelector = 4
+	DeviceStatus_FieldPathSelectorAttestationStatus  DeviceStatus_FieldPathSelector = 5
 )
 
 func (s DeviceStatus_FieldPathSelector) String() string {
@@ -2156,6 +2158,10 @@ func (s DeviceStatus_FieldPathSelector) String() string {
 		return "addresses"
 	case DeviceStatus_FieldPathSelectorConditions:
 		return "conditions"
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return "network_config_state"
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return "proxy_config_status"
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return "device_info"
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2175,6 +2181,10 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAddresses}, nil
 		case "conditions":
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConditions}, nil
+		case "network_config_state", "networkConfigState", "network-config-state":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState}, nil
+		case "proxy_config_status", "proxyConfigStatus", "proxy-config-status":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus}, nil
 		case "device_info", "deviceInfo", "device-info":
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo}, nil
 		case "attestation_status", "attestationStatus", "attestation-status":
@@ -2193,6 +2203,18 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 				return nil, err
 			} else {
 				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorConditions, subPath: subpath}, nil
+			}
+		case "network_config_state", "networkConfigState", "network-config-state":
+			if subpath, err := BuildDeviceStatusNetworkConfigState_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState, subPath: subpath}, nil
+			}
+		case "proxy_config_status", "proxyConfigStatus", "proxy-config-status":
+			if subpath, err := BuildDeviceStatusProxyConfigStatus_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus, subPath: subpath}, nil
 			}
 		case "device_info", "deviceInfo", "device-info":
 			if subpath, err := BuildDeviceStatusDeviceInfo_FieldPath(fp[1:]); err != nil {
@@ -2259,6 +2281,14 @@ func (fp *DeviceStatus_FieldTerminalPath) Get(source *Device_Status) (values []i
 			for _, value := range source.GetConditions() {
 				values = append(values, value)
 			}
+		case DeviceStatus_FieldPathSelectorNetworkConfigState:
+			if source.NetworkConfigState != nil {
+				values = append(values, source.NetworkConfigState)
+			}
+		case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+			if source.ProxyConfigStatus != nil {
+				values = append(values, source.ProxyConfigStatus)
+			}
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			if source.DeviceInfo != nil {
 				values = append(values, source.DeviceInfo)
@@ -2287,6 +2317,12 @@ func (fp *DeviceStatus_FieldTerminalPath) GetSingle(source *Device_Status) (inte
 	case DeviceStatus_FieldPathSelectorConditions:
 		res := source.GetConditions()
 		return res, res != nil
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		res := source.GetNetworkConfigState()
+		return res, res != nil
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		res := source.GetProxyConfigStatus()
+		return res, res != nil
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		res := source.GetDeviceInfo()
 		return res, res != nil
@@ -2309,6 +2345,10 @@ func (fp *DeviceStatus_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*Device_Status_Address)(nil)
 	case DeviceStatus_FieldPathSelectorConditions:
 		return ([]*Device_Status_Condition)(nil)
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return (*Device_Status_NetworkConfigState)(nil)
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return (*Device_Status_ProxyConfigStatus)(nil)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return (*Device_Status_DeviceInfo)(nil)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2325,6 +2365,10 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValue(item *Device_Status) {
 			item.Addresses = nil
 		case DeviceStatus_FieldPathSelectorConditions:
 			item.Conditions = nil
+		case DeviceStatus_FieldPathSelectorNetworkConfigState:
+			item.NetworkConfigState = nil
+		case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+			item.ProxyConfigStatus = nil
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			item.DeviceInfo = nil
 		case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2354,6 +2398,10 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceSt
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*Device_Status_Address)}
 	case DeviceStatus_FieldPathSelectorConditions:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*Device_Status_Condition)}
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_NetworkConfigState)}
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_ProxyConfigStatus)}
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2374,6 +2422,10 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*Device_Status_Address)}
 	case DeviceStatus_FieldPathSelectorConditions:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*Device_Status_Condition)}
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_NetworkConfigState)}
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_ProxyConfigStatus)}
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2423,6 +2475,14 @@ func (fps *DeviceStatus_FieldSubPath) AsConditionsSubPath() (DeviceStatusConditi
 	res, ok := fps.subPath.(DeviceStatusCondition_FieldPath)
 	return res, ok
 }
+func (fps *DeviceStatus_FieldSubPath) AsNetworkConfigStateSubPath() (DeviceStatusNetworkConfigState_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusNetworkConfigState_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatus_FieldSubPath) AsProxyConfigStatusSubPath() (DeviceStatusProxyConfigStatus_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusProxyConfigStatus_FieldPath)
+	return res, ok
+}
 func (fps *DeviceStatus_FieldSubPath) AsDeviceInfoSubPath() (DeviceStatusDeviceInfo_FieldPath, bool) {
 	res, ok := fps.subPath.(DeviceStatusDeviceInfo_FieldPath)
 	return res, ok
@@ -2453,6 +2513,10 @@ func (fps *DeviceStatus_FieldSubPath) Get(source *Device_Status) (values []inter
 		for _, item := range source.GetConditions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		values = append(values, fps.subPath.GetRaw(source.GetNetworkConfigState())...)
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetProxyConfigStatus())...)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		values = append(values, fps.subPath.GetRaw(source.GetDeviceInfo())...)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2482,6 +2546,16 @@ func (fps *DeviceStatus_FieldSubPath) GetSingle(source *Device_Status) (interfac
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetConditions()[0])
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		if source.GetNetworkConfigState() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetNetworkConfigState())
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		if source.GetProxyConfigStatus() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetProxyConfigStatus())
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		if source.GetDeviceInfo() == nil {
 			return nil, false
@@ -2517,6 +2591,10 @@ func (fps *DeviceStatus_FieldSubPath) ClearValue(item *Device_Status) {
 			for _, subItem := range item.Conditions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
+		case DeviceStatus_FieldPathSelectorNetworkConfigState:
+			fps.subPath.ClearValueRaw(item.NetworkConfigState)
+		case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+			fps.subPath.ClearValueRaw(item.ProxyConfigStatus)
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			fps.subPath.ClearValueRaw(item.DeviceInfo)
 		case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2615,6 +2693,14 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) AsConditionsValue() ([]*Device_S
 	res, ok := fpv.value.([]*Device_Status_Condition)
 	return res, ok
 }
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsNetworkConfigStateValue() (*Device_Status_NetworkConfigState, bool) {
+	res, ok := fpv.value.(*Device_Status_NetworkConfigState)
+	return res, ok
+}
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsProxyConfigStatusValue() (*Device_Status_ProxyConfigStatus, bool) {
+	res, ok := fpv.value.(*Device_Status_ProxyConfigStatus)
+	return res, ok
+}
 func (fpv *DeviceStatus_FieldTerminalPathValue) AsDeviceInfoValue() (*Device_Status_DeviceInfo, bool) {
 	res, ok := fpv.value.(*Device_Status_DeviceInfo)
 	return res, ok
@@ -2634,6 +2720,10 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
 		(*target).Addresses = fpv.value.([]*Device_Status_Address)
 	case DeviceStatus_FieldPathSelectorConditions:
 		(*target).Conditions = fpv.value.([]*Device_Status_Condition)
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		(*target).NetworkConfigState = fpv.value.(*Device_Status_NetworkConfigState)
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		(*target).ProxyConfigStatus = fpv.value.(*Device_Status_ProxyConfigStatus)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		(*target).DeviceInfo = fpv.value.(*Device_Status_DeviceInfo)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2654,6 +2744,10 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) CompareWith(source *Device_Statu
 	case DeviceStatus_FieldPathSelectorAddresses:
 		return 0, false
 	case DeviceStatus_FieldPathSelectorConditions:
+		return 0, false
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return 0, false
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
 		return 0, false
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return 0, false
@@ -2683,6 +2777,14 @@ func (fpvs *DeviceStatus_FieldSubPathValue) AsConditionsPathValue() (DeviceStatu
 	res, ok := fpvs.subPathValue.(DeviceStatusCondition_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceStatus_FieldSubPathValue) AsNetworkConfigStatePathValue() (DeviceStatusNetworkConfigState_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusNetworkConfigState_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatus_FieldSubPathValue) AsProxyConfigStatusPathValue() (DeviceStatusProxyConfigStatus_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusProxyConfigStatus_FieldPathValue)
+	return res, ok
+}
 func (fpvs *DeviceStatus_FieldSubPathValue) AsDeviceInfoPathValue() (DeviceStatusDeviceInfo_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue)
 	return res, ok
@@ -2701,6 +2803,10 @@ func (fpvs *DeviceStatus_FieldSubPathValue) SetTo(target **Device_Status) {
 		panic("FieldPath setter is unsupported for array subpaths")
 	case DeviceStatus_FieldPathSelectorConditions:
 		panic("FieldPath setter is unsupported for array subpaths")
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		fpvs.subPathValue.(DeviceStatusNetworkConfigState_FieldPathValue).SetTo(&(*target).NetworkConfigState)
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		fpvs.subPathValue.(DeviceStatusProxyConfigStatus_FieldPathValue).SetTo(&(*target).ProxyConfigStatus)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).SetTo(&(*target).DeviceInfo)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2725,6 +2831,10 @@ func (fpvs *DeviceStatus_FieldSubPathValue) CompareWith(source *Device_Status) (
 		return 0, false // repeated field
 	case DeviceStatus_FieldPathSelectorConditions:
 		return 0, false // repeated field
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return fpvs.subPathValue.(DeviceStatusNetworkConfigState_FieldPathValue).CompareWith(source.GetNetworkConfigState())
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return fpvs.subPathValue.(DeviceStatusProxyConfigStatus_FieldPathValue).CompareWith(source.GetProxyConfigStatus())
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).CompareWith(source.GetDeviceInfo())
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2831,6 +2941,14 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsConditionsPathItemValue
 	res, ok := fpaivs.subPathItemValue.(DeviceStatusCondition_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsNetworkConfigStatePathItemValue() (DeviceStatusNetworkConfigState_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusNetworkConfigState_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsProxyConfigStatusPathItemValue() (DeviceStatusProxyConfigStatus_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusProxyConfigStatus_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsDeviceInfoPathItemValue() (DeviceStatusDeviceInfo_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfo_FieldPathArrayItemValue)
 	return res, ok
@@ -2847,6 +2965,10 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) ContainsValue(source *Dev
 		return false // repeated/map field
 	case DeviceStatus_FieldPathSelectorConditions:
 		return false // repeated/map field
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		return fpaivs.subPathItemValue.(DeviceStatusNetworkConfigState_FieldPathArrayItemValue).ContainsValue(source.GetNetworkConfigState())
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		return fpaivs.subPathItemValue.(DeviceStatusProxyConfigStatus_FieldPathArrayItemValue).ContainsValue(source.GetProxyConfigStatus())
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfo_FieldPathArrayItemValue).ContainsValue(source.GetDeviceInfo())
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -2899,6 +3021,14 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([][]*Device_Status_Condition) {
 			values = append(values, v)
 		}
+	case DeviceStatus_FieldPathSelectorNetworkConfigState:
+		for _, v := range fpaov.values.([]*Device_Status_NetworkConfigState) {
+			values = append(values, v)
+		}
+	case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+		for _, v := range fpaov.values.([]*Device_Status_ProxyConfigStatus) {
+			values = append(values, v)
+		}
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo) {
 			values = append(values, v)
@@ -2916,6 +3046,14 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAddressesArrayOfValu
 }
 func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsConditionsArrayOfValues() ([][]*Device_Status_Condition, bool) {
 	res, ok := fpaov.values.([][]*Device_Status_Condition)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsNetworkConfigStateArrayOfValues() ([]*Device_Status_NetworkConfigState, bool) {
+	res, ok := fpaov.values.([]*Device_Status_NetworkConfigState)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsProxyConfigStatusArrayOfValues() ([]*Device_Status_ProxyConfigStatus, bool) {
+	res, ok := fpaov.values.([]*Device_Status_ProxyConfigStatus)
 	return res, ok
 }
 func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsDeviceInfoArrayOfValues() ([]*Device_Status_DeviceInfo, bool) {
@@ -2943,6 +3081,14 @@ func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsAddressesPathArrayOfValu
 }
 func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsConditionsPathArrayOfValues() (DeviceStatusCondition_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusCondition_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsNetworkConfigStatePathArrayOfValues() (DeviceStatusNetworkConfigState_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusNetworkConfigState_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsProxyConfigStatusPathArrayOfValues() (DeviceStatusProxyConfigStatus_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusProxyConfigStatus_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsDeviceInfoPathArrayOfValues() (DeviceStatusDeviceInfo_FieldPathArrayOfValues, bool) {
@@ -29815,6 +29961,1708 @@ func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastHeartBe
 }
 func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastTransitionTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamp.Timestamp)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusNetworkConfigState_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusNetworkConfigState_FieldPathSelector
+	Get(source *Device_Status_NetworkConfigState) []interface{}
+	GetSingle(source *Device_Status_NetworkConfigState) (interface{}, bool)
+	ClearValue(item *Device_Status_NetworkConfigState)
+
+	// Those methods build corresponding DeviceStatusNetworkConfigState_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusNetworkConfigState_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathArrayItemValue
+}
+
+type DeviceStatusNetworkConfigState_FieldPathSelector int32
+
+const (
+	DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource  DeviceStatusNetworkConfigState_FieldPathSelector = 0
+	DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource DeviceStatusNetworkConfigState_FieldPathSelector = 1
+	DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError  DeviceStatusNetworkConfigState_FieldPathSelector = 2
+	DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig              DeviceStatusNetworkConfigState_FieldPathSelector = 3
+	DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig               DeviceStatusNetworkConfigState_FieldPathSelector = 4
+	DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig              DeviceStatusNetworkConfigState_FieldPathSelector = 5
+)
+
+func (s DeviceStatusNetworkConfigState_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		return "active_network_config_source"
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		return "desired_network_config_source"
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		return "desired_network_config_error"
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return "default_config"
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return "active_config"
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return "desired_config"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", s))
+	}
+}
+
+func BuildDeviceStatusNetworkConfigState_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusNetworkConfigState_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_NetworkConfigState")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "active_network_config_source", "activeNetworkConfigSource", "active-network-config-source":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource}, nil
+		case "desired_network_config_source", "desiredNetworkConfigSource", "desired-network-config-source":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource}, nil
+		case "desired_network_config_error", "desiredNetworkConfigError", "desired-network-config-error":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError}, nil
+		case "default_config", "defaultConfig", "default-config":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig}, nil
+		case "active_config", "activeConfig", "active-config":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig}, nil
+		case "desired_config", "desiredConfig", "desired-config":
+			return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "default_config", "defaultConfig", "default-config":
+			if subpath, err := BuildDeviceSpecNetplanConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig, subPath: subpath}, nil
+			}
+		case "active_config", "activeConfig", "active-config":
+			if subpath, err := BuildDeviceSpecNetplanConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig, subPath: subpath}, nil
+			}
+		case "desired_config", "desiredConfig", "desired-config":
+			if subpath, err := BuildDeviceSpecNetplanConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_NetworkConfigState", fp)
+}
+
+func ParseDeviceStatusNetworkConfigState_FieldPath(rawField string) (DeviceStatusNetworkConfigState_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusNetworkConfigState_FieldPath(fp)
+}
+
+func MustParseDeviceStatusNetworkConfigState_FieldPath(rawField string) DeviceStatusNetworkConfigState_FieldPath {
+	fp, err := ParseDeviceStatusNetworkConfigState_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusNetworkConfigState_FieldTerminalPath struct {
+	selector DeviceStatusNetworkConfigState_FieldPathSelector
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPath = (*DeviceStatusNetworkConfigState_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) Selector() DeviceStatusNetworkConfigState_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_NetworkConfigState
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) Get(source *Device_Status_NetworkConfigState) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+			values = append(values, source.ActiveNetworkConfigSource)
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+			values = append(values, source.DesiredNetworkConfigSource)
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+			values = append(values, source.DesiredNetworkConfigError)
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+			if source.DefaultConfig != nil {
+				values = append(values, source.DefaultConfig)
+			}
+		case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+			if source.ActiveConfig != nil {
+				values = append(values, source.ActiveConfig)
+			}
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+			if source.DesiredConfig != nil {
+				values = append(values, source.DesiredConfig)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_NetworkConfigState))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_NetworkConfigState
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) GetSingle(source *Device_Status_NetworkConfigState) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		return source.GetActiveNetworkConfigSource(), source != nil
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		return source.GetDesiredNetworkConfigSource(), source != nil
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		return source.GetDesiredNetworkConfigError(), source != nil
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		res := source.GetDefaultConfig()
+		return res, res != nil
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		res := source.GetActiveConfig()
+		return res, res != nil
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		res := source.GetDesiredConfig()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_NetworkConfigState))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		return Device_Status_NetworkConfigState_UNKNOWN
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		return Device_Status_NetworkConfigState_UNKNOWN
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		return ""
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return (*Device_Spec_NetplanConfig)(nil)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return (*Device_Spec_NetplanConfig)(nil)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return (*Device_Spec_NetplanConfig)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) ClearValue(item *Device_Status_NetworkConfigState) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+			item.ActiveNetworkConfigSource = Device_Status_NetworkConfigState_UNKNOWN
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+			item.DesiredNetworkConfigSource = Device_Status_NetworkConfigState_UNKNOWN
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+			item.DesiredNetworkConfigError = ""
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+			item.DefaultConfig = nil
+		case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+			item.ActiveConfig = nil
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+			item.DesiredConfig = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_NetworkConfigState))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource ||
+		fp.selector == DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource ||
+		fp.selector == DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(Device_Status_NetworkConfigState_NetworkConfigSource)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(Device_Status_NetworkConfigState_NetworkConfigSource)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(*Device_Spec_NetplanConfig)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(*Device_Spec_NetplanConfig)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathValue{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, value: value.(*Device_Spec_NetplanConfig)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusNetworkConfigState_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]Device_Status_NetworkConfigState_NetworkConfigSource)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]Device_Status_NetworkConfigState_NetworkConfigSource)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]*Device_Spec_NetplanConfig)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]*Device_Spec_NetplanConfig)}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return &DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues{DeviceStatusNetworkConfigState_FieldTerminalPath: *fp, values: values.([]*Device_Spec_NetplanConfig)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNetworkConfigState_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceStatusNetworkConfigState_FieldSubPath struct {
+	selector DeviceStatusNetworkConfigState_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPath = (*DeviceStatusNetworkConfigState_FieldSubPath)(nil)
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) Selector() DeviceStatusNetworkConfigState_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) AsDefaultConfigSubPath() (DeviceSpecNetplanConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecNetplanConfig_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) AsActiveConfigSubPath() (DeviceSpecNetplanConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecNetplanConfig_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) AsDesiredConfigSubPath() (DeviceSpecNetplanConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecNetplanConfig_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Status_NetworkConfigState
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) Get(source *Device_Status_NetworkConfigState) (values []interface{}) {
+	switch fps.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetDefaultConfig())...)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetActiveConfig())...)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetDesiredConfig())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Status_NetworkConfigState))
+}
+
+// GetSingle returns value of selected field from source Device_Status_NetworkConfigState
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) GetSingle(source *Device_Status_NetworkConfigState) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		if source.GetDefaultConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetDefaultConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		if source.GetActiveConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetActiveConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		if source.GetDesiredConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetDesiredConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Status_NetworkConfigState))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) ClearValue(item *Device_Status_NetworkConfigState) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+			fps.subPath.ClearValueRaw(item.DefaultConfig)
+		case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+			fps.subPath.ClearValueRaw(item.ActiveConfig)
+		case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+			fps.subPath.ClearValueRaw(item.DesiredConfig)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Status_NetworkConfigState))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusNetworkConfigState_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithIValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceStatusNetworkConfigState_FieldPathArrayOfValues {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceStatusNetworkConfigState_FieldPathArrayItemValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceStatusNetworkConfigState_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// DeviceStatusNetworkConfigState_FieldPathValue allows storing values for NetworkConfigState fields according to their type
+type DeviceStatusNetworkConfigState_FieldPathValue interface {
+	DeviceStatusNetworkConfigState_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_NetworkConfigState)
+	CompareWith(*Device_Status_NetworkConfigState) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusNetworkConfigState_FieldPathValue(pathStr, valueStr string) (DeviceStatusNetworkConfigState_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusNetworkConfigState_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NetworkConfigState field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusNetworkConfigState_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusNetworkConfigState_FieldPathValue(pathStr, valueStr string) DeviceStatusNetworkConfigState_FieldPathValue {
+	fpv, err := ParseDeviceStatusNetworkConfigState_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusNetworkConfigState_FieldTerminalPathValue struct {
+	DeviceStatusNetworkConfigState_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPathValue = (*DeviceStatusNetworkConfigState_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'NetworkConfigState' as interface{}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsActiveNetworkConfigSourceValue() (Device_Status_NetworkConfigState_NetworkConfigSource, bool) {
+	res, ok := fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+	return res, ok
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsDesiredNetworkConfigSourceValue() (Device_Status_NetworkConfigState_NetworkConfigSource, bool) {
+	res, ok := fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+	return res, ok
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsDesiredNetworkConfigErrorValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsDefaultConfigValue() (*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_NetplanConfig)
+	return res, ok
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsActiveConfigValue() (*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_NetplanConfig)
+	return res, ok
+}
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) AsDesiredConfigValue() (*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_NetplanConfig)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object NetworkConfigState
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) SetTo(target **Device_Status_NetworkConfigState) {
+	if *target == nil {
+		*target = new(Device_Status_NetworkConfigState)
+	}
+	switch fpv.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		(*target).ActiveNetworkConfigSource = fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		(*target).DesiredNetworkConfigSource = fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		(*target).DesiredNetworkConfigError = fpv.value.(string)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		(*target).DefaultConfig = fpv.value.(*Device_Spec_NetplanConfig)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		(*target).ActiveConfig = fpv.value.(*Device_Spec_NetplanConfig)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		(*target).DesiredConfig = fpv.value.(*Device_Spec_NetplanConfig)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_NetworkConfigState)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusNetworkConfigState_FieldTerminalPathValue' with the value under path in 'Device_Status_NetworkConfigState'.
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) CompareWith(source *Device_Status_NetworkConfigState) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		leftValue := fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+		rightValue := source.GetActiveNetworkConfigSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		leftValue := fpv.value.(Device_Status_NetworkConfigState_NetworkConfigSource)
+		rightValue := source.GetDesiredNetworkConfigSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDesiredNetworkConfigError()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return 0, false
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return 0, false
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusNetworkConfigState_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_NetworkConfigState))
+}
+
+type DeviceStatusNetworkConfigState_FieldSubPathValue struct {
+	DeviceStatusNetworkConfigState_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPathValue = (*DeviceStatusNetworkConfigState_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) AsDefaultConfigPathValue() (DeviceSpecNetplanConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) AsActiveConfigPathValue() (DeviceSpecNetplanConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) AsDesiredConfigPathValue() (DeviceSpecNetplanConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) SetTo(target **Device_Status_NetworkConfigState) {
+	if *target == nil {
+		*target = new(Device_Status_NetworkConfigState)
+	}
+	switch fpvs.Selector() {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).SetTo(&(*target).DefaultConfig)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).SetTo(&(*target).ActiveConfig)
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).SetTo(&(*target).DesiredConfig)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_NetworkConfigState)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) CompareWith(source *Device_Status_NetworkConfigState) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).CompareWith(source.GetDefaultConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).CompareWith(source.GetActiveConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return fpvs.subPathValue.(DeviceSpecNetplanConfig_FieldPathValue).CompareWith(source.GetDesiredConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusNetworkConfigState_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Status_NetworkConfigState))
+}
+
+// DeviceStatusNetworkConfigState_FieldPathArrayItemValue allows storing single item in Path-specific values for NetworkConfigState according to their type
+// Present only for array (repeated) types.
+type DeviceStatusNetworkConfigState_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusNetworkConfigState_FieldPath
+	ContainsValue(*Device_Status_NetworkConfigState) bool
+}
+
+// ParseDeviceStatusNetworkConfigState_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusNetworkConfigState_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusNetworkConfigState_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusNetworkConfigState_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NetworkConfigState field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusNetworkConfigState_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusNetworkConfigState_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusNetworkConfigState_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusNetworkConfigState_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusNetworkConfigState_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPathArrayItemValue = (*DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_NetworkConfigState as interface{}
+func (fpaiv *DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_NetworkConfigState) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_NetworkConfigState))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NetworkConfigState'
+func (fpaiv *DeviceStatusNetworkConfigState_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_NetworkConfigState) bool {
+	slice := fpaiv.DeviceStatusNetworkConfigState_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue struct {
+	DeviceStatusNetworkConfigState_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue) AsDefaultConfigPathItemValue() (DeviceSpecNetplanConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue) AsActiveConfigPathItemValue() (DeviceSpecNetplanConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue) AsDesiredConfigPathItemValue() (DeviceSpecNetplanConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NetworkConfigState'
+func (fpaivs *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_NetworkConfigState) bool {
+	switch fpaivs.Selector() {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue).ContainsValue(source.GetDefaultConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue).ContainsValue(source.GetActiveConfig())
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecNetplanConfig_FieldPathArrayItemValue).ContainsValue(source.GetDesiredConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NetworkConfigState: %d", fpaivs.Selector()))
+	}
+}
+
+// DeviceStatusNetworkConfigState_FieldPathArrayOfValues allows storing slice of values for NetworkConfigState fields according to their type
+type DeviceStatusNetworkConfigState_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusNetworkConfigState_FieldPath
+}
+
+func ParseDeviceStatusNetworkConfigState_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusNetworkConfigState_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusNetworkConfigState_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NetworkConfigState field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusNetworkConfigState_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusNetworkConfigState_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusNetworkConfigState_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusNetworkConfigState_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusNetworkConfigState_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPathArrayOfValues = (*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+		for _, v := range fpaov.values.([]Device_Status_NetworkConfigState_NetworkConfigSource) {
+			values = append(values, v)
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+		for _, v := range fpaov.values.([]Device_Status_NetworkConfigState_NetworkConfigSource) {
+			values = append(values, v)
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_NetplanConfig) {
+			values = append(values, v)
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_NetplanConfig) {
+			values = append(values, v)
+		}
+	case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_NetplanConfig) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsActiveNetworkConfigSourceArrayOfValues() ([]Device_Status_NetworkConfigState_NetworkConfigSource, bool) {
+	res, ok := fpaov.values.([]Device_Status_NetworkConfigState_NetworkConfigSource)
+	return res, ok
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsDesiredNetworkConfigSourceArrayOfValues() ([]Device_Status_NetworkConfigState_NetworkConfigSource, bool) {
+	res, ok := fpaov.values.([]Device_Status_NetworkConfigState_NetworkConfigSource)
+	return res, ok
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsDesiredNetworkConfigErrorArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsDefaultConfigArrayOfValues() ([]*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_NetplanConfig)
+	return res, ok
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsActiveConfigArrayOfValues() ([]*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_NetplanConfig)
+	return res, ok
+}
+func (fpaov *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues) AsDesiredConfigArrayOfValues() ([]*Device_Spec_NetplanConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_NetplanConfig)
+	return res, ok
+}
+
+type DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues struct {
+	DeviceStatusNetworkConfigState_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceStatusNetworkConfigState_FieldPathArrayOfValues = (*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues) AsDefaultConfigPathArrayOfValues() (DeviceSpecNetplanConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecNetplanConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues) AsActiveConfigPathArrayOfValues() (DeviceSpecNetplanConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecNetplanConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues) AsDesiredConfigPathArrayOfValues() (DeviceSpecNetplanConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecNetplanConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusProxyConfigStatus_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusProxyConfigStatus_FieldPathSelector
+	Get(source *Device_Status_ProxyConfigStatus) []interface{}
+	GetSingle(source *Device_Status_ProxyConfigStatus) (interface{}, bool)
+	ClearValue(item *Device_Status_ProxyConfigStatus)
+
+	// Those methods build corresponding DeviceStatusProxyConfigStatus_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayItemValue
+}
+
+type DeviceStatusProxyConfigStatus_FieldPathSelector int32
+
+const (
+	DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource  DeviceStatusProxyConfigStatus_FieldPathSelector = 0
+	DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource DeviceStatusProxyConfigStatus_FieldPathSelector = 1
+	DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError    DeviceStatusProxyConfigStatus_FieldPathSelector = 2
+	DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig       DeviceStatusProxyConfigStatus_FieldPathSelector = 3
+	DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig        DeviceStatusProxyConfigStatus_FieldPathSelector = 4
+	DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig           DeviceStatusProxyConfigStatus_FieldPathSelector = 5
+)
+
+func (s DeviceStatusProxyConfigStatus_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		return "active_config_source"
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		return "desired_config_source"
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		return "proxy_config_error"
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return "default_config"
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return "active_config"
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return "api_config"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", s))
+	}
+}
+
+func BuildDeviceStatusProxyConfigStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusProxyConfigStatus_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_ProxyConfigStatus")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "active_config_source", "activeConfigSource", "active-config-source":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource}, nil
+		case "desired_config_source", "desiredConfigSource", "desired-config-source":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource}, nil
+		case "proxy_config_error", "proxyConfigError", "proxy-config-error":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError}, nil
+		case "default_config", "defaultConfig", "default-config":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig}, nil
+		case "active_config", "activeConfig", "active-config":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig}, nil
+		case "api_config", "apiConfig", "api-config":
+			return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "default_config", "defaultConfig", "default-config":
+			if subpath, err := BuildDeviceSpecProxyConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig, subPath: subpath}, nil
+			}
+		case "active_config", "activeConfig", "active-config":
+			if subpath, err := BuildDeviceSpecProxyConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig, subPath: subpath}, nil
+			}
+		case "api_config", "apiConfig", "api-config":
+			if subpath, err := BuildDeviceSpecProxyConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_ProxyConfigStatus", fp)
+}
+
+func ParseDeviceStatusProxyConfigStatus_FieldPath(rawField string) (DeviceStatusProxyConfigStatus_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusProxyConfigStatus_FieldPath(fp)
+}
+
+func MustParseDeviceStatusProxyConfigStatus_FieldPath(rawField string) DeviceStatusProxyConfigStatus_FieldPath {
+	fp, err := ParseDeviceStatusProxyConfigStatus_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusProxyConfigStatus_FieldTerminalPath struct {
+	selector DeviceStatusProxyConfigStatus_FieldPathSelector
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPath = (*DeviceStatusProxyConfigStatus_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) Selector() DeviceStatusProxyConfigStatus_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_ProxyConfigStatus
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) Get(source *Device_Status_ProxyConfigStatus) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+			values = append(values, source.ActiveConfigSource)
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+			values = append(values, source.DesiredConfigSource)
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+			values = append(values, source.ProxyConfigError)
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+			if source.DefaultConfig != nil {
+				values = append(values, source.DefaultConfig)
+			}
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+			if source.ActiveConfig != nil {
+				values = append(values, source.ActiveConfig)
+			}
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+			if source.ApiConfig != nil {
+				values = append(values, source.ApiConfig)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_ProxyConfigStatus
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) GetSingle(source *Device_Status_ProxyConfigStatus) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		return source.GetActiveConfigSource(), source != nil
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		return source.GetDesiredConfigSource(), source != nil
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		return source.GetProxyConfigError(), source != nil
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		res := source.GetDefaultConfig()
+		return res, res != nil
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		res := source.GetActiveConfig()
+		return res, res != nil
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		res := source.GetApiConfig()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		return Device_Status_ProxyConfigStatus_NO_CONFIG
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		return Device_Status_ProxyConfigStatus_NO_CONFIG
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		return ""
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return (*Device_Spec_ProxyConfig)(nil)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return (*Device_Spec_ProxyConfig)(nil)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return (*Device_Spec_ProxyConfig)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) ClearValue(item *Device_Status_ProxyConfigStatus) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+			item.ActiveConfigSource = Device_Status_ProxyConfigStatus_NO_CONFIG
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+			item.DesiredConfigSource = Device_Status_ProxyConfigStatus_NO_CONFIG
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+			item.ProxyConfigError = ""
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+			item.DefaultConfig = nil
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+			item.ActiveConfig = nil
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+			item.ApiConfig = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_ProxyConfigStatus))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource ||
+		fp.selector == DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource ||
+		fp.selector == DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(*Device_Spec_ProxyConfig)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(*Device_Spec_ProxyConfig)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathValue{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, value: value.(*Device_Spec_ProxyConfig)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]*Device_Spec_ProxyConfig)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]*Device_Spec_ProxyConfig)}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return &DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldTerminalPath: *fp, values: values.([]*Device_Spec_ProxyConfig)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusProxyConfigStatus_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceStatusProxyConfigStatus_FieldSubPath struct {
+	selector DeviceStatusProxyConfigStatus_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPath = (*DeviceStatusProxyConfigStatus_FieldSubPath)(nil)
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) Selector() DeviceStatusProxyConfigStatus_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) AsDefaultConfigSubPath() (DeviceSpecProxyConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecProxyConfig_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) AsActiveConfigSubPath() (DeviceSpecProxyConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecProxyConfig_FieldPath)
+	return res, ok
+}
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) AsApiConfigSubPath() (DeviceSpecProxyConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecProxyConfig_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Status_ProxyConfigStatus
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) Get(source *Device_Status_ProxyConfigStatus) (values []interface{}) {
+	switch fps.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetDefaultConfig())...)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetActiveConfig())...)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetApiConfig())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// GetSingle returns value of selected field from source Device_Status_ProxyConfigStatus
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) GetSingle(source *Device_Status_ProxyConfigStatus) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		if source.GetDefaultConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetDefaultConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		if source.GetActiveConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetActiveConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		if source.GetApiConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetApiConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) ClearValue(item *Device_Status_ProxyConfigStatus) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+			fps.subPath.ClearValueRaw(item.DefaultConfig)
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+			fps.subPath.ClearValueRaw(item.ActiveConfig)
+		case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+			fps.subPath.ClearValueRaw(item.ApiConfig)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Status_ProxyConfigStatus))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithIValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayOfValues {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceStatusProxyConfigStatus_FieldPathArrayItemValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceStatusProxyConfigStatus_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// DeviceStatusProxyConfigStatus_FieldPathValue allows storing values for ProxyConfigStatus fields according to their type
+type DeviceStatusProxyConfigStatus_FieldPathValue interface {
+	DeviceStatusProxyConfigStatus_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_ProxyConfigStatus)
+	CompareWith(*Device_Status_ProxyConfigStatus) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusProxyConfigStatus_FieldPathValue(pathStr, valueStr string) (DeviceStatusProxyConfigStatus_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusProxyConfigStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfigStatus field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusProxyConfigStatus_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusProxyConfigStatus_FieldPathValue(pathStr, valueStr string) DeviceStatusProxyConfigStatus_FieldPathValue {
+	fpv, err := ParseDeviceStatusProxyConfigStatus_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusProxyConfigStatus_FieldTerminalPathValue struct {
+	DeviceStatusProxyConfigStatus_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPathValue = (*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ProxyConfigStatus' as interface{}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsActiveConfigSourceValue() (Device_Status_ProxyConfigStatus_ProxyConfigSource, bool) {
+	res, ok := fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	return res, ok
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsDesiredConfigSourceValue() (Device_Status_ProxyConfigStatus_ProxyConfigSource, bool) {
+	res, ok := fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	return res, ok
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsProxyConfigErrorValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsDefaultConfigValue() (*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_ProxyConfig)
+	return res, ok
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsActiveConfigValue() (*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_ProxyConfig)
+	return res, ok
+}
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) AsApiConfigValue() (*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_ProxyConfig)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ProxyConfigStatus
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) SetTo(target **Device_Status_ProxyConfigStatus) {
+	if *target == nil {
+		*target = new(Device_Status_ProxyConfigStatus)
+	}
+	switch fpv.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		(*target).ActiveConfigSource = fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		(*target).DesiredConfigSource = fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		(*target).ProxyConfigError = fpv.value.(string)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		(*target).DefaultConfig = fpv.value.(*Device_Spec_ProxyConfig)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		(*target).ActiveConfig = fpv.value.(*Device_Spec_ProxyConfig)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		(*target).ApiConfig = fpv.value.(*Device_Spec_ProxyConfig)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_ProxyConfigStatus)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusProxyConfigStatus_FieldTerminalPathValue' with the value under path in 'Device_Status_ProxyConfigStatus'.
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) CompareWith(source *Device_Status_ProxyConfigStatus) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		leftValue := fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+		rightValue := source.GetActiveConfigSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		leftValue := fpv.value.(Device_Status_ProxyConfigStatus_ProxyConfigSource)
+		rightValue := source.GetDesiredConfigSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProxyConfigError()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return 0, false
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return 0, false
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusProxyConfigStatus_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_ProxyConfigStatus))
+}
+
+type DeviceStatusProxyConfigStatus_FieldSubPathValue struct {
+	DeviceStatusProxyConfigStatus_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPathValue = (*DeviceStatusProxyConfigStatus_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) AsDefaultConfigPathValue() (DeviceSpecProxyConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) AsActiveConfigPathValue() (DeviceSpecProxyConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) AsApiConfigPathValue() (DeviceSpecProxyConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) SetTo(target **Device_Status_ProxyConfigStatus) {
+	if *target == nil {
+		*target = new(Device_Status_ProxyConfigStatus)
+	}
+	switch fpvs.Selector() {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).SetTo(&(*target).DefaultConfig)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).SetTo(&(*target).ActiveConfig)
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).SetTo(&(*target).ApiConfig)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_ProxyConfigStatus)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) CompareWith(source *Device_Status_ProxyConfigStatus) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).CompareWith(source.GetDefaultConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).CompareWith(source.GetActiveConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).CompareWith(source.GetApiConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceStatusProxyConfigStatus_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// DeviceStatusProxyConfigStatus_FieldPathArrayItemValue allows storing single item in Path-specific values for ProxyConfigStatus according to their type
+// Present only for array (repeated) types.
+type DeviceStatusProxyConfigStatus_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusProxyConfigStatus_FieldPath
+	ContainsValue(*Device_Status_ProxyConfigStatus) bool
+}
+
+// ParseDeviceStatusProxyConfigStatus_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusProxyConfigStatus_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusProxyConfigStatus_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusProxyConfigStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfigStatus field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusProxyConfigStatus_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusProxyConfigStatus_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusProxyConfigStatus_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusProxyConfigStatus_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusProxyConfigStatus_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPathArrayItemValue = (*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_ProxyConfigStatus as interface{}
+func (fpaiv *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_ProxyConfigStatus) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_ProxyConfigStatus))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ProxyConfigStatus'
+func (fpaiv *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_ProxyConfigStatus) bool {
+	slice := fpaiv.DeviceStatusProxyConfigStatus_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue struct {
+	DeviceStatusProxyConfigStatus_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue) AsDefaultConfigPathItemValue() (DeviceSpecProxyConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue) AsActiveConfigPathItemValue() (DeviceSpecProxyConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue) AsApiConfigPathItemValue() (DeviceSpecProxyConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ProxyConfigStatus'
+func (fpaivs *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_ProxyConfigStatus) bool {
+	switch fpaivs.Selector() {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue).ContainsValue(source.GetDefaultConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue).ContainsValue(source.GetActiveConfig())
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue).ContainsValue(source.GetApiConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_ProxyConfigStatus: %d", fpaivs.Selector()))
+	}
+}
+
+// DeviceStatusProxyConfigStatus_FieldPathArrayOfValues allows storing slice of values for ProxyConfigStatus fields according to their type
+type DeviceStatusProxyConfigStatus_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusProxyConfigStatus_FieldPath
+}
+
+func ParseDeviceStatusProxyConfigStatus_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusProxyConfigStatus_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusProxyConfigStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfigStatus field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusProxyConfigStatus_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusProxyConfigStatus_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusProxyConfigStatus_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusProxyConfigStatus_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusProxyConfigStatus_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPathArrayOfValues = (*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+		for _, v := range fpaov.values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource) {
+			values = append(values, v)
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+		for _, v := range fpaov.values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource) {
+			values = append(values, v)
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_ProxyConfig) {
+			values = append(values, v)
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_ProxyConfig) {
+			values = append(values, v)
+		}
+	case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_ProxyConfig) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsActiveConfigSourceArrayOfValues() ([]Device_Status_ProxyConfigStatus_ProxyConfigSource, bool) {
+	res, ok := fpaov.values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	return res, ok
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsDesiredConfigSourceArrayOfValues() ([]Device_Status_ProxyConfigStatus_ProxyConfigSource, bool) {
+	res, ok := fpaov.values.([]Device_Status_ProxyConfigStatus_ProxyConfigSource)
+	return res, ok
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsProxyConfigErrorArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsDefaultConfigArrayOfValues() ([]*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_ProxyConfig)
+	return res, ok
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsActiveConfigArrayOfValues() ([]*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_ProxyConfig)
+	return res, ok
+}
+func (fpaov *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues) AsApiConfigArrayOfValues() ([]*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_ProxyConfig)
+	return res, ok
+}
+
+type DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues struct {
+	DeviceStatusProxyConfigStatus_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceStatusProxyConfigStatus_FieldPathArrayOfValues = (*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues) AsDefaultConfigPathArrayOfValues() (DeviceSpecProxyConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecProxyConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues) AsActiveConfigPathArrayOfValues() (DeviceSpecProxyConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecProxyConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues) AsApiConfigPathArrayOfValues() (DeviceSpecProxyConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecProxyConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 

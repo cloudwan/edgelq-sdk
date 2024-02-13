@@ -6280,6 +6280,14 @@ func (b *filterCndBuilderStatus) Conditions() *filterCndBuilderStatusConditions 
 	return &filterCndBuilderStatusConditions{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatus) NetworkConfigState() *filterCndBuilderStatusNetworkConfigState {
+	return &filterCndBuilderStatusNetworkConfigState{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) ProxyConfigStatus() *filterCndBuilderStatusProxyConfigStatus {
+	return &filterCndBuilderStatusProxyConfigStatus{builder: b.builder}
+}
+
 func (b *filterCndBuilderStatus) DeviceInfo() *filterCndBuilderStatusDeviceInfo {
 	return &filterCndBuilderStatusDeviceInfo{builder: b.builder}
 }
@@ -6975,6 +6983,4972 @@ func (b *filterCndBuilderStatusConditionsLastTransitionTime) compare(op gotenfil
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().Conditions().LastTransitionTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigState struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Eq(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Neq(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Gt(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Gte(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Lt(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) Lte(value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) In(values []*Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) NotIn(values []*Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) compare(op gotenfilter.CompareOperator, value *Device_Status_NetworkConfigState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) ActiveNetworkConfigSource() *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource {
+	return &filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) DesiredNetworkConfigSource() *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) DesiredNetworkConfigError() *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) DefaultConfig() *filterCndBuilderStatusNetworkConfigStateDefaultConfig {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) ActiveConfig() *filterCndBuilderStatusNetworkConfigStateActiveConfig {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigState) DesiredConfig() *filterCndBuilderStatusNetworkConfigStateDesiredConfig {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfig{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Eq(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Neq(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Gt(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Gte(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Lt(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) Lte(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) In(values []Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveNetworkConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) NotIn(values []Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveNetworkConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveNetworkConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveNetworkConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveNetworkConfigSource) compare(op gotenfilter.CompareOperator, value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveNetworkConfigSource().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Eq(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Neq(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Gt(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Gte(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Lt(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) Lte(value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) In(values []Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) NotIn(values []Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigSource) compare(op gotenfilter.CompareOperator, value Device_Status_NetworkConfigState_NetworkConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigSource().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigError().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigError().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigError().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigError().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredNetworkConfigError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredNetworkConfigError().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Eq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Neq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Gt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Gte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Lt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Lte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) In(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) NotIn(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfig) Network() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Eq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Neq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Gt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Gte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Lt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Lte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) In(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) NotIn(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Version() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Renderer() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Ethernets() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Wifis() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Bridges() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Bonds() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Tunnels() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Vlans() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetwork) Modems() *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems {
+	return &filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVersion) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Version().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkRenderer) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Renderer().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Eq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Neq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Gt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Gte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Lt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Lte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) In(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) NotIn(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Eq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Neq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Gt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Gte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Lt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) Lte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) In(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) NotIn(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Eq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Neq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Gt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Gte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Lt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Lte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) In(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) NotIn(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Eq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Neq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Gt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Gte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Lt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) Lte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) In(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) NotIn(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Eq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Neq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Gt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Gte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Lt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Lte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) In(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Eq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Neq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Gt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Gte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Lt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) Lte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) In(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) NotIn(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Eq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Neq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Gt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Gte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Lt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Lte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) In(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Eq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Neq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Gt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Gte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Lt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) Lte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) In(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) NotIn(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Eq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Neq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Gt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Gte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Lt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Lte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) In(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) NotIn(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Eq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Neq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Gt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Gte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Lt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) Lte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) In(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) NotIn(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Eq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Neq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Gt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Gte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Lt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Lte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) In(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) NotIn(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Eq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Neq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Gt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Gte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Lt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) Lte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) In(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) NotIn(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Eq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Neq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Gt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Gte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Lt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Lte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) In(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) NotIn(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Eq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Neq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Gt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Gte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Lt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) Lte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) In(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) NotIn(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDefaultConfigNetworkModems) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Eq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Neq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Gt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Gte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Lt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Lte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) In(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) NotIn(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfig) Network() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Eq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Neq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Gt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Gte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Lt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Lte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) In(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) NotIn(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Version() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Renderer() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Ethernets() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Wifis() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Bridges() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Bonds() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Tunnels() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Vlans() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetwork) Modems() *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems {
+	return &filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVersion) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Version().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkRenderer) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Renderer().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Eq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Neq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Gt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Gte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Lt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Lte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) In(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) NotIn(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Eq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Neq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Gt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Gte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Lt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) Lte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) In(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) NotIn(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Eq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Neq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Gt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Gte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Lt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Lte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) In(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) NotIn(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Eq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Neq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Gt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Gte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Lt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) Lte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) In(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) NotIn(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Eq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Neq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Gt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Gte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Lt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Lte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) In(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Eq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Neq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Gt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Gte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Lt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) Lte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) In(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) NotIn(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Eq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Neq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Gt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Gte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Lt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Lte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) In(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Eq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Neq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Gt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Gte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Lt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) Lte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) In(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) NotIn(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Eq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Neq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Gt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Gte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Lt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Lte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) In(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) NotIn(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Eq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Neq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Gt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Gte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Lt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) Lte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) In(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) NotIn(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Eq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Neq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Gt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Gte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Lt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Lte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) In(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) NotIn(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Eq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Neq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Gt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Gte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Lt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) Lte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) In(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) NotIn(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Eq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Neq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Gt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Gte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Lt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Lte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) In(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) NotIn(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems {
+	return &mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Eq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Neq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Gt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Gte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Lt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) Lte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) In(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) NotIn(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateActiveConfigNetworkModems) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Eq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Neq(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Gt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Gte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Lt(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Lte(value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) In(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) NotIn(values []*Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetplanConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfig) Network() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Eq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Neq(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Gt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Gte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Lt(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Lte(value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) In(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) NotIn(values []*Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Version() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Renderer() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Ethernets() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Wifis() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Bridges() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Bonds() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Tunnels() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Vlans() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetwork) Modems() *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems {
+	return &filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems{builder: b.builder}
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVersion) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Version().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Renderer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Renderer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkRenderer) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Renderer().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Eq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Neq(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Gt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Gte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Lt(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Lte(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) In(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) NotIn(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Eq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Neq(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Gt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Gte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Lt(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) Lte(value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) In(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) NotIn(values []*Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkEthernets) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_EthOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Eq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Neq(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Gt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Gte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Lt(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Lte(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) In(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) NotIn(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Eq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Neq(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Gt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Gte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Lt(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) Lte(value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) In(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) NotIn(values []*Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkWifis) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_WifiOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Eq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Neq(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Gt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Gte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Lt(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Lte(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) In(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Eq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Neq(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Gt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Gte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Lt(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) Lte(value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) In(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) NotIn(values []*Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBridges) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BridgesOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Eq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Neq(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Gt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Gte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Lt(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Lte(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) In(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) NotIn(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Eq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Neq(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Gt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Gte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Lt(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) Lte(value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) In(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) NotIn(values []*Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkBonds) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_BondsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Eq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Neq(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Gt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Gte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Lt(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Lte(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) In(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) NotIn(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Eq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Neq(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Gt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Gte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Lt(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) Lte(value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) In(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) NotIn(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkTunnels) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_TunnelsOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Eq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Neq(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Gt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Gte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Lt(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Lte(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) In(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) NotIn(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Eq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Neq(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Gt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Gte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Lt(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) Lte(value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) In(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) NotIn(values []*Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkVlans) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_VlansOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Eq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Neq(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Gt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Gte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Lt(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Lte(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) In(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) NotIn(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) compare(op gotenfilter.CompareOperator, value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) WithKey(key string) *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems {
+	return &mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Eq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Neq(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Gt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Gte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Lt(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) Lte(value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) In(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) NotIn(values []*Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderStatusNetworkConfigStateDesiredConfigNetworkModems) compare(op gotenfilter.CompareOperator, value *Device_Spec_NetworkingConfig_ModemOpts) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Eq(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Neq(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Gt(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Gte(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Lt(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) Lte(value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) In(values []*Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) NotIn(values []*Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) compare(op gotenfilter.CompareOperator, value *Device_Status_ProxyConfigStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) ActiveConfigSource() *filterCndBuilderStatusProxyConfigStatusActiveConfigSource {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfigSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) DesiredConfigSource() *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource {
+	return &filterCndBuilderStatusProxyConfigStatusDesiredConfigSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) ProxyConfigError() *filterCndBuilderStatusProxyConfigStatusProxyConfigError {
+	return &filterCndBuilderStatusProxyConfigStatusProxyConfigError{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) DefaultConfig() *filterCndBuilderStatusProxyConfigStatusDefaultConfig {
+	return &filterCndBuilderStatusProxyConfigStatusDefaultConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) ActiveConfig() *filterCndBuilderStatusProxyConfigStatusActiveConfig {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatus) ApiConfig() *filterCndBuilderStatusProxyConfigStatusApiConfig {
+	return &filterCndBuilderStatusProxyConfigStatusApiConfig{builder: b.builder}
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfigSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Eq(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Neq(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Gt(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Gte(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Lt(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) Lte(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) In(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) NotIn(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigSource) compare(op gotenfilter.CompareOperator, value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfigSource().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusDesiredConfigSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Eq(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Neq(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Gt(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Gte(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Lt(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) Lte(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) In(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DesiredConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) NotIn(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DesiredConfigSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DesiredConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DesiredConfigSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDesiredConfigSource) compare(op gotenfilter.CompareOperator, value Device_Status_ProxyConfigStatus_ProxyConfigSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DesiredConfigSource().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusProxyConfigError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ProxyConfigError().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ProxyConfigError().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ProxyConfigError().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ProxyConfigError().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusProxyConfigError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ProxyConfigError().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusDefaultConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Eq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Neq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Gt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Gte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Lt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) Lte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) In(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) NotIn(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) HttpProxy() *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy {
+	return &filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) HttpsProxy() *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy {
+	return &filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) NoProxy() *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy {
+	return &filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfig) ProxyInterfaces() *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces {
+	return &filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces{builder: b.builder}
+}
+
+type filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigHttpsProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().HttpsProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigNoProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().NoProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusDefaultConfigProxyInterfaces) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Eq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Neq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Gt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Gte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Lt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) Lte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) In(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) NotIn(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) HttpProxy() *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) HttpsProxy() *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) NoProxy() *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfig) ProxyInterfaces() *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces {
+	return &filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces{builder: b.builder}
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigHttpsProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().HttpsProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigNoProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().NoProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusActiveConfigProxyInterfaces) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusApiConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Eq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Neq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Gt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Gte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Lt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) Lte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) In(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) NotIn(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) HttpProxy() *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy {
+	return &filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) HttpsProxy() *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy {
+	return &filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) NoProxy() *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy {
+	return &filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfig) ProxyInterfaces() *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces {
+	return &filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces{builder: b.builder}
+}
+
+type filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigHttpsProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().HttpsProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigNoProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().NoProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusProxyConfigStatusApiConfigProxyInterfaces) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ProxyConfigStatus().ApiConfig().ProxyInterfaces().WithValue(value),
 	})
 }
 

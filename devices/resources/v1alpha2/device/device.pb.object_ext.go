@@ -428,6 +428,26 @@ func (o *Device_Status) MakeDiffFieldMask(other *Device_Status) *Device_Status_F
 		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConditions})
 	}
 	{
+		subMask := o.GetNetworkConfigState().MakeDiffFieldMask(other.GetNetworkConfigState())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetProxyConfigStatus().MakeDiffFieldMask(other.GetProxyConfigStatus())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus, subPath: subpath})
+			}
+		}
+	}
+	{
 		subMask := o.GetDeviceInfo().MakeDiffFieldMask(other.GetDeviceInfo())
 		if subMask.IsFull() {
 			res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo})
@@ -469,6 +489,8 @@ func (o *Device_Status) Clone() *Device_Status {
 	for i, sourceValue := range o.Conditions {
 		result.Conditions[i] = sourceValue.Clone()
 	}
+	result.NetworkConfigState = o.NetworkConfigState.Clone()
+	result.ProxyConfigStatus = o.ProxyConfigStatus.Clone()
 	result.DeviceInfo = o.DeviceInfo.Clone()
 	result.AttestationStatus = make([]*iam_iam_common.PCR, len(o.AttestationStatus))
 	for i, sourceValue := range o.AttestationStatus {
@@ -518,6 +540,18 @@ func (o *Device_Status) Merge(source *Device_Status) {
 		}
 	}
 
+	if source.GetNetworkConfigState() != nil {
+		if o.NetworkConfigState == nil {
+			o.NetworkConfigState = new(Device_Status_NetworkConfigState)
+		}
+		o.NetworkConfigState.Merge(source.GetNetworkConfigState())
+	}
+	if source.GetProxyConfigStatus() != nil {
+		if o.ProxyConfigStatus == nil {
+			o.ProxyConfigStatus = new(Device_Status_ProxyConfigStatus)
+		}
+		o.ProxyConfigStatus.Merge(source.GetProxyConfigStatus())
+	}
 	if source.GetDeviceInfo() != nil {
 		if o.DeviceInfo == nil {
 			o.DeviceInfo = new(Device_Status_DeviceInfo)
@@ -5155,6 +5189,228 @@ func (o *Device_Status_Condition) Merge(source *Device_Status_Condition) {
 
 func (o *Device_Status_Condition) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Status_Condition))
+}
+
+func (o *Device_Status_NetworkConfigState) GotenObjectExt() {}
+
+func (o *Device_Status_NetworkConfigState) MakeFullFieldMask() *Device_Status_NetworkConfigState_FieldMask {
+	return FullDevice_Status_NetworkConfigState_FieldMask()
+}
+
+func (o *Device_Status_NetworkConfigState) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_NetworkConfigState_FieldMask()
+}
+
+func (o *Device_Status_NetworkConfigState) MakeDiffFieldMask(other *Device_Status_NetworkConfigState) *Device_Status_NetworkConfigState_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_NetworkConfigState_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_NetworkConfigState_FieldMask()
+	}
+
+	res := &Device_Status_NetworkConfigState_FieldMask{}
+	if o.GetActiveNetworkConfigSource() != other.GetActiveNetworkConfigSource() {
+		res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource})
+	}
+	if o.GetDesiredNetworkConfigSource() != other.GetDesiredNetworkConfigSource() {
+		res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource})
+	}
+	if o.GetDesiredNetworkConfigError() != other.GetDesiredNetworkConfigError() {
+		res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError})
+	}
+	{
+		subMask := o.GetDefaultConfig().MakeDiffFieldMask(other.GetDefaultConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetActiveConfig().MakeDiffFieldMask(other.GetActiveConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetDesiredConfig().MakeDiffFieldMask(other.GetDesiredConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *Device_Status_NetworkConfigState) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_NetworkConfigState))
+}
+
+func (o *Device_Status_NetworkConfigState) Clone() *Device_Status_NetworkConfigState {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_NetworkConfigState{}
+	result.ActiveNetworkConfigSource = o.ActiveNetworkConfigSource
+	result.DesiredNetworkConfigSource = o.DesiredNetworkConfigSource
+	result.DesiredNetworkConfigError = o.DesiredNetworkConfigError
+	result.DefaultConfig = o.DefaultConfig.Clone()
+	result.ActiveConfig = o.ActiveConfig.Clone()
+	result.DesiredConfig = o.DesiredConfig.Clone()
+	return result
+}
+
+func (o *Device_Status_NetworkConfigState) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_NetworkConfigState) Merge(source *Device_Status_NetworkConfigState) {
+	o.ActiveNetworkConfigSource = source.GetActiveNetworkConfigSource()
+	o.DesiredNetworkConfigSource = source.GetDesiredNetworkConfigSource()
+	o.DesiredNetworkConfigError = source.GetDesiredNetworkConfigError()
+	if source.GetDefaultConfig() != nil {
+		if o.DefaultConfig == nil {
+			o.DefaultConfig = new(Device_Spec_NetplanConfig)
+		}
+		o.DefaultConfig.Merge(source.GetDefaultConfig())
+	}
+	if source.GetActiveConfig() != nil {
+		if o.ActiveConfig == nil {
+			o.ActiveConfig = new(Device_Spec_NetplanConfig)
+		}
+		o.ActiveConfig.Merge(source.GetActiveConfig())
+	}
+	if source.GetDesiredConfig() != nil {
+		if o.DesiredConfig == nil {
+			o.DesiredConfig = new(Device_Spec_NetplanConfig)
+		}
+		o.DesiredConfig.Merge(source.GetDesiredConfig())
+	}
+}
+
+func (o *Device_Status_NetworkConfigState) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_NetworkConfigState))
+}
+
+func (o *Device_Status_ProxyConfigStatus) GotenObjectExt() {}
+
+func (o *Device_Status_ProxyConfigStatus) MakeFullFieldMask() *Device_Status_ProxyConfigStatus_FieldMask {
+	return FullDevice_Status_ProxyConfigStatus_FieldMask()
+}
+
+func (o *Device_Status_ProxyConfigStatus) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_ProxyConfigStatus_FieldMask()
+}
+
+func (o *Device_Status_ProxyConfigStatus) MakeDiffFieldMask(other *Device_Status_ProxyConfigStatus) *Device_Status_ProxyConfigStatus_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_ProxyConfigStatus_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_ProxyConfigStatus_FieldMask()
+	}
+
+	res := &Device_Status_ProxyConfigStatus_FieldMask{}
+	if o.GetActiveConfigSource() != other.GetActiveConfigSource() {
+		res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource})
+	}
+	if o.GetDesiredConfigSource() != other.GetDesiredConfigSource() {
+		res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource})
+	}
+	if o.GetProxyConfigError() != other.GetProxyConfigError() {
+		res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError})
+	}
+	{
+		subMask := o.GetDefaultConfig().MakeDiffFieldMask(other.GetDefaultConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetActiveConfig().MakeDiffFieldMask(other.GetActiveConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetApiConfig().MakeDiffFieldMask(other.GetApiConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *Device_Status_ProxyConfigStatus) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_ProxyConfigStatus))
+}
+
+func (o *Device_Status_ProxyConfigStatus) Clone() *Device_Status_ProxyConfigStatus {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_ProxyConfigStatus{}
+	result.ActiveConfigSource = o.ActiveConfigSource
+	result.DesiredConfigSource = o.DesiredConfigSource
+	result.ProxyConfigError = o.ProxyConfigError
+	result.DefaultConfig = o.DefaultConfig.Clone()
+	result.ActiveConfig = o.ActiveConfig.Clone()
+	result.ApiConfig = o.ApiConfig.Clone()
+	return result
+}
+
+func (o *Device_Status_ProxyConfigStatus) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_ProxyConfigStatus) Merge(source *Device_Status_ProxyConfigStatus) {
+	o.ActiveConfigSource = source.GetActiveConfigSource()
+	o.DesiredConfigSource = source.GetDesiredConfigSource()
+	o.ProxyConfigError = source.GetProxyConfigError()
+	if source.GetDefaultConfig() != nil {
+		if o.DefaultConfig == nil {
+			o.DefaultConfig = new(Device_Spec_ProxyConfig)
+		}
+		o.DefaultConfig.Merge(source.GetDefaultConfig())
+	}
+	if source.GetActiveConfig() != nil {
+		if o.ActiveConfig == nil {
+			o.ActiveConfig = new(Device_Spec_ProxyConfig)
+		}
+		o.ActiveConfig.Merge(source.GetActiveConfig())
+	}
+	if source.GetApiConfig() != nil {
+		if o.ApiConfig == nil {
+			o.ApiConfig = new(Device_Spec_ProxyConfig)
+		}
+		o.ApiConfig.Merge(source.GetApiConfig())
+	}
+}
+
+func (o *Device_Status_ProxyConfigStatus) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_ProxyConfigStatus))
 }
 
 func (o *Device_Status_DeviceInfo) GotenObjectExt() {}

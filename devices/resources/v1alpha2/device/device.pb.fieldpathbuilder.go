@@ -2072,6 +2072,14 @@ func (DevicePathSelectorStatus) Conditions() DevicePathSelectorStatusConditions 
 	return DevicePathSelectorStatusConditions{}
 }
 
+func (DevicePathSelectorStatus) NetworkConfigState() DevicePathSelectorStatusNetworkConfigState {
+	return DevicePathSelectorStatusNetworkConfigState{}
+}
+
+func (DevicePathSelectorStatus) ProxyConfigStatus() DevicePathSelectorStatusProxyConfigStatus {
+	return DevicePathSelectorStatusProxyConfigStatus{}
+}
+
 func (DevicePathSelectorStatus) DeviceInfo() DevicePathSelectorStatusDeviceInfo {
 	return DevicePathSelectorStatusDeviceInfo{}
 }
@@ -2288,6 +2296,1669 @@ func (s DevicePathSelectorStatusConditionsLastTransitionTime) WithValue(value *t
 
 func (s DevicePathSelectorStatusConditionsLastTransitionTime) WithArrayOfValues(values []*timestamp.Timestamp) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigState struct{}
+
+func (DevicePathSelectorStatusNetworkConfigState) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigState) WithValue(value *Device_Status_NetworkConfigState) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigState) WithArrayOfValues(values []*Device_Status_NetworkConfigState) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) ActiveNetworkConfigSource() DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource {
+	return DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) DesiredNetworkConfigSource() DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) DesiredNetworkConfigError() DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) DefaultConfig() DevicePathSelectorStatusNetworkConfigStateDefaultConfig {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfig{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) ActiveConfig() DevicePathSelectorStatusNetworkConfigStateActiveConfig {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfig{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigState) DesiredConfig() DevicePathSelectorStatusNetworkConfigStateDesiredConfig {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfig{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveNetworkConfigSource().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredNetworkConfigSource().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredNetworkConfigError().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredNetworkConfigError) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfig struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfig) WithValue(value *Device_Spec_NetplanConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfig) Network() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Version() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Renderer() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Ethernets() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Wifis() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Bridges() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Bonds() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Tunnels() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Vlans() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetwork) Modems() DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems {
+	return DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion) WithValue(value int32) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVersion) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkRenderer) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DefaultConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDefaultConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfig struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfig) WithValue(value *Device_Spec_NetplanConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfig) Network() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Version() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Renderer() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Ethernets() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Wifis() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Bridges() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Bonds() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Tunnels() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Vlans() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetwork) Modems() DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems {
+	return DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion) WithValue(value int32) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVersion) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkRenderer) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems {
+	return DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().ActiveConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateActiveConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfig struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfig) WithValue(value *Device_Spec_NetplanConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfig) Network() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Version() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Renderer() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Ethernets() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Wifis() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Bridges() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Bonds() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Tunnels() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Vlans() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans{}
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetwork) Modems() DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems {
+	return DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems{}
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion) WithValue(value int32) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVersion) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkRenderer) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems struct{}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) WithKey(key string) DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems {
+	return DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems{key: key}
+}
+
+type DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems struct {
+	key string
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NetworkConfigState().DesiredConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DeviceMapPathSelectorStatusNetworkConfigStateDesiredConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatus struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatus) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatus) WithValue(value *Device_Status_ProxyConfigStatus) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatus) WithArrayOfValues(values []*Device_Status_ProxyConfigStatus) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) ActiveConfigSource() DevicePathSelectorStatusProxyConfigStatusActiveConfigSource {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfigSource{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) DesiredConfigSource() DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource {
+	return DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) ProxyConfigError() DevicePathSelectorStatusProxyConfigStatusProxyConfigError {
+	return DevicePathSelectorStatusProxyConfigStatusProxyConfigError{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) DefaultConfig() DevicePathSelectorStatusProxyConfigStatusDefaultConfig {
+	return DevicePathSelectorStatusProxyConfigStatusDefaultConfig{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) ActiveConfig() DevicePathSelectorStatusProxyConfigStatusActiveConfig {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfig{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatus) ApiConfig() DevicePathSelectorStatusProxyConfigStatusApiConfig {
+	return DevicePathSelectorStatusProxyConfigStatusApiConfig{}
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfigSource struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfigSource) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfigSource().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DesiredConfigSource().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDesiredConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusProxyConfigError struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusProxyConfigError) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ProxyConfigError().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusProxyConfigError) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusProxyConfigError) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDefaultConfig struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DefaultConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfig) WithValue(value *Device_Spec_ProxyConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfig) HttpProxy() DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy {
+	return DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfig) HttpsProxy() DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy {
+	return DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfig) NoProxy() DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy {
+	return DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfig) ProxyInterfaces() DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces {
+	return DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces{}
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DefaultConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DefaultConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigHttpsProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DefaultConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigNoProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().DefaultConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusDefaultConfigProxyInterfaces) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfig struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfig) WithValue(value *Device_Spec_ProxyConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfig) HttpProxy() DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfig) HttpsProxy() DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfig) NoProxy() DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfig) ProxyInterfaces() DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces {
+	return DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces{}
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigHttpsProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigNoProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ActiveConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusActiveConfigProxyInterfaces) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusApiConfig struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ApiConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfig) WithValue(value *Device_Spec_ProxyConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfig) HttpProxy() DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy {
+	return DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfig) HttpsProxy() DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy {
+	return DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfig) NoProxy() DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy {
+	return DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy{}
+}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfig) ProxyInterfaces() DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces {
+	return DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces{}
+}
+
+type DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ApiConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigHttpProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ApiConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigHttpsProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ApiConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigNoProxy) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces struct{}
+
+func (DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ProxyConfigStatus().ApiConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorStatusProxyConfigStatusApiConfigProxyInterfaces) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
 }
 
 type DevicePathSelectorStatusDeviceInfo struct{}
@@ -8696,6 +10367,12 @@ func (DeviceStatusFieldPathBuilder) Addresses() Device_StatusPathSelectorAddress
 func (DeviceStatusFieldPathBuilder) Conditions() Device_StatusPathSelectorConditions {
 	return Device_StatusPathSelectorConditions{}
 }
+func (DeviceStatusFieldPathBuilder) NetworkConfigState() Device_StatusPathSelectorNetworkConfigState {
+	return Device_StatusPathSelectorNetworkConfigState{}
+}
+func (DeviceStatusFieldPathBuilder) ProxyConfigStatus() Device_StatusPathSelectorProxyConfigStatus {
+	return Device_StatusPathSelectorProxyConfigStatus{}
+}
 func (DeviceStatusFieldPathBuilder) DeviceInfo() Device_StatusPathSelectorDeviceInfo {
 	return Device_StatusPathSelectorDeviceInfo{}
 }
@@ -8935,6 +10612,1695 @@ func (s Device_StatusPathSelectorConditionsLastTransitionTime) WithValue(value *
 
 func (s Device_StatusPathSelectorConditionsLastTransitionTime) WithArrayOfValues(values []*timestamp.Timestamp) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigState struct{}
+
+func (Device_StatusPathSelectorNetworkConfigState) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigState) WithValue(value *Device_Status_NetworkConfigState) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigState) WithArrayOfValues(values []*Device_Status_NetworkConfigState) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) WithSubPath(subPath DeviceStatusNetworkConfigState_FieldPath) *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState, subPath: subPath}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigState) WithSubValue(subPathValue DeviceStatusNetworkConfigState_FieldPathValue) *DeviceStatus_FieldSubPathValue {
+	return &DeviceStatus_FieldSubPathValue{DeviceStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigState) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusNetworkConfigState_FieldPathArrayOfValues) *DeviceStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatus_FieldSubPathArrayOfValues{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigState) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusNetworkConfigState_FieldPathArrayItemValue) *DeviceStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatus_FieldSubPathArrayItemValue{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) ActiveNetworkConfigSource() Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource {
+	return Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) DesiredNetworkConfigSource() Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) DesiredNetworkConfigError() Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) DefaultConfig() Device_StatusPathSelectorNetworkConfigStateDefaultConfig {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfig{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) ActiveConfig() Device_StatusPathSelectorNetworkConfigStateActiveConfig {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfig{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigState) DesiredConfig() Device_StatusPathSelectorNetworkConfigStateDesiredConfig {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfig{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveNetworkConfigSource().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredNetworkConfigSource().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredNetworkConfigError().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredNetworkConfigError) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfig struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfig) Network() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Version() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Renderer() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Ethernets() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Wifis() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Bridges() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Bonds() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Tunnels() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Vlans() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetwork) Modems() Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems {
+	return Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion) WithValue(value int32) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDefaultConfigNetworkModems) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems {
+	return Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DefaultConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDefaultConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfig struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfig) Network() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Version() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Renderer() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Ethernets() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Wifis() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Bridges() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Bonds() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Tunnels() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Vlans() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetwork) Modems() Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems {
+	return Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion) WithValue(value int32) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkWifis) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBridges) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkBonds) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkVlans) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateActiveConfigNetworkModems) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems {
+	return Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().ActiveConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateActiveConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfig struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfig) Network() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Version() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Renderer() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Ethernets() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Wifis() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Bridges() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Bonds() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Tunnels() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Vlans() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans{}
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetwork) Modems() Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems {
+	return Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems{}
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion) WithValue(value int32) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems struct{}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNetworkConfigStateDesiredConfigNetworkModems) WithKey(key string) Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems {
+	return Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems{key: key}
+}
+
+type Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNetworkConfigState,
+		subPath:  NewDeviceStatusNetworkConfigStateFieldPathBuilder().DesiredConfig().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusMapPathSelectorNetworkConfigStateDesiredConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatus struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatus) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatus) WithValue(value *Device_Status_ProxyConfigStatus) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatus) WithArrayOfValues(values []*Device_Status_ProxyConfigStatus) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) WithSubPath(subPath DeviceStatusProxyConfigStatus_FieldPath) *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus, subPath: subPath}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatus) WithSubValue(subPathValue DeviceStatusProxyConfigStatus_FieldPathValue) *DeviceStatus_FieldSubPathValue {
+	return &DeviceStatus_FieldSubPathValue{DeviceStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatus) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusProxyConfigStatus_FieldPathArrayOfValues) *DeviceStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatus_FieldSubPathArrayOfValues{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatus) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusProxyConfigStatus_FieldPathArrayItemValue) *DeviceStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatus_FieldSubPathArrayItemValue{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) ActiveConfigSource() Device_StatusPathSelectorProxyConfigStatusActiveConfigSource {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfigSource{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) DesiredConfigSource() Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource {
+	return Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) ProxyConfigError() Device_StatusPathSelectorProxyConfigStatusProxyConfigError {
+	return Device_StatusPathSelectorProxyConfigStatusProxyConfigError{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) DefaultConfig() Device_StatusPathSelectorProxyConfigStatusDefaultConfig {
+	return Device_StatusPathSelectorProxyConfigStatusDefaultConfig{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) ActiveConfig() Device_StatusPathSelectorProxyConfigStatusActiveConfig {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfig{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatus) ApiConfig() Device_StatusPathSelectorProxyConfigStatusApiConfig {
+	return Device_StatusPathSelectorProxyConfigStatusApiConfig{}
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfigSource struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfigSource) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfigSource().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DesiredConfigSource().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDesiredConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusProxyConfigError struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusProxyConfigError) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ProxyConfigError().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusProxyConfigError) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusProxyConfigError) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDefaultConfig struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DefaultConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfig) HttpProxy() Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy {
+	return Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfig) HttpsProxy() Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy {
+	return Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfig) NoProxy() Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy {
+	return Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfig) ProxyInterfaces() Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces {
+	return Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces{}
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DefaultConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DefaultConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DefaultConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().DefaultConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces) WithValue(value []string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusDefaultConfigProxyInterfaces) WithItemValue(value string) *DeviceStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldSubPathArrayItemValue)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfig struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfig) HttpProxy() Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfig) HttpsProxy() Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfig) NoProxy() Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfig) ProxyInterfaces() Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces {
+	return Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces{}
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ActiveConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces) WithValue(value []string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusActiveConfigProxyInterfaces) WithItemValue(value string) *DeviceStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldSubPathArrayItemValue)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusApiConfig struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfig) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ApiConfig().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfig) HttpProxy() Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy {
+	return Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfig) HttpsProxy() Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy {
+	return Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfig) NoProxy() Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy {
+	return Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy{}
+}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfig) ProxyInterfaces() Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces {
+	return Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces{}
+}
+
+type Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ApiConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ApiConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ApiConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces struct{}
+
+func (Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorProxyConfigStatus,
+		subPath:  NewDeviceStatusProxyConfigStatusFieldPathBuilder().ApiConfig().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces) WithValue(value []string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_StatusPathSelectorProxyConfigStatusApiConfigProxyInterfaces) WithItemValue(value string) *DeviceStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldSubPathArrayItemValue)
 }
 
 type Device_StatusPathSelectorDeviceInfo struct{}
@@ -28088,6 +31454,1695 @@ func (s Device_Status_ConditionPathSelectorLastTransitionTime) WithValue(value *
 
 func (s Device_Status_ConditionPathSelectorLastTransitionTime) WithArrayOfValues(values []*timestamp.Timestamp) *DeviceStatusCondition_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusCondition_FieldTerminalPathArrayOfValues)
+}
+
+type DeviceStatusNetworkConfigStateFieldPathBuilder struct{}
+
+func NewDeviceStatusNetworkConfigStateFieldPathBuilder() DeviceStatusNetworkConfigStateFieldPathBuilder {
+	return DeviceStatusNetworkConfigStateFieldPathBuilder{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) ActiveNetworkConfigSource() Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource {
+	return Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) DesiredNetworkConfigSource() Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) DesiredNetworkConfigError() Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) DefaultConfig() Device_Status_NetworkConfigStatePathSelectorDefaultConfig {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfig{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) ActiveConfig() Device_Status_NetworkConfigStatePathSelectorActiveConfig {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfig{}
+}
+func (DeviceStatusNetworkConfigStateFieldPathBuilder) DesiredConfig() Device_Status_NetworkConfigStatePathSelectorDesiredConfig {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfig{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource) WithValue(value Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigSource) WithArrayOfValues(values []Device_Status_NetworkConfigState_NetworkConfigSource) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError) WithValue(value string) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredNetworkConfigError) WithArrayOfValues(values []string) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfig struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfig) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithSubPath(subPath DeviceSpecNetplanConfig_FieldPath) *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig, subPath: subPath}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithSubValue(subPathValue DeviceSpecNetplanConfig_FieldPathValue) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecNetplanConfig_FieldPathArrayOfValues) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecNetplanConfig_FieldPathArrayItemValue) *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfig) Network() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Version() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Renderer() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Ethernets() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Wifis() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Bridges() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Bonds() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Tunnels() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Vlans() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetwork) Modems() Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems {
+	return Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion) WithValue(value int32) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer) WithValue(value string) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkEthernets) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkWifis) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBridges) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkBonds) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkTunnels) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkVlans) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDefaultConfigNetworkModems) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems {
+	return Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDefaultConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfig struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfig) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithSubPath(subPath DeviceSpecNetplanConfig_FieldPath) *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig, subPath: subPath}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithSubValue(subPathValue DeviceSpecNetplanConfig_FieldPathValue) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecNetplanConfig_FieldPathArrayOfValues) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecNetplanConfig_FieldPathArrayItemValue) *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfig) Network() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Version() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Renderer() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Ethernets() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Wifis() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Bridges() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Bonds() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Tunnels() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Vlans() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetwork) Modems() Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems {
+	return Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion) WithValue(value int32) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer) WithValue(value string) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkEthernets) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkWifis) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBridges) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkBonds) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkTunnels) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkVlans) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorActiveConfigNetworkModems) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems {
+	return Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorActiveConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfig struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfig) FieldPath() *DeviceStatusNetworkConfigState_FieldTerminalPath {
+	return &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithValue(value *Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithArrayOfValues(values []*Device_Spec_NetplanConfig) *DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithSubPath(subPath DeviceSpecNetplanConfig_FieldPath) *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig, subPath: subPath}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithSubValue(subPathValue DeviceSpecNetplanConfig_FieldPathValue) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecNetplanConfig_FieldPathArrayOfValues) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecNetplanConfig_FieldPathArrayItemValue) *DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue {
+	return &DeviceStatusNetworkConfigState_FieldSubPathArrayItemValue{DeviceStatusNetworkConfigState_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfig) Network() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) WithValue(value *Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) WithArrayOfValues(values []*Device_Spec_NetworkingConfig) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Version() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Renderer() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Ethernets() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Wifis() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Bridges() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Bonds() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Tunnels() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Vlans() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans{}
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetwork) Modems() Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems {
+	return Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems{}
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Version().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion) WithValue(value int32) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVersion) WithArrayOfValues(values []int32) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Renderer().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer) WithValue(value string) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkRenderer) WithArrayOfValues(values []string) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets) WithValue(value map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkEthernets) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Ethernets().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets) WithValue(value *Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkEthernets) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_EthOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis) WithValue(value map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkWifis) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Wifis().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis) WithValue(value *Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkWifis) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_WifiOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges) WithValue(value map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBridges) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bridges().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges) WithValue(value *Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBridges) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BridgesOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds) WithValue(value map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkBonds) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Bonds().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds) WithValue(value *Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkBonds) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_BondsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels) WithValue(value map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkTunnels) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Tunnels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels) WithValue(value *Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkTunnels) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_TunnelsOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans) WithValue(value map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkVlans) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Vlans().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans) WithValue(value *Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkVlans) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_VlansOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems struct{}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems) WithValue(value map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems) WithArrayOfValues(values []map[string]*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+func (Device_Status_NetworkConfigStatePathSelectorDesiredConfigNetworkModems) WithKey(key string) Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems {
+	return Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems{key: key}
+}
+
+type Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems struct {
+	key string
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems) FieldPath() *DeviceStatusNetworkConfigState_FieldSubPath {
+	return &DeviceStatusNetworkConfigState_FieldSubPath{
+		selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig,
+		subPath:  NewDeviceSpecNetplanConfigFieldPathBuilder().Network().Modems().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems) WithValue(value *Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNetworkConfigState_FieldSubPathValue)
+}
+
+func (s Device_Status_NetworkConfigStateMapPathSelectorDesiredConfigNetworkModems) WithArrayOfValues(values []*Device_Spec_NetworkingConfig_ModemOpts) *DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNetworkConfigState_FieldSubPathArrayOfValues)
+}
+
+type DeviceStatusProxyConfigStatusFieldPathBuilder struct{}
+
+func NewDeviceStatusProxyConfigStatusFieldPathBuilder() DeviceStatusProxyConfigStatusFieldPathBuilder {
+	return DeviceStatusProxyConfigStatusFieldPathBuilder{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) ActiveConfigSource() Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) DesiredConfigSource() Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource {
+	return Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) ProxyConfigError() Device_Status_ProxyConfigStatusPathSelectorProxyConfigError {
+	return Device_Status_ProxyConfigStatusPathSelectorProxyConfigError{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) DefaultConfig() Device_Status_ProxyConfigStatusPathSelectorDefaultConfig {
+	return Device_Status_ProxyConfigStatusPathSelectorDefaultConfig{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) ActiveConfig() Device_Status_ProxyConfigStatusPathSelectorActiveConfig {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfig{}
+}
+func (DeviceStatusProxyConfigStatusFieldPathBuilder) ApiConfig() Device_Status_ProxyConfigStatusPathSelectorApiConfig {
+	return Device_Status_ProxyConfigStatusPathSelectorApiConfig{}
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource) WithValue(value Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDesiredConfigSource) WithArrayOfValues(values []Device_Status_ProxyConfigStatus_ProxyConfigSource) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorProxyConfigError struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorProxyConfigError) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorProxyConfigError) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorProxyConfigError) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDefaultConfig struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithSubPath(subPath DeviceSpecProxyConfig_FieldPath) *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig, subPath: subPath}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithSubValue(subPathValue DeviceSpecProxyConfig_FieldPathValue) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecProxyConfig_FieldPathArrayOfValues) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecProxyConfig_FieldPathArrayItemValue) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) HttpProxy() Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) HttpsProxy() Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) NoProxy() Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfig) ProxyInterfaces() Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces {
+	return Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces{}
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces) WithValue(value []string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorDefaultConfigProxyInterfaces) WithItemValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfig struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithSubPath(subPath DeviceSpecProxyConfig_FieldPath) *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig, subPath: subPath}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithSubValue(subPathValue DeviceSpecProxyConfig_FieldPathValue) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecProxyConfig_FieldPathArrayOfValues) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecProxyConfig_FieldPathArrayItemValue) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) HttpProxy() Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) HttpsProxy() Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) NoProxy() Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfig) ProxyInterfaces() Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces {
+	return Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces{}
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces) WithValue(value []string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorActiveConfigProxyInterfaces) WithItemValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorApiConfig struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) FieldPath() *DeviceStatusProxyConfigStatus_FieldTerminalPath {
+	return &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithValue(value *Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldTerminalPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithArrayOfValues(values []*Device_Spec_ProxyConfig) *DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithSubPath(subPath DeviceSpecProxyConfig_FieldPath) *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig, subPath: subPath}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithSubValue(subPathValue DeviceSpecProxyConfig_FieldPathValue) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecProxyConfig_FieldPathArrayOfValues) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecProxyConfig_FieldPathArrayItemValue) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue{DeviceStatusProxyConfigStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) HttpProxy() Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) HttpsProxy() Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) NoProxy() Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy {
+	return Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy{}
+}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfig) ProxyInterfaces() Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces {
+	return Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces{}
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigHttpsProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().NoProxy().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy) WithValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigNoProxy) WithArrayOfValues(values []string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces struct{}
+
+func (Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces) FieldPath() *DeviceStatusProxyConfigStatus_FieldSubPath {
+	return &DeviceStatusProxyConfigStatus_FieldSubPath{
+		selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig,
+		subPath:  NewDeviceSpecProxyConfigFieldPathBuilder().ProxyInterfaces().FieldPath(),
+	}
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces) WithValue(value []string) *DeviceStatusProxyConfigStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathValue)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces) WithArrayOfValues(values [][]string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Status_ProxyConfigStatusPathSelectorApiConfigProxyInterfaces) WithItemValue(value string) *DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusProxyConfigStatus_FieldSubPathArrayItemValue)
 }
 
 type DeviceStatusDeviceInfoFieldPathBuilder struct{}

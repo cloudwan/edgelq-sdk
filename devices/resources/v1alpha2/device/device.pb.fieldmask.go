@@ -804,6 +804,8 @@ func FullDevice_Status_FieldMask() *Device_Status_FieldMask {
 	res := &Device_Status_FieldMask{}
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAddresses})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConditions})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNetworkConfigState})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
 	return res
@@ -849,7 +851,7 @@ func (fieldMask *Device_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -879,18 +881,22 @@ func (fieldMask *Device_Status_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMask) *Device_Status_FieldMask {
 	result := &Device_Status_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatus_FieldPathSelectorAddresses:         &Device_Status_Address_FieldMask{},
-		DeviceStatus_FieldPathSelectorConditions:        &Device_Status_Condition_FieldMask{},
-		DeviceStatus_FieldPathSelectorDeviceInfo:        &Device_Status_DeviceInfo_FieldMask{},
-		DeviceStatus_FieldPathSelectorAttestationStatus: &iam_iam_common.PCR_FieldMask{},
+		DeviceStatus_FieldPathSelectorAddresses:          &Device_Status_Address_FieldMask{},
+		DeviceStatus_FieldPathSelectorConditions:         &Device_Status_Condition_FieldMask{},
+		DeviceStatus_FieldPathSelectorNetworkConfigState: &Device_Status_NetworkConfigState_FieldMask{},
+		DeviceStatus_FieldPathSelectorProxyConfigStatus:  &Device_Status_ProxyConfigStatus_FieldMask{},
+		DeviceStatus_FieldPathSelectorDeviceInfo:         &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAttestationStatus:  &iam_iam_common.PCR_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatus_FieldPathSelectorAddresses:         &Device_Status_Address_FieldMask{},
-		DeviceStatus_FieldPathSelectorConditions:        &Device_Status_Condition_FieldMask{},
-		DeviceStatus_FieldPathSelectorDeviceInfo:        &Device_Status_DeviceInfo_FieldMask{},
-		DeviceStatus_FieldPathSelectorAttestationStatus: &iam_iam_common.PCR_FieldMask{},
+		DeviceStatus_FieldPathSelectorAddresses:          &Device_Status_Address_FieldMask{},
+		DeviceStatus_FieldPathSelectorConditions:         &Device_Status_Condition_FieldMask{},
+		DeviceStatus_FieldPathSelectorNetworkConfigState: &Device_Status_NetworkConfigState_FieldMask{},
+		DeviceStatus_FieldPathSelectorProxyConfigStatus:  &Device_Status_ProxyConfigStatus_FieldMask{},
+		DeviceStatus_FieldPathSelectorDeviceInfo:         &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAttestationStatus:  &iam_iam_common.PCR_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -910,6 +916,10 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 						mySubMasks[DeviceStatus_FieldPathSelectorAddresses] = FullDevice_Status_Address_FieldMask()
 					case DeviceStatus_FieldPathSelectorConditions:
 						mySubMasks[DeviceStatus_FieldPathSelectorConditions] = FullDevice_Status_Condition_FieldMask()
+					case DeviceStatus_FieldPathSelectorNetworkConfigState:
+						mySubMasks[DeviceStatus_FieldPathSelectorNetworkConfigState] = FullDevice_Status_NetworkConfigState_FieldMask()
+					case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+						mySubMasks[DeviceStatus_FieldPathSelectorProxyConfigStatus] = FullDevice_Status_ProxyConfigStatus_FieldMask()
 					case DeviceStatus_FieldPathSelectorDeviceInfo:
 						mySubMasks[DeviceStatus_FieldPathSelectorDeviceInfo] = FullDevice_Status_DeviceInfo_FieldMask()
 					case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -1070,6 +1080,10 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 	wholeAddressesAccepted := false
 	conditionsMask := &Device_Status_Condition_FieldMask{}
 	wholeConditionsAccepted := false
+	networkConfigStateMask := &Device_Status_NetworkConfigState_FieldMask{}
+	wholeNetworkConfigStateAccepted := false
+	proxyConfigStatusMask := &Device_Status_ProxyConfigStatus_FieldMask{}
+	wholeProxyConfigStatusAccepted := false
 	deviceInfoMask := &Device_Status_DeviceInfo_FieldMask{}
 	wholeDeviceInfoAccepted := false
 	attestationStatusMask := &iam_iam_common.PCR_FieldMask{}
@@ -1085,6 +1099,12 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 			case DeviceStatus_FieldPathSelectorConditions:
 				result.Conditions = source.Conditions
 				wholeConditionsAccepted = true
+			case DeviceStatus_FieldPathSelectorNetworkConfigState:
+				result.NetworkConfigState = source.NetworkConfigState
+				wholeNetworkConfigStateAccepted = true
+			case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+				result.ProxyConfigStatus = source.ProxyConfigStatus
+				wholeProxyConfigStatusAccepted = true
 			case DeviceStatus_FieldPathSelectorDeviceInfo:
 				result.DeviceInfo = source.DeviceInfo
 				wholeDeviceInfoAccepted = true
@@ -1098,6 +1118,10 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 				addressesMask.AppendPath(tp.subPath.(DeviceStatusAddress_FieldPath))
 			case DeviceStatus_FieldPathSelectorConditions:
 				conditionsMask.AppendPath(tp.subPath.(DeviceStatusCondition_FieldPath))
+			case DeviceStatus_FieldPathSelectorNetworkConfigState:
+				networkConfigStateMask.AppendPath(tp.subPath.(DeviceStatusNetworkConfigState_FieldPath))
+			case DeviceStatus_FieldPathSelectorProxyConfigStatus:
+				proxyConfigStatusMask.AppendPath(tp.subPath.(DeviceStatusProxyConfigStatus_FieldPath))
 			case DeviceStatus_FieldPathSelectorDeviceInfo:
 				deviceInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfo_FieldPath))
 			case DeviceStatus_FieldPathSelectorAttestationStatus:
@@ -1114,6 +1138,12 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 		for _, sourceItem := range source.GetConditions() {
 			result.Conditions = append(result.Conditions, conditionsMask.Project(sourceItem))
 		}
+	}
+	if wholeNetworkConfigStateAccepted == false && len(networkConfigStateMask.Paths) > 0 {
+		result.NetworkConfigState = networkConfigStateMask.Project(source.GetNetworkConfigState())
+	}
+	if wholeProxyConfigStatusAccepted == false && len(proxyConfigStatusMask.Paths) > 0 {
+		result.ProxyConfigStatus = proxyConfigStatusMask.Project(source.GetProxyConfigStatus())
 	}
 	if wholeDeviceInfoAccepted == false && len(deviceInfoMask.Paths) > 0 {
 		result.DeviceInfo = deviceInfoMask.Project(source.GetDeviceInfo())
@@ -10507,6 +10537,664 @@ func (fieldMask *Device_Status_Condition_FieldMask) ProjectRaw(source gotenobjec
 }
 
 func (fieldMask *Device_Status_Condition_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_NetworkConfigState_FieldMask struct {
+	Paths []DeviceStatusNetworkConfigState_FieldPath
+}
+
+func FullDevice_Status_NetworkConfigState_FieldMask() *Device_Status_NetworkConfigState_FieldMask {
+	res := &Device_Status_NetworkConfigState_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource})
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource})
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError})
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig})
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig})
+	res.Paths = append(res.Paths, &DeviceStatusNetworkConfigState_FieldTerminalPath{selector: DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig})
+	return res
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusNetworkConfigState_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusNetworkConfigState_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusNetworkConfigState_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Subtract(other *Device_Status_NetworkConfigState_FieldMask) *Device_Status_NetworkConfigState_FieldMask {
+	result := &Device_Status_NetworkConfigState_FieldMask{}
+	removedSelectors := make([]bool, 6)
+	otherSubMasks := map[DeviceStatusNetworkConfigState_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig: &Device_Spec_NetplanConfig_FieldMask{},
+		DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:  &Device_Spec_NetplanConfig_FieldMask{},
+		DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig: &Device_Spec_NetplanConfig_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusNetworkConfigState_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig: &Device_Spec_NetplanConfig_FieldMask{},
+		DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:  &Device_Spec_NetplanConfig_FieldMask{},
+		DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig: &Device_Spec_NetplanConfig_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusNetworkConfigState_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusNetworkConfigState_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusNetworkConfigState_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+						mySubMasks[DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig] = FullDevice_Spec_NetplanConfig_FieldMask()
+					case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+						mySubMasks[DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig] = FullDevice_Spec_NetplanConfig_FieldMask()
+					case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+						mySubMasks[DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig] = FullDevice_Spec_NetplanConfig_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusNetworkConfigState_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusNetworkConfigState_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_NetworkConfigState_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FilterInputFields() *Device_Status_NetworkConfigState_FieldMask {
+	result := &Device_Status_NetworkConfigState_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusNetworkConfigState_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusNetworkConfigState_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_NetworkConfigState_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_NetworkConfigState_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) AppendPath(path DeviceStatusNetworkConfigState_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusNetworkConfigState_FieldPath))
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) GetPaths() []DeviceStatusNetworkConfigState_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusNetworkConfigState_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Set(target, source *Device_Status_NetworkConfigState) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_NetworkConfigState), source.(*Device_Status_NetworkConfigState))
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Project(source *Device_Status_NetworkConfigState) *Device_Status_NetworkConfigState {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_NetworkConfigState{}
+	defaultConfigMask := &Device_Spec_NetplanConfig_FieldMask{}
+	wholeDefaultConfigAccepted := false
+	activeConfigMask := &Device_Spec_NetplanConfig_FieldMask{}
+	wholeActiveConfigAccepted := false
+	desiredConfigMask := &Device_Spec_NetplanConfig_FieldMask{}
+	wholeDesiredConfigAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusNetworkConfigState_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusNetworkConfigState_FieldPathSelectorActiveNetworkConfigSource:
+				result.ActiveNetworkConfigSource = source.ActiveNetworkConfigSource
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigSource:
+				result.DesiredNetworkConfigSource = source.DesiredNetworkConfigSource
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredNetworkConfigError:
+				result.DesiredNetworkConfigError = source.DesiredNetworkConfigError
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+				result.DefaultConfig = source.DefaultConfig
+				wholeDefaultConfigAccepted = true
+			case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+				result.ActiveConfig = source.ActiveConfig
+				wholeActiveConfigAccepted = true
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+				result.DesiredConfig = source.DesiredConfig
+				wholeDesiredConfigAccepted = true
+			}
+		case *DeviceStatusNetworkConfigState_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDefaultConfig:
+				defaultConfigMask.AppendPath(tp.subPath.(DeviceSpecNetplanConfig_FieldPath))
+			case DeviceStatusNetworkConfigState_FieldPathSelectorActiveConfig:
+				activeConfigMask.AppendPath(tp.subPath.(DeviceSpecNetplanConfig_FieldPath))
+			case DeviceStatusNetworkConfigState_FieldPathSelectorDesiredConfig:
+				desiredConfigMask.AppendPath(tp.subPath.(DeviceSpecNetplanConfig_FieldPath))
+			}
+		}
+	}
+	if wholeDefaultConfigAccepted == false && len(defaultConfigMask.Paths) > 0 {
+		result.DefaultConfig = defaultConfigMask.Project(source.GetDefaultConfig())
+	}
+	if wholeActiveConfigAccepted == false && len(activeConfigMask.Paths) > 0 {
+		result.ActiveConfig = activeConfigMask.Project(source.GetActiveConfig())
+	}
+	if wholeDesiredConfigAccepted == false && len(desiredConfigMask.Paths) > 0 {
+		result.DesiredConfig = desiredConfigMask.Project(source.GetDesiredConfig())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_NetworkConfigState))
+}
+
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_ProxyConfigStatus_FieldMask struct {
+	Paths []DeviceStatusProxyConfigStatus_FieldPath
+}
+
+func FullDevice_Status_ProxyConfigStatus_FieldMask() *Device_Status_ProxyConfigStatus_FieldMask {
+	res := &Device_Status_ProxyConfigStatus_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource})
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource})
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError})
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig})
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig})
+	res.Paths = append(res.Paths, &DeviceStatusProxyConfigStatus_FieldTerminalPath{selector: DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig})
+	return res
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusProxyConfigStatus_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusProxyConfigStatus_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusProxyConfigStatus_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Subtract(other *Device_Status_ProxyConfigStatus_FieldMask) *Device_Status_ProxyConfigStatus_FieldMask {
+	result := &Device_Status_ProxyConfigStatus_FieldMask{}
+	removedSelectors := make([]bool, 6)
+	otherSubMasks := map[DeviceStatusProxyConfigStatus_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig: &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:  &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:     &Device_Spec_ProxyConfig_FieldMask{},
+	}
+	mySubMasks := map[DeviceStatusProxyConfigStatus_FieldPathSelector]gotenobject.FieldMask{
+		DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig: &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:  &Device_Spec_ProxyConfig_FieldMask{},
+		DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:     &Device_Spec_ProxyConfig_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusProxyConfigStatus_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceStatusProxyConfigStatus_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceStatusProxyConfigStatus_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+						mySubMasks[DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig] = FullDevice_Spec_ProxyConfig_FieldMask()
+					case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+						mySubMasks[DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig] = FullDevice_Spec_ProxyConfig_FieldMask()
+					case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+						mySubMasks[DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig] = FullDevice_Spec_ProxyConfig_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceStatusProxyConfigStatus_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceStatusProxyConfigStatus_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_ProxyConfigStatus_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FilterInputFields() *Device_Status_ProxyConfigStatus_FieldMask {
+	result := &Device_Status_ProxyConfigStatus_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusProxyConfigStatus_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusProxyConfigStatus_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_ProxyConfigStatus_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_ProxyConfigStatus_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) AppendPath(path DeviceStatusProxyConfigStatus_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusProxyConfigStatus_FieldPath))
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) GetPaths() []DeviceStatusProxyConfigStatus_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusProxyConfigStatus_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Set(target, source *Device_Status_ProxyConfigStatus) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_ProxyConfigStatus), source.(*Device_Status_ProxyConfigStatus))
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Project(source *Device_Status_ProxyConfigStatus) *Device_Status_ProxyConfigStatus {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_ProxyConfigStatus{}
+	defaultConfigMask := &Device_Spec_ProxyConfig_FieldMask{}
+	wholeDefaultConfigAccepted := false
+	activeConfigMask := &Device_Spec_ProxyConfig_FieldMask{}
+	wholeActiveConfigAccepted := false
+	apiConfigMask := &Device_Spec_ProxyConfig_FieldMask{}
+	wholeApiConfigAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusProxyConfigStatus_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfigSource:
+				result.ActiveConfigSource = source.ActiveConfigSource
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorDesiredConfigSource:
+				result.DesiredConfigSource = source.DesiredConfigSource
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorProxyConfigError:
+				result.ProxyConfigError = source.ProxyConfigError
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+				result.DefaultConfig = source.DefaultConfig
+				wholeDefaultConfigAccepted = true
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+				result.ActiveConfig = source.ActiveConfig
+				wholeActiveConfigAccepted = true
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+				result.ApiConfig = source.ApiConfig
+				wholeApiConfigAccepted = true
+			}
+		case *DeviceStatusProxyConfigStatus_FieldSubPath:
+			switch tp.selector {
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorDefaultConfig:
+				defaultConfigMask.AppendPath(tp.subPath.(DeviceSpecProxyConfig_FieldPath))
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorActiveConfig:
+				activeConfigMask.AppendPath(tp.subPath.(DeviceSpecProxyConfig_FieldPath))
+			case DeviceStatusProxyConfigStatus_FieldPathSelectorApiConfig:
+				apiConfigMask.AppendPath(tp.subPath.(DeviceSpecProxyConfig_FieldPath))
+			}
+		}
+	}
+	if wholeDefaultConfigAccepted == false && len(defaultConfigMask.Paths) > 0 {
+		result.DefaultConfig = defaultConfigMask.Project(source.GetDefaultConfig())
+	}
+	if wholeActiveConfigAccepted == false && len(activeConfigMask.Paths) > 0 {
+		result.ActiveConfig = activeConfigMask.Project(source.GetActiveConfig())
+	}
+	if wholeApiConfigAccepted == false && len(apiConfigMask.Paths) > 0 {
+		result.ApiConfig = apiConfigMask.Project(source.GetApiConfig())
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_ProxyConfigStatus))
+}
+
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

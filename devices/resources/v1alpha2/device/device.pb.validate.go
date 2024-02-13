@@ -146,6 +146,16 @@ func (obj *Device_Status) GotenValidate() error {
 			}
 		}
 	}
+	if subobj, ok := interface{}(obj.NetworkConfigState).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Status", "networkConfigState", obj.NetworkConfigState, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ProxyConfigStatus).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Status", "proxyConfigStatus", obj.ProxyConfigStatus, "nested object validation failed", err)
+		}
+	}
 	if subobj, ok := interface{}(obj.DeviceInfo).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Status", "deviceInfo", obj.DeviceInfo, "nested object validation failed", err)
@@ -688,6 +698,54 @@ func (obj *Device_Status_Address) GotenValidate() error {
 func (obj *Device_Status_Condition) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_NetworkConfigState) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.DefaultConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetworkConfigState", "defaultConfig", obj.DefaultConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ActiveConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetworkConfigState", "activeConfig", obj.ActiveConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.DesiredConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NetworkConfigState", "desiredConfig", obj.DesiredConfig, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_ProxyConfigStatus) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.DefaultConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ProxyConfigStatus", "defaultConfig", obj.DefaultConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ActiveConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ProxyConfigStatus", "activeConfig", obj.ActiveConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ApiConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ProxyConfigStatus", "apiConfig", obj.ApiConfig, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

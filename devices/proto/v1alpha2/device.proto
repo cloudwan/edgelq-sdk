@@ -850,6 +850,10 @@ message Device {
     // List of conditions of the Device.
     repeated Condition conditions = 2;
 
+    NetworkConfigState network_config_state = 105;
+
+    ProxyConfigStatus proxy_config_status = 106;
+
     // Device detailed information
     DeviceInfo device_info = 3;
 
@@ -883,6 +887,56 @@ message Device {
 
       // When the status has tuned into the current value.
       google.protobuf.Timestamp last_transition_time = 6;
+    }
+
+    message NetworkConfigState {
+      NetworkConfigSource active_network_config_source = 1;
+
+      NetworkConfigSource desired_network_config_source = 2;
+
+      string desired_network_config_error = 3;
+
+      Spec.NetplanConfig default_config = 4;
+
+      Spec.NetplanConfig active_config = 5;
+
+      Spec.NetplanConfig desired_config = 6;
+
+      enum NetworkConfigSource {
+        UNKNOWN = 0;
+
+        DEFAULT_CONFIG = 1;
+
+        API_CONFIG = 2;
+
+        MERGED_DEFAULT_AND_API_CONFIG = 3;
+
+        PREVIOUS_MERGED_DEFAULT_AND_API_CONFIG = 4;
+
+        PREVIOUS_API_CONFIG = 5;
+      }
+    }
+
+    message ProxyConfigStatus {
+      ProxyConfigSource active_config_source = 1;
+
+      ProxyConfigSource desired_config_source = 2;
+
+      string proxy_config_error = 3;
+
+      Spec.ProxyConfig default_config = 4;
+
+      Spec.ProxyConfig active_config = 5;
+
+      Spec.ProxyConfig api_config = 6;
+
+      enum ProxyConfigSource {
+        NO_CONFIG = 0;
+
+        DEFAULT_CONFIG = 1;
+
+        API_CONFIG = 2;
+      }
     }
 
     // Device Information
