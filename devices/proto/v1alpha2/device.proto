@@ -8,6 +8,7 @@ import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/type/latlng.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device;device";
 option java_multiple_files = true;
@@ -859,6 +860,9 @@ message Device {
 
     repeated ntt.iam.v1alpha2.PCR attestation_status = 4;
 
+    // Normalized Address.
+    NormalizedAddress normalized_address = 5;
+
     // Interface addresses of the Device.
     message Address {
       // IPv4 or IPv6 address such as `203.0.113.5` (no suffix for subnet)
@@ -1563,6 +1567,55 @@ message Device {
         // endpoint
         bool is_fallback = 3;
       }
+    }
+
+    message NormalizedAddress {
+      // Postal code
+      string postal_code = 1;
+
+      // Country code example US, JP
+      string country_code = 2;
+
+      // Continent, e.g. North America, Asia
+      string continent = 3;
+
+      string continent_id = 4;
+
+      // Country name example United States, Japan
+      string country = 5;
+
+      string country_id = 6;
+
+      // Probe Location Administrative Area level 1 name, e.g. California
+      // (state), Chiba (prefecture)
+      string admin_area1 = 7;
+
+      string admin_area1_id = 8;
+
+      // Probe Location Administrative Area level 2 name, e.g. Santa Clara
+      // (county), Tateyama (town)
+      string admin_area2 = 9;
+
+      string admin_area2_id = 10;
+
+      // Probe Location Administrative Area level 3 name, e.g. Sunnyvale (city)
+      string admin_area3 = 11;
+
+      string admin_area3_id = 12;
+
+      // Probe Location Administrative Area level 4 name, e.g. Sunnyvale (city)
+      string admin_area4 = 13;
+
+      string admin_area4_id = 14;
+
+      // Original address.
+      string address = 15;
+
+      // coordinates
+      google.type.LatLng coordinates = 16;
+
+      // location accuracy in meters
+      double accuracy = 17;
     }
   }
 
