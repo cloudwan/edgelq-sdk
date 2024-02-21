@@ -17,6 +17,7 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -34,6 +35,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type DeviceFieldPathBuilder struct{}
@@ -2086,6 +2088,10 @@ func (DevicePathSelectorStatus) DeviceInfo() DevicePathSelectorStatusDeviceInfo 
 
 func (DevicePathSelectorStatus) AttestationStatus() DevicePathSelectorStatusAttestationStatus {
 	return DevicePathSelectorStatusAttestationStatus{}
+}
+
+func (DevicePathSelectorStatus) NormalizedAddress() DevicePathSelectorStatusNormalizedAddress {
+	return DevicePathSelectorStatusNormalizedAddress{}
 }
 
 type DevicePathSelectorStatusAddresses struct{}
@@ -8897,6 +8903,380 @@ func (s DevicePathSelectorStatusAttestationStatusComment) WithArrayOfValues(valu
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
+type DevicePathSelectorStatusNormalizedAddress struct{}
+
+func (DevicePathSelectorStatusNormalizedAddress) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddress) WithValue(value *Device_Status_NormalizedAddress) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddress) WithArrayOfValues(values []*Device_Status_NormalizedAddress) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) PostalCode() DevicePathSelectorStatusNormalizedAddressPostalCode {
+	return DevicePathSelectorStatusNormalizedAddressPostalCode{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) CountryCode() DevicePathSelectorStatusNormalizedAddressCountryCode {
+	return DevicePathSelectorStatusNormalizedAddressCountryCode{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) Continent() DevicePathSelectorStatusNormalizedAddressContinent {
+	return DevicePathSelectorStatusNormalizedAddressContinent{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) ContinentId() DevicePathSelectorStatusNormalizedAddressContinentId {
+	return DevicePathSelectorStatusNormalizedAddressContinentId{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) Country() DevicePathSelectorStatusNormalizedAddressCountry {
+	return DevicePathSelectorStatusNormalizedAddressCountry{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) CountryId() DevicePathSelectorStatusNormalizedAddressCountryId {
+	return DevicePathSelectorStatusNormalizedAddressCountryId{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea1() DevicePathSelectorStatusNormalizedAddressAdminArea1 {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea1{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea1Id() DevicePathSelectorStatusNormalizedAddressAdminArea1Id {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea1Id{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea2() DevicePathSelectorStatusNormalizedAddressAdminArea2 {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea2{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea2Id() DevicePathSelectorStatusNormalizedAddressAdminArea2Id {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea2Id{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea3() DevicePathSelectorStatusNormalizedAddressAdminArea3 {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea3{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea3Id() DevicePathSelectorStatusNormalizedAddressAdminArea3Id {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea3Id{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea4() DevicePathSelectorStatusNormalizedAddressAdminArea4 {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea4{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) AdminArea4Id() DevicePathSelectorStatusNormalizedAddressAdminArea4Id {
+	return DevicePathSelectorStatusNormalizedAddressAdminArea4Id{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) Address() DevicePathSelectorStatusNormalizedAddressAddress {
+	return DevicePathSelectorStatusNormalizedAddressAddress{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) Coordinates() DevicePathSelectorStatusNormalizedAddressCoordinates {
+	return DevicePathSelectorStatusNormalizedAddressCoordinates{}
+}
+
+func (DevicePathSelectorStatusNormalizedAddress) Accuracy() DevicePathSelectorStatusNormalizedAddressAccuracy {
+	return DevicePathSelectorStatusNormalizedAddressAccuracy{}
+}
+
+type DevicePathSelectorStatusNormalizedAddressPostalCode struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressPostalCode) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().PostalCode().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressPostalCode) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressPostalCode) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressCountryCode struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressCountryCode) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().CountryCode().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountryCode) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountryCode) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressContinent struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressContinent) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().Continent().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressContinent) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressContinent) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressContinentId struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressContinentId) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().ContinentId().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressContinentId) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressContinentId) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressCountry struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressCountry) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().Country().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountry) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountry) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressCountryId struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressCountryId) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().CountryId().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountryId) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCountryId) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea1 struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea1) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea1().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea1) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea1) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea1Id struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea1Id) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea1Id().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea1Id) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea1Id) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea2 struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea2) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea2().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea2) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea2) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea2Id struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea2Id) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea2Id().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea2Id) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea2Id) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea3 struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea3) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea3().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea3) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea3) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea3Id struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea3Id) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea3Id().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea3Id) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea3Id) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea4 struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea4) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea4().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea4) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea4) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAdminArea4Id struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAdminArea4Id) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea4Id().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea4Id) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAdminArea4Id) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAddress struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAddress) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().Address().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAddress) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAddress) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressCoordinates struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressCoordinates) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().Coordinates().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCoordinates) WithValue(value *latlng.LatLng) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressCoordinates) WithArrayOfValues(values []*latlng.LatLng) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusNormalizedAddressAccuracy struct{}
+
+func (DevicePathSelectorStatusNormalizedAddressAccuracy) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().NormalizedAddress().Accuracy().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAccuracy) WithValue(value float64) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
 type DevicePathSelectorPublicListingSpec struct{}
 
 func (DevicePathSelectorPublicListingSpec) FieldPath() *Device_FieldTerminalPath {
@@ -10378,6 +10758,9 @@ func (DeviceStatusFieldPathBuilder) DeviceInfo() Device_StatusPathSelectorDevice
 }
 func (DeviceStatusFieldPathBuilder) AttestationStatus() Device_StatusPathSelectorAttestationStatus {
 	return Device_StatusPathSelectorAttestationStatus{}
+}
+func (DeviceStatusFieldPathBuilder) NormalizedAddress() Device_StatusPathSelectorNormalizedAddress {
+	return Device_StatusPathSelectorNormalizedAddress{}
 }
 
 type Device_StatusPathSelectorAddresses struct{}
@@ -17261,6 +17644,393 @@ func (s Device_StatusPathSelectorAttestationStatusComment) WithValue(value strin
 }
 
 func (s Device_StatusPathSelectorAttestationStatusComment) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddress struct{}
+
+func (Device_StatusPathSelectorNormalizedAddress) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddress) WithValue(value *Device_Status_NormalizedAddress) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddress) WithArrayOfValues(values []*Device_Status_NormalizedAddress) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) WithSubPath(subPath DeviceStatusNormalizedAddress_FieldPath) *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress, subPath: subPath}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddress) WithSubValue(subPathValue DeviceStatusNormalizedAddress_FieldPathValue) *DeviceStatus_FieldSubPathValue {
+	return &DeviceStatus_FieldSubPathValue{DeviceStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddress) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusNormalizedAddress_FieldPathArrayOfValues) *DeviceStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatus_FieldSubPathArrayOfValues{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddress) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusNormalizedAddress_FieldPathArrayItemValue) *DeviceStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatus_FieldSubPathArrayItemValue{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) PostalCode() Device_StatusPathSelectorNormalizedAddressPostalCode {
+	return Device_StatusPathSelectorNormalizedAddressPostalCode{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) CountryCode() Device_StatusPathSelectorNormalizedAddressCountryCode {
+	return Device_StatusPathSelectorNormalizedAddressCountryCode{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) Continent() Device_StatusPathSelectorNormalizedAddressContinent {
+	return Device_StatusPathSelectorNormalizedAddressContinent{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) ContinentId() Device_StatusPathSelectorNormalizedAddressContinentId {
+	return Device_StatusPathSelectorNormalizedAddressContinentId{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) Country() Device_StatusPathSelectorNormalizedAddressCountry {
+	return Device_StatusPathSelectorNormalizedAddressCountry{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) CountryId() Device_StatusPathSelectorNormalizedAddressCountryId {
+	return Device_StatusPathSelectorNormalizedAddressCountryId{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea1() Device_StatusPathSelectorNormalizedAddressAdminArea1 {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea1{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea1Id() Device_StatusPathSelectorNormalizedAddressAdminArea1Id {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea1Id{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea2() Device_StatusPathSelectorNormalizedAddressAdminArea2 {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea2{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea2Id() Device_StatusPathSelectorNormalizedAddressAdminArea2Id {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea2Id{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea3() Device_StatusPathSelectorNormalizedAddressAdminArea3 {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea3{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea3Id() Device_StatusPathSelectorNormalizedAddressAdminArea3Id {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea3Id{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea4() Device_StatusPathSelectorNormalizedAddressAdminArea4 {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea4{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) AdminArea4Id() Device_StatusPathSelectorNormalizedAddressAdminArea4Id {
+	return Device_StatusPathSelectorNormalizedAddressAdminArea4Id{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) Address() Device_StatusPathSelectorNormalizedAddressAddress {
+	return Device_StatusPathSelectorNormalizedAddressAddress{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) Coordinates() Device_StatusPathSelectorNormalizedAddressCoordinates {
+	return Device_StatusPathSelectorNormalizedAddressCoordinates{}
+}
+
+func (Device_StatusPathSelectorNormalizedAddress) Accuracy() Device_StatusPathSelectorNormalizedAddressAccuracy {
+	return Device_StatusPathSelectorNormalizedAddressAccuracy{}
+}
+
+type Device_StatusPathSelectorNormalizedAddressPostalCode struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressPostalCode) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().PostalCode().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressPostalCode) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressPostalCode) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressCountryCode struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressCountryCode) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().CountryCode().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountryCode) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountryCode) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressContinent struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressContinent) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().Continent().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressContinent) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressContinent) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressContinentId struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressContinentId) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().ContinentId().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressContinentId) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressContinentId) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressCountry struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressCountry) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().Country().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountry) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountry) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressCountryId struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressCountryId) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().CountryId().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountryId) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCountryId) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea1 struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea1) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea1().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea1) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea1) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea1Id struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea1Id) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea1Id().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea1Id) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea1Id) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea2 struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea2) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea2().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea2) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea2) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea2Id struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea2Id) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea2Id().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea2Id) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea2Id) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea3 struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea3) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea3().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea3) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea3) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea3Id struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea3Id) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea3Id().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea3Id) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea3Id) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea4 struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea4) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea4().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea4) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea4) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAdminArea4Id struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAdminArea4Id) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().AdminArea4Id().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea4Id) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAdminArea4Id) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAddress struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAddress) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().Address().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAddress) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAddress) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressCoordinates struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressCoordinates) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().Coordinates().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCoordinates) WithValue(value *latlng.LatLng) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressCoordinates) WithArrayOfValues(values []*latlng.LatLng) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorNormalizedAddressAccuracy struct{}
+
+func (Device_StatusPathSelectorNormalizedAddressAccuracy) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorNormalizedAddress,
+		subPath:  NewDeviceStatusNormalizedAddressFieldPathBuilder().Accuracy().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAccuracy) WithValue(value float64) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
@@ -37952,6 +38722,301 @@ func (s Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfoIsFallback)
 
 func (s Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfoIsFallback) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type DeviceStatusNormalizedAddressFieldPathBuilder struct{}
+
+func NewDeviceStatusNormalizedAddressFieldPathBuilder() DeviceStatusNormalizedAddressFieldPathBuilder {
+	return DeviceStatusNormalizedAddressFieldPathBuilder{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) PostalCode() Device_Status_NormalizedAddressPathSelectorPostalCode {
+	return Device_Status_NormalizedAddressPathSelectorPostalCode{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) CountryCode() Device_Status_NormalizedAddressPathSelectorCountryCode {
+	return Device_Status_NormalizedAddressPathSelectorCountryCode{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) Continent() Device_Status_NormalizedAddressPathSelectorContinent {
+	return Device_Status_NormalizedAddressPathSelectorContinent{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) ContinentId() Device_Status_NormalizedAddressPathSelectorContinentId {
+	return Device_Status_NormalizedAddressPathSelectorContinentId{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) Country() Device_Status_NormalizedAddressPathSelectorCountry {
+	return Device_Status_NormalizedAddressPathSelectorCountry{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) CountryId() Device_Status_NormalizedAddressPathSelectorCountryId {
+	return Device_Status_NormalizedAddressPathSelectorCountryId{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea1() Device_Status_NormalizedAddressPathSelectorAdminArea1 {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea1{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea1Id() Device_Status_NormalizedAddressPathSelectorAdminArea1Id {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea1Id{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea2() Device_Status_NormalizedAddressPathSelectorAdminArea2 {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea2{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea2Id() Device_Status_NormalizedAddressPathSelectorAdminArea2Id {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea2Id{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea3() Device_Status_NormalizedAddressPathSelectorAdminArea3 {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea3{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea3Id() Device_Status_NormalizedAddressPathSelectorAdminArea3Id {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea3Id{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea4() Device_Status_NormalizedAddressPathSelectorAdminArea4 {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea4{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) AdminArea4Id() Device_Status_NormalizedAddressPathSelectorAdminArea4Id {
+	return Device_Status_NormalizedAddressPathSelectorAdminArea4Id{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) Address() Device_Status_NormalizedAddressPathSelectorAddress {
+	return Device_Status_NormalizedAddressPathSelectorAddress{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) Coordinates() Device_Status_NormalizedAddressPathSelectorCoordinates {
+	return Device_Status_NormalizedAddressPathSelectorCoordinates{}
+}
+func (DeviceStatusNormalizedAddressFieldPathBuilder) Accuracy() Device_Status_NormalizedAddressPathSelectorAccuracy {
+	return Device_Status_NormalizedAddressPathSelectorAccuracy{}
+}
+
+type Device_Status_NormalizedAddressPathSelectorPostalCode struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorPostalCode) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorPostalCode) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorPostalCode) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorCountryCode struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorCountryCode) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountryCode) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountryCode) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorContinent struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorContinent) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinent}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorContinent) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorContinent) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorContinentId struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorContinentId) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinentId}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorContinentId) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorContinentId) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorCountry struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorCountry) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountry}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountry) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountry) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorCountryId struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorCountryId) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryId}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountryId) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCountryId) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea1 struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea1) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea1) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea1) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea1Id struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea1Id) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea1Id) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea1Id) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea2 struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea2) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea2) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea2) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea2Id struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea2Id) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea2Id) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea2Id) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea3 struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea3) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea3) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea3) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea3Id struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea3Id) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea3Id) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea3Id) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea4 struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea4) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea4) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea4) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAdminArea4Id struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAdminArea4Id) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea4Id) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAdminArea4Id) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAddress struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAddress) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAddress}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAddress) WithValue(value string) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAddress) WithArrayOfValues(values []string) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorCoordinates struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorCoordinates) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCoordinates) WithValue(value *latlng.LatLng) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorCoordinates) WithArrayOfValues(values []*latlng.LatLng) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_NormalizedAddressPathSelectorAccuracy struct{}
+
+func (Device_Status_NormalizedAddressPathSelectorAccuracy) FieldPath() *DeviceStatusNormalizedAddress_FieldTerminalPath {
+	return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy}
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAccuracy) WithValue(value float64) *DeviceStatusNormalizedAddress_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusNormalizedAddress_FieldTerminalPathValue)
+}
+
+func (s Device_Status_NormalizedAddressPathSelectorAccuracy) WithArrayOfValues(values []float64) *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceStatusDeviceInfoHardwareInformationFieldPathBuilder struct{}

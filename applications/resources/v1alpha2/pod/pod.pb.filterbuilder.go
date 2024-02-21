@@ -28,6 +28,7 @@ import (
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -57,6 +58,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type FilterBuilderOrCondition interface {

@@ -26,6 +26,7 @@ import (
 	duration "github.com/golang/protobuf/ptypes/duration"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -50,6 +51,7 @@ var (
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )

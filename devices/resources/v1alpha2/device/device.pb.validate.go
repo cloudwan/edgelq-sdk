@@ -30,6 +30,7 @@ import (
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -58,6 +59,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 func (obj *Device) GotenValidate() error {
@@ -166,6 +168,11 @@ func (obj *Device_Status) GotenValidate() error {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("Status", "attestationStatus", obj.AttestationStatus[idx], "nested object validation failed", err)
 			}
+		}
+	}
+	if subobj, ok := interface{}(obj.NormalizedAddress).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Status", "normalizedAddress", obj.NormalizedAddress, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -764,6 +771,20 @@ func (obj *Device_Status_DeviceInfo) GotenValidate() error {
 	if subobj, ok := interface{}(obj.ControlPlaneInterfaceInfo).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("DeviceInfo", "controlPlaneInterfaceInfo", obj.ControlPlaneInterfaceInfo, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_NormalizedAddress) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Coordinates).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NormalizedAddress", "coordinates", obj.Coordinates, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

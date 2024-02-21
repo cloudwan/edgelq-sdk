@@ -23,6 +23,7 @@ import (
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -47,6 +48,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 func (o *Device) GotenObjectExt() {}
@@ -469,6 +471,16 @@ func (o *Device_Status) MakeDiffFieldMask(other *Device_Status) *Device_Status_F
 	} else {
 		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
 	}
+	{
+		subMask := o.GetNormalizedAddress().MakeDiffFieldMask(other.GetNormalizedAddress())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -496,6 +508,7 @@ func (o *Device_Status) Clone() *Device_Status {
 	for i, sourceValue := range o.AttestationStatus {
 		result.AttestationStatus[i] = sourceValue.Clone()
 	}
+	result.NormalizedAddress = o.NormalizedAddress.Clone()
 	return result
 }
 
@@ -576,6 +589,12 @@ func (o *Device_Status) Merge(source *Device_Status) {
 		}
 	}
 
+	if source.GetNormalizedAddress() != nil {
+		if o.NormalizedAddress == nil {
+			o.NormalizedAddress = new(Device_Status_NormalizedAddress)
+		}
+		o.NormalizedAddress.Merge(source.GetNormalizedAddress())
+	}
 }
 
 func (o *Device_Status) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -5554,6 +5573,141 @@ func (o *Device_Status_DeviceInfo) Merge(source *Device_Status_DeviceInfo) {
 
 func (o *Device_Status_DeviceInfo) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Status_DeviceInfo))
+}
+
+func (o *Device_Status_NormalizedAddress) GotenObjectExt() {}
+
+func (o *Device_Status_NormalizedAddress) MakeFullFieldMask() *Device_Status_NormalizedAddress_FieldMask {
+	return FullDevice_Status_NormalizedAddress_FieldMask()
+}
+
+func (o *Device_Status_NormalizedAddress) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_NormalizedAddress_FieldMask()
+}
+
+func (o *Device_Status_NormalizedAddress) MakeDiffFieldMask(other *Device_Status_NormalizedAddress) *Device_Status_NormalizedAddress_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_NormalizedAddress_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_NormalizedAddress_FieldMask()
+	}
+
+	res := &Device_Status_NormalizedAddress_FieldMask{}
+	if o.GetPostalCode() != other.GetPostalCode() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode})
+	}
+	if o.GetCountryCode() != other.GetCountryCode() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode})
+	}
+	if o.GetContinent() != other.GetContinent() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinent})
+	}
+	if o.GetContinentId() != other.GetContinentId() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinentId})
+	}
+	if o.GetCountry() != other.GetCountry() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountry})
+	}
+	if o.GetCountryId() != other.GetCountryId() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryId})
+	}
+	if o.GetAdminArea1() != other.GetAdminArea1() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1})
+	}
+	if o.GetAdminArea1Id() != other.GetAdminArea1Id() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id})
+	}
+	if o.GetAdminArea2() != other.GetAdminArea2() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2})
+	}
+	if o.GetAdminArea2Id() != other.GetAdminArea2Id() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id})
+	}
+	if o.GetAdminArea3() != other.GetAdminArea3() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3})
+	}
+	if o.GetAdminArea3Id() != other.GetAdminArea3Id() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id})
+	}
+	if o.GetAdminArea4() != other.GetAdminArea4() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4})
+	}
+	if o.GetAdminArea4Id() != other.GetAdminArea4Id() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id})
+	}
+	if o.GetAddress() != other.GetAddress() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAddress})
+	}
+	if !proto.Equal(o.GetCoordinates(), other.GetCoordinates()) {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates})
+	}
+	if o.GetAccuracy() != other.GetAccuracy() {
+		res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy})
+	}
+	return res
+}
+
+func (o *Device_Status_NormalizedAddress) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_NormalizedAddress))
+}
+
+func (o *Device_Status_NormalizedAddress) Clone() *Device_Status_NormalizedAddress {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_NormalizedAddress{}
+	result.PostalCode = o.PostalCode
+	result.CountryCode = o.CountryCode
+	result.Continent = o.Continent
+	result.ContinentId = o.ContinentId
+	result.Country = o.Country
+	result.CountryId = o.CountryId
+	result.AdminArea1 = o.AdminArea1
+	result.AdminArea1Id = o.AdminArea1Id
+	result.AdminArea2 = o.AdminArea2
+	result.AdminArea2Id = o.AdminArea2Id
+	result.AdminArea3 = o.AdminArea3
+	result.AdminArea3Id = o.AdminArea3Id
+	result.AdminArea4 = o.AdminArea4
+	result.AdminArea4Id = o.AdminArea4Id
+	result.Address = o.Address
+	result.Coordinates = proto.Clone(o.Coordinates).(*latlng.LatLng)
+	result.Accuracy = o.Accuracy
+	return result
+}
+
+func (o *Device_Status_NormalizedAddress) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_NormalizedAddress) Merge(source *Device_Status_NormalizedAddress) {
+	o.PostalCode = source.GetPostalCode()
+	o.CountryCode = source.GetCountryCode()
+	o.Continent = source.GetContinent()
+	o.ContinentId = source.GetContinentId()
+	o.Country = source.GetCountry()
+	o.CountryId = source.GetCountryId()
+	o.AdminArea1 = source.GetAdminArea1()
+	o.AdminArea1Id = source.GetAdminArea1Id()
+	o.AdminArea2 = source.GetAdminArea2()
+	o.AdminArea2Id = source.GetAdminArea2Id()
+	o.AdminArea3 = source.GetAdminArea3()
+	o.AdminArea3Id = source.GetAdminArea3Id()
+	o.AdminArea4 = source.GetAdminArea4()
+	o.AdminArea4Id = source.GetAdminArea4Id()
+	o.Address = source.GetAddress()
+	if source.GetCoordinates() != nil {
+		if o.Coordinates == nil {
+			o.Coordinates = new(latlng.LatLng)
+		}
+		proto.Merge(o.Coordinates, source.GetCoordinates())
+	}
+	o.Accuracy = source.GetAccuracy()
+}
+
+func (o *Device_Status_NormalizedAddress) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_NormalizedAddress))
 }
 
 func (o *Device_Status_DeviceInfo_HardwareInformation) GotenObjectExt() {}

@@ -22,6 +22,7 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -45,6 +46,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -6294,6 +6296,10 @@ func (b *filterCndBuilderStatus) DeviceInfo() *filterCndBuilderStatusDeviceInfo 
 
 func (b *filterCndBuilderStatus) AttestationStatus() *filterCndBuilderStatusAttestationStatus {
 	return &filterCndBuilderStatusAttestationStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) NormalizedAddress() *filterCndBuilderStatusNormalizedAddress {
+	return &filterCndBuilderStatusNormalizedAddress{builder: b.builder}
 }
 
 type filterCndBuilderStatusAddresses struct {
@@ -27352,6 +27358,1136 @@ func (b *filterCndBuilderStatusAttestationStatusComment) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddress struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Eq(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Neq(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Gt(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Gte(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Lt(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Lte(value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) In(values []*Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) NotIn(values []*Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) compare(op gotenfilter.CompareOperator, value *Device_Status_NormalizedAddress) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) PostalCode() *filterCndBuilderStatusNormalizedAddressPostalCode {
+	return &filterCndBuilderStatusNormalizedAddressPostalCode{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) CountryCode() *filterCndBuilderStatusNormalizedAddressCountryCode {
+	return &filterCndBuilderStatusNormalizedAddressCountryCode{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Continent() *filterCndBuilderStatusNormalizedAddressContinent {
+	return &filterCndBuilderStatusNormalizedAddressContinent{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) ContinentId() *filterCndBuilderStatusNormalizedAddressContinentId {
+	return &filterCndBuilderStatusNormalizedAddressContinentId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Country() *filterCndBuilderStatusNormalizedAddressCountry {
+	return &filterCndBuilderStatusNormalizedAddressCountry{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) CountryId() *filterCndBuilderStatusNormalizedAddressCountryId {
+	return &filterCndBuilderStatusNormalizedAddressCountryId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea1() *filterCndBuilderStatusNormalizedAddressAdminArea1 {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea1{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea1Id() *filterCndBuilderStatusNormalizedAddressAdminArea1Id {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea1Id{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea2() *filterCndBuilderStatusNormalizedAddressAdminArea2 {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea2{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea2Id() *filterCndBuilderStatusNormalizedAddressAdminArea2Id {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea2Id{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea3() *filterCndBuilderStatusNormalizedAddressAdminArea3 {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea3{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea3Id() *filterCndBuilderStatusNormalizedAddressAdminArea3Id {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea3Id{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea4() *filterCndBuilderStatusNormalizedAddressAdminArea4 {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea4{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) AdminArea4Id() *filterCndBuilderStatusNormalizedAddressAdminArea4Id {
+	return &filterCndBuilderStatusNormalizedAddressAdminArea4Id{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Address() *filterCndBuilderStatusNormalizedAddressAddress {
+	return &filterCndBuilderStatusNormalizedAddressAddress{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Coordinates() *filterCndBuilderStatusNormalizedAddressCoordinates {
+	return &filterCndBuilderStatusNormalizedAddressCoordinates{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusNormalizedAddress) Accuracy() *filterCndBuilderStatusNormalizedAddressAccuracy {
+	return &filterCndBuilderStatusNormalizedAddressAccuracy{builder: b.builder}
+}
+
+type filterCndBuilderStatusNormalizedAddressPostalCode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressPostalCode) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressCountryCode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryCode) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressContinent struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinent) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressContinentId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressContinentId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressCountry struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountry) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressCountryId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCountryId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea1 struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea1Id struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea1Id) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea2 struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea2Id struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea2Id) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea3 struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea3Id struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea3Id) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea4 struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAdminArea4Id struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAdminArea4Id) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAddress struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAddress) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressCoordinates struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Eq(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Neq(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Gt(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Gte(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Lt(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) Lte(value *latlng.LatLng) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) In(values []*latlng.LatLng) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) NotIn(values []*latlng.LatLng) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressCoordinates) compare(op gotenfilter.CompareOperator, value *latlng.LatLng) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusNormalizedAddressAccuracy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Eq(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Neq(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Gt(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Gte(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Lt(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) Lte(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) In(values []float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) NotIn(values []float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusNormalizedAddressAccuracy) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().WithValue(value),
 	})
 }
 

@@ -19,6 +19,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -37,6 +38,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 	_ = view.View(0)
 )
 
@@ -2227,6 +2229,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesStatus) DeviceInfo() ListPubli
 
 func (ListPublicDevicesResponsePathSelectorDevicesStatus) AttestationStatus() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus {
 	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatus) NormalizedAddress() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress{}
 }
 
 type ListPublicDevicesResponsePathSelectorDevicesStatusAddresses struct{}
@@ -9035,6 +9041,380 @@ func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComme
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) WithValue(value *device.Device_Status_NormalizedAddress) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) WithArrayOfValues(values []*device.Device_Status_NormalizedAddress) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) PostalCode() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) CountryCode() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) Continent() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) ContinentId() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) Country() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) CountryId() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea1() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1 {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea1Id() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea2() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2 {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea2Id() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea3() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3 {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea3Id() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea4() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4 {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) AdminArea4Id() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) Address() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) Coordinates() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddress) Accuracy() ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressPostalCode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryCode) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinent) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressContinentId) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountry) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCountryId) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1 struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea1Id) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2 struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea2Id) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3 struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea3Id) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4 struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAdminArea4Id) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAddress) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates) WithValue(value *latlng.LatLng) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressCoordinates) WithArrayOfValues(values []*latlng.LatLng) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy) WithValue(value float64) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

@@ -27,6 +27,7 @@ import (
 	duration "github.com/golang/protobuf/ptypes/duration"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -55,6 +56,7 @@ var (
 	_ = &field_mask.FieldMask{}
 	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type FilterBuilderOrCondition interface {

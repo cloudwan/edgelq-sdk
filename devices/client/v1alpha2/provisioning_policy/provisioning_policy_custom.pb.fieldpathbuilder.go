@@ -25,6 +25,7 @@ import (
 	duration "github.com/golang/protobuf/ptypes/duration"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -50,6 +51,7 @@ var (
 	_ = &field_mask.FieldMask{}
 	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type ProvisionServiceAccountToProvisioningPolicyRequestFieldPathBuilder struct{}
@@ -325,6 +327,10 @@ func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatus) DeviceInfo() Prov
 
 func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus {
 	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatus) NormalizedAddress() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress{}
 }
 
 type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAddresses struct{}
@@ -7136,6 +7142,380 @@ func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
 }
 
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) WithValue(value *device.Device_Status_NormalizedAddress) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) WithArrayOfValues(values []*device.Device_Status_NormalizedAddress) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) PostalCode() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) CountryCode() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) Continent() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) ContinentId() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) Country() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) CountryId() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea1() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1 {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea1Id() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea2() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2 {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea2Id() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea3() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3 {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea3Id() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea4() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4 {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) AdminArea4Id() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) Address() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) Coordinates() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddress) Accuracy() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().PostalCode().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressPostalCode) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().CountryCode().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryCode) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().Continent().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinent) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().ContinentId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressContinentId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().Country().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountry) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().CountryId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCountryId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1 struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea1().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea1Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea1Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2 struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea2().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea2Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea2Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3 struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea3().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea3Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea3Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4 struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea4().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().AdminArea4Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAdminArea4Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().Address().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAddress) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().Coordinates().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates) WithValue(value *latlng.LatLng) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressCoordinates) WithArrayOfValues(values []*latlng.LatLng) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().NormalizedAddress().Accuracy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy) WithValue(value float64) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
 type ProvisionDeviceViaPolicyRequestPathSelectorExternalPubkey struct{}
 
 func (ProvisionDeviceViaPolicyRequestPathSelectorExternalPubkey) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldTerminalPath {
@@ -9206,6 +9586,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatus) DeviceInfo() Pro
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus {
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatus) NormalizedAddress() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress{}
 }
 
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAddresses struct{}
@@ -16014,6 +16398,380 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatu
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) WithValue(value *device.Device_Status_NormalizedAddress) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) WithArrayOfValues(values []*device.Device_Status_NormalizedAddress) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) PostalCode() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) CountryCode() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) Continent() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) ContinentId() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) Country() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) CountryId() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea1() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1 {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea1Id() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea2() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2 {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea2Id() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea3() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3 {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea3Id() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea4() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4 {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) AdminArea4Id() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) Address() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) Coordinates() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddress) Accuracy() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().PostalCode().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressPostalCode) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryCode().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryCode) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Continent().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinent) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().ContinentId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressContinentId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Country().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountry) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().CountryId().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCountryId) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1 struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea1Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea1Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2 struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea2Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea2Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3 struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea3Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea3Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4 struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().AdminArea4Id().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAdminArea4Id) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Address().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAddress) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Coordinates().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates) WithValue(value *latlng.LatLng) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressCoordinates) WithArrayOfValues(values []*latlng.LatLng) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy) WithValue(value float64) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

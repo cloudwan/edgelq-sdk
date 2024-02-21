@@ -31,6 +31,7 @@ import (
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -63,6 +64,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 // FieldPath provides implementation to handle
@@ -2150,6 +2152,7 @@ const (
 	DeviceStatus_FieldPathSelectorProxyConfigStatus  DeviceStatus_FieldPathSelector = 3
 	DeviceStatus_FieldPathSelectorDeviceInfo         DeviceStatus_FieldPathSelector = 4
 	DeviceStatus_FieldPathSelectorAttestationStatus  DeviceStatus_FieldPathSelector = 5
+	DeviceStatus_FieldPathSelectorNormalizedAddress  DeviceStatus_FieldPathSelector = 6
 )
 
 func (s DeviceStatus_FieldPathSelector) String() string {
@@ -2166,6 +2169,8 @@ func (s DeviceStatus_FieldPathSelector) String() string {
 		return "device_info"
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return "attestation_status"
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return "normalized_address"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", s))
 	}
@@ -2189,6 +2194,8 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo}, nil
 		case "attestation_status", "attestationStatus", "attestation-status":
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus}, nil
+		case "normalized_address", "normalizedAddress", "normalized-address":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2227,6 +2234,12 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 				return nil, err
 			} else {
 				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus, subPath: subpath}, nil
+			}
+		case "normalized_address", "normalizedAddress", "normalized-address":
+			if subpath, err := BuildDeviceStatusNormalizedAddress_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress, subPath: subpath}, nil
 			}
 		}
 	}
@@ -2297,6 +2310,10 @@ func (fp *DeviceStatus_FieldTerminalPath) Get(source *Device_Status) (values []i
 			for _, value := range source.GetAttestationStatus() {
 				values = append(values, value)
 			}
+		case DeviceStatus_FieldPathSelectorNormalizedAddress:
+			if source.NormalizedAddress != nil {
+				values = append(values, source.NormalizedAddress)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2329,6 +2346,9 @@ func (fp *DeviceStatus_FieldTerminalPath) GetSingle(source *Device_Status) (inte
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		res := source.GetAttestationStatus()
 		return res, res != nil
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		res := source.GetNormalizedAddress()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2353,6 +2373,8 @@ func (fp *DeviceStatus_FieldTerminalPath) GetDefault() interface{} {
 		return (*Device_Status_DeviceInfo)(nil)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return ([]*iam_iam_common.PCR)(nil)
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return (*Device_Status_NormalizedAddress)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2373,6 +2395,8 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValue(item *Device_Status) {
 			item.DeviceInfo = nil
 		case DeviceStatus_FieldPathSelectorAttestationStatus:
 			item.AttestationStatus = nil
+		case DeviceStatus_FieldPathSelectorNormalizedAddress:
+			item.NormalizedAddress = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2406,6 +2430,8 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceSt
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*iam_iam_common.PCR)}
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_NormalizedAddress)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2430,6 +2456,8 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*iam_iam_common.PCR)}
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_NormalizedAddress)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2491,6 +2519,10 @@ func (fps *DeviceStatus_FieldSubPath) AsAttestationStatusSubPath() (iam_iam_comm
 	res, ok := fps.subPath.(iam_iam_common.PCR_FieldPath)
 	return res, ok
 }
+func (fps *DeviceStatus_FieldSubPath) AsNormalizedAddressSubPath() (DeviceStatusNormalizedAddress_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusNormalizedAddress_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *DeviceStatus_FieldSubPath) String() string {
@@ -2523,6 +2555,8 @@ func (fps *DeviceStatus_FieldSubPath) Get(source *Device_Status) (values []inter
 		for _, item := range source.GetAttestationStatus() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		values = append(values, fps.subPath.GetRaw(source.GetNormalizedAddress())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 	}
@@ -2566,6 +2600,11 @@ func (fps *DeviceStatus_FieldSubPath) GetSingle(source *Device_Status) (interfac
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAttestationStatus()[0])
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		if source.GetNormalizedAddress() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetNormalizedAddress())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 	}
@@ -2601,6 +2640,8 @@ func (fps *DeviceStatus_FieldSubPath) ClearValue(item *Device_Status) {
 			for _, subItem := range item.AttestationStatus {
 				fps.subPath.ClearValueRaw(subItem)
 			}
+		case DeviceStatus_FieldPathSelectorNormalizedAddress:
+			fps.subPath.ClearValueRaw(item.NormalizedAddress)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 		}
@@ -2709,6 +2750,10 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) AsAttestationStatusValue() ([]*i
 	res, ok := fpv.value.([]*iam_iam_common.PCR)
 	return res, ok
 }
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsNormalizedAddressValue() (*Device_Status_NormalizedAddress, bool) {
+	res, ok := fpv.value.(*Device_Status_NormalizedAddress)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Status
 func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
@@ -2728,6 +2773,8 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
 		(*target).DeviceInfo = fpv.value.(*Device_Status_DeviceInfo)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		(*target).AttestationStatus = fpv.value.([]*iam_iam_common.PCR)
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		(*target).NormalizedAddress = fpv.value.(*Device_Status_NormalizedAddress)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2752,6 +2799,8 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) CompareWith(source *Device_Statu
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return 0, false
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return 0, false
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
@@ -2793,6 +2842,10 @@ func (fpvs *DeviceStatus_FieldSubPathValue) AsAttestationStatusPathValue() (iam_
 	res, ok := fpvs.subPathValue.(iam_iam_common.PCR_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceStatus_FieldSubPathValue) AsNormalizedAddressPathValue() (DeviceStatusNormalizedAddress_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusNormalizedAddress_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *DeviceStatus_FieldSubPathValue) SetTo(target **Device_Status) {
 	if *target == nil {
@@ -2811,6 +2864,8 @@ func (fpvs *DeviceStatus_FieldSubPathValue) SetTo(target **Device_Status) {
 		fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).SetTo(&(*target).DeviceInfo)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		panic("FieldPath setter is unsupported for array subpaths")
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		fpvs.subPathValue.(DeviceStatusNormalizedAddress_FieldPathValue).SetTo(&(*target).NormalizedAddress)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpvs.Selector()))
 	}
@@ -2839,6 +2894,8 @@ func (fpvs *DeviceStatus_FieldSubPathValue) CompareWith(source *Device_Status) (
 		return fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).CompareWith(source.GetDeviceInfo())
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return 0, false // repeated field
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return fpvs.subPathValue.(DeviceStatusNormalizedAddress_FieldPathValue).CompareWith(source.GetNormalizedAddress())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpvs.Selector()))
 	}
@@ -2957,6 +3014,10 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsAttestationStatusPathIt
 	res, ok := fpaivs.subPathItemValue.(iam_iam_common.PCR_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsNormalizedAddressPathItemValue() (DeviceStatusNormalizedAddress_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusNormalizedAddress_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Status'
 func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status) bool {
@@ -2973,6 +3034,8 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) ContainsValue(source *Dev
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfo_FieldPathArrayItemValue).ContainsValue(source.GetDeviceInfo())
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
 		return false // repeated/map field
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		return fpaivs.subPathItemValue.(DeviceStatusNormalizedAddress_FieldPathArrayItemValue).ContainsValue(source.GetNormalizedAddress())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpaivs.Selector()))
 	}
@@ -3037,6 +3100,10 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([][]*iam_iam_common.PCR) {
 			values = append(values, v)
 		}
+	case DeviceStatus_FieldPathSelectorNormalizedAddress:
+		for _, v := range fpaov.values.([]*Device_Status_NormalizedAddress) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3062,6 +3129,10 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsDeviceInfoArrayOfVal
 }
 func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAttestationStatusArrayOfValues() ([][]*iam_iam_common.PCR, bool) {
 	res, ok := fpaov.values.([][]*iam_iam_common.PCR)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsNormalizedAddressArrayOfValues() ([]*Device_Status_NormalizedAddress, bool) {
+	res, ok := fpaov.values.([]*Device_Status_NormalizedAddress)
 	return res, ok
 }
 
@@ -3097,6 +3168,10 @@ func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsDeviceInfoPathArrayOfVal
 }
 func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsAttestationStatusPathArrayOfValues() (iam_iam_common.PCR_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(iam_iam_common.PCR_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsNormalizedAddressPathArrayOfValues() (DeviceStatusNormalizedAddress_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusNormalizedAddress_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -32854,6 +32929,1052 @@ func (fpsaov *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues) AsHardwareInform
 }
 func (fpsaov *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues) AsControlPlaneInterfaceInfoPathArrayOfValues() (DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusNormalizedAddress_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusNormalizedAddress_FieldPathSelector
+	Get(source *Device_Status_NormalizedAddress) []interface{}
+	GetSingle(source *Device_Status_NormalizedAddress) (interface{}, bool)
+	ClearValue(item *Device_Status_NormalizedAddress)
+
+	// Those methods build corresponding DeviceStatusNormalizedAddress_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusNormalizedAddress_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusNormalizedAddress_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusNormalizedAddress_FieldPathArrayItemValue
+}
+
+type DeviceStatusNormalizedAddress_FieldPathSelector int32
+
+const (
+	DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode   DeviceStatusNormalizedAddress_FieldPathSelector = 0
+	DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode  DeviceStatusNormalizedAddress_FieldPathSelector = 1
+	DeviceStatusNormalizedAddress_FieldPathSelectorContinent    DeviceStatusNormalizedAddress_FieldPathSelector = 2
+	DeviceStatusNormalizedAddress_FieldPathSelectorContinentId  DeviceStatusNormalizedAddress_FieldPathSelector = 3
+	DeviceStatusNormalizedAddress_FieldPathSelectorCountry      DeviceStatusNormalizedAddress_FieldPathSelector = 4
+	DeviceStatusNormalizedAddress_FieldPathSelectorCountryId    DeviceStatusNormalizedAddress_FieldPathSelector = 5
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1   DeviceStatusNormalizedAddress_FieldPathSelector = 6
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id DeviceStatusNormalizedAddress_FieldPathSelector = 7
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2   DeviceStatusNormalizedAddress_FieldPathSelector = 8
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id DeviceStatusNormalizedAddress_FieldPathSelector = 9
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3   DeviceStatusNormalizedAddress_FieldPathSelector = 10
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id DeviceStatusNormalizedAddress_FieldPathSelector = 11
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4   DeviceStatusNormalizedAddress_FieldPathSelector = 12
+	DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id DeviceStatusNormalizedAddress_FieldPathSelector = 13
+	DeviceStatusNormalizedAddress_FieldPathSelectorAddress      DeviceStatusNormalizedAddress_FieldPathSelector = 14
+	DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates  DeviceStatusNormalizedAddress_FieldPathSelector = 15
+	DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy     DeviceStatusNormalizedAddress_FieldPathSelector = 16
+)
+
+func (s DeviceStatusNormalizedAddress_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		return "postal_code"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		return "country_code"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		return "continent"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		return "continent_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		return "country"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		return "country_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		return "admin_area1"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		return "admin_area1_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		return "admin_area2"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		return "admin_area2_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		return "admin_area3"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		return "admin_area3_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		return "admin_area4"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		return "admin_area4_id"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		return "address"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		return "coordinates"
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		return "accuracy"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", s))
+	}
+}
+
+func BuildDeviceStatusNormalizedAddress_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusNormalizedAddress_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_NormalizedAddress")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "postal_code", "postalCode", "postal-code":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode}, nil
+		case "country_code", "countryCode", "country-code":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode}, nil
+		case "continent":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinent}, nil
+		case "continent_id", "continentId", "continent-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinentId}, nil
+		case "country":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountry}, nil
+		case "country_id", "countryId", "country-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryId}, nil
+		case "admin_area1", "adminArea1", "admin-area1":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1}, nil
+		case "admin_area1_id", "adminArea1Id", "admin-area1-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id}, nil
+		case "admin_area2", "adminArea2", "admin-area2":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2}, nil
+		case "admin_area2_id", "adminArea2Id", "admin-area2-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id}, nil
+		case "admin_area3", "adminArea3", "admin-area3":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3}, nil
+		case "admin_area3_id", "adminArea3Id", "admin-area3-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id}, nil
+		case "admin_area4", "adminArea4", "admin-area4":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4}, nil
+		case "admin_area4_id", "adminArea4Id", "admin-area4-id":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id}, nil
+		case "address":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAddress}, nil
+		case "coordinates":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates}, nil
+		case "accuracy":
+			return &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_NormalizedAddress", fp)
+}
+
+func ParseDeviceStatusNormalizedAddress_FieldPath(rawField string) (DeviceStatusNormalizedAddress_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusNormalizedAddress_FieldPath(fp)
+}
+
+func MustParseDeviceStatusNormalizedAddress_FieldPath(rawField string) DeviceStatusNormalizedAddress_FieldPath {
+	fp, err := ParseDeviceStatusNormalizedAddress_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusNormalizedAddress_FieldTerminalPath struct {
+	selector DeviceStatusNormalizedAddress_FieldPathSelector
+}
+
+var _ DeviceStatusNormalizedAddress_FieldPath = (*DeviceStatusNormalizedAddress_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) Selector() DeviceStatusNormalizedAddress_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_NormalizedAddress
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) Get(source *Device_Status_NormalizedAddress) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+			values = append(values, source.PostalCode)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+			values = append(values, source.CountryCode)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+			values = append(values, source.Continent)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+			values = append(values, source.ContinentId)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+			values = append(values, source.Country)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+			values = append(values, source.CountryId)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+			values = append(values, source.AdminArea1)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+			values = append(values, source.AdminArea1Id)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+			values = append(values, source.AdminArea2)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+			values = append(values, source.AdminArea2Id)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+			values = append(values, source.AdminArea3)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+			values = append(values, source.AdminArea3Id)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+			values = append(values, source.AdminArea4)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+			values = append(values, source.AdminArea4Id)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+			values = append(values, source.Address)
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+			if source.Coordinates != nil {
+				values = append(values, source.Coordinates)
+			}
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+			values = append(values, source.Accuracy)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_NormalizedAddress))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_NormalizedAddress
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) GetSingle(source *Device_Status_NormalizedAddress) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		return source.GetPostalCode(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		return source.GetCountryCode(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		return source.GetContinent(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		return source.GetContinentId(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		return source.GetCountry(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		return source.GetCountryId(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		return source.GetAdminArea1(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		return source.GetAdminArea1Id(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		return source.GetAdminArea2(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		return source.GetAdminArea2Id(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		return source.GetAdminArea3(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		return source.GetAdminArea3Id(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		return source.GetAdminArea4(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		return source.GetAdminArea4Id(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		return source.GetAddress(), source != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		res := source.GetCoordinates()
+		return res, res != nil
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		return source.GetAccuracy(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_NormalizedAddress))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		return ""
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		return (*latlng.LatLng)(nil)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		return float64(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) ClearValue(item *Device_Status_NormalizedAddress) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+			item.PostalCode = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+			item.CountryCode = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+			item.Continent = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+			item.ContinentId = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+			item.Country = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+			item.CountryId = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+			item.AdminArea1 = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+			item.AdminArea1Id = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+			item.AdminArea2 = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+			item.AdminArea2Id = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+			item.AdminArea3 = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+			item.AdminArea3Id = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+			item.AdminArea4 = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+			item.AdminArea4Id = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+			item.Address = ""
+		case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+			item.Coordinates = nil
+		case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+			item.Accuracy = float64(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_NormalizedAddress))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorContinent ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorContinentId ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorCountry ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorCountryId ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1 ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2 ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3 ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4 ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAddress ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates ||
+		fp.selector == DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusNormalizedAddress_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(*latlng.LatLng)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathValue{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, value: value.(float64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusNormalizedAddress_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]*latlng.LatLng)}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		return &DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues{DeviceStatusNormalizedAddress_FieldTerminalPath: *fp, values: values.([]float64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusNormalizedAddress_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusNormalizedAddress_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceStatusNormalizedAddress_FieldPathValue allows storing values for NormalizedAddress fields according to their type
+type DeviceStatusNormalizedAddress_FieldPathValue interface {
+	DeviceStatusNormalizedAddress_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_NormalizedAddress)
+	CompareWith(*Device_Status_NormalizedAddress) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusNormalizedAddress_FieldPathValue(pathStr, valueStr string) (DeviceStatusNormalizedAddress_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusNormalizedAddress_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NormalizedAddress field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusNormalizedAddress_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusNormalizedAddress_FieldPathValue(pathStr, valueStr string) DeviceStatusNormalizedAddress_FieldPathValue {
+	fpv, err := ParseDeviceStatusNormalizedAddress_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusNormalizedAddress_FieldTerminalPathValue struct {
+	DeviceStatusNormalizedAddress_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusNormalizedAddress_FieldPathValue = (*DeviceStatusNormalizedAddress_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'NormalizedAddress' as interface{}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsPostalCodeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsCountryCodeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsContinentValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsContinentIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsCountryValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsCountryIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea1Value() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea1IdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea2Value() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea2IdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea3Value() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea3IdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea4Value() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAdminArea4IdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAddressValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsCoordinatesValue() (*latlng.LatLng, bool) {
+	res, ok := fpv.value.(*latlng.LatLng)
+	return res, ok
+}
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) AsAccuracyValue() (float64, bool) {
+	res, ok := fpv.value.(float64)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object NormalizedAddress
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) SetTo(target **Device_Status_NormalizedAddress) {
+	if *target == nil {
+		*target = new(Device_Status_NormalizedAddress)
+	}
+	switch fpv.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		(*target).PostalCode = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		(*target).CountryCode = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		(*target).Continent = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		(*target).ContinentId = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		(*target).Country = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		(*target).CountryId = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		(*target).AdminArea1 = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		(*target).AdminArea1Id = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		(*target).AdminArea2 = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		(*target).AdminArea2Id = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		(*target).AdminArea3 = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		(*target).AdminArea3Id = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		(*target).AdminArea4 = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		(*target).AdminArea4Id = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		(*target).Address = fpv.value.(string)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		(*target).Coordinates = fpv.value.(*latlng.LatLng)
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		(*target).Accuracy = fpv.value.(float64)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_NormalizedAddress)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusNormalizedAddress_FieldTerminalPathValue' with the value under path in 'Device_Status_NormalizedAddress'.
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) CompareWith(source *Device_Status_NormalizedAddress) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPostalCode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCountryCode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetContinent()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetContinentId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCountry()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCountryId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea1()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea1Id()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea2()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea2Id()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea3()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea3Id()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea4()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAdminArea4Id()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAddress()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		return 0, false
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		leftValue := fpv.value.(float64)
+		rightValue := source.GetAccuracy()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_NormalizedAddress: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusNormalizedAddress_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_NormalizedAddress))
+}
+
+// DeviceStatusNormalizedAddress_FieldPathArrayItemValue allows storing single item in Path-specific values for NormalizedAddress according to their type
+// Present only for array (repeated) types.
+type DeviceStatusNormalizedAddress_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusNormalizedAddress_FieldPath
+	ContainsValue(*Device_Status_NormalizedAddress) bool
+}
+
+// ParseDeviceStatusNormalizedAddress_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusNormalizedAddress_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusNormalizedAddress_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusNormalizedAddress_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NormalizedAddress field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusNormalizedAddress_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusNormalizedAddress_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusNormalizedAddress_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusNormalizedAddress_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusNormalizedAddress_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusNormalizedAddress_FieldPathArrayItemValue = (*DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_NormalizedAddress as interface{}
+func (fpaiv *DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_NormalizedAddress) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_NormalizedAddress))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NormalizedAddress'
+func (fpaiv *DeviceStatusNormalizedAddress_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_NormalizedAddress) bool {
+	slice := fpaiv.DeviceStatusNormalizedAddress_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceStatusNormalizedAddress_FieldPathArrayOfValues allows storing slice of values for NormalizedAddress fields according to their type
+type DeviceStatusNormalizedAddress_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusNormalizedAddress_FieldPath
+}
+
+func ParseDeviceStatusNormalizedAddress_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusNormalizedAddress_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusNormalizedAddress_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NormalizedAddress field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusNormalizedAddress_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusNormalizedAddress_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusNormalizedAddress_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusNormalizedAddress_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusNormalizedAddress_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusNormalizedAddress_FieldPathArrayOfValues = (*DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+		for _, v := range fpaov.values.([]*latlng.LatLng) {
+			values = append(values, v)
+		}
+	case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+		for _, v := range fpaov.values.([]float64) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsPostalCodeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsCountryCodeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsContinentArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsContinentIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsCountryArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsCountryIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea1ArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea1IdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea2ArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea2IdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea3ArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea3IdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea4ArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAdminArea4IdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAddressArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsCoordinatesArrayOfValues() ([]*latlng.LatLng, bool) {
+	res, ok := fpaov.values.([]*latlng.LatLng)
+	return res, ok
+}
+func (fpaov *DeviceStatusNormalizedAddress_FieldTerminalPathArrayOfValues) AsAccuracyArrayOfValues() ([]float64, bool) {
+	res, ok := fpaov.values.([]float64)
 	return res, ok
 }
 

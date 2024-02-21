@@ -27,6 +27,7 @@ import (
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -55,6 +56,7 @@ var (
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = &latlng.LatLng{}
 )
 
 type Device_FieldMask struct {
@@ -808,6 +810,7 @@ func FullDevice_Status_FieldMask() *Device_Status_FieldMask {
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorProxyConfigStatus})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress})
 	return res
 }
 
@@ -851,7 +854,7 @@ func (fieldMask *Device_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -881,7 +884,7 @@ func (fieldMask *Device_Status_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMask) *Device_Status_FieldMask {
 	result := &Device_Status_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatus_FieldPathSelectorAddresses:          &Device_Status_Address_FieldMask{},
 		DeviceStatus_FieldPathSelectorConditions:         &Device_Status_Condition_FieldMask{},
@@ -889,6 +892,7 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 		DeviceStatus_FieldPathSelectorProxyConfigStatus:  &Device_Status_ProxyConfigStatus_FieldMask{},
 		DeviceStatus_FieldPathSelectorDeviceInfo:         &Device_Status_DeviceInfo_FieldMask{},
 		DeviceStatus_FieldPathSelectorAttestationStatus:  &iam_iam_common.PCR_FieldMask{},
+		DeviceStatus_FieldPathSelectorNormalizedAddress:  &Device_Status_NormalizedAddress_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatus_FieldPathSelectorAddresses:          &Device_Status_Address_FieldMask{},
@@ -897,6 +901,7 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 		DeviceStatus_FieldPathSelectorProxyConfigStatus:  &Device_Status_ProxyConfigStatus_FieldMask{},
 		DeviceStatus_FieldPathSelectorDeviceInfo:         &Device_Status_DeviceInfo_FieldMask{},
 		DeviceStatus_FieldPathSelectorAttestationStatus:  &iam_iam_common.PCR_FieldMask{},
+		DeviceStatus_FieldPathSelectorNormalizedAddress:  &Device_Status_NormalizedAddress_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -924,6 +929,8 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 						mySubMasks[DeviceStatus_FieldPathSelectorDeviceInfo] = FullDevice_Status_DeviceInfo_FieldMask()
 					case DeviceStatus_FieldPathSelectorAttestationStatus:
 						mySubMasks[DeviceStatus_FieldPathSelectorAttestationStatus] = iam_iam_common.FullPCR_FieldMask()
+					case DeviceStatus_FieldPathSelectorNormalizedAddress:
+						mySubMasks[DeviceStatus_FieldPathSelectorNormalizedAddress] = FullDevice_Status_NormalizedAddress_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatus_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1088,6 +1095,8 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 	wholeDeviceInfoAccepted := false
 	attestationStatusMask := &iam_iam_common.PCR_FieldMask{}
 	wholeAttestationStatusAccepted := false
+	normalizedAddressMask := &Device_Status_NormalizedAddress_FieldMask{}
+	wholeNormalizedAddressAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1111,6 +1120,9 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 			case DeviceStatus_FieldPathSelectorAttestationStatus:
 				result.AttestationStatus = source.AttestationStatus
 				wholeAttestationStatusAccepted = true
+			case DeviceStatus_FieldPathSelectorNormalizedAddress:
+				result.NormalizedAddress = source.NormalizedAddress
+				wholeNormalizedAddressAccepted = true
 			}
 		case *DeviceStatus_FieldSubPath:
 			switch tp.selector {
@@ -1126,6 +1138,8 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 				deviceInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfo_FieldPath))
 			case DeviceStatus_FieldPathSelectorAttestationStatus:
 				attestationStatusMask.AppendPath(tp.subPath.(iam_iam_common.PCR_FieldPath))
+			case DeviceStatus_FieldPathSelectorNormalizedAddress:
+				normalizedAddressMask.AppendPath(tp.subPath.(DeviceStatusNormalizedAddress_FieldPath))
 			}
 		}
 	}
@@ -1152,6 +1166,9 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 		for _, sourceItem := range source.GetAttestationStatus() {
 			result.AttestationStatus = append(result.AttestationStatus, attestationStatusMask.Project(sourceItem))
 		}
+	}
+	if wholeNormalizedAddressAccepted == false && len(normalizedAddressMask.Paths) > 0 {
+		result.NormalizedAddress = normalizedAddressMask.Project(source.GetNormalizedAddress())
 	}
 	return result
 }
@@ -11540,6 +11557,307 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) ProjectRaw(source gotenobje
 }
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_NormalizedAddress_FieldMask struct {
+	Paths []DeviceStatusNormalizedAddress_FieldPath
+}
+
+func FullDevice_Status_NormalizedAddress_FieldMask() *Device_Status_NormalizedAddress_FieldMask {
+	res := &Device_Status_NormalizedAddress_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinent})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorContinentId})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountry})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCountryId})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAddress})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates})
+	res.Paths = append(res.Paths, &DeviceStatusNormalizedAddress_FieldTerminalPath{selector: DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy})
+	return res
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceStatusNormalizedAddress_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 17)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusNormalizedAddress_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusNormalizedAddress_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Subtract(other *Device_Status_NormalizedAddress_FieldMask) *Device_Status_NormalizedAddress_FieldMask {
+	result := &Device_Status_NormalizedAddress_FieldMask{}
+	removedSelectors := make([]bool, 17)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusNormalizedAddress_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_NormalizedAddress_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FilterInputFields() *Device_Status_NormalizedAddress_FieldMask {
+	result := &Device_Status_NormalizedAddress_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusNormalizedAddress_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusNormalizedAddress_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_NormalizedAddress_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_NormalizedAddress_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) AppendPath(path DeviceStatusNormalizedAddress_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusNormalizedAddress_FieldPath))
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) GetPaths() []DeviceStatusNormalizedAddress_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusNormalizedAddress_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Set(target, source *Device_Status_NormalizedAddress) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_NormalizedAddress), source.(*Device_Status_NormalizedAddress))
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Project(source *Device_Status_NormalizedAddress) *Device_Status_NormalizedAddress {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_NormalizedAddress{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusNormalizedAddress_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusNormalizedAddress_FieldPathSelectorPostalCode:
+				result.PostalCode = source.PostalCode
+			case DeviceStatusNormalizedAddress_FieldPathSelectorCountryCode:
+				result.CountryCode = source.CountryCode
+			case DeviceStatusNormalizedAddress_FieldPathSelectorContinent:
+				result.Continent = source.Continent
+			case DeviceStatusNormalizedAddress_FieldPathSelectorContinentId:
+				result.ContinentId = source.ContinentId
+			case DeviceStatusNormalizedAddress_FieldPathSelectorCountry:
+				result.Country = source.Country
+			case DeviceStatusNormalizedAddress_FieldPathSelectorCountryId:
+				result.CountryId = source.CountryId
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1:
+				result.AdminArea1 = source.AdminArea1
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea1Id:
+				result.AdminArea1Id = source.AdminArea1Id
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2:
+				result.AdminArea2 = source.AdminArea2
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea2Id:
+				result.AdminArea2Id = source.AdminArea2Id
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3:
+				result.AdminArea3 = source.AdminArea3
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea3Id:
+				result.AdminArea3Id = source.AdminArea3Id
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4:
+				result.AdminArea4 = source.AdminArea4
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAdminArea4Id:
+				result.AdminArea4Id = source.AdminArea4Id
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAddress:
+				result.Address = source.Address
+			case DeviceStatusNormalizedAddress_FieldPathSelectorCoordinates:
+				result.Coordinates = source.Coordinates
+			case DeviceStatusNormalizedAddress_FieldPathSelectorAccuracy:
+				result.Accuracy = source.Accuracy
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_NormalizedAddress))
+}
+
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
