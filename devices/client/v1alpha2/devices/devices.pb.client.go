@@ -13,12 +13,18 @@ import (
 	broker_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/broker"
 	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/customized_image"
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
+	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device_type"
+	os_image_profile_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_image_profile"
+	os_version_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_version"
 	project_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/project"
 	provisioning_approval_request_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_approval_request"
 	provisioning_policy_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_policy"
 	public_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/public"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
+	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
@@ -35,6 +41,12 @@ var (
 	_ = &customized_image_client.GetCustomizedImageRequest{}
 	_ = &device.Device{}
 	_ = &device_client.GetDeviceRequest{}
+	_ = &device_type.DeviceType{}
+	_ = &device_type_client.GetDeviceTypeRequest{}
+	_ = &os_image_profile.OsImageProfile{}
+	_ = &os_image_profile_client.GetOsImageProfileRequest{}
+	_ = &os_version.OsVersion{}
+	_ = &os_version_client.GetOsVersionRequest{}
 	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
@@ -47,6 +59,9 @@ type DevicesClient interface {
 	broker_client.BrokerServiceClient
 	customized_image_client.CustomizedImageServiceClient
 	device_client.DeviceServiceClient
+	device_type_client.DeviceTypeServiceClient
+	os_image_profile_client.OsImageProfileServiceClient
+	os_version_client.OsVersionServiceClient
 	project_client.ProjectServiceClient
 	provisioning_approval_request_client.ProvisioningApprovalRequestServiceClient
 	provisioning_policy_client.ProvisioningPolicyServiceClient
@@ -57,6 +72,9 @@ type devicesClient struct {
 	broker_client.BrokerServiceClient
 	customized_image_client.CustomizedImageServiceClient
 	device_client.DeviceServiceClient
+	device_type_client.DeviceTypeServiceClient
+	os_image_profile_client.OsImageProfileServiceClient
+	os_version_client.OsVersionServiceClient
 	project_client.ProjectServiceClient
 	provisioning_approval_request_client.ProvisioningApprovalRequestServiceClient
 	provisioning_policy_client.ProvisioningPolicyServiceClient
@@ -68,6 +86,9 @@ func NewDevicesClient(cc grpc.ClientConnInterface) DevicesClient {
 		BrokerServiceClient:                      broker_client.NewBrokerServiceClient(cc),
 		CustomizedImageServiceClient:             customized_image_client.NewCustomizedImageServiceClient(cc),
 		DeviceServiceClient:                      device_client.NewDeviceServiceClient(cc),
+		DeviceTypeServiceClient:                  device_type_client.NewDeviceTypeServiceClient(cc),
+		OsImageProfileServiceClient:              os_image_profile_client.NewOsImageProfileServiceClient(cc),
+		OsVersionServiceClient:                   os_version_client.NewOsVersionServiceClient(cc),
 		ProjectServiceClient:                     project_client.NewProjectServiceClient(cc),
 		ProvisioningApprovalRequestServiceClient: provisioning_approval_request_client.NewProvisioningApprovalRequestServiceClient(cc),
 		ProvisioningPolicyServiceClient:          provisioning_policy_client.NewProvisioningPolicyServiceClient(cc),

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile;os_image_profile";
+option java_multiple_files = true;
+option java_outer_classname = "OsImageProfileProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
+
+// OsImageProfile Resource
+message OsImageProfile {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/OsImageProfile"
+    pattern : "projects/{project}/regions/{region}/osImageProfiles/"
+              "{os_image_profile}"
+  };
+
+  // Name of OsImageProfile
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  ntt.types.Meta metadata = 2;
+
+  // Display name of the profile
+  string display_name = 3;
+
+  // Device type for the profile
+  string device_type = 4;
+
+  // Install runtimes and drivers for Hailo-8 and NVIDIA CUDA.
+  bool install_ai_accelerator = 5;
+
+  // Enable disk encryption
+  bool encryption = 6;
+
+  // Disk Mapping YAML configuration.
+  string disk_mapping = 7;
+
+  // Network Agent YAML configuration.
+  string network_agent = 8;
+
+  // NTP Server settings.
+  string ntp = 9;
+
+  // HTTP PROXY address
+  string http_proxy = 10;
+
+  // HTTPS PROXY address
+  string https_proxy = 11;
+
+  // NO Proxy addresses (comma separated).
+  string no_proxy = 12;
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version;os_version";
+option java_multiple_files = true;
+option java_outer_classname = "OsVersionProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
+
+// OsVersion Resource
+message OsVersion {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/OsVersion"
+    pattern : "regions/{region}/osVersions/{os_version}"
+  };
+
+  // Name of OsVersion
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  ntt.types.Meta metadata = 2;
+
+  // The version name.
+  string version = 3;
+
+  // Supported device type.
+  string device_type = 4;
+
+  // The minum previous OS version that is required to upgrade devices to the OS
+  // version.
+  string minimum_previous_version = 5;
+
+  Channel channel = 6;
+
+  enum Channel {
+    CHANNEL_UNSPECIFIED = 0;
+
+    NORMAL = 1;
+
+    BETA = 2;
+  }
+}

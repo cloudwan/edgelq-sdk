@@ -14,12 +14,18 @@ import (
 	broker_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/broker"
 	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/customized_image"
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
+	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device_type"
+	os_image_profile_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_image_profile"
+	os_version_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_version"
 	project_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/project"
 	provisioning_approval_request_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_approval_request"
 	provisioning_policy_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_policy"
 	public_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/public"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
+	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
@@ -37,6 +43,12 @@ var (
 	_ = &customized_image_client.GetCustomizedImageRequest{}
 	_ = &device.Device{}
 	_ = &device_client.GetDeviceRequest{}
+	_ = &device_type.DeviceType{}
+	_ = &device_type_client.GetDeviceTypeRequest{}
+	_ = &os_image_profile.OsImageProfile{}
+	_ = &os_image_profile_client.GetOsImageProfileRequest{}
+	_ = &os_version.OsVersion{}
+	_ = &os_version_client.GetOsVersionRequest{}
 	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
@@ -73,6 +85,9 @@ func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor 
 	return []gotenresource.Descriptor{
 		customized_image.GetDescriptor(),
 		device.GetDescriptor(),
+		device_type.GetDescriptor(),
+		os_image_profile.GetDescriptor(),
+		os_version.GetDescriptor(),
 		project.GetDescriptor(),
 		provisioning_approval_request.GetDescriptor(),
 		provisioning_policy.GetDescriptor(),
@@ -84,6 +99,9 @@ func (d *DevicesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		broker_client.GetBrokerServiceDescriptor(),
 		customized_image_client.GetCustomizedImageServiceDescriptor(),
 		device_client.GetDeviceServiceDescriptor(),
+		device_type_client.GetDeviceTypeServiceDescriptor(),
+		os_image_profile_client.GetOsImageProfileServiceDescriptor(),
+		os_version_client.GetOsVersionServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
 		provisioning_approval_request_client.GetProvisioningApprovalRequestServiceDescriptor(),
 		provisioning_policy_client.GetProvisioningPolicyServiceDescriptor(),

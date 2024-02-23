@@ -9,12 +9,18 @@ import (
 
 	customized_image_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/customized_image"
 	device_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/device"
+	device_type_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/device_type"
+	os_image_profile_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/os_image_profile"
+	os_version_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/os_version"
 	project_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/project"
 	provisioning_approval_request_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/provisioning_approval_request"
 	provisioning_policy_access "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/provisioning_policy"
 	devices_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/devices"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
+	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
@@ -25,6 +31,9 @@ type DevicesApiAccess interface {
 
 	customized_image.CustomizedImageAccess
 	device.DeviceAccess
+	device_type.DeviceTypeAccess
+	os_image_profile.OsImageProfileAccess
+	os_version.OsVersionAccess
 	project.ProjectAccess
 	provisioning_approval_request.ProvisioningApprovalRequestAccess
 	provisioning_policy.ProvisioningPolicyAccess
@@ -35,6 +44,9 @@ type apiDevicesAccess struct {
 
 	customized_image.CustomizedImageAccess
 	device.DeviceAccess
+	device_type.DeviceTypeAccess
+	os_image_profile.OsImageProfileAccess
+	os_version.OsVersionAccess
 	project.ProjectAccess
 	provisioning_approval_request.ProvisioningApprovalRequestAccess
 	provisioning_policy.ProvisioningPolicyAccess
@@ -44,6 +56,9 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 	customizedImageAccess := customized_image_access.NewApiCustomizedImageAccess(client)
 	deviceAccess := device_access.NewApiDeviceAccess(client)
+	deviceTypeAccess := device_type_access.NewApiDeviceTypeAccess(client)
+	osImageProfileAccess := os_image_profile_access.NewApiOsImageProfileAccess(client)
+	osVersionAccess := os_version_access.NewApiOsVersionAccess(client)
 	projectAccess := project_access.NewApiProjectAccess(client)
 	provisioningApprovalRequestAccess := provisioning_approval_request_access.NewApiProvisioningApprovalRequestAccess(client)
 	provisioningPolicyAccess := provisioning_policy_access.NewApiProvisioningPolicyAccess(client)
@@ -53,6 +68,9 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 			customized_image.AsAnyCastAccess(customizedImageAccess),
 			device.AsAnyCastAccess(deviceAccess),
+			device_type.AsAnyCastAccess(deviceTypeAccess),
+			os_image_profile.AsAnyCastAccess(osImageProfileAccess),
+			os_version.AsAnyCastAccess(osVersionAccess),
 			project.AsAnyCastAccess(projectAccess),
 			provisioning_approval_request.AsAnyCastAccess(provisioningApprovalRequestAccess),
 			provisioning_policy.AsAnyCastAccess(provisioningPolicyAccess),
@@ -60,6 +78,9 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 		CustomizedImageAccess:             customizedImageAccess,
 		DeviceAccess:                      deviceAccess,
+		DeviceTypeAccess:                  deviceTypeAccess,
+		OsImageProfileAccess:              osImageProfileAccess,
+		OsVersionAccess:                   osVersionAccess,
 		ProjectAccess:                     projectAccess,
 		ProvisioningApprovalRequestAccess: provisioningApprovalRequestAccess,
 		ProvisioningPolicyAccess:          provisioningPolicyAccess,
