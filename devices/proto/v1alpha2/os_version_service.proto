@@ -60,9 +60,6 @@ message BatchGetOsVersionsResponse {
 // Request message for method
 // [ListOsVersions][ntt.devices.v1alpha2.ListOsVersions]
 message ListOsVersionsRequest {
-  // Parent name of ntt.devices.v1alpha2.OsVersion
-  string parent = 1;
-
   // Requested page size. Server may return fewer OsVersions than requested.
   // If unspecified, server will pick an appropriate default.
   int32 page_size = 2;
@@ -149,9 +146,6 @@ message WatchOsVersionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
   goten.watch_type.WatchType type = 9;
-
-  // Parent reference of ntt.devices.v1alpha2.OsVersion
-  string parent = 1;
 
   // Requested page size. Server may return fewer OsVersions than requested.
   // If unspecified, server will pick an appropriate default.
@@ -273,9 +267,6 @@ message WatchOsVersionsResponse {
 // Request message for method
 // [CreateOsVersion][ntt.devices.v1alpha2.CreateOsVersion]
 message CreateOsVersionRequest {
-  // Parent reference of ntt.devices.v1alpha2.OsVersion
-  string parent = 1;
-
   // OsVersion resource body
   OsVersion os_version = 2;
 }
@@ -331,7 +322,7 @@ service OsVersionService {
   // GetOsVersion
   rpc GetOsVersion(GetOsVersionRequest) returns (OsVersion) {
     option (google.api.http) = {
-      get : "/v1alpha2/{name=regions/*/osVersions/*}"
+      get : "/v1alpha2/{name=osVersions/*}"
     };
   }
 
@@ -346,7 +337,7 @@ service OsVersionService {
   // ListOsVersions
   rpc ListOsVersions(ListOsVersionsRequest) returns (ListOsVersionsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=regions/*}/osVersions"
+      get : "/v1alpha2/osVersions"
     };
   }
 
@@ -354,7 +345,7 @@ service OsVersionService {
   rpc WatchOsVersion(WatchOsVersionRequest)
       returns (stream WatchOsVersionResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=regions/*/osVersions/*}:watch"
+      post : "/v1alpha2/{name=osVersions/*}:watch"
     };
   }
 
@@ -362,14 +353,14 @@ service OsVersionService {
   rpc WatchOsVersions(WatchOsVersionsRequest)
       returns (stream WatchOsVersionsResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/osVersions:watch"
+      post : "/v1alpha2/osVersions:watch"
     };
   }
 
   // CreateOsVersion
   rpc CreateOsVersion(CreateOsVersionRequest) returns (OsVersion) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/osVersions"
+      post : "/v1alpha2/osVersions"
       body : "os_version"
     };
   }
@@ -377,7 +368,7 @@ service OsVersionService {
   // UpdateOsVersion
   rpc UpdateOsVersion(UpdateOsVersionRequest) returns (OsVersion) {
     option (google.api.http) = {
-      put : "/v1alpha2/{os_version.name=regions/*/osVersions/*}"
+      put : "/v1alpha2/{os_version.name=osVersions/*}"
       body : "os_version"
     };
   }
@@ -385,7 +376,7 @@ service OsVersionService {
   // DeleteOsVersion
   rpc DeleteOsVersion(DeleteOsVersionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1alpha2/{name=regions/*/osVersions/*}"
+      delete : "/v1alpha2/{name=osVersions/*}"
     };
   }
 }

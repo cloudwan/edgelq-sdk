@@ -1641,20 +1641,17 @@ type ListDeviceTypesRequest_FieldPath interface {
 type ListDeviceTypesRequest_FieldPathSelector int32
 
 const (
-	ListDeviceTypesRequest_FieldPathSelectorParent            ListDeviceTypesRequest_FieldPathSelector = 0
-	ListDeviceTypesRequest_FieldPathSelectorPageSize          ListDeviceTypesRequest_FieldPathSelector = 1
-	ListDeviceTypesRequest_FieldPathSelectorPageToken         ListDeviceTypesRequest_FieldPathSelector = 2
-	ListDeviceTypesRequest_FieldPathSelectorOrderBy           ListDeviceTypesRequest_FieldPathSelector = 3
-	ListDeviceTypesRequest_FieldPathSelectorFilter            ListDeviceTypesRequest_FieldPathSelector = 4
-	ListDeviceTypesRequest_FieldPathSelectorFieldMask         ListDeviceTypesRequest_FieldPathSelector = 5
-	ListDeviceTypesRequest_FieldPathSelectorView              ListDeviceTypesRequest_FieldPathSelector = 6
-	ListDeviceTypesRequest_FieldPathSelectorIncludePagingInfo ListDeviceTypesRequest_FieldPathSelector = 7
+	ListDeviceTypesRequest_FieldPathSelectorPageSize          ListDeviceTypesRequest_FieldPathSelector = 0
+	ListDeviceTypesRequest_FieldPathSelectorPageToken         ListDeviceTypesRequest_FieldPathSelector = 1
+	ListDeviceTypesRequest_FieldPathSelectorOrderBy           ListDeviceTypesRequest_FieldPathSelector = 2
+	ListDeviceTypesRequest_FieldPathSelectorFilter            ListDeviceTypesRequest_FieldPathSelector = 3
+	ListDeviceTypesRequest_FieldPathSelectorFieldMask         ListDeviceTypesRequest_FieldPathSelector = 4
+	ListDeviceTypesRequest_FieldPathSelectorView              ListDeviceTypesRequest_FieldPathSelector = 5
+	ListDeviceTypesRequest_FieldPathSelectorIncludePagingInfo ListDeviceTypesRequest_FieldPathSelector = 6
 )
 
 func (s ListDeviceTypesRequest_FieldPathSelector) String() string {
 	switch s {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		return "parent"
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		return "page_size"
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1680,8 +1677,6 @@ func BuildListDeviceTypesRequest_FieldPath(fp gotenobject.RawFieldPath) (ListDev
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorParent}, nil
 		case "page_size", "pageSize", "page-size":
 			return &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorPageSize}, nil
 		case "page_token", "pageToken", "page-token":
@@ -1741,10 +1736,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) JSONString() string {
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) Get(source *ListDeviceTypesRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case ListDeviceTypesRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 			values = append(values, source.PageSize)
 		case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1781,9 +1772,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) GetRaw(source proto.Message)
 // GetSingle returns value pointed by specific field of from source ListDeviceTypesRequest
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) GetSingle(source *ListDeviceTypesRequest) (interface{}, bool) {
 	switch fp.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		return source.GetPageSize(), source != nil
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1814,8 +1802,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) GetSingleRaw(source proto.Me
 // GetDefault returns a default value of the field type
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		return (*device_type.ParentName)(nil)
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		return int32(0)
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1838,8 +1824,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) ClearValue(item *ListDeviceTypesRequest) {
 	if item != nil {
 		switch fp.selector {
-		case ListDeviceTypesRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 			item.PageSize = int32(0)
 		case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1866,8 +1850,7 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ListDeviceTypesRequest_FieldPathSelectorParent ||
-		fp.selector == ListDeviceTypesRequest_FieldPathSelectorPageSize ||
+	return fp.selector == ListDeviceTypesRequest_FieldPathSelectorPageSize ||
 		fp.selector == ListDeviceTypesRequest_FieldPathSelectorPageToken ||
 		fp.selector == ListDeviceTypesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListDeviceTypesRequest_FieldPathSelectorFilter ||
@@ -1882,8 +1865,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []
 
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) WithIValue(value interface{}) ListDeviceTypesRequest_FieldPathValue {
 	switch fp.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		return &ListDeviceTypesRequest_FieldTerminalPathValue{ListDeviceTypesRequest_FieldTerminalPath: *fp, value: value.(*device_type.ParentName)}
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		return &ListDeviceTypesRequest_FieldTerminalPathValue{ListDeviceTypesRequest_FieldTerminalPath: *fp, value: value.(int32)}
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1910,8 +1891,6 @@ func (fp *ListDeviceTypesRequest_FieldTerminalPath) WithRawIValue(value interfac
 func (fp *ListDeviceTypesRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListDeviceTypesRequest_FieldPathArrayOfValues {
 	fpaov := &ListDeviceTypesRequest_FieldTerminalPathArrayOfValues{ListDeviceTypesRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		return &ListDeviceTypesRequest_FieldTerminalPathArrayOfValues{ListDeviceTypesRequest_FieldTerminalPath: *fp, values: values.([]*device_type.ParentName)}
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		return &ListDeviceTypesRequest_FieldTerminalPathArrayOfValues{ListDeviceTypesRequest_FieldTerminalPath: *fp, values: values.([]int32)}
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1986,10 +1965,6 @@ var _ ListDeviceTypesRequest_FieldPathValue = (*ListDeviceTypesRequest_FieldTerm
 func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) AsParentValue() (*device_type.ParentName, bool) {
-	res, ok := fpv.value.(*device_type.ParentName)
-	return res, ok
-}
 func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
@@ -2025,8 +2000,6 @@ func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) SetTo(target **ListDev
 		*target = new(ListDeviceTypesRequest)
 	}
 	switch fpv.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*device_type.ParentName)
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		(*target).PageSize = fpv.value.(int32)
 	case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -2054,25 +2027,6 @@ func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) SetToRaw(target proto.
 // CompareWith compares value in the 'ListDeviceTypesRequest_FieldTerminalPathValue' with the value under path in 'ListDeviceTypesRequest'.
 func (fpv *ListDeviceTypesRequest_FieldTerminalPathValue) CompareWith(source *ListDeviceTypesRequest) (int, bool) {
 	switch fpv.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*device_type.ParentName)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		leftValue := fpv.value.(int32)
 		rightValue := source.GetPageSize()
@@ -2219,10 +2173,6 @@ var _ ListDeviceTypesRequest_FieldPathArrayOfValues = (*ListDeviceTypesRequest_F
 
 func (fpaov *ListDeviceTypesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case ListDeviceTypesRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*device_type.ParentName) {
-			values = append(values, v)
-		}
 	case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
@@ -2253,10 +2203,6 @@ func (fpaov *ListDeviceTypesRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		}
 	}
 	return
-}
-func (fpaov *ListDeviceTypesRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*device_type.ParentName, bool) {
-	res, ok := fpaov.values.([]*device_type.ParentName)
-	return res, ok
 }
 func (fpaov *ListDeviceTypesRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
@@ -3898,24 +3844,21 @@ type WatchDeviceTypesRequest_FieldPathSelector int32
 
 const (
 	WatchDeviceTypesRequest_FieldPathSelectorType         WatchDeviceTypesRequest_FieldPathSelector = 0
-	WatchDeviceTypesRequest_FieldPathSelectorParent       WatchDeviceTypesRequest_FieldPathSelector = 1
-	WatchDeviceTypesRequest_FieldPathSelectorPageSize     WatchDeviceTypesRequest_FieldPathSelector = 2
-	WatchDeviceTypesRequest_FieldPathSelectorPageToken    WatchDeviceTypesRequest_FieldPathSelector = 3
-	WatchDeviceTypesRequest_FieldPathSelectorOrderBy      WatchDeviceTypesRequest_FieldPathSelector = 4
-	WatchDeviceTypesRequest_FieldPathSelectorResumeToken  WatchDeviceTypesRequest_FieldPathSelector = 5
-	WatchDeviceTypesRequest_FieldPathSelectorStartingTime WatchDeviceTypesRequest_FieldPathSelector = 6
-	WatchDeviceTypesRequest_FieldPathSelectorFilter       WatchDeviceTypesRequest_FieldPathSelector = 7
-	WatchDeviceTypesRequest_FieldPathSelectorFieldMask    WatchDeviceTypesRequest_FieldPathSelector = 8
-	WatchDeviceTypesRequest_FieldPathSelectorView         WatchDeviceTypesRequest_FieldPathSelector = 9
-	WatchDeviceTypesRequest_FieldPathSelectorMaxChunkSize WatchDeviceTypesRequest_FieldPathSelector = 10
+	WatchDeviceTypesRequest_FieldPathSelectorPageSize     WatchDeviceTypesRequest_FieldPathSelector = 1
+	WatchDeviceTypesRequest_FieldPathSelectorPageToken    WatchDeviceTypesRequest_FieldPathSelector = 2
+	WatchDeviceTypesRequest_FieldPathSelectorOrderBy      WatchDeviceTypesRequest_FieldPathSelector = 3
+	WatchDeviceTypesRequest_FieldPathSelectorResumeToken  WatchDeviceTypesRequest_FieldPathSelector = 4
+	WatchDeviceTypesRequest_FieldPathSelectorStartingTime WatchDeviceTypesRequest_FieldPathSelector = 5
+	WatchDeviceTypesRequest_FieldPathSelectorFilter       WatchDeviceTypesRequest_FieldPathSelector = 6
+	WatchDeviceTypesRequest_FieldPathSelectorFieldMask    WatchDeviceTypesRequest_FieldPathSelector = 7
+	WatchDeviceTypesRequest_FieldPathSelectorView         WatchDeviceTypesRequest_FieldPathSelector = 8
+	WatchDeviceTypesRequest_FieldPathSelectorMaxChunkSize WatchDeviceTypesRequest_FieldPathSelector = 9
 )
 
 func (s WatchDeviceTypesRequest_FieldPathSelector) String() string {
 	switch s {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		return "type"
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		return "parent"
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		return "page_size"
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -3947,8 +3890,6 @@ func BuildWatchDeviceTypesRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchD
 		switch fp[0] {
 		case "type":
 			return &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorType}, nil
-		case "parent":
-			return &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorParent}, nil
 		case "page_size", "pageSize", "page-size":
 			return &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorPageSize}, nil
 		case "page_token", "pageToken", "page-token":
@@ -4014,10 +3955,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) Get(source *WatchDeviceType
 		switch fp.selector {
 		case WatchDeviceTypesRequest_FieldPathSelectorType:
 			values = append(values, source.Type)
-		case WatchDeviceTypesRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 			values = append(values, source.PageSize)
 		case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4062,9 +3999,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) GetSingle(source *WatchDevi
 	switch fp.selector {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		return source.GetType(), source != nil
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		return source.GetPageSize(), source != nil
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4102,8 +4036,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		return watch_type.WatchType_STATEFUL
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		return (*device_type.ParentReference)(nil)
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		return int32(0)
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4132,8 +4064,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) ClearValue(item *WatchDevic
 		switch fp.selector {
 		case WatchDeviceTypesRequest_FieldPathSelectorType:
 			item.Type = watch_type.WatchType_STATEFUL
-		case WatchDeviceTypesRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 			item.PageSize = int32(0)
 		case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4165,7 +4095,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fp *WatchDeviceTypesRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchDeviceTypesRequest_FieldPathSelectorType ||
-		fp.selector == WatchDeviceTypesRequest_FieldPathSelectorParent ||
 		fp.selector == WatchDeviceTypesRequest_FieldPathSelectorPageSize ||
 		fp.selector == WatchDeviceTypesRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchDeviceTypesRequest_FieldPathSelectorOrderBy ||
@@ -4185,8 +4114,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) WithIValue(value interface{
 	switch fp.selector {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		return &WatchDeviceTypesRequest_FieldTerminalPathValue{WatchDeviceTypesRequest_FieldTerminalPath: *fp, value: value.(watch_type.WatchType)}
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		return &WatchDeviceTypesRequest_FieldTerminalPathValue{WatchDeviceTypesRequest_FieldTerminalPath: *fp, value: value.(*device_type.ParentReference)}
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		return &WatchDeviceTypesRequest_FieldTerminalPathValue{WatchDeviceTypesRequest_FieldTerminalPath: *fp, value: value.(int32)}
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4219,8 +4146,6 @@ func (fp *WatchDeviceTypesRequest_FieldTerminalPath) WithIArrayOfValues(values i
 	switch fp.selector {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		return &WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues{WatchDeviceTypesRequest_FieldTerminalPath: *fp, values: values.([]watch_type.WatchType)}
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		return &WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues{WatchDeviceTypesRequest_FieldTerminalPath: *fp, values: values.([]*device_type.ParentReference)}
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		return &WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues{WatchDeviceTypesRequest_FieldTerminalPath: *fp, values: values.([]int32)}
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4303,10 +4228,6 @@ func (fpv *WatchDeviceTypesRequest_FieldTerminalPathValue) AsTypeValue() (watch_
 	res, ok := fpv.value.(watch_type.WatchType)
 	return res, ok
 }
-func (fpv *WatchDeviceTypesRequest_FieldTerminalPathValue) AsParentValue() (*device_type.ParentReference, bool) {
-	res, ok := fpv.value.(*device_type.ParentReference)
-	return res, ok
-}
 func (fpv *WatchDeviceTypesRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
@@ -4352,8 +4273,6 @@ func (fpv *WatchDeviceTypesRequest_FieldTerminalPathValue) SetTo(target **WatchD
 	switch fpv.selector {
 	case WatchDeviceTypesRequest_FieldPathSelectorType:
 		(*target).Type = fpv.value.(watch_type.WatchType)
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*device_type.ParentReference)
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		(*target).PageSize = fpv.value.(int32)
 	case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -4391,25 +4310,6 @@ func (fpv *WatchDeviceTypesRequest_FieldTerminalPathValue) CompareWith(source *W
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*device_type.ParentReference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
@@ -4593,10 +4493,6 @@ func (fpaov *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]watch_type.WatchType) {
 			values = append(values, v)
 		}
-	case WatchDeviceTypesRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*device_type.ParentReference) {
-			values = append(values, v)
-		}
 	case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
@@ -4638,10 +4534,6 @@ func (fpaov *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues) GetRawValue
 }
 func (fpaov *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]watch_type.WatchType, bool) {
 	res, ok := fpaov.values.([]watch_type.WatchType)
-	return res, ok
-}
-func (fpaov *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*device_type.ParentReference, bool) {
-	res, ok := fpaov.values.([]*device_type.ParentReference)
 	return res, ok
 }
 func (fpaov *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
@@ -5943,14 +5835,11 @@ type CreateDeviceTypeRequest_FieldPath interface {
 type CreateDeviceTypeRequest_FieldPathSelector int32
 
 const (
-	CreateDeviceTypeRequest_FieldPathSelectorParent     CreateDeviceTypeRequest_FieldPathSelector = 0
-	CreateDeviceTypeRequest_FieldPathSelectorDeviceType CreateDeviceTypeRequest_FieldPathSelector = 1
+	CreateDeviceTypeRequest_FieldPathSelectorDeviceType CreateDeviceTypeRequest_FieldPathSelector = 0
 )
 
 func (s CreateDeviceTypeRequest_FieldPathSelector) String() string {
 	switch s {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		return "parent"
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		return "device_type"
 	default:
@@ -5964,8 +5853,6 @@ func BuildCreateDeviceTypeRequest_FieldPath(fp gotenobject.RawFieldPath) (Create
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorParent}, nil
 		case "device_type", "deviceType", "device-type":
 			return &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorDeviceType}, nil
 		}
@@ -6022,10 +5909,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) JSONString() string {
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) Get(source *CreateDeviceTypeRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case CreateDeviceTypeRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 			if source.DeviceType != nil {
 				values = append(values, source.DeviceType)
@@ -6044,9 +5927,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) GetRaw(source proto.Message
 // GetSingle returns value pointed by specific field of from source CreateDeviceTypeRequest
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) GetSingle(source *CreateDeviceTypeRequest) (interface{}, bool) {
 	switch fp.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		res := source.GetDeviceType()
 		return res, res != nil
@@ -6062,8 +5942,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) GetSingleRaw(source proto.M
 // GetDefault returns a default value of the field type
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		return (*device_type.ParentReference)(nil)
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		return (*device_type.DeviceType)(nil)
 	default:
@@ -6074,8 +5952,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) ClearValue(item *CreateDeviceTypeRequest) {
 	if item != nil {
 		switch fp.selector {
-		case CreateDeviceTypeRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 			item.DeviceType = nil
 		default:
@@ -6090,7 +5966,7 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 
 // IsLeaf - whether field path is holds simple value
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == CreateDeviceTypeRequest_FieldPathSelectorParent
+	return false
 }
 
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6099,8 +5975,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) SplitIntoTerminalIPaths() [
 
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) WithIValue(value interface{}) CreateDeviceTypeRequest_FieldPathValue {
 	switch fp.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		return &CreateDeviceTypeRequest_FieldTerminalPathValue{CreateDeviceTypeRequest_FieldTerminalPath: *fp, value: value.(*device_type.ParentReference)}
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		return &CreateDeviceTypeRequest_FieldTerminalPathValue{CreateDeviceTypeRequest_FieldTerminalPath: *fp, value: value.(*device_type.DeviceType)}
 	default:
@@ -6115,8 +5989,6 @@ func (fp *CreateDeviceTypeRequest_FieldTerminalPath) WithRawIValue(value interfa
 func (fp *CreateDeviceTypeRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) CreateDeviceTypeRequest_FieldPathArrayOfValues {
 	fpaov := &CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues{CreateDeviceTypeRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		return &CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues{CreateDeviceTypeRequest_FieldTerminalPath: *fp, values: values.([]*device_type.ParentReference)}
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		return &CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues{CreateDeviceTypeRequest_FieldTerminalPath: *fp, values: values.([]*device_type.DeviceType)}
 	default:
@@ -6291,10 +6163,6 @@ var _ CreateDeviceTypeRequest_FieldPathValue = (*CreateDeviceTypeRequest_FieldTe
 func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) AsParentValue() (*device_type.ParentReference, bool) {
-	res, ok := fpv.value.(*device_type.ParentReference)
-	return res, ok
-}
 func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) AsDeviceTypeValue() (*device_type.DeviceType, bool) {
 	res, ok := fpv.value.(*device_type.DeviceType)
 	return res, ok
@@ -6306,8 +6174,6 @@ func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) SetTo(target **Create
 		*target = new(CreateDeviceTypeRequest)
 	}
 	switch fpv.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*device_type.ParentReference)
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		(*target).DeviceType = fpv.value.(*device_type.DeviceType)
 	default:
@@ -6323,25 +6189,6 @@ func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) SetToRaw(target proto
 // CompareWith compares value in the 'CreateDeviceTypeRequest_FieldTerminalPathValue' with the value under path in 'CreateDeviceTypeRequest'.
 func (fpv *CreateDeviceTypeRequest_FieldTerminalPathValue) CompareWith(source *CreateDeviceTypeRequest) (int, bool) {
 	switch fpv.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*device_type.ParentReference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		return 0, false
 	default:
@@ -6522,20 +6369,12 @@ var _ CreateDeviceTypeRequest_FieldPathArrayOfValues = (*CreateDeviceTypeRequest
 
 func (fpaov *CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case CreateDeviceTypeRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*device_type.ParentReference) {
-			values = append(values, v)
-		}
 	case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 		for _, v := range fpaov.values.([]*device_type.DeviceType) {
 			values = append(values, v)
 		}
 	}
 	return
-}
-func (fpaov *CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*device_type.ParentReference, bool) {
-	res, ok := fpaov.values.([]*device_type.ParentReference)
-	return res, ok
 }
 func (fpaov *CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues) AsDeviceTypeArrayOfValues() ([]*device_type.DeviceType, bool) {
 	res, ok := fpaov.values.([]*device_type.DeviceType)

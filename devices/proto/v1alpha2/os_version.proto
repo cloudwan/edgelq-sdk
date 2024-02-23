@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version;os_version";
@@ -14,7 +15,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 message OsVersion {
   option (google.api.resource) = {
     type : "devices.edgelq.com/OsVersion"
-    pattern : "regions/{region}/osVersions/{os_version}"
+    pattern : "osVersions/{os_version}"
   };
 
   // Name of OsVersion

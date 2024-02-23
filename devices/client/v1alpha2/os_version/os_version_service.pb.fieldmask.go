@@ -890,7 +890,6 @@ type ListOsVersionsRequest_FieldMask struct {
 
 func FullListOsVersionsRequest_FieldMask() *ListOsVersionsRequest_FieldMask {
 	res := &ListOsVersionsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorPageSize})
 	res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorOrderBy})
@@ -941,7 +940,7 @@ func (fieldMask *ListOsVersionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListOsVersionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -971,7 +970,7 @@ func (fieldMask *ListOsVersionsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListOsVersionsRequest_FieldMask) Subtract(other *ListOsVersionsRequest_FieldMask) *ListOsVersionsRequest_FieldMask {
 	result := &ListOsVersionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1125,8 +1124,6 @@ func (fieldMask *ListOsVersionsRequest_FieldMask) Project(source *ListOsVersions
 		switch tp := p.(type) {
 		case *ListOsVersionsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case ListOsVersionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case ListOsVersionsRequest_FieldPathSelectorPageSize:
 				result.PageSize = source.PageSize
 			case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1999,7 +1996,6 @@ type WatchOsVersionsRequest_FieldMask struct {
 func FullWatchOsVersionsRequest_FieldMask() *WatchOsVersionsRequest_FieldMask {
 	res := &WatchOsVersionsRequest_FieldMask{}
 	res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorType})
-	res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorPageSize})
 	res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorOrderBy})
@@ -2052,7 +2048,7 @@ func (fieldMask *WatchOsVersionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*WatchOsVersionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2082,7 +2078,7 @@ func (fieldMask *WatchOsVersionsRequest_FieldMask) Reset() {
 
 func (fieldMask *WatchOsVersionsRequest_FieldMask) Subtract(other *WatchOsVersionsRequest_FieldMask) *WatchOsVersionsRequest_FieldMask {
 	result := &WatchOsVersionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 10)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2238,8 +2234,6 @@ func (fieldMask *WatchOsVersionsRequest_FieldMask) Project(source *WatchOsVersio
 			switch tp.selector {
 			case WatchOsVersionsRequest_FieldPathSelectorType:
 				result.Type = source.Type
-			case WatchOsVersionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 				result.PageSize = source.PageSize
 			case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -2845,7 +2839,6 @@ type CreateOsVersionRequest_FieldMask struct {
 
 func FullCreateOsVersionRequest_FieldMask() *CreateOsVersionRequest_FieldMask {
 	res := &CreateOsVersionRequest_FieldMask{}
-	res.Paths = append(res.Paths, &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorOsVersion})
 	return res
 }
@@ -2890,7 +2883,7 @@ func (fieldMask *CreateOsVersionRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 1)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CreateOsVersionRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2920,7 +2913,7 @@ func (fieldMask *CreateOsVersionRequest_FieldMask) Reset() {
 
 func (fieldMask *CreateOsVersionRequest_FieldMask) Subtract(other *CreateOsVersionRequest_FieldMask) *CreateOsVersionRequest_FieldMask {
 	result := &CreateOsVersionRequest_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 1)
 	otherSubMasks := map[CreateOsVersionRequest_FieldPathSelector]gotenobject.FieldMask{
 		CreateOsVersionRequest_FieldPathSelectorOsVersion: &os_version.OsVersion_FieldMask{},
 	}
@@ -3120,8 +3113,6 @@ func (fieldMask *CreateOsVersionRequest_FieldMask) Project(source *CreateOsVersi
 		switch tp := p.(type) {
 		case *CreateOsVersionRequest_FieldTerminalPath:
 			switch tp.selector {
-			case CreateOsVersionRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 				result.OsVersion = source.OsVersion
 				wholeOsVersionAccepted = true

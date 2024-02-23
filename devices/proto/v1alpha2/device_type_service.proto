@@ -61,9 +61,6 @@ message BatchGetDeviceTypesResponse {
 // Request message for method
 // [ListDeviceTypes][ntt.devices.v1alpha2.ListDeviceTypes]
 message ListDeviceTypesRequest {
-  // Parent name of ntt.devices.v1alpha2.DeviceType
-  string parent = 1;
-
   // Requested page size. Server may return fewer DeviceTypes than requested.
   // If unspecified, server will pick an appropriate default.
   int32 page_size = 2;
@@ -150,9 +147,6 @@ message WatchDeviceTypesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
   goten.watch_type.WatchType type = 9;
-
-  // Parent reference of ntt.devices.v1alpha2.DeviceType
-  string parent = 1;
 
   // Requested page size. Server may return fewer DeviceTypes than requested.
   // If unspecified, server will pick an appropriate default.
@@ -274,9 +268,6 @@ message WatchDeviceTypesResponse {
 // Request message for method
 // [CreateDeviceType][ntt.devices.v1alpha2.CreateDeviceType]
 message CreateDeviceTypeRequest {
-  // Parent reference of ntt.devices.v1alpha2.DeviceType
-  string parent = 1;
-
   // DeviceType resource body
   DeviceType device_type = 2;
 }
@@ -332,7 +323,7 @@ service DeviceTypeService {
   // GetDeviceType
   rpc GetDeviceType(GetDeviceTypeRequest) returns (DeviceType) {
     option (google.api.http) = {
-      get : "/v1alpha2/{name=regions/*/deviceTypes/*}"
+      get : "/v1alpha2/{name=deviceTypes/*}"
     };
   }
 
@@ -348,7 +339,7 @@ service DeviceTypeService {
   rpc ListDeviceTypes(ListDeviceTypesRequest)
       returns (ListDeviceTypesResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=regions/*}/deviceTypes"
+      get : "/v1alpha2/deviceTypes"
     };
   }
 
@@ -356,7 +347,7 @@ service DeviceTypeService {
   rpc WatchDeviceType(WatchDeviceTypeRequest)
       returns (stream WatchDeviceTypeResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=regions/*/deviceTypes/*}:watch"
+      post : "/v1alpha2/{name=deviceTypes/*}:watch"
     };
   }
 
@@ -364,14 +355,14 @@ service DeviceTypeService {
   rpc WatchDeviceTypes(WatchDeviceTypesRequest)
       returns (stream WatchDeviceTypesResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/deviceTypes:watch"
+      post : "/v1alpha2/deviceTypes:watch"
     };
   }
 
   // CreateDeviceType
   rpc CreateDeviceType(CreateDeviceTypeRequest) returns (DeviceType) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/deviceTypes"
+      post : "/v1alpha2/deviceTypes"
       body : "device_type"
     };
   }
@@ -379,7 +370,7 @@ service DeviceTypeService {
   // UpdateDeviceType
   rpc UpdateDeviceType(UpdateDeviceTypeRequest) returns (DeviceType) {
     option (google.api.http) = {
-      put : "/v1alpha2/{device_type.name=regions/*/deviceTypes/*}"
+      put : "/v1alpha2/{device_type.name=deviceTypes/*}"
       body : "device_type"
     };
   }
@@ -388,7 +379,7 @@ service DeviceTypeService {
   rpc DeleteDeviceType(DeleteDeviceTypeRequest)
       returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1alpha2/{name=regions/*/deviceTypes/*}"
+      delete : "/v1alpha2/{name=deviceTypes/*}"
     };
   }
 }

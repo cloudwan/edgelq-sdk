@@ -159,14 +159,6 @@ func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg proto.
 }
 
 func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*GetDeviceTypeRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*GetDeviceTypeRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -200,14 +192,6 @@ func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg proto.
 }
 
 func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*device_type.DeviceType)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*device_type.DeviceType) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -335,14 +319,6 @@ func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractResourceNames(msg 
 }
 
 func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*BatchGetDeviceTypesRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*BatchGetDeviceTypesRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -380,14 +356,6 @@ func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg 
 }
 
 func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*BatchGetDeviceTypesResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*BatchGetDeviceTypesResponse) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -506,20 +474,7 @@ func (h *ListDeviceTypesDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *ListDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*ListDeviceTypesRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*ListDeviceTypesRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if parentName := typedMsg.GetParent(); parentName != nil {
-			return parentName
-		}
-	}
-	return (*device_type.ParentName)(nil)
+	return nil
 }
 
 func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -556,14 +511,6 @@ func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*ListDeviceTypesResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*ListDeviceTypesResponse) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -687,14 +634,6 @@ func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeviceTypeRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchDeviceTypeRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -737,14 +676,6 @@ func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeviceTypeResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchDeviceTypeResponse) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -863,20 +794,7 @@ func (h *WatchDeviceTypesDescriptorClientMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *WatchDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeviceTypesRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchDeviceTypesRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*device_type.ParentName)(nil)
+	return nil
 }
 
 func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -922,14 +840,6 @@ func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeviceTypesResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchDeviceTypesResponse) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1054,20 +964,7 @@ func (h *CreateDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *CreateDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateDeviceTypeRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*CreateDeviceTypeRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*device_type.ParentName)(nil)
+	return nil
 }
 
 func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1100,14 +997,6 @@ func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*device_type.DeviceType)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*device_type.DeviceType) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1232,14 +1121,6 @@ func (h *UpdateDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *UpdateDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateDeviceTypeRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*UpdateDeviceTypeRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1273,14 +1154,6 @@ func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*device_type.DeviceType)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*device_type.DeviceType) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1404,14 +1277,6 @@ func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteDeviceTypeRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*DeleteDeviceTypeRequest) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1440,14 +1305,6 @@ func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *device_type.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 

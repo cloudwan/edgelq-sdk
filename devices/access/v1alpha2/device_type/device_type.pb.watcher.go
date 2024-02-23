@@ -64,7 +64,6 @@ type WatcherConfig struct {
 }
 
 type WatcherFilterParams struct {
-	Parent *device_type.ParentReference
 	Filter *device_type.Filter
 }
 
@@ -72,7 +71,7 @@ func (p *WatcherFilterParams) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("%s.%s", p.Parent, p.Filter)
+	return fmt.Sprintf("%s", p.Filter)
 }
 
 func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
@@ -80,7 +79,7 @@ func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
 }
 
 func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
-	return p.Parent
+	return nil
 }
 
 type queryWatcherState struct {
@@ -147,10 +146,6 @@ func (pw *Watcher) GetFilters() []*WatcherFilterParams {
 	copied := make([]*WatcherFilterParams, 0, len(pw.filters))
 	for _, query := range pw.filters {
 		cQuery := &WatcherFilterParams{}
-		if query.Parent != nil {
-			cQuery.Parent = &device_type.ParentReference{}
-			*cQuery.Parent = *query.Parent
-		}
 		if query.Filter != nil {
 			strValue, _ := query.Filter.ProtoString()
 			cQuery.Filter = &device_type.Filter{}
@@ -253,7 +248,6 @@ func (pw *Watcher) resetFilters(ctx context.Context, filters []*WatcherFilterPar
 			pw.nextIdentifier,
 			pw.client,
 			&QueryWatcherParams{
-				Parent:           filter.Parent,
 				Filter:           filter.Filter,
 				View:             pw.config.View,
 				FieldMask:        pw.config.FieldMask,
@@ -319,7 +313,6 @@ func (pw *Watcher) onQueryVerifySnapshotSize(ctx context.Context, evt *QueryWatc
 			pw.nextIdentifier,
 			pw.client,
 			&QueryWatcherParams{
-				Parent:           state.filter.Parent,
 				Filter:           state.filter.Filter,
 				View:             pw.config.View,
 				FieldMask:        pw.config.FieldMask,
@@ -690,9 +683,6 @@ func init() {
 		params := &WatcherFilterParams{}
 		if filter != nil {
 			params.Filter = filter.(*device_type.Filter)
-		}
-		if parent != nil {
-			params.Parent = parent.(*device_type.ParentReference)
 		}
 		return params
 	})

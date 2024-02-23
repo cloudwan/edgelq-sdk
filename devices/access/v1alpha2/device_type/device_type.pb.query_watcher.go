@@ -37,7 +37,6 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *device_type.ParentReference
 	Filter       *device_type.Filter
 	View         view.View
 	FieldMask    *device_type.DeviceType_FieldMask
@@ -117,7 +116,6 @@ func (qw *QueryWatcher) QueryWatcher() {}
 func (qw *QueryWatcher) Run(ctx context.Context) error {
 	log := ctxlogrus.Extract(ctx).
 		WithField("query-watcher", "deviceType-query-watcher").
-		WithField("query-parent", qw.params.Parent.String()).
 		WithField("query-filter", qw.params.Filter.String()).
 		WithField("query-order-by", qw.params.OrderBy.String()).
 		WithField("query-cursor", qw.params.Cursor.String())
@@ -129,7 +127,6 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 	for {
 		stream, err := qw.client.WatchDeviceTypes(ctx, &device_type_client.WatchDeviceTypesRequest{
 			Type:         qw.params.WatchType,
-			Parent:       qw.params.Parent,
 			Filter:       qw.params.Filter,
 			View:         qw.params.View,
 			FieldMask:    qw.params.FieldMask,
@@ -306,9 +303,6 @@ func init() {
 		}
 		if params.Cursor != nil {
 			cfg.Cursor = params.Cursor.(*device_type.PagerCursor)
-		}
-		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*device_type.ParentReference)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*device_type.Filter)

@@ -113,11 +113,11 @@ func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.Referenc
 }
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
-	return make(OsVersionParentNameList, size, reserved)
+	return nil
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
-	return make(OsVersionParentReferenceList, size, reserved)
+	return nil
 }
 
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
@@ -151,8 +151,8 @@ func initOsVersionDescriptor() {
 		nameDescriptor: gotenresource.NewNameDescriptor(
 			&OsVersion_FieldTerminalPath{selector: OsVersion_FieldPathSelectorName},
 			"pattern", "osVersionId",
-			[]string{"regionId"},
-			[]gotenresource.NamePattern{NamePattern_Region}),
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

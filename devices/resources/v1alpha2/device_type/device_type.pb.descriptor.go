@@ -111,11 +111,11 @@ func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.Referenc
 }
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
-	return make(DeviceTypeParentNameList, size, reserved)
+	return nil
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
-	return make(DeviceTypeParentReferenceList, size, reserved)
+	return nil
 }
 
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
@@ -149,8 +149,8 @@ func initDeviceTypeDescriptor() {
 		nameDescriptor: gotenresource.NewNameDescriptor(
 			&DeviceType_FieldTerminalPath{selector: DeviceType_FieldPathSelectorName},
 			"pattern", "deviceTypeId",
-			[]string{"regionId"},
-			[]gotenresource.NamePattern{NamePattern_Region}),
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

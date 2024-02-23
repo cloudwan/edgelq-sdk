@@ -396,9 +396,6 @@ func (o *ListOsVersionsRequest) MakeDiffFieldMask(other *ListOsVersionsRequest) 
 	}
 
 	res := &ListOsVersionsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorParent})
-	}
 	if o.GetPageSize() != other.GetPageSize() {
 		res.Paths = append(res.Paths, &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorPageSize})
 	}
@@ -432,16 +429,6 @@ func (o *ListOsVersionsRequest) Clone() *ListOsVersionsRequest {
 		return nil
 	}
 	result := &ListOsVersionsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &os_version.ParentName{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.PageSize = o.PageSize
 	if o.PageToken == nil {
 		result.PageToken = nil
@@ -484,18 +471,6 @@ func (o *ListOsVersionsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *ListOsVersionsRequest) Merge(source *ListOsVersionsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &os_version.ParentName{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	o.PageSize = source.GetPageSize()
 	if source.GetPageToken() != nil {
 		if data, err := source.GetPageToken().ProtoString(); err != nil {
@@ -854,9 +829,6 @@ func (o *WatchOsVersionsRequest) MakeDiffFieldMask(other *WatchOsVersionsRequest
 	if o.GetType() != other.GetType() {
 		res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorType})
 	}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorParent})
-	}
 	if o.GetPageSize() != other.GetPageSize() {
 		res.Paths = append(res.Paths, &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorPageSize})
 	}
@@ -897,16 +869,6 @@ func (o *WatchOsVersionsRequest) Clone() *WatchOsVersionsRequest {
 	}
 	result := &WatchOsVersionsRequest{}
 	result.Type = o.Type
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &os_version.ParentReference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.PageSize = o.PageSize
 	if o.PageToken == nil {
 		result.PageToken = nil
@@ -952,18 +914,6 @@ func (o *WatchOsVersionsRequest) CloneRaw() gotenobject.GotenObjectExt {
 
 func (o *WatchOsVersionsRequest) Merge(source *WatchOsVersionsRequest) {
 	o.Type = source.GetType()
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &os_version.ParentReference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	o.PageSize = source.GetPageSize()
 	if source.GetPageToken() != nil {
 		if data, err := source.GetPageToken().ProtoString(); err != nil {
@@ -1260,9 +1210,6 @@ func (o *CreateOsVersionRequest) MakeDiffFieldMask(other *CreateOsVersionRequest
 	}
 
 	res := &CreateOsVersionRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorParent})
-	}
 	{
 		subMask := o.GetOsVersion().MakeDiffFieldMask(other.GetOsVersion())
 		if subMask.IsFull() {
@@ -1285,16 +1232,6 @@ func (o *CreateOsVersionRequest) Clone() *CreateOsVersionRequest {
 		return nil
 	}
 	result := &CreateOsVersionRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &os_version.ParentReference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.OsVersion = o.OsVersion.Clone()
 	return result
 }
@@ -1304,18 +1241,6 @@ func (o *CreateOsVersionRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *CreateOsVersionRequest) Merge(source *CreateOsVersionRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &os_version.ParentReference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	if source.GetOsVersion() != nil {
 		if o.OsVersion == nil {
 			o.OsVersion = new(os_version.OsVersion)

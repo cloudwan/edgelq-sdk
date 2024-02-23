@@ -48,7 +48,7 @@ var (
 )
 
 var osVersion_RegexpId = regexp.MustCompile("^(?P<os_version_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/osVersions/(?P<os_version_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath = regexp.MustCompile("^osVersions/(?P<os_version_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *OsVersion) MaybePopulateDefaults() error {
 	osVersionInterface := interface{}(r)
@@ -67,16 +67,15 @@ func (r *OsVersion) GetResourceDescriptor() gotenresource.Descriptor {
 }
 
 type Name struct {
-	ParentName
+	NamePattern
 	OsVersionId string `firestore:"osVersionId"`
 }
 
 func ParseName(name string) (*Name, error) {
 	var matches []string
-	if matches = regexPath_Region.FindStringSubmatch(name); matches != nil {
+	if matches = regexPath.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
-			SetRegionId(matches[1]).
-			SetId(matches[2]).
+			SetId(matches[1]).
 			Name(), nil
 	}
 
@@ -107,12 +106,10 @@ func (name *Name) SetFromSegments(segments gotenresource.NameSegments) error {
 	if len(segments) == 0 {
 		return status.Errorf(codes.InvalidArgument, "No segments given for OsVersion name")
 	}
-	if err := name.ParentName.SetFromSegments(segments[:len(segments)-1]); err != nil {
-		return err
-	}
 	if segments[len(segments)-1].CollectionLowerJson != "osVersions" {
 		return status.Errorf(codes.InvalidArgument, "unable to use segments %s to form OsVersion name", segments)
 	}
+	name.Pattern = NamePattern_Nil
 	name.OsVersionId = segments[len(segments)-1].Id
 	return nil
 }
@@ -121,14 +118,11 @@ func (name *Name) IsSpecified() bool {
 	if name == nil || name.Pattern == "" || name.OsVersionId == "" {
 		return false
 	}
-	return name.ParentName.IsSpecified()
+	return name.Pattern == NamePattern_Nil
 }
 
 func (name *Name) IsFullyQualified() bool {
 	if name == nil {
-		return false
-	}
-	if name.ParentName.IsFullyQualified() == false {
 		return false
 	}
 	if name.OsVersionId == "" || name.OsVersionId == gotenresource.WildcardId {
@@ -177,12 +171,10 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"regionId":    name.RegionId,
 			"osVersionId": name.OsVersionId,
 		}
 	}
 	return map[string]string{
-		"regionId":    "",
 		"osVersionId": "",
 	}
 }
@@ -191,18 +183,14 @@ func (name *Name) GetSegments() gotenresource.NameSegments {
 	if name == nil || name.Pattern == "" {
 		return nil
 	}
-	segments := name.ParentName.GetSegments()
-	return append(segments, gotenresource.NameSegment{
+	return gotenresource.NameSegments{{
 		CollectionLowerJson: "osVersions",
 		Id:                  name.OsVersionId,
-	})
+	}}
 }
 
 func (name *Name) GetIParentName() gotenresource.Name {
-	if name == nil {
-		return (*ParentName)(nil)
-	}
-	return &name.ParentName
+	return nil
 }
 
 func (name *Name) GetIUnderlyingParentName() gotenresource.Name {
@@ -216,13 +204,6 @@ func (name *Name) ProtoString() (string, error) {
 		return "", nil
 	}
 	result := ""
-	parentPrefix, err := name.ParentName.ProtoString()
-	if err != nil {
-		return "", err
-	}
-	if parentPrefix != "" {
-		result += parentPrefix + "/"
-	}
 	result += "osVersions/" + name.OsVersionId
 	return result, nil
 }
@@ -255,9 +236,6 @@ func (name *Name) GotenEqual(other interface{}) bool {
 	} else if name == nil {
 		return false
 	}
-	if name.ParentName.GotenEqual(other1.ParentName) == false {
-		return false
-	}
 	if name.OsVersionId != other1.OsVersionId {
 		return false
 	}
@@ -282,9 +260,6 @@ func (name *Name) Matches(other interface{}) bool {
 	if other1 == nil {
 		return name == nil
 	} else if name == nil {
-		return false
-	}
-	if name.ParentName.Matches(other1.ParentName) == false {
 		return false
 	}
 	if name.OsVersionId != other1.OsVersionId {
@@ -462,7 +437,6 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
-		"regionId":    "",
 		"osVersionId": "",
 	}
 }
@@ -475,10 +449,7 @@ func (ref *Reference) GetSegments() gotenresource.NameSegments {
 }
 
 func (ref *Reference) GetIParentName() gotenresource.Name {
-	if ref == nil {
-		return (*ParentName)(nil)
-	}
-	return ref.Name.GetIParentName()
+	return nil
 }
 
 func (ref *Reference) GetIUnderlyingParentName() gotenresource.Name {

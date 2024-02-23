@@ -37,7 +37,6 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *os_version.ParentReference
 	Filter       *os_version.Filter
 	View         view.View
 	FieldMask    *os_version.OsVersion_FieldMask
@@ -117,7 +116,6 @@ func (qw *QueryWatcher) QueryWatcher() {}
 func (qw *QueryWatcher) Run(ctx context.Context) error {
 	log := ctxlogrus.Extract(ctx).
 		WithField("query-watcher", "osVersion-query-watcher").
-		WithField("query-parent", qw.params.Parent.String()).
 		WithField("query-filter", qw.params.Filter.String()).
 		WithField("query-order-by", qw.params.OrderBy.String()).
 		WithField("query-cursor", qw.params.Cursor.String())
@@ -129,7 +127,6 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 	for {
 		stream, err := qw.client.WatchOsVersions(ctx, &os_version_client.WatchOsVersionsRequest{
 			Type:         qw.params.WatchType,
-			Parent:       qw.params.Parent,
 			Filter:       qw.params.Filter,
 			View:         qw.params.View,
 			FieldMask:    qw.params.FieldMask,
@@ -306,9 +303,6 @@ func init() {
 		}
 		if params.Cursor != nil {
 			cfg.Cursor = params.Cursor.(*os_version.PagerCursor)
-		}
-		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*os_version.ParentReference)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*os_version.Filter)

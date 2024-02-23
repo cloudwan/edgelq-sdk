@@ -890,7 +890,6 @@ type ListDeviceTypesRequest_FieldMask struct {
 
 func FullListDeviceTypesRequest_FieldMask() *ListDeviceTypesRequest_FieldMask {
 	res := &ListDeviceTypesRequest_FieldMask{}
-	res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorPageSize})
 	res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorOrderBy})
@@ -941,7 +940,7 @@ func (fieldMask *ListDeviceTypesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListDeviceTypesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -971,7 +970,7 @@ func (fieldMask *ListDeviceTypesRequest_FieldMask) Reset() {
 
 func (fieldMask *ListDeviceTypesRequest_FieldMask) Subtract(other *ListDeviceTypesRequest_FieldMask) *ListDeviceTypesRequest_FieldMask {
 	result := &ListDeviceTypesRequest_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1125,8 +1124,6 @@ func (fieldMask *ListDeviceTypesRequest_FieldMask) Project(source *ListDeviceTyp
 		switch tp := p.(type) {
 		case *ListDeviceTypesRequest_FieldTerminalPath:
 			switch tp.selector {
-			case ListDeviceTypesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case ListDeviceTypesRequest_FieldPathSelectorPageSize:
 				result.PageSize = source.PageSize
 			case ListDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -1999,7 +1996,6 @@ type WatchDeviceTypesRequest_FieldMask struct {
 func FullWatchDeviceTypesRequest_FieldMask() *WatchDeviceTypesRequest_FieldMask {
 	res := &WatchDeviceTypesRequest_FieldMask{}
 	res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorType})
-	res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorPageSize})
 	res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorOrderBy})
@@ -2052,7 +2048,7 @@ func (fieldMask *WatchDeviceTypesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*WatchDeviceTypesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2082,7 +2078,7 @@ func (fieldMask *WatchDeviceTypesRequest_FieldMask) Reset() {
 
 func (fieldMask *WatchDeviceTypesRequest_FieldMask) Subtract(other *WatchDeviceTypesRequest_FieldMask) *WatchDeviceTypesRequest_FieldMask {
 	result := &WatchDeviceTypesRequest_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 10)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2238,8 +2234,6 @@ func (fieldMask *WatchDeviceTypesRequest_FieldMask) Project(source *WatchDeviceT
 			switch tp.selector {
 			case WatchDeviceTypesRequest_FieldPathSelectorType:
 				result.Type = source.Type
-			case WatchDeviceTypesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case WatchDeviceTypesRequest_FieldPathSelectorPageSize:
 				result.PageSize = source.PageSize
 			case WatchDeviceTypesRequest_FieldPathSelectorPageToken:
@@ -2845,7 +2839,6 @@ type CreateDeviceTypeRequest_FieldMask struct {
 
 func FullCreateDeviceTypeRequest_FieldMask() *CreateDeviceTypeRequest_FieldMask {
 	res := &CreateDeviceTypeRequest_FieldMask{}
-	res.Paths = append(res.Paths, &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorDeviceType})
 	return res
 }
@@ -2890,7 +2883,7 @@ func (fieldMask *CreateDeviceTypeRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 1)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CreateDeviceTypeRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2920,7 +2913,7 @@ func (fieldMask *CreateDeviceTypeRequest_FieldMask) Reset() {
 
 func (fieldMask *CreateDeviceTypeRequest_FieldMask) Subtract(other *CreateDeviceTypeRequest_FieldMask) *CreateDeviceTypeRequest_FieldMask {
 	result := &CreateDeviceTypeRequest_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 1)
 	otherSubMasks := map[CreateDeviceTypeRequest_FieldPathSelector]gotenobject.FieldMask{
 		CreateDeviceTypeRequest_FieldPathSelectorDeviceType: &device_type.DeviceType_FieldMask{},
 	}
@@ -3120,8 +3113,6 @@ func (fieldMask *CreateDeviceTypeRequest_FieldMask) Project(source *CreateDevice
 		switch tp := p.(type) {
 		case *CreateDeviceTypeRequest_FieldTerminalPath:
 			switch tp.selector {
-			case CreateDeviceTypeRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case CreateDeviceTypeRequest_FieldPathSelectorDeviceType:
 				result.DeviceType = source.DeviceType
 				wholeDeviceTypeAccepted = true

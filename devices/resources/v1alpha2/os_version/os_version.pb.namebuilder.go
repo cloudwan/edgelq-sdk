@@ -21,7 +21,7 @@ var (
 )
 
 const (
-	NamePattern_Region = "regions/{region}/osVersions/{os_version}"
+	NamePattern_Nil = "osVersions/{os_version}"
 )
 
 type NamePattern struct {
@@ -36,12 +36,9 @@ func NewNameBuilder() *NameBuilder {
 	return &NameBuilder{
 		nameObj: Name{
 			OsVersionId: gotenresource.WildcardId,
-			ParentName: ParentName{
-				NamePattern: NamePattern{
-					// Set default pattern - just first.
-					Pattern: NamePattern_Region,
-				},
-				RegionId: gotenresource.WildcardId,
+			NamePattern: NamePattern{
+				// Set default pattern - just first.
+				Pattern: NamePattern_Nil,
 			},
 		},
 	}
@@ -56,27 +53,7 @@ func (b *NameBuilder) Reference() *Reference {
 	return b.nameObj.AsReference()
 }
 
-func (b *NameBuilder) Parent() *ParentName {
-	copied := b.nameObj.ParentName
-	return &copied
-}
-
-func (b *NameBuilder) ParentReference() *ParentReference {
-	return b.nameObj.ParentName.AsReference()
-}
-
 func (b *NameBuilder) SetId(id string) *NameBuilder {
 	b.nameObj.OsVersionId = id
-	return b
-}
-
-func (b *NameBuilder) SetRegionId(id string) *NameBuilder {
-	parentName := &b.nameObj.ParentName
-	parentName.RegionId = id
-
-	// Set pattern if something matches for this set of IDs
-	if parentName.RegionId != "" {
-		parentName.Pattern = NamePattern_Region
-	}
 	return b
 }

@@ -396,9 +396,6 @@ func (o *ListDeviceTypesRequest) MakeDiffFieldMask(other *ListDeviceTypesRequest
 	}
 
 	res := &ListDeviceTypesRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorParent})
-	}
 	if o.GetPageSize() != other.GetPageSize() {
 		res.Paths = append(res.Paths, &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorPageSize})
 	}
@@ -432,16 +429,6 @@ func (o *ListDeviceTypesRequest) Clone() *ListDeviceTypesRequest {
 		return nil
 	}
 	result := &ListDeviceTypesRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &device_type.ParentName{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.PageSize = o.PageSize
 	if o.PageToken == nil {
 		result.PageToken = nil
@@ -484,18 +471,6 @@ func (o *ListDeviceTypesRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *ListDeviceTypesRequest) Merge(source *ListDeviceTypesRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &device_type.ParentName{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	o.PageSize = source.GetPageSize()
 	if source.GetPageToken() != nil {
 		if data, err := source.GetPageToken().ProtoString(); err != nil {
@@ -854,9 +829,6 @@ func (o *WatchDeviceTypesRequest) MakeDiffFieldMask(other *WatchDeviceTypesReque
 	if o.GetType() != other.GetType() {
 		res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorType})
 	}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorParent})
-	}
 	if o.GetPageSize() != other.GetPageSize() {
 		res.Paths = append(res.Paths, &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorPageSize})
 	}
@@ -897,16 +869,6 @@ func (o *WatchDeviceTypesRequest) Clone() *WatchDeviceTypesRequest {
 	}
 	result := &WatchDeviceTypesRequest{}
 	result.Type = o.Type
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &device_type.ParentReference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.PageSize = o.PageSize
 	if o.PageToken == nil {
 		result.PageToken = nil
@@ -952,18 +914,6 @@ func (o *WatchDeviceTypesRequest) CloneRaw() gotenobject.GotenObjectExt {
 
 func (o *WatchDeviceTypesRequest) Merge(source *WatchDeviceTypesRequest) {
 	o.Type = source.GetType()
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &device_type.ParentReference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	o.PageSize = source.GetPageSize()
 	if source.GetPageToken() != nil {
 		if data, err := source.GetPageToken().ProtoString(); err != nil {
@@ -1260,9 +1210,6 @@ func (o *CreateDeviceTypeRequest) MakeDiffFieldMask(other *CreateDeviceTypeReque
 	}
 
 	res := &CreateDeviceTypeRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorParent})
-	}
 	{
 		subMask := o.GetDeviceType().MakeDiffFieldMask(other.GetDeviceType())
 		if subMask.IsFull() {
@@ -1285,16 +1232,6 @@ func (o *CreateDeviceTypeRequest) Clone() *CreateDeviceTypeRequest {
 		return nil
 	}
 	result := &CreateDeviceTypeRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &device_type.ParentReference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.DeviceType = o.DeviceType.Clone()
 	return result
 }
@@ -1304,18 +1241,6 @@ func (o *CreateDeviceTypeRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *CreateDeviceTypeRequest) Merge(source *CreateDeviceTypeRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &device_type.ParentReference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	if source.GetDeviceType() != nil {
 		if o.DeviceType == nil {
 			o.DeviceType = new(device_type.DeviceType)

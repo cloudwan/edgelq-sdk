@@ -925,9 +925,6 @@ type ListOsVersionsRequestFieldPathBuilder struct{}
 func NewListOsVersionsRequestFieldPathBuilder() ListOsVersionsRequestFieldPathBuilder {
 	return ListOsVersionsRequestFieldPathBuilder{}
 }
-func (ListOsVersionsRequestFieldPathBuilder) Parent() ListOsVersionsRequestPathSelectorParent {
-	return ListOsVersionsRequestPathSelectorParent{}
-}
 func (ListOsVersionsRequestFieldPathBuilder) PageSize() ListOsVersionsRequestPathSelectorPageSize {
 	return ListOsVersionsRequestPathSelectorPageSize{}
 }
@@ -948,20 +945,6 @@ func (ListOsVersionsRequestFieldPathBuilder) View() ListOsVersionsRequestPathSel
 }
 func (ListOsVersionsRequestFieldPathBuilder) IncludePagingInfo() ListOsVersionsRequestPathSelectorIncludePagingInfo {
 	return ListOsVersionsRequestPathSelectorIncludePagingInfo{}
-}
-
-type ListOsVersionsRequestPathSelectorParent struct{}
-
-func (ListOsVersionsRequestPathSelectorParent) FieldPath() *ListOsVersionsRequest_FieldTerminalPath {
-	return &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorParent}
-}
-
-func (s ListOsVersionsRequestPathSelectorParent) WithValue(value *os_version.ParentName) *ListOsVersionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ListOsVersionsRequest_FieldTerminalPathValue)
-}
-
-func (s ListOsVersionsRequestPathSelectorParent) WithArrayOfValues(values []*os_version.ParentName) *ListOsVersionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListOsVersionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type ListOsVersionsRequestPathSelectorPageSize struct{}
@@ -1971,9 +1954,6 @@ func NewWatchOsVersionsRequestFieldPathBuilder() WatchOsVersionsRequestFieldPath
 func (WatchOsVersionsRequestFieldPathBuilder) Type() WatchOsVersionsRequestPathSelectorType {
 	return WatchOsVersionsRequestPathSelectorType{}
 }
-func (WatchOsVersionsRequestFieldPathBuilder) Parent() WatchOsVersionsRequestPathSelectorParent {
-	return WatchOsVersionsRequestPathSelectorParent{}
-}
 func (WatchOsVersionsRequestFieldPathBuilder) PageSize() WatchOsVersionsRequestPathSelectorPageSize {
 	return WatchOsVersionsRequestPathSelectorPageSize{}
 }
@@ -2013,20 +1993,6 @@ func (s WatchOsVersionsRequestPathSelectorType) WithValue(value watch_type.Watch
 }
 
 func (s WatchOsVersionsRequestPathSelectorType) WithArrayOfValues(values []watch_type.WatchType) *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*WatchOsVersionsRequest_FieldTerminalPathArrayOfValues)
-}
-
-type WatchOsVersionsRequestPathSelectorParent struct{}
-
-func (WatchOsVersionsRequestPathSelectorParent) FieldPath() *WatchOsVersionsRequest_FieldTerminalPath {
-	return &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorParent}
-}
-
-func (s WatchOsVersionsRequestPathSelectorParent) WithValue(value *os_version.ParentReference) *WatchOsVersionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*WatchOsVersionsRequest_FieldTerminalPathValue)
-}
-
-func (s WatchOsVersionsRequestPathSelectorParent) WithArrayOfValues(values []*os_version.ParentReference) *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchOsVersionsRequest_FieldTerminalPathArrayOfValues)
 }
 
@@ -2388,25 +2354,8 @@ type CreateOsVersionRequestFieldPathBuilder struct{}
 func NewCreateOsVersionRequestFieldPathBuilder() CreateOsVersionRequestFieldPathBuilder {
 	return CreateOsVersionRequestFieldPathBuilder{}
 }
-func (CreateOsVersionRequestFieldPathBuilder) Parent() CreateOsVersionRequestPathSelectorParent {
-	return CreateOsVersionRequestPathSelectorParent{}
-}
 func (CreateOsVersionRequestFieldPathBuilder) OsVersion() CreateOsVersionRequestPathSelectorOsVersion {
 	return CreateOsVersionRequestPathSelectorOsVersion{}
-}
-
-type CreateOsVersionRequestPathSelectorParent struct{}
-
-func (CreateOsVersionRequestPathSelectorParent) FieldPath() *CreateOsVersionRequest_FieldTerminalPath {
-	return &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorParent}
-}
-
-func (s CreateOsVersionRequestPathSelectorParent) WithValue(value *os_version.ParentReference) *CreateOsVersionRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateOsVersionRequest_FieldTerminalPathValue)
-}
-
-func (s CreateOsVersionRequestPathSelectorParent) WithArrayOfValues(values []*os_version.ParentReference) *CreateOsVersionRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateOsVersionRequest_FieldTerminalPathArrayOfValues)
 }
 
 type CreateOsVersionRequestPathSelectorOsVersion struct{}

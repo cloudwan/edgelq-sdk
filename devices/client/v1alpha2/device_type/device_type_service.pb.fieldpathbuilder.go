@@ -923,9 +923,6 @@ type ListDeviceTypesRequestFieldPathBuilder struct{}
 func NewListDeviceTypesRequestFieldPathBuilder() ListDeviceTypesRequestFieldPathBuilder {
 	return ListDeviceTypesRequestFieldPathBuilder{}
 }
-func (ListDeviceTypesRequestFieldPathBuilder) Parent() ListDeviceTypesRequestPathSelectorParent {
-	return ListDeviceTypesRequestPathSelectorParent{}
-}
 func (ListDeviceTypesRequestFieldPathBuilder) PageSize() ListDeviceTypesRequestPathSelectorPageSize {
 	return ListDeviceTypesRequestPathSelectorPageSize{}
 }
@@ -946,20 +943,6 @@ func (ListDeviceTypesRequestFieldPathBuilder) View() ListDeviceTypesRequestPathS
 }
 func (ListDeviceTypesRequestFieldPathBuilder) IncludePagingInfo() ListDeviceTypesRequestPathSelectorIncludePagingInfo {
 	return ListDeviceTypesRequestPathSelectorIncludePagingInfo{}
-}
-
-type ListDeviceTypesRequestPathSelectorParent struct{}
-
-func (ListDeviceTypesRequestPathSelectorParent) FieldPath() *ListDeviceTypesRequest_FieldTerminalPath {
-	return &ListDeviceTypesRequest_FieldTerminalPath{selector: ListDeviceTypesRequest_FieldPathSelectorParent}
-}
-
-func (s ListDeviceTypesRequestPathSelectorParent) WithValue(value *device_type.ParentName) *ListDeviceTypesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ListDeviceTypesRequest_FieldTerminalPathValue)
-}
-
-func (s ListDeviceTypesRequestPathSelectorParent) WithArrayOfValues(values []*device_type.ParentName) *ListDeviceTypesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListDeviceTypesRequest_FieldTerminalPathArrayOfValues)
 }
 
 type ListDeviceTypesRequestPathSelectorPageSize struct{}
@@ -1969,9 +1952,6 @@ func NewWatchDeviceTypesRequestFieldPathBuilder() WatchDeviceTypesRequestFieldPa
 func (WatchDeviceTypesRequestFieldPathBuilder) Type() WatchDeviceTypesRequestPathSelectorType {
 	return WatchDeviceTypesRequestPathSelectorType{}
 }
-func (WatchDeviceTypesRequestFieldPathBuilder) Parent() WatchDeviceTypesRequestPathSelectorParent {
-	return WatchDeviceTypesRequestPathSelectorParent{}
-}
 func (WatchDeviceTypesRequestFieldPathBuilder) PageSize() WatchDeviceTypesRequestPathSelectorPageSize {
 	return WatchDeviceTypesRequestPathSelectorPageSize{}
 }
@@ -2011,20 +1991,6 @@ func (s WatchDeviceTypesRequestPathSelectorType) WithValue(value watch_type.Watc
 }
 
 func (s WatchDeviceTypesRequestPathSelectorType) WithArrayOfValues(values []watch_type.WatchType) *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues)
-}
-
-type WatchDeviceTypesRequestPathSelectorParent struct{}
-
-func (WatchDeviceTypesRequestPathSelectorParent) FieldPath() *WatchDeviceTypesRequest_FieldTerminalPath {
-	return &WatchDeviceTypesRequest_FieldTerminalPath{selector: WatchDeviceTypesRequest_FieldPathSelectorParent}
-}
-
-func (s WatchDeviceTypesRequestPathSelectorParent) WithValue(value *device_type.ParentReference) *WatchDeviceTypesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*WatchDeviceTypesRequest_FieldTerminalPathValue)
-}
-
-func (s WatchDeviceTypesRequestPathSelectorParent) WithArrayOfValues(values []*device_type.ParentReference) *WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchDeviceTypesRequest_FieldTerminalPathArrayOfValues)
 }
 
@@ -2386,25 +2352,8 @@ type CreateDeviceTypeRequestFieldPathBuilder struct{}
 func NewCreateDeviceTypeRequestFieldPathBuilder() CreateDeviceTypeRequestFieldPathBuilder {
 	return CreateDeviceTypeRequestFieldPathBuilder{}
 }
-func (CreateDeviceTypeRequestFieldPathBuilder) Parent() CreateDeviceTypeRequestPathSelectorParent {
-	return CreateDeviceTypeRequestPathSelectorParent{}
-}
 func (CreateDeviceTypeRequestFieldPathBuilder) DeviceType() CreateDeviceTypeRequestPathSelectorDeviceType {
 	return CreateDeviceTypeRequestPathSelectorDeviceType{}
-}
-
-type CreateDeviceTypeRequestPathSelectorParent struct{}
-
-func (CreateDeviceTypeRequestPathSelectorParent) FieldPath() *CreateDeviceTypeRequest_FieldTerminalPath {
-	return &CreateDeviceTypeRequest_FieldTerminalPath{selector: CreateDeviceTypeRequest_FieldPathSelectorParent}
-}
-
-func (s CreateDeviceTypeRequestPathSelectorParent) WithValue(value *device_type.ParentReference) *CreateDeviceTypeRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateDeviceTypeRequest_FieldTerminalPathValue)
-}
-
-func (s CreateDeviceTypeRequestPathSelectorParent) WithArrayOfValues(values []*device_type.ParentReference) *CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateDeviceTypeRequest_FieldTerminalPathArrayOfValues)
 }
 
 type CreateDeviceTypeRequestPathSelectorDeviceType struct{}

@@ -1641,20 +1641,17 @@ type ListOsVersionsRequest_FieldPath interface {
 type ListOsVersionsRequest_FieldPathSelector int32
 
 const (
-	ListOsVersionsRequest_FieldPathSelectorParent            ListOsVersionsRequest_FieldPathSelector = 0
-	ListOsVersionsRequest_FieldPathSelectorPageSize          ListOsVersionsRequest_FieldPathSelector = 1
-	ListOsVersionsRequest_FieldPathSelectorPageToken         ListOsVersionsRequest_FieldPathSelector = 2
-	ListOsVersionsRequest_FieldPathSelectorOrderBy           ListOsVersionsRequest_FieldPathSelector = 3
-	ListOsVersionsRequest_FieldPathSelectorFilter            ListOsVersionsRequest_FieldPathSelector = 4
-	ListOsVersionsRequest_FieldPathSelectorFieldMask         ListOsVersionsRequest_FieldPathSelector = 5
-	ListOsVersionsRequest_FieldPathSelectorView              ListOsVersionsRequest_FieldPathSelector = 6
-	ListOsVersionsRequest_FieldPathSelectorIncludePagingInfo ListOsVersionsRequest_FieldPathSelector = 7
+	ListOsVersionsRequest_FieldPathSelectorPageSize          ListOsVersionsRequest_FieldPathSelector = 0
+	ListOsVersionsRequest_FieldPathSelectorPageToken         ListOsVersionsRequest_FieldPathSelector = 1
+	ListOsVersionsRequest_FieldPathSelectorOrderBy           ListOsVersionsRequest_FieldPathSelector = 2
+	ListOsVersionsRequest_FieldPathSelectorFilter            ListOsVersionsRequest_FieldPathSelector = 3
+	ListOsVersionsRequest_FieldPathSelectorFieldMask         ListOsVersionsRequest_FieldPathSelector = 4
+	ListOsVersionsRequest_FieldPathSelectorView              ListOsVersionsRequest_FieldPathSelector = 5
+	ListOsVersionsRequest_FieldPathSelectorIncludePagingInfo ListOsVersionsRequest_FieldPathSelector = 6
 )
 
 func (s ListOsVersionsRequest_FieldPathSelector) String() string {
 	switch s {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		return "page_size"
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1680,8 +1677,6 @@ func BuildListOsVersionsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListOsVe
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorParent}, nil
 		case "page_size", "pageSize", "page-size":
 			return &ListOsVersionsRequest_FieldTerminalPath{selector: ListOsVersionsRequest_FieldPathSelectorPageSize}, nil
 		case "page_token", "pageToken", "page-token":
@@ -1741,10 +1736,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) JSONString() string {
 func (fp *ListOsVersionsRequest_FieldTerminalPath) Get(source *ListOsVersionsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case ListOsVersionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case ListOsVersionsRequest_FieldPathSelectorPageSize:
 			values = append(values, source.PageSize)
 		case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1781,9 +1772,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) GetRaw(source proto.Message) 
 // GetSingle returns value pointed by specific field of from source ListOsVersionsRequest
 func (fp *ListOsVersionsRequest_FieldTerminalPath) GetSingle(source *ListOsVersionsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		return source.GetPageSize(), source != nil
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1814,8 +1802,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) GetSingleRaw(source proto.Mes
 // GetDefault returns a default value of the field type
 func (fp *ListOsVersionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		return (*os_version.ParentName)(nil)
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		return int32(0)
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1838,8 +1824,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *ListOsVersionsRequest_FieldTerminalPath) ClearValue(item *ListOsVersionsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case ListOsVersionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case ListOsVersionsRequest_FieldPathSelectorPageSize:
 			item.PageSize = int32(0)
 		case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1866,8 +1850,7 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mess
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListOsVersionsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ListOsVersionsRequest_FieldPathSelectorParent ||
-		fp.selector == ListOsVersionsRequest_FieldPathSelectorPageSize ||
+	return fp.selector == ListOsVersionsRequest_FieldPathSelectorPageSize ||
 		fp.selector == ListOsVersionsRequest_FieldPathSelectorPageToken ||
 		fp.selector == ListOsVersionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListOsVersionsRequest_FieldPathSelectorFilter ||
@@ -1882,8 +1865,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []g
 
 func (fp *ListOsVersionsRequest_FieldTerminalPath) WithIValue(value interface{}) ListOsVersionsRequest_FieldPathValue {
 	switch fp.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		return &ListOsVersionsRequest_FieldTerminalPathValue{ListOsVersionsRequest_FieldTerminalPath: *fp, value: value.(*os_version.ParentName)}
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		return &ListOsVersionsRequest_FieldTerminalPathValue{ListOsVersionsRequest_FieldTerminalPath: *fp, value: value.(int32)}
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1910,8 +1891,6 @@ func (fp *ListOsVersionsRequest_FieldTerminalPath) WithRawIValue(value interface
 func (fp *ListOsVersionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListOsVersionsRequest_FieldPathArrayOfValues {
 	fpaov := &ListOsVersionsRequest_FieldTerminalPathArrayOfValues{ListOsVersionsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		return &ListOsVersionsRequest_FieldTerminalPathArrayOfValues{ListOsVersionsRequest_FieldTerminalPath: *fp, values: values.([]*os_version.ParentName)}
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		return &ListOsVersionsRequest_FieldTerminalPathArrayOfValues{ListOsVersionsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -1986,10 +1965,6 @@ var _ ListOsVersionsRequest_FieldPathValue = (*ListOsVersionsRequest_FieldTermin
 func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) AsParentValue() (*os_version.ParentName, bool) {
-	res, ok := fpv.value.(*os_version.ParentName)
-	return res, ok
-}
 func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
@@ -2025,8 +2000,6 @@ func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) SetTo(target **ListOsVe
 		*target = new(ListOsVersionsRequest)
 	}
 	switch fpv.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*os_version.ParentName)
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		(*target).PageSize = fpv.value.(int32)
 	case ListOsVersionsRequest_FieldPathSelectorPageToken:
@@ -2054,25 +2027,6 @@ func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) SetToRaw(target proto.M
 // CompareWith compares value in the 'ListOsVersionsRequest_FieldTerminalPathValue' with the value under path in 'ListOsVersionsRequest'.
 func (fpv *ListOsVersionsRequest_FieldTerminalPathValue) CompareWith(source *ListOsVersionsRequest) (int, bool) {
 	switch fpv.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*os_version.ParentName)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		leftValue := fpv.value.(int32)
 		rightValue := source.GetPageSize()
@@ -2219,10 +2173,6 @@ var _ ListOsVersionsRequest_FieldPathArrayOfValues = (*ListOsVersionsRequest_Fie
 
 func (fpaov *ListOsVersionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case ListOsVersionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*os_version.ParentName) {
-			values = append(values, v)
-		}
 	case ListOsVersionsRequest_FieldPathSelectorPageSize:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
@@ -2253,10 +2203,6 @@ func (fpaov *ListOsVersionsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		}
 	}
 	return
-}
-func (fpaov *ListOsVersionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*os_version.ParentName, bool) {
-	res, ok := fpaov.values.([]*os_version.ParentName)
-	return res, ok
 }
 func (fpaov *ListOsVersionsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
@@ -3898,24 +3844,21 @@ type WatchOsVersionsRequest_FieldPathSelector int32
 
 const (
 	WatchOsVersionsRequest_FieldPathSelectorType         WatchOsVersionsRequest_FieldPathSelector = 0
-	WatchOsVersionsRequest_FieldPathSelectorParent       WatchOsVersionsRequest_FieldPathSelector = 1
-	WatchOsVersionsRequest_FieldPathSelectorPageSize     WatchOsVersionsRequest_FieldPathSelector = 2
-	WatchOsVersionsRequest_FieldPathSelectorPageToken    WatchOsVersionsRequest_FieldPathSelector = 3
-	WatchOsVersionsRequest_FieldPathSelectorOrderBy      WatchOsVersionsRequest_FieldPathSelector = 4
-	WatchOsVersionsRequest_FieldPathSelectorResumeToken  WatchOsVersionsRequest_FieldPathSelector = 5
-	WatchOsVersionsRequest_FieldPathSelectorStartingTime WatchOsVersionsRequest_FieldPathSelector = 6
-	WatchOsVersionsRequest_FieldPathSelectorFilter       WatchOsVersionsRequest_FieldPathSelector = 7
-	WatchOsVersionsRequest_FieldPathSelectorFieldMask    WatchOsVersionsRequest_FieldPathSelector = 8
-	WatchOsVersionsRequest_FieldPathSelectorView         WatchOsVersionsRequest_FieldPathSelector = 9
-	WatchOsVersionsRequest_FieldPathSelectorMaxChunkSize WatchOsVersionsRequest_FieldPathSelector = 10
+	WatchOsVersionsRequest_FieldPathSelectorPageSize     WatchOsVersionsRequest_FieldPathSelector = 1
+	WatchOsVersionsRequest_FieldPathSelectorPageToken    WatchOsVersionsRequest_FieldPathSelector = 2
+	WatchOsVersionsRequest_FieldPathSelectorOrderBy      WatchOsVersionsRequest_FieldPathSelector = 3
+	WatchOsVersionsRequest_FieldPathSelectorResumeToken  WatchOsVersionsRequest_FieldPathSelector = 4
+	WatchOsVersionsRequest_FieldPathSelectorStartingTime WatchOsVersionsRequest_FieldPathSelector = 5
+	WatchOsVersionsRequest_FieldPathSelectorFilter       WatchOsVersionsRequest_FieldPathSelector = 6
+	WatchOsVersionsRequest_FieldPathSelectorFieldMask    WatchOsVersionsRequest_FieldPathSelector = 7
+	WatchOsVersionsRequest_FieldPathSelectorView         WatchOsVersionsRequest_FieldPathSelector = 8
+	WatchOsVersionsRequest_FieldPathSelectorMaxChunkSize WatchOsVersionsRequest_FieldPathSelector = 9
 )
 
 func (s WatchOsVersionsRequest_FieldPathSelector) String() string {
 	switch s {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		return "type"
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		return "page_size"
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -3947,8 +3890,6 @@ func BuildWatchOsVersionsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchOs
 		switch fp[0] {
 		case "type":
 			return &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorType}, nil
-		case "parent":
-			return &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorParent}, nil
 		case "page_size", "pageSize", "page-size":
 			return &WatchOsVersionsRequest_FieldTerminalPath{selector: WatchOsVersionsRequest_FieldPathSelectorPageSize}, nil
 		case "page_token", "pageToken", "page-token":
@@ -4014,10 +3955,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) Get(source *WatchOsVersionsR
 		switch fp.selector {
 		case WatchOsVersionsRequest_FieldPathSelectorType:
 			values = append(values, source.Type)
-		case WatchOsVersionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 			values = append(values, source.PageSize)
 		case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4062,9 +3999,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) GetSingle(source *WatchOsVer
 	switch fp.selector {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		return source.GetType(), source != nil
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		return source.GetPageSize(), source != nil
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4102,8 +4036,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		return watch_type.WatchType_STATEFUL
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		return (*os_version.ParentReference)(nil)
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		return int32(0)
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4132,8 +4064,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) ClearValue(item *WatchOsVers
 		switch fp.selector {
 		case WatchOsVersionsRequest_FieldPathSelectorType:
 			item.Type = watch_type.WatchType_STATEFUL
-		case WatchOsVersionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 			item.PageSize = int32(0)
 		case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4165,7 +4095,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fp *WatchOsVersionsRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchOsVersionsRequest_FieldPathSelectorType ||
-		fp.selector == WatchOsVersionsRequest_FieldPathSelectorParent ||
 		fp.selector == WatchOsVersionsRequest_FieldPathSelectorPageSize ||
 		fp.selector == WatchOsVersionsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchOsVersionsRequest_FieldPathSelectorOrderBy ||
@@ -4185,8 +4114,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) WithIValue(value interface{}
 	switch fp.selector {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		return &WatchOsVersionsRequest_FieldTerminalPathValue{WatchOsVersionsRequest_FieldTerminalPath: *fp, value: value.(watch_type.WatchType)}
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		return &WatchOsVersionsRequest_FieldTerminalPathValue{WatchOsVersionsRequest_FieldTerminalPath: *fp, value: value.(*os_version.ParentReference)}
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		return &WatchOsVersionsRequest_FieldTerminalPathValue{WatchOsVersionsRequest_FieldTerminalPath: *fp, value: value.(int32)}
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4219,8 +4146,6 @@ func (fp *WatchOsVersionsRequest_FieldTerminalPath) WithIArrayOfValues(values in
 	switch fp.selector {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		return &WatchOsVersionsRequest_FieldTerminalPathArrayOfValues{WatchOsVersionsRequest_FieldTerminalPath: *fp, values: values.([]watch_type.WatchType)}
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		return &WatchOsVersionsRequest_FieldTerminalPathArrayOfValues{WatchOsVersionsRequest_FieldTerminalPath: *fp, values: values.([]*os_version.ParentReference)}
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		return &WatchOsVersionsRequest_FieldTerminalPathArrayOfValues{WatchOsVersionsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4303,10 +4228,6 @@ func (fpv *WatchOsVersionsRequest_FieldTerminalPathValue) AsTypeValue() (watch_t
 	res, ok := fpv.value.(watch_type.WatchType)
 	return res, ok
 }
-func (fpv *WatchOsVersionsRequest_FieldTerminalPathValue) AsParentValue() (*os_version.ParentReference, bool) {
-	res, ok := fpv.value.(*os_version.ParentReference)
-	return res, ok
-}
 func (fpv *WatchOsVersionsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
@@ -4352,8 +4273,6 @@ func (fpv *WatchOsVersionsRequest_FieldTerminalPathValue) SetTo(target **WatchOs
 	switch fpv.selector {
 	case WatchOsVersionsRequest_FieldPathSelectorType:
 		(*target).Type = fpv.value.(watch_type.WatchType)
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*os_version.ParentReference)
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		(*target).PageSize = fpv.value.(int32)
 	case WatchOsVersionsRequest_FieldPathSelectorPageToken:
@@ -4391,25 +4310,6 @@ func (fpv *WatchOsVersionsRequest_FieldTerminalPathValue) CompareWith(source *Wa
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*os_version.ParentReference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
@@ -4593,10 +4493,6 @@ func (fpaov *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]watch_type.WatchType) {
 			values = append(values, v)
 		}
-	case WatchOsVersionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*os_version.ParentReference) {
-			values = append(values, v)
-		}
 	case WatchOsVersionsRequest_FieldPathSelectorPageSize:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
@@ -4638,10 +4534,6 @@ func (fpaov *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 }
 func (fpaov *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]watch_type.WatchType, bool) {
 	res, ok := fpaov.values.([]watch_type.WatchType)
-	return res, ok
-}
-func (fpaov *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*os_version.ParentReference, bool) {
-	res, ok := fpaov.values.([]*os_version.ParentReference)
 	return res, ok
 }
 func (fpaov *WatchOsVersionsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
@@ -5943,14 +5835,11 @@ type CreateOsVersionRequest_FieldPath interface {
 type CreateOsVersionRequest_FieldPathSelector int32
 
 const (
-	CreateOsVersionRequest_FieldPathSelectorParent    CreateOsVersionRequest_FieldPathSelector = 0
-	CreateOsVersionRequest_FieldPathSelectorOsVersion CreateOsVersionRequest_FieldPathSelector = 1
+	CreateOsVersionRequest_FieldPathSelectorOsVersion CreateOsVersionRequest_FieldPathSelector = 0
 )
 
 func (s CreateOsVersionRequest_FieldPathSelector) String() string {
 	switch s {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		return "parent"
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		return "os_version"
 	default:
@@ -5964,8 +5853,6 @@ func BuildCreateOsVersionRequest_FieldPath(fp gotenobject.RawFieldPath) (CreateO
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorParent}, nil
 		case "os_version", "osVersion", "os-version":
 			return &CreateOsVersionRequest_FieldTerminalPath{selector: CreateOsVersionRequest_FieldPathSelectorOsVersion}, nil
 		}
@@ -6022,10 +5909,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) JSONString() string {
 func (fp *CreateOsVersionRequest_FieldTerminalPath) Get(source *CreateOsVersionRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case CreateOsVersionRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 			if source.OsVersion != nil {
 				values = append(values, source.OsVersion)
@@ -6044,9 +5927,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) GetRaw(source proto.Message)
 // GetSingle returns value pointed by specific field of from source CreateOsVersionRequest
 func (fp *CreateOsVersionRequest_FieldTerminalPath) GetSingle(source *CreateOsVersionRequest) (interface{}, bool) {
 	switch fp.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		res := source.GetOsVersion()
 		return res, res != nil
@@ -6062,8 +5942,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) GetSingleRaw(source proto.Me
 // GetDefault returns a default value of the field type
 func (fp *CreateOsVersionRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		return (*os_version.ParentReference)(nil)
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		return (*os_version.OsVersion)(nil)
 	default:
@@ -6074,8 +5952,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *CreateOsVersionRequest_FieldTerminalPath) ClearValue(item *CreateOsVersionRequest) {
 	if item != nil {
 		switch fp.selector {
-		case CreateOsVersionRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 			item.OsVersion = nil
 		default:
@@ -6090,7 +5966,7 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *CreateOsVersionRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == CreateOsVersionRequest_FieldPathSelectorParent
+	return false
 }
 
 func (fp *CreateOsVersionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6099,8 +5975,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []
 
 func (fp *CreateOsVersionRequest_FieldTerminalPath) WithIValue(value interface{}) CreateOsVersionRequest_FieldPathValue {
 	switch fp.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		return &CreateOsVersionRequest_FieldTerminalPathValue{CreateOsVersionRequest_FieldTerminalPath: *fp, value: value.(*os_version.ParentReference)}
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		return &CreateOsVersionRequest_FieldTerminalPathValue{CreateOsVersionRequest_FieldTerminalPath: *fp, value: value.(*os_version.OsVersion)}
 	default:
@@ -6115,8 +5989,6 @@ func (fp *CreateOsVersionRequest_FieldTerminalPath) WithRawIValue(value interfac
 func (fp *CreateOsVersionRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) CreateOsVersionRequest_FieldPathArrayOfValues {
 	fpaov := &CreateOsVersionRequest_FieldTerminalPathArrayOfValues{CreateOsVersionRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		return &CreateOsVersionRequest_FieldTerminalPathArrayOfValues{CreateOsVersionRequest_FieldTerminalPath: *fp, values: values.([]*os_version.ParentReference)}
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		return &CreateOsVersionRequest_FieldTerminalPathArrayOfValues{CreateOsVersionRequest_FieldTerminalPath: *fp, values: values.([]*os_version.OsVersion)}
 	default:
@@ -6291,10 +6163,6 @@ var _ CreateOsVersionRequest_FieldPathValue = (*CreateOsVersionRequest_FieldTerm
 func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) AsParentValue() (*os_version.ParentReference, bool) {
-	res, ok := fpv.value.(*os_version.ParentReference)
-	return res, ok
-}
 func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) AsOsVersionValue() (*os_version.OsVersion, bool) {
 	res, ok := fpv.value.(*os_version.OsVersion)
 	return res, ok
@@ -6306,8 +6174,6 @@ func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) SetTo(target **CreateO
 		*target = new(CreateOsVersionRequest)
 	}
 	switch fpv.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*os_version.ParentReference)
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		(*target).OsVersion = fpv.value.(*os_version.OsVersion)
 	default:
@@ -6323,25 +6189,6 @@ func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) SetToRaw(target proto.
 // CompareWith compares value in the 'CreateOsVersionRequest_FieldTerminalPathValue' with the value under path in 'CreateOsVersionRequest'.
 func (fpv *CreateOsVersionRequest_FieldTerminalPathValue) CompareWith(source *CreateOsVersionRequest) (int, bool) {
 	switch fpv.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*os_version.ParentReference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		return 0, false
 	default:
@@ -6522,20 +6369,12 @@ var _ CreateOsVersionRequest_FieldPathArrayOfValues = (*CreateOsVersionRequest_F
 
 func (fpaov *CreateOsVersionRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case CreateOsVersionRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*os_version.ParentReference) {
-			values = append(values, v)
-		}
 	case CreateOsVersionRequest_FieldPathSelectorOsVersion:
 		for _, v := range fpaov.values.([]*os_version.OsVersion) {
 			values = append(values, v)
 		}
 	}
 	return
-}
-func (fpaov *CreateOsVersionRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*os_version.ParentReference, bool) {
-	res, ok := fpaov.values.([]*os_version.ParentReference)
-	return res, ok
 }
 func (fpaov *CreateOsVersionRequest_FieldTerminalPathArrayOfValues) AsOsVersionArrayOfValues() ([]*os_version.OsVersion, bool) {
 	res, ok := fpaov.values.([]*os_version.OsVersion)

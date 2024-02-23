@@ -159,14 +159,6 @@ func (h *GetOsVersionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.M
 }
 
 func (h *GetOsVersionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*GetOsVersionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*GetOsVersionRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -200,14 +192,6 @@ func (h *GetOsVersionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.M
 }
 
 func (h *GetOsVersionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*os_version.OsVersion)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*os_version.OsVersion) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -335,14 +319,6 @@ func (h *BatchGetOsVersionsDescriptorClientMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *BatchGetOsVersionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*BatchGetOsVersionsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*BatchGetOsVersionsRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -380,14 +356,6 @@ func (h *BatchGetOsVersionsDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *BatchGetOsVersionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*BatchGetOsVersionsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*BatchGetOsVersionsResponse) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -506,20 +474,7 @@ func (h *ListOsVersionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *ListOsVersionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*ListOsVersionsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*ListOsVersionsRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if parentName := typedMsg.GetParent(); parentName != nil {
-			return parentName
-		}
-	}
-	return (*os_version.ParentName)(nil)
+	return nil
 }
 
 func (h *ListOsVersionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -556,14 +511,6 @@ func (h *ListOsVersionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *ListOsVersionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*ListOsVersionsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*ListOsVersionsResponse) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -687,14 +634,6 @@ func (h *WatchOsVersionDescriptorClientMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *WatchOsVersionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchOsVersionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchOsVersionRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -737,14 +676,6 @@ func (h *WatchOsVersionDescriptorServerMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *WatchOsVersionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchOsVersionResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchOsVersionResponse) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -863,20 +794,7 @@ func (h *WatchOsVersionsDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchOsVersionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchOsVersionsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchOsVersionsRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*os_version.ParentName)(nil)
+	return nil
 }
 
 func (h *WatchOsVersionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -922,14 +840,6 @@ func (h *WatchOsVersionsDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchOsVersionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchOsVersionsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*WatchOsVersionsResponse) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1054,20 +964,7 @@ func (h *CreateOsVersionDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *CreateOsVersionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateOsVersionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*CreateOsVersionRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*os_version.ParentName)(nil)
+	return nil
 }
 
 func (h *CreateOsVersionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1100,14 +997,6 @@ func (h *CreateOsVersionDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *CreateOsVersionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*os_version.OsVersion)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*os_version.OsVersion) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1232,14 +1121,6 @@ func (h *UpdateOsVersionDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *UpdateOsVersionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateOsVersionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*UpdateOsVersionRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1273,14 +1154,6 @@ func (h *UpdateOsVersionDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *UpdateOsVersionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*os_version.OsVersion)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*os_version.OsVersion) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1404,14 +1277,6 @@ func (h *DeleteOsVersionDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *DeleteOsVersionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteOsVersionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*DeleteOsVersionRequest) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
@@ -1440,14 +1305,6 @@ func (h *DeleteOsVersionDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *DeleteOsVersionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *os_version.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
 	return nil
 }
 
