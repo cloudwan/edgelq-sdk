@@ -9,13 +9,13 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
-	adevice "github.com/cloudwan/edgelq-sdk/devices/access/v1alpha2/device"
-	cdevice "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
-	rdevice "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	adevice "github.com/cloudwan/edgelq-sdk/devices/access/v1/device"
+	cdevice "github.com/cloudwan/edgelq-sdk/devices/client/v1/device"
+	rdevice "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 
 	"github.com/cloudwan/edgelq-sdk/examples/utils"
 )
@@ -67,7 +67,7 @@ func main() {
 	}
 	filter := &adevice.WatcherFilterParams{
 		Parent: rdevice.NewNameBuilder().SetProjectId(*projectId).
-			SetRegionId(gotenresource.WildcardId).ParentReference(),
+			SetRegionId(gotenresource.WildcardId).Parent(),
 	}
 	watcher := adevice.NewWatcher(devicesClient, cfg, filter)
 

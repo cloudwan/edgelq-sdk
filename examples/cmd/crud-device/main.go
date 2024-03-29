@@ -7,11 +7,11 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
+	"github.com/cloudwan/goten-sdk/types/meta"
+	"github.com/cloudwan/goten-sdk/types/view"
 
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	cdevice "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
-	rdevice "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	cdevice "github.com/cloudwan/edgelq-sdk/devices/client/v1/device"
+	rdevice "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 
 	"github.com/cloudwan/edgelq-sdk/examples/utils"
 )
@@ -68,9 +68,9 @@ func main() {
 	// ------------------------- Lets begin! -------------------------
 	// server will generate device ID, we need to provide parent only
 	createdDevice, err := devicesClient.CreateDevice(ctx, &cdevice.CreateDeviceRequest{
-		Parent: rdevice.NewNameBuilder().SetProjectId(*projectId).SetRegionId(*regionId).ParentReference(),
+		Parent: rdevice.NewNameBuilder().SetProjectId(*projectId).SetRegionId(*regionId).Parent(),
 		Device: &rdevice.Device{
-			Metadata: &ntt_meta.Meta{
+			Metadata: &meta.Meta{
 				Labels: map[string]string{"device_type": "test"},
 			},
 			DisplayName: "Example Device",
@@ -109,7 +109,7 @@ func main() {
 	updatedDevice, err := devicesClient.UpdateDevice(ctx, &cdevice.UpdateDeviceRequest{
 		Device: &rdevice.Device{
 			Name: createdDevice.GetName(),
-			Metadata: &ntt_meta.Meta{
+			Metadata: &meta.Meta{
 				Labels: map[string]string{"other_label": "other"},
 			},
 		},
