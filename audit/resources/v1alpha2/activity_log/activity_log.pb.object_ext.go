@@ -9,20 +9,20 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -31,20 +31,20 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (o *ActivityLog) GotenObjectExt() {}
@@ -126,6 +126,16 @@ func (o *ActivityLog) MakeDiffFieldMask(other *ActivityLog) *ActivityLog_FieldMa
 		}
 	}
 	{
+		subMask := o.GetRequestRouting().MakeDiffFieldMask(other.GetRequestRouting())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestRouting})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorRequestRouting, subPath: subpath})
+			}
+		}
+	}
+	{
 		subMask := o.GetResource().MakeDiffFieldMask(other.GetResource())
 		if subMask.IsFull() {
 			res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorResource})
@@ -191,6 +201,7 @@ func (o *ActivityLog) Clone() *ActivityLog {
 	result.Service = o.Service.Clone()
 	result.Method = o.Method.Clone()
 	result.RequestMetadata = o.RequestMetadata.Clone()
+	result.RequestRouting = o.RequestRouting.Clone()
 	result.Resource = o.Resource.Clone()
 	result.Category = o.Category
 	result.Labels = map[string]string{}
@@ -225,19 +236,19 @@ func (o *ActivityLog) Merge(source *ActivityLog) {
 	o.RequestId = source.GetRequestId()
 	if source.GetAuthentication() != nil {
 		if o.Authentication == nil {
-			o.Authentication = new(audit_common.Authentication)
+			o.Authentication = new(common.Authentication)
 		}
 		o.Authentication.Merge(source.GetAuthentication())
 	}
 	if source.GetAuthorization() != nil {
 		if o.Authorization == nil {
-			o.Authorization = new(audit_common.Authorization)
+			o.Authorization = new(common.Authorization)
 		}
 		o.Authorization.Merge(source.GetAuthorization())
 	}
 	if source.GetService() != nil {
 		if o.Service == nil {
-			o.Service = new(audit_common.ServiceData)
+			o.Service = new(common.ServiceData)
 		}
 		o.Service.Merge(source.GetService())
 	}
@@ -252,6 +263,12 @@ func (o *ActivityLog) Merge(source *ActivityLog) {
 			o.RequestMetadata = new(ActivityLog_RequestMetadata)
 		}
 		o.RequestMetadata.Merge(source.GetRequestMetadata())
+	}
+	if source.GetRequestRouting() != nil {
+		if o.RequestRouting == nil {
+			o.RequestRouting = new(ActivityLog_RequestRouting)
+		}
+		o.RequestRouting.Merge(source.GetRequestRouting())
 	}
 	if source.GetResource() != nil {
 		if o.Resource == nil {
@@ -607,6 +624,87 @@ func (o *ActivityLog_RequestMetadata) MergeRaw(source gotenobject.GotenObjectExt
 	o.Merge(source.(*ActivityLog_RequestMetadata))
 }
 
+func (o *ActivityLog_RequestRouting) GotenObjectExt() {}
+
+func (o *ActivityLog_RequestRouting) MakeFullFieldMask() *ActivityLog_RequestRouting_FieldMask {
+	return FullActivityLog_RequestRouting_FieldMask()
+}
+
+func (o *ActivityLog_RequestRouting) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullActivityLog_RequestRouting_FieldMask()
+}
+
+func (o *ActivityLog_RequestRouting) MakeDiffFieldMask(other *ActivityLog_RequestRouting) *ActivityLog_RequestRouting_FieldMask {
+	if o == nil && other == nil {
+		return &ActivityLog_RequestRouting_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullActivityLog_RequestRouting_FieldMask()
+	}
+
+	res := &ActivityLog_RequestRouting_FieldMask{}
+	if o.GetViaRegion() != other.GetViaRegion() {
+		res.Paths = append(res.Paths, &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorViaRegion})
+	}
+
+	if len(o.GetDestRegions()) == len(other.GetDestRegions()) {
+		for i, lValue := range o.GetDestRegions() {
+			rValue := other.GetDestRegions()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorDestRegions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorDestRegions})
+	}
+	return res
+}
+
+func (o *ActivityLog_RequestRouting) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ActivityLog_RequestRouting))
+}
+
+func (o *ActivityLog_RequestRouting) Clone() *ActivityLog_RequestRouting {
+	if o == nil {
+		return nil
+	}
+	result := &ActivityLog_RequestRouting{}
+	result.ViaRegion = o.ViaRegion
+	result.DestRegions = make([]string, len(o.DestRegions))
+	for i, sourceValue := range o.DestRegions {
+		result.DestRegions[i] = sourceValue
+	}
+	return result
+}
+
+func (o *ActivityLog_RequestRouting) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ActivityLog_RequestRouting) Merge(source *ActivityLog_RequestRouting) {
+	o.ViaRegion = source.GetViaRegion()
+	for _, sourceValue := range source.GetDestRegions() {
+		exists := false
+		for _, currentValue := range o.DestRegions {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.DestRegions = append(o.DestRegions, newDstElement)
+		}
+	}
+
+}
+
+func (o *ActivityLog_RequestRouting) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ActivityLog_RequestRouting))
+}
+
 func (o *ActivityLog_Resource) GotenObjectExt() {}
 
 func (o *ActivityLog_Resource) MakeFullFieldMask() *ActivityLog_Resource_FieldMask {
@@ -711,8 +809,8 @@ func (o *ActivityLog_Event_ClientMsgEvent) Clone() *ActivityLog_Event_ClientMsgE
 		return nil
 	}
 	result := &ActivityLog_Event_ClientMsgEvent{}
-	result.Data = proto.Clone(o.Data).(*any.Any)
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Data = proto.Clone(o.Data).(*anypb.Any)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -723,13 +821,13 @@ func (o *ActivityLog_Event_ClientMsgEvent) CloneRaw() gotenobject.GotenObjectExt
 func (o *ActivityLog_Event_ClientMsgEvent) Merge(source *ActivityLog_Event_ClientMsgEvent) {
 	if source.GetData() != nil {
 		if o.Data == nil {
-			o.Data = new(any.Any)
+			o.Data = new(anypb.Any)
 		}
 		proto.Merge(o.Data, source.GetData())
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}
@@ -779,8 +877,8 @@ func (o *ActivityLog_Event_RegionalServerMsgEvent) Clone() *ActivityLog_Event_Re
 		return nil
 	}
 	result := &ActivityLog_Event_RegionalServerMsgEvent{}
-	result.Data = proto.Clone(o.Data).(*any.Any)
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Data = proto.Clone(o.Data).(*anypb.Any)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	result.RegionId = o.RegionId
 	return result
 }
@@ -792,13 +890,13 @@ func (o *ActivityLog_Event_RegionalServerMsgEvent) CloneRaw() gotenobject.GotenO
 func (o *ActivityLog_Event_RegionalServerMsgEvent) Merge(source *ActivityLog_Event_RegionalServerMsgEvent) {
 	if source.GetData() != nil {
 		if o.Data == nil {
-			o.Data = new(any.Any)
+			o.Data = new(anypb.Any)
 		}
 		proto.Merge(o.Data, source.GetData())
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}
@@ -834,9 +932,6 @@ func (o *ActivityLog_Event_ServerMsgEvent) MakeDiffFieldMask(other *ActivityLog_
 	if !proto.Equal(o.GetTime(), other.GetTime()) {
 		res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime})
 	}
-	if o.GetRoutedRegionId() != other.GetRoutedRegionId() {
-		res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId})
-	}
 	return res
 }
 
@@ -849,9 +944,8 @@ func (o *ActivityLog_Event_ServerMsgEvent) Clone() *ActivityLog_Event_ServerMsgE
 		return nil
 	}
 	result := &ActivityLog_Event_ServerMsgEvent{}
-	result.Data = proto.Clone(o.Data).(*any.Any)
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
-	result.RoutedRegionId = o.RoutedRegionId
+	result.Data = proto.Clone(o.Data).(*anypb.Any)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -862,17 +956,16 @@ func (o *ActivityLog_Event_ServerMsgEvent) CloneRaw() gotenobject.GotenObjectExt
 func (o *ActivityLog_Event_ServerMsgEvent) Merge(source *ActivityLog_Event_ServerMsgEvent) {
 	if source.GetData() != nil {
 		if o.Data == nil {
-			o.Data = new(any.Any)
+			o.Data = new(anypb.Any)
 		}
 		proto.Merge(o.Data, source.GetData())
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}
-	o.RoutedRegionId = source.GetRoutedRegionId()
 }
 
 func (o *ActivityLog_Event_ServerMsgEvent) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -927,7 +1020,7 @@ func (o *ActivityLog_Event_RegionalExitEvent) Clone() *ActivityLog_Event_Regiona
 	}
 	result := &ActivityLog_Event_RegionalExitEvent{}
 	result.Status = o.Status.Clone()
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	result.RegionId = o.RegionId
 	return result
 }
@@ -945,7 +1038,7 @@ func (o *ActivityLog_Event_RegionalExitEvent) Merge(source *ActivityLog_Event_Re
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}
@@ -1001,7 +1094,7 @@ func (o *ActivityLog_Event_ExitEvent) Clone() *ActivityLog_Event_ExitEvent {
 	}
 	result := &ActivityLog_Event_ExitEvent{}
 	result.Status = o.Status.Clone()
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -1018,7 +1111,7 @@ func (o *ActivityLog_Event_ExitEvent) Merge(source *ActivityLog_Event_ExitEvent)
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}
@@ -1068,9 +1161,9 @@ func (o *ActivityLog_Resource_Difference) Clone() *ActivityLog_Resource_Differen
 		return nil
 	}
 	result := &ActivityLog_Resource_Difference{}
-	result.Fields = proto.Clone(o.Fields).(*field_mask.FieldMask)
-	result.Before = proto.Clone(o.Before).(*any.Any)
-	result.After = proto.Clone(o.After).(*any.Any)
+	result.Fields = proto.Clone(o.Fields).(*fieldmaskpb.FieldMask)
+	result.Before = proto.Clone(o.Before).(*anypb.Any)
+	result.After = proto.Clone(o.After).(*anypb.Any)
 	return result
 }
 
@@ -1081,19 +1174,19 @@ func (o *ActivityLog_Resource_Difference) CloneRaw() gotenobject.GotenObjectExt 
 func (o *ActivityLog_Resource_Difference) Merge(source *ActivityLog_Resource_Difference) {
 	if source.GetFields() != nil {
 		if o.Fields == nil {
-			o.Fields = new(field_mask.FieldMask)
+			o.Fields = new(fieldmaskpb.FieldMask)
 		}
 		proto.Merge(o.Fields, source.GetFields())
 	}
 	if source.GetBefore() != nil {
 		if o.Before == nil {
-			o.Before = new(any.Any)
+			o.Before = new(anypb.Any)
 		}
 		proto.Merge(o.Before, source.GetBefore())
 	}
 	if source.GetAfter() != nil {
 		if o.After == nil {
-			o.After = new(any.Any)
+			o.After = new(anypb.Any)
 		}
 		proto.Merge(o.After, source.GetAfter())
 	}

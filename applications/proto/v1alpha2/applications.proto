@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.applications.v1alpha2;
 
+import "edgelq-sdk/applications/proto/v1alpha2/applications_versioning.proto";
 import "edgelq-sdk/applications/proto/v1alpha2/config_map.proto";
 import "edgelq-sdk/applications/proto/v1alpha2/config_map_service.proto";
 import "edgelq-sdk/applications/proto/v1alpha2/distribution.proto";

@@ -4,7 +4,7 @@ package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
 import "google/protobuf/field_mask.proto";
-import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/types/view.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/public;public_client";
 option java_multiple_files = false;
@@ -47,7 +47,7 @@ message ListPublicDevicesRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 }
 
 // Response message for method

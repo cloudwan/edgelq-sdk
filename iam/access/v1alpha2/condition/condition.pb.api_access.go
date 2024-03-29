@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	condition_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/condition"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiConditionAccess struct {
@@ -42,8 +44,11 @@ func NewApiConditionAccess(client condition_client.ConditionServiceClient) condi
 }
 
 func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.GetQuery) (*condition.Condition, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &condition_client.GetConditionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetCondition(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 
 func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*condition.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*condition.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &condition_client.BatchGetConditionsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(condition.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *conditi
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListConditions(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *conditi
 }
 
 func (a *apiConditionAccess) WatchCondition(ctx context.Context, query *condition.GetQuery, observerCb func(*condition.ConditionChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &condition_client.WatchConditionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchCondition(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchConditions(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiConditionAccess) SaveCondition(ctx context.Context, res *condition.C
 			}
 		}
 	}
-
+	var resp *condition.Condition
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &condition_client.UpdateConditionRequest{
 			Condition: res,
@@ -195,29 +217,76 @@ func (a *apiConditionAccess) SaveCondition(ctx context.Context, res *condition.C
 				FieldMask:        mask.(*condition.Condition_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateCondition(ctx, updateRequest)
+		resp, err = a.client.UpdateCondition(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &condition_client.CreateConditionRequest{
 			Condition: res,
 		}
-		_, err := a.client.CreateCondition(ctx, createRequest)
+		resp, err = a.client.CreateCondition(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiConditionAccess) DeleteCondition(ctx context.Context, ref *condition.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &condition_client.DeleteConditionRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteCondition(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *condition.Filter) (*condition.Filter, *condition.ParentName) {
+	var withParentExtraction func(cnd condition.FilterCondition) condition.FilterCondition
+	var resultParent *condition.ParentName
+	var resultFilter *condition.Filter
+	withParentExtraction = func(cnd condition.FilterCondition) condition.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *condition.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]condition.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return condition.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *condition.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*condition.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &condition.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

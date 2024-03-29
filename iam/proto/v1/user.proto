@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user;user";
+option java_multiple_files = true;
+option java_outer_classname = "UserProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// User Resource
+message User {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/User"
+    pattern : "users/{user}"
+  };
+
+  // Name of User
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 8;
+
+  // Full Name
+  string full_name = 2;
+
+  // Email
+  string email = 3;
+
+  // Is email verified
+  bool email_verified = 4;
+
+  AuthInfo auth_info = 5;
+
+  // User settings and preferences
+  map<string, string> settings = 7;
+
+  google.protobuf.Timestamp refreshed_time = 6;
+
+  message AuthInfo {
+    // auth provider
+    string provider = 1;
+
+    // auth provider id
+    string id = 2;
+  }
+}

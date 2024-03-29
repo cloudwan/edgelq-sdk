@@ -5,9 +5,9 @@
 package log
 
 import (
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
+	"github.com/cloudwan/goten-sdk/types/view"
 )
 
 // proto imports
@@ -15,13 +15,14 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
 var (
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = view.View_UNSPECIFIED
 )
@@ -32,11 +33,12 @@ var (
 	_ = &iam_project.Project{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func ResourceViewFieldMask(viewName view.View, extraMask *Log_FieldMask) *Log_FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 
 	switch viewName {
 	case view.View_UNSPECIFIED:

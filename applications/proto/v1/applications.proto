@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ntt.applications.v1;
+
+import "edgelq-sdk/applications/proto/v1/config_map.proto";
+import "edgelq-sdk/applications/proto/v1/config_map_service.proto";
+import "edgelq-sdk/applications/proto/v1/distribution.proto";
+import "edgelq-sdk/applications/proto/v1/distribution_service.proto";
+import "edgelq-sdk/applications/proto/v1/pod.proto";
+import "edgelq-sdk/applications/proto/v1/pod_service.proto";
+import "edgelq-sdk/applications/proto/v1/project.proto";
+import "edgelq-sdk/applications/proto/v1/project_service.proto";
+import "edgelq-sdk/devices/proto/v1/devices.proto";
+import "edgelq-sdk/secrets/proto/v1/secrets.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/applications/client/v1/applications;applications_client";
+option java_multiple_files = true;
+option java_outer_classname = "ApplicationsProto";
+option java_package = "com.ntt.applications.pb.v1";

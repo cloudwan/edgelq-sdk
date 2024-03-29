@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/limits/proto/v1/accepted_plan.proto";
+import "edgelq-sdk/limits/proto/v1/plan_assignment_request.proto";
+import "edgelq-sdk/limits/proto/v1/plan_assignment_request_change.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1/plan_assignment_request;plan_assignment_request_client";
+option java_multiple_files = false;
+option java_outer_classname = "PlanAssignmentRequestCustomProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// Request message for method
+// [AcceptPlanAssignment][ntt.limits.v1.AcceptPlanAssignment]
+message AcceptPlanAssignmentRequest {
+  //  name of ntt.limits.v1.PlanAssignmentRequest
+  string name = 1;
+
+  // Entity approving plan assignment. It can be left empty if the one approving
+  // uses service-level privileges.
+  string approver = 2;
+}
+
+// Response message for method
+// [AcceptPlanAssignment][ntt.limits.v1.AcceptPlanAssignment]
+message AcceptPlanAssignmentResponse { AcceptedPlan accepted_plan = 1; }
+
+// Request message for method
+// [DeclinePlanAssignment][ntt.limits.v1.DeclinePlanAssignment]
+message DeclinePlanAssignmentRequest {
+  //  name of ntt.limits.v1.PlanAssignmentRequest
+  string name = 1;
+
+  // Entity approving plan assignment. It must match approver in
+  // PlanAssignmentRequest.
+  string approver = 2;
+
+  string reason = 3;
+}
+
+// Response message for method
+// [DeclinePlanAssignment][ntt.limits.v1.DeclinePlanAssignment]
+message DeclinePlanAssignmentResponse {}
+
+// Request message for method
+// [ListApproverPlanAssignmentRequests][ntt.limits.v1.ListApproverPlanAssignmentRequests]
+message ListApproverPlanAssignmentRequestsRequest {
+  // Approver of the plan assignment requests
+  string approver = 1;
+
+  // Requested page size. Server may return fewer PlanAssignmentRequests than
+  // requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListPlanAssignmentRequestsResponse.next_page_token][ntt.limits.v1.ListPlanAssignmentRequestsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+}

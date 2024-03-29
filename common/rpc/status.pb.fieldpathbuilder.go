@@ -6,12 +6,12 @@ package rpc
 
 // proto imports
 import (
-	any "github.com/golang/protobuf/ptypes/any"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &any.Any{}
+	_ = &anypb.Any{}
 )
 
 type StatusFieldPathBuilder struct{}
@@ -63,14 +63,14 @@ func (StatusPathSelectorDetails) FieldPath() *Status_FieldTerminalPath {
 	return &Status_FieldTerminalPath{selector: Status_FieldPathSelectorDetails}
 }
 
-func (s StatusPathSelectorDetails) WithValue(value []*any.Any) *Status_FieldTerminalPathValue {
+func (s StatusPathSelectorDetails) WithValue(value []*anypb.Any) *Status_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Status_FieldTerminalPathValue)
 }
 
-func (s StatusPathSelectorDetails) WithArrayOfValues(values [][]*any.Any) *Status_FieldTerminalPathArrayOfValues {
+func (s StatusPathSelectorDetails) WithArrayOfValues(values [][]*anypb.Any) *Status_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Status_FieldTerminalPathArrayOfValues)
 }
 
-func (s StatusPathSelectorDetails) WithItemValue(value *any.Any) *Status_FieldTerminalPathArrayItemValue {
+func (s StatusPathSelectorDetails) WithItemValue(value *anypb.Any) *Status_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Status_FieldTerminalPathArrayItemValue)
 }

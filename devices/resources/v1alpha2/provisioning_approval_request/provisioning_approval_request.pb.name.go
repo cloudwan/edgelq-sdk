@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,13 +44,13 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &meta.Meta{}
 )
 
 var provisioningApprovalRequest_RegexpId = regexp.MustCompile("^(?P<provisioning_approval_request_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Project_Region_ProvisioningPolicy = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/provisioningPolicies/(?P<provisioning_policy_id>-|[\\w][\\w.-]{0,127})/provisioningApprovalRequests/(?P<provisioning_approval_request_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project_Region_ProvisioningPolicy = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/provisioningPolicies/(?P<provisioning_policy_id>-|[\\w][\\w.-]{0,127})/provisioningApprovalRequests/(?P<provisioning_approval_request_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *ProvisioningApprovalRequest) MaybePopulateDefaults() error {
 	provisioningApprovalRequestInterface := interface{}(r)
@@ -58,14 +58,6 @@ func (r *ProvisioningApprovalRequest) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *ProvisioningApprovalRequest) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *ProvisioningApprovalRequest) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

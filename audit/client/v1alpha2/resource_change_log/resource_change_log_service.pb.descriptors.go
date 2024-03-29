@@ -158,6 +158,30 @@ func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListResourceChangeLogsRequest) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListResourceChangeLogsRequest) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourceChangeLogsResponse)
 	var asInterface interface{} = h
@@ -190,6 +214,30 @@ func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListResourceChangeLogsResponse) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListResourceChangeLogsResponse) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -320,6 +368,30 @@ func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractC
 	return nil
 }
 
+func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreatePreCommittedResourceChangeLogsRequest) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreatePreCommittedResourceChangeLogsRequest) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
 	var asInterface interface{} = h
@@ -352,6 +424,30 @@ func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractC
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreatePreCommittedResourceChangeLogsResponse) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreatePreCommittedResourceChangeLogsResponse) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -482,6 +578,30 @@ func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractColle
 	return nil
 }
 
+func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SetResourceChangeLogsCommitStateRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SetResourceChangeLogsCommitStateRequest) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SetResourceChangeLogsCommitStateRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SetResourceChangeLogsCommitStateRequest) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
 	var asInterface interface{} = h
@@ -514,6 +634,30 @@ func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractColle
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SetResourceChangeLogsCommitStateResponse) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SetResourceChangeLogsCommitStateResponse) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

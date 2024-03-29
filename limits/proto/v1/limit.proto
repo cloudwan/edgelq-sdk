@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/limits/proto/v1/limit_pool.proto";
+import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit;limit";
+option java_multiple_files = true;
+option java_outer_classname = "LimitProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// Limit resource represents usage/limit of specific resource
+// in specific project and region - however instances of those
+// resources are managed by primary region of project. This
+// ensures consistency and allows modification of project limits
+// in one database transaction.
+// Limit instances cannot be created or deleted. They cannot be
+// also be modified (there are only some state fields controlled
+// by system). Limits are created/modified along with
+// PlanAssignment instances.
+message Limit {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/Limit"
+    pattern : "projects/{project}/limits/{limit}"
+  };
+
+  // Name of Limit
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex:
+  // [a-zA-Z0-9-]{1,128}\\/[a-zA-Z0-9-.]{1,128}\\/[a-zA-Z]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 9;
+
+  // Referenced service
+  string service = 2;
+
+  // Referenced resource type
+  string resource = 3;
+
+  // Region ID to which this limit applies. This may be different
+  // compared to default project region, because projects themselves
+  // can be multi-regional.
+  string region = 4;
+
+  // Configured limit - it is always in sync with limits
+  // predicted by PlanAssignment instances.
+  int64 configured_limit = 5;
+
+  // Active limit - it is always equal to configured limit with exceptions:
+  // * If configured limit has just changed, then active limit will for
+  // a moment contain old value before synchronization.
+  // * If it turns out that usage increased in the very same moment
+  // when configured limit decreased, then active limit will hold
+  // old value indicating problem.
+  // It is important to note that, because projects may be multi-regional,
+  // limits are tracked by their FINAL region (See region field).
+  // State fields (active limit and usage) are synced asynchronously.
+  // From user perspective this field can be hidden if in line with
+  // configured limit.
+  int64 active_limit = 6;
+
+  // Number of resources currently in existence.
+  int64 usage = 7;
+
+  // LimitPool sources that supplied reservation to this limit. Any change
+  // in configured/active value in current Limit increases/decreases
+  // reserved field in source LimitPool.
+  // Number of sources depends whether resource is regional or not - if
+  // resource is regional, it will be only one source pointing to the
+  // specific region. Non-regional resources will point to all regions
+  // where project is present.
+  repeated string sources = 8;
+}

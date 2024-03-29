@@ -26,8 +26,8 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -47,8 +47,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type FilterCondition interface {

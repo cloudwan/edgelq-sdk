@@ -13,19 +13,19 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -38,19 +38,19 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 )
 
 type ResourceChangeLog_FieldMask struct {
@@ -142,14 +142,14 @@ func (fieldMask *ResourceChangeLog_FieldMask) Subtract(other *ResourceChangeLog_
 	result := &ResourceChangeLog_FieldMask{}
 	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[ResourceChangeLog_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLog_FieldPathSelectorAuthentication: &audit_common.Authentication_FieldMask{},
-		ResourceChangeLog_FieldPathSelectorService:        &audit_common.ServiceData_FieldMask{},
+		ResourceChangeLog_FieldPathSelectorAuthentication: &common.Authentication_FieldMask{},
+		ResourceChangeLog_FieldPathSelectorService:        &common.ServiceData_FieldMask{},
 		ResourceChangeLog_FieldPathSelectorResource:       &ResourceChangeLog_ResourceChange_FieldMask{},
 		ResourceChangeLog_FieldPathSelectorTransaction:    &ResourceChangeLog_TransactionInfo_FieldMask{},
 	}
 	mySubMasks := map[ResourceChangeLog_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLog_FieldPathSelectorAuthentication: &audit_common.Authentication_FieldMask{},
-		ResourceChangeLog_FieldPathSelectorService:        &audit_common.ServiceData_FieldMask{},
+		ResourceChangeLog_FieldPathSelectorAuthentication: &common.Authentication_FieldMask{},
+		ResourceChangeLog_FieldPathSelectorService:        &common.ServiceData_FieldMask{},
 		ResourceChangeLog_FieldPathSelectorResource:       &ResourceChangeLog_ResourceChange_FieldMask{},
 		ResourceChangeLog_FieldPathSelectorTransaction:    &ResourceChangeLog_TransactionInfo_FieldMask{},
 	}
@@ -168,9 +168,9 @@ func (fieldMask *ResourceChangeLog_FieldMask) Subtract(other *ResourceChangeLog_
 				if tp, ok := path.(*ResourceChangeLog_FieldTerminalPath); ok {
 					switch tp.selector {
 					case ResourceChangeLog_FieldPathSelectorAuthentication:
-						mySubMasks[ResourceChangeLog_FieldPathSelectorAuthentication] = audit_common.FullAuthentication_FieldMask()
+						mySubMasks[ResourceChangeLog_FieldPathSelectorAuthentication] = common.FullAuthentication_FieldMask()
 					case ResourceChangeLog_FieldPathSelectorService:
-						mySubMasks[ResourceChangeLog_FieldPathSelectorService] = audit_common.FullServiceData_FieldMask()
+						mySubMasks[ResourceChangeLog_FieldPathSelectorService] = common.FullServiceData_FieldMask()
 					case ResourceChangeLog_FieldPathSelectorResource:
 						mySubMasks[ResourceChangeLog_FieldPathSelectorResource] = FullResourceChangeLog_ResourceChange_FieldMask()
 					case ResourceChangeLog_FieldPathSelectorTransaction:
@@ -210,15 +210,15 @@ func (fieldMask *ResourceChangeLog_FieldMask) FilterInputFields() *ResourceChang
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ResourceChangeLog_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ResourceChangeLog_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ResourceChangeLog_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ResourceChangeLog_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -240,7 +240,7 @@ func (fieldMask ResourceChangeLog_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ResourceChangeLog_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -259,7 +259,7 @@ func (fieldMask ResourceChangeLog_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ResourceChangeLog_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -327,9 +327,9 @@ func (fieldMask *ResourceChangeLog_FieldMask) Project(source *ResourceChangeLog)
 		return source
 	}
 	result := &ResourceChangeLog{}
-	authenticationMask := &audit_common.Authentication_FieldMask{}
+	authenticationMask := &common.Authentication_FieldMask{}
 	wholeAuthenticationAccepted := false
-	serviceMask := &audit_common.ServiceData_FieldMask{}
+	serviceMask := &common.ServiceData_FieldMask{}
 	wholeServiceAccepted := false
 	resourceMask := &ResourceChangeLog_ResourceChange_FieldMask{}
 	wholeResourceAccepted := false
@@ -364,9 +364,9 @@ func (fieldMask *ResourceChangeLog_FieldMask) Project(source *ResourceChangeLog)
 		case *ResourceChangeLog_FieldSubPath:
 			switch tp.selector {
 			case ResourceChangeLog_FieldPathSelectorAuthentication:
-				authenticationMask.AppendPath(tp.subPath.(audit_common.Authentication_FieldPath))
+				authenticationMask.AppendPath(tp.subPath.(common.Authentication_FieldPath))
 			case ResourceChangeLog_FieldPathSelectorService:
-				serviceMask.AppendPath(tp.subPath.(audit_common.ServiceData_FieldPath))
+				serviceMask.AppendPath(tp.subPath.(common.ServiceData_FieldPath))
 			case ResourceChangeLog_FieldPathSelectorResource:
 				resourceMask.AppendPath(tp.subPath.(ResourceChangeLogResourceChange_FieldPath))
 			case ResourceChangeLog_FieldPathSelectorTransaction:
@@ -490,12 +490,12 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Subtract(other *Res
 	result := &ResourceChangeLog_ResourceChange_FieldMask{}
 	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[ResourceChangeLogResourceChange_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &audit_common.ObjectState_FieldMask{},
-		ResourceChangeLogResourceChange_FieldPathSelectorPost: &audit_common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPost: &common.ObjectState_FieldMask{},
 	}
 	mySubMasks := map[ResourceChangeLogResourceChange_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &audit_common.ObjectState_FieldMask{},
-		ResourceChangeLogResourceChange_FieldPathSelectorPost: &audit_common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPost: &common.ObjectState_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -512,9 +512,9 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Subtract(other *Res
 				if tp, ok := path.(*ResourceChangeLogResourceChange_FieldTerminalPath); ok {
 					switch tp.selector {
 					case ResourceChangeLogResourceChange_FieldPathSelectorPre:
-						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPre] = audit_common.FullObjectState_FieldMask()
+						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPre] = common.FullObjectState_FieldMask()
 					case ResourceChangeLogResourceChange_FieldPathSelectorPost:
-						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPost] = audit_common.FullObjectState_FieldMask()
+						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPost] = common.FullObjectState_FieldMask()
 					}
 				} else if tp, ok := path.(*ResourceChangeLogResourceChange_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -550,15 +550,15 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -580,7 +580,7 @@ func (fieldMask ResourceChangeLog_ResourceChange_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -599,7 +599,7 @@ func (fieldMask ResourceChangeLog_ResourceChange_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -667,9 +667,9 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 		return source
 	}
 	result := &ResourceChangeLog_ResourceChange{}
-	preMask := &audit_common.ObjectState_FieldMask{}
+	preMask := &common.ObjectState_FieldMask{}
 	wholePreAccepted := false
-	postMask := &audit_common.ObjectState_FieldMask{}
+	postMask := &common.ObjectState_FieldMask{}
 	wholePostAccepted := false
 	var labelsMapKeys []string
 	wholeLabelsAccepted := false
@@ -703,9 +703,9 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 		case *ResourceChangeLogResourceChange_FieldSubPath:
 			switch tp.selector {
 			case ResourceChangeLogResourceChange_FieldPathSelectorPre:
-				preMask.AppendPath(tp.subPath.(audit_common.ObjectState_FieldPath))
+				preMask.AppendPath(tp.subPath.(common.ObjectState_FieldPath))
 			case ResourceChangeLogResourceChange_FieldPathSelectorPost:
-				postMask.AppendPath(tp.subPath.(audit_common.ObjectState_FieldPath))
+				postMask.AppendPath(tp.subPath.(common.ObjectState_FieldPath))
 			}
 		case *ResourceChangeLogResourceChange_FieldPathMap:
 			switch tp.selector {
@@ -856,15 +856,15 @@ func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) FilterInputFields(
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -886,7 +886,7 @@ func (fieldMask ResourceChangeLog_TransactionInfo_FieldMask) Marshal() ([]byte, 
 }
 
 func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -905,7 +905,7 @@ func (fieldMask ResourceChangeLog_TransactionInfo_FieldMask) MarshalJSON() ([]by
 }
 
 func (fieldMask *ResourceChangeLog_TransactionInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

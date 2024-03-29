@@ -10,8 +10,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/organization;organization_client";
 option java_multiple_files = false;
@@ -21,7 +21,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // Request message for method
 // [GetOrganization][ntt.iam.v1alpha2.GetOrganization]
 message GetOrganizationRequest {
-  // Reference of ntt.iam.v1alpha2.Organization
+  // Name of ntt.iam.v1alpha2.Organization
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -30,7 +30,7 @@ message GetOrganizationRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -45,7 +45,7 @@ message BatchGetOrganizationsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -92,7 +92,7 @@ message ListOrganizationsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -127,7 +127,7 @@ message ListOrganizationsResponse {
 // Request message for method
 // [WatchOrganization][ntt.iam.v1alpha2.WatchOrganization]
 message WatchOrganizationRequest {
-  // Reference to ntt.iam.v1alpha2.Organization
+  // Name of ntt.iam.v1alpha2.Organization
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -136,7 +136,7 @@ message WatchOrganizationRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchOrganizationResponse
@@ -147,7 +147,7 @@ message WatchOrganizationResponse { OrganizationChange change = 1; }
 message WatchOrganizationsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
   // Requested page size. Server may return fewer Organizations than requested.
   // If unspecified, server will pick an appropriate default.
@@ -190,7 +190,7 @@ message WatchOrganizationsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // Organization that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -312,7 +312,7 @@ message UpdateOrganizationRequest {
 // Request message for method
 // [DeleteOrganization][ntt.iam.v1alpha2.DeleteOrganization]
 message DeleteOrganizationRequest {
-  // Reference of ntt.iam.v1alpha2.Organization
+  // Name of ntt.iam.v1alpha2.Organization
   string name = 1;
 }
 

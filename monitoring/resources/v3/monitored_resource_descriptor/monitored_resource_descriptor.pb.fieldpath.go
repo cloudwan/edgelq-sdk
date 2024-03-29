@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -126,19 +124,19 @@ func BuildMonitoredResourceDescriptor_FieldPath(fp gotenobject.RawFieldPath) (Mo
 	} else {
 		switch fp[0] {
 		case "labels":
-			if subpath, err := monitoring_common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MonitoredResourceDescriptor_FieldSubPath{selector: MonitoredResourceDescriptor_FieldPathSelectorLabels, subPath: subpath}, nil
 			}
 		case "promoted_label_key_sets", "promotedLabelKeySets", "promoted-label-key-sets":
-			if subpath, err := monitoring_common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MonitoredResourceDescriptor_FieldSubPath{selector: MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MonitoredResourceDescriptor_FieldSubPath{selector: MonitoredResourceDescriptor_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -263,11 +261,11 @@ func (fp *MonitoredResourceDescriptor_FieldTerminalPath) GetDefault() interface{
 	case MonitoredResourceDescriptor_FieldPathSelectorDescription:
 		return ""
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		return ([]*monitoring_common.LabelDescriptor)(nil)
+		return ([]*common.LabelDescriptor)(nil)
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return ([]*monitoring_common.LabelKeySet)(nil)
+		return ([]*common.LabelKeySet)(nil)
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fp.selector))
 	}
@@ -323,11 +321,11 @@ func (fp *MonitoredResourceDescriptor_FieldTerminalPath) WithIValue(value interf
 	case MonitoredResourceDescriptor_FieldPathSelectorDescription:
 		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*monitoring_common.LabelDescriptor)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelDescriptor)}
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*monitoring_common.LabelKeySet)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fp.selector))
 	}
@@ -349,11 +347,11 @@ func (fp *MonitoredResourceDescriptor_FieldTerminalPath) WithIArrayOfValues(valu
 	case MonitoredResourceDescriptor_FieldPathSelectorDescription:
 		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([]string)}
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*monitoring_common.LabelDescriptor)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelDescriptor)}
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*monitoring_common.LabelKeySet)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues{MonitoredResourceDescriptor_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fp.selector))
 	}
@@ -367,9 +365,9 @@ func (fp *MonitoredResourceDescriptor_FieldTerminalPath) WithRawIArrayOfValues(v
 func (fp *MonitoredResourceDescriptor_FieldTerminalPath) WithIArrayItemValue(value interface{}) MonitoredResourceDescriptor_FieldPathArrayItemValue {
 	switch fp.selector {
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		return &MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*monitoring_common.LabelDescriptor)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelDescriptor)}
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*monitoring_common.LabelKeySet)}
+		return &MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue{MonitoredResourceDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelKeySet)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fp.selector))
 	}
@@ -389,16 +387,16 @@ var _ MonitoredResourceDescriptor_FieldPath = (*MonitoredResourceDescriptor_Fiel
 func (fps *MonitoredResourceDescriptor_FieldSubPath) Selector() MonitoredResourceDescriptor_FieldPathSelector {
 	return fps.selector
 }
-func (fps *MonitoredResourceDescriptor_FieldSubPath) AsLabelsSubPath() (monitoring_common.LabelDescriptor_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.LabelDescriptor_FieldPath)
+func (fps *MonitoredResourceDescriptor_FieldSubPath) AsLabelsSubPath() (common.LabelDescriptor_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelDescriptor_FieldPath)
 	return res, ok
 }
-func (fps *MonitoredResourceDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (monitoring_common.LabelKeySet_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.LabelKeySet_FieldPath)
+func (fps *MonitoredResourceDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (common.LabelKeySet_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelKeySet_FieldPath)
 	return res, ok
 }
-func (fps *MonitoredResourceDescriptor_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *MonitoredResourceDescriptor_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -580,16 +578,16 @@ func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsDescriptionValu
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpv.value.([]*monitoring_common.LabelDescriptor)
+func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*common.LabelDescriptor, bool) {
+	res, ok := fpv.value.([]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpv.value.([]*monitoring_common.LabelKeySet)
+func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*common.LabelKeySet, bool) {
+	res, ok := fpv.value.([]*common.LabelKeySet)
 	return res, ok
 }
-func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -608,11 +606,11 @@ func (fpv *MonitoredResourceDescriptor_FieldTerminalPathValue) SetTo(target **Mo
 	case MonitoredResourceDescriptor_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		(*target).Labels = fpv.value.([]*monitoring_common.LabelDescriptor)
+		(*target).Labels = fpv.value.([]*common.LabelDescriptor)
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		(*target).PromotedLabelKeySets = fpv.value.([]*monitoring_common.LabelKeySet)
+		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fpv.selector))
 	}
@@ -697,16 +695,16 @@ type MonitoredResourceDescriptor_FieldSubPathValue struct {
 
 var _ MonitoredResourceDescriptor_FieldPathValue = (*MonitoredResourceDescriptor_FieldSubPathValue)(nil)
 
-func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsLabelsPathValue() (monitoring_common.LabelDescriptor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.LabelDescriptor_FieldPathValue)
+func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsLabelsPathValue() (common.LabelDescriptor_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelDescriptor_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (monitoring_common.LabelKeySet_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.LabelKeySet_FieldPathValue)
+func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (common.LabelKeySet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelKeySet_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -720,7 +718,7 @@ func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) SetTo(target **Monito
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fpvs.Selector()))
 	}
@@ -742,7 +740,7 @@ func (fpvs *MonitoredResourceDescriptor_FieldSubPathValue) CompareWith(source *M
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return 0, false // repeated field
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fpvs.Selector()))
 	}
@@ -792,12 +790,12 @@ var _ MonitoredResourceDescriptor_FieldPathArrayItemValue = (*MonitoredResourceD
 func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpaiv.value.(*monitoring_common.LabelDescriptor)
+func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*common.LabelDescriptor, bool) {
+	res, ok := fpaiv.value.(*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpaiv.value.(*monitoring_common.LabelKeySet)
+func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*common.LabelKeySet, bool) {
+	res, ok := fpaiv.value.(*common.LabelKeySet)
 	return res, ok
 }
 
@@ -833,16 +831,16 @@ type MonitoredResourceDescriptor_FieldSubPathArrayItemValue struct {
 func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (monitoring_common.LabelDescriptor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.LabelDescriptor_FieldPathArrayItemValue)
+func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (common.LabelDescriptor_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelDescriptor_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (monitoring_common.LabelKeySet_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.LabelKeySet_FieldPathArrayItemValue)
+func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (common.LabelKeySet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelKeySet_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -854,7 +852,7 @@ func (fpaivs *MonitoredResourceDescriptor_FieldSubPathArrayItemValue) ContainsVa
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return false // repeated/map field
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fpaivs.Selector()))
 	}
@@ -912,15 +910,15 @@ func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) GetRawV
 			values = append(values, v)
 		}
 	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-		for _, v := range fpaov.values.([][]*monitoring_common.LabelDescriptor) {
+		for _, v := range fpaov.values.([][]*common.LabelDescriptor) {
 			values = append(values, v)
 		}
 	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		for _, v := range fpaov.values.([][]*monitoring_common.LabelKeySet) {
+		for _, v := range fpaov.values.([][]*common.LabelKeySet) {
 			values = append(values, v)
 		}
 	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -942,16 +940,16 @@ func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsDescr
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpaov.values.([][]*monitoring_common.LabelDescriptor)
+func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*common.LabelDescriptor, bool) {
+	res, ok := fpaov.values.([][]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpaov.values.([][]*monitoring_common.LabelKeySet)
+func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*common.LabelKeySet, bool) {
+	res, ok := fpaov.values.([][]*common.LabelKeySet)
 	return res, ok
 }
-func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *MonitoredResourceDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -965,15 +963,15 @@ var _ MonitoredResourceDescriptor_FieldPathArrayOfValues = (*MonitoredResourceDe
 func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (monitoring_common.LabelDescriptor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.LabelDescriptor_FieldPathArrayOfValues)
+func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (common.LabelDescriptor_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelDescriptor_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (monitoring_common.LabelKeySet_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.LabelKeySet_FieldPathArrayOfValues)
+func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (common.LabelKeySet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelKeySet_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *MonitoredResourceDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,9 +44,9 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &meta.Meta{}
 )
 
 var role_RegexpId = regexp.MustCompile("^(?P<role_id>[a-zA-Z0-9-]{1,128})$")
@@ -58,14 +58,6 @@ func (r *Role) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *Role) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *Role) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

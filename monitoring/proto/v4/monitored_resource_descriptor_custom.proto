@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/monitored_resource_descriptor.proto";
+import "edgelq-sdk/monitoring/proto/v4/monitored_resource_descriptor_change.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/monitored_resource_descriptor;monitored_resource_descriptor_client";
+option java_multiple_files = false;
+option java_outer_classname = "MonitoredResourceDescriptorCustomProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Request message for method
+// [GetMonitoredResourceDescriptor][ntt.monitoring.v4.GetMonitoredResourceDescriptor]
+message GetMonitoredResourceDescriptorRequest {
+  // Name of ntt.monitoring.v4.MonitoredResourceDescriptor
+  string name = 3;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+}
+
+// Request message for method
+// [ListMonitoredResourceDescriptors][ntt.monitoring.v4.ListMonitoredResourceDescriptors]
+message ListMonitoredResourceDescriptorsRequest {
+  // Parent name of ntt.monitoring.v4.MonitoredResourceDescriptor
+  string parent = 1;
+
+  // Requested page size. Server may return fewer MonitoredResourceDescriptors
+  // than requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 3;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListMonitoredResourceDescriptorsResponse.next_page_token][ntt.monitoring.v4.ListMonitoredResourceDescriptorsResponse.next_page_token]
+  string page_token = 4;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 666;
+
+  // An optional [filter](/monitoring/api/v3/filters) describing
+  // the descriptors to be returned.  The filter can reference
+  // the descriptor's type and labels. For example, the
+  // following filter returns only Google Compute Engine descriptors
+  // that have an `id` label:
+  //
+  //     resource.type = starts_with("gce_") AND resource.label:id
+  string filter = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
+}
+
+// Request message for method
+// [ListMonitoredResourceDescriptors][ntt.monitoring.v4.ListMonitoredResourceDescriptors]
+message ListMonitoredResourceDescriptorsResponse {
+  // The list of MonitoredResourceDescriptors
+  repeated MonitoredResourceDescriptor monitored_resource_descriptors = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListMonitoredResourceDescriptorsRequest.page_token][ntt.monitoring.v4.ListMonitoredResourceDescriptorsRequest.page_token]
+  string prev_page_token = 666;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListMonitoredResourceDescriptorsRequest.page_token][ntt.monitoring.v4.ListMonitoredResourceDescriptorsRequest.page_token]
+  string next_page_token = 2;
+
+  // Current offset from the first page or 0 if no page tokens were given,
+  // paging info was not requested or there was an error while trying to get
+  // it). Page index can be computed from offset and limit provided in a
+  // request.
+  int32 current_offset = 5;
+
+  // Number of total MonitoredResourceDescriptors across all pages or 0, if
+  // there are no items, paging info was not requested or there was an error
+  // while trying to get it.
+  int32 total_results_count = 6;
+}

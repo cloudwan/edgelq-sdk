@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	pod_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/pod"
 	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiPodAccess struct {
@@ -42,8 +44,11 @@ func NewApiPodAccess(client pod_client.PodServiceClient) pod.PodAccess {
 }
 
 func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Pod, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &pod_client.GetPodRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetPod(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Po
 
 func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*pod.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &pod_client.BatchGetPodsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(pod.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery) (*po
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListPods(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery) (*po
 }
 
 func (a *apiPodAccess) WatchPod(ctx context.Context, query *pod.GetQuery, observerCb func(*pod.PodChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &pod_client.WatchPodRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchPod(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiPodAccess) WatchPods(ctx context.Context, query *pod.WatchQuery, obs
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchPods(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 			}
 		}
 	}
-
+	var resp *pod.Pod
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &pod_client.UpdatePodRequest{
 			Pod: res,
@@ -195,29 +217,76 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 				FieldMask:        mask.(*pod.Pod_FieldMask),
 			}
 		}
-		_, err := a.client.UpdatePod(ctx, updateRequest)
+		resp, err = a.client.UpdatePod(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &pod_client.CreatePodRequest{
 			Pod: res,
 		}
-		_, err := a.client.CreatePod(ctx, createRequest)
+		resp, err = a.client.CreatePod(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &pod_client.DeletePodRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeletePod(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *pod.Filter) (*pod.Filter, *pod.ParentName) {
+	var withParentExtraction func(cnd pod.FilterCondition) pod.FilterCondition
+	var resultParent *pod.ParentName
+	var resultFilter *pod.Filter
+	withParentExtraction = func(cnd pod.FilterCondition) pod.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *pod.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]pod.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return pod.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *pod.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*pod.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &pod.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

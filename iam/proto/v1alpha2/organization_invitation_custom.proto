@@ -13,7 +13,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // Request message for method
 // [AcceptOrganizationInvitation][ntt.iam.v1alpha2.AcceptOrganizationInvitation]
 message AcceptOrganizationInvitationRequest {
-  // reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // name of ntt.iam.v1alpha2.OrganizationInvitation
   string name = 1;
 }
 
@@ -24,7 +24,7 @@ message AcceptOrganizationInvitationResponse {}
 // Request message for method
 // [DeclineOrganizationInvitation][ntt.iam.v1alpha2.DeclineOrganizationInvitation]
 message DeclineOrganizationInvitationRequest {
-  //  reference of ntt.iam.v1alpha2.OrganizationInvitation
+  //  name of ntt.iam.v1alpha2.OrganizationInvitation
   string name = 1;
 
   // Additional filter for invitations, e.g. state = "PENDING"
@@ -38,7 +38,7 @@ message DeclineOrganizationInvitationResponse {}
 // Request message for method
 // [ListMyOrganizationInvitations][ntt.iam.v1alpha2.ListMyOrganizationInvitations]
 message ListMyOrganizationInvitationsRequest {
-  // Parent reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // Parent name of ntt.iam.v1alpha2.OrganizationInvitation
   string parent = 1;
 
   // Additional filter for invitations, e.g. state = "PENDING"

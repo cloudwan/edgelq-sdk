@@ -11,8 +11,6 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -20,8 +18,10 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -32,8 +32,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -42,7 +40,9 @@ var (
 	_ = &role.Role{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -920,37 +920,37 @@ type filterCndBuilderMetadata struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadata) Eq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Eq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadata) Neq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Neq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadata) Gt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadata) Gte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadata) Lt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadata) Lte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadata) In(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) In(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadata) NotIn(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) NotIn(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
@@ -968,7 +968,7 @@ func (b *filterCndBuilderMetadata) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().WithValue(value),
@@ -1027,41 +1027,45 @@ func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycl
 	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) Services() *filterCndBuilderMetadataServices {
+	return &filterCndBuilderMetadataServices{builder: b.builder}
+}
+
 type filterCndBuilderMetadataCreateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
@@ -1079,7 +1083,7 @@ func (b *filterCndBuilderMetadataCreateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().CreateTime().WithValue(value),
@@ -1090,37 +1094,37 @@ type filterCndBuilderMetadataUpdateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
@@ -1138,7 +1142,7 @@ func (b *filterCndBuilderMetadataUpdateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
@@ -1149,37 +1153,37 @@ type filterCndBuilderMetadataDeleteTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
@@ -1197,7 +1201,7 @@ func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
@@ -1724,37 +1728,37 @@ type filterCndBuilderMetadataOwnerReferences struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
@@ -1772,7 +1776,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
@@ -1780,7 +1784,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.Owner
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1793,7 +1797,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_me
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1806,7 +1810,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().WithValue(value),
@@ -1831,10 +1835,6 @@ func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMeta
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
 	return &filterCndBuilderMetadataOwnerReferencesController{builder: b.builder}
-}
-
-func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion {
-	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
@@ -2136,65 +2136,6 @@ func (b *filterCndBuilderMetadataOwnerReferencesController) compare(op gotenfilt
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
-	})
-}
-
 type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
 	builder *FilterBuilder
 }
@@ -2381,37 +2322,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -2429,7 +2370,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -2600,37 +2541,37 @@ type filterCndBuilderMetadataLifecycle struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) In(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
@@ -2648,7 +2589,7 @@ func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
@@ -2667,37 +2608,37 @@ type filterCndBuilderMetadataLifecycleState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) In(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
@@ -2715,7 +2656,7 @@ func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
@@ -2778,5 +2719,224 @@ func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServices) Eq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Neq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) In(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) NotIn(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) compare(op gotenfilter.CompareOperator, value *meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Services().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) OwningService() *filterCndBuilderMetadataServicesOwningService {
+	return &filterCndBuilderMetadataServicesOwningService{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataServices) AllowedServices() *filterCndBuilderMetadataServicesAllowedServices {
+	return &filterCndBuilderMetadataServicesAllowedServices{builder: b.builder}
+}
+
+type filterCndBuilderMetadataServicesOwningService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Services().OwningService().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServicesAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Value:     NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Metadata().Services().AllowedServices().WithValue(value),
 	})
 }

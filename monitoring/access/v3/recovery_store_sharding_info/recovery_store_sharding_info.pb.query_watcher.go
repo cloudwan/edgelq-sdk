@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/recovery_store_sharding_info"
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
@@ -37,7 +37,7 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *recovery_store_sharding_info.ParentReference
+	Parent       *recovery_store_sharding_info.ParentName
 	Filter       *recovery_store_sharding_info.Filter
 	View         view.View
 	FieldMask    *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask
@@ -287,6 +287,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(recovery_store_sharding_info.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(recovery_store_sharding_info.RecoveryStoreShardingInfoChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(recovery_store_sharding_info.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{
@@ -308,7 +322,7 @@ func init() {
 			cfg.Cursor = params.Cursor.(*recovery_store_sharding_info.PagerCursor)
 		}
 		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*recovery_store_sharding_info.ParentReference)
+			cfg.Parent = params.Parent.(*recovery_store_sharding_info.ParentName)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*recovery_store_sharding_info.Filter)

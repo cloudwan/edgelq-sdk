@@ -11,9 +11,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -24,9 +24,9 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -314,37 +314,37 @@ type filterCndBuilderValidityPeriodStartTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().StartTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().StartTime().WithArrayOfValues(values),
 	})
@@ -362,7 +362,7 @@ func (b *filterCndBuilderValidityPeriodStartTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderValidityPeriodStartTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodStartTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().StartTime().WithValue(value),
@@ -373,37 +373,37 @@ type filterCndBuilderValidityPeriodEndTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().EndTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().EndTime().WithArrayOfValues(values),
 	})
@@ -421,7 +421,7 @@ func (b *filterCndBuilderValidityPeriodEndTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderValidityPeriodEndTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderValidityPeriodEndTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().ValidityPeriod().EndTime().WithValue(value),
@@ -499,37 +499,37 @@ type filterCndBuilderSpecTsBlobPeriod struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Eq(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Eq(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Neq(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Neq(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Gt(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Gt(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Gte(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Gte(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Lt(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Lt(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) Lte(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) Lte(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) In(values []*duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) In(values []*durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Spec().TsBlobPeriod().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) NotIn(values []*duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) NotIn(values []*durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Spec().TsBlobPeriod().WithArrayOfValues(values),
 	})
@@ -547,7 +547,7 @@ func (b *filterCndBuilderSpecTsBlobPeriod) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTsBlobPeriod) compare(op gotenfilter.CompareOperator, value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderSpecTsBlobPeriod) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Spec().TsBlobPeriod().WithValue(value),
@@ -617,37 +617,37 @@ type filterCndBuilderMetadata struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadata) Eq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Eq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadata) Neq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Neq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadata) Gt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadata) Gte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadata) Lt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadata) Lte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadata) In(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) In(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadata) NotIn(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) NotIn(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
@@ -665,7 +665,7 @@ func (b *filterCndBuilderMetadata) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().WithValue(value),
@@ -724,41 +724,45 @@ func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycl
 	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) Services() *filterCndBuilderMetadataServices {
+	return &filterCndBuilderMetadataServices{builder: b.builder}
+}
+
 type filterCndBuilderMetadataCreateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
@@ -776,7 +780,7 @@ func (b *filterCndBuilderMetadataCreateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().CreateTime().WithValue(value),
@@ -787,37 +791,37 @@ type filterCndBuilderMetadataUpdateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
@@ -835,7 +839,7 @@ func (b *filterCndBuilderMetadataUpdateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
@@ -846,37 +850,37 @@ type filterCndBuilderMetadataDeleteTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
@@ -894,7 +898,7 @@ func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
@@ -1421,37 +1425,37 @@ type filterCndBuilderMetadataOwnerReferences struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
@@ -1469,7 +1473,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
@@ -1477,7 +1481,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.Owner
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]RecoveryStoreShardingInfo_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1490,7 +1494,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_me
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]RecoveryStoreShardingInfo_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1503,7 +1507,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().WithValue(value),
@@ -1528,10 +1532,6 @@ func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMeta
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
 	return &filterCndBuilderMetadataOwnerReferencesController{builder: b.builder}
-}
-
-func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion {
-	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
@@ -1833,65 +1833,6 @@ func (b *filterCndBuilderMetadataOwnerReferencesController) compare(op gotenfilt
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                                 op,
-		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
-	})
-}
-
 type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
 	builder *FilterBuilder
 }
@@ -2078,37 +2019,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -2126,7 +2067,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -2297,37 +2238,37 @@ type filterCndBuilderMetadataLifecycle struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) In(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
@@ -2345,7 +2286,7 @@ func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
@@ -2364,37 +2305,37 @@ type filterCndBuilderMetadataLifecycleState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) In(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
@@ -2412,7 +2353,7 @@ func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
@@ -2475,5 +2416,224 @@ func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                                 op,
 		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServices) Eq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Neq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) In(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) NotIn(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) compare(op gotenfilter.CompareOperator, value *meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                                 op,
+		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) OwningService() *filterCndBuilderMetadataServicesOwningService {
+	return &filterCndBuilderMetadataServicesOwningService{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataServices) AllowedServices() *filterCndBuilderMetadataServicesAllowedServices {
+	return &filterCndBuilderMetadataServicesAllowedServices{builder: b.builder}
+}
+
+type filterCndBuilderMetadataServicesOwningService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                                 op,
+		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().OwningService().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServicesAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RecoveryStoreShardingInfo_FieldPathArrayOfValues: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Value:     NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]RecoveryStoreShardingInfo_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]RecoveryStoreShardingInfo_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                                 op,
+		RecoveryStoreShardingInfo_FieldPathValue: NewRecoveryStoreShardingInfoFieldPathBuilder().Metadata().Services().AllowedServices().WithValue(value),
 	})
 }

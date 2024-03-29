@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package ntt.ztp.v1;
+
+import "edgelq-sdk/ztp/proto/v1/edgelq_instance.proto";
+import "edgelq-sdk/ztp/proto/v1/edgelq_instance_change.proto";
+import "edgelq-sdk/ztp/proto/v1/hardware.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ztp/client/v1/edgelq_instance;edgelq_instance_client";
+option java_multiple_files = false;
+option java_outer_classname = "EdgelqInstanceCustomProto";
+option java_package = "com.ntt.ztp.pb.v1";
+
+// Request message for method [AssociateHardware][ntt.ztp.v1.AssociateHardware]
+// only the fields serial_number and product_name are required for ztp function
+// the other fields are present for debug/operations support
+message AssociateHardwareRequest {
+  // Name of ntt.ztp.v1.EdgelqInstance
+  string name = 1;
+
+  string serial_number = 2;
+
+  string manufacturer = 3;
+
+  string product_name = 4;
+
+  string associated_project_name = 5;
+
+  // device could be associated to either provisioning policy or directly to
+  // device resource only one will be set. This is not used for ztp itself, but
+  // for debug purposes
+  string associated_provisioning_policy_name = 6;
+
+  string associated_device_name = 7;
+
+  string sim_iccid = 8;
+
+  string imei = 9;
+}
+
+// Response message for method [AssociateHardware][ntt.ztp.v1.AssociateHardware]
+message AssociateHardwareResponse { Hardware hardware = 1; }
+
+// Request message for method
+// [DissociateHardware][ntt.ztp.v1.DissociateHardware]
+message DissociateHardwareRequest {
+  // Name of ntt.ztp.v1.EdgelqInstance
+  string name = 1;
+
+  string serial_number = 2;
+
+  string manufacturer = 3;
+
+  string product_name = 4;
+}

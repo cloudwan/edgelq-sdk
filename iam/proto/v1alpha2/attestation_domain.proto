@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain;attestation_domain";
 option java_multiple_files = true;
@@ -20,7 +20,7 @@ message AttestationDomain {
   };
 
   // Meta
-  ntt.types.Meta metadata = 1;
+  goten.types.Meta metadata = 1;
 
   // Name of AttestationDomain
   // When creating a new instance, this field is optional and if not provided,

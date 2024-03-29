@@ -10,18 +10,18 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -38,11 +38,11 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &role.Role{}
+	_ = &meta.Meta{}
 )
 
 type RoleBindingAccess interface {

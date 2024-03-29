@@ -13,22 +13,22 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -41,22 +41,22 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
 )
 
 type Device_FieldMask struct {
@@ -146,13 +146,13 @@ func (fieldMask *Device_FieldMask) Subtract(other *Device_FieldMask) *Device_Fie
 	result := &Device_FieldMask{}
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[Device_FieldPathSelector]gotenobject.FieldMask{
-		Device_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Device_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Device_FieldPathSelectorSpec:              &Device_Spec_FieldMask{},
 		Device_FieldPathSelectorStatus:            &Device_Status_FieldMask{},
 		Device_FieldPathSelectorPublicListingSpec: &Device_PublicListingSpec_FieldMask{},
 	}
 	mySubMasks := map[Device_FieldPathSelector]gotenobject.FieldMask{
-		Device_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Device_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Device_FieldPathSelectorSpec:              &Device_Spec_FieldMask{},
 		Device_FieldPathSelectorStatus:            &Device_Status_FieldMask{},
 		Device_FieldPathSelectorPublicListingSpec: &Device_PublicListingSpec_FieldMask{},
@@ -172,7 +172,7 @@ func (fieldMask *Device_FieldMask) Subtract(other *Device_FieldMask) *Device_Fie
 				if tp, ok := path.(*Device_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Device_FieldPathSelectorMetadata:
-						mySubMasks[Device_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Device_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Device_FieldPathSelectorSpec:
 						mySubMasks[Device_FieldPathSelectorSpec] = FullDevice_Spec_FieldMask()
 					case Device_FieldPathSelectorStatus:
@@ -213,12 +213,12 @@ func (fieldMask *Device_FieldMask) FilterInputFields() *Device_FieldMask {
 		switch path.Selector() {
 		case Device_FieldPathSelectorMetadata:
 			if _, ok := path.(*Device_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Device_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Device_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Device_FieldSubPath{selector: Device_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -232,15 +232,15 @@ func (fieldMask *Device_FieldMask) FilterInputFields() *Device_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -262,7 +262,7 @@ func (fieldMask Device_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -281,7 +281,7 @@ func (fieldMask Device_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -349,7 +349,7 @@ func (fieldMask *Device_FieldMask) Project(source *Device) *Device {
 		return source
 	}
 	result := &Device{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	specMask := &Device_Spec_FieldMask{}
 	wholeSpecAccepted := false
@@ -382,7 +382,7 @@ func (fieldMask *Device_FieldMask) Project(source *Device) *Device {
 		case *Device_FieldSubPath:
 			switch tp.selector {
 			case Device_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Device_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(DeviceSpec_FieldPath))
 			case Device_FieldPathSelectorStatus:
@@ -586,15 +586,15 @@ func (fieldMask *Device_Spec_FieldMask) FilterInputFields() *Device_Spec_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -616,7 +616,7 @@ func (fieldMask Device_Spec_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -635,7 +635,7 @@ func (fieldMask Device_Spec_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -966,15 +966,15 @@ func (fieldMask *Device_Status_FieldMask) FilterInputFields() *Device_Status_Fie
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -996,7 +996,7 @@ func (fieldMask Device_Status_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1015,7 +1015,7 @@ func (fieldMask Device_Status_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1297,15 +1297,15 @@ func (fieldMask *Device_PublicListingSpec_FieldMask) FilterInputFields() *Device
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_PublicListingSpec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_PublicListingSpec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_PublicListingSpec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_PublicListingSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1327,7 +1327,7 @@ func (fieldMask Device_PublicListingSpec_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_PublicListingSpec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1346,7 +1346,7 @@ func (fieldMask Device_PublicListingSpec_FieldMask) MarshalJSON() ([]byte, error
 }
 
 func (fieldMask *Device_PublicListingSpec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1560,15 +1560,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FilterInputFields() *De
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1590,7 +1590,7 @@ func (fieldMask Device_Spec_NetworkingConfig_FieldMask) Marshal() ([]byte, error
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1609,7 +1609,7 @@ func (fieldMask Device_Spec_NetworkingConfig_FieldMask) MarshalJSON() ([]byte, e
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1949,15 +1949,15 @@ func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FilterInputFields() *Devic
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1979,7 +1979,7 @@ func (fieldMask Device_Spec_NetplanConfig_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_NetplanConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1998,7 +1998,7 @@ func (fieldMask Device_Spec_NetplanConfig_FieldMask) MarshalJSON() ([]byte, erro
 }
 
 func (fieldMask *Device_Spec_NetplanConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2245,15 +2245,15 @@ func (fieldMask *Device_Spec_SSHConfig_FieldMask) FilterInputFields() *Device_Sp
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_SSHConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_SSHConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_SSHConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_SSHConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2275,7 +2275,7 @@ func (fieldMask Device_Spec_SSHConfig_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_SSHConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2294,7 +2294,7 @@ func (fieldMask Device_Spec_SSHConfig_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_SSHConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2525,15 +2525,15 @@ func (fieldMask *Device_Spec_AttestationConfig_FieldMask) FilterInputFields() *D
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_AttestationConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_AttestationConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_AttestationConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_AttestationConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2555,7 +2555,7 @@ func (fieldMask Device_Spec_AttestationConfig_FieldMask) Marshal() ([]byte, erro
 }
 
 func (fieldMask *Device_Spec_AttestationConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2574,7 +2574,7 @@ func (fieldMask Device_Spec_AttestationConfig_FieldMask) MarshalJSON() ([]byte, 
 }
 
 func (fieldMask *Device_Spec_AttestationConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2784,15 +2784,15 @@ func (fieldMask *Device_Spec_LoggingConfig_FieldMask) FilterInputFields() *Devic
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_LoggingConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_LoggingConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_LoggingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_LoggingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2814,7 +2814,7 @@ func (fieldMask Device_Spec_LoggingConfig_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_LoggingConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2833,7 +2833,7 @@ func (fieldMask Device_Spec_LoggingConfig_FieldMask) MarshalJSON() ([]byte, erro
 }
 
 func (fieldMask *Device_Spec_LoggingConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3044,15 +3044,15 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) FilterInputFields() *Device_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_ProxyConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_ProxyConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_ProxyConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_ProxyConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -3074,7 +3074,7 @@ func (fieldMask Device_Spec_ProxyConfig_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_ProxyConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3093,7 +3093,7 @@ func (fieldMask Device_Spec_ProxyConfig_FieldMask) MarshalJSON() ([]byte, error)
 }
 
 func (fieldMask *Device_Spec_ProxyConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3304,15 +3304,15 @@ func (fieldMask *Device_Spec_Location_FieldMask) FilterInputFields() *Device_Spe
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_Location_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_Location_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_Location_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_Location_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -3334,7 +3334,7 @@ func (fieldMask Device_Spec_Location_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_Location_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3353,7 +3353,7 @@ func (fieldMask Device_Spec_Location_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_Spec_Location_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3558,15 +3558,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FilterInputF
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -3588,7 +3588,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Marshal() ([]
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3607,7 +3607,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_FieldMask) MarshalJSON()
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3882,15 +3882,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FilterInputFiel
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -3912,7 +3912,7 @@ func (fieldMask Device_Spec_NetworkingConfig_EthOpts_FieldMask) Marshal() ([]byt
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3931,7 +3931,7 @@ func (fieldMask Device_Spec_NetworkingConfig_EthOpts_FieldMask) MarshalJSON() ([
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -4318,15 +4318,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FilterInputFie
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -4348,7 +4348,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Marshal() ([]by
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -4367,7 +4367,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_FieldMask) MarshalJSON() (
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -4772,15 +4772,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FilterInput
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -4802,7 +4802,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Marshal() ([
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -4821,7 +4821,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) MarshalJSON(
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -5202,15 +5202,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FilterInputFi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -5232,7 +5232,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Marshal() ([]b
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -5251,7 +5251,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_FieldMask) MarshalJSON() 
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -5630,15 +5630,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FilterInput
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -5660,7 +5660,7 @@ func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Marshal() ([
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -5679,7 +5679,7 @@ func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) MarshalJSON(
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6052,15 +6052,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FilterInputFi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -6082,7 +6082,7 @@ func (fieldMask Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Marshal() ([]b
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6101,7 +6101,7 @@ func (fieldMask Device_Spec_NetworkingConfig_VlansOpts_FieldMask) MarshalJSON() 
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6478,15 +6478,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FilterInputFi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -6508,7 +6508,7 @@ func (fieldMask Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Marshal() ([]b
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6527,7 +6527,7 @@ func (fieldMask Device_Spec_NetworkingConfig_ModemOpts_FieldMask) MarshalJSON() 
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6851,15 +6851,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -6881,7 +6881,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask)
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -6900,7 +6900,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask)
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7119,15 +7119,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -7149,7 +7149,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) M
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7168,7 +7168,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) M
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7381,15 +7381,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Filte
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -7411,7 +7411,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Marsha
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7430,7 +7430,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) Marsha
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7653,15 +7653,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -7683,7 +7683,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask)
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7702,7 +7702,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask)
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7925,15 +7925,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FilterI
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -7955,7 +7955,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Marshal(
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -7974,7 +7974,7 @@ func (fieldMask Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) MarshalJ
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8198,15 +8198,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FilterInp
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -8228,7 +8228,7 @@ func (fieldMask Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Marshal() 
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8247,7 +8247,7 @@ func (fieldMask Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) MarshalJSO
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8457,15 +8457,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FilterIn
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -8487,7 +8487,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Marshal()
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8506,7 +8506,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) MarshalJS
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8746,15 +8746,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -8776,7 +8776,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Mar
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -8795,7 +8795,7 @@ func (fieldMask Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Mar
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9029,15 +9029,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -9059,7 +9059,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) M
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9078,7 +9078,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) M
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9313,15 +9313,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -9343,7 +9343,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Mar
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9362,7 +9362,7 @@ func (fieldMask Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Mar
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9601,15 +9601,15 @@ func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FilterI
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -9631,7 +9631,7 @@ func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Marshal(
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9650,7 +9650,7 @@ func (fieldMask Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) MarshalJ
 }
 
 func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9869,15 +9869,15 @@ func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) FilterInputFields() *D
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -9899,7 +9899,7 @@ func (fieldMask Device_Spec_SSHConfig_AuthKey_FieldMask) Marshal() ([]byte, erro
 }
 
 func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -9918,7 +9918,7 @@ func (fieldMask Device_Spec_SSHConfig_AuthKey_FieldMask) MarshalJSON() ([]byte, 
 }
 
 func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10149,15 +10149,15 @@ func (fieldMask *Device_Status_Address_FieldMask) FilterInputFields() *Device_St
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_Address_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_Address_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_Address_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_Address_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -10179,7 +10179,7 @@ func (fieldMask Device_Status_Address_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_Address_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10198,7 +10198,7 @@ func (fieldMask Device_Status_Address_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_Address_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10409,15 +10409,15 @@ func (fieldMask *Device_Status_Condition_FieldMask) FilterInputFields() *Device_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_Condition_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_Condition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_Condition_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_Condition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -10439,7 +10439,7 @@ func (fieldMask Device_Status_Condition_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_Condition_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10458,7 +10458,7 @@ func (fieldMask Device_Status_Condition_FieldMask) MarshalJSON() ([]byte, error)
 }
 
 func (fieldMask *Device_Status_Condition_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10711,15 +10711,15 @@ func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -10741,7 +10741,7 @@ func (fieldMask Device_Status_NetworkConfigState_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *Device_Status_NetworkConfigState_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -10760,7 +10760,7 @@ func (fieldMask Device_Status_NetworkConfigState_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *Device_Status_NetworkConfigState_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11040,15 +11040,15 @@ func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FilterInputFields() 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -11070,7 +11070,7 @@ func (fieldMask Device_Status_ProxyConfigStatus_FieldMask) Marshal() ([]byte, er
 }
 
 func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11089,7 +11089,7 @@ func (fieldMask Device_Status_ProxyConfigStatus_FieldMask) MarshalJSON() ([]byte
 }
 
 func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11369,15 +11369,15 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) FilterInputFields() *Device
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -11399,7 +11399,7 @@ func (fieldMask Device_Status_DeviceInfo_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11418,7 +11418,7 @@ func (fieldMask Device_Status_DeviceInfo_FieldMask) MarshalJSON() ([]byte, error
 }
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11691,15 +11691,15 @@ func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FilterInputFields() 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -11721,7 +11721,7 @@ func (fieldMask Device_Status_NormalizedAddress_FieldMask) Marshal() ([]byte, er
 }
 
 func (fieldMask *Device_Status_NormalizedAddress_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -11740,7 +11740,7 @@ func (fieldMask Device_Status_NormalizedAddress_FieldMask) MarshalJSON() ([]byte
 }
 
 func (fieldMask *Device_Status_NormalizedAddress_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12052,15 +12052,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) FilterI
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -12082,7 +12082,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_FieldMask) Marshal(
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12101,7 +12101,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_FieldMask) MarshalJ
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12454,15 +12454,15 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FilterInpu
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -12484,7 +12484,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_FieldMask) Marshal() (
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12503,7 +12503,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_FieldMask) MarshalJSON
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12740,15 +12740,15 @@ func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -12770,7 +12770,7 @@ func (fieldMask Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Ma
 }
 
 func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12789,7 +12789,7 @@ func (fieldMask Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) Ma
 }
 
 func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -12998,15 +12998,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -13028,7 +13028,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13047,7 +13047,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13256,15 +13256,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) Filt
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -13286,7 +13286,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) Marsh
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13305,7 +13305,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) Marsh
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13517,15 +13517,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -13547,7 +13547,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) Mar
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13566,7 +13566,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) Mar
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13804,15 +13804,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -13834,7 +13834,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) M
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -13853,7 +13853,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) M
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14102,15 +14102,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Fil
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -14132,7 +14132,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14151,7 +14151,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14394,15 +14394,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -14424,7 +14424,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) Ma
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14443,7 +14443,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) Ma
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14686,15 +14686,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask)
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -14716,7 +14716,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) 
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14735,7 +14735,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) 
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -14978,15 +14978,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Fil
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -15008,7 +15008,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15027,7 +15027,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15248,15 +15248,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMas
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -15278,7 +15278,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15297,7 +15297,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15535,15 +15535,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -15565,7 +15565,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15584,7 +15584,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15829,15 +15829,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMas
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -15859,7 +15859,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -15878,7 +15878,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16128,15 +16128,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -16158,7 +16158,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16177,7 +16177,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16426,15 +16426,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldM
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -16456,7 +16456,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMa
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16475,7 +16475,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMa
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16694,15 +16694,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configurati
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -16724,7 +16724,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_System_Configuratio
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16743,7 +16743,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_System_Configuratio
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -16997,15 +16997,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -17027,7 +17027,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Field
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17046,7 +17046,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Field
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17301,15 +17301,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cach
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -17331,7 +17331,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17350,7 +17350,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17589,15 +17589,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -17619,7 +17619,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17638,7 +17638,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMas
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17873,15 +17873,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partiti
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -17903,7 +17903,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partitio
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -17922,7 +17922,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partitio
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18139,15 +18139,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldM
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -18169,7 +18169,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMa
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18188,7 +18188,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMa
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18450,15 +18450,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -18480,7 +18480,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fie
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18499,7 +18499,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fie
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18745,15 +18745,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -18775,7 +18775,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_F
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -18794,7 +18794,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_F
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19023,15 +19023,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -19053,7 +19053,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_M
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19072,7 +19072,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_M
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19299,15 +19299,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoMod
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -19329,7 +19329,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModu
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19348,7 +19348,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModu
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19570,15 +19570,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -19600,7 +19600,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19619,7 +19619,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19827,15 +19827,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Regist
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -19857,7 +19857,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Registr
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -19876,7 +19876,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Registr
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20109,15 +20109,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGN
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -20139,7 +20139,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20158,7 +20158,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20377,15 +20377,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settin
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -20407,7 +20407,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Setting
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20426,7 +20426,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Setting
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20664,15 +20664,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Initia
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -20694,7 +20694,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Initial
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20713,7 +20713,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Initial
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -20958,15 +20958,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -20988,7 +20988,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_Fie
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21007,7 +21007,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_Fie
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21263,15 +21263,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeG
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -21293,7 +21293,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGp
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21312,7 +21312,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGp
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21558,15 +21558,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -21588,7 +21588,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_Fi
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21607,7 +21607,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_Fi
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21825,15 +21825,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -21855,7 +21855,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQ
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -21874,7 +21874,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQ
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22138,15 +22138,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -22168,7 +22168,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22187,7 +22187,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22468,15 +22468,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -22498,7 +22498,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22517,7 +22517,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22730,15 +22730,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -22760,7 +22760,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalC
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22779,7 +22779,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalC
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -22992,15 +22992,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -23022,7 +23022,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalE
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23041,7 +23041,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalE
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23255,15 +23255,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -23285,7 +23285,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalG
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23304,7 +23304,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalG
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23515,15 +23515,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -23545,7 +23545,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalL
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23564,7 +23564,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalL
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23777,15 +23777,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -23807,7 +23807,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalR
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -23826,7 +23826,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalR
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24032,15 +24032,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -24062,7 +24062,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalT
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24081,7 +24081,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalT
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24291,15 +24291,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -24321,7 +24321,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalU
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24340,7 +24340,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalU
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24612,15 +24612,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -24642,7 +24642,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24661,7 +24661,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -24959,15 +24959,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimSta
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -24989,7 +24989,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStat
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25008,7 +25008,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStat
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25280,15 +25280,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -25310,7 +25310,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_F
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25329,7 +25329,7 @@ func (fieldMask Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_F
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25598,15 +25598,15 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Fil
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -25628,7 +25628,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25647,7 +25647,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Mars
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25862,15 +25862,15 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -25892,7 +25892,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Mar
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -25911,7 +25911,7 @@ func (fieldMask Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Mar
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+import "goten-sdk/types/multi_region_policy.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization;organization";
+option java_multiple_files = true;
+option java_outer_classname = "OrganizationProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Organization Resource
+message Organization {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Organization"
+    pattern : "organizations/{organization}"
+  };
+
+  // Name of Organization
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 6;
+
+  // Official Name of Organization
+  string title = 2;
+
+  // Parent organization
+  string parent_organization = 3;
+
+  // Multi region policy for child resources
+  goten.types.MultiRegionPolicy multi_region_policy = 7;
+
+  // Allowed services for child organizations and projects. This field is
+  // checked only for non-core edgelq services.
+  repeated string allowed_services = 8;
+
+  // Business tier applicable for all allowed services.
+  // This value defines:
+  // * Default business tier for child projects (if not defined on creation)
+  // * Default business tier to this organization.
+  BusinessTier business_tier = 9;
+
+  // Overwrites business_tier for each service.
+  repeated ServiceBusinessTier service_tiers = 10;
+
+  // Top parent (internal)
+  string root_organization = 4;
+
+  // Full ancestry path (internal)
+  repeated string ancestry_path = 5;
+
+  // Service errors reported for this organization by category
+  map<string, ServiceErrors> service_errors = 12;
+
+  // Internal field for services meta information synchronization
+  int64 services_generation = 13;
+}

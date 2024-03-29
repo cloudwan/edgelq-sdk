@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -27,8 +26,8 @@ import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -45,7 +44,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -55,8 +53,8 @@ var (
 	_ = &common.PodSpec{}
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -127,7 +125,7 @@ func BuildPod_FieldPath(fp gotenobject.RawFieldPath) (Pod_FieldPath, error) {
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Pod_FieldSubPath{selector: Pod_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -259,7 +257,7 @@ func (fp *Pod_FieldTerminalPath) GetDefault() interface{} {
 	case Pod_FieldPathSelectorDisplayName:
 		return ""
 	case Pod_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Pod_FieldPathSelectorSpec:
 		return (*common.PodSpec)(nil)
 	case Pod_FieldPathSelectorDistribution:
@@ -314,7 +312,7 @@ func (fp *Pod_FieldTerminalPath) WithIValue(value interface{}) Pod_FieldPathValu
 	case Pod_FieldPathSelectorDisplayName:
 		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(string)}
 	case Pod_FieldPathSelectorMetadata:
-		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Pod_FieldPathSelectorSpec:
 		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(*common.PodSpec)}
 	case Pod_FieldPathSelectorDistribution:
@@ -338,7 +336,7 @@ func (fp *Pod_FieldTerminalPath) WithIArrayOfValues(values interface{}) Pod_Fiel
 	case Pod_FieldPathSelectorDisplayName:
 		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]string)}
 	case Pod_FieldPathSelectorMetadata:
-		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Pod_FieldPathSelectorSpec:
 		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]*common.PodSpec)}
 	case Pod_FieldPathSelectorDistribution:
@@ -376,8 +374,8 @@ var _ Pod_FieldPath = (*Pod_FieldSubPath)(nil)
 func (fps *Pod_FieldSubPath) Selector() Pod_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Pod_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Pod_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Pod_FieldSubPath) AsSpecSubPath() (common.PodSpec_FieldPath, bool) {
@@ -551,8 +549,8 @@ func (fpv *Pod_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Pod_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Pod_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Pod_FieldTerminalPathValue) AsSpecValue() (*common.PodSpec, bool) {
@@ -579,7 +577,7 @@ func (fpv *Pod_FieldTerminalPathValue) SetTo(target **Pod) {
 	case Pod_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case Pod_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Pod_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*common.PodSpec)
 	case Pod_FieldPathSelectorDistribution:
@@ -669,8 +667,8 @@ type Pod_FieldSubPathValue struct {
 
 var _ Pod_FieldPathValue = (*Pod_FieldSubPathValue)(nil)
 
-func (fpvs *Pod_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Pod_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Pod_FieldSubPathValue) AsSpecPathValue() (common.PodSpec_FieldPathValue, bool) {
@@ -688,7 +686,7 @@ func (fpvs *Pod_FieldSubPathValue) SetTo(target **Pod) {
 	}
 	switch fpvs.Selector() {
 	case Pod_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Pod_FieldPathSelectorSpec:
 		fpvs.subPathValue.(common.PodSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case Pod_FieldPathSelectorStatus:
@@ -710,7 +708,7 @@ func (fpvs *Pod_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Pod_FieldSubPathValue) CompareWith(source *Pod) (int, bool) {
 	switch fpvs.Selector() {
 	case Pod_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Pod_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(common.PodSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case Pod_FieldPathSelectorStatus:
@@ -797,8 +795,8 @@ type Pod_FieldSubPathArrayItemValue struct {
 func (fpaivs *Pod_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Pod_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Pod_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Pod_FieldSubPathArrayItemValue) AsSpecPathItemValue() (common.PodSpec_FieldPathArrayItemValue, bool) {
@@ -814,7 +812,7 @@ func (fpaivs *Pod_FieldSubPathArrayItemValue) AsStatusPathItemValue() (PodStatus
 func (fpaivs *Pod_FieldSubPathArrayItemValue) ContainsValue(source *Pod) bool {
 	switch fpaivs.Selector() {
 	case Pod_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Pod_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(common.PodSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case Pod_FieldPathSelectorStatus:
@@ -868,7 +866,7 @@ func (fpaov *Pod_FieldTerminalPathArrayOfValues) GetRawValues() (values []interf
 			values = append(values, v)
 		}
 	case Pod_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Pod_FieldPathSelectorSpec:
@@ -894,8 +892,8 @@ func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*common.PodSpec, bool) {
@@ -921,8 +919,8 @@ var _ Pod_FieldPathArrayOfValues = (*Pod_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Pod_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Pod_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Pod_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Pod_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (common.PodSpec_FieldPathArrayOfValues, bool) {
@@ -2955,7 +2953,7 @@ func (fp *PodStatusContainerStateRunning_FieldTerminalPath) GetSingleRaw(source 
 func (fp *PodStatusContainerStateRunning_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRunning: %d", fp.selector))
 	}
@@ -2988,7 +2986,7 @@ func (fp *PodStatusContainerStateRunning_FieldTerminalPath) SplitIntoTerminalIPa
 func (fp *PodStatusContainerStateRunning_FieldTerminalPath) WithIValue(value interface{}) PodStatusContainerStateRunning_FieldPathValue {
 	switch fp.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		return &PodStatusContainerStateRunning_FieldTerminalPathValue{PodStatusContainerStateRunning_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &PodStatusContainerStateRunning_FieldTerminalPathValue{PodStatusContainerStateRunning_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRunning: %d", fp.selector))
 	}
@@ -3002,7 +3000,7 @@ func (fp *PodStatusContainerStateRunning_FieldTerminalPath) WithIArrayOfValues(v
 	fpaov := &PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues{PodStatusContainerStateRunning_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		return &PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues{PodStatusContainerStateRunning_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues{PodStatusContainerStateRunning_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRunning: %d", fp.selector))
 	}
@@ -3063,8 +3061,8 @@ var _ PodStatusContainerStateRunning_FieldPathValue = (*PodStatusContainerStateR
 func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) AsStartedAtValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) AsStartedAtValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -3075,7 +3073,7 @@ func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) SetTo(target *
 	}
 	switch fpv.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		(*target).StartedAt = fpv.value.(*timestamp.Timestamp)
+		(*target).StartedAt = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRunning: %d", fpv.selector))
 	}
@@ -3090,7 +3088,7 @@ func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) SetToRaw(targe
 func (fpv *PodStatusContainerStateRunning_FieldTerminalPathValue) CompareWith(source *Pod_Status_Container_StateRunning) (int, bool) {
 	switch fpv.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetStartedAt()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -3217,14 +3215,14 @@ var _ PodStatusContainerStateRunning_FieldPathArrayOfValues = (*PodStatusContain
 func (fpaov *PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case PodStatusContainerStateRunning_FieldPathSelectorStartedAt:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues) AsStartedAtArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues) AsStartedAtArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -3411,9 +3409,9 @@ func (fp *PodStatusContainerStateTerminated_FieldTerminalPath) GetDefault() inte
 	case PodStatusContainerStateTerminated_FieldPathSelectorMessage:
 		return ""
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case PodStatusContainerStateTerminated_FieldPathSelectorContainerId:
 		return ""
 	default:
@@ -3474,9 +3472,9 @@ func (fp *PodStatusContainerStateTerminated_FieldTerminalPath) WithIValue(value 
 	case PodStatusContainerStateTerminated_FieldPathSelectorMessage:
 		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(string)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorContainerId:
 		return &PodStatusContainerStateTerminated_FieldTerminalPathValue{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -3500,9 +3498,9 @@ func (fp *PodStatusContainerStateTerminated_FieldTerminalPath) WithIArrayOfValue
 	case PodStatusContainerStateTerminated_FieldPathSelectorMessage:
 		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]string)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case PodStatusContainerStateTerminated_FieldPathSelectorContainerId:
 		return &PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues{PodStatusContainerStateTerminated_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -3581,12 +3579,12 @@ func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsMessageVa
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsStartedAtValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsStartedAtValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsFinishedAtValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsFinishedAtValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) AsContainerIdValue() (string, bool) {
@@ -3609,9 +3607,9 @@ func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) SetTo(targe
 	case PodStatusContainerStateTerminated_FieldPathSelectorMessage:
 		(*target).Message = fpv.value.(string)
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		(*target).StartedAt = fpv.value.(*timestamp.Timestamp)
+		(*target).StartedAt = fpv.value.(*timestamppb.Timestamp)
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		(*target).FinishedAt = fpv.value.(*timestamp.Timestamp)
+		(*target).FinishedAt = fpv.value.(*timestamppb.Timestamp)
 	case PodStatusContainerStateTerminated_FieldPathSelectorContainerId:
 		(*target).ContainerId = fpv.value.(string)
 	default:
@@ -3668,7 +3666,7 @@ func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) CompareWith
 			return 1, true
 		}
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetStartedAt()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -3687,7 +3685,7 @@ func (fpv *PodStatusContainerStateTerminated_FieldTerminalPathValue) CompareWith
 			return 1, true
 		}
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetFinishedAt()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -3840,11 +3838,11 @@ func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) G
 			values = append(values, v)
 		}
 	case PodStatusContainerStateTerminated_FieldPathSelectorStartedAt:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case PodStatusContainerStateTerminated_FieldPathSelectorContainerId:
@@ -3870,12 +3868,12 @@ func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) A
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsStartedAtArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsStartedAtArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsFinishedAtArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsFinishedAtArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsContainerIdArrayOfValues() ([]string, bool) {

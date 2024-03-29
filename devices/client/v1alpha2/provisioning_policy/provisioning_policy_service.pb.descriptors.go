@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &provisioning_policy.ProvisioningPolicy{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -143,8 +143,8 @@ func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -170,6 +170,30 @@ func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -211,6 +235,22 @@ func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_policy.ProvisioningPolicy)
+}
+
+func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -327,12 +367,8 @@ func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceN
 		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return provisioning_policy.ProvisioningPolicyNameList(names)
 		}
 	}
 	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
@@ -346,6 +382,30 @@ func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProvisioningPoliciesRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProvisioningPoliciesRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -393,6 +453,35 @@ func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectio
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProvisioningPoliciesResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProvisioningPoliciesResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			return provisioning_policy.ProvisioningPolicyList(resources)
+		}
+	}
+	return (provisioning_policy.ProvisioningPolicyList)(nil)
 }
 
 func GetBatchGetProvisioningPoliciesDescriptor() *BatchGetProvisioningPoliciesDescriptor {
@@ -526,6 +615,30 @@ func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionNam
 	return (*provisioning_policy.ParentName)(nil)
 }
 
+func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProvisioningPoliciesRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProvisioningPoliciesRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningPoliciesResponse)
 	var asInterface interface{} = h
@@ -569,6 +682,35 @@ func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProvisioningPoliciesResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProvisioningPoliciesResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			return provisioning_policy.ProvisioningPolicyList(resources)
+		}
+	}
+	return (provisioning_policy.ProvisioningPolicyList)(nil)
 }
 
 func GetListProvisioningPoliciesDescriptor() *ListProvisioningPoliciesDescriptor {
@@ -671,8 +813,8 @@ func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -698,6 +840,30 @@ func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -748,6 +914,42 @@ func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningPolicyResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *provisioning_policy.ProvisioningPolicyChange_Added_:
+				return tResChange.Added.GetProvisioningPolicy()
+			case *provisioning_policy.ProvisioningPolicyChange_Modified_:
+				return tResChange.Modified.GetProvisioningPolicy()
+			case *provisioning_policy.ProvisioningPolicyChange_Current_:
+				return tResChange.Current.GetProvisioningPolicy()
+			}
+		}
+	}
+	return (*provisioning_policy.ProvisioningPolicy)(nil)
+}
+
+func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningPolicyResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -876,11 +1078,35 @@ func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*provisioning_policy.ParentName)(nil)
+}
+
+func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningPoliciesRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningPoliciesRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -935,6 +1161,46 @@ func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningPoliciesResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningPoliciesResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetProvisioningPolicyChanges(); len(resChanges) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *provisioning_policy.ProvisioningPolicyChange_Added_:
+					list = append(list, tResChange.Added.GetProvisioningPolicy())
+				case *provisioning_policy.ProvisioningPolicyChange_Modified_:
+					list = append(list, tResChange.Modified.GetProvisioningPolicy())
+				case *provisioning_policy.ProvisioningPolicyChange_Current_:
+					list = append(list, tResChange.Current.GetProvisioningPolicy())
+				}
+			}
+			return list
+		}
+	}
+	return (provisioning_policy.ProvisioningPolicyList)(nil)
 }
 
 func GetWatchProvisioningPoliciesDescriptor() *WatchProvisioningPoliciesDescriptor {
@@ -1067,11 +1333,38 @@ func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*provisioning_policy.ParentName)(nil)
+}
+
+func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProvisioningPolicy()
+	}
+	return (*provisioning_policy.ProvisioningPolicy)(nil)
+}
+
+func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1111,6 +1404,22 @@ func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_policy.ProvisioningPolicy)
+}
+
+func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1247,6 +1556,33 @@ func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionNam
 	return nil
 }
 
+func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProvisioningPolicy()
+	}
+	return (*provisioning_policy.ProvisioningPolicy)(nil)
+}
+
+func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
@@ -1288,6 +1624,22 @@ func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionNam
 	return nil
 }
 
+func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_policy.ProvisioningPolicy)
+}
+
+func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateProvisioningPolicyDescriptor() *UpdateProvisioningPolicyDescriptor {
 	return updateProvisioningPolicyDescriptor
 }
@@ -1303,7 +1655,7 @@ func (d *DeleteProvisioningPolicyDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteProvisioningPolicyDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteProvisioningPolicyDescriptor) IsUnary() bool {
@@ -1388,8 +1740,8 @@ func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -1419,11 +1771,35 @@ func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionNam
 	return nil
 }
 
-func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *provisioning_policy.Name
+		OverrideExtractResourceBody(*DeleteProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *provisioning_policy.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1432,10 +1808,10 @@ func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(
 }
 
 func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*provisioning_policy.Name
 	})
 	if ok {
 		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1444,13 +1820,37 @@ func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames
 }
 
 func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *provisioning_policy.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1555,8 +1955,8 @@ func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) E
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -1582,6 +1982,30 @@ func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) E
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionServiceAccountToProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionServiceAccountToProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1618,6 +2042,30 @@ func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) E
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionServiceAccountToProvisioningPolicyResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionServiceAccountToProvisioningPolicyResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1722,8 +2170,8 @@ func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) Ex
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -1749,6 +2197,30 @@ func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) Ex
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RemoveServiceAccountFromProvisioningPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RemoveServiceAccountFromProvisioningPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1785,6 +2257,30 @@ func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) Ex
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RemoveServiceAccountFromProvisioningPolicyResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RemoveServiceAccountFromProvisioningPolicyResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1889,8 +2385,8 @@ func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractResourceName(
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -1916,6 +2412,30 @@ func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionDeviceViaPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionDeviceViaPolicyRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionDeviceViaPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionDeviceViaPolicyRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1952,6 +2472,30 @@ func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionDeviceViaPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionDeviceViaPolicyResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionDeviceViaPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionDeviceViaPolicyResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -2056,8 +2600,8 @@ func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractResourceNa
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
@@ -2083,6 +2627,30 @@ func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractCollection
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RequestProvisioningApprovalRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RequestProvisioningApprovalRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RequestProvisioningApprovalRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RequestProvisioningApprovalRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -2119,6 +2687,30 @@ func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractCollection
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RequestProvisioningApprovalResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RequestProvisioningApprovalResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RequestProvisioningApprovalResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RequestProvisioningApprovalResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

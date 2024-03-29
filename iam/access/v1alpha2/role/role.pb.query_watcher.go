@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	role_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
@@ -284,6 +284,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(role.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(role.RoleChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(role.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{

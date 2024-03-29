@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission;permission";
+option java_multiple_files = true;
+option java_outer_classname = "PermissionProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Permission Resource
+message Permission {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Permission"
+    pattern : "services/{service}/permissions/{permission}"
+  };
+
+  // Name of Permission
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 4;
+
+  // Title
+  string title = 2;
+
+  // Description
+  string description = 3;
+}

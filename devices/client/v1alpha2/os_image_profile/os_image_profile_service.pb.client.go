@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &os_image_profile.OsImageProfile{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type OsImageProfileServiceClient interface {
 	WatchOsImageProfiles(ctx context.Context, in *WatchOsImageProfilesRequest, opts ...grpc.CallOption) (WatchOsImageProfilesClientStream, error)
 	CreateOsImageProfile(ctx context.Context, in *CreateOsImageProfileRequest, opts ...grpc.CallOption) (*os_image_profile.OsImageProfile, error)
 	UpdateOsImageProfile(ctx context.Context, in *UpdateOsImageProfileRequest, opts ...grpc.CallOption) (*os_image_profile.OsImageProfile, error)
-	DeleteOsImageProfile(ctx context.Context, in *DeleteOsImageProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOsImageProfile(ctx context.Context, in *DeleteOsImageProfileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateOsImageProfile(ctx context.Context, in *UpdateOsImageProf
 	return out, nil
 }
 
-func (c *client) DeleteOsImageProfile(ctx context.Context, in *DeleteOsImageProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteOsImageProfile(ctx context.Context, in *DeleteOsImageProfileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.OsImageProfileService/DeleteOsImageProfile", in, out, opts...)
 	if err != nil {
 		return nil, err

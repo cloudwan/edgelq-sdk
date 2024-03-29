@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -25,11 +22,11 @@ import (
 import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
-	view "github.com/cloudwan/goten-sdk/runtime/api/view"
-	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	view "github.com/cloudwan/goten-sdk/types/view"
+	watch_type "github.com/cloudwan/goten-sdk/types/watch_type"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -42,8 +39,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -51,9 +46,9 @@ var (
 var (
 	_ = &organization.Organization{}
 	_ = &organization_invitation.OrganizationInvitation{}
-	_ = &empty.Empty{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &emptypb.Empty{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )

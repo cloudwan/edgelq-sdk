@@ -13,15 +13,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -34,15 +34,15 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 type MonitoredResourceDescriptor_FieldMask struct {
@@ -133,14 +133,14 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) Subtract(other *Monitore
 	result := &MonitoredResourceDescriptor_FieldMask{}
 	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[MonitoredResourceDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MonitoredResourceDescriptor_FieldPathSelectorLabels:               &monitoring_common.LabelDescriptor_FieldMask{},
-		MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets: &monitoring_common.LabelKeySet_FieldMask{},
-		MonitoredResourceDescriptor_FieldPathSelectorMetadata:             &ntt_meta.Meta_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorLabels:               &common.LabelDescriptor_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets: &common.LabelKeySet_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[MonitoredResourceDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MonitoredResourceDescriptor_FieldPathSelectorLabels:               &monitoring_common.LabelDescriptor_FieldMask{},
-		MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets: &monitoring_common.LabelKeySet_FieldMask{},
-		MonitoredResourceDescriptor_FieldPathSelectorMetadata:             &ntt_meta.Meta_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorLabels:               &common.LabelDescriptor_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets: &common.LabelKeySet_FieldMask{},
+		MonitoredResourceDescriptor_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -157,11 +157,11 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) Subtract(other *Monitore
 				if tp, ok := path.(*MonitoredResourceDescriptor_FieldTerminalPath); ok {
 					switch tp.selector {
 					case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorLabels] = monitoring_common.FullLabelDescriptor_FieldMask()
+						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorLabels] = common.FullLabelDescriptor_FieldMask()
 					case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets] = monitoring_common.FullLabelKeySet_FieldMask()
+						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets] = common.FullLabelKeySet_FieldMask()
 					case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[MonitoredResourceDescriptor_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*MonitoredResourceDescriptor_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -196,12 +196,12 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) FilterInputFields() *Mon
 		switch path.Selector() {
 		case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
 			if _, ok := path.(*MonitoredResourceDescriptor_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MonitoredResourceDescriptor_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*MonitoredResourceDescriptor_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MonitoredResourceDescriptor_FieldSubPath{selector: MonitoredResourceDescriptor_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -215,15 +215,15 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) FilterInputFields() *Mon
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MonitoredResourceDescriptor_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MonitoredResourceDescriptor_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MonitoredResourceDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MonitoredResourceDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -245,7 +245,7 @@ func (fieldMask MonitoredResourceDescriptor_FieldMask) Marshal() ([]byte, error)
 }
 
 func (fieldMask *MonitoredResourceDescriptor_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -264,7 +264,7 @@ func (fieldMask MonitoredResourceDescriptor_FieldMask) MarshalJSON() ([]byte, er
 }
 
 func (fieldMask *MonitoredResourceDescriptor_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -332,11 +332,11 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) Project(source *Monitore
 		return source
 	}
 	result := &MonitoredResourceDescriptor{}
-	labelsMask := &monitoring_common.LabelDescriptor_FieldMask{}
+	labelsMask := &common.LabelDescriptor_FieldMask{}
 	wholeLabelsAccepted := false
-	promotedLabelKeySetsMask := &monitoring_common.LabelKeySet_FieldMask{}
+	promotedLabelKeySetsMask := &common.LabelKeySet_FieldMask{}
 	wholePromotedLabelKeySetsAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -364,11 +364,11 @@ func (fieldMask *MonitoredResourceDescriptor_FieldMask) Project(source *Monitore
 		case *MonitoredResourceDescriptor_FieldSubPath:
 			switch tp.selector {
 			case MonitoredResourceDescriptor_FieldPathSelectorLabels:
-				labelsMask.AppendPath(tp.subPath.(monitoring_common.LabelDescriptor_FieldPath))
+				labelsMask.AppendPath(tp.subPath.(common.LabelDescriptor_FieldPath))
 			case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-				promotedLabelKeySetsMask.AppendPath(tp.subPath.(monitoring_common.LabelKeySet_FieldPath))
+				promotedLabelKeySetsMask.AppendPath(tp.subPath.(common.LabelKeySet_FieldPath))
 			case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

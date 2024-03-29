@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ntt.limits.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool;limit_pool";
 option java_multiple_files = true;
@@ -73,5 +73,5 @@ message LimitPool {
   string source = 7;
 
   // Metadata
-  ntt.types.Meta metadata = 8;
+  goten.types.Meta metadata = 8;
 }

@@ -66,11 +66,6 @@ message TimeSerie {
   // monitored resource types in their time series data.
   MonitoredResource resource = 2;
 
-  // Output only. The associated monitored resource metadata. When reading a
-  // a timeseries, this field will include metadata labels that are explicitly
-  // named in the reduction. When creating a timeseries, this field is ignored.
-  MonitoredResourceMetadata metadata = 7;
-
   // The metric kind of the time series. When listing time series, this metric
   // kind might be different from the metric kind of the associated metric if
   // this time series is an alignment or reduction of other time series.
@@ -99,6 +94,8 @@ message TimeSerie {
   // the value type of the descriptor is determined by the point's type, which
   // must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
   repeated Point points = 5;
+
+  reserved 7;
 }
 
 // Used for reporting rollups

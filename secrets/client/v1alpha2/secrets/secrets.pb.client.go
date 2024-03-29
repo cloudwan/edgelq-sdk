@@ -10,7 +10,6 @@ import (
 
 // proto imports
 import (
-	encryption_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/encryption"
 	project_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/project"
 	secret_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/secret"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
@@ -31,21 +30,18 @@ var (
 )
 
 type SecretsClient interface {
-	encryption_client.EncryptionServiceClient
 	project_client.ProjectServiceClient
 	secret_client.SecretServiceClient
 }
 
 type secretsClient struct {
-	encryption_client.EncryptionServiceClient
 	project_client.ProjectServiceClient
 	secret_client.SecretServiceClient
 }
 
 func NewSecretsClient(cc grpc.ClientConnInterface) SecretsClient {
 	return &secretsClient{
-		EncryptionServiceClient: encryption_client.NewEncryptionServiceClient(cc),
-		ProjectServiceClient:    project_client.NewProjectServiceClient(cc),
-		SecretServiceClient:     secret_client.NewSecretServiceClient(cc),
+		ProjectServiceClient: project_client.NewProjectServiceClient(cc),
+		SecretServiceClient:  secret_client.NewSecretServiceClient(cc),
 	}
 }

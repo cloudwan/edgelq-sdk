@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "edgelq-sdk/logging/proto/v1/bucket.proto";
+import "edgelq-sdk/logging/proto/v1/bucket_service.proto";
+import "edgelq-sdk/logging/proto/v1/log.proto";
+import "edgelq-sdk/logging/proto/v1/log_custom.proto";
+import "edgelq-sdk/logging/proto/v1/log_descriptor.proto";
+import "edgelq-sdk/logging/proto/v1/log_descriptor_service.proto";
+import "edgelq-sdk/logging/proto/v1/log_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "goten-sdk/meta-service/proto/v1/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/client/v1/logging;logging_client";
+option java_multiple_files = true;
+option java_outer_classname = "LoggingProto";
+option java_package = "com.ntt.logging.pb.v1";

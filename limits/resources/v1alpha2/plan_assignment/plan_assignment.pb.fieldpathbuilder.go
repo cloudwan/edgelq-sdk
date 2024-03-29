@@ -6,8 +6,6 @@ package plan_assignment
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -16,13 +14,13 @@ import (
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -31,7 +29,9 @@ var (
 	_ = &plan.Plan{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type PlanAssignmentFieldPathBuilder struct{}
@@ -296,27 +296,27 @@ func (PlanAssignmentPathSelectorMetadata) FieldPath() *PlanAssignment_FieldTermi
 	return &PlanAssignment_FieldTerminalPath{selector: PlanAssignment_FieldPathSelectorMetadata}
 }
 
-func (s PlanAssignmentPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *PlanAssignment_FieldTerminalPathValue {
+func (s PlanAssignmentPathSelectorMetadata) WithValue(value *meta.Meta) *PlanAssignment_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *PlanAssignment_FieldTerminalPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *PlanAssignment_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *PlanAssignment_FieldSubPath {
+func (PlanAssignmentPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{selector: PlanAssignment_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s PlanAssignmentPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *PlanAssignment_FieldSubPathValue {
 	return &PlanAssignment_FieldSubPathValue{PlanAssignment_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *PlanAssignment_FieldSubPathArrayOfValues {
 	return &PlanAssignment_FieldSubPathArrayOfValues{PlanAssignment_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *PlanAssignment_FieldSubPathArrayItemValue {
+func (s PlanAssignmentPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *PlanAssignment_FieldSubPathArrayItemValue {
 	return &PlanAssignment_FieldSubPathArrayItemValue{PlanAssignment_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -372,20 +372,24 @@ func (PlanAssignmentPathSelectorMetadata) Lifecycle() PlanAssignmentPathSelector
 	return PlanAssignmentPathSelectorMetadataLifecycle{}
 }
 
+func (PlanAssignmentPathSelectorMetadata) Services() PlanAssignmentPathSelectorMetadataServices {
+	return PlanAssignmentPathSelectorMetadataServices{}
+}
+
 type PlanAssignmentPathSelectorMetadataCreateTime struct{}
 
 func (PlanAssignmentPathSelectorMetadataCreateTime) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -394,15 +398,15 @@ type PlanAssignmentPathSelectorMetadataUpdateTime struct{}
 func (PlanAssignmentPathSelectorMetadataUpdateTime) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -411,15 +415,15 @@ type PlanAssignmentPathSelectorMetadataDeleteTime struct{}
 func (PlanAssignmentPathSelectorMetadataDeleteTime) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -428,7 +432,7 @@ type PlanAssignmentPathSelectorMetadataUuid struct{}
 func (PlanAssignmentPathSelectorMetadataUuid) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -445,7 +449,7 @@ type PlanAssignmentPathSelectorMetadataTags struct{}
 func (PlanAssignmentPathSelectorMetadataTags) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -466,7 +470,7 @@ type PlanAssignmentPathSelectorMetadataLabels struct{}
 func (PlanAssignmentPathSelectorMetadataLabels) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -489,7 +493,7 @@ type PlanAssignmentMapPathSelectorMetadataLabels struct {
 func (s PlanAssignmentMapPathSelectorMetadataLabels) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -506,7 +510,7 @@ type PlanAssignmentPathSelectorMetadataAnnotations struct{}
 func (PlanAssignmentPathSelectorMetadataAnnotations) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -529,7 +533,7 @@ type PlanAssignmentMapPathSelectorMetadataAnnotations struct {
 func (s PlanAssignmentMapPathSelectorMetadataAnnotations) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -546,7 +550,7 @@ type PlanAssignmentPathSelectorMetadataGeneration struct{}
 func (PlanAssignmentPathSelectorMetadataGeneration) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -563,7 +567,7 @@ type PlanAssignmentPathSelectorMetadataResourceVersion struct{}
 func (PlanAssignmentPathSelectorMetadataResourceVersion) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -580,19 +584,19 @@ type PlanAssignmentPathSelectorMetadataOwnerReferences struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferences) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *PlanAssignment_FieldSubPathArrayItemValue {
+func (s PlanAssignmentPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *PlanAssignment_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignment_FieldSubPathArrayItemValue)
 }
 
@@ -616,10 +620,6 @@ func (PlanAssignmentPathSelectorMetadataOwnerReferences) Controller() PlanAssign
 	return PlanAssignmentPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (PlanAssignmentPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (PlanAssignmentPathSelectorMetadataOwnerReferences) RequiresOwnerReference() PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -629,7 +629,7 @@ type PlanAssignmentPathSelectorMetadataOwnerReferencesKind struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesKind) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -646,7 +646,7 @@ type PlanAssignmentPathSelectorMetadataOwnerReferencesVersion struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesVersion) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -663,7 +663,7 @@ type PlanAssignmentPathSelectorMetadataOwnerReferencesName struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesName) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -680,7 +680,7 @@ type PlanAssignmentPathSelectorMetadataOwnerReferencesRegion struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesRegion) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -697,7 +697,7 @@ type PlanAssignmentPathSelectorMetadataOwnerReferencesController struct{}
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesController) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -709,29 +709,12 @@ func (s PlanAssignmentPathSelectorMetadataOwnerReferencesController) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *PlanAssignment_FieldSubPath {
-	return &PlanAssignment_FieldSubPath{
-		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *PlanAssignment_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
-}
-
-func (s PlanAssignmentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *PlanAssignment_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
-}
-
 type PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -748,7 +731,7 @@ type PlanAssignmentPathSelectorMetadataShards struct{}
 func (PlanAssignmentPathSelectorMetadataShards) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -771,7 +754,7 @@ type PlanAssignmentMapPathSelectorMetadataShards struct {
 func (s PlanAssignmentMapPathSelectorMetadataShards) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -788,15 +771,15 @@ type PlanAssignmentPathSelectorMetadataSyncing struct{}
 func (PlanAssignmentPathSelectorMetadataSyncing) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -813,7 +796,7 @@ type PlanAssignmentPathSelectorMetadataSyncingOwningRegion struct{}
 func (PlanAssignmentPathSelectorMetadataSyncingOwningRegion) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -830,7 +813,7 @@ type PlanAssignmentPathSelectorMetadataSyncingRegions struct{}
 func (PlanAssignmentPathSelectorMetadataSyncingRegions) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -851,15 +834,15 @@ type PlanAssignmentPathSelectorMetadataLifecycle struct{}
 func (PlanAssignmentPathSelectorMetadataLifecycle) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -876,15 +859,15 @@ type PlanAssignmentPathSelectorMetadataLifecycleState struct{}
 func (PlanAssignmentPathSelectorMetadataLifecycleState) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *PlanAssignment_FieldSubPathValue {
+func (s PlanAssignmentPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *PlanAssignment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
 }
 
-func (s PlanAssignmentPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *PlanAssignment_FieldSubPathArrayOfValues {
+func (s PlanAssignmentPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -893,7 +876,7 @@ type PlanAssignmentPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (PlanAssignmentPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *PlanAssignment_FieldSubPath {
 	return &PlanAssignment_FieldSubPath{
 		selector: PlanAssignment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -903,4 +886,67 @@ func (s PlanAssignmentPathSelectorMetadataLifecycleBlockDeletion) WithValue(valu
 
 func (s PlanAssignmentPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
+}
+
+type PlanAssignmentPathSelectorMetadataServices struct{}
+
+func (PlanAssignmentPathSelectorMetadataServices) FieldPath() *PlanAssignment_FieldSubPath {
+	return &PlanAssignment_FieldSubPath{
+		selector: PlanAssignment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *PlanAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
+}
+
+func (s PlanAssignmentPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *PlanAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
+}
+
+func (PlanAssignmentPathSelectorMetadataServices) OwningService() PlanAssignmentPathSelectorMetadataServicesOwningService {
+	return PlanAssignmentPathSelectorMetadataServicesOwningService{}
+}
+
+func (PlanAssignmentPathSelectorMetadataServices) AllowedServices() PlanAssignmentPathSelectorMetadataServicesAllowedServices {
+	return PlanAssignmentPathSelectorMetadataServicesAllowedServices{}
+}
+
+type PlanAssignmentPathSelectorMetadataServicesOwningService struct{}
+
+func (PlanAssignmentPathSelectorMetadataServicesOwningService) FieldPath() *PlanAssignment_FieldSubPath {
+	return &PlanAssignment_FieldSubPath{
+		selector: PlanAssignment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentPathSelectorMetadataServicesOwningService) WithValue(value string) *PlanAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
+}
+
+func (s PlanAssignmentPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *PlanAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
+}
+
+type PlanAssignmentPathSelectorMetadataServicesAllowedServices struct{}
+
+func (PlanAssignmentPathSelectorMetadataServicesAllowedServices) FieldPath() *PlanAssignment_FieldSubPath {
+	return &PlanAssignment_FieldSubPath{
+		selector: PlanAssignment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *PlanAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
+}
+
+func (s PlanAssignmentPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *PlanAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
+}
+
+func (s PlanAssignmentPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *PlanAssignment_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignment_FieldSubPathArrayItemValue)
 }

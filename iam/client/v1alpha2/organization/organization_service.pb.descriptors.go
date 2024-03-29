@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization.Organization{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetOrganizationDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization.Name)(nil)
@@ -160,6 +160,30 @@ func (h *GetOrganizationDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *GetOrganizationDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetOrganizationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetOrganizationRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOrganizationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetOrganizationRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -193,6 +217,22 @@ func (h *GetOrganizationDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *GetOrganizationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetOrganizationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization.Organization)
+}
+
+func (h *GetOrganizationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization.Organization)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization.Organization) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -308,18 +348,38 @@ func (h *BatchGetOrganizationsDescriptorClientMsgHandle) ExtractResourceNames(ms
 		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(organization.OrganizationNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return organization.OrganizationNameList(names)
 		}
 	}
 	return (organization.OrganizationNameList)(nil)
 }
 
 func (h *BatchGetOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *BatchGetOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -358,6 +418,35 @@ func (h *BatchGetOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(ms
 
 func (h *BatchGetOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *BatchGetOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			return organization.OrganizationList(resources)
+		}
+	}
+	return (organization.OrganizationList)(nil)
 }
 
 func GetBatchGetOrganizationsDescriptor() *BatchGetOrganizationsDescriptor {
@@ -478,6 +567,30 @@ func (h *ListOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	return nil
 }
 
+func (h *ListOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListOrganizationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListOrganizationsResponse)
 	var asInterface interface{} = h
@@ -513,6 +626,35 @@ func (h *ListOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(msg pr
 
 func (h *ListOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *ListOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			return organization.OrganizationList(resources)
+		}
+	}
+	return (organization.OrganizationList)(nil)
 }
 
 func GetListOrganizationsDescriptor() *ListOrganizationsDescriptor {
@@ -615,8 +757,8 @@ func (h *WatchOrganizationDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization.Name)(nil)
@@ -635,6 +777,30 @@ func (h *WatchOrganizationDescriptorClientMsgHandle) ExtractResourceNames(msg pr
 }
 
 func (h *WatchOrganizationDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchOrganizationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -677,6 +843,42 @@ func (h *WatchOrganizationDescriptorServerMsgHandle) ExtractResourceNames(msg pr
 }
 
 func (h *WatchOrganizationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchOrganizationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *organization.OrganizationChange_Added_:
+				return tResChange.Added.GetOrganization()
+			case *organization.OrganizationChange_Modified_:
+				return tResChange.Modified.GetOrganization()
+			case *organization.OrganizationChange_Current_:
+				return tResChange.Current.GetOrganization()
+			}
+		}
+	}
+	return (*organization.Organization)(nil)
+}
+
+func (h *WatchOrganizationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -798,6 +1000,30 @@ func (h *WatchOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *WatchOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *WatchOrganizationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchOrganizationsResponse)
 	var asInterface interface{} = h
@@ -842,6 +1068,46 @@ func (h *WatchOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(msg p
 
 func (h *WatchOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *WatchOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetOrganizationChanges(); len(resChanges) > 0 {
+			list := make(organization.OrganizationList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *organization.OrganizationChange_Added_:
+					list = append(list, tResChange.Added.GetOrganization())
+				case *organization.OrganizationChange_Modified_:
+					list = append(list, tResChange.Modified.GetOrganization())
+				case *organization.OrganizationChange_Current_:
+					list = append(list, tResChange.Current.GetOrganization())
+				}
+			}
+			return list
+		}
+	}
+	return (organization.OrganizationList)(nil)
 }
 
 func GetWatchOrganizationsDescriptor() *WatchOrganizationsDescriptor {
@@ -968,6 +1234,33 @@ func (h *CreateOrganizationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *CreateOrganizationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateOrganizationRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOrganization()
+	}
+	return (*organization.Organization)(nil)
+}
+
+func (h *CreateOrganizationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateOrganizationRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CreateOrganizationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*organization.Organization)
 	var asInterface interface{} = h
@@ -998,6 +1291,22 @@ func (h *CreateOrganizationDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *CreateOrganizationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CreateOrganizationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization.Organization)
+}
+
+func (h *CreateOrganizationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization.Organization)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization.Organization) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1125,6 +1434,33 @@ func (h *UpdateOrganizationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateOrganizationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateOrganizationRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOrganization()
+	}
+	return (*organization.Organization)(nil)
+}
+
+func (h *UpdateOrganizationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateOrganizationRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateOrganizationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*organization.Organization)
 	var asInterface interface{} = h
@@ -1158,6 +1494,22 @@ func (h *UpdateOrganizationDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateOrganizationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization.Organization)
+}
+
+func (h *UpdateOrganizationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization.Organization)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization.Organization) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateOrganizationDescriptor() *UpdateOrganizationDescriptor {
 	return updateOrganizationDescriptor
 }
@@ -1173,7 +1525,7 @@ func (d *DeleteOrganizationDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteOrganizationDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteOrganizationDescriptor) IsUnary() bool {
@@ -1258,8 +1610,8 @@ func (h *DeleteOrganizationDescriptorClientMsgHandle) ExtractResourceName(msg pr
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization.Name)(nil)
@@ -1281,11 +1633,35 @@ func (h *DeleteOrganizationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
-func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteOrganizationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteOrganizationRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *organization.Name
+		OverrideExtractResourceBody(*DeleteOrganizationRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteOrganizationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteOrganizationRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *organization.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1294,10 +1670,10 @@ func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceName(msg pr
 }
 
 func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*organization.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*organization.Name
 	})
 	if ok {
 		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1306,6 +1682,30 @@ func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1427,6 +1827,30 @@ func (h *ListMyOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return nil
 }
 
+func (h *ListMyOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListMyOrganizationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMyOrganizationsResponse)
 	var asInterface interface{} = h
@@ -1462,6 +1886,35 @@ func (h *ListMyOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(msg 
 
 func (h *ListMyOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *ListMyOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			return organization.OrganizationList(resources)
+		}
+	}
+	return (organization.OrganizationList)(nil)
 }
 
 func GetListMyOrganizationsDescriptor() *ListMyOrganizationsDescriptor {

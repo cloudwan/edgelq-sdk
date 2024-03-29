@@ -9,20 +9,20 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -31,20 +31,20 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &plan_assignment.PlanAssignment{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 func (o *PlanAssignmentRequest) GotenObjectExt() {}
@@ -172,7 +172,7 @@ func (o *PlanAssignmentRequest) Merge(source *PlanAssignmentRequest) {
 	}
 	if source.GetRequest() != nil {
 		if o.Request == nil {
-			o.Request = new(PlanAssignmentRequest_Request)
+			o.Request = new(PlanAssignmentRequest_RequestType)
 		}
 		o.Request.Merge(source.GetRequest())
 	}
@@ -208,7 +208,7 @@ func (o *PlanAssignmentRequest) Merge(source *PlanAssignmentRequest) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -273,168 +273,168 @@ func (o *PlanAssignmentRequest_Status) MergeRaw(source gotenobject.GotenObjectEx
 	o.Merge(source.(*PlanAssignmentRequest_Status))
 }
 
-func (o *PlanAssignmentRequest_Request) GotenObjectExt() {}
+func (o *PlanAssignmentRequest_RequestType) GotenObjectExt() {}
 
-func (o *PlanAssignmentRequest_Request) MakeFullFieldMask() *PlanAssignmentRequest_Request_FieldMask {
-	return FullPlanAssignmentRequest_Request_FieldMask()
+func (o *PlanAssignmentRequest_RequestType) MakeFullFieldMask() *PlanAssignmentRequest_RequestType_FieldMask {
+	return FullPlanAssignmentRequest_RequestType_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPlanAssignmentRequest_Request_FieldMask()
+func (o *PlanAssignmentRequest_RequestType) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPlanAssignmentRequest_RequestType_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request) MakeDiffFieldMask(other *PlanAssignmentRequest_Request) *PlanAssignmentRequest_Request_FieldMask {
+func (o *PlanAssignmentRequest_RequestType) MakeDiffFieldMask(other *PlanAssignmentRequest_RequestType) *PlanAssignmentRequest_RequestType_FieldMask {
 	if o == nil && other == nil {
-		return &PlanAssignmentRequest_Request_FieldMask{}
+		return &PlanAssignmentRequest_RequestType_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullPlanAssignmentRequest_Request_FieldMask()
+		return FullPlanAssignmentRequest_RequestType_FieldMask()
 	}
 
-	res := &PlanAssignmentRequest_Request_FieldMask{}
+	res := &PlanAssignmentRequest_RequestType_FieldMask{}
 	{
 		subMask := o.GetAssign().MakeDiffFieldMask(other.GetAssign())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign})
+			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign, subPath: subpath})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign, subPath: subpath})
 			}
 		}
 	}
 	{
 		subMask := o.GetExtend().MakeDiffFieldMask(other.GetExtend())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend})
+			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend, subPath: subpath})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend, subPath: subpath})
 			}
 		}
 	}
 	{
 		subMask := o.GetRedistribute().MakeDiffFieldMask(other.GetRedistribute())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute})
+			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute, subPath: subpath})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute, subPath: subpath})
 			}
 		}
 	}
 	{
 		subMask := o.GetUnassign().MakeDiffFieldMask(other.GetUnassign())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign})
+			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign, subPath: subpath})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign, subPath: subpath})
 			}
 		}
 	}
 	return res
 }
 
-func (o *PlanAssignmentRequest_Request) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_Request))
+func (o *PlanAssignmentRequest_RequestType) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_RequestType))
 }
 
-func (o *PlanAssignmentRequest_Request) Clone() *PlanAssignmentRequest_Request {
+func (o *PlanAssignmentRequest_RequestType) Clone() *PlanAssignmentRequest_RequestType {
 	if o == nil {
 		return nil
 	}
-	result := &PlanAssignmentRequest_Request{}
-	if o, ok := o.Request.(*PlanAssignmentRequest_Request_Assign_); ok {
-		result.Request = (*PlanAssignmentRequest_Request_Assign_)(nil)
+	result := &PlanAssignmentRequest_RequestType{}
+	if o, ok := o.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok {
+		result.Request = (*PlanAssignmentRequest_RequestType_Assign_)(nil)
 		if o != nil {
-			result.Request = &PlanAssignmentRequest_Request_Assign_{}
-			result := result.Request.(*PlanAssignmentRequest_Request_Assign_)
+			result.Request = &PlanAssignmentRequest_RequestType_Assign_{}
+			result := result.Request.(*PlanAssignmentRequest_RequestType_Assign_)
 			result.Assign = o.Assign.Clone()
 		}
 	}
-	if o, ok := o.Request.(*PlanAssignmentRequest_Request_Extend_); ok {
-		result.Request = (*PlanAssignmentRequest_Request_Extend_)(nil)
+	if o, ok := o.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok {
+		result.Request = (*PlanAssignmentRequest_RequestType_Extend_)(nil)
 		if o != nil {
-			result.Request = &PlanAssignmentRequest_Request_Extend_{}
-			result := result.Request.(*PlanAssignmentRequest_Request_Extend_)
+			result.Request = &PlanAssignmentRequest_RequestType_Extend_{}
+			result := result.Request.(*PlanAssignmentRequest_RequestType_Extend_)
 			result.Extend = o.Extend.Clone()
 		}
 	}
-	if o, ok := o.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok {
-		result.Request = (*PlanAssignmentRequest_Request_Redistribute_)(nil)
+	if o, ok := o.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
+		result.Request = (*PlanAssignmentRequest_RequestType_Redistribute_)(nil)
 		if o != nil {
-			result.Request = &PlanAssignmentRequest_Request_Redistribute_{}
-			result := result.Request.(*PlanAssignmentRequest_Request_Redistribute_)
+			result.Request = &PlanAssignmentRequest_RequestType_Redistribute_{}
+			result := result.Request.(*PlanAssignmentRequest_RequestType_Redistribute_)
 			result.Redistribute = o.Redistribute.Clone()
 		}
 	}
-	if o, ok := o.Request.(*PlanAssignmentRequest_Request_Unassign_); ok {
-		result.Request = (*PlanAssignmentRequest_Request_Unassign_)(nil)
+	if o, ok := o.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok {
+		result.Request = (*PlanAssignmentRequest_RequestType_Unassign_)(nil)
 		if o != nil {
-			result.Request = &PlanAssignmentRequest_Request_Unassign_{}
-			result := result.Request.(*PlanAssignmentRequest_Request_Unassign_)
+			result.Request = &PlanAssignmentRequest_RequestType_Unassign_{}
+			result := result.Request.(*PlanAssignmentRequest_RequestType_Unassign_)
 			result.Unassign = o.Unassign.Clone()
 		}
 	}
 	return result
 }
 
-func (o *PlanAssignmentRequest_Request) CloneRaw() gotenobject.GotenObjectExt {
+func (o *PlanAssignmentRequest_RequestType) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *PlanAssignmentRequest_Request) Merge(source *PlanAssignmentRequest_Request) {
-	if source, ok := source.GetRequest().(*PlanAssignmentRequest_Request_Assign_); ok {
-		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_Request_Assign_); !ok || dstOneOf == nil {
-			o.Request = &PlanAssignmentRequest_Request_Assign_{}
+func (o *PlanAssignmentRequest_RequestType) Merge(source *PlanAssignmentRequest_RequestType) {
+	if source, ok := source.GetRequest().(*PlanAssignmentRequest_RequestType_Assign_); ok {
+		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_RequestType_Assign_); !ok || dstOneOf == nil {
+			o.Request = &PlanAssignmentRequest_RequestType_Assign_{}
 		}
 		if source != nil {
-			o := o.Request.(*PlanAssignmentRequest_Request_Assign_)
+			o := o.Request.(*PlanAssignmentRequest_RequestType_Assign_)
 			if source.Assign != nil {
 				if o.Assign == nil {
-					o.Assign = new(PlanAssignmentRequest_Request_Assign)
+					o.Assign = new(PlanAssignmentRequest_RequestType_Assign)
 				}
 				o.Assign.Merge(source.Assign)
 			}
 		}
 	}
-	if source, ok := source.GetRequest().(*PlanAssignmentRequest_Request_Extend_); ok {
-		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_Request_Extend_); !ok || dstOneOf == nil {
-			o.Request = &PlanAssignmentRequest_Request_Extend_{}
+	if source, ok := source.GetRequest().(*PlanAssignmentRequest_RequestType_Extend_); ok {
+		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_RequestType_Extend_); !ok || dstOneOf == nil {
+			o.Request = &PlanAssignmentRequest_RequestType_Extend_{}
 		}
 		if source != nil {
-			o := o.Request.(*PlanAssignmentRequest_Request_Extend_)
+			o := o.Request.(*PlanAssignmentRequest_RequestType_Extend_)
 			if source.Extend != nil {
 				if o.Extend == nil {
-					o.Extend = new(PlanAssignmentRequest_Request_Extend)
+					o.Extend = new(PlanAssignmentRequest_RequestType_Extend)
 				}
 				o.Extend.Merge(source.Extend)
 			}
 		}
 	}
-	if source, ok := source.GetRequest().(*PlanAssignmentRequest_Request_Redistribute_); ok {
-		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_Request_Redistribute_); !ok || dstOneOf == nil {
-			o.Request = &PlanAssignmentRequest_Request_Redistribute_{}
+	if source, ok := source.GetRequest().(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
+		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); !ok || dstOneOf == nil {
+			o.Request = &PlanAssignmentRequest_RequestType_Redistribute_{}
 		}
 		if source != nil {
-			o := o.Request.(*PlanAssignmentRequest_Request_Redistribute_)
+			o := o.Request.(*PlanAssignmentRequest_RequestType_Redistribute_)
 			if source.Redistribute != nil {
 				if o.Redistribute == nil {
-					o.Redistribute = new(PlanAssignmentRequest_Request_Redistribute)
+					o.Redistribute = new(PlanAssignmentRequest_RequestType_Redistribute)
 				}
 				o.Redistribute.Merge(source.Redistribute)
 			}
 		}
 	}
-	if source, ok := source.GetRequest().(*PlanAssignmentRequest_Request_Unassign_); ok {
-		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_Request_Unassign_); !ok || dstOneOf == nil {
-			o.Request = &PlanAssignmentRequest_Request_Unassign_{}
+	if source, ok := source.GetRequest().(*PlanAssignmentRequest_RequestType_Unassign_); ok {
+		if dstOneOf, ok := o.Request.(*PlanAssignmentRequest_RequestType_Unassign_); !ok || dstOneOf == nil {
+			o.Request = &PlanAssignmentRequest_RequestType_Unassign_{}
 		}
 		if source != nil {
-			o := o.Request.(*PlanAssignmentRequest_Request_Unassign_)
+			o := o.Request.(*PlanAssignmentRequest_RequestType_Unassign_)
 			if source.Unassign != nil {
 				if o.Unassign == nil {
-					o.Unassign = new(PlanAssignmentRequest_Request_Unassign)
+					o.Unassign = new(PlanAssignmentRequest_RequestType_Unassign)
 				}
 				o.Unassign.Merge(source.Unassign)
 			}
@@ -442,68 +442,68 @@ func (o *PlanAssignmentRequest_Request) Merge(source *PlanAssignmentRequest_Requ
 	}
 }
 
-func (o *PlanAssignmentRequest_Request) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PlanAssignmentRequest_Request))
+func (o *PlanAssignmentRequest_RequestType) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PlanAssignmentRequest_RequestType))
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) GotenObjectExt() {}
+func (o *PlanAssignmentRequest_RequestType_Assign) GotenObjectExt() {}
 
-func (o *PlanAssignmentRequest_Request_Assign) MakeFullFieldMask() *PlanAssignmentRequest_Request_Assign_FieldMask {
-	return FullPlanAssignmentRequest_Request_Assign_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Assign) MakeFullFieldMask() *PlanAssignmentRequest_RequestType_Assign_FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Assign_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPlanAssignmentRequest_Request_Assign_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Assign) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Assign_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) MakeDiffFieldMask(other *PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequest_Request_Assign_FieldMask {
+func (o *PlanAssignmentRequest_RequestType_Assign) MakeDiffFieldMask(other *PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequest_RequestType_Assign_FieldMask {
 	if o == nil && other == nil {
-		return &PlanAssignmentRequest_Request_Assign_FieldMask{}
+		return &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullPlanAssignmentRequest_Request_Assign_FieldMask()
+		return FullPlanAssignmentRequest_RequestType_Assign_FieldMask()
 	}
 
-	res := &PlanAssignmentRequest_Request_Assign_FieldMask{}
+	res := &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
 	if o.GetPlan().String() != other.GetPlan().String() {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan})
 	}
 
 	if len(o.GetExtensions()) == len(other.GetExtensions()) {
 		for i, lValue := range o.GetExtensions() {
 			rValue := other.GetExtensions()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions})
 	}
 
 	if len(o.GetRegionalDistributions()) == len(other.GetRegionalDistributions()) {
 		for i, lValue := range o.GetRegionalDistributions() {
 			rValue := other.GetRegionalDistributions()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions})
 	}
 	return res
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_Request_Assign))
+func (o *PlanAssignmentRequest_RequestType_Assign) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) Clone() *PlanAssignmentRequest_Request_Assign {
+func (o *PlanAssignmentRequest_RequestType_Assign) Clone() *PlanAssignmentRequest_RequestType_Assign {
 	if o == nil {
 		return nil
 	}
-	result := &PlanAssignmentRequest_Request_Assign{}
+	result := &PlanAssignmentRequest_RequestType_Assign{}
 	if o.Plan == nil {
 		result.Plan = nil
 	} else if data, err := o.Plan.ProtoString(); err != nil {
@@ -525,11 +525,11 @@ func (o *PlanAssignmentRequest_Request_Assign) Clone() *PlanAssignmentRequest_Re
 	return result
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) CloneRaw() gotenobject.GotenObjectExt {
+func (o *PlanAssignmentRequest_RequestType_Assign) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) Merge(source *PlanAssignmentRequest_Request_Assign) {
+func (o *PlanAssignmentRequest_RequestType_Assign) Merge(source *PlanAssignmentRequest_RequestType_Assign) {
 	if source.GetPlan() != nil {
 		if data, err := source.GetPlan().ProtoString(); err != nil {
 			panic(err)
@@ -580,68 +580,68 @@ func (o *PlanAssignmentRequest_Request_Assign) Merge(source *PlanAssignmentReque
 
 }
 
-func (o *PlanAssignmentRequest_Request_Assign) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PlanAssignmentRequest_Request_Assign))
+func (o *PlanAssignmentRequest_RequestType_Assign) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) GotenObjectExt() {}
+func (o *PlanAssignmentRequest_RequestType_Extend) GotenObjectExt() {}
 
-func (o *PlanAssignmentRequest_Request_Extend) MakeFullFieldMask() *PlanAssignmentRequest_Request_Extend_FieldMask {
-	return FullPlanAssignmentRequest_Request_Extend_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Extend) MakeFullFieldMask() *PlanAssignmentRequest_RequestType_Extend_FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Extend_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPlanAssignmentRequest_Request_Extend_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Extend) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Extend_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) MakeDiffFieldMask(other *PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequest_Request_Extend_FieldMask {
+func (o *PlanAssignmentRequest_RequestType_Extend) MakeDiffFieldMask(other *PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequest_RequestType_Extend_FieldMask {
 	if o == nil && other == nil {
-		return &PlanAssignmentRequest_Request_Extend_FieldMask{}
+		return &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullPlanAssignmentRequest_Request_Extend_FieldMask()
+		return FullPlanAssignmentRequest_RequestType_Extend_FieldMask()
 	}
 
-	res := &PlanAssignmentRequest_Request_Extend_FieldMask{}
+	res := &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
 	if o.GetAssignment().String() != other.GetAssignment().String() {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment})
 	}
 
 	if len(o.GetAdditions()) == len(other.GetAdditions()) {
 		for i, lValue := range o.GetAdditions() {
 			rValue := other.GetAdditions()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions})
 	}
 
 	if len(o.GetRegionalDistributions()) == len(other.GetRegionalDistributions()) {
 		for i, lValue := range o.GetRegionalDistributions() {
 			rValue := other.GetRegionalDistributions()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions})
 	}
 	return res
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_Request_Extend))
+func (o *PlanAssignmentRequest_RequestType_Extend) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) Clone() *PlanAssignmentRequest_Request_Extend {
+func (o *PlanAssignmentRequest_RequestType_Extend) Clone() *PlanAssignmentRequest_RequestType_Extend {
 	if o == nil {
 		return nil
 	}
-	result := &PlanAssignmentRequest_Request_Extend{}
+	result := &PlanAssignmentRequest_RequestType_Extend{}
 	if o.Assignment == nil {
 		result.Assignment = nil
 	} else if data, err := o.Assignment.ProtoString(); err != nil {
@@ -663,11 +663,11 @@ func (o *PlanAssignmentRequest_Request_Extend) Clone() *PlanAssignmentRequest_Re
 	return result
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) CloneRaw() gotenobject.GotenObjectExt {
+func (o *PlanAssignmentRequest_RequestType_Extend) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) Merge(source *PlanAssignmentRequest_Request_Extend) {
+func (o *PlanAssignmentRequest_RequestType_Extend) Merge(source *PlanAssignmentRequest_RequestType_Extend) {
 	if source.GetAssignment() != nil {
 		if data, err := source.GetAssignment().ProtoString(); err != nil {
 			panic(err)
@@ -718,56 +718,56 @@ func (o *PlanAssignmentRequest_Request_Extend) Merge(source *PlanAssignmentReque
 
 }
 
-func (o *PlanAssignmentRequest_Request_Extend) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PlanAssignmentRequest_Request_Extend))
+func (o *PlanAssignmentRequest_RequestType_Extend) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) GotenObjectExt() {}
+func (o *PlanAssignmentRequest_RequestType_Redistribute) GotenObjectExt() {}
 
-func (o *PlanAssignmentRequest_Request_Redistribute) MakeFullFieldMask() *PlanAssignmentRequest_Request_Redistribute_FieldMask {
-	return FullPlanAssignmentRequest_Request_Redistribute_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Redistribute) MakeFullFieldMask() *PlanAssignmentRequest_RequestType_Redistribute_FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Redistribute_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPlanAssignmentRequest_Request_Redistribute_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Redistribute) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Redistribute_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) MakeDiffFieldMask(other *PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequest_Request_Redistribute_FieldMask {
+func (o *PlanAssignmentRequest_RequestType_Redistribute) MakeDiffFieldMask(other *PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequest_RequestType_Redistribute_FieldMask {
 	if o == nil && other == nil {
-		return &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
+		return &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullPlanAssignmentRequest_Request_Redistribute_FieldMask()
+		return FullPlanAssignmentRequest_RequestType_Redistribute_FieldMask()
 	}
 
-	res := &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
+	res := &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
 	if o.GetAssignment().String() != other.GetAssignment().String() {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment})
 	}
 
 	if len(o.GetRegionalDistributions()) == len(other.GetRegionalDistributions()) {
 		for i, lValue := range o.GetRegionalDistributions() {
 			rValue := other.GetRegionalDistributions()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions})
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions})
 	}
 	return res
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_Request_Redistribute))
+func (o *PlanAssignmentRequest_RequestType_Redistribute) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) Clone() *PlanAssignmentRequest_Request_Redistribute {
+func (o *PlanAssignmentRequest_RequestType_Redistribute) Clone() *PlanAssignmentRequest_RequestType_Redistribute {
 	if o == nil {
 		return nil
 	}
-	result := &PlanAssignmentRequest_Request_Redistribute{}
+	result := &PlanAssignmentRequest_RequestType_Redistribute{}
 	if o.Assignment == nil {
 		result.Assignment = nil
 	} else if data, err := o.Assignment.ProtoString(); err != nil {
@@ -785,11 +785,11 @@ func (o *PlanAssignmentRequest_Request_Redistribute) Clone() *PlanAssignmentRequ
 	return result
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) CloneRaw() gotenobject.GotenObjectExt {
+func (o *PlanAssignmentRequest_RequestType_Redistribute) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) Merge(source *PlanAssignmentRequest_Request_Redistribute) {
+func (o *PlanAssignmentRequest_RequestType_Redistribute) Merge(source *PlanAssignmentRequest_RequestType_Redistribute) {
 	if source.GetAssignment() != nil {
 		if data, err := source.GetAssignment().ProtoString(); err != nil {
 			panic(err)
@@ -822,44 +822,44 @@ func (o *PlanAssignmentRequest_Request_Redistribute) Merge(source *PlanAssignmen
 
 }
 
-func (o *PlanAssignmentRequest_Request_Redistribute) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (o *PlanAssignmentRequest_RequestType_Redistribute) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) GotenObjectExt() {}
+func (o *PlanAssignmentRequest_RequestType_Unassign) GotenObjectExt() {}
 
-func (o *PlanAssignmentRequest_Request_Unassign) MakeFullFieldMask() *PlanAssignmentRequest_Request_Unassign_FieldMask {
-	return FullPlanAssignmentRequest_Request_Unassign_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Unassign) MakeFullFieldMask() *PlanAssignmentRequest_RequestType_Unassign_FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Unassign_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPlanAssignmentRequest_Request_Unassign_FieldMask()
+func (o *PlanAssignmentRequest_RequestType_Unassign) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPlanAssignmentRequest_RequestType_Unassign_FieldMask()
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) MakeDiffFieldMask(other *PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequest_Request_Unassign_FieldMask {
+func (o *PlanAssignmentRequest_RequestType_Unassign) MakeDiffFieldMask(other *PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequest_RequestType_Unassign_FieldMask {
 	if o == nil && other == nil {
-		return &PlanAssignmentRequest_Request_Unassign_FieldMask{}
+		return &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullPlanAssignmentRequest_Request_Unassign_FieldMask()
+		return FullPlanAssignmentRequest_RequestType_Unassign_FieldMask()
 	}
 
-	res := &PlanAssignmentRequest_Request_Unassign_FieldMask{}
+	res := &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
 	if o.GetAssignment().String() != other.GetAssignment().String() {
-		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment})
+		res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment})
 	}
 	return res
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_Request_Unassign))
+func (o *PlanAssignmentRequest_RequestType_Unassign) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) Clone() *PlanAssignmentRequest_Request_Unassign {
+func (o *PlanAssignmentRequest_RequestType_Unassign) Clone() *PlanAssignmentRequest_RequestType_Unassign {
 	if o == nil {
 		return nil
 	}
-	result := &PlanAssignmentRequest_Request_Unassign{}
+	result := &PlanAssignmentRequest_RequestType_Unassign{}
 	if o.Assignment == nil {
 		result.Assignment = nil
 	} else if data, err := o.Assignment.ProtoString(); err != nil {
@@ -873,11 +873,11 @@ func (o *PlanAssignmentRequest_Request_Unassign) Clone() *PlanAssignmentRequest_
 	return result
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) CloneRaw() gotenobject.GotenObjectExt {
+func (o *PlanAssignmentRequest_RequestType_Unassign) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) Merge(source *PlanAssignmentRequest_Request_Unassign) {
+func (o *PlanAssignmentRequest_RequestType_Unassign) Merge(source *PlanAssignmentRequest_RequestType_Unassign) {
 	if source.GetAssignment() != nil {
 		if data, err := source.GetAssignment().ProtoString(); err != nil {
 			panic(err)
@@ -892,6 +892,6 @@ func (o *PlanAssignmentRequest_Request_Unassign) Merge(source *PlanAssignmentReq
 	}
 }
 
-func (o *PlanAssignmentRequest_Request_Unassign) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PlanAssignmentRequest_Request_Unassign))
+func (o *PlanAssignmentRequest_RequestType_Unassign) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }

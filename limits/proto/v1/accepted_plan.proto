@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/limits/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/accepted_plan;accepted_plan";
+option java_multiple_files = true;
+option java_outer_classname = "AcceptedPlanProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// AcceptedPlan shows a plan accepted by assigner (system or organization)
+// for project, organization and system - with all additional information
+// like extensions or regional distributions.
+// It is in relation 1-1 with PlanAssignment, BUT:
+// * PlanAssignment is read-only and represents information for Assignee.
+// Name pattern indicates to WHOM plan is assigned.
+// * AcceptedPlan contains accepted configuration and represents information
+// for assigner. Name pattern indicates WHO ASSIGNED a plan. It is modifiable,
+// BUT modifications of accepted plans may result in increased usage of
+// allowed limit pools - Organization/Service cannot accept plans to
+// sub-entities without limits (however, system is allowed to assign plan to
+// itself without limits, which makes system admin fully responsible).
+message AcceptedPlan {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/AcceptedPlan"
+    pattern : "services/{service}/acceptedPlans/{accepted_plan}"
+    pattern : "organizations/{organization}/acceptedPlans/{accepted_plan}"
+  };
+
+  // Name of AcceptedPlan
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 7;
+
+  // Plan with resource limits - it will apply to EACH region of
+  // service/organization/project.
+  string default_regional_plan = 2;
+
+  // Service indicated by a plan.
+  string service = 3;
+
+  // Individual plan overrides per each region - however, overrides do not work
+  // on non-regional resources for project assignees.
+  repeated RegionalPlanAssignment regional_plan_overrides = 8;
+
+  // Optional extensions over standard plans in individual regions or all
+  // regions, if region id is empty.
+  repeated Allowance extensions = 4;
+
+  // Final allowances per resource/region - computed from extensions and
+  // all regional plans.
+  repeated Allowance allowances = 5;
+
+  // List of regions ID where plan was applied - it is being taken from
+  // service/organization/project list of regions. Limits service extends plans
+  // if it notices expansion to the new region.
+  repeated string applied_regions = 9;
+
+  // Default region plan generation number, set during each update and creation.
+  // It is used to notice if plan got changed and we need to trigger accepted
+  // plan update.
+  int64 applied_plan_spec_generation = 10;
+
+  // Plan assignee
+  Assignee assignee = 6;
+
+  // Assignee indicates for whom plan was accepted for.
+  // In case of child project/org deletion, accepted plan will be deleted too,
+  // which will result in return of all limits.
+  message Assignee {
+    oneof assignee {
+      // Project for whom plan is for.
+      string project_assignee = 1;
+
+      // Organization for whom plan is for.
+      string organization_assignee = 2;
+
+      // Service for whom plan is for
+      string service_assignee = 3;
+    }
+  }
+}

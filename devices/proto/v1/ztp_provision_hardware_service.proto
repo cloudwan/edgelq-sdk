@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/devices/proto/v1/ztp_provision_hardware_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/ztp_provision_hardware;ztp_provision_hardware_client";
+option java_multiple_files = false;
+option java_outer_classname = "ZtpProvisionHardwareServiceProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// ZtpProvisionHardware service API for Devices
+service ZtpProvisionHardwareService {
+  option (google.api.default_host) = "devices.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // ProvisionHardware
+  rpc ProvisionHardware(stream ProvisionHardwareRequest)
+      returns (stream ProvisionHardwareResponse) {
+    option (google.api.http) = {
+      post : "/v1:provisionHardware"
+    };
+  }
+}

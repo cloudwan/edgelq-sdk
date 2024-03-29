@@ -14,7 +14,6 @@ import (
 // proto imports
 import (
 	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
-	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &resource.Resource{}
-	_ = &empty.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,9 +52,6 @@ type ResourceServiceClient interface {
 	ListResources(ctx context.Context, in *ListResourcesRequest, opts ...grpc.CallOption) (*ListResourcesResponse, error)
 	WatchResource(ctx context.Context, in *WatchResourceRequest, opts ...grpc.CallOption) (WatchResourceClientStream, error)
 	WatchResources(ctx context.Context, in *WatchResourcesRequest, opts ...grpc.CallOption) (WatchResourcesClientStream, error)
-	CreateResource(ctx context.Context, in *CreateResourceRequest, opts ...grpc.CallOption) (*resource.Resource, error)
-	UpdateResource(ctx context.Context, in *UpdateResourceRequest, opts ...grpc.CallOption) (*resource.Resource, error)
-	DeleteResource(ctx context.Context, in *DeleteResourceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -166,31 +161,4 @@ func (x *watchResourcesWatchResourcesClient) Recv() (*WatchResourcesResponse, er
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *client) CreateResource(ctx context.Context, in *CreateResourceRequest, opts ...grpc.CallOption) (*resource.Resource, error) {
-	out := new(resource.Resource)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ResourceService/CreateResource", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) UpdateResource(ctx context.Context, in *UpdateResourceRequest, opts ...grpc.CallOption) (*resource.Resource, error) {
-	out := new(resource.Resource)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ResourceService/UpdateResource", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) DeleteResource(ctx context.Context, in *DeleteResourceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ResourceService/DeleteResource", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }

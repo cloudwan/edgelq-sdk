@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -22,7 +22,7 @@ import (
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -35,7 +35,7 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
@@ -44,7 +44,7 @@ var (
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 type Distribution_FieldMask struct {
@@ -133,12 +133,12 @@ func (fieldMask *Distribution_FieldMask) Subtract(other *Distribution_FieldMask)
 	result := &Distribution_FieldMask{}
 	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[Distribution_FieldPathSelector]gotenobject.FieldMask{
-		Distribution_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Distribution_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Distribution_FieldPathSelectorSpec:     &Distribution_Spec_FieldMask{},
 		Distribution_FieldPathSelectorStatus:   &Distribution_Status_FieldMask{},
 	}
 	mySubMasks := map[Distribution_FieldPathSelector]gotenobject.FieldMask{
-		Distribution_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Distribution_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Distribution_FieldPathSelectorSpec:     &Distribution_Spec_FieldMask{},
 		Distribution_FieldPathSelectorStatus:   &Distribution_Status_FieldMask{},
 	}
@@ -157,7 +157,7 @@ func (fieldMask *Distribution_FieldMask) Subtract(other *Distribution_FieldMask)
 				if tp, ok := path.(*Distribution_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Distribution_FieldPathSelectorMetadata:
-						mySubMasks[Distribution_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Distribution_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Distribution_FieldPathSelectorSpec:
 						mySubMasks[Distribution_FieldPathSelectorSpec] = FullDistribution_Spec_FieldMask()
 					case Distribution_FieldPathSelectorStatus:
@@ -196,12 +196,12 @@ func (fieldMask *Distribution_FieldMask) FilterInputFields() *Distribution_Field
 		switch path.Selector() {
 		case Distribution_FieldPathSelectorMetadata:
 			if _, ok := path.(*Distribution_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Distribution_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Distribution_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Distribution_FieldSubPath{selector: Distribution_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -228,15 +228,15 @@ func (fieldMask *Distribution_FieldMask) FilterInputFields() *Distribution_Field
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Distribution_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Distribution_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Distribution_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Distribution_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -258,7 +258,7 @@ func (fieldMask Distribution_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -277,7 +277,7 @@ func (fieldMask Distribution_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -345,7 +345,7 @@ func (fieldMask *Distribution_FieldMask) Project(source *Distribution) *Distribu
 		return source
 	}
 	result := &Distribution{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	specMask := &Distribution_Spec_FieldMask{}
 	wholeSpecAccepted := false
@@ -373,7 +373,7 @@ func (fieldMask *Distribution_FieldMask) Project(source *Distribution) *Distribu
 		case *Distribution_FieldSubPath:
 			switch tp.selector {
 			case Distribution_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Distribution_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(DistributionSpec_FieldPath))
 			case Distribution_FieldPathSelectorStatus:
@@ -565,15 +565,15 @@ func (fieldMask *Distribution_Spec_FieldMask) FilterInputFields() *Distribution_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Distribution_Spec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Distribution_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Distribution_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Distribution_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -595,7 +595,7 @@ func (fieldMask Distribution_Spec_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -614,7 +614,7 @@ func (fieldMask Distribution_Spec_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -838,15 +838,15 @@ func (fieldMask *Distribution_Status_FieldMask) FilterInputFields() *Distributio
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Distribution_Status_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Distribution_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Distribution_Status_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Distribution_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -868,7 +868,7 @@ func (fieldMask Distribution_Status_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_Status_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -887,7 +887,7 @@ func (fieldMask Distribution_Status_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Distribution_Status_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1060,11 +1060,11 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Subtract(other *Distribut
 	result := &Distribution_Spec_Template_FieldMask{}
 	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[DistributionSpecTemplate_FieldPathSelector]gotenobject.FieldMask{
-		DistributionSpecTemplate_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		DistributionSpecTemplate_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		DistributionSpecTemplate_FieldPathSelectorSpec:     &common.PodSpec_FieldMask{},
 	}
 	mySubMasks := map[DistributionSpecTemplate_FieldPathSelector]gotenobject.FieldMask{
-		DistributionSpecTemplate_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		DistributionSpecTemplate_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		DistributionSpecTemplate_FieldPathSelectorSpec:     &common.PodSpec_FieldMask{},
 	}
 
@@ -1082,7 +1082,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Subtract(other *Distribut
 				if tp, ok := path.(*DistributionSpecTemplate_FieldTerminalPath); ok {
 					switch tp.selector {
 					case DistributionSpecTemplate_FieldPathSelectorMetadata:
-						mySubMasks[DistributionSpecTemplate_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[DistributionSpecTemplate_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case DistributionSpecTemplate_FieldPathSelectorSpec:
 						mySubMasks[DistributionSpecTemplate_FieldPathSelectorSpec] = common.FullPodSpec_FieldMask()
 					}
@@ -1119,12 +1119,12 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) FilterInputFields() *Dist
 		switch path.Selector() {
 		case DistributionSpecTemplate_FieldPathSelectorMetadata:
 			if _, ok := path.(*DistributionSpecTemplate_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &DistributionSpecTemplate_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*DistributionSpecTemplate_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &DistributionSpecTemplate_FieldSubPath{selector: DistributionSpecTemplate_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -1138,15 +1138,15 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) FilterInputFields() *Dist
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Distribution_Spec_Template_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Distribution_Spec_Template_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Distribution_Spec_Template_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Distribution_Spec_Template_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1168,7 +1168,7 @@ func (fieldMask Distribution_Spec_Template_FieldMask) Marshal() ([]byte, error) 
 }
 
 func (fieldMask *Distribution_Spec_Template_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1187,7 +1187,7 @@ func (fieldMask Distribution_Spec_Template_FieldMask) MarshalJSON() ([]byte, err
 }
 
 func (fieldMask *Distribution_Spec_Template_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1255,7 +1255,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Project(source *Distribut
 		return source
 	}
 	result := &Distribution_Spec_Template{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	specMask := &common.PodSpec_FieldMask{}
 	wholeSpecAccepted := false
@@ -1274,7 +1274,7 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) Project(source *Distribut
 		case *DistributionSpecTemplate_FieldSubPath:
 			switch tp.selector {
 			case DistributionSpecTemplate_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case DistributionSpecTemplate_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(common.PodSpec_FieldPath))
 			}
@@ -1439,15 +1439,15 @@ func (fieldMask *LabelSelector_FieldMask) FilterInputFields() *LabelSelector_Fie
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *LabelSelector_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *LabelSelector_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *LabelSelector_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *LabelSelector_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1469,7 +1469,7 @@ func (fieldMask LabelSelector_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *LabelSelector_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1488,7 +1488,7 @@ func (fieldMask LabelSelector_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *LabelSelector_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1725,15 +1725,15 @@ func (fieldMask *LabelSelectorRequirement_FieldMask) FilterInputFields() *LabelS
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *LabelSelectorRequirement_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *LabelSelectorRequirement_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *LabelSelectorRequirement_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *LabelSelectorRequirement_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1755,7 +1755,7 @@ func (fieldMask LabelSelectorRequirement_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *LabelSelectorRequirement_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1774,7 +1774,7 @@ func (fieldMask LabelSelectorRequirement_FieldMask) MarshalJSON() ([]byte, error
 }
 
 func (fieldMask *LabelSelectorRequirement_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

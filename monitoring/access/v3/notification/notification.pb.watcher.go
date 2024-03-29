@@ -15,9 +15,9 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	notification_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification"
 	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
@@ -64,7 +64,7 @@ type WatcherConfig struct {
 }
 
 type WatcherFilterParams struct {
-	Parent *notification.ParentReference
+	Parent *notification.ParentName
 	Filter *notification.Filter
 }
 
@@ -79,7 +79,7 @@ func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
 	return p.Filter
 }
 
-func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
+func (p *WatcherFilterParams) GetIParentName() gotenresource.Name {
 	return p.Parent
 }
 
@@ -127,9 +127,11 @@ func (pw *Watcher) IEvents() <-chan gotenaccess.WatcherEvent {
 			for {
 				select {
 				case <-pw.watcherCtx.Done():
+					return
 				case evt := <-pw.outputEvtChan:
 					select {
 					case <-pw.watcherCtx.Done():
+						return
 					case pw.iOutputEvtChan <- &evt:
 					}
 				}
@@ -148,7 +150,7 @@ func (pw *Watcher) GetFilters() []*WatcherFilterParams {
 	for _, query := range pw.filters {
 		cQuery := &WatcherFilterParams{}
 		if query.Parent != nil {
-			cQuery.Parent = &notification.ParentReference{}
+			cQuery.Parent = &notification.ParentName{}
 			*cQuery.Parent = *query.Parent
 		}
 		if query.Filter != nil {
@@ -199,7 +201,9 @@ func (pw *Watcher) Run(ctx context.Context) error {
 
 	log.Debugf("running")
 	defer func() {
-		close(pw.outputEvtChan)
+		for _, state := range pw.queryWatcherStates {
+			state.cancel()
+		}
 		pw.watcherCtxCancel()
 	}()
 
@@ -686,13 +690,13 @@ func init() {
 		}
 		return NewWatcher(notification_client.NewNotificationServiceClient(cc), cfg, typedFilters...)
 	})
-	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(notification.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Reference) gotenaccess.WatcherFilterParams {
+	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(notification.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Name) gotenaccess.WatcherFilterParams {
 		params := &WatcherFilterParams{}
 		if filter != nil {
 			params.Filter = filter.(*notification.Filter)
 		}
 		if parent != nil {
-			params.Parent = parent.(*notification.ParentReference)
+			params.Parent = parent.(*notification.ParentName)
 		}
 		return params
 	})

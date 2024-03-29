@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/common/api/credentials.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/iam/proto/v1/project_change.proto";
+import "edgelq-sdk/iam/proto/v1/service_account_key.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/multi_region_policy.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_projects_management;service_projects_management_client";
+option java_multiple_files = false;
+option java_outer_classname = "ServiceProjectsManagementCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Request message for method
+// [ListMyServiceProjects][ntt.iam.v1.ListMyServiceProjects]
+message ListMyServiceProjectsRequest {
+  // Requested page size. Server may return fewer Projects than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListProjectsResponse.next_page_token][ntt.iam.v1.ListMyServiceProjectsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A FieldMask used to filter response fields. When present, only requested
+  // fields will be present in each response item. Omitting field_mask results
+  // will cause response items to contain all present fields.
+  google.protobuf.FieldMask field_mask = 6;
+}
+
+// Response message for method
+// [ListMyServiceProjects][ntt.iam.v1.ListMyServiceProjects]
+message ListMyServiceProjectsResponse {
+  // The list of Projects
+  repeated Project projects = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListMyServiceProjectsRequest.page_token][ntt.iam.v1.ListMyServiceProjectsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListMyServiceProjectsRequest.page_token][ntt.iam.v1.ListMyServiceProjectsRequest.page_token]
+  string next_page_token = 4;
+}
+
+// Request message for method
+// [SetupServiceProject][ntt.iam.v1.SetupServiceProject]
+message SetupServiceProjectRequest {
+  // Project name - unlike in CreateProject, it is mandatory
+  string name = 1;
+
+  // Project title
+  string title = 2;
+
+  // Optional parent organization
+  string parent_organization = 3;
+
+  // Multi region policy - it will have to match with Service regions later on.
+  goten.types.MultiRegionPolicy multi_region_policy = 4;
+}
+
+// Request message for method
+// [ReserveServiceName][ntt.iam.v1.ReserveServiceName]
+message ReserveServiceNameRequest {
+  // Name of the service project where reservation should be made.
+  string name = 1;
+
+  // Service name to reserve
+  string service = 2;
+
+  // Service account name that will be an admin for this Service. If it does not
+  // exist, it will be created. If exists this service account will have right
+  // to create reserved service.
+  string admin_account = 3;
+
+  // Optional admin account key - must be skipped if admin_account already
+  // exists and has key already known by user. If provided, then new
+  // ServiceAccountKey will be created. If public key was provided in request,
+  // then server will use it. Otherwise it will generate private/public pair and
+  // provide both in response. If key already exists and admin_key was provided,
+  // AlreadyExists will be returned.
+  ServiceAccountKey admin_key = 4;
+
+  // Optional Role admin_account will have in the service project.
+  // When service is eventually created, admin_account will have full ownership
+  // of the Service. However, it wont be able to access Service Project freely -
+  // by default minimal role is assigned, that allows to send usage metrics (for
+  // example). In some cases it may be necessary for admin_account to have
+  // larger access to the service project, for example for devices management.
+  string admin_account_project_role = 5;
+}
+
+// Response message for method
+// [ReserveServiceName][ntt.iam.v1.ReserveServiceName]
+message ReserveServiceNameResponse {
+  // Service account admin credentials are provided if admin_key was populated
+  // in the request object. It will have private key data if public key was not
+  // provided in the request admin_key. JSON representation of this object must
+  // be saved by the caller as ntt-credentials.json file - it will be required
+  // during actual application deployment. If user generated private/public pair
+  // themselves (and proved public in request object), before saving JSON user
+  // will need to populate private key string themselves in the final file. In
+  // case of lost credentials, user will need to send DeleteServiceAccountKey
+  // and CreateServiceAccountKey requests for admin ServiceAccount - and craft
+  // another credentials.
+  ntt.api.ServiceAccount ntt_admin_credentials = 1;
+}
+
+// Response message for method
+// [DeleteServiceReservation][ntt.iam.v1.DeleteServiceReservation]
+message DeleteServiceReservationRequest {
+  // Name of the service project where reservation exists
+  string name = 1;
+
+  // Service name to remove from reserved
+  string service = 2;
+}
+
+// Request message for method
+// [ListServiceReservations][ntt.iam.v1.ListServiceReservations]
+message ListServiceReservationsRequest {
+  // Name of the Service Project for which we want to see reservations.
+  string name = 1;
+}
+
+// Response message for method
+// [ListServiceReservations][ntt.iam.v1.ListServiceReservations]
+message ListServiceReservationsResponse {
+  // List of reserved services with corresponding admin accounts
+  repeated Reservation reservations = 1;
+
+  message Reservation {
+    // Reserved service name allowed to be created by admin account
+    string service = 1;
+
+    // Service account name that will be an admin for this Service.
+    string admin_account = 2;
+  }
+}
+
+// Request message for method
+// [ListProjectServices][ntt.iam.v1.ListProjectServices]
+message ListProjectServicesRequest {
+  // Name of the Service Project for which we want to see services.
+  string name = 1;
+}
+
+// Response message for method
+// [ListProjectServices][ntt.iam.v1.ListProjectServices]
+message ListProjectServicesResponse {
+  // List of services
+  repeated goten.meta.v1.Service services = 1;
+}
+
+// Request message for method
+// [AddRegionalAdminAccountForServices][ntt.iam.v1.AddRegionalAdminAccountForServices]
+message AddRegionalAdminAccountForServicesRequest {
+  // Parent of ServiceAccount containing Service project and Region.
+  // If region is not enabled in project, it will be for this request.
+  string parent = 1;
+
+  // List of services in which admin account must participate. They must all
+  // belong to the project indicated in the parent.
+  repeated string services = 2;
+
+  // Regional service account name that will be an admin for this Service. If it
+  // does not exist, it will be created.
+  string admin_account = 3;
+
+  // Optional admin account key - must be skipped if admin_account already
+  // exists and has key already known by user. If provided, then new
+  // ServiceAccountKey will be created. If public key was provided in request,
+  // then server will use it. Otherwise it will generate private/public pair and
+  // provide both in response. If admin_key already exists and is still provided
+  // in request, AlreadyExists will be returned.
+  ServiceAccountKey admin_key = 4;
+
+  // Optional Role admin_account will have in the service project.
+  // When service is eventually created, admin_account will have full ownership
+  // of the Service. However, it wont be able to access Service Project freely -
+  // by default minimal role is assigned, that allows to send usage metrics (for
+  // example). In some cases it may be necessary for admin_account to have
+  // larger access to the service project, for example for devices management.
+  string admin_account_project_role = 5;
+}
+
+// Response message for method
+// [AddRegionalAdminAccountForServices][ntt.iam.v1.AddRegionalAdminAccountForServices]
+message AddRegionalAdminAccountForServicesResponse {
+  // Service account admin credentials are provided if admin_key was populated
+  // in the request object. It will have private key data if public key was not
+  // provided in the request admin_key. JSON representation of this object must
+  // be saved by the caller as ntt-credentials.json file - it will be required
+  // during actual regional application deployment. If user generated
+  // private/public pair themselves (and proved public in request object),
+  // before saving JSON user will need to populate private key string themselves
+  // in the final file. In case of lost credentials, user will need to send
+  // DeleteServiceAccountKey and CreateServiceAccountKey requests for admin
+  // ServiceAccount - and craft another credentials.
+  ntt.api.ServiceAccount ntt_admin_credentials = 1;
+}

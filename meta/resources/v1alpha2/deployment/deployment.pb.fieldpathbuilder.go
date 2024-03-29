@@ -6,18 +6,18 @@ package deployment
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &region.Region{}
 	_ = &service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type DeploymentFieldPathBuilder struct{}
@@ -69,27 +69,27 @@ func (DeploymentPathSelectorMetadata) FieldPath() *Deployment_FieldTerminalPath 
 	return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorMetadata}
 }
 
-func (s DeploymentPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *Deployment_FieldTerminalPathValue {
+func (s DeploymentPathSelectorMetadata) WithValue(value *meta.Meta) *Deployment_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldTerminalPathValue)
 }
 
-func (s DeploymentPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Deployment_FieldTerminalPathArrayOfValues {
+func (s DeploymentPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *Deployment_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldTerminalPathArrayOfValues)
 }
 
-func (DeploymentPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *Deployment_FieldSubPath {
+func (DeploymentPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{selector: Deployment_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s DeploymentPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *Deployment_FieldSubPathValue {
 	return &Deployment_FieldSubPathValue{Deployment_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s DeploymentPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *Deployment_FieldSubPathArrayOfValues {
 	return &Deployment_FieldSubPathArrayOfValues{Deployment_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s DeploymentPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *Deployment_FieldSubPathArrayItemValue {
+func (s DeploymentPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *Deployment_FieldSubPathArrayItemValue {
 	return &Deployment_FieldSubPathArrayItemValue{Deployment_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -145,20 +145,24 @@ func (DeploymentPathSelectorMetadata) Lifecycle() DeploymentPathSelectorMetadata
 	return DeploymentPathSelectorMetadataLifecycle{}
 }
 
+func (DeploymentPathSelectorMetadata) Services() DeploymentPathSelectorMetadataServices {
+	return DeploymentPathSelectorMetadataServices{}
+}
+
 type DeploymentPathSelectorMetadataCreateTime struct{}
 
 func (DeploymentPathSelectorMetadataCreateTime) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -167,15 +171,15 @@ type DeploymentPathSelectorMetadataUpdateTime struct{}
 func (DeploymentPathSelectorMetadataUpdateTime) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -184,15 +188,15 @@ type DeploymentPathSelectorMetadataDeleteTime struct{}
 func (DeploymentPathSelectorMetadataDeleteTime) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -201,7 +205,7 @@ type DeploymentPathSelectorMetadataUuid struct{}
 func (DeploymentPathSelectorMetadataUuid) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -218,7 +222,7 @@ type DeploymentPathSelectorMetadataTags struct{}
 func (DeploymentPathSelectorMetadataTags) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -239,7 +243,7 @@ type DeploymentPathSelectorMetadataLabels struct{}
 func (DeploymentPathSelectorMetadataLabels) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -262,7 +266,7 @@ type DeploymentMapPathSelectorMetadataLabels struct {
 func (s DeploymentMapPathSelectorMetadataLabels) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -279,7 +283,7 @@ type DeploymentPathSelectorMetadataAnnotations struct{}
 func (DeploymentPathSelectorMetadataAnnotations) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -302,7 +306,7 @@ type DeploymentMapPathSelectorMetadataAnnotations struct {
 func (s DeploymentMapPathSelectorMetadataAnnotations) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -319,7 +323,7 @@ type DeploymentPathSelectorMetadataGeneration struct{}
 func (DeploymentPathSelectorMetadataGeneration) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -336,7 +340,7 @@ type DeploymentPathSelectorMetadataResourceVersion struct{}
 func (DeploymentPathSelectorMetadataResourceVersion) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -353,19 +357,19 @@ type DeploymentPathSelectorMetadataOwnerReferences struct{}
 func (DeploymentPathSelectorMetadataOwnerReferences) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
-func (s DeploymentPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Deployment_FieldSubPathArrayItemValue {
+func (s DeploymentPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Deployment_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Deployment_FieldSubPathArrayItemValue)
 }
 
@@ -389,10 +393,6 @@ func (DeploymentPathSelectorMetadataOwnerReferences) Controller() DeploymentPath
 	return DeploymentPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (DeploymentPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (DeploymentPathSelectorMetadataOwnerReferences) RequiresOwnerReference() DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -402,7 +402,7 @@ type DeploymentPathSelectorMetadataOwnerReferencesKind struct{}
 func (DeploymentPathSelectorMetadataOwnerReferencesKind) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -419,7 +419,7 @@ type DeploymentPathSelectorMetadataOwnerReferencesVersion struct{}
 func (DeploymentPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -436,7 +436,7 @@ type DeploymentPathSelectorMetadataOwnerReferencesName struct{}
 func (DeploymentPathSelectorMetadataOwnerReferencesName) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -453,7 +453,7 @@ type DeploymentPathSelectorMetadataOwnerReferencesRegion struct{}
 func (DeploymentPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -470,7 +470,7 @@ type DeploymentPathSelectorMetadataOwnerReferencesController struct{}
 func (DeploymentPathSelectorMetadataOwnerReferencesController) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -482,29 +482,12 @@ func (s DeploymentPathSelectorMetadataOwnerReferencesController) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
-type DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Deployment_FieldSubPath {
-	return &Deployment_FieldSubPath{
-		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Deployment_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
-}
-
-func (s DeploymentPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Deployment_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
-}
-
 type DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -521,7 +504,7 @@ type DeploymentPathSelectorMetadataShards struct{}
 func (DeploymentPathSelectorMetadataShards) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -544,7 +527,7 @@ type DeploymentMapPathSelectorMetadataShards struct {
 func (s DeploymentMapPathSelectorMetadataShards) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -561,15 +544,15 @@ type DeploymentPathSelectorMetadataSyncing struct{}
 func (DeploymentPathSelectorMetadataSyncing) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -586,7 +569,7 @@ type DeploymentPathSelectorMetadataSyncingOwningRegion struct{}
 func (DeploymentPathSelectorMetadataSyncingOwningRegion) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -603,7 +586,7 @@ type DeploymentPathSelectorMetadataSyncingRegions struct{}
 func (DeploymentPathSelectorMetadataSyncingRegions) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -624,15 +607,15 @@ type DeploymentPathSelectorMetadataLifecycle struct{}
 func (DeploymentPathSelectorMetadataLifecycle) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -649,15 +632,15 @@ type DeploymentPathSelectorMetadataLifecycleState struct{}
 func (DeploymentPathSelectorMetadataLifecycleState) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s DeploymentPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 
@@ -666,7 +649,7 @@ type DeploymentPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (DeploymentPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Deployment_FieldSubPath {
 	return &Deployment_FieldSubPath{
 		selector: Deployment_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -676,4 +659,67 @@ func (s DeploymentPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bo
 
 func (s DeploymentPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
+}
+
+type DeploymentPathSelectorMetadataServices struct{}
+
+func (DeploymentPathSelectorMetadataServices) FieldPath() *Deployment_FieldSubPath {
+	return &Deployment_FieldSubPath{
+		selector: Deployment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s DeploymentPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *Deployment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
+}
+
+func (s DeploymentPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Deployment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
+}
+
+func (DeploymentPathSelectorMetadataServices) OwningService() DeploymentPathSelectorMetadataServicesOwningService {
+	return DeploymentPathSelectorMetadataServicesOwningService{}
+}
+
+func (DeploymentPathSelectorMetadataServices) AllowedServices() DeploymentPathSelectorMetadataServicesAllowedServices {
+	return DeploymentPathSelectorMetadataServicesAllowedServices{}
+}
+
+type DeploymentPathSelectorMetadataServicesOwningService struct{}
+
+func (DeploymentPathSelectorMetadataServicesOwningService) FieldPath() *Deployment_FieldSubPath {
+	return &Deployment_FieldSubPath{
+		selector: Deployment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s DeploymentPathSelectorMetadataServicesOwningService) WithValue(value string) *Deployment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
+}
+
+func (s DeploymentPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *Deployment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
+}
+
+type DeploymentPathSelectorMetadataServicesAllowedServices struct{}
+
+func (DeploymentPathSelectorMetadataServicesAllowedServices) FieldPath() *Deployment_FieldSubPath {
+	return &Deployment_FieldSubPath{
+		selector: Deployment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s DeploymentPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *Deployment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
+}
+
+func (s DeploymentPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Deployment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
+}
+
+func (s DeploymentPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Deployment_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Deployment_FieldSubPathArrayItemValue)
 }

@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -135,7 +133,7 @@ func BuildLimitPool_FieldPath(fp gotenobject.RawFieldPath) (LimitPool_FieldPath,
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LimitPool_FieldSubPath{selector: LimitPool_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -273,7 +271,7 @@ func (fp *LimitPool_FieldTerminalPath) GetDefault() interface{} {
 	case LimitPool_FieldPathSelectorSource:
 		return (*Reference)(nil)
 	case LimitPool_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fp.selector))
 	}
@@ -340,7 +338,7 @@ func (fp *LimitPool_FieldTerminalPath) WithIValue(value interface{}) LimitPool_F
 	case LimitPool_FieldPathSelectorSource:
 		return &LimitPool_FieldTerminalPathValue{LimitPool_FieldTerminalPath: *fp, value: value.(*Reference)}
 	case LimitPool_FieldPathSelectorMetadata:
-		return &LimitPool_FieldTerminalPathValue{LimitPool_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &LimitPool_FieldTerminalPathValue{LimitPool_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fp.selector))
 	}
@@ -368,7 +366,7 @@ func (fp *LimitPool_FieldTerminalPath) WithIArrayOfValues(values interface{}) Li
 	case LimitPool_FieldPathSelectorSource:
 		return &LimitPool_FieldTerminalPathArrayOfValues{LimitPool_FieldTerminalPath: *fp, values: values.([]*Reference)}
 	case LimitPool_FieldPathSelectorMetadata:
-		return &LimitPool_FieldTerminalPathArrayOfValues{LimitPool_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &LimitPool_FieldTerminalPathArrayOfValues{LimitPool_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fp.selector))
 	}
@@ -400,8 +398,8 @@ var _ LimitPool_FieldPath = (*LimitPool_FieldSubPath)(nil)
 func (fps *LimitPool_FieldSubPath) Selector() LimitPool_FieldPathSelector {
 	return fps.selector
 }
-func (fps *LimitPool_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *LimitPool_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -569,8 +567,8 @@ func (fpv *LimitPool_FieldTerminalPathValue) AsSourceValue() (*Reference, bool) 
 	res, ok := fpv.value.(*Reference)
 	return res, ok
 }
-func (fpv *LimitPool_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *LimitPool_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -595,7 +593,7 @@ func (fpv *LimitPool_FieldTerminalPathValue) SetTo(target **LimitPool) {
 	case LimitPool_FieldPathSelectorSource:
 		(*target).Source = fpv.value.(*Reference)
 	case LimitPool_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fpv.selector))
 	}
@@ -733,8 +731,8 @@ type LimitPool_FieldSubPathValue struct {
 
 var _ LimitPool_FieldPathValue = (*LimitPool_FieldSubPathValue)(nil)
 
-func (fpvs *LimitPool_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *LimitPool_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -744,7 +742,7 @@ func (fpvs *LimitPool_FieldSubPathValue) SetTo(target **LimitPool) {
 	}
 	switch fpvs.Selector() {
 	case LimitPool_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fpvs.Selector()))
 	}
@@ -762,7 +760,7 @@ func (fpvs *LimitPool_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *LimitPool_FieldSubPathValue) CompareWith(source *LimitPool) (int, bool) {
 	switch fpvs.Selector() {
 	case LimitPool_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fpvs.Selector()))
 	}
@@ -845,8 +843,8 @@ type LimitPool_FieldSubPathArrayItemValue struct {
 func (fpaivs *LimitPool_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *LimitPool_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *LimitPool_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -854,7 +852,7 @@ func (fpaivs *LimitPool_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (n
 func (fpaivs *LimitPool_FieldSubPathArrayItemValue) ContainsValue(source *LimitPool) bool {
 	switch fpaivs.Selector() {
 	case LimitPool_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LimitPool: %d", fpaivs.Selector()))
 	}
@@ -924,7 +922,7 @@ func (fpaov *LimitPool_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 			values = append(values, v)
 		}
 	case LimitPool_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -958,8 +956,8 @@ func (fpaov *LimitPool_FieldTerminalPathArrayOfValues) AsSourceArrayOfValues() (
 	res, ok := fpaov.values.([]*Reference)
 	return res, ok
 }
-func (fpaov *LimitPool_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *LimitPool_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -973,7 +971,7 @@ var _ LimitPool_FieldPathArrayOfValues = (*LimitPool_FieldSubPathArrayOfValues)(
 func (fpsaov *LimitPool_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *LimitPool_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *LimitPool_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

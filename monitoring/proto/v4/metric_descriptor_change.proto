@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor;metric_descriptor";
+option java_multiple_files = false;
+option java_outer_classname = "MetricDescriptorChangeProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// MetricDescriptorChange is used by Watch notifications Responses to describe
+// change of single MetricDescriptor One of Added, Modified, Removed
+message MetricDescriptorChange {
+  // MetricDescriptor change
+  oneof change_type {
+    // Added is returned when watched document is added, either created or
+    // enters Query view
+    Added added = 1;
+
+    // Modified is returned when watched document is modified
+    Modified modified = 2;
+
+    // Current is returned in stateless watch when document enters query view or
+    // is modified within.
+    Current current = 4;
+
+    // Removed is returned when MetricDescriptor is deleted or leaves Query view
+    Removed removed = 3;
+  }
+
+  // MetricDescriptor has been added to query view
+  message Added {
+    MetricDescriptor metric_descriptor = 1;
+
+    // Integer describing index of added MetricDescriptor in resulting query
+    // view.
+    int32 view_index = 2;
+  }
+
+  // MetricDescriptor changed some of it's fields - contains either full
+  // document or masked change
+  message Modified {
+    // Name of modified MetricDescriptor
+    string name = 1;
+
+    // New version of MetricDescriptor or masked difference, depending on
+    // mask_changes instrumentation of issued [WatchMetricDescriptorRequest] or
+    // [WatchMetricDescriptorsRequest]
+    MetricDescriptor metric_descriptor = 2;
+
+    // Used when mask_changes is set, contains field paths of modified
+    // properties.
+    google.protobuf.FieldMask field_mask = 3;
+
+    // Previous view index specifies previous position of modified
+    // MetricDescriptor. When modification doesn't affect sorted order, value
+    // will remain identical to [view_index].
+    int32 previous_view_index = 4;
+
+    // Integer specifying MetricDescriptor new index in resulting query view.
+    int32 view_index = 5;
+  }
+
+  // MetricDescriptor has been added or modified in a query view. Version used
+  // for stateless watching
+  message Current { MetricDescriptor metric_descriptor = 1; }
+
+  // Removed is returned when MetricDescriptor is deleted or leaves Query view
+  message Removed {
+    string name = 1;
+
+    // Integer specifying removed MetricDescriptor index. Not populated in
+    // stateless watch type.
+    int32 view_index = 2;
+  }
+}

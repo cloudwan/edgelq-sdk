@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -25,6 +22,7 @@ import (
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
 )
@@ -39,8 +37,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -48,6 +44,7 @@ var (
 var (
 	_ = &api.Account{}
 	_ = &device.Device{}
+	_ = &project.Project{}
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 )

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ntt.applications.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map;config_map";
 option java_multiple_files = true;
@@ -26,7 +26,7 @@ message ConfigMap {
   // Display name of ConfigMap
   string display_name = 2;
 
-  ntt.types.Meta metadata = 3;
+  goten.types.Meta metadata = 3;
 
   // Data contains the configuration data.
   // Each key must consist of alphanumeric characters, '-', '_' or '.'.

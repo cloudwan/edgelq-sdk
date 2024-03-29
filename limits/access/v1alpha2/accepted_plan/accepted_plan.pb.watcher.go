@@ -15,9 +15,9 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	accepted_plan_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/accepted_plan"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
@@ -64,7 +64,7 @@ type WatcherConfig struct {
 }
 
 type WatcherFilterParams struct {
-	Parent *accepted_plan.ParentReference
+	Parent *accepted_plan.ParentName
 	Filter *accepted_plan.Filter
 }
 
@@ -79,7 +79,7 @@ func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
 	return p.Filter
 }
 
-func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
+func (p *WatcherFilterParams) GetIParentName() gotenresource.Name {
 	return p.Parent
 }
 
@@ -127,9 +127,11 @@ func (pw *Watcher) IEvents() <-chan gotenaccess.WatcherEvent {
 			for {
 				select {
 				case <-pw.watcherCtx.Done():
+					return
 				case evt := <-pw.outputEvtChan:
 					select {
 					case <-pw.watcherCtx.Done():
+						return
 					case pw.iOutputEvtChan <- &evt:
 					}
 				}
@@ -148,7 +150,7 @@ func (pw *Watcher) GetFilters() []*WatcherFilterParams {
 	for _, query := range pw.filters {
 		cQuery := &WatcherFilterParams{}
 		if query.Parent != nil {
-			cQuery.Parent = &accepted_plan.ParentReference{}
+			cQuery.Parent = &accepted_plan.ParentName{}
 			*cQuery.Parent = *query.Parent
 		}
 		if query.Filter != nil {
@@ -199,7 +201,9 @@ func (pw *Watcher) Run(ctx context.Context) error {
 
 	log.Debugf("running")
 	defer func() {
-		close(pw.outputEvtChan)
+		for _, state := range pw.queryWatcherStates {
+			state.cancel()
+		}
 		pw.watcherCtxCancel()
 	}()
 
@@ -686,13 +690,13 @@ func init() {
 		}
 		return NewWatcher(accepted_plan_client.NewAcceptedPlanServiceClient(cc), cfg, typedFilters...)
 	})
-	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(accepted_plan.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Reference) gotenaccess.WatcherFilterParams {
+	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(accepted_plan.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Name) gotenaccess.WatcherFilterParams {
 		params := &WatcherFilterParams{}
 		if filter != nil {
 			params.Filter = filter.(*accepted_plan.Filter)
 		}
 		if parent != nil {
-			params.Parent = parent.(*accepted_plan.ParentReference)
+			params.Parent = parent.(*accepted_plan.ParentName)
 		}
 		return params
 	})

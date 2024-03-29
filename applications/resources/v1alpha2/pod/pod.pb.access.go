@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 )
 
 // proto imports
@@ -20,8 +20,8 @@ import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -41,8 +41,8 @@ var (
 	_ = &common.PodSpec{}
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type PodAccess interface {

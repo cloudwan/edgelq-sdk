@@ -9,18 +9,18 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -29,18 +29,18 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 func (o *Project) GotenObjectExt() {}
@@ -298,7 +298,7 @@ func (o *Project) Merge(source *Project) {
 
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}

@@ -9,8 +9,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_image_profile;os_image_profile_client";
 option java_multiple_files = false;
@@ -20,7 +20,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 // Request message for method
 // [GetOsImageProfile][ntt.devices.v1alpha2.GetOsImageProfile]
 message GetOsImageProfileRequest {
-  // Reference of ntt.devices.v1alpha2.OsImageProfile
+  // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -29,7 +29,7 @@ message GetOsImageProfileRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -44,7 +44,7 @@ message BatchGetOsImageProfilesRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -94,7 +94,7 @@ message ListOsImageProfilesRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -130,7 +130,7 @@ message ListOsImageProfilesResponse {
 // Request message for method
 // [WatchOsImageProfile][ntt.devices.v1alpha2.WatchOsImageProfile]
 message WatchOsImageProfileRequest {
-  // Reference to ntt.devices.v1alpha2.OsImageProfile
+  // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -139,7 +139,7 @@ message WatchOsImageProfileRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchOsImageProfileResponse
@@ -150,9 +150,9 @@ message WatchOsImageProfileResponse { OsImageProfileChange change = 1; }
 message WatchOsImageProfilesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.devices.v1alpha2.OsImageProfile
+  // Parent name of ntt.devices.v1alpha2.OsImageProfile
   string parent = 1;
 
   // Requested page size. Server may return fewer OsImageProfiles than
@@ -196,7 +196,7 @@ message WatchOsImageProfilesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // OsImageProfile that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -275,7 +275,7 @@ message WatchOsImageProfilesResponse {
 // Request message for method
 // [CreateOsImageProfile][ntt.devices.v1alpha2.CreateOsImageProfile]
 message CreateOsImageProfileRequest {
-  // Parent reference of ntt.devices.v1alpha2.OsImageProfile
+  // Parent name of ntt.devices.v1alpha2.OsImageProfile
   string parent = 1;
 
   // OsImageProfile resource body
@@ -321,7 +321,7 @@ message UpdateOsImageProfileRequest {
 // Request message for method
 // [DeleteOsImageProfile][ntt.devices.v1alpha2.DeleteOsImageProfile]
 message DeleteOsImageProfileRequest {
-  // Reference of ntt.devices.v1alpha2.OsImageProfile
+  // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
 }
 

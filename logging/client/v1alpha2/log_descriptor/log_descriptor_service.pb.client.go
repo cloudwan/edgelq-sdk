@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &log_descriptor.LogDescriptor{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type LogDescriptorServiceClient interface {
 	WatchLogDescriptors(ctx context.Context, in *WatchLogDescriptorsRequest, opts ...grpc.CallOption) (WatchLogDescriptorsClientStream, error)
 	CreateLogDescriptor(ctx context.Context, in *CreateLogDescriptorRequest, opts ...grpc.CallOption) (*log_descriptor.LogDescriptor, error)
 	UpdateLogDescriptor(ctx context.Context, in *UpdateLogDescriptorRequest, opts ...grpc.CallOption) (*log_descriptor.LogDescriptor, error)
-	DeleteLogDescriptor(ctx context.Context, in *DeleteLogDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteLogDescriptor(ctx context.Context, in *DeleteLogDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateLogDescriptor(ctx context.Context, in *UpdateLogDescripto
 	return out, nil
 }
 
-func (c *client) DeleteLogDescriptor(ctx context.Context, in *DeleteLogDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteLogDescriptor(ctx context.Context, in *DeleteLogDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.logging.v1alpha2.LogDescriptorService/DeleteLogDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err

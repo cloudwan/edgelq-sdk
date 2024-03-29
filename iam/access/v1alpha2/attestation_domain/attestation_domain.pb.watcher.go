@@ -15,9 +15,9 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	attestation_domain_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/attestation_domain"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -64,7 +64,7 @@ type WatcherConfig struct {
 }
 
 type WatcherFilterParams struct {
-	Parent *attestation_domain.ParentReference
+	Parent *attestation_domain.ParentName
 	Filter *attestation_domain.Filter
 }
 
@@ -79,7 +79,7 @@ func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
 	return p.Filter
 }
 
-func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
+func (p *WatcherFilterParams) GetIParentName() gotenresource.Name {
 	return p.Parent
 }
 
@@ -127,9 +127,11 @@ func (pw *Watcher) IEvents() <-chan gotenaccess.WatcherEvent {
 			for {
 				select {
 				case <-pw.watcherCtx.Done():
+					return
 				case evt := <-pw.outputEvtChan:
 					select {
 					case <-pw.watcherCtx.Done():
+						return
 					case pw.iOutputEvtChan <- &evt:
 					}
 				}
@@ -148,7 +150,7 @@ func (pw *Watcher) GetFilters() []*WatcherFilterParams {
 	for _, query := range pw.filters {
 		cQuery := &WatcherFilterParams{}
 		if query.Parent != nil {
-			cQuery.Parent = &attestation_domain.ParentReference{}
+			cQuery.Parent = &attestation_domain.ParentName{}
 			*cQuery.Parent = *query.Parent
 		}
 		if query.Filter != nil {
@@ -199,7 +201,9 @@ func (pw *Watcher) Run(ctx context.Context) error {
 
 	log.Debugf("running")
 	defer func() {
-		close(pw.outputEvtChan)
+		for _, state := range pw.queryWatcherStates {
+			state.cancel()
+		}
 		pw.watcherCtxCancel()
 	}()
 
@@ -686,13 +690,13 @@ func init() {
 		}
 		return NewWatcher(attestation_domain_client.NewAttestationDomainServiceClient(cc), cfg, typedFilters...)
 	})
-	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(attestation_domain.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Reference) gotenaccess.WatcherFilterParams {
+	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(attestation_domain.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Name) gotenaccess.WatcherFilterParams {
 		params := &WatcherFilterParams{}
 		if filter != nil {
 			params.Filter = filter.(*attestation_domain.Filter)
 		}
 		if parent != nil {
-			params.Parent = parent.(*attestation_domain.ParentReference)
+			params.Parent = parent.(*attestation_domain.ParentName)
 		}
 		return params
 	})

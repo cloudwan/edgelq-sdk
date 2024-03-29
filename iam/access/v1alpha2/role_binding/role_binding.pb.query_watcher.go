@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	role_binding_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role_binding"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
@@ -37,7 +37,7 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *role_binding.ParentReference
+	Parent       *role_binding.ParentName
 	Filter       *role_binding.Filter
 	View         view.View
 	FieldMask    *role_binding.RoleBinding_FieldMask
@@ -287,6 +287,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(role_binding.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(role_binding.RoleBindingChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(role_binding.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{
@@ -308,7 +322,7 @@ func init() {
 			cfg.Cursor = params.Cursor.(*role_binding.PagerCursor)
 		}
 		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*role_binding.ParentReference)
+			cfg.Parent = params.Parent.(*role_binding.ParentName)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*role_binding.Filter)

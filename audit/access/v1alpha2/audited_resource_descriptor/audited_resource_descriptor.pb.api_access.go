@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	audited_resource_descriptor_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/audited_resource_descriptor"
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiAuditedResourceDescriptorAccess struct {
@@ -42,8 +44,11 @@ func NewApiAuditedResourceDescriptorAccess(client audited_resource_descriptor_cl
 }
 
 func (a *apiAuditedResourceDescriptorAccess) GetAuditedResourceDescriptor(ctx context.Context, query *audited_resource_descriptor.GetQuery) (*audited_resource_descriptor.AuditedResourceDescriptor, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &audited_resource_descriptor_client.GetAuditedResourceDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetAuditedResourceDescriptor(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiAuditedResourceDescriptorAccess) GetAuditedResourceDescriptor(ctx co
 
 func (a *apiAuditedResourceDescriptorAccess) BatchGetAuditedResourceDescriptors(ctx context.Context, refs []*audited_resource_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*audited_resource_descriptor.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &audited_resource_descriptor_client.BatchGetAuditedResourceDescriptorsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(audited_resource_descriptor.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiAuditedResourceDescriptorAccess) QueryAuditedResourceDescriptors(ctx
 }
 
 func (a *apiAuditedResourceDescriptorAccess) WatchAuditedResourceDescriptor(ctx context.Context, query *audited_resource_descriptor.GetQuery, observerCb func(*audited_resource_descriptor.AuditedResourceDescriptorChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &audited_resource_descriptor_client.WatchAuditedResourceDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchAuditedResourceDescriptor(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 			}
 		}
 	}
-
+	var resp *audited_resource_descriptor.AuditedResourceDescriptor
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &audited_resource_descriptor_client.UpdateAuditedResourceDescriptorRequest{
 			AuditedResourceDescriptor: res,
@@ -195,21 +211,22 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 				FieldMask:        mask.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateAuditedResourceDescriptor(ctx, updateRequest)
+		resp, err = a.client.UpdateAuditedResourceDescriptor(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &audited_resource_descriptor_client.CreateAuditedResourceDescriptorRequest{
 			AuditedResourceDescriptor: res,
 		}
-		_, err := a.client.CreateAuditedResourceDescriptor(ctx, createRequest)
+		resp, err = a.client.CreateAuditedResourceDescriptor(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiAuditedResourceDescriptorAccess) DeleteAuditedResourceDescriptor(ctx context.Context, ref *audited_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {

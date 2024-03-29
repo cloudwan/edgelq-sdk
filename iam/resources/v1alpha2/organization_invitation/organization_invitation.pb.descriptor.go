@@ -11,9 +11,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -24,14 +24,32 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
+	_ = &meta.Meta{}
 )
 
 var (
 	descriptor *Descriptor
 )
+
+func (r *OrganizationInvitation) GetRawName() gotenresource.Name {
+	return r.GetName()
+}
+
+func (r *OrganizationInvitation) GetResourceDescriptor() gotenresource.Descriptor {
+	return descriptor
+}
+
+func (r *OrganizationInvitation) EnsureMetadata() *meta.Meta {
+	if r.Metadata == nil {
+		r.Metadata = &meta.Meta{}
+	}
+	if r.Metadata.Lifecycle == nil {
+		r.Metadata.Lifecycle = &meta.Lifecycle{}
+	}
+	return r.Metadata
+}
 
 type Descriptor struct {
 	nameDescriptor *gotenresource.NameDescriptor
@@ -138,12 +156,26 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 	return d.nameDescriptor
 }
 
+func (d *Descriptor) CanBeParentless() bool {
+	return false
+}
+
+func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
+	return []gotenresource.Descriptor{
+		organization.GetDescriptor(),
+	}
+}
+
 func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseOrganizationInvitation_FieldPath(raw)
 }
 
 func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
+}
+
+func (d *Descriptor) SupportsMetadata() bool {
+	return true
 }
 
 func initOrganizationInvitationDescriptor() {

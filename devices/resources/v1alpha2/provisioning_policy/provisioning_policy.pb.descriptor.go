@@ -11,12 +11,12 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -27,17 +27,35 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_condition.Condition{}
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &meta.Meta{}
 )
 
 var (
 	descriptor *Descriptor
 )
+
+func (r *ProvisioningPolicy) GetRawName() gotenresource.Name {
+	return r.GetName()
+}
+
+func (r *ProvisioningPolicy) GetResourceDescriptor() gotenresource.Descriptor {
+	return descriptor
+}
+
+func (r *ProvisioningPolicy) EnsureMetadata() *meta.Meta {
+	if r.Metadata == nil {
+		r.Metadata = &meta.Meta{}
+	}
+	if r.Metadata.Lifecycle == nil {
+		r.Metadata.Lifecycle = &meta.Lifecycle{}
+	}
+	return r.Metadata
+}
 
 type Descriptor struct {
 	nameDescriptor *gotenresource.NameDescriptor
@@ -144,12 +162,26 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 	return d.nameDescriptor
 }
 
+func (d *Descriptor) CanBeParentless() bool {
+	return false
+}
+
+func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
+	return []gotenresource.Descriptor{
+		project.GetDescriptor(),
+	}
+}
+
 func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseProvisioningPolicy_FieldPath(raw)
 }
 
 func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
+}
+
+func (d *Descriptor) SupportsMetadata() bool {
+	return true
 }
 
 func initProvisioningPolicyDescriptor() {

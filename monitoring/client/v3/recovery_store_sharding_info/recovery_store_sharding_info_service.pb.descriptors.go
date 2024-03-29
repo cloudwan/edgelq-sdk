@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceN
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*recovery_store_sharding_info.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetRecoveryStoreShardingInfoRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetRecoveryStoreShardingInfoRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+}
+
+func (h *GetRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*recovery_store_sharding_info.RecoveryStoreShardingInfo) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractRes
 		return recovery_store_sharding_info.RecoveryStoreShardingInfoNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(recovery_store_sharding_info.RecoveryStoreShardingInfoNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return recovery_store_sharding_info.RecoveryStoreShardingInfoNameList(names)
 		}
 	}
 	return (recovery_store_sharding_info.RecoveryStoreShardingInfoNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractCol
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetRecoveryStoreShardingInfosRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetRecoveryStoreShardingInfosRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractCol
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetRecoveryStoreShardingInfosResponse) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetRecoveryStoreShardingInfosResponse) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetRecoveryStoreShardingInfos(); len(resources) > 0 {
+			return recovery_store_sharding_info.RecoveryStoreShardingInfoList(resources)
+		}
+	}
+	return (recovery_store_sharding_info.RecoveryStoreShardingInfoList)(nil)
 }
 
 func GetBatchGetRecoveryStoreShardingInfosDescriptor() *BatchGetRecoveryStoreShardingInfosDescriptor {
@@ -522,6 +611,30 @@ func (h *ListRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractCollect
 	return (*recovery_store_sharding_info.ParentName)(nil)
 }
 
+func (h *ListRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListRecoveryStoreShardingInfosRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListRecoveryStoreShardingInfosRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRecoveryStoreShardingInfosResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractCollect
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListRecoveryStoreShardingInfosResponse) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListRecoveryStoreShardingInfosResponse) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetRecoveryStoreShardingInfos(); len(resources) > 0 {
+			return recovery_store_sharding_info.RecoveryStoreShardingInfoList(resources)
+		}
+	}
+	return (recovery_store_sharding_info.RecoveryStoreShardingInfoList)(nil)
 }
 
 func GetListRecoveryStoreShardingInfosDescriptor() *ListRecoveryStoreShardingInfosDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourc
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*recovery_store_sharding_info.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractCollect
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchRecoveryStoreShardingInfoRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchRecoveryStoreShardingInfoRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractCollect
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfoResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchRecoveryStoreShardingInfoResponse) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Added_:
+				return tResChange.Added.GetRecoveryStoreShardingInfo()
+			case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Modified_:
+				return tResChange.Modified.GetRecoveryStoreShardingInfo()
+			case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Current_:
+				return tResChange.Current.GetRecoveryStoreShardingInfo()
+			}
+		}
+	}
+	return (*recovery_store_sharding_info.RecoveryStoreShardingInfo)(nil)
+}
+
+func (h *WatchRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfoResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchRecoveryStoreShardingInfoResponse) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractCollec
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*recovery_store_sharding_info.ParentName)(nil)
+}
+
+func (h *WatchRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchRecoveryStoreShardingInfosRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfosDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfosRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchRecoveryStoreShardingInfosRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractCollec
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchRecoveryStoreShardingInfosResponse) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRecoveryStoreShardingInfosDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchRecoveryStoreShardingInfosResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchRecoveryStoreShardingInfosResponse) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetRecoveryStoreShardingInfoChanges(); len(resChanges) > 0 {
+			list := make(recovery_store_sharding_info.RecoveryStoreShardingInfoList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Added_:
+					list = append(list, tResChange.Added.GetRecoveryStoreShardingInfo())
+				case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Modified_:
+					list = append(list, tResChange.Modified.GetRecoveryStoreShardingInfo())
+				case *recovery_store_sharding_info.RecoveryStoreShardingInfoChange_Current_:
+					list = append(list, tResChange.Current.GetRecoveryStoreShardingInfo())
+				}
+			}
+			return list
+		}
+	}
+	return (recovery_store_sharding_info.RecoveryStoreShardingInfoList)(nil)
 }
 
 func GetWatchRecoveryStoreShardingInfosDescriptor() *WatchRecoveryStoreShardingInfosDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractCollec
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*recovery_store_sharding_info.ParentName)(nil)
+}
+
+func (h *CreateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateRecoveryStoreShardingInfoRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetRecoveryStoreShardingInfo()
+	}
+	return (*recovery_store_sharding_info.RecoveryStoreShardingInfo)(nil)
+}
+
+func (h *CreateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateRecoveryStoreShardingInfoRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractCollec
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+}
+
+func (h *CreateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*recovery_store_sharding_info.RecoveryStoreShardingInfo) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractCollec
 	return nil
 }
 
+func (h *UpdateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateRecoveryStoreShardingInfoRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetRecoveryStoreShardingInfo()
+	}
+	return (*recovery_store_sharding_info.RecoveryStoreShardingInfo)(nil)
+}
+
+func (h *UpdateRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateRecoveryStoreShardingInfoRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractCollec
 	return nil
 }
 
+func (h *UpdateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+}
+
+func (h *UpdateRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*recovery_store_sharding_info.RecoveryStoreShardingInfo)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*recovery_store_sharding_info.RecoveryStoreShardingInfo) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateRecoveryStoreShardingInfoDescriptor() *UpdateRecoveryStoreShardingInfoDescriptor {
 	return updateRecoveryStoreShardingInfoDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteRecoveryStoreShardingInfoDescriptor) NewEmptyClientMsg() proto.Me
 }
 
 func (d *DeleteRecoveryStoreShardingInfoDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteRecoveryStoreShardingInfoDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResour
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*recovery_store_sharding_info.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractCollec
 	return nil
 }
 
-func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteRecoveryStoreShardingInfoRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *recovery_store_sharding_info.Name
+		OverrideExtractResourceBody(*DeleteRecoveryStoreShardingInfoRequest) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteRecoveryStoreShardingInfoDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteRecoveryStoreShardingInfoRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteRecoveryStoreShardingInfoRequest) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *recovery_store_sharding_info.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResour
 }
 
 func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*recovery_store_sharding_info.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*recovery_store_sharding_info.Name
 	})
 	if ok {
 		return recovery_store_sharding_info.RecoveryStoreShardingInfoNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResour
 }
 
 func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *recovery_store_sharding_info.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *recovery_store_sharding_info.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteRecoveryStoreShardingInfoDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*recovery_store_sharding_info.RecoveryStoreShardingInfo
+	})
+	if ok {
+		return recovery_store_sharding_info.RecoveryStoreShardingInfoList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

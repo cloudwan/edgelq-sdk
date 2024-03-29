@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group_member;group_member";
+option java_multiple_files = true;
+option java_outer_classname = "GroupMemberProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// GroupMember Resource
+message GroupMember {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/GroupMember"
+    pattern : "groups/{group}/groupMembers/{group_member}"
+    pattern : "projects/{project}/groups/{group}/groupMembers/{group_member}"
+    pattern : "organizations/{organization}/groups/{group}/groupMembers/"
+              "{group_member}"
+    pattern : "services/{service}/groups/{group}/groupMembers/{group_member}"
+  };
+
+  // Name of GroupMember
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 7;
+
+  // Format of the string is one of:
+  // - "allUsers" (anyone)
+  // - "allAuthenticatedUsers" (anyone logged in)
+  // - "user:admin.super@example.com"
+  // - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
+  // - "group:nice.group@example.com"
+  string member = 2;
+
+  // Internal field used by the IAM controller to know member ID (email) of a
+  // group this member belongs to.
+  string parent_member = 5;
+
+  // Internal field used the IAM controller to know common ancestors if this
+  // group member is actually a copy from another group, which can happen if
+  // group is member in another group. List contains member IDs of other groups.
+  // Last element is always pointing to the group which made an actual copy and
+  // is responsible for deletion when needed. If particular group member is
+  // copied multiple times (which also can happen if group is indirect member
+  // via multiple memberships) then this field contains list only of common
+  // ancestors. This field has purpose of indicating owner (last item in this
+  // list) and to break cycles (previous elements). List is always empty if this
+  // group member is DIRECT member of this group and controller cannot modify
+  // it.
+  repeated string min_ancestry_members = 6;
+}

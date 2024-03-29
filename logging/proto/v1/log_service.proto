@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "edgelq-sdk/logging/proto/v1/log.proto";
+import "edgelq-sdk/logging/proto/v1/log_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/client/v1/log;log_client";
+option java_multiple_files = false;
+option java_outer_classname = "LogServiceProto";
+option java_package = "com.ntt.logging.pb.v1";
+
+// Log service API for Logging
+service LogService {
+  option (google.api.default_host) = "logging.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // ListLogs
+  rpc ListLogs(ListLogsRequest) returns (ListLogsResponse) {
+    option (google.api.http) = {
+      get : "/v1/logs"
+    };
+  }
+
+  // CreateLogs
+  rpc CreateLogs(CreateLogsRequest) returns (CreateLogsResponse) {
+    option (google.api.http) = {
+      post : "/v1/logs"
+      body : "logs"
+    };
+  }
+}

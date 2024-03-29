@@ -13,16 +13,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -35,16 +35,16 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type OsImageProfile_FieldMask struct {
@@ -140,10 +140,10 @@ func (fieldMask *OsImageProfile_FieldMask) Subtract(other *OsImageProfile_FieldM
 	result := &OsImageProfile_FieldMask{}
 	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[OsImageProfile_FieldPathSelector]gotenobject.FieldMask{
-		OsImageProfile_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		OsImageProfile_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[OsImageProfile_FieldPathSelector]gotenobject.FieldMask{
-		OsImageProfile_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		OsImageProfile_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -160,7 +160,7 @@ func (fieldMask *OsImageProfile_FieldMask) Subtract(other *OsImageProfile_FieldM
 				if tp, ok := path.(*OsImageProfile_FieldTerminalPath); ok {
 					switch tp.selector {
 					case OsImageProfile_FieldPathSelectorMetadata:
-						mySubMasks[OsImageProfile_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[OsImageProfile_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*OsImageProfile_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -195,12 +195,12 @@ func (fieldMask *OsImageProfile_FieldMask) FilterInputFields() *OsImageProfile_F
 		switch path.Selector() {
 		case OsImageProfile_FieldPathSelectorMetadata:
 			if _, ok := path.(*OsImageProfile_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &OsImageProfile_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*OsImageProfile_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &OsImageProfile_FieldSubPath{selector: OsImageProfile_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -214,15 +214,15 @@ func (fieldMask *OsImageProfile_FieldMask) FilterInputFields() *OsImageProfile_F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *OsImageProfile_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *OsImageProfile_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *OsImageProfile_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *OsImageProfile_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -244,7 +244,7 @@ func (fieldMask OsImageProfile_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *OsImageProfile_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -263,7 +263,7 @@ func (fieldMask OsImageProfile_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *OsImageProfile_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -331,7 +331,7 @@ func (fieldMask *OsImageProfile_FieldMask) Project(source *OsImageProfile) *OsIm
 		return source
 	}
 	result := &OsImageProfile{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -367,7 +367,7 @@ func (fieldMask *OsImageProfile_FieldMask) Project(source *OsImageProfile) *OsIm
 		case *OsImageProfile_FieldSubPath:
 			switch tp.selector {
 			case OsImageProfile_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

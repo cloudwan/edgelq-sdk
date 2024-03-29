@@ -14,7 +14,6 @@ import (
 // proto imports
 import (
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &service.Service{}
-	_ = &empty.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,9 +52,6 @@ type ServiceServiceClient interface {
 	ListServices(ctx context.Context, in *ListServicesRequest, opts ...grpc.CallOption) (*ListServicesResponse, error)
 	WatchService(ctx context.Context, in *WatchServiceRequest, opts ...grpc.CallOption) (WatchServiceClientStream, error)
 	WatchServices(ctx context.Context, in *WatchServicesRequest, opts ...grpc.CallOption) (WatchServicesClientStream, error)
-	CreateService(ctx context.Context, in *CreateServiceRequest, opts ...grpc.CallOption) (*service.Service, error)
-	UpdateService(ctx context.Context, in *UpdateServiceRequest, opts ...grpc.CallOption) (*service.Service, error)
-	DeleteService(ctx context.Context, in *DeleteServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -166,31 +161,4 @@ func (x *watchServicesWatchServicesClient) Recv() (*WatchServicesResponse, error
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *client) CreateService(ctx context.Context, in *CreateServiceRequest, opts ...grpc.CallOption) (*service.Service, error) {
-	out := new(service.Service)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ServiceService/CreateService", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) UpdateService(ctx context.Context, in *UpdateServiceRequest, opts ...grpc.CallOption) (*service.Service, error) {
-	out := new(service.Service)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ServiceService/UpdateService", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) DeleteService(ctx context.Context, in *DeleteServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.ServiceService/DeleteService", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }

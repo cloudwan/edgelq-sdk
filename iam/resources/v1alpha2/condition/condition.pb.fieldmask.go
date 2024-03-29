@@ -13,17 +13,17 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	structpb "github.com/golang/protobuf/ptypes/struct"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // ensure the imports are used
@@ -36,17 +36,17 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
+	_ = &meta.Meta{}
 )
 
 type Condition_FieldMask struct {
@@ -137,11 +137,11 @@ func (fieldMask *Condition_FieldMask) Subtract(other *Condition_FieldMask) *Cond
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[Condition_FieldPathSelector]gotenobject.FieldMask{
 		Condition_FieldPathSelectorParameterDeclarations: &Condition_ParameterDeclaration_FieldMask{},
-		Condition_FieldPathSelectorMetadata:              &ntt_meta.Meta_FieldMask{},
+		Condition_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Condition_FieldPathSelector]gotenobject.FieldMask{
 		Condition_FieldPathSelectorParameterDeclarations: &Condition_ParameterDeclaration_FieldMask{},
-		Condition_FieldPathSelectorMetadata:              &ntt_meta.Meta_FieldMask{},
+		Condition_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -160,7 +160,7 @@ func (fieldMask *Condition_FieldMask) Subtract(other *Condition_FieldMask) *Cond
 					case Condition_FieldPathSelectorParameterDeclarations:
 						mySubMasks[Condition_FieldPathSelectorParameterDeclarations] = FullCondition_ParameterDeclaration_FieldMask()
 					case Condition_FieldPathSelectorMetadata:
-						mySubMasks[Condition_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Condition_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Condition_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -195,12 +195,12 @@ func (fieldMask *Condition_FieldMask) FilterInputFields() *Condition_FieldMask {
 		switch path.Selector() {
 		case Condition_FieldPathSelectorMetadata:
 			if _, ok := path.(*Condition_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Condition_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Condition_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Condition_FieldSubPath{selector: Condition_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -214,15 +214,15 @@ func (fieldMask *Condition_FieldMask) FilterInputFields() *Condition_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Condition_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Condition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Condition_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Condition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -244,7 +244,7 @@ func (fieldMask Condition_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Condition_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -263,7 +263,7 @@ func (fieldMask Condition_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Condition_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -333,7 +333,7 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 	result := &Condition{}
 	parameterDeclarationsMask := &Condition_ParameterDeclaration_FieldMask{}
 	wholeParameterDeclarationsAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -360,7 +360,7 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 			case Condition_FieldPathSelectorParameterDeclarations:
 				parameterDeclarationsMask.AppendPath(tp.subPath.(ConditionParameterDeclaration_FieldPath))
 			case Condition_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}
@@ -499,15 +499,15 @@ func (fieldMask *Condition_ParameterDeclaration_FieldMask) FilterInputFields() *
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Condition_ParameterDeclaration_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Condition_ParameterDeclaration_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Condition_ParameterDeclaration_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Condition_ParameterDeclaration_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -529,7 +529,7 @@ func (fieldMask Condition_ParameterDeclaration_FieldMask) Marshal() ([]byte, err
 }
 
 func (fieldMask *Condition_ParameterDeclaration_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -548,7 +548,7 @@ func (fieldMask Condition_ParameterDeclaration_FieldMask) MarshalJSON() ([]byte,
 }
 
 func (fieldMask *Condition_ParameterDeclaration_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -756,15 +756,15 @@ func (fieldMask *ConditionBinding_FieldMask) FilterInputFields() *ConditionBindi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ConditionBinding_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ConditionBinding_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ConditionBinding_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ConditionBinding_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -786,7 +786,7 @@ func (fieldMask ConditionBinding_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ConditionBinding_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -805,7 +805,7 @@ func (fieldMask ConditionBinding_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ConditionBinding_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

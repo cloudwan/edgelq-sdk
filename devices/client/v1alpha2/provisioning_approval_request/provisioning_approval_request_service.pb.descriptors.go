@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourc
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollect
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetProvisioningApprovalRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetProvisioningApprovalRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollect
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+}
+
+func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractR
 		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return provisioning_approval_request.ProvisioningApprovalRequestNameList(names)
 		}
 	}
 	return (provisioning_approval_request.ProvisioningApprovalRequestNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractC
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProvisioningApprovalRequestsRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProvisioningApprovalRequestsRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractC
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProvisioningApprovalRequestsResponse) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProvisioningApprovalRequestsResponse) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningApprovalRequests(); len(resources) > 0 {
+			return provisioning_approval_request.ProvisioningApprovalRequestList(resources)
+		}
+	}
+	return (provisioning_approval_request.ProvisioningApprovalRequestList)(nil)
 }
 
 func GetBatchGetProvisioningApprovalRequestsDescriptor() *BatchGetProvisioningApprovalRequestsDescriptor {
@@ -523,6 +612,30 @@ func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractColle
 	return (*provisioning_approval_request.ParentName)(nil)
 }
 
+func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProvisioningApprovalRequestsRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProvisioningApprovalRequestsRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractColle
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProvisioningApprovalRequestsResponse) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProvisioningApprovalRequestsResponse) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningApprovalRequests(); len(resources) > 0 {
+			return provisioning_approval_request.ProvisioningApprovalRequestList(resources)
+		}
+	}
+	return (provisioning_approval_request.ProvisioningApprovalRequestList)(nil)
 }
 
 func GetListProvisioningApprovalRequestsDescriptor() *ListProvisioningApprovalRequestsDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResou
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractColle
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningApprovalRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningApprovalRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractColle
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningApprovalRequestResponse) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
+				return tResChange.Added.GetProvisioningApprovalRequest()
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
+				return tResChange.Modified.GetProvisioningApprovalRequest()
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
+				return tResChange.Current.GetProvisioningApprovalRequest()
+			}
+		}
+	}
+	return (*provisioning_approval_request.ProvisioningApprovalRequest)(nil)
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningApprovalRequestResponse) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractColl
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*provisioning_approval_request.ParentName)(nil)
+}
+
+func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningApprovalRequestsRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningApprovalRequestsRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractColl
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProvisioningApprovalRequestsResponse) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProvisioningApprovalRequestsResponse) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetProvisioningApprovalRequestChanges(); len(resChanges) > 0 {
+			list := make(provisioning_approval_request.ProvisioningApprovalRequestList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
+					list = append(list, tResChange.Added.GetProvisioningApprovalRequest())
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
+					list = append(list, tResChange.Modified.GetProvisioningApprovalRequest())
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
+					list = append(list, tResChange.Current.GetProvisioningApprovalRequest())
+				}
+			}
+			return list
+		}
+	}
+	return (provisioning_approval_request.ProvisioningApprovalRequestList)(nil)
 }
 
 func GetWatchProvisioningApprovalRequestsDescriptor() *WatchProvisioningApprovalRequestsDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractColl
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*provisioning_approval_request.ParentName)(nil)
+}
+
+func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateProvisioningApprovalRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProvisioningApprovalRequest()
+	}
+	return (*provisioning_approval_request.ProvisioningApprovalRequest)(nil)
+}
+
+func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateProvisioningApprovalRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractColl
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+}
+
+func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractColl
 	return nil
 }
 
+func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateProvisioningApprovalRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProvisioningApprovalRequest()
+	}
+	return (*provisioning_approval_request.ProvisioningApprovalRequest)(nil)
+}
+
+func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateProvisioningApprovalRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractColl
 	return nil
 }
 
+func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+}
+
+func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateProvisioningApprovalRequestDescriptor() *UpdateProvisioningApprovalRequestDescriptor {
 	return updateProvisioningApprovalRequestDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeleteProvisioningApprovalRequestDescriptor) NewEmptyClientMsg() proto.
 }
 
 func (d *DeleteProvisioningApprovalRequestDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteProvisioningApprovalRequestDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractReso
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractColl
 	return nil
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *provisioning_approval_request.Name
+		OverrideExtractResourceBody(*DeleteProvisioningApprovalRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteProvisioningApprovalRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *provisioning_approval_request.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractReso
 }
 
 func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*provisioning_approval_request.Name
 	})
 	if ok {
 		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractReso
 }
 
 func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *provisioning_approval_request.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1552,8 +1952,8 @@ func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractReso
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
@@ -1579,6 +1979,30 @@ func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractColl
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionDeviceForApprovedRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionDeviceForApprovedRequestRequest) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionDeviceForApprovedRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionDeviceForApprovedRequestRequest) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1615,6 +2039,30 @@ func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractColl
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ProvisionDeviceForApprovedRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ProvisionDeviceForApprovedRequestResponse) *provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ProvisionDeviceForApprovedRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ProvisionDeviceForApprovedRequestResponse) []*provisioning_approval_request.ProvisioningApprovalRequest
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

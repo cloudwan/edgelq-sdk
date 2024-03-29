@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device_type"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiDeviceTypeAccess struct {
@@ -42,8 +44,11 @@ func NewApiDeviceTypeAccess(client device_type_client.DeviceTypeServiceClient) d
 }
 
 func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_type.GetQuery) (*device_type.DeviceType, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &device_type_client.GetDeviceTypeRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetDeviceType(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_t
 
 func (a *apiDeviceTypeAccess) BatchGetDeviceTypes(ctx context.Context, refs []*device_type.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*device_type.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &device_type_client.BatchGetDeviceTypesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(device_type.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiDeviceTypeAccess) QueryDeviceTypes(ctx context.Context, query *devic
 }
 
 func (a *apiDeviceTypeAccess) WatchDeviceType(ctx context.Context, query *device_type.GetQuery, observerCb func(*device_type.DeviceTypeChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &device_type_client.WatchDeviceTypeRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchDeviceType(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiDeviceTypeAccess) SaveDeviceType(ctx context.Context, res *device_ty
 			}
 		}
 	}
-
+	var resp *device_type.DeviceType
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &device_type_client.UpdateDeviceTypeRequest{
 			DeviceType: res,
@@ -195,26 +211,30 @@ func (a *apiDeviceTypeAccess) SaveDeviceType(ctx context.Context, res *device_ty
 				FieldMask:        mask.(*device_type.DeviceType_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateDeviceType(ctx, updateRequest)
+		resp, err = a.client.UpdateDeviceType(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &device_type_client.CreateDeviceTypeRequest{
 			DeviceType: res,
 		}
-		_, err := a.client.CreateDeviceType(ctx, createRequest)
+		resp, err = a.client.CreateDeviceType(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiDeviceTypeAccess) DeleteDeviceType(ctx context.Context, ref *device_type.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &device_type_client.DeleteDeviceTypeRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteDeviceType(ctx, request)
 	return err

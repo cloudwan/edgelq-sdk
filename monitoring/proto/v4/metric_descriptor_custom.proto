@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor.proto";
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor_change.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/metric_descriptor;metric_descriptor_client";
+option java_multiple_files = false;
+option java_outer_classname = "MetricDescriptorCustomProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Request message for method
+// [GetMetricDescriptor][ntt.monitoring.v4.GetMetricDescriptor]
+message GetMetricDescriptorRequest {
+  // Name of ntt.monitoring.v4.MetricDescriptor
+  string name = 3;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 4;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 5;
+}
+
+// Request message for method
+// [CreateMetricDescriptor][ntt.monitoring.v4.CreateMetricDescriptor]
+message CreateMetricDescriptorRequest {
+  // Parent name of ntt.monitoring.v4.MetricDescriptor
+  string parent = 3;
+
+  // MetricDescriptor resource body
+  MetricDescriptor metric_descriptor = 2;
+}
+
+// Request message for method
+// [UpdateMetricDescriptor][ntt.monitoring.v4.UpdateMetricDescriptor]
+message UpdateMetricDescriptorRequest {
+  // MetricDescriptor resource body
+  MetricDescriptor metric_descriptor = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // If set to true, and the resource is not found,
+  // a new resource will be created.  In this situation,
+  // 'field_mask' is ignored.
+  //
+  // https://google.aip.dev/134#create-or-update
+  bool allow_missing = 5;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    MetricDescriptor conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+}
+
+// Request message for method
+// [DeleteMetricDescriptor][ntt.monitoring.v4.DeleteMetricDescriptor]
+message DeleteMetricDescriptorRequest {
+  // Name of ntt.monitoring.v4.MetricDescriptor
+  string name = 3;
+}
+
+// Request message for method
+// [ListMetricDescriptors][ntt.monitoring.v4.ListMetricDescriptors]
+message ListMetricDescriptorsRequest {
+  // Parent name of ntt.monitoring.v4.MetricDescriptor
+  string parent = 5;
+
+  // Requested page size. Server may return fewer MetricDescriptors than
+  // requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 3;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListMetricDescriptorsResponse.next_page_token][ntt.monitoring.v4.ListMetricDescriptorsResponse.next_page_token]
+  string page_token = 4;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 666;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
+}
+
+// Request message for method
+// [ListMetricDescriptors][ntt.monitoring.v4.ListMetricDescriptors]
+message ListMetricDescriptorsResponse {
+  // The list of MetricDescriptors
+  repeated MetricDescriptor metric_descriptors = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListMetricDescriptorsRequest.page_token][ntt.monitoring.v4.ListMetricDescriptorsRequest.page_token]
+  string prev_page_token = 666;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListMetricDescriptorsRequest.page_token][ntt.monitoring.v4.ListMetricDescriptorsRequest.page_token]
+  string next_page_token = 2;
+
+  // Current offset from the first page or 0 if no page tokens were given,
+  // paging info was not requested or there was an error while trying to get
+  // it). Page index can be computed from offset and limit provided in a
+  // request.
+  int32 current_offset = 5;
+
+  // Number of total MetricDescriptors across all pages or 0, if there are no
+  // items, paging info was not requested or there was an error while trying to
+  // get it.
+  int32 total_results_count = 6;
+}

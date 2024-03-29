@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ProjectServiceClient interface {
 	WatchProjects(ctx context.Context, in *WatchProjectsRequest, opts ...grpc.CallOption) (WatchProjectsClientStream, error)
 	CreateProject(ctx context.Context, in *CreateProjectRequest, opts ...grpc.CallOption) (*project.Project, error)
 	UpdateProject(ctx context.Context, in *UpdateProjectRequest, opts ...grpc.CallOption) (*project.Project, error)
-	DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateProject(ctx context.Context, in *UpdateProjectRequest, op
 	return out, nil
 }
 
-func (c *client) DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1alpha2.ProjectService/DeleteProject", in, out, opts...)
 	if err != nil {
 		return nil, err

@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device_type"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
@@ -284,6 +284,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(device_type.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(device_type.DeviceTypeChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(device_type.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{

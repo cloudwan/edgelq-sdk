@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -17,10 +17,10 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -29,7 +29,7 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -37,10 +37,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 func (o *MetricDescriptor) GotenObjectExt() {}
@@ -197,7 +197,7 @@ func (o *MetricDescriptor) Clone() *MetricDescriptor {
 	for i, sourceValue := range o.ResourceTypes {
 		result.ResourceTypes[i] = sourceValue
 	}
-	result.Labels = make([]*monitoring_common.LabelDescriptor, len(o.Labels))
+	result.Labels = make([]*common.LabelDescriptor, len(o.Labels))
 	for i, sourceValue := range o.Labels {
 		result.Labels[i] = sourceValue.Clone()
 	}
@@ -208,7 +208,7 @@ func (o *MetricDescriptor) Clone() *MetricDescriptor {
 	result.DisplayName = o.DisplayName
 	result.MetricDescriptorMetadata = o.MetricDescriptorMetadata.Clone()
 	result.DistributionBucketOptions = o.DistributionBucketOptions.Clone()
-	result.PromotedLabelKeySets = make([]*monitoring_common.LabelKeySet, len(o.PromotedLabelKeySets))
+	result.PromotedLabelKeySets = make([]*common.LabelKeySet, len(o.PromotedLabelKeySets))
 	for i, sourceValue := range o.PromotedLabelKeySets {
 		result.PromotedLabelKeySets[i] = sourceValue.Clone()
 	}
@@ -224,7 +224,7 @@ func (o *MetricDescriptor) CloneRaw() gotenobject.GotenObjectExt {
 func (o *MetricDescriptor) Merge(source *MetricDescriptor) {
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -265,9 +265,9 @@ func (o *MetricDescriptor) Merge(source *MetricDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *monitoring_common.LabelDescriptor
+			var newDstElement *common.LabelDescriptor
 			if sourceValue != nil {
-				newDstElement = new(monitoring_common.LabelDescriptor)
+				newDstElement = new(common.LabelDescriptor)
 				newDstElement.Merge(sourceValue)
 			}
 			o.Labels = append(o.Labels, newDstElement)
@@ -287,7 +287,7 @@ func (o *MetricDescriptor) Merge(source *MetricDescriptor) {
 	}
 	if source.GetDistributionBucketOptions() != nil {
 		if o.DistributionBucketOptions == nil {
-			o.DistributionBucketOptions = new(monitoring_common.Distribution_BucketOptions)
+			o.DistributionBucketOptions = new(common.Distribution_BucketOptions)
 		}
 		o.DistributionBucketOptions.Merge(source.GetDistributionBucketOptions())
 	}
@@ -300,9 +300,9 @@ func (o *MetricDescriptor) Merge(source *MetricDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *monitoring_common.LabelKeySet
+			var newDstElement *common.LabelKeySet
 			if sourceValue != nil {
-				newDstElement = new(monitoring_common.LabelKeySet)
+				newDstElement = new(common.LabelKeySet)
 				newDstElement.Merge(sourceValue)
 			}
 			o.PromotedLabelKeySets = append(o.PromotedLabelKeySets, newDstElement)

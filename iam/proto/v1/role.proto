@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/condition.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role;role";
+option java_multiple_files = true;
+option java_outer_classname = "RoleProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Role Resource
+message Role {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Role"
+    pattern : "services/{service}/roles/{role}"
+  };
+
+  // Name of Role
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 4;
+
+  // Display Name
+  string display_name = 2;
+
+  // List of scope params, they are used to evaluate object prefixes in
+  // grants and values in their field conditions, if any.
+  repeated ScopeParamType scope_params = 3;
+
+  // List of permissions granted per each object prefix.
+  repeated Grant grants = 5;
+
+  // List of owned objects templates - during binding of a role, each owned
+  // object specified in this role is computed against scope params from role
+  // binding to evaluate final owned objects. For example, if owned_objects in
+  // Role contains value "regions/{region}/devices/{device}, and RoleBinding
+  // specifies region=useast and device=d1, then final owned_object will be
+  // regions/useast/devices/d1. Ownership also would include any potential child
+  // resources of this device. Note that RoleBinding scope (project,
+  // organization, service) will still be prepended before each owned object to
+  // form fully qualified name of the owned resource. Owned objects may contain
+  // wildcards: '-'. As a special case, if owned objects contain string with
+  // only single character: '-', then it means member of the role binding is
+  // considered as full owner of the scope.
+  // This field cannot be modified after role creation.
+  repeated string owned_objects = 6;
+
+  // List of services used by this role. It is being detected by the usage of
+  // permissions in grants - or if it has owned objects, it contains all
+  // services used by parent service.
+  repeated string services = 7;
+
+  // Internal field used by controller to ensure role bindings are in sync with
+  // role updates.
+  int64 rb_spec_generation = 8;
+
+  message ScopeParamType {
+    string name = 1;
+
+    Type type = 2;
+
+    enum Type {
+      UNDEFINED = 0;
+
+      STRING = 1;
+
+      ARRAY_OF_STRINGS = 2;
+    }
+  }
+
+  message Grant {
+    // Optional prefix that is APPENDED to the scope inherited from RoleBinding
+    // (project, organization, service). If not specified, then scope is
+    // equal to the one from RoleBinding.
+    string sub_scope = 1;
+
+    // List of applicable permissions for this grant. Not relevant if is_owner
+    // is true.
+    repeated string permissions = 2;
+
+    // List of resource field conditions. Values for conditions are extracted
+    // from assigned RoleBinding (scope params).
+    // Resource extraction is following:
+    // - If request has resource body, then it is used.
+    // - If request has resource name, then resource is extracted from database
+    //   and its fields are used.
+    // - If request has filter object applicable for collection requests (like
+    // list,
+    //   collection watch...), then service uses resource field paths and values
+    //   extracted from filter conditions.
+    repeated FieldCondition resource_field_conditions = 3;
+
+    // List of request field conditions. Values for conditions are extracted
+    // from assigned RoleBinding (scope params).
+    repeated FieldCondition request_field_conditions = 4;
+
+    // List of executable conditions to be applied in order to validate this
+    // grant. Note that executable conditions are also specified in RoleBinding,
+    // as often it is not possible to define all params in the Role itself,
+    // before binding. Final executable conditions, in RoleBinding context, are
+    // computed in the following way:
+    // - Executable conditions from RoleBinding and Role are matched by
+    //   condition reference.
+    // - Params are merged FROM condition in Role into condition in RoleBinding.
+    //   It is expected that Role defined "common" params and RoleBinding
+    //   defines remaining ones.
+    repeated ExecutableCondition executable_conditions = 5;
+
+    message FieldCondition {
+      string path = 1;
+
+      string value = 2;
+    }
+  }
+}
+
+message ScopeParam {
+  string name = 1;
+
+  oneof value {
+    StringValue string = 2;
+
+    ArrayOfStringsValue strings = 3;
+  }
+
+  message StringValue { string value = 1; }
+
+  message ArrayOfStringsValue { repeated string values = 1; }
+}

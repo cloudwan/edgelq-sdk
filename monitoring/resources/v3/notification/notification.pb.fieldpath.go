@@ -17,20 +17,19 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -47,20 +46,19 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alert.Alert{}
 	_ = &alerting_condition.AlertingCondition{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -126,7 +124,7 @@ func BuildNotification_FieldPath(fp gotenobject.RawFieldPath) (Notification_Fiel
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Notification_FieldSubPath{selector: Notification_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -246,7 +244,7 @@ func (fp *Notification_FieldTerminalPath) GetDefault() interface{} {
 	case Notification_FieldPathSelectorName:
 		return (*Name)(nil)
 	case Notification_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Notification_FieldPathSelectorAlertingPolicy:
 		return (*alerting_policy.Name)(nil)
 	case Notification_FieldPathSelectorAlerts:
@@ -297,7 +295,7 @@ func (fp *Notification_FieldTerminalPath) WithIValue(value interface{}) Notifica
 	case Notification_FieldPathSelectorName:
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Notification_FieldPathSelectorMetadata:
-		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Notification_FieldPathSelectorAlertingPolicy:
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*alerting_policy.Name)}
 	case Notification_FieldPathSelectorAlerts:
@@ -319,7 +317,7 @@ func (fp *Notification_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Notification_FieldPathSelectorName:
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Notification_FieldPathSelectorMetadata:
-		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Notification_FieldPathSelectorAlertingPolicy:
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*alerting_policy.Name)}
 	case Notification_FieldPathSelectorAlerts:
@@ -359,8 +357,8 @@ var _ Notification_FieldPath = (*Notification_FieldSubPath)(nil)
 func (fps *Notification_FieldSubPath) Selector() Notification_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Notification_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Notification_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Notification_FieldSubPath) AsStateSubPath() (NotificationState_FieldPath, bool) {
@@ -517,8 +515,8 @@ func (fpv *Notification_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *Notification_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Notification_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Notification_FieldTerminalPathValue) AsAlertingPolicyValue() (*alerting_policy.Name, bool) {
@@ -543,7 +541,7 @@ func (fpv *Notification_FieldTerminalPathValue) SetTo(target **Notification) {
 	case Notification_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case Notification_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Notification_FieldPathSelectorAlertingPolicy:
 		(*target).AlertingPolicy = fpv.value.(*alerting_policy.Name)
 	case Notification_FieldPathSelectorAlerts:
@@ -623,8 +621,8 @@ type Notification_FieldSubPathValue struct {
 
 var _ Notification_FieldPathValue = (*Notification_FieldSubPathValue)(nil)
 
-func (fpvs *Notification_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Notification_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Notification_FieldSubPathValue) AsStatePathValue() (NotificationState_FieldPathValue, bool) {
@@ -638,7 +636,7 @@ func (fpvs *Notification_FieldSubPathValue) SetTo(target **Notification) {
 	}
 	switch fpvs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Notification_FieldPathSelectorState:
 		fpvs.subPathValue.(NotificationState_FieldPathValue).SetTo(&(*target).State)
 	default:
@@ -658,7 +656,7 @@ func (fpvs *Notification_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Notification_FieldSubPathValue) CompareWith(source *Notification) (int, bool) {
 	switch fpvs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Notification_FieldPathSelectorState:
 		return fpvs.subPathValue.(NotificationState_FieldPathValue).CompareWith(source.GetState())
 	default:
@@ -747,8 +745,8 @@ type Notification_FieldSubPathArrayItemValue struct {
 func (fpaivs *Notification_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Notification_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Notification_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Notification_FieldSubPathArrayItemValue) AsStatePathItemValue() (NotificationState_FieldPathArrayItemValue, bool) {
@@ -760,7 +758,7 @@ func (fpaivs *Notification_FieldSubPathArrayItemValue) AsStatePathItemValue() (N
 func (fpaivs *Notification_FieldSubPathArrayItemValue) ContainsValue(source *Notification) bool {
 	switch fpaivs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Notification_FieldPathSelectorState:
 		return fpaivs.subPathItemValue.(NotificationState_FieldPathArrayItemValue).ContainsValue(source.GetState())
 	default:
@@ -808,7 +806,7 @@ func (fpaov *Notification_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case Notification_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Notification_FieldPathSelectorAlertingPolicy:
@@ -830,8 +828,8 @@ func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() 
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsAlertingPolicyArrayOfValues() ([]*alerting_policy.Name, bool) {
@@ -857,8 +855,8 @@ var _ Notification_FieldPathArrayOfValues = (*Notification_FieldSubPathArrayOfVa
 func (fpsaov *Notification_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Notification_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Notification_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Notification_FieldSubPathArrayOfValues) AsStatePathArrayOfValues() (NotificationState_FieldPathArrayOfValues, bool) {
@@ -945,7 +943,7 @@ func BuildNotificationState_FieldPath(fp gotenobject.RawFieldPath) (Notification
 				return &NotificationState_FieldSubPath{selector: NotificationState_FieldPathSelectorNotificationState, subPath: subpath}, nil
 			}
 		case "alerts_lifetime", "alertsLifetime", "alerts-lifetime":
-			if subpath, err := monitoring_common.BuildTimeRange_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildTimeRange_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &NotificationState_FieldSubPath{selector: NotificationState_FieldPathSelectorAlertsLifetime, subPath: subpath}, nil
@@ -1073,7 +1071,7 @@ func (fp *NotificationState_FieldTerminalPath) GetDefault() interface{} {
 	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return false
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		return (*monitoring_common.TimeRange)(nil)
+		return (*common.TimeRange)(nil)
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return ([]*Notification_State_NotificationState)(nil)
 	case NotificationState_FieldPathSelectorLifecycleCompleted:
@@ -1133,7 +1131,7 @@ func (fp *NotificationState_FieldTerminalPath) WithIValue(value interface{}) Not
 	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(bool)}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(*monitoring_common.TimeRange)}
+		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(*common.TimeRange)}
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.([]*Notification_State_NotificationState)}
 	case NotificationState_FieldPathSelectorLifecycleCompleted:
@@ -1159,7 +1157,7 @@ func (fp *NotificationState_FieldTerminalPath) WithIArrayOfValues(values interfa
 	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TimeRange)}
+		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]*common.TimeRange)}
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([][]*Notification_State_NotificationState)}
 	case NotificationState_FieldPathSelectorLifecycleCompleted:
@@ -1203,8 +1201,8 @@ func (fps *NotificationState_FieldSubPath) AsNotificationStateSubPath() (Notific
 	res, ok := fps.subPath.(NotificationStateNotificationState_FieldPath)
 	return res, ok
 }
-func (fps *NotificationState_FieldSubPath) AsAlertsLifetimeSubPath() (monitoring_common.TimeRange_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.TimeRange_FieldPath)
+func (fps *NotificationState_FieldSubPath) AsAlertsLifetimeSubPath() (common.TimeRange_FieldPath, bool) {
+	res, ok := fps.subPath.(common.TimeRange_FieldPath)
 	return res, ok
 }
 func (fps *NotificationState_FieldSubPath) AsResolutionNotificationStateSubPath() (NotificationStateNotificationState_FieldPath, bool) {
@@ -1390,8 +1388,8 @@ func (fpv *NotificationState_FieldTerminalPathValue) AsResolutionNotifyAttemptsD
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *NotificationState_FieldTerminalPathValue) AsAlertsLifetimeValue() (*monitoring_common.TimeRange, bool) {
-	res, ok := fpv.value.(*monitoring_common.TimeRange)
+func (fpv *NotificationState_FieldTerminalPathValue) AsAlertsLifetimeValue() (*common.TimeRange, bool) {
+	res, ok := fpv.value.(*common.TimeRange)
 	return res, ok
 }
 func (fpv *NotificationState_FieldTerminalPathValue) AsResolutionNotificationStateValue() ([]*Notification_State_NotificationState, bool) {
@@ -1418,7 +1416,7 @@ func (fpv *NotificationState_FieldTerminalPathValue) SetTo(target **Notification
 	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		(*target).ResolutionNotifyAttemptsDone = fpv.value.(bool)
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		(*target).AlertsLifetime = fpv.value.(*monitoring_common.TimeRange)
+		(*target).AlertsLifetime = fpv.value.(*common.TimeRange)
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		(*target).ResolutionNotificationState = fpv.value.([]*Notification_State_NotificationState)
 	case NotificationState_FieldPathSelectorLifecycleCompleted:
@@ -1502,8 +1500,8 @@ func (fpvs *NotificationState_FieldSubPathValue) AsNotificationStatePathValue() 
 	res, ok := fpvs.subPathValue.(NotificationStateNotificationState_FieldPathValue)
 	return res, ok
 }
-func (fpvs *NotificationState_FieldSubPathValue) AsAlertsLifetimePathValue() (monitoring_common.TimeRange_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue)
+func (fpvs *NotificationState_FieldSubPathValue) AsAlertsLifetimePathValue() (common.TimeRange_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.TimeRange_FieldPathValue)
 	return res, ok
 }
 func (fpvs *NotificationState_FieldSubPathValue) AsResolutionNotificationStatePathValue() (NotificationStateNotificationState_FieldPathValue, bool) {
@@ -1519,7 +1517,7 @@ func (fpvs *NotificationState_FieldSubPathValue) SetTo(target **Notification_Sta
 	case NotificationState_FieldPathSelectorNotificationState:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).SetTo(&(*target).AlertsLifetime)
+		fpvs.subPathValue.(common.TimeRange_FieldPathValue).SetTo(&(*target).AlertsLifetime)
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
@@ -1541,7 +1539,7 @@ func (fpvs *NotificationState_FieldSubPathValue) CompareWith(source *Notificatio
 	case NotificationState_FieldPathSelectorNotificationState:
 		return 0, false // repeated field
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		return fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).CompareWith(source.GetAlertsLifetime())
+		return fpvs.subPathValue.(common.TimeRange_FieldPathValue).CompareWith(source.GetAlertsLifetime())
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return 0, false // repeated field
 	default:
@@ -1638,8 +1636,8 @@ func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsNotificationStateP
 	res, ok := fpaivs.subPathItemValue.(NotificationStateNotificationState_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsAlertsLifetimePathItemValue() (monitoring_common.TimeRange_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue)
+func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsAlertsLifetimePathItemValue() (common.TimeRange_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.TimeRange_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsResolutionNotificationStatePathItemValue() (NotificationStateNotificationState_FieldPathArrayItemValue, bool) {
@@ -1653,7 +1651,7 @@ func (fpaivs *NotificationState_FieldSubPathArrayItemValue) ContainsValue(source
 	case NotificationState_FieldPathSelectorNotificationState:
 		return false // repeated/map field
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		return fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetAlertsLifetime())
+		return fpaivs.subPathItemValue.(common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetAlertsLifetime())
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return false // repeated/map field
 	default:
@@ -1713,7 +1711,7 @@ func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) GetRawValues() (v
 			values = append(values, v)
 		}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
-		for _, v := range fpaov.values.([]*monitoring_common.TimeRange) {
+		for _, v := range fpaov.values.([]*common.TimeRange) {
 			values = append(values, v)
 		}
 	case NotificationState_FieldPathSelectorResolutionNotificationState:
@@ -1743,8 +1741,8 @@ func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsResolutionNotif
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
-func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsAlertsLifetimeArrayOfValues() ([]*monitoring_common.TimeRange, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.TimeRange)
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsAlertsLifetimeArrayOfValues() ([]*common.TimeRange, bool) {
+	res, ok := fpaov.values.([]*common.TimeRange)
 	return res, ok
 }
 func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsResolutionNotificationStateArrayOfValues() ([][]*Notification_State_NotificationState, bool) {
@@ -1770,8 +1768,8 @@ func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsNotificationStatePa
 	res, ok := fpsaov.subPathArrayOfValues.(NotificationStateNotificationState_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsAlertsLifetimePathArrayOfValues() (monitoring_common.TimeRange_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TimeRange_FieldPathArrayOfValues)
+func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsAlertsLifetimePathArrayOfValues() (common.TimeRange_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.TimeRange_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsResolutionNotificationStatePathArrayOfValues() (NotificationStateNotificationState_FieldPathArrayOfValues, bool) {

@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/project"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiProjectAccess struct {
@@ -42,8 +44,11 @@ func NewApiProjectAccess(client project_client.ProjectServiceClient) project.Pro
 }
 
 func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQuery) (*project.Project, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &project_client.GetProjectRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetProject(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 
 func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*project.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &project_client.BatchGetProjectsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(project.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.Lis
 }
 
 func (a *apiProjectAccess) WatchProject(ctx context.Context, query *project.GetQuery, observerCb func(*project.ProjectChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &project_client.WatchProjectRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchProject(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiProjectAccess) SaveProject(ctx context.Context, res *project.Project
 			}
 		}
 	}
-
+	var resp *project.Project
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &project_client.UpdateProjectRequest{
 			Project: res,
@@ -195,26 +211,30 @@ func (a *apiProjectAccess) SaveProject(ctx context.Context, res *project.Project
 				FieldMask:        mask.(*project.Project_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateProject(ctx, updateRequest)
+		resp, err = a.client.UpdateProject(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &project_client.CreateProjectRequest{
 			Project: res,
 		}
-		_, err := a.client.CreateProject(ctx, createRequest)
+		resp, err = a.client.CreateProject(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiProjectAccess) DeleteProject(ctx context.Context, ref *project.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &project_client.DeleteProjectRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteProject(ctx, request)
 	return err

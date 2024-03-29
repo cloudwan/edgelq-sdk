@@ -15,9 +15,9 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	audited_resource_descriptor_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/audited_resource_descriptor"
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor"
@@ -78,7 +78,7 @@ func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
 	return p.Filter
 }
 
-func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
+func (p *WatcherFilterParams) GetIParentName() gotenresource.Name {
 	return nil
 }
 
@@ -126,9 +126,11 @@ func (pw *Watcher) IEvents() <-chan gotenaccess.WatcherEvent {
 			for {
 				select {
 				case <-pw.watcherCtx.Done():
+					return
 				case evt := <-pw.outputEvtChan:
 					select {
 					case <-pw.watcherCtx.Done():
+						return
 					case pw.iOutputEvtChan <- &evt:
 					}
 				}
@@ -194,7 +196,9 @@ func (pw *Watcher) Run(ctx context.Context) error {
 
 	log.Debugf("running")
 	defer func() {
-		close(pw.outputEvtChan)
+		for _, state := range pw.queryWatcherStates {
+			state.cancel()
+		}
 		pw.watcherCtxCancel()
 	}()
 
@@ -679,7 +683,7 @@ func init() {
 		}
 		return NewWatcher(audited_resource_descriptor_client.NewAuditedResourceDescriptorServiceClient(cc), cfg, typedFilters...)
 	})
-	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(audited_resource_descriptor.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Reference) gotenaccess.WatcherFilterParams {
+	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(audited_resource_descriptor.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Name) gotenaccess.WatcherFilterParams {
 		params := &WatcherFilterParams{}
 		if filter != nil {
 			params.Filter = filter.(*audited_resource_descriptor.Filter)

@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	alerting_condition_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alerting_condition"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
@@ -37,7 +37,7 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *alerting_condition.ParentReference
+	Parent       *alerting_condition.ParentName
 	Filter       *alerting_condition.Filter
 	View         view.View
 	FieldMask    *alerting_condition.AlertingCondition_FieldMask
@@ -287,6 +287,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(alerting_condition.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(alerting_condition.AlertingConditionChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(alerting_condition.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{
@@ -308,7 +322,7 @@ func init() {
 			cfg.Cursor = params.Cursor.(*alerting_condition.PagerCursor)
 		}
 		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*alerting_condition.ParentReference)
+			cfg.Parent = params.Parent.(*alerting_condition.ParentName)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*alerting_condition.Filter)

@@ -13,15 +13,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -34,15 +34,15 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
-	_ = &ntt_meta.Meta{}
+	_ = &common.Authentication{}
+	_ = &meta.Meta{}
 )
 
 type MethodDescriptor_FieldMask struct {
@@ -133,14 +133,14 @@ func (fieldMask *MethodDescriptor_FieldMask) Subtract(other *MethodDescriptor_Fi
 	result := &MethodDescriptor_FieldMask{}
 	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[MethodDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MethodDescriptor_FieldPathSelectorLabels:               &audit_common.LabelDescriptor_FieldMask{},
-		MethodDescriptor_FieldPathSelectorPromotedLabelKeySets: &audit_common.LabelKeySet_FieldMask{},
-		MethodDescriptor_FieldPathSelectorMetadata:             &ntt_meta.Meta_FieldMask{},
+		MethodDescriptor_FieldPathSelectorLabels:               &common.LabelDescriptor_FieldMask{},
+		MethodDescriptor_FieldPathSelectorPromotedLabelKeySets: &common.LabelKeySet_FieldMask{},
+		MethodDescriptor_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[MethodDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MethodDescriptor_FieldPathSelectorLabels:               &audit_common.LabelDescriptor_FieldMask{},
-		MethodDescriptor_FieldPathSelectorPromotedLabelKeySets: &audit_common.LabelKeySet_FieldMask{},
-		MethodDescriptor_FieldPathSelectorMetadata:             &ntt_meta.Meta_FieldMask{},
+		MethodDescriptor_FieldPathSelectorLabels:               &common.LabelDescriptor_FieldMask{},
+		MethodDescriptor_FieldPathSelectorPromotedLabelKeySets: &common.LabelKeySet_FieldMask{},
+		MethodDescriptor_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -157,11 +157,11 @@ func (fieldMask *MethodDescriptor_FieldMask) Subtract(other *MethodDescriptor_Fi
 				if tp, ok := path.(*MethodDescriptor_FieldTerminalPath); ok {
 					switch tp.selector {
 					case MethodDescriptor_FieldPathSelectorLabels:
-						mySubMasks[MethodDescriptor_FieldPathSelectorLabels] = audit_common.FullLabelDescriptor_FieldMask()
+						mySubMasks[MethodDescriptor_FieldPathSelectorLabels] = common.FullLabelDescriptor_FieldMask()
 					case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-						mySubMasks[MethodDescriptor_FieldPathSelectorPromotedLabelKeySets] = audit_common.FullLabelKeySet_FieldMask()
+						mySubMasks[MethodDescriptor_FieldPathSelectorPromotedLabelKeySets] = common.FullLabelKeySet_FieldMask()
 					case MethodDescriptor_FieldPathSelectorMetadata:
-						mySubMasks[MethodDescriptor_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[MethodDescriptor_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*MethodDescriptor_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -196,12 +196,12 @@ func (fieldMask *MethodDescriptor_FieldMask) FilterInputFields() *MethodDescript
 		switch path.Selector() {
 		case MethodDescriptor_FieldPathSelectorMetadata:
 			if _, ok := path.(*MethodDescriptor_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MethodDescriptor_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*MethodDescriptor_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MethodDescriptor_FieldSubPath{selector: MethodDescriptor_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -215,15 +215,15 @@ func (fieldMask *MethodDescriptor_FieldMask) FilterInputFields() *MethodDescript
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MethodDescriptor_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MethodDescriptor_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MethodDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MethodDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -245,7 +245,7 @@ func (fieldMask MethodDescriptor_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *MethodDescriptor_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -264,7 +264,7 @@ func (fieldMask MethodDescriptor_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *MethodDescriptor_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -332,11 +332,11 @@ func (fieldMask *MethodDescriptor_FieldMask) Project(source *MethodDescriptor) *
 		return source
 	}
 	result := &MethodDescriptor{}
-	labelsMask := &audit_common.LabelDescriptor_FieldMask{}
+	labelsMask := &common.LabelDescriptor_FieldMask{}
 	wholeLabelsAccepted := false
-	promotedLabelKeySetsMask := &audit_common.LabelKeySet_FieldMask{}
+	promotedLabelKeySetsMask := &common.LabelKeySet_FieldMask{}
 	wholePromotedLabelKeySetsAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -364,11 +364,11 @@ func (fieldMask *MethodDescriptor_FieldMask) Project(source *MethodDescriptor) *
 		case *MethodDescriptor_FieldSubPath:
 			switch tp.selector {
 			case MethodDescriptor_FieldPathSelectorLabels:
-				labelsMask.AppendPath(tp.subPath.(audit_common.LabelDescriptor_FieldPath))
+				labelsMask.AppendPath(tp.subPath.(common.LabelDescriptor_FieldPath))
 			case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-				promotedLabelKeySetsMask.AppendPath(tp.subPath.(audit_common.LabelKeySet_FieldPath))
+				promotedLabelKeySetsMask.AppendPath(tp.subPath.(common.LabelKeySet_FieldPath))
 			case MethodDescriptor_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

@@ -78,7 +78,7 @@ func (d *DevicesDescriptor) GetVersion() string {
 
 func (d *DevicesDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

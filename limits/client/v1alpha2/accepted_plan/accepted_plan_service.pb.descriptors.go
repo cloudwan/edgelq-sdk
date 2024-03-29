@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &accepted_plan.AcceptedPlan{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetAcceptedPlanDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*accepted_plan.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetAcceptedPlanDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetAcceptedPlanRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetAcceptedPlanRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetAcceptedPlanDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*accepted_plan.AcceptedPlan)
+}
+
+func (h *GetAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*accepted_plan.AcceptedPlan)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*accepted_plan.AcceptedPlan) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetAcceptedPlansDescriptorClientMsgHandle) ExtractResourceNames(ms
 		return accepted_plan.AcceptedPlanNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(accepted_plan.AcceptedPlanNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return accepted_plan.AcceptedPlanNameList(names)
 		}
 	}
 	return (accepted_plan.AcceptedPlanNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetAcceptedPlansDescriptorClientMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAcceptedPlansRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAcceptedPlansRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetAcceptedPlansDescriptorServerMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAcceptedPlansResponse) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAcceptedPlansResponse) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAcceptedPlans(); len(resources) > 0 {
+			return accepted_plan.AcceptedPlanList(resources)
+		}
+	}
+	return (accepted_plan.AcceptedPlanList)(nil)
 }
 
 func GetBatchGetAcceptedPlansDescriptor() *BatchGetAcceptedPlansDescriptor {
@@ -522,6 +611,30 @@ func (h *ListAcceptedPlansDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	return (*accepted_plan.ParentName)(nil)
 }
 
+func (h *ListAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAcceptedPlansRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAcceptedPlansRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListAcceptedPlansDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAcceptedPlansResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListAcceptedPlansDescriptorServerMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAcceptedPlansResponse) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAcceptedPlansResponse) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAcceptedPlans(); len(resources) > 0 {
+			return accepted_plan.AcceptedPlanList(resources)
+		}
+	}
+	return (accepted_plan.AcceptedPlanList)(nil)
 }
 
 func GetListAcceptedPlansDescriptor() *ListAcceptedPlansDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchAcceptedPlanDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*accepted_plan.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchAcceptedPlanDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAcceptedPlanRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAcceptedPlanRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchAcceptedPlanDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAcceptedPlanResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAcceptedPlanResponse) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *accepted_plan.AcceptedPlanChange_Added_:
+				return tResChange.Added.GetAcceptedPlan()
+			case *accepted_plan.AcceptedPlanChange_Modified_:
+				return tResChange.Modified.GetAcceptedPlan()
+			case *accepted_plan.AcceptedPlanChange_Current_:
+				return tResChange.Current.GetAcceptedPlan()
+			}
+		}
+	}
+	return (*accepted_plan.AcceptedPlan)(nil)
+}
+
+func (h *WatchAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAcceptedPlanResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAcceptedPlanResponse) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchAcceptedPlansDescriptorClientMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*accepted_plan.ParentName)(nil)
+}
+
+func (h *WatchAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAcceptedPlansRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAcceptedPlansDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAcceptedPlansRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAcceptedPlansRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchAcceptedPlansDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchAcceptedPlansDescriptorServerMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAcceptedPlansResponse) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAcceptedPlansDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAcceptedPlansResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAcceptedPlansResponse) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetAcceptedPlanChanges(); len(resChanges) > 0 {
+			list := make(accepted_plan.AcceptedPlanList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *accepted_plan.AcceptedPlanChange_Added_:
+					list = append(list, tResChange.Added.GetAcceptedPlan())
+				case *accepted_plan.AcceptedPlanChange_Modified_:
+					list = append(list, tResChange.Modified.GetAcceptedPlan())
+				case *accepted_plan.AcceptedPlanChange_Current_:
+					list = append(list, tResChange.Current.GetAcceptedPlan())
+				}
+			}
+			return list
+		}
+	}
+	return (accepted_plan.AcceptedPlanList)(nil)
 }
 
 func GetWatchAcceptedPlansDescriptor() *WatchAcceptedPlansDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateAcceptedPlanDescriptorClientMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*accepted_plan.ParentName)(nil)
+}
+
+func (h *CreateAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateAcceptedPlanRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAcceptedPlan()
+	}
+	return (*accepted_plan.AcceptedPlan)(nil)
+}
+
+func (h *CreateAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateAcceptedPlanRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateAcceptedPlanDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*accepted_plan.AcceptedPlan)
+}
+
+func (h *CreateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*accepted_plan.AcceptedPlan)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*accepted_plan.AcceptedPlan) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateAcceptedPlanDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateAcceptedPlanRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAcceptedPlan()
+	}
+	return (*accepted_plan.AcceptedPlan)(nil)
+}
+
+func (h *UpdateAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateAcceptedPlanRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*accepted_plan.AcceptedPlan)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateAcceptedPlanDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*accepted_plan.AcceptedPlan)
+}
+
+func (h *UpdateAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*accepted_plan.AcceptedPlan)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*accepted_plan.AcceptedPlan) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateAcceptedPlanDescriptor() *UpdateAcceptedPlanDescriptor {
 	return updateAcceptedPlanDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteAcceptedPlanDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteAcceptedPlanDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteAcceptedPlanDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteAcceptedPlanDescriptorClientMsgHandle) ExtractResourceName(msg pr
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*accepted_plan.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteAcceptedPlanDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
-func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteAcceptedPlanRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *accepted_plan.Name
+		OverrideExtractResourceBody(*DeleteAcceptedPlanRequest) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAcceptedPlanDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteAcceptedPlanRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteAcceptedPlanRequest) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *accepted_plan.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceName(msg pr
 }
 
 func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*accepted_plan.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*accepted_plan.Name
 	})
 	if ok {
 		return accepted_plan.AcceptedPlanNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *accepted_plan.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *accepted_plan.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAcceptedPlanDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*accepted_plan.AcceptedPlan
+	})
+	if ok {
+		return accepted_plan.AcceptedPlanList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

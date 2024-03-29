@@ -13,20 +13,20 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -39,20 +39,20 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 type PlanAssignment_FieldMask struct {
@@ -145,12 +145,12 @@ func (fieldMask *PlanAssignment_FieldMask) Subtract(other *PlanAssignment_FieldM
 	otherSubMasks := map[PlanAssignment_FieldPathSelector]gotenobject.FieldMask{
 		PlanAssignment_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
 		PlanAssignment_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
-		PlanAssignment_FieldPathSelectorMetadata:              &ntt_meta.Meta_FieldMask{},
+		PlanAssignment_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[PlanAssignment_FieldPathSelector]gotenobject.FieldMask{
 		PlanAssignment_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
 		PlanAssignment_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
-		PlanAssignment_FieldPathSelectorMetadata:              &ntt_meta.Meta_FieldMask{},
+		PlanAssignment_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -171,7 +171,7 @@ func (fieldMask *PlanAssignment_FieldMask) Subtract(other *PlanAssignment_FieldM
 					case PlanAssignment_FieldPathSelectorRegionalDistributions:
 						mySubMasks[PlanAssignment_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
 					case PlanAssignment_FieldPathSelectorMetadata:
-						mySubMasks[PlanAssignment_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[PlanAssignment_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*PlanAssignment_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -210,12 +210,12 @@ func (fieldMask *PlanAssignment_FieldMask) FilterInputFields() *PlanAssignment_F
 		case PlanAssignment_FieldPathSelectorRegionalDistributions:
 		case PlanAssignment_FieldPathSelectorMetadata:
 			if _, ok := path.(*PlanAssignment_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PlanAssignment_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*PlanAssignment_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PlanAssignment_FieldSubPath{selector: PlanAssignment_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -229,15 +229,15 @@ func (fieldMask *PlanAssignment_FieldMask) FilterInputFields() *PlanAssignment_F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignment_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignment_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignment_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignment_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -259,7 +259,7 @@ func (fieldMask PlanAssignment_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *PlanAssignment_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -278,7 +278,7 @@ func (fieldMask PlanAssignment_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *PlanAssignment_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -350,7 +350,7 @@ func (fieldMask *PlanAssignment_FieldMask) Project(source *PlanAssignment) *Plan
 	wholeExtensionsAccepted := false
 	regionalDistributionsMask := &common.RegionalDistribution_FieldMask{}
 	wholeRegionalDistributionsAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -382,7 +382,7 @@ func (fieldMask *PlanAssignment_FieldMask) Project(source *PlanAssignment) *Plan
 			case PlanAssignment_FieldPathSelectorRegionalDistributions:
 				regionalDistributionsMask.AppendPath(tp.subPath.(common.RegionalDistribution_FieldPath))
 			case PlanAssignment_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

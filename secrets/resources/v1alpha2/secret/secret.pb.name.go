@@ -24,8 +24,8 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,8 +43,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var secret_RegexpId = regexp.MustCompile("^(?P<secret_id>[\\w][\\w.-]{0,127})$")
@@ -56,14 +56,6 @@ func (r *Secret) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *Secret) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *Secret) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

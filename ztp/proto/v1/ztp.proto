@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ntt.ztp.v1;
+
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "edgelq-sdk/ztp/proto/v1/deviceztp_custom.proto";
+import "edgelq-sdk/ztp/proto/v1/deviceztp_service.proto";
+import "edgelq-sdk/ztp/proto/v1/edgelq_instance.proto";
+import "edgelq-sdk/ztp/proto/v1/edgelq_instance_custom.proto";
+import "edgelq-sdk/ztp/proto/v1/edgelq_instance_service.proto";
+import "edgelq-sdk/ztp/proto/v1/hardware.proto";
+import "edgelq-sdk/ztp/proto/v1/hardware_service.proto";
+import "edgelq-sdk/ztp/proto/v1/project.proto";
+import "edgelq-sdk/ztp/proto/v1/project_service.proto";
+import "edgelq-sdk/ztp/proto/v1/tpm_attestation_cert.proto";
+import "edgelq-sdk/ztp/proto/v1/tpm_attestation_cert_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ztp/client/v1/ztp;ztp_client";
+option java_multiple_files = true;
+option java_outer_classname = "ZtpProto";
+option java_package = "com.ntt.ztp.pb.v1";

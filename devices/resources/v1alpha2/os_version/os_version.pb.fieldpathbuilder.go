@@ -6,16 +6,16 @@ package os_version
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device_type.DeviceType{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type OsVersionFieldPathBuilder struct{}
@@ -62,27 +62,27 @@ func (OsVersionPathSelectorMetadata) FieldPath() *OsVersion_FieldTerminalPath {
 	return &OsVersion_FieldTerminalPath{selector: OsVersion_FieldPathSelectorMetadata}
 }
 
-func (s OsVersionPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *OsVersion_FieldTerminalPathValue {
+func (s OsVersionPathSelectorMetadata) WithValue(value *meta.Meta) *OsVersion_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldTerminalPathValue)
 }
 
-func (s OsVersionPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *OsVersion_FieldTerminalPathArrayOfValues {
+func (s OsVersionPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *OsVersion_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldTerminalPathArrayOfValues)
 }
 
-func (OsVersionPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *OsVersion_FieldSubPath {
+func (OsVersionPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{selector: OsVersion_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s OsVersionPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *OsVersion_FieldSubPathValue {
 	return &OsVersion_FieldSubPathValue{OsVersion_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s OsVersionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *OsVersion_FieldSubPathArrayOfValues {
 	return &OsVersion_FieldSubPathArrayOfValues{OsVersion_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s OsVersionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *OsVersion_FieldSubPathArrayItemValue {
+func (s OsVersionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *OsVersion_FieldSubPathArrayItemValue {
 	return &OsVersion_FieldSubPathArrayItemValue{OsVersion_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -138,20 +138,24 @@ func (OsVersionPathSelectorMetadata) Lifecycle() OsVersionPathSelectorMetadataLi
 	return OsVersionPathSelectorMetadataLifecycle{}
 }
 
+func (OsVersionPathSelectorMetadata) Services() OsVersionPathSelectorMetadataServices {
+	return OsVersionPathSelectorMetadataServices{}
+}
+
 type OsVersionPathSelectorMetadataCreateTime struct{}
 
 func (OsVersionPathSelectorMetadataCreateTime) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -160,15 +164,15 @@ type OsVersionPathSelectorMetadataUpdateTime struct{}
 func (OsVersionPathSelectorMetadataUpdateTime) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -177,15 +181,15 @@ type OsVersionPathSelectorMetadataDeleteTime struct{}
 func (OsVersionPathSelectorMetadataDeleteTime) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -194,7 +198,7 @@ type OsVersionPathSelectorMetadataUuid struct{}
 func (OsVersionPathSelectorMetadataUuid) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -211,7 +215,7 @@ type OsVersionPathSelectorMetadataTags struct{}
 func (OsVersionPathSelectorMetadataTags) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -232,7 +236,7 @@ type OsVersionPathSelectorMetadataLabels struct{}
 func (OsVersionPathSelectorMetadataLabels) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -255,7 +259,7 @@ type OsVersionMapPathSelectorMetadataLabels struct {
 func (s OsVersionMapPathSelectorMetadataLabels) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -272,7 +276,7 @@ type OsVersionPathSelectorMetadataAnnotations struct{}
 func (OsVersionPathSelectorMetadataAnnotations) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -295,7 +299,7 @@ type OsVersionMapPathSelectorMetadataAnnotations struct {
 func (s OsVersionMapPathSelectorMetadataAnnotations) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -312,7 +316,7 @@ type OsVersionPathSelectorMetadataGeneration struct{}
 func (OsVersionPathSelectorMetadataGeneration) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -329,7 +333,7 @@ type OsVersionPathSelectorMetadataResourceVersion struct{}
 func (OsVersionPathSelectorMetadataResourceVersion) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -346,19 +350,19 @@ type OsVersionPathSelectorMetadataOwnerReferences struct{}
 func (OsVersionPathSelectorMetadataOwnerReferences) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
-func (s OsVersionPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *OsVersion_FieldSubPathArrayItemValue {
+func (s OsVersionPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *OsVersion_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*OsVersion_FieldSubPathArrayItemValue)
 }
 
@@ -382,10 +386,6 @@ func (OsVersionPathSelectorMetadataOwnerReferences) Controller() OsVersionPathSe
 	return OsVersionPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (OsVersionPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (OsVersionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -395,7 +395,7 @@ type OsVersionPathSelectorMetadataOwnerReferencesKind struct{}
 func (OsVersionPathSelectorMetadataOwnerReferencesKind) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -412,7 +412,7 @@ type OsVersionPathSelectorMetadataOwnerReferencesVersion struct{}
 func (OsVersionPathSelectorMetadataOwnerReferencesVersion) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -429,7 +429,7 @@ type OsVersionPathSelectorMetadataOwnerReferencesName struct{}
 func (OsVersionPathSelectorMetadataOwnerReferencesName) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -446,7 +446,7 @@ type OsVersionPathSelectorMetadataOwnerReferencesRegion struct{}
 func (OsVersionPathSelectorMetadataOwnerReferencesRegion) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -463,7 +463,7 @@ type OsVersionPathSelectorMetadataOwnerReferencesController struct{}
 func (OsVersionPathSelectorMetadataOwnerReferencesController) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -475,29 +475,12 @@ func (s OsVersionPathSelectorMetadataOwnerReferencesController) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
-type OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *OsVersion_FieldSubPath {
-	return &OsVersion_FieldSubPath{
-		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *OsVersion_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
-}
-
-func (s OsVersionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *OsVersion_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
-}
-
 type OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -514,7 +497,7 @@ type OsVersionPathSelectorMetadataShards struct{}
 func (OsVersionPathSelectorMetadataShards) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -537,7 +520,7 @@ type OsVersionMapPathSelectorMetadataShards struct {
 func (s OsVersionMapPathSelectorMetadataShards) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -554,15 +537,15 @@ type OsVersionPathSelectorMetadataSyncing struct{}
 func (OsVersionPathSelectorMetadataSyncing) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -579,7 +562,7 @@ type OsVersionPathSelectorMetadataSyncingOwningRegion struct{}
 func (OsVersionPathSelectorMetadataSyncingOwningRegion) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -596,7 +579,7 @@ type OsVersionPathSelectorMetadataSyncingRegions struct{}
 func (OsVersionPathSelectorMetadataSyncingRegions) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -617,15 +600,15 @@ type OsVersionPathSelectorMetadataLifecycle struct{}
 func (OsVersionPathSelectorMetadataLifecycle) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -642,15 +625,15 @@ type OsVersionPathSelectorMetadataLifecycleState struct{}
 func (OsVersionPathSelectorMetadataLifecycleState) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s OsVersionPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *OsVersion_FieldSubPathValue {
+func (s OsVersionPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *OsVersion_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
 }
 
-func (s OsVersionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *OsVersion_FieldSubPathArrayOfValues {
+func (s OsVersionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 
@@ -659,7 +642,7 @@ type OsVersionPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (OsVersionPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *OsVersion_FieldSubPath {
 	return &OsVersion_FieldSubPath{
 		selector: OsVersion_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -669,6 +652,69 @@ func (s OsVersionPathSelectorMetadataLifecycleBlockDeletion) WithValue(value boo
 
 func (s OsVersionPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
+}
+
+type OsVersionPathSelectorMetadataServices struct{}
+
+func (OsVersionPathSelectorMetadataServices) FieldPath() *OsVersion_FieldSubPath {
+	return &OsVersion_FieldSubPath{
+		selector: OsVersion_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s OsVersionPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *OsVersion_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
+}
+
+func (s OsVersionPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *OsVersion_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
+}
+
+func (OsVersionPathSelectorMetadataServices) OwningService() OsVersionPathSelectorMetadataServicesOwningService {
+	return OsVersionPathSelectorMetadataServicesOwningService{}
+}
+
+func (OsVersionPathSelectorMetadataServices) AllowedServices() OsVersionPathSelectorMetadataServicesAllowedServices {
+	return OsVersionPathSelectorMetadataServicesAllowedServices{}
+}
+
+type OsVersionPathSelectorMetadataServicesOwningService struct{}
+
+func (OsVersionPathSelectorMetadataServicesOwningService) FieldPath() *OsVersion_FieldSubPath {
+	return &OsVersion_FieldSubPath{
+		selector: OsVersion_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s OsVersionPathSelectorMetadataServicesOwningService) WithValue(value string) *OsVersion_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
+}
+
+func (s OsVersionPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *OsVersion_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
+}
+
+type OsVersionPathSelectorMetadataServicesAllowedServices struct{}
+
+func (OsVersionPathSelectorMetadataServicesAllowedServices) FieldPath() *OsVersion_FieldSubPath {
+	return &OsVersion_FieldSubPath{
+		selector: OsVersion_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s OsVersionPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *OsVersion_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
+}
+
+func (s OsVersionPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *OsVersion_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
+}
+
+func (s OsVersionPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *OsVersion_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OsVersion_FieldSubPathArrayItemValue)
 }
 
 type OsVersionPathSelectorVersion struct{}

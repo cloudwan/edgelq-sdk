@@ -14,7 +14,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 // Request message for method
 // [ProvisionDeviceForApprovedRequest][ntt.devices.v1alpha2.ProvisionDeviceForApprovedRequest]
 message ProvisionDeviceForApprovedRequestRequest {
-  //  reference of ntt.devices.v1alpha2.ProvisioningApprovalRequest
+  // name of ntt.devices.v1alpha2.ProvisioningApprovalRequest
   string name = 1;
 
   Device.Status device_status = 2;

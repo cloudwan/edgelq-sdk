@@ -9,17 +9,17 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -28,17 +28,17 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 func (o *LogDescriptor) GotenObjectExt() {}
@@ -127,11 +127,11 @@ func (o *LogDescriptor) Clone() *LogDescriptor {
 	}
 	result.DisplayName = o.DisplayName
 	result.Description = o.Description
-	result.Labels = make([]*logging_common.LabelDescriptor, len(o.Labels))
+	result.Labels = make([]*common.LabelDescriptor, len(o.Labels))
 	for i, sourceValue := range o.Labels {
 		result.Labels[i] = sourceValue.Clone()
 	}
-	result.PromotedLabelKeySets = make([]*logging_common.LabelKeySet, len(o.PromotedLabelKeySets))
+	result.PromotedLabelKeySets = make([]*common.LabelKeySet, len(o.PromotedLabelKeySets))
 	for i, sourceValue := range o.PromotedLabelKeySets {
 		result.PromotedLabelKeySets[i] = sourceValue.Clone()
 	}
@@ -167,9 +167,9 @@ func (o *LogDescriptor) Merge(source *LogDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *logging_common.LabelDescriptor
+			var newDstElement *common.LabelDescriptor
 			if sourceValue != nil {
-				newDstElement = new(logging_common.LabelDescriptor)
+				newDstElement = new(common.LabelDescriptor)
 				newDstElement.Merge(sourceValue)
 			}
 			o.Labels = append(o.Labels, newDstElement)
@@ -185,9 +185,9 @@ func (o *LogDescriptor) Merge(source *LogDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *logging_common.LabelKeySet
+			var newDstElement *common.LabelKeySet
 			if sourceValue != nil {
-				newDstElement = new(logging_common.LabelKeySet)
+				newDstElement = new(common.LabelKeySet)
 				newDstElement.Merge(sourceValue)
 			}
 			o.PromotedLabelKeySets = append(o.PromotedLabelKeySets, newDstElement)
@@ -196,7 +196,7 @@ func (o *LogDescriptor) Merge(source *LogDescriptor) {
 
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}

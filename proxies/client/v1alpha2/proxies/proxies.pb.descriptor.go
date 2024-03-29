@@ -49,7 +49,7 @@ func (d *ProxiesDescriptor) GetVersion() string {
 
 func (d *ProxiesDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *ProxiesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

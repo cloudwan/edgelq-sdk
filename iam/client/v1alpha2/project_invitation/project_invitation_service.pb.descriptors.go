@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	project_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project_invitation"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project_invitation.ProjectInvitation{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -143,8 +143,8 @@ func (h *GetProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -170,6 +170,30 @@ func (h *GetProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -211,6 +235,22 @@ func (h *GetProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*project_invitation.ProjectInvitation)
+}
+
+func (h *GetProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*project_invitation.ProjectInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*project_invitation.ProjectInvitation) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -327,12 +367,8 @@ func (h *BatchGetProjectInvitationsDescriptorClientMsgHandle) ExtractResourceNam
 		return project_invitation.ProjectInvitationNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(project_invitation.ProjectInvitationNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return project_invitation.ProjectInvitationNameList(names)
 		}
 	}
 	return (project_invitation.ProjectInvitationNameList)(nil)
@@ -346,6 +382,30 @@ func (h *BatchGetProjectInvitationsDescriptorClientMsgHandle) ExtractCollectionN
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProjectInvitationsRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProjectInvitationsRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -393,6 +453,35 @@ func (h *BatchGetProjectInvitationsDescriptorServerMsgHandle) ExtractCollectionN
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetProjectInvitationsResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetProjectInvitationsResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjectInvitations(); len(resources) > 0 {
+			return project_invitation.ProjectInvitationList(resources)
+		}
+	}
+	return (project_invitation.ProjectInvitationList)(nil)
 }
 
 func GetBatchGetProjectInvitationsDescriptor() *BatchGetProjectInvitationsDescriptor {
@@ -526,6 +615,30 @@ func (h *ListProjectInvitationsDescriptorClientMsgHandle) ExtractCollectionName(
 	return (*project_invitation.ParentName)(nil)
 }
 
+func (h *ListProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProjectInvitationsRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProjectInvitationsRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListProjectInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProjectInvitationsResponse)
 	var asInterface interface{} = h
@@ -569,6 +682,35 @@ func (h *ListProjectInvitationsDescriptorServerMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListProjectInvitationsResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListProjectInvitationsResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjectInvitations(); len(resources) > 0 {
+			return project_invitation.ProjectInvitationList(resources)
+		}
+	}
+	return (project_invitation.ProjectInvitationList)(nil)
 }
 
 func GetListProjectInvitationsDescriptor() *ListProjectInvitationsDescriptor {
@@ -671,8 +813,8 @@ func (h *WatchProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -698,6 +840,30 @@ func (h *WatchProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -748,6 +914,42 @@ func (h *WatchProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProjectInvitationResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *project_invitation.ProjectInvitationChange_Added_:
+				return tResChange.Added.GetProjectInvitation()
+			case *project_invitation.ProjectInvitationChange_Modified_:
+				return tResChange.Modified.GetProjectInvitation()
+			case *project_invitation.ProjectInvitationChange_Current_:
+				return tResChange.Current.GetProjectInvitation()
+			}
+		}
+	}
+	return (*project_invitation.ProjectInvitation)(nil)
+}
+
+func (h *WatchProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProjectInvitationResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -876,11 +1078,35 @@ func (h *WatchProjectInvitationsDescriptorClientMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*project_invitation.ParentName)(nil)
+}
+
+func (h *WatchProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProjectInvitationsRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProjectInvitationsRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchProjectInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -935,6 +1161,46 @@ func (h *WatchProjectInvitationsDescriptorServerMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchProjectInvitationsResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchProjectInvitationsResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetProjectInvitationChanges(); len(resChanges) > 0 {
+			list := make(project_invitation.ProjectInvitationList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *project_invitation.ProjectInvitationChange_Added_:
+					list = append(list, tResChange.Added.GetProjectInvitation())
+				case *project_invitation.ProjectInvitationChange_Modified_:
+					list = append(list, tResChange.Modified.GetProjectInvitation())
+				case *project_invitation.ProjectInvitationChange_Current_:
+					list = append(list, tResChange.Current.GetProjectInvitation())
+				}
+			}
+			return list
+		}
+	}
+	return (project_invitation.ProjectInvitationList)(nil)
 }
 
 func GetWatchProjectInvitationsDescriptor() *WatchProjectInvitationsDescriptor {
@@ -1067,11 +1333,38 @@ func (h *CreateProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*project_invitation.ParentName)(nil)
+}
+
+func (h *CreateProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProjectInvitation()
+	}
+	return (*project_invitation.ProjectInvitation)(nil)
+}
+
+func (h *CreateProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateProjectInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1111,6 +1404,22 @@ func (h *CreateProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*project_invitation.ProjectInvitation)
+}
+
+func (h *CreateProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*project_invitation.ProjectInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*project_invitation.ProjectInvitation) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1247,6 +1556,33 @@ func (h *UpdateProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
+func (h *UpdateProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetProjectInvitation()
+	}
+	return (*project_invitation.ProjectInvitation)(nil)
+}
+
+func (h *UpdateProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateProjectInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*project_invitation.ProjectInvitation)
 	var asInterface interface{} = h
@@ -1288,6 +1624,22 @@ func (h *UpdateProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName
 	return nil
 }
 
+func (h *UpdateProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*project_invitation.ProjectInvitation)
+}
+
+func (h *UpdateProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*project_invitation.ProjectInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*project_invitation.ProjectInvitation) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateProjectInvitationDescriptor() *UpdateProjectInvitationDescriptor {
 	return updateProjectInvitationDescriptor
 }
@@ -1303,7 +1655,7 @@ func (d *DeleteProjectInvitationDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteProjectInvitationDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteProjectInvitationDescriptor) IsUnary() bool {
@@ -1388,8 +1740,8 @@ func (h *DeleteProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -1419,11 +1771,35 @@ func (h *DeleteProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
-func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteProjectInvitationRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *project_invitation.Name
+		OverrideExtractResourceBody(*DeleteProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *project_invitation.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1432,10 +1808,10 @@ func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceName(m
 }
 
 func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*project_invitation.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*project_invitation.Name
 	})
 	if ok {
 		return project_invitation.ProjectInvitationNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1444,13 +1820,37 @@ func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceNames(
 }
 
 func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *project_invitation.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *project_invitation.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1555,8 +1955,8 @@ func (h *AcceptProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -1582,6 +1982,30 @@ func (h *AcceptProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*AcceptProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*AcceptProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*AcceptProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*AcceptProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1618,6 +2042,30 @@ func (h *AcceptProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*AcceptProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*AcceptProjectInvitationResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*AcceptProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*AcceptProjectInvitationResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1722,8 +2170,8 @@ func (h *DeclineProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -1749,6 +2197,30 @@ func (h *DeclineProjectInvitationDescriptorClientMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeclineProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeclineProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeclineProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeclineProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1785,6 +2257,30 @@ func (h *DeclineProjectInvitationDescriptorServerMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeclineProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeclineProjectInvitationResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeclineProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeclineProjectInvitationResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1913,11 +2409,35 @@ func (h *ListMyProjectInvitationsDescriptorClientMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*project_invitation.ParentName)(nil)
+}
+
+func (h *ListMyProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyProjectInvitationsRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyProjectInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyProjectInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyProjectInvitationsRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *ListMyProjectInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1952,6 +2472,30 @@ func (h *ListMyProjectInvitationsDescriptorServerMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyProjectInvitationsResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyProjectInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyProjectInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyProjectInvitationsResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -2056,8 +2600,8 @@ func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*project_invitation.Name)(nil)
@@ -2083,6 +2627,30 @@ func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ResendProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ResendProjectInvitationRequest) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ResendProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ResendProjectInvitationRequest) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -2119,6 +2687,30 @@ func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ResendProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ResendProjectInvitationResponse) *project_invitation.ProjectInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ResendProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ResendProjectInvitationResponse) []*project_invitation.ProjectInvitation
+	})
+	if ok {
+		return project_invitation.ProjectInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

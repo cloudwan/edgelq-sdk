@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -131,7 +129,7 @@ func BuildUser_FieldPath(fp gotenobject.RawFieldPath) (User_FieldPath, error) {
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &User_FieldSubPath{selector: User_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -268,7 +266,7 @@ func (fp *User_FieldTerminalPath) GetDefault() interface{} {
 	case User_FieldPathSelectorFullName:
 		return ""
 	case User_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case User_FieldPathSelectorEmail:
 		return ""
 	case User_FieldPathSelectorEmailVerified:
@@ -278,7 +276,7 @@ func (fp *User_FieldTerminalPath) GetDefault() interface{} {
 	case User_FieldPathSelectorSettings:
 		return (map[string]string)(nil)
 	case User_FieldPathSelectorRefreshedTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -334,7 +332,7 @@ func (fp *User_FieldTerminalPath) WithIValue(value interface{}) User_FieldPathVa
 	case User_FieldPathSelectorFullName:
 		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(string)}
 	case User_FieldPathSelectorMetadata:
-		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case User_FieldPathSelectorEmail:
 		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(string)}
 	case User_FieldPathSelectorEmailVerified:
@@ -344,7 +342,7 @@ func (fp *User_FieldTerminalPath) WithIValue(value interface{}) User_FieldPathVa
 	case User_FieldPathSelectorSettings:
 		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case User_FieldPathSelectorRefreshedTime:
-		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -362,7 +360,7 @@ func (fp *User_FieldTerminalPath) WithIArrayOfValues(values interface{}) User_Fi
 	case User_FieldPathSelectorFullName:
 		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]string)}
 	case User_FieldPathSelectorMetadata:
-		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case User_FieldPathSelectorEmail:
 		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]string)}
 	case User_FieldPathSelectorEmailVerified:
@@ -372,7 +370,7 @@ func (fp *User_FieldTerminalPath) WithIArrayOfValues(values interface{}) User_Fi
 	case User_FieldPathSelectorSettings:
 		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case User_FieldPathSelectorRefreshedTime:
-		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -536,8 +534,8 @@ var _ User_FieldPath = (*User_FieldSubPath)(nil)
 func (fps *User_FieldSubPath) Selector() User_FieldPathSelector {
 	return fps.selector
 }
-func (fps *User_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *User_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *User_FieldSubPath) AsAuthInfoSubPath() (UserAuthInfo_FieldPath, bool) {
@@ -698,8 +696,8 @@ func (fpv *User_FieldTerminalPathValue) AsFullNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *User_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *User_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *User_FieldTerminalPathValue) AsEmailValue() (string, bool) {
@@ -718,8 +716,8 @@ func (fpv *User_FieldTerminalPathValue) AsSettingsValue() (map[string]string, bo
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
 }
-func (fpv *User_FieldTerminalPathValue) AsRefreshedTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *User_FieldTerminalPathValue) AsRefreshedTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -734,7 +732,7 @@ func (fpv *User_FieldTerminalPathValue) SetTo(target **User) {
 	case User_FieldPathSelectorFullName:
 		(*target).FullName = fpv.value.(string)
 	case User_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case User_FieldPathSelectorEmail:
 		(*target).Email = fpv.value.(string)
 	case User_FieldPathSelectorEmailVerified:
@@ -744,7 +742,7 @@ func (fpv *User_FieldTerminalPathValue) SetTo(target **User) {
 	case User_FieldPathSelectorSettings:
 		(*target).Settings = fpv.value.(map[string]string)
 	case User_FieldPathSelectorRefreshedTime:
-		(*target).RefreshedTime = fpv.value.(*timestamp.Timestamp)
+		(*target).RefreshedTime = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpv.selector))
 	}
@@ -814,7 +812,7 @@ func (fpv *User_FieldTerminalPathValue) CompareWith(source *User) (int, bool) {
 	case User_FieldPathSelectorSettings:
 		return 0, false
 	case User_FieldPathSelectorRefreshedTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetRefreshedTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -907,8 +905,8 @@ type User_FieldSubPathValue struct {
 
 var _ User_FieldPathValue = (*User_FieldSubPathValue)(nil)
 
-func (fpvs *User_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *User_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *User_FieldSubPathValue) AsAuthInfoPathValue() (UserAuthInfo_FieldPathValue, bool) {
@@ -922,7 +920,7 @@ func (fpvs *User_FieldSubPathValue) SetTo(target **User) {
 	}
 	switch fpvs.Selector() {
 	case User_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case User_FieldPathSelectorAuthInfo:
 		fpvs.subPathValue.(UserAuthInfo_FieldPathValue).SetTo(&(*target).AuthInfo)
 	default:
@@ -942,7 +940,7 @@ func (fpvs *User_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *User_FieldSubPathValue) CompareWith(source *User) (int, bool) {
 	switch fpvs.Selector() {
 	case User_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case User_FieldPathSelectorAuthInfo:
 		return fpvs.subPathValue.(UserAuthInfo_FieldPathValue).CompareWith(source.GetAuthInfo())
 	default:
@@ -1027,8 +1025,8 @@ type User_FieldSubPathArrayItemValue struct {
 func (fpaivs *User_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *User_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *User_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *User_FieldSubPathArrayItemValue) AsAuthInfoPathItemValue() (UserAuthInfo_FieldPathArrayItemValue, bool) {
@@ -1040,7 +1038,7 @@ func (fpaivs *User_FieldSubPathArrayItemValue) AsAuthInfoPathItemValue() (UserAu
 func (fpaivs *User_FieldSubPathArrayItemValue) ContainsValue(source *User) bool {
 	switch fpaivs.Selector() {
 	case User_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case User_FieldPathSelectorAuthInfo:
 		return fpaivs.subPathItemValue.(UserAuthInfo_FieldPathArrayItemValue).ContainsValue(source.GetAuthInfo())
 	default:
@@ -1092,7 +1090,7 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 			values = append(values, v)
 		}
 	case User_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case User_FieldPathSelectorEmail:
@@ -1112,7 +1110,7 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 			values = append(values, v)
 		}
 	case User_FieldPathSelectorRefreshedTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
@@ -1126,8 +1124,8 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) AsFullNameArrayOfValues() ([]s
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *User_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *User_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *User_FieldTerminalPathArrayOfValues) AsEmailArrayOfValues() ([]string, bool) {
@@ -1146,8 +1144,8 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) AsSettingsArrayOfValues() ([]m
 	res, ok := fpaov.values.([]map[string]string)
 	return res, ok
 }
-func (fpaov *User_FieldTerminalPathArrayOfValues) AsRefreshedTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *User_FieldTerminalPathArrayOfValues) AsRefreshedTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -1182,8 +1180,8 @@ var _ User_FieldPathArrayOfValues = (*User_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *User_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *User_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *User_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *User_FieldSubPathArrayOfValues) AsAuthInfoPathArrayOfValues() (UserAuthInfo_FieldPathArrayOfValues, bool) {

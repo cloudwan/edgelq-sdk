@@ -5,6 +5,7 @@ package ntt.audit.v1alpha2;
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log.proto";
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log_custom.proto";
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log_service.proto";
+import "edgelq-sdk/audit/proto/v1alpha2/audit_versioning.proto";
 import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor.proto";
 import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor_service.proto";
 import "edgelq-sdk/audit/proto/v1alpha2/method_descriptor.proto";

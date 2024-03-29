@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.logging.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/logging/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor;log_descriptor";
 option java_multiple_files = true;
@@ -42,5 +42,5 @@ message LogDescriptor {
   repeated LabelKeySet promoted_label_key_sets = 5;
 
   // Metadata
-  ntt.types.Meta metadata = 6;
+  goten.types.Meta metadata = 6;
 }

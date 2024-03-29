@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -111,7 +109,7 @@ func BuildCustomizedImage_FieldPath(fp gotenobject.RawFieldPath) (CustomizedImag
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &CustomizedImage_FieldSubPath{selector: CustomizedImage_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -230,7 +228,7 @@ func (fp *CustomizedImage_FieldTerminalPath) GetDefault() interface{} {
 	case CustomizedImage_FieldPathSelectorName:
 		return (*Name)(nil)
 	case CustomizedImage_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case CustomizedImage_FieldPathSelectorSpec:
 		return (*CustomizedImage_Spec)(nil)
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -275,7 +273,7 @@ func (fp *CustomizedImage_FieldTerminalPath) WithIValue(value interface{}) Custo
 	case CustomizedImage_FieldPathSelectorName:
 		return &CustomizedImage_FieldTerminalPathValue{CustomizedImage_FieldTerminalPath: *fp, value: value.(*Name)}
 	case CustomizedImage_FieldPathSelectorMetadata:
-		return &CustomizedImage_FieldTerminalPathValue{CustomizedImage_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &CustomizedImage_FieldTerminalPathValue{CustomizedImage_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case CustomizedImage_FieldPathSelectorSpec:
 		return &CustomizedImage_FieldTerminalPathValue{CustomizedImage_FieldTerminalPath: *fp, value: value.(*CustomizedImage_Spec)}
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -295,7 +293,7 @@ func (fp *CustomizedImage_FieldTerminalPath) WithIArrayOfValues(values interface
 	case CustomizedImage_FieldPathSelectorName:
 		return &CustomizedImage_FieldTerminalPathArrayOfValues{CustomizedImage_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case CustomizedImage_FieldPathSelectorMetadata:
-		return &CustomizedImage_FieldTerminalPathArrayOfValues{CustomizedImage_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &CustomizedImage_FieldTerminalPathArrayOfValues{CustomizedImage_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case CustomizedImage_FieldPathSelectorSpec:
 		return &CustomizedImage_FieldTerminalPathArrayOfValues{CustomizedImage_FieldTerminalPath: *fp, values: values.([]*CustomizedImage_Spec)}
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -331,8 +329,8 @@ var _ CustomizedImage_FieldPath = (*CustomizedImage_FieldSubPath)(nil)
 func (fps *CustomizedImage_FieldSubPath) Selector() CustomizedImage_FieldPathSelector {
 	return fps.selector
 }
-func (fps *CustomizedImage_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *CustomizedImage_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *CustomizedImage_FieldSubPath) AsSpecSubPath() (CustomizedImageSpec_FieldPath, bool) {
@@ -502,8 +500,8 @@ func (fpv *CustomizedImage_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *CustomizedImage_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *CustomizedImage_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *CustomizedImage_FieldTerminalPathValue) AsSpecValue() (*CustomizedImage_Spec, bool) {
@@ -524,7 +522,7 @@ func (fpv *CustomizedImage_FieldTerminalPathValue) SetTo(target **CustomizedImag
 	case CustomizedImage_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case CustomizedImage_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case CustomizedImage_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*CustomizedImage_Spec)
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -583,8 +581,8 @@ type CustomizedImage_FieldSubPathValue struct {
 
 var _ CustomizedImage_FieldPathValue = (*CustomizedImage_FieldSubPathValue)(nil)
 
-func (fpvs *CustomizedImage_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *CustomizedImage_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *CustomizedImage_FieldSubPathValue) AsSpecPathValue() (CustomizedImageSpec_FieldPathValue, bool) {
@@ -602,7 +600,7 @@ func (fpvs *CustomizedImage_FieldSubPathValue) SetTo(target **CustomizedImage) {
 	}
 	switch fpvs.Selector() {
 	case CustomizedImage_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case CustomizedImage_FieldPathSelectorSpec:
 		fpvs.subPathValue.(CustomizedImageSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -624,7 +622,7 @@ func (fpvs *CustomizedImage_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *CustomizedImage_FieldSubPathValue) CompareWith(source *CustomizedImage) (int, bool) {
 	switch fpvs.Selector() {
 	case CustomizedImage_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case CustomizedImage_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(CustomizedImageSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -711,8 +709,8 @@ type CustomizedImage_FieldSubPathArrayItemValue struct {
 func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) AsSpecPathItemValue() (CustomizedImageSpec_FieldPathArrayItemValue, bool) {
@@ -728,7 +726,7 @@ func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) AsStatusPathItemValue(
 func (fpaivs *CustomizedImage_FieldSubPathArrayItemValue) ContainsValue(source *CustomizedImage) bool {
 	switch fpaivs.Selector() {
 	case CustomizedImage_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case CustomizedImage_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(CustomizedImageSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case CustomizedImage_FieldPathSelectorStatus:
@@ -778,7 +776,7 @@ func (fpaov *CustomizedImage_FieldTerminalPathArrayOfValues) GetRawValues() (val
 			values = append(values, v)
 		}
 	case CustomizedImage_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case CustomizedImage_FieldPathSelectorSpec:
@@ -796,8 +794,8 @@ func (fpaov *CustomizedImage_FieldTerminalPathArrayOfValues) AsNameArrayOfValues
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *CustomizedImage_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *CustomizedImage_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *CustomizedImage_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*CustomizedImage_Spec, bool) {
@@ -819,8 +817,8 @@ var _ CustomizedImage_FieldPathArrayOfValues = (*CustomizedImage_FieldSubPathArr
 func (fpsaov *CustomizedImage_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *CustomizedImage_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *CustomizedImage_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *CustomizedImage_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (CustomizedImageSpec_FieldPathArrayOfValues, bool) {

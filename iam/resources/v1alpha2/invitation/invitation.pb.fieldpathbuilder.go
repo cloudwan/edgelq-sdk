@@ -6,8 +6,6 @@ package iam_invitation
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -17,14 +15,14 @@ import (
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -35,7 +33,9 @@ var (
 	_ = &user.User{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ActorFieldPathBuilder struct{}
@@ -263,11 +263,11 @@ func (InvitationPathSelectorExpirationDate) FieldPath() *Invitation_FieldTermina
 	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate}
 }
 
-func (s InvitationPathSelectorExpirationDate) WithValue(value *timestamp.Timestamp) *Invitation_FieldTerminalPathValue {
+func (s InvitationPathSelectorExpirationDate) WithValue(value *timestamppb.Timestamp) *Invitation_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
 }
 
-func (s InvitationPathSelectorExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *Invitation_FieldTerminalPathArrayOfValues {
+func (s InvitationPathSelectorExpirationDate) WithArrayOfValues(values []*timestamppb.Timestamp) *Invitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
 }
 

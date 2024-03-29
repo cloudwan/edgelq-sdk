@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service_account.ServiceAccount{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -138,7 +136,7 @@ func BuildServiceAccountKey_FieldPath(fp gotenobject.RawFieldPath) (ServiceAccou
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ServiceAccountKey_FieldSubPath{selector: ServiceAccountKey_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -275,11 +273,11 @@ func (fp *ServiceAccountKey_FieldTerminalPath) GetDefault() interface{} {
 	case ServiceAccountKey_FieldPathSelectorAlgorithm:
 		return ServiceAccountKey_KEY_ALGORITHM_UNSPECIFIED
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fp.selector))
 	}
@@ -347,11 +345,11 @@ func (fp *ServiceAccountKey_FieldTerminalPath) WithIValue(value interface{}) Ser
 	case ServiceAccountKey_FieldPathSelectorAlgorithm:
 		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(ServiceAccountKey_Algorithm)}
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fp.selector))
 	}
@@ -377,11 +375,11 @@ func (fp *ServiceAccountKey_FieldTerminalPath) WithIArrayOfValues(values interfa
 	case ServiceAccountKey_FieldPathSelectorAlgorithm:
 		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]ServiceAccountKey_Algorithm)}
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fp.selector))
 	}
@@ -413,8 +411,8 @@ var _ ServiceAccountKey_FieldPath = (*ServiceAccountKey_FieldSubPath)(nil)
 func (fps *ServiceAccountKey_FieldSubPath) Selector() ServiceAccountKey_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ServiceAccountKey_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *ServiceAccountKey_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -578,16 +576,16 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsAlgorithmValue() (Service
 	res, ok := fpv.value.(ServiceAccountKey_Algorithm)
 	return res, ok
 }
-func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsValidNotBeforeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsValidNotBeforeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsValidNotAfterValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsValidNotAfterValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -610,11 +608,11 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) SetTo(target **ServiceAccou
 	case ServiceAccountKey_FieldPathSelectorAlgorithm:
 		(*target).Algorithm = fpv.value.(ServiceAccountKey_Algorithm)
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		(*target).ValidNotBefore = fpv.value.(*timestamp.Timestamp)
+		(*target).ValidNotBefore = fpv.value.(*timestamppb.Timestamp)
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		(*target).ValidNotAfter = fpv.value.(*timestamp.Timestamp)
+		(*target).ValidNotAfter = fpv.value.(*timestamppb.Timestamp)
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fpv.selector))
 	}
@@ -698,7 +696,7 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) CompareWith(source *Service
 			return 1, true
 		}
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetValidNotBefore()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -717,7 +715,7 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) CompareWith(source *Service
 			return 1, true
 		}
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetValidNotAfter()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -753,8 +751,8 @@ type ServiceAccountKey_FieldSubPathValue struct {
 
 var _ ServiceAccountKey_FieldPathValue = (*ServiceAccountKey_FieldSubPathValue)(nil)
 
-func (fpvs *ServiceAccountKey_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *ServiceAccountKey_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -764,7 +762,7 @@ func (fpvs *ServiceAccountKey_FieldSubPathValue) SetTo(target **ServiceAccountKe
 	}
 	switch fpvs.Selector() {
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fpvs.Selector()))
 	}
@@ -782,7 +780,7 @@ func (fpvs *ServiceAccountKey_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *ServiceAccountKey_FieldSubPathValue) CompareWith(source *ServiceAccountKey) (int, bool) {
 	switch fpvs.Selector() {
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fpvs.Selector()))
 	}
@@ -865,8 +863,8 @@ type ServiceAccountKey_FieldSubPathArrayItemValue struct {
 func (fpaivs *ServiceAccountKey_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ServiceAccountKey_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *ServiceAccountKey_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -874,7 +872,7 @@ func (fpaivs *ServiceAccountKey_FieldSubPathArrayItemValue) AsMetadataPathItemVa
 func (fpaivs *ServiceAccountKey_FieldSubPathArrayItemValue) ContainsValue(source *ServiceAccountKey) bool {
 	switch fpaivs.Selector() {
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccountKey: %d", fpaivs.Selector()))
 	}
@@ -940,15 +938,15 @@ func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) GetRawValues() (v
 			values = append(values, v)
 		}
 	case ServiceAccountKey_FieldPathSelectorValidNotBefore:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case ServiceAccountKey_FieldPathSelectorValidNotAfter:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case ServiceAccountKey_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -978,16 +976,16 @@ func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsAlgorithmArrayO
 	res, ok := fpaov.values.([]ServiceAccountKey_Algorithm)
 	return res, ok
 }
-func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsValidNotBeforeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsValidNotBeforeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsValidNotAfterArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsValidNotAfterArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -1001,7 +999,7 @@ var _ ServiceAccountKey_FieldPathArrayOfValues = (*ServiceAccountKey_FieldSubPat
 func (fpsaov *ServiceAccountKey_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ServiceAccountKey_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *ServiceAccountKey_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

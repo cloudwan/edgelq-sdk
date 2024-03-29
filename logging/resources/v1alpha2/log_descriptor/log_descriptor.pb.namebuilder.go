@@ -10,18 +10,18 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 const (

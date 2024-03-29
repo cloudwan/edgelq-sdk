@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -27,7 +26,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -44,7 +43,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -54,7 +52,7 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 )
 
 // FieldPath provides implementation to handle
@@ -725,7 +723,7 @@ func (fp *Invitation_FieldTerminalPath) GetDefault() interface{} {
 	case Invitation_FieldPathSelectorRoles:
 		return ([]*role.Reference)(nil)
 	case Invitation_FieldPathSelectorExpirationDate:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case Invitation_FieldPathSelectorExtras:
 		return (map[string]string)(nil)
 	case Invitation_FieldPathSelectorState:
@@ -797,7 +795,7 @@ func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation
 	case Invitation_FieldPathSelectorRoles:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*role.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case Invitation_FieldPathSelectorExtras:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case Invitation_FieldPathSelectorState:
@@ -827,7 +825,7 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayOfValues(values interface{}) I
 	case Invitation_FieldPathSelectorRoles:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*role.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case Invitation_FieldPathSelectorExtras:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case Invitation_FieldPathSelectorState:
@@ -1162,8 +1160,8 @@ func (fpv *Invitation_FieldTerminalPathValue) AsRolesValue() ([]*role.Reference,
 	res, ok := fpv.value.([]*role.Reference)
 	return res, ok
 }
-func (fpv *Invitation_FieldTerminalPathValue) AsExpirationDateValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *Invitation_FieldTerminalPathValue) AsExpirationDateValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *Invitation_FieldTerminalPathValue) AsExtrasValue() (map[string]string, bool) {
@@ -1194,7 +1192,7 @@ func (fpv *Invitation_FieldTerminalPathValue) SetTo(target **Invitation) {
 	case Invitation_FieldPathSelectorRoles:
 		(*target).Roles = fpv.value.([]*role.Reference)
 	case Invitation_FieldPathSelectorExpirationDate:
-		(*target).ExpirationDate = fpv.value.(*timestamp.Timestamp)
+		(*target).ExpirationDate = fpv.value.(*timestamppb.Timestamp)
 	case Invitation_FieldPathSelectorExtras:
 		(*target).Extras = fpv.value.(map[string]string)
 	case Invitation_FieldPathSelectorState:
@@ -1257,7 +1255,7 @@ func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (i
 	case Invitation_FieldPathSelectorRoles:
 		return 0, false
 	case Invitation_FieldPathSelectorExpirationDate:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetExpirationDate()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1553,7 +1551,7 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case Invitation_FieldPathSelectorExpirationDate:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case Invitation_FieldPathSelectorExtras:
@@ -1591,8 +1589,8 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsRolesArrayOfValues() (
 	res, ok := fpaov.values.([][]*role.Reference)
 	return res, ok
 }
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExpirationDateArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExpirationDateArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExtrasArrayOfValues() ([]map[string]string, bool) {

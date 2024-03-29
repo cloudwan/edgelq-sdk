@@ -1,0 +1,558 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/common/rpc/status.proto";
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_serie;time_serie_client";
+option java_multiple_files = false;
+option java_outer_classname = "TimeSerieCustomProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Request message for method [ListTimeSeries][ntt.monitoring.v4.ListTimeSeries]
+message ListTimeSeriesRequest {
+  // The project on which to execute the request. The format is
+  // "projects/{project_id}", or
+  // "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
+  string parent = 10;
+
+  // A monitoring filter that specifies which time
+  // series should be returned.  The filter must specify a single metric type,
+  // and can additionally specify metric labels and other information. For
+  // example:
+  //
+  //     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
+  //         metric.label.instance_name = "my-instance-name"
+  string filter = 2;
+
+  // The time interval for which results should be returned. Only time series
+  // that contain data points in the specified interval are included
+  // in the response.
+  TimeInterval interval = 4;
+
+  // By default, the raw time series data is returned.
+  // Use this field to combine multiple time series for different
+  // views of the data.
+  Aggregation aggregation = 5;
+
+  // Unsupported: must be left blank. The points in each time series are
+  // returned in reverse time order.
+  string order_by = 6;
+
+  // Specifies which information is returned about the time series.
+  TimeSeriesView view = 7;
+
+  // view list mask. Optimize network usage and limit returned header fields to
+  // a required subset. example fields in field mask:
+  // - "key": for later caching,
+  // - "resource.labels.project_id", "resource.labels.instance_name", etc -
+  // specific labels only
+  // - "resource", "metric": all resource labels, reduced_labels and type
+  // NOTE: points are added implicitly
+  google.protobuf.FieldMask field_mask = 12;
+
+  // A positive number that is the maximum number of results to return. If
+  // `page_size` is empty or more than 100,000 results, the effective
+  // `page_size` is 100,000 results. If `view` is set to `FULL`, this is the
+  // maximum number of `Points` returned. If `view` is set to `HEADERS`, this is
+  // the maximum number of `TimeSeries` returned.
+  int32 page_size = 8;
+
+  // If this field is not empty then it must contain the `nextPageToken` value
+  // returned by a previous call to this method.  Using this field causes the
+  // method to return additional results from the previous method call.
+  string page_token = 9;
+}
+
+// Response message for method
+// [ListTimeSeries][ntt.monitoring.v4.ListTimeSeries]
+message ListTimeSeriesResponse {
+  // One or more time series that match the filter included in the request.
+  repeated TimeSerie time_series = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value.  To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  // Query execution errors that may have caused the time series data returned
+  // to be incomplete.
+  repeated ntt.rpc.Status execution_errors = 3;
+
+  // ErrorDetails is used when one of the queried regions fails to produce
+  // results. It is used in execution_errors field (see subfield
+  // ntt.rpc.Status.details).
+  message ErrorDetails {
+    // region id which failed to give results.
+    string region_id = 1;
+  }
+}
+
+// Request message for method
+// [CreateTimeSeries][ntt.monitoring.v4.CreateTimeSeries]
+message CreateTimeSeriesRequest {
+  // The project on which to execute the request. The format is
+  // "projects/{project_id}", or
+  // "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
+  string parent = 3;
+
+  // The new data to be added to a list of time series.
+  // Adds at most one data point to each of several time series.  The new data
+  // point must be more recent than any other point in its time series.  Each
+  // `TimeSeries` value must fully specify a unique time series by supplying
+  // all label values for the metric and the monitored resource.
+  repeated TimeSerie time_series = 2;
+}
+
+// Response message for method
+// [CreateTimeSeries][ntt.monitoring.v4.CreateTimeSeries]
+message CreateTimeSeriesResponse {
+  // Time Serie keys indexed by Create position - present only when given
+  // TimeSerie didn't use Key field
+  map<uint32, bytes> time_serie_keys = 11;
+
+  // Time series that failed to be created
+  repeated CreateTimeSeriesError failed_time_series = 50;
+}
+
+// Describes the result of a failed request to write data to a time series.
+message CreateTimeSeriesError {
+  // The time series, including the `Metric`, `MonitoredResource`,
+  // and `Point`s (including timestamp and value) that resulted
+  // in the error. This field provides all of the context that
+  // would be needed to retry the operation.
+  TimeSerie time_series = 1;
+
+  // The status of the requested write operation.
+  ntt.rpc.Status status = 2;
+}
+
+message StatsQuery {
+  oneof request {
+    CallLatencies call_latencies = 1;
+
+    ExecutedCalls executed_calls = 2;
+
+    OpenCalls open_calls = 3;
+
+    ErrorCounts error_counts = 4;
+
+    IngressThroughput ingress_throughput = 5;
+
+    EgressThroughput egress_throughput = 6;
+
+    StoreOperations store_usage = 7;
+
+    ResourceCount resource_count = 8;
+
+    Logs logs_usage = 9;
+
+    ActivityLogs activity_logs_usage = 10;
+
+    ResourceChangeLogs resource_change_logs_usage = 11;
+
+    TimeSeries time_series_usage = 12;
+
+    TimeSeriesLatencies time_series_latencies = 13;
+  }
+
+  message CallLatencies {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    Reducer reducer = 4;
+
+    repeated Groups group_by = 5;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+    }
+
+    enum Reducer {
+      SUMMARY = 0;
+
+      MIN = 1;
+
+      MAX = 2;
+
+      P50 = 3;
+
+      P95 = 4;
+
+      P99 = 5;
+
+      MEAN = 6;
+
+      STD_DEV = 7;
+    }
+  }
+
+  message ExecutedCalls {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated Groups group_by = 4;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+    }
+  }
+
+  message OpenCalls {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated Groups group_by = 4;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+    }
+  }
+
+  message ErrorCounts {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated string error_codes = 4;
+
+    repeated Groups group_by = 5;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+
+      RESPONSE_CODE = 3;
+    }
+  }
+
+  message IngressThroughput {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated Groups group_by = 4;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+    }
+  }
+
+  message EgressThroughput {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated Groups group_by = 4;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+    }
+  }
+
+  message StoreOperations {
+    repeated string methods = 1;
+
+    repeated string versions = 2;
+
+    repeated string resources = 3;
+
+    repeated Operation operations = 4;
+
+    repeated Groups group_by = 5;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      RESOURCE_TYPE = 2;
+
+      OPERATION = 3;
+    }
+
+    enum Operation {
+      UNDEFINED = 0;
+
+      GET = 1;
+
+      LIST = 2;
+
+      SEARCH = 3;
+
+      WATCH = 4;
+
+      CREATE = 5;
+
+      UPDATE = 6;
+
+      DELETE = 7;
+    }
+  }
+
+  message ResourceCount { repeated string resources = 1; }
+
+  message Logs {
+    Type type = 1;
+
+    repeated string log_types = 2;
+
+    repeated Groups group_by = 3;
+
+    enum Groups { LOG_TYPE = 0; }
+
+    enum Type {
+      UNDEFINED = 0;
+
+      READS = 1;
+
+      WRITES = 2;
+    }
+  }
+
+  message ActivityLogs {
+    Type type = 1;
+
+    repeated string methods = 2;
+
+    repeated string versions = 3;
+
+    repeated string categories = 4;
+
+    repeated Groups group_by = 5;
+
+    enum Groups {
+      METHOD = 0;
+
+      VERSION = 1;
+
+      CATEGORY = 2;
+    }
+
+    enum Type {
+      UNDEFINED = 0;
+
+      READS = 1;
+
+      WRITES = 2;
+    }
+  }
+
+  message ResourceChangeLogs {
+    Type type = 1;
+
+    repeated string resource_types = 2;
+
+    repeated Groups group_by = 3;
+
+    enum Groups { RESOURCE_TYPE = 0; }
+
+    enum Type {
+      UNDEFINED = 0;
+
+      READS = 1;
+
+      WRITES = 2;
+    }
+  }
+
+  message TimeSeries {
+    Type type = 1;
+
+    repeated string resource_types = 2;
+
+    repeated string metric_types = 3;
+
+    repeated Groups group_by = 4;
+
+    enum Groups {
+      RESOURCE_TYPE = 0;
+
+      METRIC_TYPE = 1;
+    }
+
+    enum Type {
+      UNDEFINED = 0;
+
+      READS = 1;
+
+      RAW_WRITES = 2;
+
+      ROLLUP_WRITES = 3;
+    }
+  }
+
+  message TimeSeriesLatencies {
+    google.protobuf.Duration of_ap = 1;
+
+    Reducer reducer = 2;
+
+    enum Reducer {
+      SUMMARY = 0;
+
+      MIN = 1;
+
+      MAX = 2;
+
+      P50 = 3;
+
+      P95 = 4;
+
+      P99 = 5;
+
+      MEAN = 6;
+
+      STD_DEV = 7;
+    }
+  }
+}
+
+// Response message for method
+// [QueryProjectTimeSeriesStats][ntt.monitoring.v4.QueryProjectTimeSeriesStats]
+message QueryProjectTimeSeriesStatsRequest {
+  string project = 1;
+
+  // Service domain for which we request stats, for example "devices.edgelq.com"
+  string service = 2;
+
+  // Region ID from which to get metrics
+  string region_id = 3;
+
+  // Aggregation alignment period
+  google.protobuf.Duration ap = 4;
+
+  // The time interval for which results should be returned.
+  TimeInterval interval = 5;
+
+  // A positive number that is the maximum number of results to return. If
+  // `page_size` is empty or more than 100,000 results, the effective
+  // `page_size` is 100,000 results.
+  int32 page_size = 6;
+
+  // If this field is not empty then it must contain the `nextPageToken` value
+  // returned by a previous call to this method.  Using this field causes the
+  // method to return additional results from the previous method call.
+  string page_token = 7;
+
+  StatsQuery query = 8;
+}
+
+// Response message for method
+// [QueryProjectTimeSeriesStats][ntt.monitoring.v4.QueryProjectTimeSeriesStats]
+message QueryProjectTimeSeriesStatsResponse {
+  // One or more time series that match the request.
+  repeated TimeSerie time_series = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value.  To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  // Query execution errors that may have caused the time series data returned
+  // to be incomplete.
+  repeated ntt.rpc.Status execution_errors = 3;
+
+  // ErrorDetails is used when one of the queried regions fails to produce
+  // results. It is used in execution_errors field (see subfield
+  // ntt.rpc.Status.details).
+  message ErrorDetails {
+    // region id which failed to give results.
+    string region_id = 1;
+  }
+}
+
+// Response message for method
+// [QueryServiceTimeSeriesStats][ntt.monitoring.v4.QueryServiceTimeSeriesStats]
+message QueryServiceTimeSeriesStatsRequest {
+  string service = 1;
+
+  // Region ID from which stats should e obtained
+  string region_id = 2;
+
+  google.protobuf.Duration ap = 3;
+
+  // The time interval for which results should be returned.
+  TimeInterval interval = 4;
+
+  // A positive number that is the maximum number of results to return. If
+  // `page_size` is empty or more than 100,000 results, the effective
+  // `page_size` is 100,000 results.
+  int32 page_size = 5;
+
+  // If this field is not empty then it must contain the `nextPageToken` value
+  // returned by a previous call to this method.  Using this field causes the
+  // method to return additional results from the previous method call.
+  string page_token = 6;
+
+  // Optional list of user projects for which we want to get stats. If provided,
+  // statistics will be grouped by them.
+  repeated string user_project_ids = 7;
+
+  StatsQuery query = 8;
+}
+
+// Response message for method
+// [QueryServiceTimeSeriesStats][ntt.monitoring.v4.QueryServiceTimeSeriesStats]
+message QueryServiceTimeSeriesStatsResponse {
+  // One or more time series that match the request.
+  repeated TimeSerie time_series = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value.  To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  // Query execution errors that may have caused the time series data returned
+  // to be incomplete.
+  repeated ntt.rpc.Status execution_errors = 3;
+
+  // ErrorDetails is used when one of the queried regions fails to produce
+  // results. It is used in execution_errors field (see subfield
+  // ntt.rpc.Status.details).
+  message ErrorDetails {
+    // region id which failed to give results.
+    string region_id = 1;
+  }
+}

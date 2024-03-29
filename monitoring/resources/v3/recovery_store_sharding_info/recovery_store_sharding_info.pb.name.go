@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -44,13 +44,13 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 var recoveryStoreShardingInfo_RegexpId = regexp.MustCompile("^(?P<recovery_store_sharding_info_id>[a-zA-Z0-9_.-]{1,128})$")
-var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/recoveryStoreShardingInfos/(?P<recovery_store_sharding_info_id>-|[a-zA-Z0-9_.-]{1,128})$")
+var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/recoveryStoreShardingInfos/(?P<recovery_store_sharding_info_id>-|[a-zA-Z0-9_.-]{1,128})$")
 
 func (r *RecoveryStoreShardingInfo) MaybePopulateDefaults() error {
 	recoveryStoreShardingInfoInterface := interface{}(r)
@@ -58,14 +58,6 @@ func (r *RecoveryStoreShardingInfo) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *RecoveryStoreShardingInfo) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *RecoveryStoreShardingInfo) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

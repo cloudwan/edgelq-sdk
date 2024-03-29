@@ -12,10 +12,10 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -27,15 +27,33 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var (
 	descriptor *Descriptor
 )
+
+func (r *MetricDescriptor) GetRawName() gotenresource.Name {
+	return r.GetName()
+}
+
+func (r *MetricDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return descriptor
+}
+
+func (r *MetricDescriptor) EnsureMetadata() *meta.Meta {
+	if r.Metadata == nil {
+		r.Metadata = &meta.Meta{}
+	}
+	if r.Metadata.Lifecycle == nil {
+		r.Metadata.Lifecycle = &meta.Lifecycle{}
+	}
+	return r.Metadata
+}
 
 type Descriptor struct {
 	nameDescriptor *gotenresource.NameDescriptor
@@ -142,12 +160,26 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 	return d.nameDescriptor
 }
 
+func (d *Descriptor) CanBeParentless() bool {
+	return false
+}
+
+func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
+	return []gotenresource.Descriptor{
+		project.GetDescriptor(),
+	}
+}
+
 func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseMetricDescriptor_FieldPath(raw)
 }
 
 func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
+}
+
+func (d *Descriptor) SupportsMetadata() bool {
+	return true
 }
 
 func initMetricDescriptorDescriptor() {

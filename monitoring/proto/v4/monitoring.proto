@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/alert.proto";
+import "edgelq-sdk/monitoring/proto/v4/alert_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/alerting_condition.proto";
+import "edgelq-sdk/monitoring/proto/v4/alerting_condition_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/alerting_policy.proto";
+import "edgelq-sdk/monitoring/proto/v4/alerting_policy_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/bucket.proto";
+import "edgelq-sdk/monitoring/proto/v4/bucket_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor.proto";
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor_custom.proto";
+import "edgelq-sdk/monitoring/proto/v4/metric_descriptor_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/monitored_resource_descriptor.proto";
+import "edgelq-sdk/monitoring/proto/v4/monitored_resource_descriptor_custom.proto";
+import "edgelq-sdk/monitoring/proto/v4/monitored_resource_descriptor_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification_channel.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification_channel_custom.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification_channel_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/phantom_time_serie.proto";
+import "edgelq-sdk/monitoring/proto/v4/phantom_time_serie_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/project.proto";
+import "edgelq-sdk/monitoring/proto/v4/project_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/recovery_store_sharding_info.proto";
+import "edgelq-sdk/monitoring/proto/v4/recovery_store_sharding_info_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie_custom.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "goten-sdk/meta-service/proto/v1/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/monitoring;monitoring_client";
+option java_multiple_files = true;
+option java_outer_classname = "MonitoringProto";
+option java_package = "com.ntt.monitoring.pb.v4";

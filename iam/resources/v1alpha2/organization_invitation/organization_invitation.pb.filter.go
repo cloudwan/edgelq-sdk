@@ -26,9 +26,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 var (
@@ -48,9 +48,9 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
+	_ = &meta.Meta{}
 )
 
 type FilterCondition interface {

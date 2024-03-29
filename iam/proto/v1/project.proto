@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+import "goten-sdk/types/multi_region_policy.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project;project";
+option java_multiple_files = true;
+option java_outer_classname = "ProjectProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Project Resource
+message Project {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Project"
+    pattern : "projects/{project}"
+  };
+
+  // Name of Project
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 6;
+
+  // Title
+  string title = 2;
+
+  // Parent organization
+  string parent_organization = 3;
+
+  // Multi region policy
+  goten.types.MultiRegionPolicy multi_region_policy = 7;
+
+  // Enabled services. This field is checked only for non-core edgelq services.
+  repeated string enabled_services = 8;
+
+  // Default business tier for core EdgeLQ services and all enabled services.
+  BusinessTier business_tier = 9;
+
+  // Overwrites business_tier for each service.
+  repeated ServiceBusinessTier service_tiers = 10;
+
+  // Top parent
+  string root_organization = 4;
+
+  // Full ancestry path
+  repeated string ancestry_path = 5;
+
+  // Service errors reported for this project
+  map<string, ServiceErrors> service_errors = 11;
+
+  // Internal field for services meta information synchronization
+  int64 services_generation = 12;
+}

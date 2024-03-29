@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/authorization_custom.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/authorization;authorization_client";
+option java_multiple_files = false;
+option java_outer_classname = "AuthorizationServiceProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Authorization service API for IAM
+service AuthorizationService {
+  option (google.api.default_host) = "iam.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // GetPrincipal
+  rpc GetPrincipal(GetPrincipalRequest) returns (GetPrincipalResponse) {
+    option (google.api.http) = {
+      post : "/v1:getPrincipal"
+    };
+  }
+
+  // WatchPrincipalUpdates
+  rpc WatchPrincipalUpdates(WatchPrincipalUpdatesRequest)
+      returns (stream WatchPrincipalUpdatesResponse) {
+    option (google.api.http) = {
+      post : "/v1:watchPrincipalUpdates"
+    };
+  }
+
+  // CheckMyRoleBindings
+  rpc CheckMyRoleBindings(CheckMyRoleBindingsRequest)
+      returns (CheckMyRoleBindingsResponse) {
+    option (google.api.http) = {
+      post : "/v1/roleBindings:checkMy"
+      body : "*"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*}/roleBindings:checkMy"
+      >
+      additional_bindings : <
+        post : "/v1/{parent=organizations/*}/roleBindings:checkMy"
+      >
+      additional_bindings : <
+        post : "/v1/{parent=services/*}/roleBindings:checkMy"
+      >
+    };
+  }
+}

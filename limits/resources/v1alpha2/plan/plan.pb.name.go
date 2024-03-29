@@ -24,10 +24,10 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -45,10 +45,10 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 var plan_RegexpId = regexp.MustCompile("^(?P<plan_id>[a-zA-Z0-9_.-]{1,128})$")
@@ -60,14 +60,6 @@ func (r *Plan) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *Plan) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *Plan) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

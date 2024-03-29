@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	group_member_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/group_member"
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiGroupMemberAccess struct {
@@ -42,8 +44,11 @@ func NewApiGroupMemberAccess(client group_member_client.GroupMemberServiceClient
 }
 
 func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_member.GetQuery) (*group_member.GroupMember, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &group_member_client.GetGroupMemberRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetGroupMember(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_
 
 func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []*group_member.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*group_member.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &group_member_client.BatchGetGroupMembersRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(group_member.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *gro
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListGroupMembers(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *gro
 }
 
 func (a *apiGroupMemberAccess) WatchGroupMember(ctx context.Context, query *group_member.GetQuery, observerCb func(*group_member.GroupMemberChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &group_member_client.WatchGroupMemberRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchGroupMember(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchGroupMembers(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiGroupMemberAccess) SaveGroupMember(ctx context.Context, res *group_m
 			}
 		}
 	}
-
+	var resp *group_member.GroupMember
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &group_member_client.UpdateGroupMemberRequest{
 			GroupMember: res,
@@ -195,29 +217,76 @@ func (a *apiGroupMemberAccess) SaveGroupMember(ctx context.Context, res *group_m
 				FieldMask:        mask.(*group_member.GroupMember_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateGroupMember(ctx, updateRequest)
+		resp, err = a.client.UpdateGroupMember(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &group_member_client.CreateGroupMemberRequest{
 			GroupMember: res,
 		}
-		_, err := a.client.CreateGroupMember(ctx, createRequest)
+		resp, err = a.client.CreateGroupMember(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiGroupMemberAccess) DeleteGroupMember(ctx context.Context, ref *group_member.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &group_member_client.DeleteGroupMemberRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteGroupMember(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *group_member.Filter) (*group_member.Filter, *group_member.ParentName) {
+	var withParentExtraction func(cnd group_member.FilterCondition) group_member.FilterCondition
+	var resultParent *group_member.ParentName
+	var resultFilter *group_member.Filter
+	withParentExtraction = func(cnd group_member.FilterCondition) group_member.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *group_member.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]group_member.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return group_member.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *group_member.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*group_member.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &group_member.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

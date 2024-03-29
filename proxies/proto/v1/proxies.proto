@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ntt.proxies.v1;
+
+import "edgelq-sdk/proxies/proto/v1/broker_custom.proto";
+import "edgelq-sdk/proxies/proto/v1/broker_service.proto";
+import "edgelq-sdk/proxies/proto/v1/project.proto";
+import "edgelq-sdk/proxies/proto/v1/project_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/proxies/client/v1/proxies;proxies_client";
+option java_multiple_files = true;
+option java_outer_classname = "ProxiesProto";
+option java_package = "com.ntt.proxies.pb.v1";

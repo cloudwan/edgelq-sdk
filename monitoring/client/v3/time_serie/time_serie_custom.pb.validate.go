@@ -15,19 +15,16 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
 // proto imports
 import (
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 var (
@@ -40,18 +37,16 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
 // make sure we're using proto imports
 var (
 	_ = &rpc.Status{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &project.Project{}
 	_ = &time_serie.Point{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 func (obj *ListTimeSeriesRequest) GotenValidate() error {

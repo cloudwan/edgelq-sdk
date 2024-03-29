@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/devices/proto/v1/device_hardware.proto";
+import "edgelq-sdk/devices/proto/v1/device_hardware_register_session.proto";
+import "edgelq-sdk/devices/proto/v1/device_hardware_register_session_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware_register_session;device_hardware_register_session_client";
+option java_multiple_files = false;
+option java_outer_classname = "DeviceHardwareRegisterSessionCustomProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// Request message for method
+// [RegisterHardware][ntt.devices.v1.RegisterHardware]
+message RegisterHardwareRequest {
+  // token from hardware_register_session
+  string token = 1;
+
+  // one of encrypted_serial_number or serial_number is required
+  string encrypted_serial_number = 2;
+
+  string serial_number = 3;
+
+  string manufacturer = 4;
+
+  // Should be in the format "productname (sku)", required field
+  string product_name = 5;
+
+  repeated string mac_address = 6;
+
+  string sim_iccid = 7;
+
+  string imei = 8;
+}
+
+// Response message for method
+// [RegisterHardware][ntt.devices.v1.RegisterHardware]
+message RegisterHardwareResponse { DeviceHardware hardware = 1; }
+
+// Request message for method [HardwareStatus][ntt.devices.v1.HardwareStatus]
+message HardwareStatusRequest {
+  // token for hardware_register_session
+  string token = 1;
+
+  // one of encrypted_serial_number or serial_number or sim_iccid is mandatory
+  string encrypted_serial_number = 2;
+
+  string serial_number = 3;
+
+  // manufacturer is typically not required, only required in case of serial
+  // number conflict with different vendors
+  string manufacturer = 4;
+
+  // product_name is typically not required, only required in case of serial
+  // number conflict with different productname/skus Should be in the format
+  // "productname (sku)"
+  string product_name = 5;
+}
+
+// Response message for method [HardwareStatus][ntt.devices.v1.HardwareStatus]
+message HardwareStatusResponse { repeated DeviceHardware device_hardwares = 1; }
+
+// Request message for method
+// [GetDeviceHardwareRegisterSessionFromToken][ntt.devices.v1.GetDeviceHardwareRegisterSessionFromToken]
+message GetDeviceHardwareRegisterSessionFromTokenRequest {
+  // token from hardware_register_session
+  string token = 1;
+}
+
+// Response message for method
+// [GetDeviceHardwareRegisterSessionFromToken][ntt.devices.v1.GetDeviceHardwareRegisterSessionFromToken]
+message GetDeviceHardwareRegisterSessionFromTokenResponse {
+  DeviceHardwareRegisterSession device_hardware_register_session = 1;
+
+  // Used for showing project name in hardware registration dashboard
+  string project_display_name = 2;
+}

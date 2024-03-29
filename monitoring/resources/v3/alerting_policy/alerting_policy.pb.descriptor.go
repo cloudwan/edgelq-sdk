@@ -11,9 +11,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -24,14 +24,32 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var (
 	descriptor *Descriptor
 )
+
+func (r *AlertingPolicy) GetRawName() gotenresource.Name {
+	return r.GetName()
+}
+
+func (r *AlertingPolicy) GetResourceDescriptor() gotenresource.Descriptor {
+	return descriptor
+}
+
+func (r *AlertingPolicy) EnsureMetadata() *meta.Meta {
+	if r.Metadata == nil {
+		r.Metadata = &meta.Meta{}
+	}
+	if r.Metadata.Lifecycle == nil {
+		r.Metadata.Lifecycle = &meta.Lifecycle{}
+	}
+	return r.Metadata
+}
 
 type Descriptor struct {
 	nameDescriptor *gotenresource.NameDescriptor
@@ -138,12 +156,26 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 	return d.nameDescriptor
 }
 
+func (d *Descriptor) CanBeParentless() bool {
+	return false
+}
+
+func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
+	return []gotenresource.Descriptor{
+		project.GetDescriptor(),
+	}
+}
+
 func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseAlertingPolicy_FieldPath(raw)
 }
 
 func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
+}
+
+func (d *Descriptor) SupportsMetadata() bool {
+	return true
 }
 
 func initAlertingPolicyDescriptor() {

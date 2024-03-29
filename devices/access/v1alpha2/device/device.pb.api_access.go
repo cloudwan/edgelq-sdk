@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiDeviceAccess struct {
@@ -42,8 +44,11 @@ func NewApiDeviceAccess(client device_client.DeviceServiceClient) device.DeviceA
 }
 
 func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery) (*device.Device, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &device_client.GetDeviceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetDevice(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery)
 
 func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*device.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &device_client.BatchGetDevicesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(device.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQu
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListDevices(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQu
 }
 
 func (a *apiDeviceAccess) WatchDevice(ctx context.Context, query *device.GetQuery, observerCb func(*device.DeviceChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &device_client.WatchDeviceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchDevice(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiDeviceAccess) WatchDevices(ctx context.Context, query *device.WatchQ
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchDevices(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiDeviceAccess) SaveDevice(ctx context.Context, res *device.Device, op
 			}
 		}
 	}
-
+	var resp *device.Device
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &device_client.UpdateDeviceRequest{
 			Device: res,
@@ -195,29 +217,76 @@ func (a *apiDeviceAccess) SaveDevice(ctx context.Context, res *device.Device, op
 				FieldMask:        mask.(*device.Device_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateDevice(ctx, updateRequest)
+		resp, err = a.client.UpdateDevice(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &device_client.CreateDeviceRequest{
 			Device: res,
 		}
-		_, err := a.client.CreateDevice(ctx, createRequest)
+		resp, err = a.client.CreateDevice(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiDeviceAccess) DeleteDevice(ctx context.Context, ref *device.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &device_client.DeleteDeviceRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteDevice(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *device.Filter) (*device.Filter, *device.ParentName) {
+	var withParentExtraction func(cnd device.FilterCondition) device.FilterCondition
+	var resultParent *device.ParentName
+	var resultFilter *device.Filter
+	withParentExtraction = func(cnd device.FilterCondition) device.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *device.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]device.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return device.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *device.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*device.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &device.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

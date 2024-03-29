@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -25,7 +24,7 @@ import (
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,7 +41,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -50,7 +48,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -116,7 +114,7 @@ func BuildConfigMap_FieldPath(fp gotenobject.RawFieldPath) (ConfigMap_FieldPath,
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ConfigMap_FieldSubPath{selector: ConfigMap_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -237,7 +235,7 @@ func (fp *ConfigMap_FieldTerminalPath) GetDefault() interface{} {
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return ""
 	case ConfigMap_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case ConfigMap_FieldPathSelectorData:
 		return (map[string]string)(nil)
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -289,7 +287,7 @@ func (fp *ConfigMap_FieldTerminalPath) WithIValue(value interface{}) ConfigMap_F
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(string)}
 	case ConfigMap_FieldPathSelectorMetadata:
-		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ConfigMap_FieldPathSelectorData:
 		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -311,7 +309,7 @@ func (fp *ConfigMap_FieldTerminalPath) WithIArrayOfValues(values interface{}) Co
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]string)}
 	case ConfigMap_FieldPathSelectorMetadata:
-		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ConfigMap_FieldPathSelectorData:
 		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -497,8 +495,8 @@ var _ ConfigMap_FieldPath = (*ConfigMap_FieldSubPath)(nil)
 func (fps *ConfigMap_FieldSubPath) Selector() ConfigMap_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ConfigMap_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *ConfigMap_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -646,8 +644,8 @@ func (fpv *ConfigMap_FieldTerminalPathValue) AsDisplayNameValue() (string, bool)
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *ConfigMap_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *ConfigMap_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *ConfigMap_FieldTerminalPathValue) AsDataValue() (map[string]string, bool) {
@@ -670,7 +668,7 @@ func (fpv *ConfigMap_FieldTerminalPathValue) SetTo(target **ConfigMap) {
 	case ConfigMap_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case ConfigMap_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ConfigMap_FieldPathSelectorData:
 		(*target).Data = fpv.value.(map[string]string)
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -809,8 +807,8 @@ type ConfigMap_FieldSubPathValue struct {
 
 var _ ConfigMap_FieldPathValue = (*ConfigMap_FieldSubPathValue)(nil)
 
-func (fpvs *ConfigMap_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *ConfigMap_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -820,7 +818,7 @@ func (fpvs *ConfigMap_FieldSubPathValue) SetTo(target **ConfigMap) {
 	}
 	switch fpvs.Selector() {
 	case ConfigMap_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConfigMap: %d", fpvs.Selector()))
 	}
@@ -838,7 +836,7 @@ func (fpvs *ConfigMap_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *ConfigMap_FieldSubPathValue) CompareWith(source *ConfigMap) (int, bool) {
 	switch fpvs.Selector() {
 	case ConfigMap_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConfigMap: %d", fpvs.Selector()))
 	}
@@ -921,8 +919,8 @@ type ConfigMap_FieldSubPathArrayItemValue struct {
 func (fpaivs *ConfigMap_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ConfigMap_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *ConfigMap_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -930,7 +928,7 @@ func (fpaivs *ConfigMap_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (n
 func (fpaivs *ConfigMap_FieldSubPathArrayItemValue) ContainsValue(source *ConfigMap) bool {
 	switch fpaivs.Selector() {
 	case ConfigMap_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConfigMap: %d", fpaivs.Selector()))
 	}
@@ -980,7 +978,7 @@ func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 			values = append(values, v)
 		}
 	case ConfigMap_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case ConfigMap_FieldPathSelectorData:
@@ -1002,8 +1000,8 @@ func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValue
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]map[string]string, bool) {
@@ -1054,7 +1052,7 @@ var _ ConfigMap_FieldPathArrayOfValues = (*ConfigMap_FieldSubPathArrayOfValues)(
 func (fpsaov *ConfigMap_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ConfigMap_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *ConfigMap_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	project_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project_invitation"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project_invitation.ProjectInvitation{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ProjectInvitationServiceClient interface {
 	WatchProjectInvitations(ctx context.Context, in *WatchProjectInvitationsRequest, opts ...grpc.CallOption) (WatchProjectInvitationsClientStream, error)
 	CreateProjectInvitation(ctx context.Context, in *CreateProjectInvitationRequest, opts ...grpc.CallOption) (*project_invitation.ProjectInvitation, error)
 	UpdateProjectInvitation(ctx context.Context, in *UpdateProjectInvitationRequest, opts ...grpc.CallOption) (*project_invitation.ProjectInvitation, error)
-	DeleteProjectInvitation(ctx context.Context, in *DeleteProjectInvitationRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProjectInvitation(ctx context.Context, in *DeleteProjectInvitationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	AcceptProjectInvitation(ctx context.Context, in *AcceptProjectInvitationRequest, opts ...grpc.CallOption) (*AcceptProjectInvitationResponse, error)
 	DeclineProjectInvitation(ctx context.Context, in *DeclineProjectInvitationRequest, opts ...grpc.CallOption) (*DeclineProjectInvitationResponse, error)
 	ListMyProjectInvitations(ctx context.Context, in *ListMyProjectInvitationsRequest, opts ...grpc.CallOption) (*ListMyProjectInvitationsResponse, error)
@@ -190,8 +190,8 @@ func (c *client) UpdateProjectInvitation(ctx context.Context, in *UpdateProjectI
 	return out, nil
 }
 
-func (c *client) DeleteProjectInvitation(ctx context.Context, in *DeleteProjectInvitationRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteProjectInvitation(ctx context.Context, in *DeleteProjectInvitationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.ProjectInvitationService/DeleteProjectInvitation", in, out, opts...)
 	if err != nil {
 		return nil, err

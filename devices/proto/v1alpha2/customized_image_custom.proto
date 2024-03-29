@@ -12,7 +12,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // Request message for method [RequestUrl][ntt.devices.v1alpha2.RequestUrl]
 message RequestUrlRequest {
-  //  reference of ntt.devices.v1alpha2.CustomizedImage
+  // name of ntt.devices.v1alpha2.CustomizedImage
   string name = 1;
 }
 

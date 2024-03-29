@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -19,8 +19,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -29,7 +29,7 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -40,7 +40,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (o *Log) GotenObjectExt() {}
@@ -138,7 +138,7 @@ func (o *Log) Clone() *Log {
 	for key, sourceValue := range o.Labels {
 		result.Labels[key] = sourceValue
 	}
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	result.Payload = proto.Clone(o.Payload).(*structpb.Struct)
 	return result
 }
@@ -186,7 +186,7 @@ func (o *Log) Merge(source *Log) {
 	}
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}

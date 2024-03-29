@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -26,8 +23,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -40,8 +37,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -51,7 +46,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (obj *Log) GotenValidate() error {

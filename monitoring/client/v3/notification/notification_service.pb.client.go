@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification.Notification{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type NotificationServiceClient interface {
 	WatchNotifications(ctx context.Context, in *WatchNotificationsRequest, opts ...grpc.CallOption) (WatchNotificationsClientStream, error)
 	CreateNotification(ctx context.Context, in *CreateNotificationRequest, opts ...grpc.CallOption) (*notification.Notification, error)
 	UpdateNotification(ctx context.Context, in *UpdateNotificationRequest, opts ...grpc.CallOption) (*notification.Notification, error)
-	DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SearchNotifications(ctx context.Context, in *SearchNotificationsRequest, opts ...grpc.CallOption) (*SearchNotificationsResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateNotification(ctx context.Context, in *UpdateNotificationR
 	return out, nil
 }
 
-func (c *client) DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.NotificationService/DeleteNotification", in, out, opts...)
 	if err != nil {
 		return nil, err

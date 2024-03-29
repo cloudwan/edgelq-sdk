@@ -24,8 +24,8 @@ import (
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,8 +43,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
-	_ = &ntt_meta.Meta{}
+	_ = &common.Authentication{}
+	_ = &meta.Meta{}
 )
 
 var methodDescriptor_RegexpId = regexp.MustCompile("^(?P<method_descriptor_id>[\\w./-]{1,128}/[\\w./-]{1,128})$")
@@ -56,14 +56,6 @@ func (r *MethodDescriptor) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *MethodDescriptor) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *MethodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

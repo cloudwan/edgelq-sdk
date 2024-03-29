@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/devices/proto/v1/device_hardware.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware_register_session;device_hardware_register_session";
+option java_multiple_files = true;
+option java_outer_classname = "DeviceHardwareRegisterSessionProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// DeviceHardwareRegisterSession Resource
+message DeviceHardwareRegisterSession {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/DeviceHardwareRegisterSession"
+    pattern : "projects/{project}/regions/{region}/"
+              "deviceHardwareRegisterSessions/"
+              "{device_hardware_register_session}"
+  };
+
+  // Name of DeviceHardwareRegisterSession
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Start time, if not set, current time will be used
+  google.protobuf.Timestamp start_time = 3;
+
+  // Expiration time, if not set, will be set to 1 week from now
+  google.protobuf.Timestamp expiration_time = 4;
+
+  // Email address of the user who will register the hardware
+  // Only used to send an email. Not used for identity/authorization
+  string user_email = 5;
+
+  // Inviter Email, automatically set from token, not accepted as input
+  string inviter_email = 6 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // Email ISO language code. Defaults to "en-us" (American English).
+  string language_code = 7;
+
+  // Extra custom fields to further customize email.
+  // Fields should be agreed between sender (usually UI) and documented in
+  // the template of email service provider.
+  map<string, string> extras = 8;
+
+  // Provisioning Policy name to register hardware
+  // one of provisioning_policy_name or device_name is required
+  string provisioning_policy_name = 9;
+
+  // Device name to register hardware
+  string device_name = 10;
+
+  // If true, only one hardware can be registered using this session
+  // If false, multiple hardwares can be registered using this session
+  bool single_use = 11;
+
+  // auto-generated
+  string token = 12;
+
+  Status status = 13;
+
+  message Status {
+    // Device hardwares that were registered with this session
+    // Deleted names are retailed for history
+    repeated string device_hardwares = 1;
+  }
+}

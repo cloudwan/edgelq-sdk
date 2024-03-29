@@ -1,0 +1,182 @@
+syntax = "proto3";
+
+package ntt.audit.v1;
+
+import "edgelq-sdk/audit/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1/resource_change_log;resource_change_log";
+option java_multiple_files = true;
+option java_outer_classname = "ResourceChangeLogProto";
+option java_package = "com.ntt.audit.pb.v1";
+
+// ResourceChangeLog Resource - describes notification
+// of resource change. This log is resource oriented -
+// it strictly is associated with single resource,
+// where service name, resource type and resource name
+// are the strongest attributes.
+//
+// All resource changes are happening via API calls made
+// to API services. Therefore, each ResourceChangeLog
+// has associated ActivityLog. Relation is 1-N between
+// activity and resource change logs, as one API call
+// can modify multiple resources.
+message ResourceChangeLog {
+  option (google.api.resource) = {
+    type : "audit.edgelq.com/ResourceChangeLog"
+    pattern : "projects/{project}/resourceChangeLogs/{resource_change_log}"
+    pattern : "organizations/{organization}/resourceChangeLogs/"
+              "{resource_change_log}"
+    pattern : "services/{service}/resourceChangeLogs/{resource_change_log}"
+  };
+
+  // Name of ResourceChangeLog. It contains scope + ID of the log.
+  // ID is a base64 encoded unique key that identifies tuple:
+  //   scope
+  //   request_id
+  //   authentication.principal
+  //   service.name
+  //   service.region_id
+  //   resource.name
+  //   resource.type
+  //   resource.pre.labels
+  //   resource.post.labels
+  //
+  // ID part should not be decoded, but treated as opaque string
+  string name = 1;
+
+  // Contains scope from name field without resource ID.
+  // Used for internal purpose for filtering (logs are using custom store).
+  // Supported formats are:
+  // - organization/umbrella
+  // - projects/mars_exploration
+  // - services/devices.edgelq.com
+  string scope = 2;
+
+  // Unique identifier of request - it must match the one
+  // in the associated activity log.
+  uint64 request_id = 3;
+
+  // Time of the change - equal to request timestamp (activity log)
+  google.protobuf.Timestamp timestamp = 4;
+
+  // Authentication data - informs who made a change
+  Authentication authentication = 5;
+
+  // Information about the service
+  ServiceData service = 6;
+
+  // Describes change on the resource
+  ResourceChange resource = 7;
+
+  // Describes state of the transaction
+  TransactionInfo transaction = 8;
+
+  // Description of change on the resource
+  message ResourceChange {
+    // Fully qualified name of the resource (eg. "RoleBinding/Public")
+    // that has changed from this request (if successful)
+    string name = 1;
+
+    // Name of the resource type for example "RoleBinding".
+    string type = 2;
+
+    // Action on the resource
+    Action action = 3;
+
+    // Field mask with different fields, populated only for
+    // update action types.
+    google.protobuf.FieldMask updated_fields = 6;
+
+    // Previous values of updated fields. Its populated only
+    // if update_fields is provided and for those fields only.
+    // It is skipped for deletes.
+    google.protobuf.Any previous = 7;
+
+    // Current values of updated fields in case of update. Whole
+    // resource in case of creation, empty in case of deletion.
+    google.protobuf.Any current = 8;
+
+    // List of query-able labels. They are taken from
+    // both before and after resource, but after has higher priority
+    map<string, string> labels = 9;
+
+    // State of the resource before change.
+    // It is empty if action is CREATE
+    // DEPRECATED and not populated for new resources
+    ObjectState pre = 4;
+
+    // State of the resource after change.
+    // It is empty if action is DELETE
+    // DEPRECATED and not populated for new resources
+    ObjectState post = 5;
+
+    // Type of change
+    enum Action {
+      // to avoid blank item when printing logs
+      UNDEFINED = 0;
+
+      // Resource has been created
+      CREATE = 1;
+
+      // Resource has been deleted
+      DELETE = 3;
+
+      // Update contains spec fields
+      SPEC_UPDATE = 4;
+
+      // Update contains state fields, but not spec
+      STATE_UPDATE = 5;
+
+      // Update contains neither spec or state fields.
+      META_UPDATE = 6;
+
+      // UPDATE is deprecated in favor of specific update types.
+      UPDATE = 2;
+    }
+  }
+
+  // Information about transaction where change
+  // has been executed
+  message TransactionInfo {
+    // unique identifier of the transaction.
+    string identifier = 1;
+
+    // Indicator of try counter. If transaction has been
+    // concluded at first try, try_counter will be 1. If
+    // on the second try, then number will be 2 (etc).
+    int32 try_counter = 2;
+
+    // State of the transaction.
+    State state = 3;
+
+    // State of the transaction.
+    enum State {
+      UNDEFINED = 0; // to avoid blank item when printing logs
+
+      // Indicates that this change did not happen -
+      // it is just proposal of the change.
+      // Such a log should be followed by another
+      // ResourceChangeLog with value COMMITTED
+      // or ROLLED_BACK.
+      // If one transaction has been retried
+      // multiple times, then there may be multiple
+      // records with PRE_COMMITTED, last record
+      // should indicate final transaction state.
+      PRE_COMMITTED = 1;
+
+      // Indicates change has been committed
+      // successfully.
+      COMMITTED = 2;
+
+      // Indicates that change did not happen.
+      // Log of this type should be treated as
+      // attempt of change.
+      ROLLED_BACK = 3;
+    }
+  }
+}

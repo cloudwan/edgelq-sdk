@@ -24,10 +24,10 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -45,14 +45,14 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var phantomTimeSerie_RegexpId = regexp.MustCompile("^(?P<phantom_time_serie_id>[\\w+/=]{1,256})$")
-var regexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/phantomTimeSeries/(?P<phantom_time_serie_id>-|[\\w+/=]{1,256})$")
+var regexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/phantomTimeSeries/(?P<phantom_time_serie_id>-|[\\w+/=]{1,256})$")
 
 func (r *PhantomTimeSerie) MaybePopulateDefaults() error {
 	phantomTimeSerieInterface := interface{}(r)
@@ -60,14 +60,6 @@ func (r *PhantomTimeSerie) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *PhantomTimeSerie) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *PhantomTimeSerie) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -114,7 +112,7 @@ func BuildOrganizationInvitation_FieldPath(fp gotenobject.RawFieldPath) (Organiz
 				return &OrganizationInvitation_FieldSubPath{selector: OrganizationInvitation_FieldPathSelectorInvitation, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &OrganizationInvitation_FieldSubPath{selector: OrganizationInvitation_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -216,7 +214,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) GetDefault() interface{} {
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		return (*iam_invitation.Invitation)(nil)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fp.selector))
 	}
@@ -257,7 +255,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) WithIValue(value interface{}
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*iam_invitation.Invitation)}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fp.selector))
 	}
@@ -275,7 +273,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) WithIArrayOfValues(values in
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*iam_invitation.Invitation)}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fp.selector))
 	}
@@ -311,8 +309,8 @@ func (fps *OrganizationInvitation_FieldSubPath) AsInvitationSubPath() (iam_invit
 	res, ok := fps.subPath.(iam_invitation.Invitation_FieldPath)
 	return res, ok
 }
-func (fps *OrganizationInvitation_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *OrganizationInvitation_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -469,8 +467,8 @@ func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsInvitationValue() (*
 	res, ok := fpv.value.(*iam_invitation.Invitation)
 	return res, ok
 }
-func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -485,7 +483,7 @@ func (fpv *OrganizationInvitation_FieldTerminalPathValue) SetTo(target **Organiz
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		(*target).Invitation = fpv.value.(*iam_invitation.Invitation)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fpv.selector))
 	}
@@ -542,8 +540,8 @@ func (fpvs *OrganizationInvitation_FieldSubPathValue) AsInvitationPathValue() (i
 	res, ok := fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue)
 	return res, ok
 }
-func (fpvs *OrganizationInvitation_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *OrganizationInvitation_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -555,7 +553,7 @@ func (fpvs *OrganizationInvitation_FieldSubPathValue) SetTo(target **Organizatio
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).SetTo(&(*target).Invitation)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fpvs.Selector()))
 	}
@@ -575,7 +573,7 @@ func (fpvs *OrganizationInvitation_FieldSubPathValue) CompareWith(source *Organi
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		return fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).CompareWith(source.GetInvitation())
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fpvs.Selector()))
 	}
@@ -662,8 +660,8 @@ func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsInvitationPat
 	res, ok := fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -673,7 +671,7 @@ func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) ContainsValue(s
 	case OrganizationInvitation_FieldPathSelectorInvitation:
 		return fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue).ContainsValue(source.GetInvitation())
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fpaivs.Selector()))
 	}
@@ -723,7 +721,7 @@ func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) GetRawValues
 			values = append(values, v)
 		}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -737,8 +735,8 @@ func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsInvitation
 	res, ok := fpaov.values.([]*iam_invitation.Invitation)
 	return res, ok
 }
-func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -756,7 +754,7 @@ func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsInvitationPath
 	res, ok := fpsaov.subPathArrayOfValues.(iam_invitation.Invitation_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

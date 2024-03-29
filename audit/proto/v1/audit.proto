@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ntt.audit.v1;
+
+import "edgelq-sdk/audit/proto/v1/activity_log.proto";
+import "edgelq-sdk/audit/proto/v1/activity_log_custom.proto";
+import "edgelq-sdk/audit/proto/v1/activity_log_service.proto";
+import "edgelq-sdk/audit/proto/v1/audited_resource_descriptor.proto";
+import "edgelq-sdk/audit/proto/v1/audited_resource_descriptor_service.proto";
+import "edgelq-sdk/audit/proto/v1/method_descriptor.proto";
+import "edgelq-sdk/audit/proto/v1/method_descriptor_service.proto";
+import "edgelq-sdk/audit/proto/v1/resource_change_log.proto";
+import "edgelq-sdk/audit/proto/v1/resource_change_log_custom.proto";
+import "edgelq-sdk/audit/proto/v1/resource_change_log_service.proto";
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "goten-sdk/meta-service/proto/v1/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1/audit;audit_client";
+option java_multiple_files = true;
+option java_outer_classname = "AuditProto";
+option java_package = "com.ntt.audit.pb.v1";

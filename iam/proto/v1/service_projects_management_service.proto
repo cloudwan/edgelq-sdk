@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/iam/proto/v1/project_change.proto";
+import "edgelq-sdk/iam/proto/v1/service_account.proto";
+import "edgelq-sdk/iam/proto/v1/service_account_change.proto";
+import "edgelq-sdk/iam/proto/v1/service_projects_management_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_projects_management;service_projects_management_client";
+option java_multiple_files = false;
+option java_outer_classname = "ServiceProjectsManagementServiceProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// ServiceProjectsManagement service API for IAM
+service ServiceProjectsManagementService {
+  option (google.api.default_host) = "iam.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // ListMyServiceProjects
+  rpc ListMyServiceProjects(ListMyServiceProjectsRequest)
+      returns (ListMyServiceProjectsResponse) {
+    option (google.api.http) = {
+      post : "/v1/projects:listMyServiceProjects"
+    };
+  }
+
+  // SetupServiceProject
+  rpc SetupServiceProject(SetupServiceProjectRequest) returns (Project) {
+    option (google.api.http) = {
+      post : "/v1/projects:setupServiceProject"
+    };
+  }
+
+  // ReserveServiceName
+  rpc ReserveServiceName(ReserveServiceNameRequest)
+      returns (ReserveServiceNameResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*}:reserveServiceName"
+    };
+  }
+
+  // DeleteServiceReservation
+  rpc DeleteServiceReservation(DeleteServiceReservationRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*}:deleteServiceReservation"
+    };
+  }
+
+  // ListServiceReservations
+  rpc ListServiceReservations(ListServiceReservationsRequest)
+      returns (ListServiceReservationsResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*}:listServiceReservations"
+    };
+  }
+
+  // ListProjectServices
+  rpc ListProjectServices(ListProjectServicesRequest)
+      returns (ListProjectServicesResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*}:listProjectServices"
+    };
+  }
+
+  // AddRegionalAdminAccountForServices
+  rpc AddRegionalAdminAccountForServices(
+      AddRegionalAdminAccountForServicesRequest)
+      returns (AddRegionalAdminAccountForServicesResponse) {
+    option (google.api.http) = {
+      post : "/v1/{parent=projects/*/regions/*}/"
+             "serviceAccounts:addRegionalAdminAccountForServices"
+    };
+  }
+}

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &accepted_plan.AcceptedPlan{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type AcceptedPlanServiceClient interface {
 	WatchAcceptedPlans(ctx context.Context, in *WatchAcceptedPlansRequest, opts ...grpc.CallOption) (WatchAcceptedPlansClientStream, error)
 	CreateAcceptedPlan(ctx context.Context, in *CreateAcceptedPlanRequest, opts ...grpc.CallOption) (*accepted_plan.AcceptedPlan, error)
 	UpdateAcceptedPlan(ctx context.Context, in *UpdateAcceptedPlanRequest, opts ...grpc.CallOption) (*accepted_plan.AcceptedPlan, error)
-	DeleteAcceptedPlan(ctx context.Context, in *DeleteAcceptedPlanRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAcceptedPlan(ctx context.Context, in *DeleteAcceptedPlanRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateAcceptedPlan(ctx context.Context, in *UpdateAcceptedPlanR
 	return out, nil
 }
 
-func (c *client) DeleteAcceptedPlan(ctx context.Context, in *DeleteAcceptedPlanRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteAcceptedPlan(ctx context.Context, in *DeleteAcceptedPlanRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.AcceptedPlanService/DeleteAcceptedPlan", in, out, opts...)
 	if err != nil {
 		return nil, err

@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package ntt.api;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/common/api;api";
+option java_multiple_files = true;
+option java_package = "com.ntt.api.pb";
+
+message DeviceIdentity {
+  string serial_number = 1;
+
+  string manufacturer = 2;
+
+  string product_name = 3;
+
+  // Only TPM2.0 is supported
+  TpmVersion tpm_version = 4;
+
+  // TPM_PUBLIC format object obtained by tpm2.ReadPublic
+  bytes ek_tpm_pub = 5;
+
+  // ASN.1 DER encoded EK certificate.
+  bytes ekcert = 6;
+
+  // For Intel TPMs, Intel hosts certificates at a public URL derived from the
+  // Public key. Clients or servers can perform an HTTP GET to this URL, and
+  // use ParseEKCertificate on the response body.
+  string ekcerturl = 7;
+
+  // TPM_PUBLIC format object obtained by tpm2.ReadPublic
+  bytes idevid_cert_tpm_pub = 8;
+
+  // ASN.1 DER encoded IDevID certificate.
+  bytes idevid_cert = 9;
+
+  // TPM_PUBLIC format object obtained by tpm2.ReadPublic
+  bytes ldevid_cert_tpm_pub = 10;
+
+  // ASN.1 DER encoded LDevID certificate.
+  bytes ldevid_cert = 11;
+
+  AttestationParams ak_params = 12;
+
+  // ChallengeFormat defines the method of generating identity activation
+  // challenge by the Verifier (server). It should affect the interpretation
+  // ChallengeResponse fields cred_encrypted_by_ekpub and
+  // secret_encrypted_by_cred. Attestor (client) is responsible for chosing
+  // the right format depending on TPM version and the presence of TrouSerS
+  // daemon.
+  ChallengeFormat challenge_format = 13;
+
+  message AttestationParams {
+    // https: //
+    // trustedcomputinggroup.org/wp-content/uploads/TPM-Main-Part-2-TPM-Structures_v1.2_rev116_01032011.pdf
+    // https: //
+    // www.trustedcomputinggroup.org/wp-content/uploads/TPM-Rev-2.0-Part-2-Structures-01.38.pdf
+    // TPMT_PUBLIC (TPM 2.0) or TPM_PUBKEY (TPM 1.2)
+    bytes akpub = 1;
+
+    // TPMS_CREATION_DATA
+    bytes creation_data = 2;
+
+    // TPMS_ATTEST
+    bytes attest = 3;
+
+    // TPMT_SIGNATURE
+    bytes signature = 4;
+  }
+
+  enum ChallengeFormat {
+    // Credential Protection as defined in section 24 of the TPM specification
+    // revision 2 part 1 See:
+    // https://trustedcomputinggroup.org/resource/tpm-library-specification/
+    // Returned primitives are of type TPM2B_ID_OBJECT and
+    // TPM2B_ENCRYPTED_SECRET.
+    // NOTE: ECC is not supported.
+    //
+    // Reference implementation:
+    //  github.com/google/go-attestation@v0.3.2/attest/activation.go:generateChallengeTPM20,
+    //  which uses
+    //  github.com/google/go-tmp@v0.3.2/tmp2/credactivation/credential_activation.go:Generate
+    TPM20_CREDENTIAL = 0;
+  }
+}
+
+// One of IDevID or LDevID is mandatory for IdentityChallenge to succeed
+// DevID keys can be either signing or decrypt
+// With GlobalSign + Compulab, we use decrypt keys, but other vendors like Dell
+// may be using signing keys instead, so api should allow both
+message IdentityChallenge {
+  // Platform attestation
+  bytes platform_attestation_nonce = 1;
+
+  // AK TPM Residency check
+  bytes cred_encrypted_by_ekpub = 2;
+
+  bytes secret_encrypted_by_ekcred = 3;
+
+  // IDevID TPM Residency check
+  bytes cred_encrypted_by_idevid_pub = 4;
+
+  bytes secret_encrypted_by_idevid_cred = 5;
+
+  // LDevID TPM Residency check
+  bytes cred_encrypted_by_ldevid_pub = 6;
+
+  bytes secret_encrypted_by_ldevid_cred = 7;
+
+  // IDevID verification when key is signing
+  bytes digest_to_sign_with_idevid = 8;
+
+  // IDevID verification when key is decrypt
+  bytes rsa_secret_to_decrypt_with_idevid = 9;
+
+  // LDevID verification when key is signing
+  bytes digest_to_sign_with_ldevid = 10;
+
+  // LDevID verification when key is decrypt
+  bytes rsa_secret_to_decrypt_with_ldevid = 11;
+}
+
+message IdentityChallengeResponse {
+  bytes ak_activation_decrypted_secret = 1;
+
+  bytes idevid_activation_decrypted_secret = 2;
+
+  bytes ldevid_activation_decrypted_secret = 3;
+
+  bytes digest_signed_by_idevid = 4;
+
+  bytes digest_signed_by_ldevid = 5;
+
+  bytes rsa_decrypted_with_idevid = 6;
+
+  bytes rsa_decrypted_with_ldevid = 7;
+
+  repeated Quote quotes = 8;
+
+  repeated PCR pcrs = 9;
+
+  // Binary contents of /sys/kernel/security/tpm0/binary_bios_measurements
+  bytes eventlog = 10;
+
+  message Quote {
+    // TPMS_ATTEST (TSS_VALIDATION.Data or TSS_VALIDATION.rgbData)
+    // This contains PCR selection information for which the signature was
+    // calculated and other required data, like nonce.
+    bytes quote = 1;
+
+    // TSS_VALIDATION.ValidationData or TSS_VALIDATION.rgbValidationData
+    bytes signature = 2;
+  }
+}
+
+message PCR {
+  uint32 index = 1;
+
+  // Hex-encoded digest string (without 0x prefix, e.g. "DEADBEEF")
+  string digest_hex = 2;
+
+  DigestAlg digest_alg = 3;
+
+  // User's comments for this entry
+  string comment = 4;
+}
+
+enum TpmVersion {
+  TPMVAGNOSTIC = 0;
+
+  TPMV12 = 1;
+
+  TPMV20 = 2;
+}
+
+enum DigestAlg {
+  SHA1 = 0;
+
+  SHA256 = 1;
+}

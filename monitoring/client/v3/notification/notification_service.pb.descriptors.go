@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification.Notification{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetNotificationDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetNotificationDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetNotificationRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetNotificationRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetNotificationDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification.Notification)
+}
+
+func (h *GetNotificationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification.Notification)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification.Notification) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetNotificationsDescriptorClientMsgHandle) ExtractResourceNames(ms
 		return notification.NotificationNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(notification.NotificationNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return notification.NotificationNameList(names)
 		}
 	}
 	return (notification.NotificationNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetNotificationsDescriptorClientMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetNotificationsRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetNotificationsRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetNotificationsDescriptorServerMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetNotificationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetNotificationsResponse) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetNotificationsResponse) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetNotifications(); len(resources) > 0 {
+			return notification.NotificationList(resources)
+		}
+	}
+	return (notification.NotificationList)(nil)
 }
 
 func GetBatchGetNotificationsDescriptor() *BatchGetNotificationsDescriptor {
@@ -523,6 +612,30 @@ func (h *ListNotificationsDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	return (*notification.ParentName)(nil)
 }
 
+func (h *ListNotificationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListNotificationsRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListNotificationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListNotificationsRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListNotificationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListNotificationsResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListNotificationsDescriptorServerMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListNotificationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListNotificationsResponse) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListNotificationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListNotificationsResponse) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetNotifications(); len(resources) > 0 {
+			return notification.NotificationList(resources)
+		}
+	}
+	return (notification.NotificationList)(nil)
 }
 
 func GetListNotificationsDescriptor() *ListNotificationsDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchNotificationDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchNotificationDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchNotificationDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationResponse) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *notification.NotificationChange_Added_:
+				return tResChange.Added.GetNotification()
+			case *notification.NotificationChange_Modified_:
+				return tResChange.Modified.GetNotification()
+			case *notification.NotificationChange_Current_:
+				return tResChange.Current.GetNotification()
+			}
+		}
+	}
+	return (*notification.Notification)(nil)
+}
+
+func (h *WatchNotificationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationResponse) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchNotificationsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*notification.ParentName)(nil)
+}
+
+func (h *WatchNotificationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationsRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationsRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchNotificationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchNotificationsDescriptorServerMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchNotificationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationsResponse) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationsResponse) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetNotificationChanges(); len(resChanges) > 0 {
+			list := make(notification.NotificationList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *notification.NotificationChange_Added_:
+					list = append(list, tResChange.Added.GetNotification())
+				case *notification.NotificationChange_Modified_:
+					list = append(list, tResChange.Modified.GetNotification())
+				case *notification.NotificationChange_Current_:
+					list = append(list, tResChange.Current.GetNotification())
+				}
+			}
+			return list
+		}
+	}
+	return (notification.NotificationList)(nil)
 }
 
 func GetWatchNotificationsDescriptor() *WatchNotificationsDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreateNotificationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*notification.ParentName)(nil)
+}
+
+func (h *CreateNotificationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateNotificationRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetNotification()
+	}
+	return (*notification.Notification)(nil)
+}
+
+func (h *CreateNotificationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateNotificationRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateNotificationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreateNotificationDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateNotificationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification.Notification)
+}
+
+func (h *CreateNotificationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification.Notification)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification.Notification) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdateNotificationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateNotificationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateNotificationRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetNotification()
+	}
+	return (*notification.Notification)(nil)
+}
+
+func (h *UpdateNotificationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateNotificationRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateNotificationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*notification.Notification)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdateNotificationDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *UpdateNotificationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification.Notification)
+}
+
+func (h *UpdateNotificationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification.Notification)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification.Notification) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateNotificationDescriptor() *UpdateNotificationDescriptor {
 	return updateNotificationDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeleteNotificationDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteNotificationDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteNotificationDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeleteNotificationDescriptorClientMsgHandle) ExtractResourceName(msg pr
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeleteNotificationDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
-func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteNotificationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteNotificationRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *notification.Name
+		OverrideExtractResourceBody(*DeleteNotificationRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteNotificationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteNotificationRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *notification.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceName(msg pr
 }
 
 func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*notification.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*notification.Name
 	})
 	if ok {
 		return notification.NotificationNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *notification.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *notification.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1583,6 +1983,30 @@ func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return (*notification.ParentName)(nil)
 }
 
+func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchNotificationsRequest) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchNotificationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchNotificationsRequest) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SearchNotificationsResponse)
 	var asInterface interface{} = h
@@ -1626,6 +2050,35 @@ func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchNotificationsResponse) *notification.Notification
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchNotificationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchNotificationsResponse) []*notification.Notification
+	})
+	if ok {
+		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetNotifications(); len(resources) > 0 {
+			return notification.NotificationList(resources)
+		}
+	}
+	return (notification.NotificationList)(nil)
 }
 
 func GetSearchNotificationsDescriptor() *SearchNotificationsDescriptor {

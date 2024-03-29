@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	provisioning_policy_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_policy"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiProvisioningPolicyAccess struct {
@@ -42,8 +44,11 @@ func NewApiProvisioningPolicyAccess(client provisioning_policy_client.Provisioni
 }
 
 func (a *apiProvisioningPolicyAccess) GetProvisioningPolicy(ctx context.Context, query *provisioning_policy.GetQuery) (*provisioning_policy.ProvisioningPolicy, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &provisioning_policy_client.GetProvisioningPolicyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetProvisioningPolicy(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiProvisioningPolicyAccess) GetProvisioningPolicy(ctx context.Context,
 
 func (a *apiProvisioningPolicyAccess) BatchGetProvisioningPolicies(ctx context.Context, refs []*provisioning_policy.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*provisioning_policy.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &provisioning_policy_client.BatchGetProvisioningPoliciesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(provisioning_policy.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiProvisioningPolicyAccess) QueryProvisioningPolicies(ctx context.Cont
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListProvisioningPolicies(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiProvisioningPolicyAccess) QueryProvisioningPolicies(ctx context.Cont
 }
 
 func (a *apiProvisioningPolicyAccess) WatchProvisioningPolicy(ctx context.Context, query *provisioning_policy.GetQuery, observerCb func(*provisioning_policy.ProvisioningPolicyChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &provisioning_policy_client.WatchProvisioningPolicyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchProvisioningPolicy(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiProvisioningPolicyAccess) WatchProvisioningPolicies(ctx context.Cont
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchProvisioningPolicies(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiProvisioningPolicyAccess) SaveProvisioningPolicy(ctx context.Context
 			}
 		}
 	}
-
+	var resp *provisioning_policy.ProvisioningPolicy
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &provisioning_policy_client.UpdateProvisioningPolicyRequest{
 			ProvisioningPolicy: res,
@@ -195,29 +217,76 @@ func (a *apiProvisioningPolicyAccess) SaveProvisioningPolicy(ctx context.Context
 				FieldMask:        mask.(*provisioning_policy.ProvisioningPolicy_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateProvisioningPolicy(ctx, updateRequest)
+		resp, err = a.client.UpdateProvisioningPolicy(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &provisioning_policy_client.CreateProvisioningPolicyRequest{
 			ProvisioningPolicy: res,
 		}
-		_, err := a.client.CreateProvisioningPolicy(ctx, createRequest)
+		resp, err = a.client.CreateProvisioningPolicy(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiProvisioningPolicyAccess) DeleteProvisioningPolicy(ctx context.Context, ref *provisioning_policy.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &provisioning_policy_client.DeleteProvisioningPolicyRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteProvisioningPolicy(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *provisioning_policy.Filter) (*provisioning_policy.Filter, *provisioning_policy.ParentName) {
+	var withParentExtraction func(cnd provisioning_policy.FilterCondition) provisioning_policy.FilterCondition
+	var resultParent *provisioning_policy.ParentName
+	var resultFilter *provisioning_policy.Filter
+	withParentExtraction = func(cnd provisioning_policy.FilterCondition) provisioning_policy.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *provisioning_policy.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]provisioning_policy.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return provisioning_policy.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *provisioning_policy.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*provisioning_policy.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &provisioning_policy.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

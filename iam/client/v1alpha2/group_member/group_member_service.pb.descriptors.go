@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &group_member.GroupMember{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetGroupMemberDescriptorClientMsgHandle) ExtractResourceName(msg proto.
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*group_member.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetGroupMemberDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetGroupMemberDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetGroupMemberRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetGroupMemberDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetGroupMemberRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetGroupMemberDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetGroupMemberDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*group_member.GroupMember)
+}
+
+func (h *GetGroupMemberDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*group_member.GroupMember)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*group_member.GroupMember) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetGroupMembersDescriptorClientMsgHandle) ExtractResourceNames(msg
 		return group_member.GroupMemberNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(group_member.GroupMemberNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return group_member.GroupMemberNameList(names)
 		}
 	}
 	return (group_member.GroupMemberNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetGroupMembersDescriptorClientMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetGroupMembersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetGroupMembersRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetGroupMembersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetGroupMembersRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetGroupMembersDescriptorServerMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetGroupMembersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetGroupMembersResponse) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetGroupMembersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetGroupMembersResponse) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetGroupMembers(); len(resources) > 0 {
+			return group_member.GroupMemberList(resources)
+		}
+	}
+	return (group_member.GroupMemberList)(nil)
 }
 
 func GetBatchGetGroupMembersDescriptor() *BatchGetGroupMembersDescriptor {
@@ -522,6 +611,30 @@ func (h *ListGroupMembersDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return (*group_member.ParentName)(nil)
 }
 
+func (h *ListGroupMembersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListGroupMembersRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListGroupMembersRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListGroupMembersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListGroupMembersResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListGroupMembersDescriptorServerMsgHandle) ExtractCollectionName(msg pr
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListGroupMembersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListGroupMembersResponse) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListGroupMembersResponse) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetGroupMembers(); len(resources) > 0 {
+			return group_member.GroupMemberList(resources)
+		}
+	}
+	return (group_member.GroupMemberList)(nil)
 }
 
 func GetListGroupMembersDescriptor() *ListGroupMembersDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchGroupMemberDescriptorClientMsgHandle) ExtractResourceName(msg prot
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*group_member.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchGroupMemberDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchGroupMemberDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchGroupMemberRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchGroupMemberDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchGroupMemberRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchGroupMemberDescriptorServerMsgHandle) ExtractCollectionName(msg pr
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchGroupMemberDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchGroupMemberResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchGroupMemberResponse) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *group_member.GroupMemberChange_Added_:
+				return tResChange.Added.GetGroupMember()
+			case *group_member.GroupMemberChange_Modified_:
+				return tResChange.Modified.GetGroupMember()
+			case *group_member.GroupMemberChange_Current_:
+				return tResChange.Current.GetGroupMember()
+			}
+		}
+	}
+	return (*group_member.GroupMember)(nil)
+}
+
+func (h *WatchGroupMemberDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchGroupMemberResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchGroupMemberResponse) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchGroupMembersDescriptorClientMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*group_member.ParentName)(nil)
+}
+
+func (h *WatchGroupMembersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchGroupMembersRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchGroupMembersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchGroupMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchGroupMembersRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchGroupMembersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchGroupMembersDescriptorServerMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchGroupMembersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchGroupMembersResponse) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchGroupMembersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchGroupMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchGroupMembersResponse) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetGroupMemberChanges(); len(resChanges) > 0 {
+			list := make(group_member.GroupMemberList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *group_member.GroupMemberChange_Added_:
+					list = append(list, tResChange.Added.GetGroupMember())
+				case *group_member.GroupMemberChange_Modified_:
+					list = append(list, tResChange.Modified.GetGroupMember())
+				case *group_member.GroupMemberChange_Current_:
+					list = append(list, tResChange.Current.GetGroupMember())
+				}
+			}
+			return list
+		}
+	}
+	return (group_member.GroupMemberList)(nil)
 }
 
 func GetWatchGroupMembersDescriptor() *WatchGroupMembersDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateGroupMemberDescriptorClientMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*group_member.ParentName)(nil)
+}
+
+func (h *CreateGroupMemberDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateGroupMemberRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetGroupMember()
+	}
+	return (*group_member.GroupMember)(nil)
+}
+
+func (h *CreateGroupMemberDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateGroupMemberRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateGroupMemberDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateGroupMemberDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateGroupMemberDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*group_member.GroupMember)
+}
+
+func (h *CreateGroupMemberDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*group_member.GroupMember)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*group_member.GroupMember) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateGroupMemberDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	return nil
 }
 
+func (h *UpdateGroupMemberDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateGroupMemberRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetGroupMember()
+	}
+	return (*group_member.GroupMember)(nil)
+}
+
+func (h *UpdateGroupMemberDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateGroupMemberRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateGroupMemberDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*group_member.GroupMember)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateGroupMemberDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	return nil
 }
 
+func (h *UpdateGroupMemberDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*group_member.GroupMember)
+}
+
+func (h *UpdateGroupMemberDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*group_member.GroupMember)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*group_member.GroupMember) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateGroupMemberDescriptor() *UpdateGroupMemberDescriptor {
 	return updateGroupMemberDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteGroupMemberDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteGroupMemberDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteGroupMemberDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteGroupMemberDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*group_member.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteGroupMemberDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	return nil
 }
 
-func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteGroupMemberDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteGroupMemberRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *group_member.Name
+		OverrideExtractResourceBody(*DeleteGroupMemberRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteGroupMemberDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteGroupMemberRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteGroupMemberRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *group_member.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceName(msg pro
 }
 
 func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*group_member.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*group_member.Name
 	})
 	if ok {
 		return group_member.GroupMemberNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceNames(msg pr
 }
 
 func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *group_member.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *group_member.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteGroupMemberDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

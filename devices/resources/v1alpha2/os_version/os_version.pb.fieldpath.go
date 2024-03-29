@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device_type.DeviceType{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -121,7 +119,7 @@ func BuildOsVersion_FieldPath(fp gotenobject.RawFieldPath) (OsVersion_FieldPath,
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &OsVersion_FieldSubPath{selector: OsVersion_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -233,7 +231,7 @@ func (fp *OsVersion_FieldTerminalPath) GetDefault() interface{} {
 	case OsVersion_FieldPathSelectorName:
 		return (*Name)(nil)
 	case OsVersion_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case OsVersion_FieldPathSelectorVersion:
 		return ""
 	case OsVersion_FieldPathSelectorDeviceType:
@@ -290,7 +288,7 @@ func (fp *OsVersion_FieldTerminalPath) WithIValue(value interface{}) OsVersion_F
 	case OsVersion_FieldPathSelectorName:
 		return &OsVersion_FieldTerminalPathValue{OsVersion_FieldTerminalPath: *fp, value: value.(*Name)}
 	case OsVersion_FieldPathSelectorMetadata:
-		return &OsVersion_FieldTerminalPathValue{OsVersion_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &OsVersion_FieldTerminalPathValue{OsVersion_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case OsVersion_FieldPathSelectorVersion:
 		return &OsVersion_FieldTerminalPathValue{OsVersion_FieldTerminalPath: *fp, value: value.(string)}
 	case OsVersion_FieldPathSelectorDeviceType:
@@ -314,7 +312,7 @@ func (fp *OsVersion_FieldTerminalPath) WithIArrayOfValues(values interface{}) Os
 	case OsVersion_FieldPathSelectorName:
 		return &OsVersion_FieldTerminalPathArrayOfValues{OsVersion_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case OsVersion_FieldPathSelectorMetadata:
-		return &OsVersion_FieldTerminalPathArrayOfValues{OsVersion_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &OsVersion_FieldTerminalPathArrayOfValues{OsVersion_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case OsVersion_FieldPathSelectorVersion:
 		return &OsVersion_FieldTerminalPathArrayOfValues{OsVersion_FieldTerminalPath: *fp, values: values.([]string)}
 	case OsVersion_FieldPathSelectorDeviceType:
@@ -354,8 +352,8 @@ var _ OsVersion_FieldPath = (*OsVersion_FieldSubPath)(nil)
 func (fps *OsVersion_FieldSubPath) Selector() OsVersion_FieldPathSelector {
 	return fps.selector
 }
-func (fps *OsVersion_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *OsVersion_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -499,8 +497,8 @@ func (fpv *OsVersion_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *OsVersion_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *OsVersion_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *OsVersion_FieldTerminalPathValue) AsVersionValue() (string, bool) {
@@ -529,7 +527,7 @@ func (fpv *OsVersion_FieldTerminalPathValue) SetTo(target **OsVersion) {
 	case OsVersion_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case OsVersion_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case OsVersion_FieldPathSelectorVersion:
 		(*target).Version = fpv.value.(string)
 	case OsVersion_FieldPathSelectorDeviceType:
@@ -637,8 +635,8 @@ type OsVersion_FieldSubPathValue struct {
 
 var _ OsVersion_FieldPathValue = (*OsVersion_FieldSubPathValue)(nil)
 
-func (fpvs *OsVersion_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *OsVersion_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -648,7 +646,7 @@ func (fpvs *OsVersion_FieldSubPathValue) SetTo(target **OsVersion) {
 	}
 	switch fpvs.Selector() {
 	case OsVersion_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OsVersion: %d", fpvs.Selector()))
 	}
@@ -666,7 +664,7 @@ func (fpvs *OsVersion_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *OsVersion_FieldSubPathValue) CompareWith(source *OsVersion) (int, bool) {
 	switch fpvs.Selector() {
 	case OsVersion_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for OsVersion: %d", fpvs.Selector()))
 	}
@@ -749,8 +747,8 @@ type OsVersion_FieldSubPathArrayItemValue struct {
 func (fpaivs *OsVersion_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *OsVersion_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *OsVersion_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -758,7 +756,7 @@ func (fpaivs *OsVersion_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (n
 func (fpaivs *OsVersion_FieldSubPathArrayItemValue) ContainsValue(source *OsVersion) bool {
 	switch fpaivs.Selector() {
 	case OsVersion_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for OsVersion: %d", fpaivs.Selector()))
 	}
@@ -804,7 +802,7 @@ func (fpaov *OsVersion_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 			values = append(values, v)
 		}
 	case OsVersion_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case OsVersion_FieldPathSelectorVersion:
@@ -830,8 +828,8 @@ func (fpaov *OsVersion_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *OsVersion_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *OsVersion_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *OsVersion_FieldTerminalPathArrayOfValues) AsVersionArrayOfValues() ([]string, bool) {
@@ -861,7 +859,7 @@ var _ OsVersion_FieldPathArrayOfValues = (*OsVersion_FieldSubPathArrayOfValues)(
 func (fpsaov *OsVersion_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *OsVersion_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *OsVersion_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

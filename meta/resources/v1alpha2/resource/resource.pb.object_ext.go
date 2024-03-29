@@ -9,15 +9,15 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -26,15 +26,15 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service.Service{}
+	_ = &meta.Meta{}
 )
 
 func (o *Resource) GotenObjectExt() {}
@@ -129,7 +129,7 @@ func (o *Resource) Merge(source *Resource) {
 	o.IsRegional = source.GetIsRegional()
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+import "goten-sdk/types/multi_region_policy.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project;project";
+option java_multiple_files = true;
+option java_outer_classname = "ProjectProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Project Resource
+message Project {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/Project"
+    pattern : "projects/{project}"
+  };
+
+  // Name of Project
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  string title = 2;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 3;
+
+  // Multi region policy
+  goten.types.MultiRegionPolicy multi_region_policy = 4;
+}

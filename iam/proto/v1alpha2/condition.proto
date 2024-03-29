@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
 import "google/api/resource.proto";
 import "google/protobuf/struct.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition;condition";
 option java_multiple_files = true;
@@ -77,7 +77,7 @@ message Condition {
   repeated ParameterDeclaration parameter_declarations = 5;
 
   // Metadata
-  ntt.types.Meta metadata = 6;
+  goten.types.Meta metadata = 6;
 
   // Parameter Declarations used
   message ParameterDeclaration {

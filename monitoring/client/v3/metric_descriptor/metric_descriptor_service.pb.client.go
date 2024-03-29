@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &metric_descriptor.MetricDescriptor{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -55,7 +55,7 @@ type MetricDescriptorServiceClient interface {
 	GetMetricDescriptor(ctx context.Context, in *GetMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
 	CreateMetricDescriptor(ctx context.Context, in *CreateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
 	UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDescriptorRequest, opts ...grpc.CallOption) (*metric_descriptor.MetricDescriptor, error)
-	DeleteMetricDescriptor(ctx context.Context, in *DeleteMetricDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteMetricDescriptor(ctx context.Context, in *DeleteMetricDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ListMetricDescriptors(ctx context.Context, in *ListMetricDescriptorsRequest, opts ...grpc.CallOption) (*ListMetricDescriptorsResponse, error)
 }
 
@@ -177,8 +177,8 @@ func (c *client) UpdateMetricDescriptor(ctx context.Context, in *UpdateMetricDes
 	return out, nil
 }
 
-func (c *client) DeleteMetricDescriptor(ctx context.Context, in *DeleteMetricDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteMetricDescriptor(ctx context.Context, in *DeleteMetricDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MetricDescriptorService/DeleteMetricDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err

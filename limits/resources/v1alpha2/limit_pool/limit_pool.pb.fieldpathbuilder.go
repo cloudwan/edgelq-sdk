@@ -6,24 +6,24 @@ package limit_pool
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type LimitPoolFieldPathBuilder struct{}
@@ -160,27 +160,27 @@ func (LimitPoolPathSelectorMetadata) FieldPath() *LimitPool_FieldTerminalPath {
 	return &LimitPool_FieldTerminalPath{selector: LimitPool_FieldPathSelectorMetadata}
 }
 
-func (s LimitPoolPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *LimitPool_FieldTerminalPathValue {
+func (s LimitPoolPathSelectorMetadata) WithValue(value *meta.Meta) *LimitPool_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldTerminalPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *LimitPool_FieldTerminalPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *LimitPool_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldTerminalPathArrayOfValues)
 }
 
-func (LimitPoolPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *LimitPool_FieldSubPath {
+func (LimitPoolPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{selector: LimitPool_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s LimitPoolPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *LimitPool_FieldSubPathValue {
 	return &LimitPool_FieldSubPathValue{LimitPool_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LimitPoolPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *LimitPool_FieldSubPathArrayOfValues {
 	return &LimitPool_FieldSubPathArrayOfValues{LimitPool_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LimitPoolPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *LimitPool_FieldSubPathArrayItemValue {
+func (s LimitPoolPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *LimitPool_FieldSubPathArrayItemValue {
 	return &LimitPool_FieldSubPathArrayItemValue{LimitPool_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -236,20 +236,24 @@ func (LimitPoolPathSelectorMetadata) Lifecycle() LimitPoolPathSelectorMetadataLi
 	return LimitPoolPathSelectorMetadataLifecycle{}
 }
 
+func (LimitPoolPathSelectorMetadata) Services() LimitPoolPathSelectorMetadataServices {
+	return LimitPoolPathSelectorMetadataServices{}
+}
+
 type LimitPoolPathSelectorMetadataCreateTime struct{}
 
 func (LimitPoolPathSelectorMetadataCreateTime) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -258,15 +262,15 @@ type LimitPoolPathSelectorMetadataUpdateTime struct{}
 func (LimitPoolPathSelectorMetadataUpdateTime) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -275,15 +279,15 @@ type LimitPoolPathSelectorMetadataDeleteTime struct{}
 func (LimitPoolPathSelectorMetadataDeleteTime) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -292,7 +296,7 @@ type LimitPoolPathSelectorMetadataUuid struct{}
 func (LimitPoolPathSelectorMetadataUuid) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -309,7 +313,7 @@ type LimitPoolPathSelectorMetadataTags struct{}
 func (LimitPoolPathSelectorMetadataTags) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -330,7 +334,7 @@ type LimitPoolPathSelectorMetadataLabels struct{}
 func (LimitPoolPathSelectorMetadataLabels) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -353,7 +357,7 @@ type LimitPoolMapPathSelectorMetadataLabels struct {
 func (s LimitPoolMapPathSelectorMetadataLabels) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -370,7 +374,7 @@ type LimitPoolPathSelectorMetadataAnnotations struct{}
 func (LimitPoolPathSelectorMetadataAnnotations) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -393,7 +397,7 @@ type LimitPoolMapPathSelectorMetadataAnnotations struct {
 func (s LimitPoolMapPathSelectorMetadataAnnotations) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -410,7 +414,7 @@ type LimitPoolPathSelectorMetadataGeneration struct{}
 func (LimitPoolPathSelectorMetadataGeneration) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -427,7 +431,7 @@ type LimitPoolPathSelectorMetadataResourceVersion struct{}
 func (LimitPoolPathSelectorMetadataResourceVersion) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -444,19 +448,19 @@ type LimitPoolPathSelectorMetadataOwnerReferences struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferences) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
-func (s LimitPoolPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *LimitPool_FieldSubPathArrayItemValue {
+func (s LimitPoolPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *LimitPool_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*LimitPool_FieldSubPathArrayItemValue)
 }
 
@@ -480,10 +484,6 @@ func (LimitPoolPathSelectorMetadataOwnerReferences) Controller() LimitPoolPathSe
 	return LimitPoolPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (LimitPoolPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (LimitPoolPathSelectorMetadataOwnerReferences) RequiresOwnerReference() LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -493,7 +493,7 @@ type LimitPoolPathSelectorMetadataOwnerReferencesKind struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferencesKind) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -510,7 +510,7 @@ type LimitPoolPathSelectorMetadataOwnerReferencesVersion struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferencesVersion) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -527,7 +527,7 @@ type LimitPoolPathSelectorMetadataOwnerReferencesName struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferencesName) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -544,7 +544,7 @@ type LimitPoolPathSelectorMetadataOwnerReferencesRegion struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferencesRegion) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -561,7 +561,7 @@ type LimitPoolPathSelectorMetadataOwnerReferencesController struct{}
 func (LimitPoolPathSelectorMetadataOwnerReferencesController) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -573,29 +573,12 @@ func (s LimitPoolPathSelectorMetadataOwnerReferencesController) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
-type LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *LimitPool_FieldSubPath {
-	return &LimitPool_FieldSubPath{
-		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *LimitPool_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
-}
-
-func (s LimitPoolPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *LimitPool_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
-}
-
 type LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -612,7 +595,7 @@ type LimitPoolPathSelectorMetadataShards struct{}
 func (LimitPoolPathSelectorMetadataShards) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -635,7 +618,7 @@ type LimitPoolMapPathSelectorMetadataShards struct {
 func (s LimitPoolMapPathSelectorMetadataShards) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -652,15 +635,15 @@ type LimitPoolPathSelectorMetadataSyncing struct{}
 func (LimitPoolPathSelectorMetadataSyncing) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -677,7 +660,7 @@ type LimitPoolPathSelectorMetadataSyncingOwningRegion struct{}
 func (LimitPoolPathSelectorMetadataSyncingOwningRegion) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -694,7 +677,7 @@ type LimitPoolPathSelectorMetadataSyncingRegions struct{}
 func (LimitPoolPathSelectorMetadataSyncingRegions) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -715,15 +698,15 @@ type LimitPoolPathSelectorMetadataLifecycle struct{}
 func (LimitPoolPathSelectorMetadataLifecycle) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -740,15 +723,15 @@ type LimitPoolPathSelectorMetadataLifecycleState struct{}
 func (LimitPoolPathSelectorMetadataLifecycleState) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s LimitPoolPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *LimitPool_FieldSubPathValue {
+func (s LimitPoolPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *LimitPool_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
 }
 
-func (s LimitPoolPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *LimitPool_FieldSubPathArrayOfValues {
+func (s LimitPoolPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 
@@ -757,7 +740,7 @@ type LimitPoolPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (LimitPoolPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *LimitPool_FieldSubPath {
 	return &LimitPool_FieldSubPath{
 		selector: LimitPool_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -767,4 +750,67 @@ func (s LimitPoolPathSelectorMetadataLifecycleBlockDeletion) WithValue(value boo
 
 func (s LimitPoolPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
+}
+
+type LimitPoolPathSelectorMetadataServices struct{}
+
+func (LimitPoolPathSelectorMetadataServices) FieldPath() *LimitPool_FieldSubPath {
+	return &LimitPool_FieldSubPath{
+		selector: LimitPool_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s LimitPoolPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *LimitPool_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
+}
+
+func (s LimitPoolPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *LimitPool_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
+}
+
+func (LimitPoolPathSelectorMetadataServices) OwningService() LimitPoolPathSelectorMetadataServicesOwningService {
+	return LimitPoolPathSelectorMetadataServicesOwningService{}
+}
+
+func (LimitPoolPathSelectorMetadataServices) AllowedServices() LimitPoolPathSelectorMetadataServicesAllowedServices {
+	return LimitPoolPathSelectorMetadataServicesAllowedServices{}
+}
+
+type LimitPoolPathSelectorMetadataServicesOwningService struct{}
+
+func (LimitPoolPathSelectorMetadataServicesOwningService) FieldPath() *LimitPool_FieldSubPath {
+	return &LimitPool_FieldSubPath{
+		selector: LimitPool_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s LimitPoolPathSelectorMetadataServicesOwningService) WithValue(value string) *LimitPool_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
+}
+
+func (s LimitPoolPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *LimitPool_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
+}
+
+type LimitPoolPathSelectorMetadataServicesAllowedServices struct{}
+
+func (LimitPoolPathSelectorMetadataServicesAllowedServices) FieldPath() *LimitPool_FieldSubPath {
+	return &LimitPool_FieldSubPath{
+		selector: LimitPool_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s LimitPoolPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *LimitPool_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
+}
+
+func (s LimitPoolPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *LimitPool_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
+}
+
+func (s LimitPoolPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *LimitPool_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*LimitPool_FieldSubPathArrayItemValue)
 }

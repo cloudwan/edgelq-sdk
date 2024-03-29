@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	os_version_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_version"
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiOsVersionAccess struct {
@@ -42,8 +44,11 @@ func NewApiOsVersionAccess(client os_version_client.OsVersionServiceClient) os_v
 }
 
 func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version.GetQuery) (*os_version.OsVersion, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &os_version_client.GetOsVersionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetOsVersion(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version
 
 func (a *apiOsVersionAccess) BatchGetOsVersions(ctx context.Context, refs []*os_version.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*os_version.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &os_version_client.BatchGetOsVersionsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(os_version.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiOsVersionAccess) QueryOsVersions(ctx context.Context, query *os_vers
 }
 
 func (a *apiOsVersionAccess) WatchOsVersion(ctx context.Context, query *os_version.GetQuery, observerCb func(*os_version.OsVersionChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &os_version_client.WatchOsVersionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchOsVersion(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiOsVersionAccess) SaveOsVersion(ctx context.Context, res *os_version.
 			}
 		}
 	}
-
+	var resp *os_version.OsVersion
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &os_version_client.UpdateOsVersionRequest{
 			OsVersion: res,
@@ -195,26 +211,30 @@ func (a *apiOsVersionAccess) SaveOsVersion(ctx context.Context, res *os_version.
 				FieldMask:        mask.(*os_version.OsVersion_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateOsVersion(ctx, updateRequest)
+		resp, err = a.client.UpdateOsVersion(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &os_version_client.CreateOsVersionRequest{
 			OsVersion: res,
 		}
-		_, err := a.client.CreateOsVersion(ctx, createRequest)
+		resp, err = a.client.CreateOsVersion(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiOsVersionAccess) DeleteOsVersion(ctx context.Context, ref *os_version.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &os_version_client.DeleteOsVersionRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteOsVersion(ctx, request)
 	return err

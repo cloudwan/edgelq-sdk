@@ -110,7 +110,7 @@ func (d *ListTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 }
 
 func (d *ListTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return nil
+	return time_serie.GetDescriptor()
 }
 
 func (d *ListTimeSeriesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
@@ -133,6 +133,14 @@ func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	return nil
 }
 
+func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
 func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
@@ -142,6 +150,14 @@ func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
 	return nil
 }
 
@@ -188,7 +204,7 @@ func (d *CreateTimeSeriesDescriptor) HasResource() bool {
 }
 
 func (d *CreateTimeSeriesDescriptor) RequestHasResourceBody() bool {
-	return true
+	return false
 }
 
 func (d *CreateTimeSeriesDescriptor) GetVerb() string {
@@ -224,7 +240,7 @@ func (d *CreateTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 }
 
 func (d *CreateTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return nil
+	return time_serie.GetDescriptor()
 }
 
 func (d *CreateTimeSeriesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
@@ -247,6 +263,14 @@ func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
 func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
@@ -256,6 +280,14 @@ func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
 	return nil
 }
 

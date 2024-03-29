@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "edgelq-sdk/logging/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor;log_descriptor";
+option java_multiple_files = true;
+option java_outer_classname = "LogDescriptorProto";
+option java_package = "com.ntt.logging.pb.v1";
+
+// LogDescriptor Resource
+message LogDescriptor {
+  option (google.api.resource) = {
+    type : "logging.edgelq.com/LogDescriptor"
+    pattern : "projects/{project}/logDescriptors/{log_descriptor}"
+    pattern : "organizations/{organization}/logDescriptors/{log_descriptor}"
+    pattern : "services/{service}/logDescriptors/{log_descriptor}"
+  };
+
+  // Name of LogDescriptor
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w./-]{1,128}/[\\w./-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 6;
+
+  // Optional. A concise name for the log type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners.
+  string display_name = 2;
+
+  // Optional. A detailed description of the log type that might
+  // be used in documentation.
+  string description = 3;
+
+  // A set of labels used to describe instances of this log type.
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations.
+  repeated LabelKeySet promoted_label_key_sets = 5;
+}

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &metric_descriptor.MetricDescriptor{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -151,12 +151,8 @@ func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceName
 		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(metric_descriptor.MetricDescriptorNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return metric_descriptor.MetricDescriptorNameList(names)
 		}
 	}
 	return (metric_descriptor.MetricDescriptorNameList)(nil)
@@ -170,6 +166,30 @@ func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionNa
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetMetricDescriptorsRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetMetricDescriptorsRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -217,6 +237,35 @@ func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetMetricDescriptorsResponse) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetMetricDescriptorsResponse) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetMetricDescriptors(); len(resources) > 0 {
+			return metric_descriptor.MetricDescriptorList(resources)
+		}
+	}
+	return (metric_descriptor.MetricDescriptorList)(nil)
 }
 
 func GetBatchGetMetricDescriptorsDescriptor() *BatchGetMetricDescriptorsDescriptor {
@@ -319,8 +368,8 @@ func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*metric_descriptor.Name)(nil)
@@ -346,6 +395,30 @@ func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchMetricDescriptorRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchMetricDescriptorRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -396,6 +469,42 @@ func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchMetricDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchMetricDescriptorResponse) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *metric_descriptor.MetricDescriptorChange_Added_:
+				return tResChange.Added.GetMetricDescriptor()
+			case *metric_descriptor.MetricDescriptorChange_Modified_:
+				return tResChange.Modified.GetMetricDescriptor()
+			case *metric_descriptor.MetricDescriptorChange_Current_:
+				return tResChange.Current.GetMetricDescriptor()
+			}
+		}
+	}
+	return (*metric_descriptor.MetricDescriptor)(nil)
+}
+
+func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchMetricDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchMetricDescriptorResponse) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -524,11 +633,35 @@ func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*metric_descriptor.ParentName)(nil)
+}
+
+func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchMetricDescriptorsRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchMetricDescriptorsRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -583,6 +716,46 @@ func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchMetricDescriptorsResponse) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchMetricDescriptorsResponse) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetMetricDescriptorChanges(); len(resChanges) > 0 {
+			list := make(metric_descriptor.MetricDescriptorList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *metric_descriptor.MetricDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetMetricDescriptor())
+				case *metric_descriptor.MetricDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetMetricDescriptor())
+				case *metric_descriptor.MetricDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetMetricDescriptor())
+				}
+			}
+			return list
+		}
+	}
+	return (metric_descriptor.MetricDescriptorList)(nil)
 }
 
 func GetWatchMetricDescriptorsDescriptor() *WatchMetricDescriptorsDescriptor {
@@ -685,8 +858,8 @@ func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*metric_descriptor.Name)(nil)
@@ -712,6 +885,30 @@ func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetMetricDescriptorRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetMetricDescriptorRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -748,6 +945,22 @@ func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*metric_descriptor.MetricDescriptor)
+}
+
+func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*metric_descriptor.MetricDescriptor) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -882,11 +1095,38 @@ func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*metric_descriptor.ParentName)(nil)
+}
+
+func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateMetricDescriptorRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetMetricDescriptor()
+	}
+	return (*metric_descriptor.MetricDescriptor)(nil)
+}
+
+func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateMetricDescriptorRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -921,6 +1161,22 @@ func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*metric_descriptor.MetricDescriptor)
+}
+
+func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*metric_descriptor.MetricDescriptor) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1057,6 +1313,33 @@ func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateMetricDescriptorRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetMetricDescriptor()
+	}
+	return (*metric_descriptor.MetricDescriptor)(nil)
+}
+
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateMetricDescriptorRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
@@ -1098,6 +1381,22 @@ func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*metric_descriptor.MetricDescriptor)
+}
+
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*metric_descriptor.MetricDescriptor) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateMetricDescriptorDescriptor() *UpdateMetricDescriptorDescriptor {
 	return updateMetricDescriptorDescriptor
 }
@@ -1113,7 +1412,7 @@ func (d *DeleteMetricDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteMetricDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteMetricDescriptorDescriptor) IsUnary() bool {
@@ -1198,8 +1497,8 @@ func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*metric_descriptor.Name)(nil)
@@ -1229,11 +1528,35 @@ func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
-func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *metric_descriptor.Name
+		OverrideExtractResourceBody(*DeleteMetricDescriptorRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteMetricDescriptorRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *metric_descriptor.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1242,10 +1565,10 @@ func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(ms
 }
 
 func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*metric_descriptor.Name
 	})
 	if ok {
 		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1254,13 +1577,37 @@ func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(m
 }
 
 func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *metric_descriptor.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1396,6 +1743,30 @@ func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(m
 	return (*metric_descriptor.ParentName)(nil)
 }
 
+func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMetricDescriptorsRequest) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMetricDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMetricDescriptorsRequest) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMetricDescriptorsResponse)
 	var asInterface interface{} = h
@@ -1428,6 +1799,30 @@ func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMetricDescriptorsResponse) *metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMetricDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMetricDescriptorsResponse) []*metric_descriptor.MetricDescriptor
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

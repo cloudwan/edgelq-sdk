@@ -17,19 +17,18 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -46,19 +45,18 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -152,7 +150,7 @@ func BuildAcceptedPlan_FieldPath(fp gotenobject.RawFieldPath) (AcceptedPlan_Fiel
 				return &AcceptedPlan_FieldSubPath{selector: AcceptedPlan_FieldPathSelectorAssignee, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AcceptedPlan_FieldSubPath{selector: AcceptedPlan_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -290,7 +288,7 @@ func (fp *AcceptedPlan_FieldTerminalPath) GetDefault() interface{} {
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		return (*AcceptedPlan_Assignee)(nil)
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fp.selector))
 	}
@@ -349,7 +347,7 @@ func (fp *AcceptedPlan_FieldTerminalPath) WithIValue(value interface{}) Accepted
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		return &AcceptedPlan_FieldTerminalPathValue{AcceptedPlan_FieldTerminalPath: *fp, value: value.(*AcceptedPlan_Assignee)}
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		return &AcceptedPlan_FieldTerminalPathValue{AcceptedPlan_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &AcceptedPlan_FieldTerminalPathValue{AcceptedPlan_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fp.selector))
 	}
@@ -375,7 +373,7 @@ func (fp *AcceptedPlan_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		return &AcceptedPlan_FieldTerminalPathArrayOfValues{AcceptedPlan_FieldTerminalPath: *fp, values: values.([]*AcceptedPlan_Assignee)}
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		return &AcceptedPlan_FieldTerminalPathArrayOfValues{AcceptedPlan_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &AcceptedPlan_FieldTerminalPathArrayOfValues{AcceptedPlan_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fp.selector))
 	}
@@ -423,8 +421,8 @@ func (fps *AcceptedPlan_FieldSubPath) AsAssigneeSubPath() (AcceptedPlanAssignee_
 	res, ok := fps.subPath.(AcceptedPlanAssignee_FieldPath)
 	return res, ok
 }
-func (fps *AcceptedPlan_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *AcceptedPlan_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -623,8 +621,8 @@ func (fpv *AcceptedPlan_FieldTerminalPathValue) AsAssigneeValue() (*AcceptedPlan
 	res, ok := fpv.value.(*AcceptedPlan_Assignee)
 	return res, ok
 }
-func (fpv *AcceptedPlan_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *AcceptedPlan_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -647,7 +645,7 @@ func (fpv *AcceptedPlan_FieldTerminalPathValue) SetTo(target **AcceptedPlan) {
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		(*target).Assignee = fpv.value.(*AcceptedPlan_Assignee)
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fpv.selector))
 	}
@@ -754,8 +752,8 @@ func (fpvs *AcceptedPlan_FieldSubPathValue) AsAssigneePathValue() (AcceptedPlanA
 	res, ok := fpvs.subPathValue.(AcceptedPlanAssignee_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AcceptedPlan_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *AcceptedPlan_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -771,7 +769,7 @@ func (fpvs *AcceptedPlan_FieldSubPathValue) SetTo(target **AcceptedPlan) {
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		fpvs.subPathValue.(AcceptedPlanAssignee_FieldPathValue).SetTo(&(*target).Assignee)
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fpvs.Selector()))
 	}
@@ -795,7 +793,7 @@ func (fpvs *AcceptedPlan_FieldSubPathValue) CompareWith(source *AcceptedPlan) (i
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		return fpvs.subPathValue.(AcceptedPlanAssignee_FieldPathValue).CompareWith(source.GetAssignee())
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fpvs.Selector()))
 	}
@@ -898,8 +896,8 @@ func (fpaivs *AcceptedPlan_FieldSubPathArrayItemValue) AsAssigneePathItemValue()
 	res, ok := fpaivs.subPathItemValue.(AcceptedPlanAssignee_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AcceptedPlan_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *AcceptedPlan_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -913,7 +911,7 @@ func (fpaivs *AcceptedPlan_FieldSubPathArrayItemValue) ContainsValue(source *Acc
 	case AcceptedPlan_FieldPathSelectorAssignee:
 		return fpaivs.subPathItemValue.(AcceptedPlanAssignee_FieldPathArrayItemValue).ContainsValue(source.GetAssignee())
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fpaivs.Selector()))
 	}
@@ -979,7 +977,7 @@ func (fpaov *AcceptedPlan_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case AcceptedPlan_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -1009,8 +1007,8 @@ func (fpaov *AcceptedPlan_FieldTerminalPathArrayOfValues) AsAssigneeArrayOfValue
 	res, ok := fpaov.values.([]*AcceptedPlan_Assignee)
 	return res, ok
 }
-func (fpaov *AcceptedPlan_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *AcceptedPlan_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -1036,8 +1034,8 @@ func (fpsaov *AcceptedPlan_FieldSubPathArrayOfValues) AsAssigneePathArrayOfValue
 	res, ok := fpsaov.subPathArrayOfValues.(AcceptedPlanAssignee_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AcceptedPlan_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *AcceptedPlan_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 

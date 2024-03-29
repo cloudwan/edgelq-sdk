@@ -17,7 +17,7 @@ import (
 
 // proto imports
 import (
-	any "github.com/golang/protobuf/ptypes/any"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -34,7 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &any.Any{}
+	_ = &anypb.Any{}
 )
 
 const (
@@ -111,7 +111,7 @@ type Status struct {
 	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
 	// A list of messages that carry the error details.  There is a common set of
 	// message types for APIs to use.
-	Details []*any.Any `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty" firestore:"details"`
+	Details []*anypb.Any `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty" firestore:"details"`
 }
 
 func (m *Status) Reset() {
@@ -178,7 +178,7 @@ func (m *Status) GetMessage() string {
 	return ""
 }
 
-func (m *Status) GetDetails() []*any.Any {
+func (m *Status) GetDetails() []*anypb.Any {
 	if m != nil {
 		return m.Details
 	}
@@ -199,7 +199,7 @@ func (m *Status) SetMessage(fv string) {
 	m.Message = fv
 }
 
-func (m *Status) SetDetails(fv []*any.Any) {
+func (m *Status) SetDetails(fv []*anypb.Any) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Details", "Status"))
 	}
@@ -243,8 +243,8 @@ func edgelq_common_rpc_status_proto_rawDescGZIP() []byte {
 
 var edgelq_common_rpc_status_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var edgelq_common_rpc_status_proto_goTypes = []interface{}{
-	(*Status)(nil),  // 0: ntt.rpc.Status
-	(*any.Any)(nil), // 1: google.protobuf.Any
+	(*Status)(nil),    // 0: ntt.rpc.Status
+	(*anypb.Any)(nil), // 1: google.protobuf.Any
 }
 var edgelq_common_rpc_status_proto_depIdxs = []int32{
 	1, // 0: ntt.rpc.Status.details:type_name -> google.protobuf.Any

@@ -6,26 +6,26 @@ package log_descriptor
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type LogDescriptorFieldPathBuilder struct{}
@@ -100,30 +100,30 @@ func (LogDescriptorPathSelectorLabels) FieldPath() *LogDescriptor_FieldTerminalP
 	return &LogDescriptor_FieldTerminalPath{selector: LogDescriptor_FieldPathSelectorLabels}
 }
 
-func (s LogDescriptorPathSelectorLabels) WithValue(value []*logging_common.LabelDescriptor) *LogDescriptor_FieldTerminalPathValue {
+func (s LogDescriptorPathSelectorLabels) WithValue(value []*common.LabelDescriptor) *LogDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldTerminalPathValue)
 }
 
-func (s LogDescriptorPathSelectorLabels) WithArrayOfValues(values [][]*logging_common.LabelDescriptor) *LogDescriptor_FieldTerminalPathArrayOfValues {
+func (s LogDescriptorPathSelectorLabels) WithArrayOfValues(values [][]*common.LabelDescriptor) *LogDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (s LogDescriptorPathSelectorLabels) WithItemValue(value *logging_common.LabelDescriptor) *LogDescriptor_FieldTerminalPathArrayItemValue {
+func (s LogDescriptorPathSelectorLabels) WithItemValue(value *common.LabelDescriptor) *LogDescriptor_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*LogDescriptor_FieldTerminalPathArrayItemValue)
 }
-func (LogDescriptorPathSelectorLabels) WithSubPath(subPath logging_common.LabelDescriptor_FieldPath) *LogDescriptor_FieldSubPath {
+func (LogDescriptorPathSelectorLabels) WithSubPath(subPath common.LabelDescriptor_FieldPath) *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorLabels, subPath: subPath}
 }
 
-func (s LogDescriptorPathSelectorLabels) WithSubValue(subPathValue logging_common.LabelDescriptor_FieldPathValue) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorLabels) WithSubValue(subPathValue common.LabelDescriptor_FieldPathValue) *LogDescriptor_FieldSubPathValue {
 	return &LogDescriptor_FieldSubPathValue{LogDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogDescriptorPathSelectorLabels) WithSubArrayOfValues(subPathArrayOfValues logging_common.LabelDescriptor_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorLabels) WithSubArrayOfValues(subPathArrayOfValues common.LabelDescriptor_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
 	return &LogDescriptor_FieldSubPathArrayOfValues{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogDescriptorPathSelectorLabels) WithSubArrayItemValue(subPathArrayItemValue logging_common.LabelDescriptor_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
+func (s LogDescriptorPathSelectorLabels) WithSubArrayItemValue(subPathArrayItemValue common.LabelDescriptor_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
 	return &LogDescriptor_FieldSubPathArrayItemValue{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -140,7 +140,7 @@ type LogDescriptorPathSelectorLabelsKey struct{}
 func (LogDescriptorPathSelectorLabelsKey) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorLabels,
-		subPath:  logging_common.NewLabelDescriptorFieldPathBuilder().Key().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().Key().FieldPath(),
 	}
 }
 
@@ -157,7 +157,7 @@ type LogDescriptorPathSelectorLabelsDescription struct{}
 func (LogDescriptorPathSelectorLabelsDescription) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorLabels,
-		subPath:  logging_common.NewLabelDescriptorFieldPathBuilder().Description().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().Description().FieldPath(),
 	}
 }
 
@@ -175,30 +175,30 @@ func (LogDescriptorPathSelectorPromotedLabelKeySets) FieldPath() *LogDescriptor_
 	return &LogDescriptor_FieldTerminalPath{selector: LogDescriptor_FieldPathSelectorPromotedLabelKeySets}
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithValue(value []*logging_common.LabelKeySet) *LogDescriptor_FieldTerminalPathValue {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithValue(value []*common.LabelKeySet) *LogDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldTerminalPathValue)
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithArrayOfValues(values [][]*logging_common.LabelKeySet) *LogDescriptor_FieldTerminalPathArrayOfValues {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithArrayOfValues(values [][]*common.LabelKeySet) *LogDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithItemValue(value *logging_common.LabelKeySet) *LogDescriptor_FieldTerminalPathArrayItemValue {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithItemValue(value *common.LabelKeySet) *LogDescriptor_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*LogDescriptor_FieldTerminalPathArrayItemValue)
 }
-func (LogDescriptorPathSelectorPromotedLabelKeySets) WithSubPath(subPath logging_common.LabelKeySet_FieldPath) *LogDescriptor_FieldSubPath {
+func (LogDescriptorPathSelectorPromotedLabelKeySets) WithSubPath(subPath common.LabelKeySet_FieldPath) *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subPath}
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubValue(subPathValue logging_common.LabelKeySet_FieldPathValue) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubValue(subPathValue common.LabelKeySet_FieldPathValue) *LogDescriptor_FieldSubPathValue {
 	return &LogDescriptor_FieldSubPathValue{LogDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayOfValues(subPathArrayOfValues logging_common.LabelKeySet_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayOfValues(subPathArrayOfValues common.LabelKeySet_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
 	return &LogDescriptor_FieldSubPathArrayOfValues{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayItemValue(subPathArrayItemValue logging_common.LabelKeySet_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
+func (s LogDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayItemValue(subPathArrayItemValue common.LabelKeySet_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
 	return &LogDescriptor_FieldSubPathArrayItemValue{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -211,7 +211,7 @@ type LogDescriptorPathSelectorPromotedLabelKeySetsLabelKeys struct{}
 func (LogDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorPromotedLabelKeySets,
-		subPath:  logging_common.NewLabelKeySetFieldPathBuilder().LabelKeys().FieldPath(),
+		subPath:  common.NewLabelKeySetFieldPathBuilder().LabelKeys().FieldPath(),
 	}
 }
 
@@ -233,27 +233,27 @@ func (LogDescriptorPathSelectorMetadata) FieldPath() *LogDescriptor_FieldTermina
 	return &LogDescriptor_FieldTerminalPath{selector: LogDescriptor_FieldPathSelectorMetadata}
 }
 
-func (s LogDescriptorPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *LogDescriptor_FieldTerminalPathValue {
+func (s LogDescriptorPathSelectorMetadata) WithValue(value *meta.Meta) *LogDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldTerminalPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *LogDescriptor_FieldTerminalPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *LogDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (LogDescriptorPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *LogDescriptor_FieldSubPath {
+func (LogDescriptorPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s LogDescriptorPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *LogDescriptor_FieldSubPathValue {
 	return &LogDescriptor_FieldSubPathValue{LogDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogDescriptorPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *LogDescriptor_FieldSubPathArrayOfValues {
 	return &LogDescriptor_FieldSubPathArrayOfValues{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogDescriptorPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
+func (s LogDescriptorPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *LogDescriptor_FieldSubPathArrayItemValue {
 	return &LogDescriptor_FieldSubPathArrayItemValue{LogDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -309,20 +309,24 @@ func (LogDescriptorPathSelectorMetadata) Lifecycle() LogDescriptorPathSelectorMe
 	return LogDescriptorPathSelectorMetadataLifecycle{}
 }
 
+func (LogDescriptorPathSelectorMetadata) Services() LogDescriptorPathSelectorMetadataServices {
+	return LogDescriptorPathSelectorMetadataServices{}
+}
+
 type LogDescriptorPathSelectorMetadataCreateTime struct{}
 
 func (LogDescriptorPathSelectorMetadataCreateTime) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -331,15 +335,15 @@ type LogDescriptorPathSelectorMetadataUpdateTime struct{}
 func (LogDescriptorPathSelectorMetadataUpdateTime) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -348,15 +352,15 @@ type LogDescriptorPathSelectorMetadataDeleteTime struct{}
 func (LogDescriptorPathSelectorMetadataDeleteTime) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -365,7 +369,7 @@ type LogDescriptorPathSelectorMetadataUuid struct{}
 func (LogDescriptorPathSelectorMetadataUuid) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -382,7 +386,7 @@ type LogDescriptorPathSelectorMetadataTags struct{}
 func (LogDescriptorPathSelectorMetadataTags) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -403,7 +407,7 @@ type LogDescriptorPathSelectorMetadataLabels struct{}
 func (LogDescriptorPathSelectorMetadataLabels) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -426,7 +430,7 @@ type LogDescriptorMapPathSelectorMetadataLabels struct {
 func (s LogDescriptorMapPathSelectorMetadataLabels) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -443,7 +447,7 @@ type LogDescriptorPathSelectorMetadataAnnotations struct{}
 func (LogDescriptorPathSelectorMetadataAnnotations) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -466,7 +470,7 @@ type LogDescriptorMapPathSelectorMetadataAnnotations struct {
 func (s LogDescriptorMapPathSelectorMetadataAnnotations) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -483,7 +487,7 @@ type LogDescriptorPathSelectorMetadataGeneration struct{}
 func (LogDescriptorPathSelectorMetadataGeneration) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -500,7 +504,7 @@ type LogDescriptorPathSelectorMetadataResourceVersion struct{}
 func (LogDescriptorPathSelectorMetadataResourceVersion) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -517,19 +521,19 @@ type LogDescriptorPathSelectorMetadataOwnerReferences struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferences) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
-func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *LogDescriptor_FieldSubPathArrayItemValue {
+func (s LogDescriptorPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *LogDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*LogDescriptor_FieldSubPathArrayItemValue)
 }
 
@@ -553,10 +557,6 @@ func (LogDescriptorPathSelectorMetadataOwnerReferences) Controller() LogDescript
 	return LogDescriptorPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (LogDescriptorPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (LogDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReference() LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -566,7 +566,7 @@ type LogDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -583,7 +583,7 @@ type LogDescriptorPathSelectorMetadataOwnerReferencesVersion struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferencesVersion) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -600,7 +600,7 @@ type LogDescriptorPathSelectorMetadataOwnerReferencesName struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferencesName) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -617,7 +617,7 @@ type LogDescriptorPathSelectorMetadataOwnerReferencesRegion struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferencesRegion) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -634,7 +634,7 @@ type LogDescriptorPathSelectorMetadataOwnerReferencesController struct{}
 func (LogDescriptorPathSelectorMetadataOwnerReferencesController) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -646,29 +646,12 @@ func (s LogDescriptorPathSelectorMetadataOwnerReferencesController) WithArrayOfV
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
-type LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *LogDescriptor_FieldSubPath {
-	return &LogDescriptor_FieldSubPath{
-		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *LogDescriptor_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
-}
-
-func (s LogDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *LogDescriptor_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
-}
-
 type LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -685,7 +668,7 @@ type LogDescriptorPathSelectorMetadataShards struct{}
 func (LogDescriptorPathSelectorMetadataShards) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -708,7 +691,7 @@ type LogDescriptorMapPathSelectorMetadataShards struct {
 func (s LogDescriptorMapPathSelectorMetadataShards) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -725,15 +708,15 @@ type LogDescriptorPathSelectorMetadataSyncing struct{}
 func (LogDescriptorPathSelectorMetadataSyncing) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -750,7 +733,7 @@ type LogDescriptorPathSelectorMetadataSyncingOwningRegion struct{}
 func (LogDescriptorPathSelectorMetadataSyncingOwningRegion) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -767,7 +750,7 @@ type LogDescriptorPathSelectorMetadataSyncingRegions struct{}
 func (LogDescriptorPathSelectorMetadataSyncingRegions) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -788,15 +771,15 @@ type LogDescriptorPathSelectorMetadataLifecycle struct{}
 func (LogDescriptorPathSelectorMetadataLifecycle) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -813,15 +796,15 @@ type LogDescriptorPathSelectorMetadataLifecycleState struct{}
 func (LogDescriptorPathSelectorMetadataLifecycleState) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s LogDescriptorPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *LogDescriptor_FieldSubPathValue {
+func (s LogDescriptorPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *LogDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
 }
 
-func (s LogDescriptorPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *LogDescriptor_FieldSubPathArrayOfValues {
+func (s LogDescriptorPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -830,7 +813,7 @@ type LogDescriptorPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (LogDescriptorPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *LogDescriptor_FieldSubPath {
 	return &LogDescriptor_FieldSubPath{
 		selector: LogDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -840,4 +823,67 @@ func (s LogDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithValue(value
 
 func (s LogDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
+}
+
+type LogDescriptorPathSelectorMetadataServices struct{}
+
+func (LogDescriptorPathSelectorMetadataServices) FieldPath() *LogDescriptor_FieldSubPath {
+	return &LogDescriptor_FieldSubPath{
+		selector: LogDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s LogDescriptorPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *LogDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
+}
+
+func (s LogDescriptorPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *LogDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (LogDescriptorPathSelectorMetadataServices) OwningService() LogDescriptorPathSelectorMetadataServicesOwningService {
+	return LogDescriptorPathSelectorMetadataServicesOwningService{}
+}
+
+func (LogDescriptorPathSelectorMetadataServices) AllowedServices() LogDescriptorPathSelectorMetadataServicesAllowedServices {
+	return LogDescriptorPathSelectorMetadataServicesAllowedServices{}
+}
+
+type LogDescriptorPathSelectorMetadataServicesOwningService struct{}
+
+func (LogDescriptorPathSelectorMetadataServicesOwningService) FieldPath() *LogDescriptor_FieldSubPath {
+	return &LogDescriptor_FieldSubPath{
+		selector: LogDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s LogDescriptorPathSelectorMetadataServicesOwningService) WithValue(value string) *LogDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
+}
+
+func (s LogDescriptorPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *LogDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
+}
+
+type LogDescriptorPathSelectorMetadataServicesAllowedServices struct{}
+
+func (LogDescriptorPathSelectorMetadataServicesAllowedServices) FieldPath() *LogDescriptor_FieldSubPath {
+	return &LogDescriptor_FieldSubPath{
+		selector: LogDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s LogDescriptorPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *LogDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
+}
+
+func (s LogDescriptorPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *LogDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s LogDescriptorPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *LogDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*LogDescriptor_FieldSubPathArrayItemValue)
 }

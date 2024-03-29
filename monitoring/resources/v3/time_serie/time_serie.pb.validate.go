@@ -15,15 +15,12 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
 // proto imports
 import (
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 )
 
@@ -37,14 +34,12 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
 // make sure we're using proto imports
 var (
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 )
 
@@ -84,11 +79,6 @@ func (obj *TimeSerie) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Resource).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TimeSerie", "resource", obj.Resource, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("TimeSerie", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
 	for idx, elem := range obj.Points {

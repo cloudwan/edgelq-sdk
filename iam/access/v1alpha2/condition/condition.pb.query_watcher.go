@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	condition_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/condition"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
@@ -37,7 +37,7 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *condition.ParentReference
+	Parent       *condition.ParentName
 	Filter       *condition.Filter
 	View         view.View
 	FieldMask    *condition.Condition_FieldMask
@@ -287,6 +287,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(condition.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(condition.ConditionChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(condition.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{
@@ -308,7 +322,7 @@ func init() {
 			cfg.Cursor = params.Cursor.(*condition.PagerCursor)
 		}
 		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*condition.ParentReference)
+			cfg.Parent = params.Parent.(*condition.ParentName)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*condition.Filter)

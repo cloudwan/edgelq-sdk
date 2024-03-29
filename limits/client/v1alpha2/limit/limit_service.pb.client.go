@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &limit.Limit{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -55,7 +55,7 @@ type LimitServiceClient interface {
 	WatchLimit(ctx context.Context, in *WatchLimitRequest, opts ...grpc.CallOption) (WatchLimitClientStream, error)
 	WatchLimits(ctx context.Context, in *WatchLimitsRequest, opts ...grpc.CallOption) (WatchLimitsClientStream, error)
 	UpdateLimit(ctx context.Context, in *UpdateLimitRequest, opts ...grpc.CallOption) (*limit.Limit, error)
-	DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	MigrateLimitSource(ctx context.Context, in *MigrateLimitSourceRequest, opts ...grpc.CallOption) (*limit.Limit, error)
 }
 
@@ -177,8 +177,8 @@ func (c *client) UpdateLimit(ctx context.Context, in *UpdateLimitRequest, opts .
 	return out, nil
 }
 
-func (c *client) DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitService/DeleteLimit", in, out, opts...)
 	if err != nil {
 		return nil, err

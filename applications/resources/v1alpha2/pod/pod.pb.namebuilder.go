@@ -13,8 +13,8 @@ import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
@@ -22,8 +22,8 @@ var (
 	_ = &common.PodSpec{}
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 const (

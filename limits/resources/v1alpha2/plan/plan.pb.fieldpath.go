@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -136,7 +134,7 @@ func BuildPlan_FieldPath(fp gotenobject.RawFieldPath) (Plan_FieldPath, error) {
 				return &Plan_FieldSubPath{selector: Plan_FieldPathSelectorResourceLimits, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Plan_FieldSubPath{selector: Plan_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -265,7 +263,7 @@ func (fp *Plan_FieldTerminalPath) GetDefault() interface{} {
 	case Plan_FieldPathSelectorBusinessTier:
 		return iam_iam_common.BusinessTier_UNDEFINED
 	case Plan_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fp.selector))
 	}
@@ -326,7 +324,7 @@ func (fp *Plan_FieldTerminalPath) WithIValue(value interface{}) Plan_FieldPathVa
 	case Plan_FieldPathSelectorBusinessTier:
 		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(iam_iam_common.BusinessTier)}
 	case Plan_FieldPathSelectorMetadata:
-		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fp.selector))
 	}
@@ -352,7 +350,7 @@ func (fp *Plan_FieldTerminalPath) WithIArrayOfValues(values interface{}) Plan_Fi
 	case Plan_FieldPathSelectorBusinessTier:
 		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]iam_iam_common.BusinessTier)}
 	case Plan_FieldPathSelectorMetadata:
-		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fp.selector))
 	}
@@ -390,8 +388,8 @@ func (fps *Plan_FieldSubPath) AsResourceLimitsSubPath() (common.Allowance_FieldP
 	res, ok := fps.subPath.(common.Allowance_FieldPath)
 	return res, ok
 }
-func (fps *Plan_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Plan_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -568,8 +566,8 @@ func (fpv *Plan_FieldTerminalPathValue) AsBusinessTierValue() (iam_iam_common.Bu
 	res, ok := fpv.value.(iam_iam_common.BusinessTier)
 	return res, ok
 }
-func (fpv *Plan_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Plan_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -592,7 +590,7 @@ func (fpv *Plan_FieldTerminalPathValue) SetTo(target **Plan) {
 	case Plan_FieldPathSelectorBusinessTier:
 		(*target).BusinessTier = fpv.value.(iam_iam_common.BusinessTier)
 	case Plan_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fpv.selector))
 	}
@@ -698,8 +696,8 @@ func (fpvs *Plan_FieldSubPathValue) AsResourceLimitsPathValue() (common.Allowanc
 	res, ok := fpvs.subPathValue.(common.Allowance_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Plan_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Plan_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -711,7 +709,7 @@ func (fpvs *Plan_FieldSubPathValue) SetTo(target **Plan) {
 	case Plan_FieldPathSelectorResourceLimits:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Plan_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fpvs.Selector()))
 	}
@@ -731,7 +729,7 @@ func (fpvs *Plan_FieldSubPathValue) CompareWith(source *Plan) (int, bool) {
 	case Plan_FieldPathSelectorResourceLimits:
 		return 0, false // repeated field
 	case Plan_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fpvs.Selector()))
 	}
@@ -822,8 +820,8 @@ func (fpaivs *Plan_FieldSubPathArrayItemValue) AsResourceLimitsPathItemValue() (
 	res, ok := fpaivs.subPathItemValue.(common.Allowance_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Plan_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Plan_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -833,7 +831,7 @@ func (fpaivs *Plan_FieldSubPathArrayItemValue) ContainsValue(source *Plan) bool 
 	case Plan_FieldPathSelectorResourceLimits:
 		return false // repeated/map field
 	case Plan_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fpaivs.Selector()))
 	}
@@ -899,7 +897,7 @@ func (fpaov *Plan_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 			values = append(values, v)
 		}
 	case Plan_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -929,8 +927,8 @@ func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() 
 	res, ok := fpaov.values.([]iam_iam_common.BusinessTier)
 	return res, ok
 }
-func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -948,7 +946,7 @@ func (fpsaov *Plan_FieldSubPathArrayOfValues) AsResourceLimitsPathArrayOfValues(
 	res, ok := fpsaov.subPathArrayOfValues.(common.Allowance_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *Plan_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Plan_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

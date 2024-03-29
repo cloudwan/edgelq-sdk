@@ -13,6 +13,6 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // Request message for method
 // [MigrateLimitSource][ntt.limits.v1alpha2.MigrateLimitSource]
 message MigrateLimitSourceRequest {
-  // reference of ntt.limits.v1alpha2.Limit
+  // name of ntt.limits.v1alpha2.Limit
   string name = 1;
 }

@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	notification_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification"
 	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiNotificationAccess struct {
@@ -42,8 +44,11 @@ func NewApiNotificationAccess(client notification_client.NotificationServiceClie
 }
 
 func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *notification.GetQuery) (*notification.Notification, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &notification_client.GetNotificationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetNotification(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *noti
 
 func (a *apiNotificationAccess) BatchGetNotifications(ctx context.Context, refs []*notification.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*notification.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &notification_client.BatchGetNotificationsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(notification.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiNotificationAccess) QueryNotifications(ctx context.Context, query *n
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListNotifications(ctx, request)
 	if err != nil {
 		return nil, err
@@ -118,6 +133,9 @@ func (a *apiNotificationAccess) SearchNotifications(ctx context.Context, query *
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.SearchNotifications(ctx, request)
 	if err != nil {
 		return nil, err
@@ -132,8 +150,11 @@ func (a *apiNotificationAccess) SearchNotifications(ctx context.Context, query *
 }
 
 func (a *apiNotificationAccess) WatchNotification(ctx context.Context, query *notification.GetQuery, observerCb func(*notification.NotificationChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &notification_client.WatchNotificationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchNotification(ctx, request)
@@ -164,6 +185,9 @@ func (a *apiNotificationAccess) WatchNotifications(ctx context.Context, query *n
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchNotifications(ctx, request)
 	if initErr != nil {
@@ -205,7 +229,8 @@ func (a *apiNotificationAccess) SaveNotification(ctx context.Context, res *notif
 			}
 		}
 	}
-
+	var resp *notification.Notification
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &notification_client.UpdateNotificationRequest{
 			Notification: res,
@@ -219,29 +244,76 @@ func (a *apiNotificationAccess) SaveNotification(ctx context.Context, res *notif
 				FieldMask:        mask.(*notification.Notification_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateNotification(ctx, updateRequest)
+		resp, err = a.client.UpdateNotification(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &notification_client.CreateNotificationRequest{
 			Notification: res,
 		}
-		_, err := a.client.CreateNotification(ctx, createRequest)
+		resp, err = a.client.CreateNotification(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiNotificationAccess) DeleteNotification(ctx context.Context, ref *notification.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &notification_client.DeleteNotificationRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteNotification(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *notification.Filter) (*notification.Filter, *notification.ParentName) {
+	var withParentExtraction func(cnd notification.FilterCondition) notification.FilterCondition
+	var resultParent *notification.ParentName
+	var resultFilter *notification.Filter
+	withParentExtraction = func(cnd notification.FilterCondition) notification.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *notification.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]notification.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return notification.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *notification.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*notification.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &notification.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

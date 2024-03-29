@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -125,7 +123,7 @@ func BuildProvisioningApprovalRequest_FieldPath(fp gotenobject.RawFieldPath) (Pr
 				return &ProvisioningApprovalRequest_FieldSubPath{selector: ProvisioningApprovalRequest_FieldPathSelectorStatus, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ProvisioningApprovalRequest_FieldSubPath{selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -236,7 +234,7 @@ func (fp *ProvisioningApprovalRequest_FieldTerminalPath) GetDefault() interface{
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		return (*ProvisioningApprovalRequest_Status)(nil)
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fp.selector))
 	}
@@ -281,7 +279,7 @@ func (fp *ProvisioningApprovalRequest_FieldTerminalPath) WithIValue(value interf
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		return &ProvisioningApprovalRequest_FieldTerminalPathValue{ProvisioningApprovalRequest_FieldTerminalPath: *fp, value: value.(*ProvisioningApprovalRequest_Status)}
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		return &ProvisioningApprovalRequest_FieldTerminalPathValue{ProvisioningApprovalRequest_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &ProvisioningApprovalRequest_FieldTerminalPathValue{ProvisioningApprovalRequest_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fp.selector))
 	}
@@ -301,7 +299,7 @@ func (fp *ProvisioningApprovalRequest_FieldTerminalPath) WithIArrayOfValues(valu
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		return &ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues{ProvisioningApprovalRequest_FieldTerminalPath: *fp, values: values.([]*ProvisioningApprovalRequest_Status)}
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		return &ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues{ProvisioningApprovalRequest_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues{ProvisioningApprovalRequest_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fp.selector))
 	}
@@ -341,8 +339,8 @@ func (fps *ProvisioningApprovalRequest_FieldSubPath) AsStatusSubPath() (Provisio
 	res, ok := fps.subPath.(ProvisioningApprovalRequestStatus_FieldPath)
 	return res, ok
 }
-func (fps *ProvisioningApprovalRequest_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *ProvisioningApprovalRequest_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -512,8 +510,8 @@ func (fpv *ProvisioningApprovalRequest_FieldTerminalPathValue) AsStatusValue() (
 	res, ok := fpv.value.(*ProvisioningApprovalRequest_Status)
 	return res, ok
 }
-func (fpv *ProvisioningApprovalRequest_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *ProvisioningApprovalRequest_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -530,7 +528,7 @@ func (fpv *ProvisioningApprovalRequest_FieldTerminalPathValue) SetTo(target **Pr
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*ProvisioningApprovalRequest_Status)
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fpv.selector))
 	}
@@ -593,8 +591,8 @@ func (fpvs *ProvisioningApprovalRequest_FieldSubPathValue) AsStatusPathValue() (
 	res, ok := fpvs.subPathValue.(ProvisioningApprovalRequestStatus_FieldPathValue)
 	return res, ok
 }
-func (fpvs *ProvisioningApprovalRequest_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *ProvisioningApprovalRequest_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -608,7 +606,7 @@ func (fpvs *ProvisioningApprovalRequest_FieldSubPathValue) SetTo(target **Provis
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		fpvs.subPathValue.(ProvisioningApprovalRequestStatus_FieldPathValue).SetTo(&(*target).Status)
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fpvs.Selector()))
 	}
@@ -630,7 +628,7 @@ func (fpvs *ProvisioningApprovalRequest_FieldSubPathValue) CompareWith(source *P
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		return fpvs.subPathValue.(ProvisioningApprovalRequestStatus_FieldPathValue).CompareWith(source.GetStatus())
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fpvs.Selector()))
 	}
@@ -721,8 +719,8 @@ func (fpaivs *ProvisioningApprovalRequest_FieldSubPathArrayItemValue) AsStatusPa
 	res, ok := fpaivs.subPathItemValue.(ProvisioningApprovalRequestStatus_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *ProvisioningApprovalRequest_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *ProvisioningApprovalRequest_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -734,7 +732,7 @@ func (fpaivs *ProvisioningApprovalRequest_FieldSubPathArrayItemValue) ContainsVa
 	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 		return fpaivs.subPathItemValue.(ProvisioningApprovalRequestStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fpaivs.Selector()))
 	}
@@ -788,7 +786,7 @@ func (fpaov *ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues) GetRawV
 			values = append(values, v)
 		}
 	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -806,8 +804,8 @@ func (fpaov *ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues) AsStatu
 	res, ok := fpaov.values.([]*ProvisioningApprovalRequest_Status)
 	return res, ok
 }
-func (fpaov *ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *ProvisioningApprovalRequest_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -829,8 +827,8 @@ func (fpsaov *ProvisioningApprovalRequest_FieldSubPathArrayOfValues) AsStatusPat
 	res, ok := fpsaov.subPathArrayOfValues.(ProvisioningApprovalRequestStatus_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *ProvisioningApprovalRequest_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *ProvisioningApprovalRequest_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 

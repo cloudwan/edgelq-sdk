@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/recovery_store_sharding_info;recovery_store_sharding_info";
+option java_multiple_files = true;
+option java_outer_classname = "RecoveryStoreShardingInfoProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// RecoveryStoreShardingInfo Resource
+message RecoveryStoreShardingInfo {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/RecoveryStoreShardingInfo"
+    pattern : "regions/{region}/recoveryStoreShardingInfos/"
+              "{recovery_store_sharding_info}"
+  };
+
+  // Name of RecoveryStoreShardingInfo
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 4;
+
+  // Period during which this sharding spec is valid.
+  ValidityPeriod validity_period = 2;
+
+  // Sharding spec for given validity period.
+  ShardingSpec spec = 3;
+
+  // Validity period specifies for which period of time this sharding spec is
+  // valid.
+  message ValidityPeriod {
+    // Start time of validity period.
+    google.protobuf.Timestamp start_time = 1;
+
+    // End time of validity period.
+    google.protobuf.Timestamp end_time = 2;
+  }
+
+  // Sharding spec defines how time series points is divided across two
+  // dimensions: key (shards_count) and time (ts_blob_period).
+  message ShardingSpec {
+    // Defines period of time series points in a single blob.
+    google.protobuf.Duration ts_blob_period = 1;
+
+    // Number of shards (by key) in given shard period
+    uint32 shards_count = 2;
+  }
+}

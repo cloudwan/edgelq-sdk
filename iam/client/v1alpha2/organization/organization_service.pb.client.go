@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization.Organization{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type OrganizationServiceClient interface {
 	WatchOrganizations(ctx context.Context, in *WatchOrganizationsRequest, opts ...grpc.CallOption) (WatchOrganizationsClientStream, error)
 	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*organization.Organization, error)
 	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*organization.Organization, error)
-	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ListMyOrganizations(ctx context.Context, in *ListMyOrganizationsRequest, opts ...grpc.CallOption) (*ListMyOrganizationsResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateOrganization(ctx context.Context, in *UpdateOrganizationR
 	return out, nil
 }
 
-func (c *client) DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.OrganizationService/DeleteOrganization", in, out, opts...)
 	if err != nil {
 		return nil, err

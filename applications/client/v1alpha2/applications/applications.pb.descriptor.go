@@ -60,7 +60,7 @@ func (d *ApplicationsDescriptor) GetVersion() string {
 
 func (d *ApplicationsDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *ApplicationsDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

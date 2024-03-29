@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/limits/proto/v1/common.proto";
+import "edgelq-sdk/limits/proto/v1/plan.proto";
+import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment;plan_assignment";
+option java_multiple_files = true;
+option java_outer_classname = "PlanAssignmentProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// PlanAssignment binds plan (with optional customizations) with specific
+// entity (assignee - either system, organization or project).
+// Plan assignments (sum of them) are used to compute configured size of
+// limit pools (system and organizations) AND limits (projects).
+// They are not modifiable - limits are passed from system to projects,
+// so each PlanAssignment must be agreed by higher instance (parent organization
+// or system). System recognizes acceptance by existence of AcceptedPlan
+// instances - it synchronizes PlanAssignment instances with them.
+message PlanAssignment {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/PlanAssignment"
+    pattern : "services/{service}/planAssignments/{plan_assignment}"
+    pattern : "projects/{project}/planAssignments/{plan_assignment}"
+    pattern : "organizations/{organization}/planAssignments/{plan_assignment}"
+  };
+
+  // Name of PlanAssignment
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 7;
+
+  // Plan with basic set of limits - it will apply to EACH region of
+  // service/organization/project
+  string default_regional_plan = 2;
+
+  // Service associated with plan
+  string service = 3;
+
+  // Individual plan overrides per each region.
+  repeated RegionalPlanAssignment regional_plan_overrides = 8;
+
+  // Additional extensions (but may be negative) on top of regular plan.
+  repeated Allowance extensions = 4;
+
+  // Final allowances per resource/region - computed from extensions and
+  // all regional plans.
+  repeated Allowance allowances = 5;
+
+  // List of regions ID where plan was applied - it is being taken from
+  // service/organization/project list of regions. Limits service extends plans
+  // if it notices expansion to the new region.
+  repeated string applied_regions = 9;
+
+  // Default region plan generation number, set during each update and creation.
+  // It is used to notice if plan got changed and we need to trigger plan
+  // update.
+  int64 applied_plan_spec_generation = 10;
+
+  // Source with which this PlanAssignment is synchronized.
+  string source = 6;
+}

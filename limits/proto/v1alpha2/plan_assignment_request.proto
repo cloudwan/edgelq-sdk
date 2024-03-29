@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ntt.limits.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
@@ -10,6 +9,7 @@ import "edgelq-sdk/limits/proto/v1alpha2/plan.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request;plan_assignment_request";
 option java_multiple_files = true;
@@ -44,7 +44,7 @@ message PlanAssignmentRequest {
   string name = 1;
 
   // Purpose of this request
-  Request request = 2;
+  RequestType request = 2;
 
   // Service associated with this request.
   string service = 3;
@@ -55,7 +55,7 @@ message PlanAssignmentRequest {
   Status status = 5;
 
   // Metadata
-  ntt.types.Meta metadata = 6;
+  goten.types.Meta metadata = 6;
 
   // Status
   message Status {
@@ -76,9 +76,9 @@ message PlanAssignmentRequest {
     }
   }
 
-  // Request describes what should change in existing PlanAssignment, optionally
-  // if new one should be created.
-  message Request {
+  // RequestType describes what should change in existing PlanAssignment,
+  // optionally if new one should be created.
+  message RequestType {
     oneof request {
       // Assign request
       Assign assign = 1;

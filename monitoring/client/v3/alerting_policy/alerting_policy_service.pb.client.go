@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type AlertingPolicyServiceClient interface {
 	WatchAlertingPolicies(ctx context.Context, in *WatchAlertingPoliciesRequest, opts ...grpc.CallOption) (WatchAlertingPoliciesClientStream, error)
 	CreateAlertingPolicy(ctx context.Context, in *CreateAlertingPolicyRequest, opts ...grpc.CallOption) (*alerting_policy.AlertingPolicy, error)
 	UpdateAlertingPolicy(ctx context.Context, in *UpdateAlertingPolicyRequest, opts ...grpc.CallOption) (*alerting_policy.AlertingPolicy, error)
-	DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SearchAlertingPolicies(ctx context.Context, in *SearchAlertingPoliciesRequest, opts ...grpc.CallOption) (*SearchAlertingPoliciesResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateAlertingPolicy(ctx context.Context, in *UpdateAlertingPol
 	return out, nil
 }
 
-func (c *client) DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingPolicyService/DeleteAlertingPolicy", in, out, opts...)
 	if err != nil {
 		return nil, err

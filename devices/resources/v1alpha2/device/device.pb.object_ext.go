@@ -9,22 +9,22 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -33,22 +33,22 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
 )
 
 func (o *Device) GotenObjectExt() {}
@@ -165,7 +165,7 @@ func (o *Device) Merge(source *Device) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -653,7 +653,7 @@ func (o *Device_PublicListingSpec) Merge(source *Device_PublicListingSpec) {
 		if o.FieldMask == nil {
 			o.FieldMask = new(Device_FieldMask)
 		}
-		mergedMask := fieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
+		mergedMask := googlefieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
 		if err := o.FieldMask.FromProtoFieldMask(mergedMask); err != nil {
 			panic(err)
 		}
@@ -1077,7 +1077,7 @@ func (o *Device_Spec_SSHConfig) Clone() *Device_Spec_SSHConfig {
 	for i, sourceValue := range o.IpDenyList {
 		result.IpDenyList[i] = sourceValue
 	}
-	result.RejectPeriod = proto.Clone(o.RejectPeriod).(*duration.Duration)
+	result.RejectPeriod = proto.Clone(o.RejectPeriod).(*durationpb.Duration)
 	result.DisableSshAuthkey = o.DisableSshAuthkey
 	return result
 }
@@ -1139,7 +1139,7 @@ func (o *Device_Spec_SSHConfig) Merge(source *Device_Spec_SSHConfig) {
 
 	if source.GetRejectPeriod() != nil {
 		if o.RejectPeriod == nil {
-			o.RejectPeriod = new(duration.Duration)
+			o.RejectPeriod = new(durationpb.Duration)
 		}
 		proto.Merge(o.RejectPeriod, source.GetRejectPeriod())
 	}
@@ -5178,8 +5178,8 @@ func (o *Device_Status_Condition) Clone() *Device_Status_Condition {
 	result.Reason = o.Reason
 	result.Status = o.Status
 	result.Type = o.Type
-	result.LastHeartBeatTime = proto.Clone(o.LastHeartBeatTime).(*timestamp.Timestamp)
-	result.LastTransitionTime = proto.Clone(o.LastTransitionTime).(*timestamp.Timestamp)
+	result.LastHeartBeatTime = proto.Clone(o.LastHeartBeatTime).(*timestamppb.Timestamp)
+	result.LastTransitionTime = proto.Clone(o.LastTransitionTime).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -5194,13 +5194,13 @@ func (o *Device_Status_Condition) Merge(source *Device_Status_Condition) {
 	o.Type = source.GetType()
 	if source.GetLastHeartBeatTime() != nil {
 		if o.LastHeartBeatTime == nil {
-			o.LastHeartBeatTime = new(timestamp.Timestamp)
+			o.LastHeartBeatTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.LastHeartBeatTime, source.GetLastHeartBeatTime())
 	}
 	if source.GetLastTransitionTime() != nil {
 		if o.LastTransitionTime == nil {
-			o.LastTransitionTime = new(timestamp.Timestamp)
+			o.LastTransitionTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.LastTransitionTime, source.GetLastTransitionTime())
 	}

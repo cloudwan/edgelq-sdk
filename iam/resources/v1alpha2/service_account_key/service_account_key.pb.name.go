@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -44,13 +44,13 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service_account.ServiceAccount{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 var serviceAccountKey_RegexpId = regexp.MustCompile("^(?P<service_account_key_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Project_Region_ServiceAccount = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/serviceAccounts/(?P<service_account_id>-|[\\w][\\w.-]{0,127})/serviceAccountKeys/(?P<service_account_key_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project_Region_ServiceAccount = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/serviceAccounts/(?P<service_account_id>-|[\\w][\\w.-]{0,127})/serviceAccountKeys/(?P<service_account_key_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *ServiceAccountKey) MaybePopulateDefaults() error {
 	serviceAccountKeyInterface := interface{}(r)
@@ -58,14 +58,6 @@ func (r *ServiceAccountKey) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *ServiceAccountKey) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *ServiceAccountKey) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

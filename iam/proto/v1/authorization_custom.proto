@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/condition.proto";
+import "edgelq-sdk/iam/proto/v1/permission.proto";
+import "edgelq-sdk/iam/proto/v1/permission_change.proto";
+import "edgelq-sdk/iam/proto/v1/role.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding_change.proto";
+import "edgelq-sdk/iam/proto/v1/service_account.proto";
+import "edgelq-sdk/iam/proto/v1/service_account_key.proto";
+import "edgelq-sdk/iam/proto/v1/user.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/authorization;authorization_client";
+option java_multiple_files = false;
+option java_outer_classname = "AuthorizationCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Request message for method [GetPrincipal][ntt.iam.v1.GetPrincipal]
+message GetPrincipalRequest {
+  // Service asking for given principal - IAM verifies if given principal has
+  // any role bindings in requesting service.
+  string requesting_service = 1;
+
+  // Principal ID, different for users or service accounts
+  string principal_key_id = 2;
+
+  // Region ID where data is known to be stored
+  string region_id = 3;
+
+  // User authorization token
+  string auth_token = 4;
+}
+
+// Response message for method [GetPrincipal][ntt.iam.v1.GetPrincipal]
+message GetPrincipalResponse {
+  // Public json key
+  string json_key = 1;
+
+  // Key type
+  string principal_key_type = 2;
+
+  oneof principal {
+    // User data mapping principal
+    User user = 3;
+
+    // Service account mapping principal
+    ServiceAccount service_account = 4;
+
+    // Anonymous principal
+    bool anonymous = 5;
+  }
+}
+
+// Request message for method
+// [WatchPrincipalUpdates][ntt.iam.v1.WatchPrincipalUpdates]
+message WatchPrincipalUpdatesRequest {
+  string requesting_service = 1;
+
+  // Region ID where principals are expected.
+  string region_id = 2;
+
+  // Resume token in case of disconnection
+  string resume_token = 3;
+}
+
+// Response message for method
+// [WatchPrincipalUpdates][ntt.iam.v1.WatchPrincipalUpdates]
+message WatchPrincipalUpdatesResponse {
+  // All added or removed principals
+  repeated CurrentPrincipal current_principals = 1;
+
+  // All removed principals
+  repeated RemovedPrincipal removed_principals = 2;
+
+  // Whether list of shadows received by client is in sync
+  bool is_current = 3;
+
+  // Whether current, pending changes should be reset.
+  bool is_reset = 4;
+
+  // Token to resume from.
+  string resume_token = 5;
+
+  message CurrentPrincipal {
+    string principal_key_id = 1;
+
+    string json_key = 2;
+
+    string principal_key_type = 3;
+
+    oneof update {
+      User user = 4;
+
+      ServiceAccount service_account = 5;
+    }
+  }
+
+  message RemovedPrincipal { string principal_key_id = 1; }
+}
+
+// Request message for method
+// [CheckMyRoleBindings][ntt.iam.v1.CheckMyRoleBindings]
+message CheckMyRoleBindingsRequest {
+  // Scope determines where roles should be looked from - its either system,
+  // service, project or organization scope. However, if it contains an
+  // organization or project, CheckMyRoles will perform check on all ancestry
+  // path (parent organizations).
+  string parent = 1;
+
+  // Optional additional filter to apply on role bindings returned
+  // Simplified SQL-like syntax with following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // Custom field mask to apply on role bindings. By default, is none is
+  // specified, following is used: [ "name", "role", "scope_params",
+  // "executable_conditions", "owned_objects" ].
+  google.protobuf.FieldMask custom_field_mask = 6;
+}
+
+// Response message for method [CheckMyRoles][ntt.iam.v1.CheckMyRoles]
+message CheckMyRoleBindingsResponse {
+  // List of returned role bindings with corresponding grants.
+  repeated ResolvableGrant resolvable_grants = 1;
+
+  message ResolvableGrant {
+    // Granted RoleBinding for the scope
+    RoleBinding role_binding = 1;
+
+    // All grants extracted from the Role
+    repeated Role.Grant grants = 2;
+  }
+}

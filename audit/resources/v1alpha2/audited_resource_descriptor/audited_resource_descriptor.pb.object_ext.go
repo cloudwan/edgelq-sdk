@@ -9,15 +9,15 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -26,15 +26,15 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
-	_ = &ntt_meta.Meta{}
+	_ = &common.Authentication{}
+	_ = &meta.Meta{}
 )
 
 func (o *AuditedResourceDescriptor) GotenObjectExt() {}
@@ -171,11 +171,11 @@ func (o *AuditedResourceDescriptor) Clone() *AuditedResourceDescriptor {
 	}
 	result.DisplayName = o.DisplayName
 	result.Description = o.Description
-	result.Labels = make([]*audit_common.LabelDescriptor, len(o.Labels))
+	result.Labels = make([]*common.LabelDescriptor, len(o.Labels))
 	for i, sourceValue := range o.Labels {
 		result.Labels[i] = sourceValue.Clone()
 	}
-	result.PromotedLabelKeySets = make([]*audit_common.LabelKeySet, len(o.PromotedLabelKeySets))
+	result.PromotedLabelKeySets = make([]*common.LabelKeySet, len(o.PromotedLabelKeySets))
 	for i, sourceValue := range o.PromotedLabelKeySets {
 		result.PromotedLabelKeySets[i] = sourceValue.Clone()
 	}
@@ -227,9 +227,9 @@ func (o *AuditedResourceDescriptor) Merge(source *AuditedResourceDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *audit_common.LabelDescriptor
+			var newDstElement *common.LabelDescriptor
 			if sourceValue != nil {
-				newDstElement = new(audit_common.LabelDescriptor)
+				newDstElement = new(common.LabelDescriptor)
 				newDstElement.Merge(sourceValue)
 			}
 			o.Labels = append(o.Labels, newDstElement)
@@ -245,9 +245,9 @@ func (o *AuditedResourceDescriptor) Merge(source *AuditedResourceDescriptor) {
 			}
 		}
 		if !exists {
-			var newDstElement *audit_common.LabelKeySet
+			var newDstElement *common.LabelKeySet
 			if sourceValue != nil {
-				newDstElement = new(audit_common.LabelKeySet)
+				newDstElement = new(common.LabelKeySet)
 				newDstElement.Merge(sourceValue)
 			}
 			o.PromotedLabelKeySets = append(o.PromotedLabelKeySets, newDstElement)
@@ -316,7 +316,7 @@ func (o *AuditedResourceDescriptor) Merge(source *AuditedResourceDescriptor) {
 
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &alerting_condition.AlertingCondition{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*alerting_condition.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetAlertingConditionRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetAlertingConditionRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*alerting_condition.AlertingCondition)
+}
+
+func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*alerting_condition.AlertingCondition)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*alerting_condition.AlertingCondition) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractResourceNam
 		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(alerting_condition.AlertingConditionNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return alerting_condition.AlertingConditionNameList(names)
 		}
 	}
 	return (alerting_condition.AlertingConditionNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionN
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAlertingConditionsRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAlertingConditionsRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionN
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAlertingConditionsResponse) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAlertingConditionsResponse) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			return alerting_condition.AlertingConditionList(resources)
+		}
+	}
+	return (alerting_condition.AlertingConditionList)(nil)
 }
 
 func GetBatchGetAlertingConditionsDescriptor() *BatchGetAlertingConditionsDescriptor {
@@ -523,6 +612,30 @@ func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName(
 	return (*alerting_condition.ParentName)(nil)
 }
 
+func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAlertingConditionsRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAlertingConditionsRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingConditionsResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAlertingConditionsResponse) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAlertingConditionsResponse) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			return alerting_condition.AlertingConditionList(resources)
+		}
+	}
+	return (alerting_condition.AlertingConditionList)(nil)
 }
 
 func GetListAlertingConditionsDescriptor() *ListAlertingConditionsDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*alerting_condition.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAlertingConditionRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAlertingConditionRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAlertingConditionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAlertingConditionResponse) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *alerting_condition.AlertingConditionChange_Added_:
+				return tResChange.Added.GetAlertingCondition()
+			case *alerting_condition.AlertingConditionChange_Modified_:
+				return tResChange.Modified.GetAlertingCondition()
+			case *alerting_condition.AlertingConditionChange_Current_:
+				return tResChange.Current.GetAlertingCondition()
+			}
+		}
+	}
+	return (*alerting_condition.AlertingCondition)(nil)
+}
+
+func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAlertingConditionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAlertingConditionResponse) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*alerting_condition.ParentName)(nil)
+}
+
+func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAlertingConditionsRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAlertingConditionsRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAlertingConditionsResponse) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAlertingConditionsResponse) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetAlertingConditionChanges(); len(resChanges) > 0 {
+			list := make(alerting_condition.AlertingConditionList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *alerting_condition.AlertingConditionChange_Added_:
+					list = append(list, tResChange.Added.GetAlertingCondition())
+				case *alerting_condition.AlertingConditionChange_Modified_:
+					list = append(list, tResChange.Modified.GetAlertingCondition())
+				case *alerting_condition.AlertingConditionChange_Current_:
+					list = append(list, tResChange.Current.GetAlertingCondition())
+				}
+			}
+			return list
+		}
+	}
+	return (alerting_condition.AlertingConditionList)(nil)
 }
 
 func GetWatchAlertingConditionsDescriptor() *WatchAlertingConditionsDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*alerting_condition.ParentName)(nil)
+}
+
+func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateAlertingConditionRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAlertingCondition()
+	}
+	return (*alerting_condition.AlertingCondition)(nil)
+}
+
+func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateAlertingConditionRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*alerting_condition.AlertingCondition)
+}
+
+func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*alerting_condition.AlertingCondition)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*alerting_condition.AlertingCondition) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
+func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateAlertingConditionRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAlertingCondition()
+	}
+	return (*alerting_condition.AlertingCondition)(nil)
+}
+
+func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateAlertingConditionRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName
 	return nil
 }
 
+func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*alerting_condition.AlertingCondition)
+}
+
+func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*alerting_condition.AlertingCondition)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*alerting_condition.AlertingCondition) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateAlertingConditionDescriptor() *UpdateAlertingConditionDescriptor {
 	return updateAlertingConditionDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeleteAlertingConditionDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteAlertingConditionDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteAlertingConditionDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*alerting_condition.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
-func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *alerting_condition.Name
+		OverrideExtractResourceBody(*DeleteAlertingConditionRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteAlertingConditionRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *alerting_condition.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(m
 }
 
 func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*alerting_condition.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*alerting_condition.Name
 	})
 	if ok {
 		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(
 }
 
 func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *alerting_condition.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1583,6 +1983,30 @@ func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionNam
 	return (*alerting_condition.ParentName)(nil)
 }
 
+func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchAlertingConditionsRequest) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchAlertingConditionsRequest) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SearchAlertingConditionsResponse)
 	var asInterface interface{} = h
@@ -1626,6 +2050,35 @@ func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchAlertingConditionsResponse) *alerting_condition.AlertingCondition
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchAlertingConditionsResponse) []*alerting_condition.AlertingCondition
+	})
+	if ok {
+		return alerting_condition.AlertingConditionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			return alerting_condition.AlertingConditionList(resources)
+		}
+	}
+	return (alerting_condition.AlertingConditionList)(nil)
 }
 
 func GetSearchAlertingConditionsDescriptor() *SearchAlertingConditionsDescriptor {

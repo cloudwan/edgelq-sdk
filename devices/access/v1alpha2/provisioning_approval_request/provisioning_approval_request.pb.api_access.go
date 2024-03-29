@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	provisioning_approval_request_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_approval_request"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiProvisioningApprovalRequestAccess struct {
@@ -42,8 +44,11 @@ func NewApiProvisioningApprovalRequestAccess(client provisioning_approval_reques
 }
 
 func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ctx context.Context, query *provisioning_approval_request.GetQuery) (*provisioning_approval_request.ProvisioningApprovalRequest, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &provisioning_approval_request_client.GetProvisioningApprovalRequestRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetProvisioningApprovalRequest(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ct
 
 func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalRequests(ctx context.Context, refs []*provisioning_approval_request.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*provisioning_approval_request.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &provisioning_approval_request_client.BatchGetProvisioningApprovalRequestsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(provisioning_approval_request.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListProvisioningApprovalRequests(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests
 }
 
 func (a *apiProvisioningApprovalRequestAccess) WatchProvisioningApprovalRequest(ctx context.Context, query *provisioning_approval_request.GetQuery, observerCb func(*provisioning_approval_request.ProvisioningApprovalRequestChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &provisioning_approval_request_client.WatchProvisioningApprovalRequestRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchProvisioningApprovalRequest(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiProvisioningApprovalRequestAccess) WatchProvisioningApprovalRequests
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchProvisioningApprovalRequests(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiProvisioningApprovalRequestAccess) SaveProvisioningApprovalRequest(c
 			}
 		}
 	}
-
+	var resp *provisioning_approval_request.ProvisioningApprovalRequest
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &provisioning_approval_request_client.UpdateProvisioningApprovalRequestRequest{
 			ProvisioningApprovalRequest: res,
@@ -195,29 +217,76 @@ func (a *apiProvisioningApprovalRequestAccess) SaveProvisioningApprovalRequest(c
 				FieldMask:        mask.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateProvisioningApprovalRequest(ctx, updateRequest)
+		resp, err = a.client.UpdateProvisioningApprovalRequest(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &provisioning_approval_request_client.CreateProvisioningApprovalRequestRequest{
 			ProvisioningApprovalRequest: res,
 		}
-		_, err := a.client.CreateProvisioningApprovalRequest(ctx, createRequest)
+		resp, err = a.client.CreateProvisioningApprovalRequest(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiProvisioningApprovalRequestAccess) DeleteProvisioningApprovalRequest(ctx context.Context, ref *provisioning_approval_request.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &provisioning_approval_request_client.DeleteProvisioningApprovalRequestRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteProvisioningApprovalRequest(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *provisioning_approval_request.Filter) (*provisioning_approval_request.Filter, *provisioning_approval_request.ParentName) {
+	var withParentExtraction func(cnd provisioning_approval_request.FilterCondition) provisioning_approval_request.FilterCondition
+	var resultParent *provisioning_approval_request.ParentName
+	var resultFilter *provisioning_approval_request.Filter
+	withParentExtraction = func(cnd provisioning_approval_request.FilterCondition) provisioning_approval_request.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *provisioning_approval_request.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]provisioning_approval_request.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return provisioning_approval_request.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *provisioning_approval_request.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*provisioning_approval_request.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &provisioning_approval_request.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

@@ -7,25 +7,25 @@ package metric_descriptor
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type MetricDescriptorFieldPathBuilder struct{}
@@ -85,27 +85,27 @@ func (MetricDescriptorPathSelectorMetadata) FieldPath() *MetricDescriptor_FieldT
 	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorMetadata}
 }
 
-func (s MetricDescriptorPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *MetricDescriptor_FieldTerminalPathValue {
+func (s MetricDescriptorPathSelectorMetadata) WithValue(value *meta.Meta) *MetricDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *MetricDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (MetricDescriptorPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *MetricDescriptor_FieldSubPath {
+func (MetricDescriptorPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s MetricDescriptorPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
 	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s MetricDescriptorPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s MetricDescriptorPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+func (s MetricDescriptorPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -161,20 +161,24 @@ func (MetricDescriptorPathSelectorMetadata) Lifecycle() MetricDescriptorPathSele
 	return MetricDescriptorPathSelectorMetadataLifecycle{}
 }
 
+func (MetricDescriptorPathSelectorMetadata) Services() MetricDescriptorPathSelectorMetadataServices {
+	return MetricDescriptorPathSelectorMetadataServices{}
+}
+
 type MetricDescriptorPathSelectorMetadataCreateTime struct{}
 
 func (MetricDescriptorPathSelectorMetadataCreateTime) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -183,15 +187,15 @@ type MetricDescriptorPathSelectorMetadataUpdateTime struct{}
 func (MetricDescriptorPathSelectorMetadataUpdateTime) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -200,15 +204,15 @@ type MetricDescriptorPathSelectorMetadataDeleteTime struct{}
 func (MetricDescriptorPathSelectorMetadataDeleteTime) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -217,7 +221,7 @@ type MetricDescriptorPathSelectorMetadataUuid struct{}
 func (MetricDescriptorPathSelectorMetadataUuid) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -234,7 +238,7 @@ type MetricDescriptorPathSelectorMetadataTags struct{}
 func (MetricDescriptorPathSelectorMetadataTags) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -255,7 +259,7 @@ type MetricDescriptorPathSelectorMetadataLabels struct{}
 func (MetricDescriptorPathSelectorMetadataLabels) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -278,7 +282,7 @@ type MetricDescriptorMapPathSelectorMetadataLabels struct {
 func (s MetricDescriptorMapPathSelectorMetadataLabels) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -295,7 +299,7 @@ type MetricDescriptorPathSelectorMetadataAnnotations struct{}
 func (MetricDescriptorPathSelectorMetadataAnnotations) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -318,7 +322,7 @@ type MetricDescriptorMapPathSelectorMetadataAnnotations struct {
 func (s MetricDescriptorMapPathSelectorMetadataAnnotations) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -335,7 +339,7 @@ type MetricDescriptorPathSelectorMetadataGeneration struct{}
 func (MetricDescriptorPathSelectorMetadataGeneration) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -352,7 +356,7 @@ type MetricDescriptorPathSelectorMetadataResourceVersion struct{}
 func (MetricDescriptorPathSelectorMetadataResourceVersion) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -369,19 +373,19 @@ type MetricDescriptorPathSelectorMetadataOwnerReferences struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferences) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
-func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *MetricDescriptor_FieldSubPathArrayItemValue {
+func (s MetricDescriptorPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
 }
 
@@ -405,10 +409,6 @@ func (MetricDescriptorPathSelectorMetadataOwnerReferences) Controller() MetricDe
 	return MetricDescriptorPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (MetricDescriptorPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (MetricDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReference() MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -418,7 +418,7 @@ type MetricDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -435,7 +435,7 @@ type MetricDescriptorPathSelectorMetadataOwnerReferencesVersion struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesVersion) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -452,7 +452,7 @@ type MetricDescriptorPathSelectorMetadataOwnerReferencesName struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesName) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -469,7 +469,7 @@ type MetricDescriptorPathSelectorMetadataOwnerReferencesRegion struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesRegion) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -486,7 +486,7 @@ type MetricDescriptorPathSelectorMetadataOwnerReferencesController struct{}
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesController) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -498,29 +498,12 @@ func (s MetricDescriptorPathSelectorMetadataOwnerReferencesController) WithArray
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
-type MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *MetricDescriptor_FieldSubPath {
-	return &MetricDescriptor_FieldSubPath{
-		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *MetricDescriptor_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
-}
-
-func (s MetricDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
-}
-
 type MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -537,7 +520,7 @@ type MetricDescriptorPathSelectorMetadataShards struct{}
 func (MetricDescriptorPathSelectorMetadataShards) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -560,7 +543,7 @@ type MetricDescriptorMapPathSelectorMetadataShards struct {
 func (s MetricDescriptorMapPathSelectorMetadataShards) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -577,15 +560,15 @@ type MetricDescriptorPathSelectorMetadataSyncing struct{}
 func (MetricDescriptorPathSelectorMetadataSyncing) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -602,7 +585,7 @@ type MetricDescriptorPathSelectorMetadataSyncingOwningRegion struct{}
 func (MetricDescriptorPathSelectorMetadataSyncingOwningRegion) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -619,7 +602,7 @@ type MetricDescriptorPathSelectorMetadataSyncingRegions struct{}
 func (MetricDescriptorPathSelectorMetadataSyncingRegions) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -640,15 +623,15 @@ type MetricDescriptorPathSelectorMetadataLifecycle struct{}
 func (MetricDescriptorPathSelectorMetadataLifecycle) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -665,15 +648,15 @@ type MetricDescriptorPathSelectorMetadataLifecycleState struct{}
 func (MetricDescriptorPathSelectorMetadataLifecycleState) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -682,7 +665,7 @@ type MetricDescriptorPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (MetricDescriptorPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -692,6 +675,69 @@ func (s MetricDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithValue(va
 
 func (s MetricDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorMetadataServices struct{}
+
+func (MetricDescriptorPathSelectorMetadataServices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (MetricDescriptorPathSelectorMetadataServices) OwningService() MetricDescriptorPathSelectorMetadataServicesOwningService {
+	return MetricDescriptorPathSelectorMetadataServicesOwningService{}
+}
+
+func (MetricDescriptorPathSelectorMetadataServices) AllowedServices() MetricDescriptorPathSelectorMetadataServicesAllowedServices {
+	return MetricDescriptorPathSelectorMetadataServicesAllowedServices{}
+}
+
+type MetricDescriptorPathSelectorMetadataServicesOwningService struct{}
+
+func (MetricDescriptorPathSelectorMetadataServicesOwningService) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorMetadataServicesOwningService) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorMetadataServicesAllowedServices struct{}
+
+func (MetricDescriptorPathSelectorMetadataServicesAllowedServices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
 }
 
 type MetricDescriptorPathSelectorName struct{}
@@ -746,30 +792,30 @@ func (MetricDescriptorPathSelectorLabels) FieldPath() *MetricDescriptor_FieldTer
 	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorLabels}
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithValue(value []*monitoring_common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathValue {
+func (s MetricDescriptorPathSelectorLabels) WithValue(value []*common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithArrayOfValues(values [][]*monitoring_common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+func (s MetricDescriptorPathSelectorLabels) WithArrayOfValues(values [][]*common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithItemValue(value *monitoring_common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathArrayItemValue {
+func (s MetricDescriptorPathSelectorLabels) WithItemValue(value *common.LabelDescriptor) *MetricDescriptor_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldTerminalPathArrayItemValue)
 }
-func (MetricDescriptorPathSelectorLabels) WithSubPath(subPath monitoring_common.LabelDescriptor_FieldPath) *MetricDescriptor_FieldSubPath {
+func (MetricDescriptorPathSelectorLabels) WithSubPath(subPath common.LabelDescriptor_FieldPath) *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorLabels, subPath: subPath}
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithSubValue(subPathValue monitoring_common.LabelDescriptor_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorLabels) WithSubValue(subPathValue common.LabelDescriptor_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
 	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.LabelDescriptor_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorLabels) WithSubArrayOfValues(subPathArrayOfValues common.LabelDescriptor_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s MetricDescriptorPathSelectorLabels) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.LabelDescriptor_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+func (s MetricDescriptorPathSelectorLabels) WithSubArrayItemValue(subPathArrayItemValue common.LabelDescriptor_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -798,7 +844,7 @@ type MetricDescriptorPathSelectorLabelsKey struct{}
 func (MetricDescriptorPathSelectorLabelsKey) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorLabels,
-		subPath:  monitoring_common.NewLabelDescriptorFieldPathBuilder().Key().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().Key().FieldPath(),
 	}
 }
 
@@ -815,15 +861,15 @@ type MetricDescriptorPathSelectorLabelsValueType struct{}
 func (MetricDescriptorPathSelectorLabelsValueType) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorLabels,
-		subPath:  monitoring_common.NewLabelDescriptorFieldPathBuilder().ValueType().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().ValueType().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorLabelsValueType) WithValue(value monitoring_common.LabelDescriptor_ValueType) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorLabelsValueType) WithValue(value common.LabelDescriptor_ValueType) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorLabelsValueType) WithArrayOfValues(values []monitoring_common.LabelDescriptor_ValueType) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorLabelsValueType) WithArrayOfValues(values []common.LabelDescriptor_ValueType) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -832,7 +878,7 @@ type MetricDescriptorPathSelectorLabelsDescription struct{}
 func (MetricDescriptorPathSelectorLabelsDescription) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorLabels,
-		subPath:  monitoring_common.NewLabelDescriptorFieldPathBuilder().Description().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().Description().FieldPath(),
 	}
 }
 
@@ -849,7 +895,7 @@ type MetricDescriptorPathSelectorLabelsDefaultValue struct{}
 func (MetricDescriptorPathSelectorLabelsDefaultValue) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorLabels,
-		subPath:  monitoring_common.NewLabelDescriptorFieldPathBuilder().DefaultValue().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().DefaultValue().FieldPath(),
 	}
 }
 
@@ -866,7 +912,7 @@ type MetricDescriptorPathSelectorLabelsDisabled struct{}
 func (MetricDescriptorPathSelectorLabelsDisabled) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorLabels,
-		subPath:  monitoring_common.NewLabelDescriptorFieldPathBuilder().Disabled().FieldPath(),
+		subPath:  common.NewLabelDescriptorFieldPathBuilder().Disabled().FieldPath(),
 	}
 }
 
@@ -1005,27 +1051,27 @@ func (MetricDescriptorPathSelectorDistributionBucketOptions) FieldPath() *Metric
 	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *MetricDescriptor_FieldTerminalPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithValue(value *common.Distribution_BucketOptions) *MetricDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithArrayOfValues(values []*common.Distribution_BucketOptions) *MetricDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (MetricDescriptorPathSelectorDistributionBucketOptions) WithSubPath(subPath monitoring_common.DistributionBucketOptions_FieldPath) *MetricDescriptor_FieldSubPath {
+func (MetricDescriptorPathSelectorDistributionBucketOptions) WithSubPath(subPath common.DistributionBucketOptions_FieldPath) *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions, subPath: subPath}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubValue(subPathValue monitoring_common.DistributionBucketOptions_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubValue(subPathValue common.DistributionBucketOptions_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
 	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.DistributionBucketOptions_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubArrayOfValues(subPathArrayOfValues common.DistributionBucketOptions_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.DistributionBucketOptions_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptions) WithSubArrayItemValue(subPathArrayItemValue common.DistributionBucketOptions_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -1050,15 +1096,15 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets struct{}
 func (MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets) WithValue(value *common.Distribution_BucketOptions_Linear) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsLinearBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Linear) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -1079,7 +1125,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsNumFinite
 func (MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsNumFiniteBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().NumFiniteBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().NumFiniteBuckets().FieldPath(),
 	}
 }
 
@@ -1096,7 +1142,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsWidth str
 func (MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsWidth) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().Width().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().Width().FieldPath(),
 	}
 }
 
@@ -1113,7 +1159,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsOffset st
 func (MetricDescriptorPathSelectorDistributionBucketOptionsLinearBucketsOffset) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().Offset().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().LinearBuckets().Offset().FieldPath(),
 	}
 }
 
@@ -1130,15 +1176,15 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets str
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets) WithValue(value *common.Distribution_BucketOptions_Exponential) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Exponential) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -1159,7 +1205,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsNumF
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsNumFiniteBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
 	}
 }
 
@@ -1176,7 +1222,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsGrow
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsGrowthFactor) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().GrowthFactor().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().GrowthFactor().FieldPath(),
 	}
 }
 
@@ -1193,7 +1239,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsScal
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExponentialBucketsScale) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().Scale().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExponentialBuckets().Scale().FieldPath(),
 	}
 }
 
@@ -1210,15 +1256,15 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets struct
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExplicitBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExplicitBuckets().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets) WithValue(value *common.Distribution_BucketOptions_Explicit) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Explicit) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -1231,7 +1277,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBucketsBounds 
 func (MetricDescriptorPathSelectorDistributionBucketOptionsExplicitBucketsBounds) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().ExplicitBuckets().Bounds().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().ExplicitBuckets().Bounds().FieldPath(),
 	}
 }
 
@@ -1252,15 +1298,15 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets struct{
 func (MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets) WithValue(value *common.Distribution_BucketOptions_Dynamic) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Dynamic) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -1277,7 +1323,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBucketsCompress
 func (MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBucketsCompression) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().Compression().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().Compression().FieldPath(),
 	}
 }
 
@@ -1294,7 +1340,7 @@ type MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBucketsMeans st
 func (MetricDescriptorPathSelectorDistributionBucketOptionsDynamicBucketsMeans) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions,
-		subPath:  monitoring_common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().Means().FieldPath(),
+		subPath:  common.NewDistributionBucketOptionsFieldPathBuilder().DynamicBuckets().Means().FieldPath(),
 	}
 }
 
@@ -1316,30 +1362,30 @@ func (MetricDescriptorPathSelectorPromotedLabelKeySets) FieldPath() *MetricDescr
 	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets}
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithValue(value []*monitoring_common.LabelKeySet) *MetricDescriptor_FieldTerminalPathValue {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithValue(value []*common.LabelKeySet) *MetricDescriptor_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithArrayOfValues(values [][]*monitoring_common.LabelKeySet) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithArrayOfValues(values [][]*common.LabelKeySet) *MetricDescriptor_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithItemValue(value *monitoring_common.LabelKeySet) *MetricDescriptor_FieldTerminalPathArrayItemValue {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithItemValue(value *common.LabelKeySet) *MetricDescriptor_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldTerminalPathArrayItemValue)
 }
-func (MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubPath(subPath monitoring_common.LabelKeySet_FieldPath) *MetricDescriptor_FieldSubPath {
+func (MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubPath(subPath common.LabelKeySet_FieldPath) *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subPath}
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubValue(subPathValue monitoring_common.LabelKeySet_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubValue(subPathValue common.LabelKeySet_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
 	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.LabelKeySet_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayOfValues(subPathArrayOfValues common.LabelKeySet_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.LabelKeySet_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+func (s MetricDescriptorPathSelectorPromotedLabelKeySets) WithSubArrayItemValue(subPathArrayItemValue common.LabelKeySet_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -1356,7 +1402,7 @@ type MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys struct{}
 func (MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets,
-		subPath:  monitoring_common.NewLabelKeySetFieldPathBuilder().LabelKeys().FieldPath(),
+		subPath:  common.NewLabelKeySetFieldPathBuilder().LabelKeys().FieldPath(),
 	}
 }
 
@@ -1377,7 +1423,7 @@ type MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly struct{}
 func (MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
 		selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets,
-		subPath:  monitoring_common.NewLabelKeySetFieldPathBuilder().WriteOnly().FieldPath(),
+		subPath:  common.NewLabelKeySetFieldPathBuilder().WriteOnly().FieldPath(),
 	}
 }
 

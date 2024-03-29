@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &user.User{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -148,8 +148,8 @@ func (h *GetUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*user.Name)(nil)
@@ -168,6 +168,30 @@ func (h *GetUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Messag
 }
 
 func (h *GetUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetUserDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetUserRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetUserDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetUserRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -201,6 +225,22 @@ func (h *GetUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Messag
 }
 
 func (h *GetUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetUserDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*user.User)
+}
+
+func (h *GetUserDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*user.User)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*user.User) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -316,18 +356,38 @@ func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(user.UserNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return user.UserNameList(names)
 		}
 	}
 	return (user.UserNameList)(nil)
 }
 
 func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetUsersRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetUsersRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -366,6 +426,35 @@ func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.
 
 func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetUsersResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetUsersResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetUsers(); len(resources) > 0 {
+			return user.UserList(resources)
+		}
+	}
+	return (user.UserList)(nil)
 }
 
 func GetBatchGetUsersDescriptor() *BatchGetUsersDescriptor {
@@ -486,6 +575,30 @@ func (h *ListUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Mes
 	return nil
 }
 
+func (h *ListUsersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListUsersRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListUsersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListUsersRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListUsersResponse)
 	var asInterface interface{} = h
@@ -521,6 +634,35 @@ func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Mess
 
 func (h *ListUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListUsersResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListUsersResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetUsers(); len(resources) > 0 {
+			return user.UserList(resources)
+		}
+	}
+	return (user.UserList)(nil)
 }
 
 func GetListUsersDescriptor() *ListUsersDescriptor {
@@ -623,8 +765,8 @@ func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Messa
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*user.Name)(nil)
@@ -643,6 +785,30 @@ func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Mess
 }
 
 func (h *WatchUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchUserRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchUserRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -685,6 +851,42 @@ func (h *WatchUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Mess
 }
 
 func (h *WatchUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchUserDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchUserResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchUserResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *user.UserChange_Added_:
+				return tResChange.Added.GetUser()
+			case *user.UserChange_Modified_:
+				return tResChange.Modified.GetUser()
+			case *user.UserChange_Current_:
+				return tResChange.Current.GetUser()
+			}
+		}
+	}
+	return (*user.User)(nil)
+}
+
+func (h *WatchUserDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchUserResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchUserResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -806,6 +1008,30 @@ func (h *WatchUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	return nil
 }
 
+func (h *WatchUsersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchUsersRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchUsersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchUsersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchUsersRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchUsersResponse)
 	var asInterface interface{} = h
@@ -850,6 +1076,46 @@ func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Mes
 
 func (h *WatchUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchUsersResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchUsersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchUsersResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetUserChanges(); len(resChanges) > 0 {
+			list := make(user.UserList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *user.UserChange_Added_:
+					list = append(list, tResChange.Added.GetUser())
+				case *user.UserChange_Modified_:
+					list = append(list, tResChange.Modified.GetUser())
+				case *user.UserChange_Current_:
+					list = append(list, tResChange.Current.GetUser())
+				}
+			}
+			return list
+		}
+	}
+	return (user.UserList)(nil)
 }
 
 func GetWatchUsersDescriptor() *WatchUsersDescriptor {
@@ -976,6 +1242,33 @@ func (h *CreateUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	return nil
 }
 
+func (h *CreateUserDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateUserRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetUser()
+	}
+	return (*user.User)(nil)
+}
+
+func (h *CreateUserDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateUserRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
@@ -1006,6 +1299,22 @@ func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Mes
 }
 
 func (h *CreateUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*user.User)
+}
+
+func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*user.User)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*user.User) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1133,6 +1442,33 @@ func (h *UpdateUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	return nil
 }
 
+func (h *UpdateUserDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateUserRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetUser()
+	}
+	return (*user.User)(nil)
+}
+
+func (h *UpdateUserDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateUserRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
@@ -1166,6 +1502,22 @@ func (h *UpdateUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Me
 	return nil
 }
 
+func (h *UpdateUserDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*user.User)
+}
+
+func (h *UpdateUserDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*user.User)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*user.User) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateUserDescriptor() *UpdateUserDescriptor {
 	return updateUserDescriptor
 }
@@ -1181,7 +1533,7 @@ func (d *DeleteUserDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteUserDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteUserDescriptor) IsUnary() bool {
@@ -1266,8 +1618,8 @@ func (h *DeleteUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Mess
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*user.Name)(nil)
@@ -1289,11 +1641,35 @@ func (h *DeleteUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	return nil
 }
 
-func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteUserDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*DeleteUserRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteUserDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteUserRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteUserRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1302,10 +1678,10 @@ func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Mess
 }
 
 func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1314,6 +1690,30 @@ func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Mes
 }
 
 func (h *DeleteUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1435,6 +1835,30 @@ func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	return nil
 }
 
+func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetUserByEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetUserByEmailRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetUserByEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetUserByEmailRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
@@ -1460,6 +1884,22 @@ func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*user.User)
+}
+
+func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*user.User)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*user.User) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1494,7 +1934,7 @@ func (d *BatchGetUsersByEmailDescriptor) IsServerStream() bool {
 }
 
 func (d *BatchGetUsersByEmailDescriptor) IsCollection() bool {
-	return true
+	return false
 }
 
 func (d *BatchGetUsersByEmailDescriptor) IsPlural() bool {
@@ -1581,6 +2021,30 @@ func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetUsersByEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetUsersByEmailRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetUsersByEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetUsersByEmailRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetUsersByEmailResponse)
 	var asInterface interface{} = h
@@ -1606,6 +2070,30 @@ func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceNames(msg
 }
 
 func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetUsersByEmailResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetUsersByEmailResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetUsersByEmailResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetUsersByEmailResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1727,6 +2215,30 @@ func (h *GetMySettingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto
 	return nil
 }
 
+func (h *GetMySettingsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetMySettingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetMySettingsRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMySettingsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetMySettingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetMySettingsRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *GetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMySettingsResponse)
 	var asInterface interface{} = h
@@ -1755,6 +2267,30 @@ func (h *GetMySettingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto
 	return nil
 }
 
+func (h *GetMySettingsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetMySettingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetMySettingsResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMySettingsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetMySettingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetMySettingsResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetGetMySettingsDescriptor() *GetMySettingsDescriptor {
 	return getMySettingsDescriptor
 }
@@ -1770,7 +2306,7 @@ func (d *SetMySettingsDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *SetMySettingsDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *SetMySettingsDescriptor) IsUnary() bool {
@@ -1873,11 +2409,35 @@ func (h *SetMySettingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto
 	return nil
 }
 
-func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *SetMySettingsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SetMySettingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*SetMySettingsRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetMySettingsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SetMySettingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SetMySettingsRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1886,10 +2446,10 @@ func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.M
 }
 
 func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1898,6 +2458,30 @@ func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.
 }
 
 func (h *SetMySettingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -2019,6 +2603,30 @@ func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RefreshUserFromIdTokenRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RefreshUserFromIdTokenRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RefreshUserFromIdTokenRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RefreshUserFromIdTokenRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RefreshUserFromIdTokenResponse)
 	var asInterface interface{} = h
@@ -2047,6 +2655,30 @@ func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RefreshUserFromIdTokenResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RefreshUserFromIdTokenResponse) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RefreshUserFromIdTokenResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RefreshUserFromIdTokenResponse) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetRefreshUserFromIdTokenDescriptor() *RefreshUserFromIdTokenDescriptor {
 	return refreshUserFromIdTokenDescriptor
 }
@@ -2062,7 +2694,7 @@ func (d *ResendVerificationEmailDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *ResendVerificationEmailDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *ResendVerificationEmailDescriptor) IsUnary() bool {
@@ -2165,11 +2797,35 @@ func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
-func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ResendVerificationEmailRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*ResendVerificationEmailRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ResendVerificationEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ResendVerificationEmailRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -2178,10 +2834,10 @@ func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceName(m
 }
 
 func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -2190,6 +2846,30 @@ func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceNames(
 }
 
 func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -2208,7 +2888,7 @@ func (d *IsUserVerifiedDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *IsUserVerifiedDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *IsUserVerifiedDescriptor) IsUnary() bool {
@@ -2311,11 +2991,35 @@ func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	return nil
 }
 
-func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*IsUserVerifiedRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*IsUserVerifiedRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*IsUserVerifiedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*IsUserVerifiedRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -2324,10 +3028,10 @@ func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceName(msg proto.
 }
 
 func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -2336,6 +3040,30 @@ func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceNames(msg proto
 }
 
 func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -2354,7 +3082,7 @@ func (d *ResetMFAIfRecoveryKeyUsedDescriptor) NewEmptyClientMsg() proto.Message 
 }
 
 func (d *ResetMFAIfRecoveryKeyUsedDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsUnary() bool {
@@ -2457,11 +3185,35 @@ func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractCollectionNa
 	return nil
 }
 
-func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ResetMFAIfRecoveryKeyUsedRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*ResetMFAIfRecoveryKeyUsedRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ResetMFAIfRecoveryKeyUsedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ResetMFAIfRecoveryKeyUsedRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -2470,10 +3222,10 @@ func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceName
 }
 
 func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -2482,6 +3234,30 @@ func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceName
 }
 
 func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -2500,7 +3276,7 @@ func (d *SetUsersNameInAuth0Descriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *SetUsersNameInAuth0Descriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *SetUsersNameInAuth0Descriptor) IsUnary() bool {
@@ -2603,11 +3379,35 @@ func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractCollectionName(msg
 	return nil
 }
 
-func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SetUsersNameInAuth0Request)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceBody(*SetUsersNameInAuth0Request) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SetUsersNameInAuth0Request)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SetUsersNameInAuth0Request) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -2616,10 +3416,10 @@ func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceName(msg p
 }
 
 func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
 	})
 	if ok {
 		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -2628,6 +3428,30 @@ func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceNames(msg 
 }
 
 func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 

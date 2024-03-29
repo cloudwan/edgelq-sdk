@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification_channel.NotificationChannel{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,8 +56,8 @@ type NotificationChannelServiceClient interface {
 	WatchNotificationChannels(ctx context.Context, in *WatchNotificationChannelsRequest, opts ...grpc.CallOption) (WatchNotificationChannelsClientStream, error)
 	CreateNotificationChannel(ctx context.Context, in *CreateNotificationChannelRequest, opts ...grpc.CallOption) (*notification_channel.NotificationChannel, error)
 	UpdateNotificationChannel(ctx context.Context, in *UpdateNotificationChannelRequest, opts ...grpc.CallOption) (*notification_channel.NotificationChannel, error)
-	DeleteNotificationChannel(ctx context.Context, in *DeleteNotificationChannelRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	TestNotificationChannel(ctx context.Context, in *TestNotificationChannelRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteNotificationChannel(ctx context.Context, in *DeleteNotificationChannelRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	TestNotificationChannel(ctx context.Context, in *TestNotificationChannelRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -187,8 +187,8 @@ func (c *client) UpdateNotificationChannel(ctx context.Context, in *UpdateNotifi
 	return out, nil
 }
 
-func (c *client) DeleteNotificationChannel(ctx context.Context, in *DeleteNotificationChannelRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteNotificationChannel(ctx context.Context, in *DeleteNotificationChannelRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.NotificationChannelService/DeleteNotificationChannel", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -196,8 +196,8 @@ func (c *client) DeleteNotificationChannel(ctx context.Context, in *DeleteNotifi
 	return out, nil
 }
 
-func (c *client) TestNotificationChannel(ctx context.Context, in *TestNotificationChannelRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) TestNotificationChannel(ctx context.Context, in *TestNotificationChannelRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.NotificationChannelService/TestNotificationChannel", in, out, opts...)
 	if err != nil {
 		return nil, err

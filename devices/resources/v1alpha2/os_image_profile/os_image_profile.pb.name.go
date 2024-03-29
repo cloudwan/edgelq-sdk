@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,13 +44,13 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var osImageProfile_RegexpId = regexp.MustCompile("^(?P<os_image_profile_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/osImageProfiles/(?P<os_image_profile_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/osImageProfiles/(?P<os_image_profile_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *OsImageProfile) MaybePopulateDefaults() error {
 	osImageProfileInterface := interface{}(r)
@@ -58,14 +58,6 @@ func (r *OsImageProfile) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *OsImageProfile) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *OsImageProfile) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

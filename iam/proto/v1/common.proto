@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common;iam_common";
+option java_multiple_files = true;
+option java_package = "com.ntt.iam.pb.v1";
+
+message PCR {
+  uint32 index = 1;
+
+  // Hex-encoded digest string (without 0x prefix, e.g. "DEADBEEF")
+  string digest_hex = 2;
+
+  DigestAlg digest_alg = 3;
+
+  // User's comments for this entry
+  string comment = 4;
+}
+
+// ServiceBusinessTier binds specific service with specific business tier.
+// It may be useful if two services use different tier in one organizational
+// entity (project or organization).
+message ServiceBusinessTier {
+  // Service
+  string service = 1;
+
+  // Entity tier value for given service.
+  BusinessTier business_tier = 2;
+}
+
+// ServiceErrors is generic container wrapping errors with services.
+message ServiceErrors {
+  // Errors
+  repeated Error errors = 2;
+
+  message Error {
+    // Service for which there are error reports. May be skipped if error is
+    // cross-service or is about core EdgeLQ components.
+    string service = 1;
+
+    // Error message
+    string message = 2;
+  }
+}
+
+enum TpmVersion {
+  TPMVAGNOSTIC = 0;
+
+  TPMV12 = 1;
+
+  TPMV20 = 2;
+}
+
+enum DigestAlg {
+  SHA1 = 0;
+
+  SHA256 = 1;
+}
+
+// BusinessTier indicates size of organizational entity (project or
+// organization). Size-type sizes are used in core edgelq services,
+// SKU-types can be used optionally by 3rd party services.
+enum BusinessTier {
+  UNDEFINED = 0;
+
+  LARGE = 1;
+
+  MEDIUM = 2;
+
+  SMALL = 3;
+
+  XSMALL = 4;
+
+  SKU0 = 5;
+
+  SKU1 = 6;
+
+  SKU2 = 7;
+
+  SKU3 = 8;
+
+  SKU4 = 9;
+
+  SKU5 = 10;
+
+  SKU6 = 11;
+
+  SKU7 = 12;
+
+  SKU8 = 13;
+
+  SKU9 = 14;
+
+  SKU10 = 15;
+
+  SKU11 = 16;
+
+  SKU12 = 17;
+}

@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ntt.ztp.v1;
+
+import "edgelq-sdk/ztp/proto/v1/hardware.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ztp/resources/v1/hardware;hardware";
+option java_multiple_files = false;
+option java_outer_classname = "HardwareChangeProto";
+option java_package = "com.ntt.ztp.pb.v1";
+
+// HardwareChange is used by Watch notifications Responses to describe change of
+// single Hardware One of Added, Modified, Removed
+message HardwareChange {
+  // Hardware change
+  oneof change_type {
+    // Added is returned when watched document is added, either created or
+    // enters Query view
+    Added added = 1;
+
+    // Modified is returned when watched document is modified
+    Modified modified = 2;
+
+    // Current is returned in stateless watch when document enters query view or
+    // is modified within.
+    Current current = 4;
+
+    // Removed is returned when Hardware is deleted or leaves Query view
+    Removed removed = 3;
+  }
+
+  // Hardware has been added to query view
+  message Added {
+    Hardware hardware = 1;
+
+    // Integer describing index of added Hardware in resulting query view.
+    int32 view_index = 2;
+  }
+
+  // Hardware changed some of it's fields - contains either full document or
+  // masked change
+  message Modified {
+    // Name of modified Hardware
+    string name = 1;
+
+    // New version of Hardware or masked difference, depending on mask_changes
+    // instrumentation of issued [WatchHardwareRequest] or
+    // [WatchHardwaresRequest]
+    Hardware hardware = 2;
+
+    // Used when mask_changes is set, contains field paths of modified
+    // properties.
+    google.protobuf.FieldMask field_mask = 3;
+
+    // Previous view index specifies previous position of modified Hardware.
+    // When modification doesn't affect sorted order, value will remain
+    // identical to [view_index].
+    int32 previous_view_index = 4;
+
+    // Integer specifying Hardware new index in resulting query view.
+    int32 view_index = 5;
+  }
+
+  // Hardware has been added or modified in a query view. Version used for
+  // stateless watching
+  message Current { Hardware hardware = 1; }
+
+  // Removed is returned when Hardware is deleted or leaves Query view
+  message Removed {
+    string name = 1;
+
+    // Integer specifying removed Hardware index. Not populated in stateless
+    // watch type.
+    int32 view_index = 2;
+  }
+}

@@ -11,16 +11,16 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -31,16 +31,16 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -699,37 +699,37 @@ type filterCndBuilderTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().Time().WithArrayOfValues(values),
 	})
@@ -747,7 +747,7 @@ func (b *filterCndBuilderTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Log_FieldPathValue: NewLogFieldPathBuilder().Time().WithValue(value),

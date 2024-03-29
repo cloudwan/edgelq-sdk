@@ -12,14 +12,14 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -31,14 +31,14 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -198,10 +198,6 @@ func (b *filterCndBuilder) Metric() *filterCndBuilderMetric {
 
 func (b *filterCndBuilder) Resource() *filterCndBuilderResource {
 	return &filterCndBuilderResource{builder: b.builder}
-}
-
-func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
-	return &filterCndBuilderMetadata{builder: b.builder}
 }
 
 func (b *filterCndBuilder) MetricKind() *filterCndBuilderMetricKind {
@@ -397,37 +393,37 @@ type filterCndBuilderMetric struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetric) Eq(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Eq(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetric) Neq(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Neq(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetric) Gt(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Gt(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetric) Gte(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Gte(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetric) Lt(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Lt(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetric) Lte(value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) Lte(value *common.Metric) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetric) In(values []*monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) In(values []*common.Metric) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metric().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetric) NotIn(values []*monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) NotIn(values []*common.Metric) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metric().WithArrayOfValues(values),
 	})
@@ -445,7 +441,7 @@ func (b *filterCndBuilderMetric) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetric) compare(op gotenfilter.CompareOperator, value *monitoring_common.Metric) *FilterBuilder {
+func (b *filterCndBuilderMetric) compare(op gotenfilter.CompareOperator, value *common.Metric) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Metric().WithValue(value),
@@ -743,37 +739,37 @@ type filterCndBuilderResource struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResource) Eq(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Eq(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResource) Neq(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Neq(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResource) Gt(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Gt(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResource) Gte(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Gte(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResource) Lt(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Lt(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResource) Lte(value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Lte(value *common.MonitoredResource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResource) In(values []*monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) In(values []*common.MonitoredResource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Resource().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResource) NotIn(values []*monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) NotIn(values []*common.MonitoredResource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Resource().WithArrayOfValues(values),
 	})
@@ -791,7 +787,7 @@ func (b *filterCndBuilderResource) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResource) compare(op gotenfilter.CompareOperator, value *monitoring_common.MonitoredResource) *FilterBuilder {
+func (b *filterCndBuilderResource) compare(op gotenfilter.CompareOperator, value *common.MonitoredResource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Resource().WithValue(value),
@@ -1085,192 +1081,6 @@ func (b *filterCndBuilderResourceReducedLabels) compare(op gotenfilter.CompareOp
 	})
 }
 
-type filterCndBuilderMetadata struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadata) Eq(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadata) Neq(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadata) Gt(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadata) Gte(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadata) Lt(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadata) Lte(value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadata) In(values []*monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadata) NotIn(values []*monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadata) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadata) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *monitoring_common.MonitoredResourceMetadata) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                 op,
-		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Metadata().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderMetadata) UserLabels() *filterCndBuilderMetadataUserLabels {
-	return &filterCndBuilderMetadataUserLabels{builder: b.builder}
-}
-
-type filterCndBuilderMetadataUserLabels struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Eq(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Neq(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Gt(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Gte(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Lt(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) Lte(value map[string]string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataUserLabels) In(values []map[string]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataUserLabels) NotIn(values []map[string]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataUserLabels) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataUserLabels) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataUserLabels) compare(op gotenfilter.CompareOperator, value map[string]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                 op,
-		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderMetadataUserLabels) WithKey(key string) *mapFilterCndBuilderMetadataUserLabels {
-	return &mapFilterCndBuilderMetadataUserLabels{builder: b.builder, key: key}
-}
-
-type mapFilterCndBuilderMetadataUserLabels struct {
-	builder *FilterBuilder
-	key     string
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(b.key).WithArrayOfValues(values),
-	})
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(b.key).WithArrayOfValues(values),
-	})
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(b.key).FieldPath(),
-	})
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(b.key).FieldPath(),
-	})
-}
-
-func (b *mapFilterCndBuilderMetadataUserLabels) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                 op,
-		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(b.key).WithValue(value),
-	})
-}
-
 type filterCndBuilderMetricKind struct {
 	builder *FilterBuilder
 }
@@ -1498,37 +1308,37 @@ type filterCndBuilderPointsInterval struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsInterval) Eq(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Eq(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsInterval) Neq(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Neq(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsInterval) Gt(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Gt(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsInterval) Gte(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Gte(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsInterval) Lt(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Lt(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsInterval) Lte(value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) Lte(value *common.TimeInterval) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsInterval) In(values []*monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) In(values []*common.TimeInterval) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsInterval) NotIn(values []*monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) NotIn(values []*common.TimeInterval) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().WithArrayOfValues(values),
 	})
@@ -1546,7 +1356,7 @@ func (b *filterCndBuilderPointsInterval) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsInterval) compare(op gotenfilter.CompareOperator, value *monitoring_common.TimeInterval) *FilterBuilder {
+func (b *filterCndBuilderPointsInterval) compare(op gotenfilter.CompareOperator, value *common.TimeInterval) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Interval().WithValue(value),
@@ -1565,37 +1375,37 @@ type filterCndBuilderPointsIntervalEndTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().EndTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().EndTime().WithArrayOfValues(values),
 	})
@@ -1613,7 +1423,7 @@ func (b *filterCndBuilderPointsIntervalEndTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsIntervalEndTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalEndTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Interval().EndTime().WithValue(value),
@@ -1624,37 +1434,37 @@ type filterCndBuilderPointsIntervalStartTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().StartTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Interval().StartTime().WithArrayOfValues(values),
 	})
@@ -1672,7 +1482,7 @@ func (b *filterCndBuilderPointsIntervalStartTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsIntervalStartTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderPointsIntervalStartTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Interval().StartTime().WithValue(value),
@@ -1683,37 +1493,37 @@ type filterCndBuilderPointsValue struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValue) Eq(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Eq(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValue) Neq(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Neq(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValue) Gt(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Gt(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValue) Gte(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Gte(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValue) Lt(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Lt(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValue) Lte(value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) Lte(value *common.TypedValue) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValue) In(values []*monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) In(values []*common.TypedValue) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValue) NotIn(values []*monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) NotIn(values []*common.TypedValue) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().WithArrayOfValues(values),
 	})
@@ -1731,7 +1541,7 @@ func (b *filterCndBuilderPointsValue) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsValue) compare(op gotenfilter.CompareOperator, value *monitoring_common.TypedValue) *FilterBuilder {
+func (b *filterCndBuilderPointsValue) compare(op gotenfilter.CompareOperator, value *common.TypedValue) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().WithValue(value),
@@ -1998,37 +1808,37 @@ type filterCndBuilderPointsValueDistributionValue struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Eq(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Eq(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Neq(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Neq(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Gt(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Gt(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Gte(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Gte(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Lt(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Lt(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) Lte(value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) Lte(value *common.Distribution) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) In(values []*monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) In(values []*common.Distribution) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) NotIn(values []*monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) NotIn(values []*common.Distribution) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().WithArrayOfValues(values),
 	})
@@ -2046,7 +1856,7 @@ func (b *filterCndBuilderPointsValueDistributionValue) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValue) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValue) compare(op gotenfilter.CompareOperator, value *common.Distribution) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().WithValue(value),
@@ -2258,37 +2068,37 @@ type filterCndBuilderPointsValueDistributionValueRange struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Eq(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Eq(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Neq(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Neq(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Gt(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Gt(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Gte(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Gte(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Lt(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Lt(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) Lte(value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) Lte(value *common.Distribution_Range) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) In(values []*monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) In(values []*common.Distribution_Range) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().Range().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) NotIn(values []*monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) NotIn(values []*common.Distribution_Range) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().Range().WithArrayOfValues(values),
 	})
@@ -2306,7 +2116,7 @@ func (b *filterCndBuilderPointsValueDistributionValueRange) IsNan() *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueRange) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_Range) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueRange) compare(op gotenfilter.CompareOperator, value *common.Distribution_Range) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().Range().WithValue(value),
@@ -2443,37 +2253,37 @@ type filterCndBuilderPointsValueDistributionValueBucketOptions struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Eq(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Eq(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Neq(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Neq(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Gt(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Gt(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Gte(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Gte(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Lt(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Lt(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Lte(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) Lte(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) In(values []*monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) In(values []*common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) NotIn(values []*monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) NotIn(values []*common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().WithArrayOfValues(values),
 	})
@@ -2491,7 +2301,7 @@ func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) IsNan() *Fil
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptions) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().WithValue(value),
@@ -2518,37 +2328,37 @@ type filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets stru
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Eq(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Neq(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Gt(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Gte(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Lt(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) Lte(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) In(values []*common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().LinearBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) NotIn(values []*common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().LinearBuckets().WithArrayOfValues(values),
 	})
@@ -2566,7 +2376,7 @@ func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets)
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsLinearBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().LinearBuckets().WithValue(value),
@@ -2766,37 +2576,37 @@ type filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Eq(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Neq(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Gt(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Gte(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Lt(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) Lte(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) In(values []*common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExponentialBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) NotIn(values []*common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExponentialBuckets().WithArrayOfValues(values),
 	})
@@ -2814,7 +2624,7 @@ func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuc
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExponentialBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExponentialBuckets().WithValue(value),
@@ -3014,37 +2824,37 @@ type filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets st
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Eq(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Neq(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Gt(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Gte(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Lt(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) Lte(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) In(values []*common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExplicitBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) NotIn(values []*common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExplicitBuckets().WithArrayOfValues(values),
 	})
@@ -3062,7 +2872,7 @@ func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBucket
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsExplicitBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().ExplicitBuckets().WithValue(value),
@@ -3170,37 +2980,37 @@ type filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets str
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Eq(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Neq(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Gt(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Gte(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Lt(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) Lte(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) In(values []*common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().DynamicBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) NotIn(values []*common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().DynamicBuckets().WithArrayOfValues(values),
 	})
@@ -3218,7 +3028,7 @@ func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets
 	})
 }
 
-func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderPointsValueDistributionValueBucketOptionsDynamicBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Value().DistributionValue().BucketOptions().DynamicBuckets().WithValue(value),
@@ -3482,37 +3292,37 @@ type filterCndBuilderPointsAggregation struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsAggregation) Eq(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Eq(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) Neq(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Neq(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) Gt(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Gt(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) Gte(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Gte(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) Lt(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Lt(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) Lte(value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) Lte(value *common.Aggregation) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsAggregation) In(values []*monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) In(values []*common.Aggregation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsAggregation) NotIn(values []*monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) NotIn(values []*common.Aggregation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().WithArrayOfValues(values),
 	})
@@ -3530,7 +3340,7 @@ func (b *filterCndBuilderPointsAggregation) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPointsAggregation) compare(op gotenfilter.CompareOperator, value *monitoring_common.Aggregation) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregation) compare(op gotenfilter.CompareOperator, value *common.Aggregation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Aggregation().WithValue(value),
@@ -3557,37 +3367,37 @@ type filterCndBuilderPointsAggregationAlignmentPeriod struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Eq(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Eq(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Neq(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Neq(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Gt(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Gt(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Gte(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Gte(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Lt(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Lt(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Lte(value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) Lte(value *durationpb.Duration) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) In(values []*duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) In(values []*durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().AlignmentPeriod().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) NotIn(values []*duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) NotIn(values []*durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().AlignmentPeriod().WithArrayOfValues(values),
 	})
@@ -3605,7 +3415,7 @@ func (b *filterCndBuilderPointsAggregationAlignmentPeriod) IsNan() *FilterBuilde
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationAlignmentPeriod) compare(op gotenfilter.CompareOperator, value *duration.Duration) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationAlignmentPeriod) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Aggregation().AlignmentPeriod().WithValue(value),
@@ -3616,37 +3426,37 @@ type filterCndBuilderPointsAggregationPerSeriesAligner struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Eq(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Eq(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Neq(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Neq(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Gt(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Gt(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Gte(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Gte(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Lt(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Lt(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Lte(value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) Lte(value common.Aggregation_Aligner) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) In(values []monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) In(values []common.Aggregation_Aligner) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().PerSeriesAligner().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) NotIn(values []monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) NotIn(values []common.Aggregation_Aligner) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().PerSeriesAligner().WithArrayOfValues(values),
 	})
@@ -3664,7 +3474,7 @@ func (b *filterCndBuilderPointsAggregationPerSeriesAligner) IsNan() *FilterBuild
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationPerSeriesAligner) compare(op gotenfilter.CompareOperator, value monitoring_common.Aggregation_Aligner) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationPerSeriesAligner) compare(op gotenfilter.CompareOperator, value common.Aggregation_Aligner) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Aggregation().PerSeriesAligner().WithValue(value),
@@ -3675,37 +3485,37 @@ type filterCndBuilderPointsAggregationCrossSeriesReducer struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Eq(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Eq(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Neq(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Neq(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Gt(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Gt(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Gte(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Gte(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Lt(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Lt(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Lte(value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) Lte(value common.Aggregation_Reducer) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) In(values []monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) In(values []common.Aggregation_Reducer) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().CrossSeriesReducer().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) NotIn(values []monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) NotIn(values []common.Aggregation_Reducer) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Points().Aggregation().CrossSeriesReducer().WithArrayOfValues(values),
 	})
@@ -3723,7 +3533,7 @@ func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) IsNan() *FilterBui
 	})
 }
 
-func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) compare(op gotenfilter.CompareOperator, value monitoring_common.Aggregation_Reducer) *FilterBuilder {
+func (b *filterCndBuilderPointsAggregationCrossSeriesReducer) compare(op gotenfilter.CompareOperator, value common.Aggregation_Reducer) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Points().Aggregation().CrossSeriesReducer().WithValue(value),

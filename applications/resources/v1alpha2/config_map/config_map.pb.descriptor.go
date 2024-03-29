@@ -12,7 +12,7 @@ import (
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -24,12 +24,30 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 var (
 	descriptor *Descriptor
 )
+
+func (r *ConfigMap) GetRawName() gotenresource.Name {
+	return r.GetName()
+}
+
+func (r *ConfigMap) GetResourceDescriptor() gotenresource.Descriptor {
+	return descriptor
+}
+
+func (r *ConfigMap) EnsureMetadata() *meta.Meta {
+	if r.Metadata == nil {
+		r.Metadata = &meta.Meta{}
+	}
+	if r.Metadata.Lifecycle == nil {
+		r.Metadata.Lifecycle = &meta.Lifecycle{}
+	}
+	return r.Metadata
+}
 
 type Descriptor struct {
 	nameDescriptor *gotenresource.NameDescriptor
@@ -136,12 +154,26 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 	return d.nameDescriptor
 }
 
+func (d *Descriptor) CanBeParentless() bool {
+	return false
+}
+
+func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
+	return []gotenresource.Descriptor{
+		project.GetDescriptor(),
+	}
+}
+
 func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseConfigMap_FieldPath(raw)
 }
 
 func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
+}
+
+func (d *Descriptor) SupportsMetadata() bool {
+	return true
 }
 
 func initConfigMapDescriptor() {

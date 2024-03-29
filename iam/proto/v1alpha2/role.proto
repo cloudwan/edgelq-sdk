@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role;role";
 option java_multiple_files = true;
@@ -44,5 +44,5 @@ message Role {
       [ (google.api.resource_reference) = {type : "Condition"} ];
 
   // Metadata
-  ntt.types.Meta metadata = 4;
+  goten.types.Meta metadata = 4;
 }

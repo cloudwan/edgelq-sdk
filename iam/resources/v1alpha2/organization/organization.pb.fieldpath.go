@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 // FieldPath provides implementation to handle
@@ -150,7 +148,7 @@ func BuildOrganization_FieldPath(fp gotenobject.RawFieldPath) (Organization_Fiel
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Organization_FieldSubPath{selector: Organization_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -325,7 +323,7 @@ func (fp *Organization_FieldTerminalPath) GetDefault() interface{} {
 	case Organization_FieldPathSelectorAncestryPath:
 		return ([]*Reference)(nil)
 	case Organization_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	case Organization_FieldPathSelectorAllowedServices:
@@ -404,7 +402,7 @@ func (fp *Organization_FieldTerminalPath) WithIValue(value interface{}) Organiza
 	case Organization_FieldPathSelectorAncestryPath:
 		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.([]*Reference)}
 	case Organization_FieldPathSelectorMetadata:
-		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	case Organization_FieldPathSelectorAllowedServices:
@@ -438,7 +436,7 @@ func (fp *Organization_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Organization_FieldPathSelectorAncestryPath:
 		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([][]*Reference)}
 	case Organization_FieldPathSelectorMetadata:
-		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	case Organization_FieldPathSelectorAllowedServices:
@@ -618,8 +616,8 @@ var _ Organization_FieldPath = (*Organization_FieldSubPath)(nil)
 func (fps *Organization_FieldSubPath) Selector() Organization_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Organization_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Organization_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Organization_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_policy.MultiRegionPolicy_FieldPath, bool) {
@@ -809,8 +807,8 @@ func (fpv *Organization_FieldTerminalPathValue) AsAncestryPathValue() ([]*Refere
 	res, ok := fpv.value.([]*Reference)
 	return res, ok
 }
-func (fpv *Organization_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Organization_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Organization_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*multi_region_policy.MultiRegionPolicy, bool) {
@@ -851,7 +849,7 @@ func (fpv *Organization_FieldTerminalPathValue) SetTo(target **Organization) {
 	case Organization_FieldPathSelectorAncestryPath:
 		(*target).AncestryPath = fpv.value.([]*Reference)
 	case Organization_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	case Organization_FieldPathSelectorAllowedServices:
@@ -1031,8 +1029,8 @@ type Organization_FieldSubPathValue struct {
 
 var _ Organization_FieldPathValue = (*Organization_FieldSubPathValue)(nil)
 
-func (fpvs *Organization_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Organization_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Organization_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_region_policy.MultiRegionPolicy_FieldPathValue, bool) {
@@ -1050,7 +1048,7 @@ func (fpvs *Organization_FieldSubPathValue) SetTo(target **Organization) {
 	}
 	switch fpvs.Selector() {
 	case Organization_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
 	case Organization_FieldPathSelectorServiceTiers:
@@ -1072,7 +1070,7 @@ func (fpvs *Organization_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Organization_FieldSubPathValue) CompareWith(source *Organization) (int, bool) {
 	switch fpvs.Selector() {
 	case Organization_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
 	case Organization_FieldPathSelectorServiceTiers:
@@ -1171,8 +1169,8 @@ type Organization_FieldSubPathArrayItemValue struct {
 func (fpaivs *Organization_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Organization_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Organization_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Organization_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue, bool) {
@@ -1188,7 +1186,7 @@ func (fpaivs *Organization_FieldSubPathArrayItemValue) AsServiceTiersPathItemVal
 func (fpaivs *Organization_FieldSubPathArrayItemValue) ContainsValue(source *Organization) bool {
 	switch fpaivs.Selector() {
 	case Organization_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Organization_FieldPathSelectorMultiRegionPolicy:
 		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
 	case Organization_FieldPathSelectorServiceTiers:
@@ -1254,7 +1252,7 @@ func (fpaov *Organization_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case Organization_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Organization_FieldPathSelectorMultiRegionPolicy:
@@ -1300,8 +1298,8 @@ func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsAncestryPathArrayOfV
 	res, ok := fpaov.values.([][]*Reference)
 	return res, ok
 }
-func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*multi_region_policy.MultiRegionPolicy, bool) {
@@ -1356,8 +1354,8 @@ var _ Organization_FieldPathArrayOfValues = (*Organization_FieldSubPathArrayOfVa
 func (fpsaov *Organization_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Organization_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Organization_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Organization_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {

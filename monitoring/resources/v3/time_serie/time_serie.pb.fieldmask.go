@@ -13,14 +13,14 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 )
 
@@ -34,14 +34,14 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 )
 
@@ -129,14 +129,14 @@ func (fieldMask *Point_FieldMask) Subtract(other *Point_FieldMask) *Point_FieldM
 	result := &Point_FieldMask{}
 	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[Point_FieldPathSelector]gotenobject.FieldMask{
-		Point_FieldPathSelectorInterval:    &monitoring_common.TimeInterval_FieldMask{},
-		Point_FieldPathSelectorValue:       &monitoring_common.TypedValue_FieldMask{},
-		Point_FieldPathSelectorAggregation: &monitoring_common.Aggregation_FieldMask{},
+		Point_FieldPathSelectorInterval:    &common.TimeInterval_FieldMask{},
+		Point_FieldPathSelectorValue:       &common.TypedValue_FieldMask{},
+		Point_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 	mySubMasks := map[Point_FieldPathSelector]gotenobject.FieldMask{
-		Point_FieldPathSelectorInterval:    &monitoring_common.TimeInterval_FieldMask{},
-		Point_FieldPathSelectorValue:       &monitoring_common.TypedValue_FieldMask{},
-		Point_FieldPathSelectorAggregation: &monitoring_common.Aggregation_FieldMask{},
+		Point_FieldPathSelectorInterval:    &common.TimeInterval_FieldMask{},
+		Point_FieldPathSelectorValue:       &common.TypedValue_FieldMask{},
+		Point_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -153,11 +153,11 @@ func (fieldMask *Point_FieldMask) Subtract(other *Point_FieldMask) *Point_FieldM
 				if tp, ok := path.(*Point_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Point_FieldPathSelectorInterval:
-						mySubMasks[Point_FieldPathSelectorInterval] = monitoring_common.FullTimeInterval_FieldMask()
+						mySubMasks[Point_FieldPathSelectorInterval] = common.FullTimeInterval_FieldMask()
 					case Point_FieldPathSelectorValue:
-						mySubMasks[Point_FieldPathSelectorValue] = monitoring_common.FullTypedValue_FieldMask()
+						mySubMasks[Point_FieldPathSelectorValue] = common.FullTypedValue_FieldMask()
 					case Point_FieldPathSelectorAggregation:
-						mySubMasks[Point_FieldPathSelectorAggregation] = monitoring_common.FullAggregation_FieldMask()
+						mySubMasks[Point_FieldPathSelectorAggregation] = common.FullAggregation_FieldMask()
 					}
 				} else if tp, ok := path.(*Point_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -193,15 +193,15 @@ func (fieldMask *Point_FieldMask) FilterInputFields() *Point_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Point_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Point_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Point_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Point_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -223,7 +223,7 @@ func (fieldMask Point_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Point_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -242,7 +242,7 @@ func (fieldMask Point_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Point_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -310,11 +310,11 @@ func (fieldMask *Point_FieldMask) Project(source *Point) *Point {
 		return source
 	}
 	result := &Point{}
-	intervalMask := &monitoring_common.TimeInterval_FieldMask{}
+	intervalMask := &common.TimeInterval_FieldMask{}
 	wholeIntervalAccepted := false
-	valueMask := &monitoring_common.TypedValue_FieldMask{}
+	valueMask := &common.TypedValue_FieldMask{}
 	wholeValueAccepted := false
-	aggregationMask := &monitoring_common.Aggregation_FieldMask{}
+	aggregationMask := &common.Aggregation_FieldMask{}
 	wholeAggregationAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -334,11 +334,11 @@ func (fieldMask *Point_FieldMask) Project(source *Point) *Point {
 		case *Point_FieldSubPath:
 			switch tp.selector {
 			case Point_FieldPathSelectorInterval:
-				intervalMask.AppendPath(tp.subPath.(monitoring_common.TimeInterval_FieldPath))
+				intervalMask.AppendPath(tp.subPath.(common.TimeInterval_FieldPath))
 			case Point_FieldPathSelectorValue:
-				valueMask.AppendPath(tp.subPath.(monitoring_common.TypedValue_FieldPath))
+				valueMask.AppendPath(tp.subPath.(common.TypedValue_FieldPath))
 			case Point_FieldPathSelectorAggregation:
-				aggregationMask.AppendPath(tp.subPath.(monitoring_common.Aggregation_FieldPath))
+				aggregationMask.AppendPath(tp.subPath.(common.Aggregation_FieldPath))
 			}
 		}
 	}
@@ -376,7 +376,6 @@ func FullTimeSerie_FieldMask() *TimeSerie_FieldMask {
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorRegion})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetric})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorResource})
-	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetricKind})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorValueType})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorPoints})
@@ -423,7 +422,7 @@ func (fieldMask *TimeSerie_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*TimeSerie_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -453,17 +452,15 @@ func (fieldMask *TimeSerie_FieldMask) Reset() {
 
 func (fieldMask *TimeSerie_FieldMask) Subtract(other *TimeSerie_FieldMask) *TimeSerie_FieldMask {
 	result := &TimeSerie_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[TimeSerie_FieldPathSelector]gotenobject.FieldMask{
-		TimeSerie_FieldPathSelectorMetric:   &monitoring_common.Metric_FieldMask{},
-		TimeSerie_FieldPathSelectorResource: &monitoring_common.MonitoredResource_FieldMask{},
-		TimeSerie_FieldPathSelectorMetadata: &monitoring_common.MonitoredResourceMetadata_FieldMask{},
+		TimeSerie_FieldPathSelectorMetric:   &common.Metric_FieldMask{},
+		TimeSerie_FieldPathSelectorResource: &common.MonitoredResource_FieldMask{},
 		TimeSerie_FieldPathSelectorPoints:   &Point_FieldMask{},
 	}
 	mySubMasks := map[TimeSerie_FieldPathSelector]gotenobject.FieldMask{
-		TimeSerie_FieldPathSelectorMetric:   &monitoring_common.Metric_FieldMask{},
-		TimeSerie_FieldPathSelectorResource: &monitoring_common.MonitoredResource_FieldMask{},
-		TimeSerie_FieldPathSelectorMetadata: &monitoring_common.MonitoredResourceMetadata_FieldMask{},
+		TimeSerie_FieldPathSelectorMetric:   &common.Metric_FieldMask{},
+		TimeSerie_FieldPathSelectorResource: &common.MonitoredResource_FieldMask{},
 		TimeSerie_FieldPathSelectorPoints:   &Point_FieldMask{},
 	}
 
@@ -481,11 +478,9 @@ func (fieldMask *TimeSerie_FieldMask) Subtract(other *TimeSerie_FieldMask) *Time
 				if tp, ok := path.(*TimeSerie_FieldTerminalPath); ok {
 					switch tp.selector {
 					case TimeSerie_FieldPathSelectorMetric:
-						mySubMasks[TimeSerie_FieldPathSelectorMetric] = monitoring_common.FullMetric_FieldMask()
+						mySubMasks[TimeSerie_FieldPathSelectorMetric] = common.FullMetric_FieldMask()
 					case TimeSerie_FieldPathSelectorResource:
-						mySubMasks[TimeSerie_FieldPathSelectorResource] = monitoring_common.FullMonitoredResource_FieldMask()
-					case TimeSerie_FieldPathSelectorMetadata:
-						mySubMasks[TimeSerie_FieldPathSelectorMetadata] = monitoring_common.FullMonitoredResourceMetadata_FieldMask()
+						mySubMasks[TimeSerie_FieldPathSelectorResource] = common.FullMonitoredResource_FieldMask()
 					case TimeSerie_FieldPathSelectorPoints:
 						mySubMasks[TimeSerie_FieldPathSelectorPoints] = FullPoint_FieldMask()
 					}
@@ -523,15 +518,15 @@ func (fieldMask *TimeSerie_FieldMask) FilterInputFields() *TimeSerie_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *TimeSerie_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *TimeSerie_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *TimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *TimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -553,7 +548,7 @@ func (fieldMask TimeSerie_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *TimeSerie_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -572,7 +567,7 @@ func (fieldMask TimeSerie_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *TimeSerie_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -640,12 +635,10 @@ func (fieldMask *TimeSerie_FieldMask) Project(source *TimeSerie) *TimeSerie {
 		return source
 	}
 	result := &TimeSerie{}
-	metricMask := &monitoring_common.Metric_FieldMask{}
+	metricMask := &common.Metric_FieldMask{}
 	wholeMetricAccepted := false
-	resourceMask := &monitoring_common.MonitoredResource_FieldMask{}
+	resourceMask := &common.MonitoredResource_FieldMask{}
 	wholeResourceAccepted := false
-	metadataMask := &monitoring_common.MonitoredResourceMetadata_FieldMask{}
-	wholeMetadataAccepted := false
 	pointsMask := &Point_FieldMask{}
 	wholePointsAccepted := false
 
@@ -665,9 +658,6 @@ func (fieldMask *TimeSerie_FieldMask) Project(source *TimeSerie) *TimeSerie {
 			case TimeSerie_FieldPathSelectorResource:
 				result.Resource = source.Resource
 				wholeResourceAccepted = true
-			case TimeSerie_FieldPathSelectorMetadata:
-				result.Metadata = source.Metadata
-				wholeMetadataAccepted = true
 			case TimeSerie_FieldPathSelectorMetricKind:
 				result.MetricKind = source.MetricKind
 			case TimeSerie_FieldPathSelectorValueType:
@@ -679,11 +669,9 @@ func (fieldMask *TimeSerie_FieldMask) Project(source *TimeSerie) *TimeSerie {
 		case *TimeSerie_FieldSubPath:
 			switch tp.selector {
 			case TimeSerie_FieldPathSelectorMetric:
-				metricMask.AppendPath(tp.subPath.(monitoring_common.Metric_FieldPath))
+				metricMask.AppendPath(tp.subPath.(common.Metric_FieldPath))
 			case TimeSerie_FieldPathSelectorResource:
-				resourceMask.AppendPath(tp.subPath.(monitoring_common.MonitoredResource_FieldPath))
-			case TimeSerie_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(monitoring_common.MonitoredResourceMetadata_FieldPath))
+				resourceMask.AppendPath(tp.subPath.(common.MonitoredResource_FieldPath))
 			case TimeSerie_FieldPathSelectorPoints:
 				pointsMask.AppendPath(tp.subPath.(Point_FieldPath))
 			}
@@ -694,9 +682,6 @@ func (fieldMask *TimeSerie_FieldMask) Project(source *TimeSerie) *TimeSerie {
 	}
 	if wholeResourceAccepted == false && len(resourceMask.Paths) > 0 {
 		result.Resource = resourceMask.Project(source.GetResource())
-	}
-	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
-		result.Metadata = metadataMask.Project(source.GetMetadata())
 	}
 	if wholePointsAccepted == false && len(pointsMask.Paths) > 0 {
 		for _, sourceItem := range source.GetPoints() {
@@ -856,15 +841,15 @@ func (fieldMask *BulkTimeSeries_FieldMask) FilterInputFields() *BulkTimeSeries_F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *BulkTimeSeries_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *BulkTimeSeries_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *BulkTimeSeries_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *BulkTimeSeries_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -886,7 +871,7 @@ func (fieldMask BulkTimeSeries_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *BulkTimeSeries_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -905,7 +890,7 @@ func (fieldMask BulkTimeSeries_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *BulkTimeSeries_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

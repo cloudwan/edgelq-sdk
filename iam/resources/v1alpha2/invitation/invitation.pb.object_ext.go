@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -19,7 +19,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -28,7 +28,7 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -38,7 +38,7 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (o *Actor) GotenObjectExt() {}
@@ -237,7 +237,7 @@ func (o *Invitation) Clone() *Invitation {
 			}
 		}
 	}
-	result.ExpirationDate = proto.Clone(o.ExpirationDate).(*timestamp.Timestamp)
+	result.ExpirationDate = proto.Clone(o.ExpirationDate).(*timestamppb.Timestamp)
 	result.Extras = map[string]string{}
 	for key, sourceValue := range o.Extras {
 		result.Extras[key] = sourceValue
@@ -289,7 +289,7 @@ func (o *Invitation) Merge(source *Invitation) {
 
 	if source.GetExpirationDate() != nil {
 		if o.ExpirationDate == nil {
-			o.ExpirationDate = new(timestamp.Timestamp)
+			o.ExpirationDate = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.ExpirationDate, source.GetExpirationDate())
 	}

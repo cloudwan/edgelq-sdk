@@ -4,7 +4,7 @@ package ntt.monitoring.v3;
 
 import "edgelq-sdk/monitoring/proto/v3/monitored_resource_descriptor.proto";
 import "google/protobuf/field_mask.proto";
-import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/types/view.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitored_resource_descriptor;monitored_resource_descriptor_client";
 option java_multiple_files = false;
@@ -15,7 +15,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // [GetMonitoredResourceDescriptor][ntt.monitoring.v3.GetMonitoredResourceDescriptor]
 message GetMonitoredResourceDescriptorRequest {
   // The monitored resource descriptor to get.  The format is
-  // `"projects/{project_id_or_number}/monitoredResourceDescriptors/{resource_type}"`.
+  // `"monitoredResourceDescriptors/{resource_type}"`.
   // The `{resource_type}` is a predefined type, such as
   // `cloudsql_database`.
   string name = 3;
@@ -26,7 +26,7 @@ message GetMonitoredResourceDescriptorRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 }
 
 // Request message for method
@@ -57,7 +57,7 @@ message ListMonitoredResourceDescriptorsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).

@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -19,8 +19,8 @@ import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -29,7 +29,7 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -39,8 +39,8 @@ var (
 	_ = &common.PodSpec{}
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func (o *Pod) GotenObjectExt() {}
@@ -160,7 +160,7 @@ func (o *Pod) Merge(source *Pod) {
 	o.DisplayName = source.GetDisplayName()
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -478,7 +478,7 @@ func (o *Pod_Status_Container_StateRunning) Clone() *Pod_Status_Container_StateR
 		return nil
 	}
 	result := &Pod_Status_Container_StateRunning{}
-	result.StartedAt = proto.Clone(o.StartedAt).(*timestamp.Timestamp)
+	result.StartedAt = proto.Clone(o.StartedAt).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -489,7 +489,7 @@ func (o *Pod_Status_Container_StateRunning) CloneRaw() gotenobject.GotenObjectEx
 func (o *Pod_Status_Container_StateRunning) Merge(source *Pod_Status_Container_StateRunning) {
 	if source.GetStartedAt() != nil {
 		if o.StartedAt == nil {
-			o.StartedAt = new(timestamp.Timestamp)
+			o.StartedAt = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.StartedAt, source.GetStartedAt())
 	}
@@ -555,8 +555,8 @@ func (o *Pod_Status_Container_StateTerminated) Clone() *Pod_Status_Container_Sta
 	result.Signal = o.Signal
 	result.Reason = o.Reason
 	result.Message = o.Message
-	result.StartedAt = proto.Clone(o.StartedAt).(*timestamp.Timestamp)
-	result.FinishedAt = proto.Clone(o.FinishedAt).(*timestamp.Timestamp)
+	result.StartedAt = proto.Clone(o.StartedAt).(*timestamppb.Timestamp)
+	result.FinishedAt = proto.Clone(o.FinishedAt).(*timestamppb.Timestamp)
 	result.ContainerId = o.ContainerId
 	return result
 }
@@ -572,13 +572,13 @@ func (o *Pod_Status_Container_StateTerminated) Merge(source *Pod_Status_Containe
 	o.Message = source.GetMessage()
 	if source.GetStartedAt() != nil {
 		if o.StartedAt == nil {
-			o.StartedAt = new(timestamp.Timestamp)
+			o.StartedAt = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.StartedAt, source.GetStartedAt())
 	}
 	if source.GetFinishedAt() != nil {
 		if o.FinishedAt == nil {
-			o.FinishedAt = new(timestamp.Timestamp)
+			o.FinishedAt = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.FinishedAt, source.GetFinishedAt())
 	}

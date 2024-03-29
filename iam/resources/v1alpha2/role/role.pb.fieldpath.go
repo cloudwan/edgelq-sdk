@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -140,7 +138,7 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 				return &Role_FieldSubPath{selector: Role_FieldPathSelectorIncludedConditionBindings, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Role_FieldSubPath{selector: Role_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -275,7 +273,7 @@ func (fp *Role_FieldTerminalPath) GetDefault() interface{} {
 	case Role_FieldPathSelectorRequiredConditions:
 		return ([]*condition.Reference)(nil)
 	case Role_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fp.selector))
 	}
@@ -335,7 +333,7 @@ func (fp *Role_FieldTerminalPath) WithIValue(value interface{}) Role_FieldPathVa
 	case Role_FieldPathSelectorRequiredConditions:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*condition.Reference)}
 	case Role_FieldPathSelectorMetadata:
-		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fp.selector))
 	}
@@ -361,7 +359,7 @@ func (fp *Role_FieldTerminalPath) WithIArrayOfValues(values interface{}) Role_Fi
 	case Role_FieldPathSelectorRequiredConditions:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*condition.Reference)}
 	case Role_FieldPathSelectorMetadata:
-		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fp.selector))
 	}
@@ -407,8 +405,8 @@ func (fps *Role_FieldSubPath) AsIncludedConditionBindingsSubPath() (condition.Co
 	res, ok := fps.subPath.(condition.ConditionBinding_FieldPath)
 	return res, ok
 }
-func (fps *Role_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Role_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -594,8 +592,8 @@ func (fpv *Role_FieldTerminalPathValue) AsRequiredConditionsValue() ([]*conditio
 	res, ok := fpv.value.([]*condition.Reference)
 	return res, ok
 }
-func (fpv *Role_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Role_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -618,7 +616,7 @@ func (fpv *Role_FieldTerminalPathValue) SetTo(target **Role) {
 	case Role_FieldPathSelectorRequiredConditions:
 		(*target).RequiredConditions = fpv.value.([]*condition.Reference)
 	case Role_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fpv.selector))
 	}
@@ -695,8 +693,8 @@ func (fpvs *Role_FieldSubPathValue) AsIncludedConditionBindingsPathValue() (cond
 	res, ok := fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Role_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Role_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -710,7 +708,7 @@ func (fpvs *Role_FieldSubPathValue) SetTo(target **Role) {
 	case Role_FieldPathSelectorIncludedConditionBindings:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Role_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fpvs.Selector()))
 	}
@@ -732,7 +730,7 @@ func (fpvs *Role_FieldSubPathValue) CompareWith(source *Role) (int, bool) {
 	case Role_FieldPathSelectorIncludedConditionBindings:
 		return 0, false // repeated field
 	case Role_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fpvs.Selector()))
 	}
@@ -835,8 +833,8 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) AsIncludedConditionBindingsPathIt
 	res, ok := fpaivs.subPathItemValue.(condition.ConditionBinding_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Role_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Role_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -848,7 +846,7 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) ContainsValue(source *Role) bool 
 	case Role_FieldPathSelectorIncludedConditionBindings:
 		return false // repeated/map field
 	case Role_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fpaivs.Selector()))
 	}
@@ -914,7 +912,7 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 			values = append(values, v)
 		}
 	case Role_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -944,8 +942,8 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) AsRequiredConditionsArrayOfVal
 	res, ok := fpaov.values.([][]*condition.Reference)
 	return res, ok
 }
-func (fpaov *Role_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -967,7 +965,7 @@ func (fpsaov *Role_FieldSubPathArrayOfValues) AsIncludedConditionBindingsPathArr
 	res, ok := fpsaov.subPathArrayOfValues.(condition.ConditionBinding_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *Role_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Role_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

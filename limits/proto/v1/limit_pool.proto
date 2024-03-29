@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit_pool;limit_pool";
+option java_multiple_files = true;
+option java_outer_classname = "LimitPoolProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// LimitPool represents a pool from which next LimitPool
+// or final Limit instances are allocated from. LimitPool
+// can either belong to a service (first pool, without parent) or
+// organization (which got pool from service or parent organization).
+// Size of child limit or limit pools must not exceed parent
+// limit pool.
+// LimitPool is in a way similar to Limit - it has scope and
+// associated resource but LimitPool is non-final object. It cannot be used to
+// allocate resources directly. It need child Limit first. Therefore,
+// field with values in LimitPool are configured size, active
+// size and reserved. Fields in Limit are configured limit,
+// active limit and usage - they need different interpretation.
+// Because LimitPool instances within one scope (service, organization)
+// are managed by primary region of that scope, changes in them
+// are done with only single transaction.
+// LimitPool instances cannot be directly created or deleted. They cannot be
+// also be modified (there are only some state fields controlled
+// by service). LimitPools are created/modified along with
+// PlanAssignment instances.
+message LimitPool {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/LimitPool"
+    pattern : "services/{service}/limitPools/{limit_pool}"
+    pattern : "organizations/{organization}/limitPools/{limit_pool}"
+  };
+
+  // Name of LimitPool
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex:
+  // [a-zA-Z0-9-]{1,128}\\/[a-zA-Z0-9-.]{1,128}\\/[a-zA-Z]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 8;
+
+  // Referenced service
+  string service = 2;
+
+  // Referenced resource type
+  string resource = 3;
+
+  // Region ID to which this pool applies. This may be different
+  // compared to default region for service/organization, because
+  // they may use multiple regions.
+  string region = 9;
+
+  // Configured size of pool according to PlanAssignment instances
+  // belonging to same scope (system or organization).
+  int64 configured_size = 4;
+
+  // Active pool size. It will be normally equal to configured size.
+  // However, if configured size goes down below reserved value,
+  // then active size will be equal to that "reserved".
+  // It will also prevent parent LimitPool (if any) from getting
+  // limit value back.
+  int64 active_size = 5;
+
+  // Configured OR Active Size of all child Limit and LimitPool instances -
+  // whichever is bigger.
+  int64 reserved = 6;
+
+  // LimitPool source that supplied reservation to this LimitPool. Any change
+  // in configured/active value in current LimitPool increases/decreases
+  // reserved field in source LimitPool.
+  string source = 7;
+}

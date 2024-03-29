@@ -14,7 +14,6 @@ import (
 // proto imports
 import (
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
-	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &deployment.Deployment{}
-	_ = &empty.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,9 +52,6 @@ type DeploymentServiceClient interface {
 	ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error)
 	WatchDeployment(ctx context.Context, in *WatchDeploymentRequest, opts ...grpc.CallOption) (WatchDeploymentClientStream, error)
 	WatchDeployments(ctx context.Context, in *WatchDeploymentsRequest, opts ...grpc.CallOption) (WatchDeploymentsClientStream, error)
-	CreateDeployment(ctx context.Context, in *CreateDeploymentRequest, opts ...grpc.CallOption) (*deployment.Deployment, error)
-	UpdateDeployment(ctx context.Context, in *UpdateDeploymentRequest, opts ...grpc.CallOption) (*deployment.Deployment, error)
-	DeleteDeployment(ctx context.Context, in *DeleteDeploymentRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -166,31 +161,4 @@ func (x *watchDeploymentsWatchDeploymentsClient) Recv() (*WatchDeploymentsRespon
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *client) CreateDeployment(ctx context.Context, in *CreateDeploymentRequest, opts ...grpc.CallOption) (*deployment.Deployment, error) {
-	out := new(deployment.Deployment)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.DeploymentService/CreateDeployment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) UpdateDeployment(ctx context.Context, in *UpdateDeploymentRequest, opts ...grpc.CallOption) (*deployment.Deployment, error) {
-	out := new(deployment.Deployment)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.DeploymentService/UpdateDeployment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) DeleteDeployment(ctx context.Context, in *DeleteDeploymentRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.DeploymentService/DeleteDeployment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }

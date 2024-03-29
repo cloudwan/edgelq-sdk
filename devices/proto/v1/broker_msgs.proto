@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/broker";
+option java_multiple_files = false;
+option java_outer_classname = "BrokerCustomProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// Services on the device that the client connects to
+message SSHService {
+  message Hello {
+    string user = 1;
+
+    repeated string command = 2;
+
+    // Environment (optional)
+    map<string, string> env = 3;
+  }
+
+  message TerminalSize {
+    uint32 width = 1;
+
+    uint32 height = 2;
+  }
+
+  message ClientOut {
+    oneof msg {
+      bytes data = 1;
+
+      Hello ssh_hello = 2;
+
+      TerminalSize ssh_resize_terminal = 3;
+    }
+  }
+
+  message ClientIn {
+    oneof msg { bytes data = 1; }
+  }
+}
+
+message SCPService {
+  oneof msg {
+    // Request to create a directory
+    CreateDirectory dir = 1;
+
+    // Request to create a file
+    CreateFile file = 2;
+
+    // Request to end SCP transfer
+    bool eot = 3;
+
+    // Request SCP configuration
+    Configure config = 4;
+  }
+
+  message Configure {
+    bool recursive = 1;
+
+    Direction direction = 2;
+
+    string path = 3;
+
+    enum Direction {
+      DOWNLOAD = 0;
+
+      UPLOAD = 1;
+    }
+  }
+
+  message CreateDirectory {
+    string path = 1;
+
+    uint32 mode = 2;
+  }
+
+  message CreateFile {
+    oneof msg {
+      // Request file initialization
+      Initialize init = 1;
+
+      // Request file data
+      bytes data = 2;
+
+      // Request to end file transfer
+      bool eof = 3;
+    }
+
+    message Initialize {
+      string path = 1;
+
+      uint32 mode = 2;
+
+      uint64 size = 3;
+    }
+  }
+}
+
+message LogsService {
+  // Messages sent only to a device
+  message ToDevice {
+    // Live follow the logs service
+    bool follow = 1;
+
+    // Number of lines to get from the logs service
+    uint32 lines = 2;
+
+    // Source of the logs service (e.g. docker container ID)
+    string source = 3;
+  }
+
+  // Messages sent only to a client
+  message ToClient {
+    // Logs data
+    bytes data = 1;
+  }
+}
+
+message PodManagementService {
+  // Pod state command
+  PodState command = 1;
+
+  // Pod to execute the command on
+  string pod = 2;
+
+  // Service (container) name to execute the command on (empty = acts on the
+  // entire pod)
+  string service = 3;
+
+  // Commands for pod state management
+  enum PodState {
+    // Unspecified pod state
+    UNSPECIFIED = 0;
+
+    // Start the pod
+    START = 1;
+
+    // Stop the pod
+    STOP = 2;
+
+    // Restart the pod
+    RESTART = 3;
+  }
+}
+
+message SystemStateService {
+  // Commands for system state management
+  enum SystemState {
+    // Unspecified system state
+    UNSPECIFIED = 0;
+
+    // Shutdown the system
+    SHUTDOWN = 1;
+
+    // Reboot the system
+    REBOOT = 2;
+  }
+}
+
+// Broker dedicated messages
+enum BrokerServiceType {
+  // Service type not specified
+  BROKER_SERVICE_UNSPECIFIED = 0;
+
+  // SSH service
+  BROKER_SERVICE_SSH_LEGACY = 1;
+
+  BROKER_SERVICE_SSH = 3;
+
+  // TCP port forward service
+  BROKER_SERVICE_TCP_FORWARD_PORT = 2;
+
+  // Reboot service
+  BROKER_SERVICE_REBOOT = 4;
+
+  // Shutdown service
+  BROKER_SERVICE_SHUTDOWN = 5;
+
+  // SCP service
+  BROKER_SERVICE_SCP = 6;
+
+  BROKER_SERVICE_SCP_LEGACY = 7;
+
+  // System Logs service
+  BROKER_SYS_LOGS = 8;
+
+  // Application (Container) Logs service
+  BROKER_APP_LOGS = 9;
+
+  // Pod State Management service
+  BROKER_POD_MANAGEMENT = 10;
+}

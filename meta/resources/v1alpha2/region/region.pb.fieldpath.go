@@ -17,14 +17,13 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -41,14 +40,13 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -136,7 +134,7 @@ func BuildRegion_FieldPath(fp gotenobject.RawFieldPath) (Region_FieldPath, error
 				return &Region_FieldSubPath{selector: Region_FieldPathSelectorConnectivityScores, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Region_FieldSubPath{selector: Region_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -265,7 +263,7 @@ func (fp *Region_FieldTerminalPath) GetDefault() interface{} {
 	case Region_FieldPathSelectorConnectivityScores:
 		return ([]*Region_RegionConnectivityPreference)(nil)
 	case Region_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fp.selector))
 	}
@@ -325,7 +323,7 @@ func (fp *Region_FieldTerminalPath) WithIValue(value interface{}) Region_FieldPa
 	case Region_FieldPathSelectorConnectivityScores:
 		return &Region_FieldTerminalPathValue{Region_FieldTerminalPath: *fp, value: value.([]*Region_RegionConnectivityPreference)}
 	case Region_FieldPathSelectorMetadata:
-		return &Region_FieldTerminalPathValue{Region_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Region_FieldTerminalPathValue{Region_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fp.selector))
 	}
@@ -351,7 +349,7 @@ func (fp *Region_FieldTerminalPath) WithIArrayOfValues(values interface{}) Regio
 	case Region_FieldPathSelectorConnectivityScores:
 		return &Region_FieldTerminalPathArrayOfValues{Region_FieldTerminalPath: *fp, values: values.([][]*Region_RegionConnectivityPreference)}
 	case Region_FieldPathSelectorMetadata:
-		return &Region_FieldTerminalPathArrayOfValues{Region_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Region_FieldTerminalPathArrayOfValues{Region_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fp.selector))
 	}
@@ -393,8 +391,8 @@ func (fps *Region_FieldSubPath) AsConnectivityScoresSubPath() (RegionRegionConne
 	res, ok := fps.subPath.(RegionRegionConnectivityPreference_FieldPath)
 	return res, ok
 }
-func (fps *Region_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Region_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -580,8 +578,8 @@ func (fpv *Region_FieldTerminalPathValue) AsConnectivityScoresValue() ([]*Region
 	res, ok := fpv.value.([]*Region_RegionConnectivityPreference)
 	return res, ok
 }
-func (fpv *Region_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Region_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -604,7 +602,7 @@ func (fpv *Region_FieldTerminalPathValue) SetTo(target **Region) {
 	case Region_FieldPathSelectorConnectivityScores:
 		(*target).ConnectivityScores = fpv.value.([]*Region_RegionConnectivityPreference)
 	case Region_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fpv.selector))
 	}
@@ -697,8 +695,8 @@ func (fpvs *Region_FieldSubPathValue) AsConnectivityScoresPathValue() (RegionReg
 	res, ok := fpvs.subPathValue.(RegionRegionConnectivityPreference_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Region_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Region_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -712,7 +710,7 @@ func (fpvs *Region_FieldSubPathValue) SetTo(target **Region) {
 	case Region_FieldPathSelectorConnectivityScores:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Region_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fpvs.Selector()))
 	}
@@ -734,7 +732,7 @@ func (fpvs *Region_FieldSubPathValue) CompareWith(source *Region) (int, bool) {
 	case Region_FieldPathSelectorConnectivityScores:
 		return 0, false // repeated field
 	case Region_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fpvs.Selector()))
 	}
@@ -829,8 +827,8 @@ func (fpaivs *Region_FieldSubPathArrayItemValue) AsConnectivityScoresPathItemVal
 	res, ok := fpaivs.subPathItemValue.(RegionRegionConnectivityPreference_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Region_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Region_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -842,7 +840,7 @@ func (fpaivs *Region_FieldSubPathArrayItemValue) ContainsValue(source *Region) b
 	case Region_FieldPathSelectorConnectivityScores:
 		return false // repeated/map field
 	case Region_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fpaivs.Selector()))
 	}
@@ -908,7 +906,7 @@ func (fpaov *Region_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 			values = append(values, v)
 		}
 	case Region_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -938,8 +936,8 @@ func (fpaov *Region_FieldTerminalPathArrayOfValues) AsConnectivityScoresArrayOfV
 	res, ok := fpaov.values.([][]*Region_RegionConnectivityPreference)
 	return res, ok
 }
-func (fpaov *Region_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Region_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -961,8 +959,8 @@ func (fpsaov *Region_FieldSubPathArrayOfValues) AsConnectivityScoresPathArrayOfV
 	res, ok := fpsaov.subPathArrayOfValues.(RegionRegionConnectivityPreference_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *Region_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Region_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 

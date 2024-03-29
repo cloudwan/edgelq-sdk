@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -128,7 +126,7 @@ func BuildAlertingPolicy_FieldPath(fp gotenobject.RawFieldPath) (AlertingPolicy_
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertingPolicy_FieldSubPath{selector: AlertingPolicy_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -268,7 +266,7 @@ func (fp *AlertingPolicy_FieldTerminalPath) GetDefault() interface{} {
 	case AlertingPolicy_FieldPathSelectorName:
 		return (*Name)(nil)
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case AlertingPolicy_FieldPathSelectorDisplayName:
 		return ""
 	case AlertingPolicy_FieldPathSelectorDescription:
@@ -327,7 +325,7 @@ func (fp *AlertingPolicy_FieldTerminalPath) WithIValue(value interface{}) Alerti
 	case AlertingPolicy_FieldPathSelectorName:
 		return &AlertingPolicy_FieldTerminalPathValue{AlertingPolicy_FieldTerminalPath: *fp, value: value.(*Name)}
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		return &AlertingPolicy_FieldTerminalPathValue{AlertingPolicy_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &AlertingPolicy_FieldTerminalPathValue{AlertingPolicy_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case AlertingPolicy_FieldPathSelectorDisplayName:
 		return &AlertingPolicy_FieldTerminalPathValue{AlertingPolicy_FieldTerminalPath: *fp, value: value.(string)}
 	case AlertingPolicy_FieldPathSelectorDescription:
@@ -353,7 +351,7 @@ func (fp *AlertingPolicy_FieldTerminalPath) WithIArrayOfValues(values interface{
 	case AlertingPolicy_FieldPathSelectorName:
 		return &AlertingPolicy_FieldTerminalPathArrayOfValues{AlertingPolicy_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		return &AlertingPolicy_FieldTerminalPathArrayOfValues{AlertingPolicy_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &AlertingPolicy_FieldTerminalPathArrayOfValues{AlertingPolicy_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case AlertingPolicy_FieldPathSelectorDisplayName:
 		return &AlertingPolicy_FieldTerminalPathArrayOfValues{AlertingPolicy_FieldTerminalPath: *fp, values: values.([]string)}
 	case AlertingPolicy_FieldPathSelectorDescription:
@@ -395,8 +393,8 @@ var _ AlertingPolicy_FieldPath = (*AlertingPolicy_FieldSubPath)(nil)
 func (fps *AlertingPolicy_FieldSubPath) Selector() AlertingPolicy_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertingPolicy_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *AlertingPolicy_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *AlertingPolicy_FieldSubPath) AsDocumentationSubPath() (AlertingPolicyDocumentation_FieldPath, bool) {
@@ -579,8 +577,8 @@ func (fpv *AlertingPolicy_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *AlertingPolicy_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *AlertingPolicy_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *AlertingPolicy_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
@@ -613,7 +611,7 @@ func (fpv *AlertingPolicy_FieldTerminalPathValue) SetTo(target **AlertingPolicy)
 	case AlertingPolicy_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case AlertingPolicy_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case AlertingPolicy_FieldPathSelectorDescription:
@@ -700,8 +698,8 @@ type AlertingPolicy_FieldSubPathValue struct {
 
 var _ AlertingPolicy_FieldPathValue = (*AlertingPolicy_FieldSubPathValue)(nil)
 
-func (fpvs *AlertingPolicy_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *AlertingPolicy_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *AlertingPolicy_FieldSubPathValue) AsDocumentationPathValue() (AlertingPolicyDocumentation_FieldPathValue, bool) {
@@ -723,7 +721,7 @@ func (fpvs *AlertingPolicy_FieldSubPathValue) SetTo(target **AlertingPolicy) {
 	}
 	switch fpvs.Selector() {
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case AlertingPolicy_FieldPathSelectorDocumentation:
 		fpvs.subPathValue.(AlertingPolicyDocumentation_FieldPathValue).SetTo(&(*target).Documentation)
 	case AlertingPolicy_FieldPathSelectorSpec:
@@ -747,7 +745,7 @@ func (fpvs *AlertingPolicy_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AlertingPolicy_FieldSubPathValue) CompareWith(source *AlertingPolicy) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case AlertingPolicy_FieldPathSelectorDocumentation:
 		return fpvs.subPathValue.(AlertingPolicyDocumentation_FieldPathValue).CompareWith(source.GetDocumentation())
 	case AlertingPolicy_FieldPathSelectorSpec:
@@ -836,8 +834,8 @@ type AlertingPolicy_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) AsDocumentationPathItemValue() (AlertingPolicyDocumentation_FieldPathArrayItemValue, bool) {
@@ -857,7 +855,7 @@ func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) AsStatePathItemValue() 
 func (fpaivs *AlertingPolicy_FieldSubPathArrayItemValue) ContainsValue(source *AlertingPolicy) bool {
 	switch fpaivs.Selector() {
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case AlertingPolicy_FieldPathSelectorDocumentation:
 		return fpaivs.subPathItemValue.(AlertingPolicyDocumentation_FieldPathArrayItemValue).ContainsValue(source.GetDocumentation())
 	case AlertingPolicy_FieldPathSelectorSpec:
@@ -909,7 +907,7 @@ func (fpaov *AlertingPolicy_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 			values = append(values, v)
 		}
 	case AlertingPolicy_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case AlertingPolicy_FieldPathSelectorDisplayName:
@@ -939,8 +937,8 @@ func (fpaov *AlertingPolicy_FieldTerminalPathArrayOfValues) AsNameArrayOfValues(
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *AlertingPolicy_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *AlertingPolicy_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *AlertingPolicy_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -974,8 +972,8 @@ var _ AlertingPolicy_FieldPathArrayOfValues = (*AlertingPolicy_FieldSubPathArray
 func (fpsaov *AlertingPolicy_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertingPolicy_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *AlertingPolicy_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *AlertingPolicy_FieldSubPathArrayOfValues) AsDocumentationPathArrayOfValues() (AlertingPolicyDocumentation_FieldPathArrayOfValues, bool) {

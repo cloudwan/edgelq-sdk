@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ntt.limits.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan;accepted_plan";
 option java_multiple_files = true;
@@ -61,7 +61,7 @@ message AcceptedPlan {
   Assignee assignee = 6;
 
   // Metadata
-  ntt.types.Meta metadata = 7;
+  goten.types.Meta metadata = 7;
 
   // Assignee indicates for whom plan was accepted for.
   // In case of child project/org deletion, accepted plan will be deleted too,

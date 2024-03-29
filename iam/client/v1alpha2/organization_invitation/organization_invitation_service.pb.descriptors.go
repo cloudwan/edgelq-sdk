@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization_invitation.OrganizationInvitation{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -142,8 +142,8 @@ func (h *GetOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceName
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization_invitation.Name)(nil)
@@ -169,6 +169,30 @@ func (h *GetOrganizationInvitationDescriptorClientMsgHandle) ExtractCollectionNa
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -210,6 +234,22 @@ func (h *GetOrganizationInvitationDescriptorServerMsgHandle) ExtractCollectionNa
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization_invitation.OrganizationInvitation)
+}
+
+func (h *GetOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization_invitation.OrganizationInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization_invitation.OrganizationInvitation) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -326,12 +366,8 @@ func (h *BatchGetOrganizationInvitationsDescriptorClientMsgHandle) ExtractResour
 		return organization_invitation.OrganizationInvitationNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(organization_invitation.OrganizationInvitationNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return organization_invitation.OrganizationInvitationNameList(names)
 		}
 	}
 	return (organization_invitation.OrganizationInvitationNameList)(nil)
@@ -345,6 +381,30 @@ func (h *BatchGetOrganizationInvitationsDescriptorClientMsgHandle) ExtractCollec
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOrganizationInvitationsRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOrganizationInvitationsRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -392,6 +452,35 @@ func (h *BatchGetOrganizationInvitationsDescriptorServerMsgHandle) ExtractCollec
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOrganizationInvitationsResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOrganizationInvitationsResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizationInvitations(); len(resources) > 0 {
+			return organization_invitation.OrganizationInvitationList(resources)
+		}
+	}
+	return (organization_invitation.OrganizationInvitationList)(nil)
 }
 
 func GetBatchGetOrganizationInvitationsDescriptor() *BatchGetOrganizationInvitationsDescriptor {
@@ -525,6 +614,30 @@ func (h *ListOrganizationInvitationsDescriptorClientMsgHandle) ExtractCollection
 	return (*organization_invitation.ParentName)(nil)
 }
 
+func (h *ListOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOrganizationInvitationsRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOrganizationInvitationsRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListOrganizationInvitationsResponse)
 	var asInterface interface{} = h
@@ -568,6 +681,35 @@ func (h *ListOrganizationInvitationsDescriptorServerMsgHandle) ExtractCollection
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOrganizationInvitationsResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOrganizationInvitationsResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizationInvitations(); len(resources) > 0 {
+			return organization_invitation.OrganizationInvitationList(resources)
+		}
+	}
+	return (organization_invitation.OrganizationInvitationList)(nil)
 }
 
 func GetListOrganizationInvitationsDescriptor() *ListOrganizationInvitationsDescriptor {
@@ -670,8 +812,8 @@ func (h *WatchOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceNa
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization_invitation.Name)(nil)
@@ -697,6 +839,30 @@ func (h *WatchOrganizationInvitationDescriptorClientMsgHandle) ExtractCollection
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -747,6 +913,42 @@ func (h *WatchOrganizationInvitationDescriptorServerMsgHandle) ExtractCollection
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationInvitationResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *organization_invitation.OrganizationInvitationChange_Added_:
+				return tResChange.Added.GetOrganizationInvitation()
+			case *organization_invitation.OrganizationInvitationChange_Modified_:
+				return tResChange.Modified.GetOrganizationInvitation()
+			case *organization_invitation.OrganizationInvitationChange_Current_:
+				return tResChange.Current.GetOrganizationInvitation()
+			}
+		}
+	}
+	return (*organization_invitation.OrganizationInvitation)(nil)
+}
+
+func (h *WatchOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationInvitationResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -875,11 +1077,35 @@ func (h *WatchOrganizationInvitationsDescriptorClientMsgHandle) ExtractCollectio
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*organization_invitation.ParentName)(nil)
+}
+
+func (h *WatchOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationInvitationsRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationInvitationsRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -934,6 +1160,46 @@ func (h *WatchOrganizationInvitationsDescriptorServerMsgHandle) ExtractCollectio
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOrganizationInvitationsResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOrganizationInvitationsResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetOrganizationInvitationChanges(); len(resChanges) > 0 {
+			list := make(organization_invitation.OrganizationInvitationList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *organization_invitation.OrganizationInvitationChange_Added_:
+					list = append(list, tResChange.Added.GetOrganizationInvitation())
+				case *organization_invitation.OrganizationInvitationChange_Modified_:
+					list = append(list, tResChange.Modified.GetOrganizationInvitation())
+				case *organization_invitation.OrganizationInvitationChange_Current_:
+					list = append(list, tResChange.Current.GetOrganizationInvitation())
+				}
+			}
+			return list
+		}
+	}
+	return (organization_invitation.OrganizationInvitationList)(nil)
 }
 
 func GetWatchOrganizationInvitationsDescriptor() *WatchOrganizationInvitationsDescriptor {
@@ -1066,11 +1332,38 @@ func (h *CreateOrganizationInvitationDescriptorClientMsgHandle) ExtractCollectio
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*organization_invitation.ParentName)(nil)
+}
+
+func (h *CreateOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOrganizationInvitation()
+	}
+	return (*organization_invitation.OrganizationInvitation)(nil)
+}
+
+func (h *CreateOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1110,6 +1403,22 @@ func (h *CreateOrganizationInvitationDescriptorServerMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization_invitation.OrganizationInvitation)
+}
+
+func (h *CreateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization_invitation.OrganizationInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization_invitation.OrganizationInvitation) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1246,6 +1555,33 @@ func (h *UpdateOrganizationInvitationDescriptorClientMsgHandle) ExtractCollectio
 	return nil
 }
 
+func (h *UpdateOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOrganizationInvitation()
+	}
+	return (*organization_invitation.OrganizationInvitation)(nil)
+}
+
+func (h *UpdateOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*organization_invitation.OrganizationInvitation)
 	var asInterface interface{} = h
@@ -1287,6 +1623,22 @@ func (h *UpdateOrganizationInvitationDescriptorServerMsgHandle) ExtractCollectio
 	return nil
 }
 
+func (h *UpdateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*organization_invitation.OrganizationInvitation)
+}
+
+func (h *UpdateOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*organization_invitation.OrganizationInvitation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*organization_invitation.OrganizationInvitation) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateOrganizationInvitationDescriptor() *UpdateOrganizationInvitationDescriptor {
 	return updateOrganizationInvitationDescriptor
 }
@@ -1302,7 +1654,7 @@ func (d *DeleteOrganizationInvitationDescriptor) NewEmptyClientMsg() proto.Messa
 }
 
 func (d *DeleteOrganizationInvitationDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteOrganizationInvitationDescriptor) IsUnary() bool {
@@ -1387,8 +1739,8 @@ func (h *DeleteOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceN
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization_invitation.Name)(nil)
@@ -1418,11 +1770,35 @@ func (h *DeleteOrganizationInvitationDescriptorClientMsgHandle) ExtractCollectio
 	return nil
 }
 
-func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteOrganizationInvitationRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *organization_invitation.Name
+		OverrideExtractResourceBody(*DeleteOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *organization_invitation.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1431,10 +1807,10 @@ func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceN
 }
 
 func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*organization_invitation.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*organization_invitation.Name
 	})
 	if ok {
 		return organization_invitation.OrganizationInvitationNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1443,13 +1819,37 @@ func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceN
 }
 
 func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *organization_invitation.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *organization_invitation.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1554,8 +1954,8 @@ func (h *AcceptOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceN
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization_invitation.Name)(nil)
@@ -1581,6 +1981,30 @@ func (h *AcceptOrganizationInvitationDescriptorClientMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*AcceptOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*AcceptOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*AcceptOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*AcceptOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1617,6 +2041,30 @@ func (h *AcceptOrganizationInvitationDescriptorServerMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*AcceptOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*AcceptOrganizationInvitationResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *AcceptOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*AcceptOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*AcceptOrganizationInvitationResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1721,8 +2169,8 @@ func (h *DeclineOrganizationInvitationDescriptorClientMsgHandle) ExtractResource
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*organization_invitation.Name)(nil)
@@ -1748,6 +2196,30 @@ func (h *DeclineOrganizationInvitationDescriptorClientMsgHandle) ExtractCollecti
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeclineOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeclineOrganizationInvitationRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineOrganizationInvitationDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeclineOrganizationInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeclineOrganizationInvitationRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1784,6 +2256,30 @@ func (h *DeclineOrganizationInvitationDescriptorServerMsgHandle) ExtractCollecti
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeclineOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeclineOrganizationInvitationResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeclineOrganizationInvitationDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeclineOrganizationInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeclineOrganizationInvitationResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1912,11 +2408,35 @@ func (h *ListMyOrganizationInvitationsDescriptorClientMsgHandle) ExtractCollecti
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*organization_invitation.ParentName)(nil)
+}
+
+func (h *ListMyOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyOrganizationInvitationsRequest) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyOrganizationInvitationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyOrganizationInvitationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyOrganizationInvitationsRequest) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *ListMyOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1962,6 +2482,35 @@ func (h *ListMyOrganizationInvitationsDescriptorServerMsgHandle) ExtractCollecti
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListMyOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListMyOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListMyOrganizationInvitationsResponse) *organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListMyOrganizationInvitationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListMyOrganizationInvitationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListMyOrganizationInvitationsResponse) []*organization_invitation.OrganizationInvitation
+	})
+	if ok {
+		return organization_invitation.OrganizationInvitationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizationInvitations(); len(resources) > 0 {
+			return organization_invitation.OrganizationInvitationList(resources)
+		}
+	}
+	return (organization_invitation.OrganizationInvitationList)(nil)
 }
 
 func GetListMyOrganizationInvitationsDescriptor() *ListMyOrganizationInvitationsDescriptor {

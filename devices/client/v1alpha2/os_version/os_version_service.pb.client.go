@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_version"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &os_version.OsVersion{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type OsVersionServiceClient interface {
 	WatchOsVersions(ctx context.Context, in *WatchOsVersionsRequest, opts ...grpc.CallOption) (WatchOsVersionsClientStream, error)
 	CreateOsVersion(ctx context.Context, in *CreateOsVersionRequest, opts ...grpc.CallOption) (*os_version.OsVersion, error)
 	UpdateOsVersion(ctx context.Context, in *UpdateOsVersionRequest, opts ...grpc.CallOption) (*os_version.OsVersion, error)
-	DeleteOsVersion(ctx context.Context, in *DeleteOsVersionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOsVersion(ctx context.Context, in *DeleteOsVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateOsVersion(ctx context.Context, in *UpdateOsVersionRequest
 	return out, nil
 }
 
-func (c *client) DeleteOsVersion(ctx context.Context, in *DeleteOsVersionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteOsVersion(ctx context.Context, in *DeleteOsVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.OsVersionService/DeleteOsVersion", in, out, opts...)
 	if err != nil {
 		return nil, err

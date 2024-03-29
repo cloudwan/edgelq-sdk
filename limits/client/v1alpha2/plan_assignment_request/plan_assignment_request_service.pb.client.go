@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type PlanAssignmentRequestServiceClient interface {
 	WatchPlanAssignmentRequests(ctx context.Context, in *WatchPlanAssignmentRequestsRequest, opts ...grpc.CallOption) (WatchPlanAssignmentRequestsClientStream, error)
 	CreatePlanAssignmentRequest(ctx context.Context, in *CreatePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*plan_assignment_request.PlanAssignmentRequest, error)
 	UpdatePlanAssignmentRequest(ctx context.Context, in *UpdatePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*plan_assignment_request.PlanAssignmentRequest, error)
-	DeletePlanAssignmentRequest(ctx context.Context, in *DeletePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePlanAssignmentRequest(ctx context.Context, in *DeletePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	AcceptPlanAssignment(ctx context.Context, in *AcceptPlanAssignmentRequest, opts ...grpc.CallOption) (*AcceptPlanAssignmentResponse, error)
 	DeclinePlanAssignment(ctx context.Context, in *DeclinePlanAssignmentRequest, opts ...grpc.CallOption) (*DeclinePlanAssignmentResponse, error)
 	ListApproverPlanAssignmentRequests(ctx context.Context, in *ListApproverPlanAssignmentRequestsRequest, opts ...grpc.CallOption) (*ListPlanAssignmentRequestsResponse, error)
@@ -189,8 +189,8 @@ func (c *client) UpdatePlanAssignmentRequest(ctx context.Context, in *UpdatePlan
 	return out, nil
 }
 
-func (c *client) DeletePlanAssignmentRequest(ctx context.Context, in *DeletePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeletePlanAssignmentRequest(ctx context.Context, in *DeletePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentRequestService/DeletePlanAssignmentRequest", in, out, opts...)
 	if err != nil {
 		return nil, err

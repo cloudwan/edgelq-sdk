@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -42,14 +41,13 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
@@ -111,7 +109,7 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Project_FieldSubPath{selector: Project_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -223,7 +221,7 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 	case Project_FieldPathSelectorTitle:
 		return ""
 	case Project_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	default:
@@ -269,7 +267,7 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 	case Project_FieldPathSelectorTitle:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(string)}
 	case Project_FieldPathSelectorMetadata:
-		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	default:
@@ -289,7 +287,7 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 	case Project_FieldPathSelectorTitle:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]string)}
 	case Project_FieldPathSelectorMetadata:
-		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	default:
@@ -323,8 +321,8 @@ var _ Project_FieldPath = (*Project_FieldSubPath)(nil)
 func (fps *Project_FieldSubPath) Selector() Project_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Project_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Project_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Project_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_policy.MultiRegionPolicy_FieldPath, bool) {
@@ -485,8 +483,8 @@ func (fpv *Project_FieldTerminalPathValue) AsTitleValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Project_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Project_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Project_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*multi_region_policy.MultiRegionPolicy, bool) {
@@ -505,7 +503,7 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 	case Project_FieldPathSelectorTitle:
 		(*target).Title = fpv.value.(string)
 	case Project_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	default:
@@ -570,8 +568,8 @@ type Project_FieldSubPathValue struct {
 
 var _ Project_FieldPathValue = (*Project_FieldSubPathValue)(nil)
 
-func (fpvs *Project_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Project_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Project_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_region_policy.MultiRegionPolicy_FieldPathValue, bool) {
@@ -585,7 +583,7 @@ func (fpvs *Project_FieldSubPathValue) SetTo(target **Project) {
 	}
 	switch fpvs.Selector() {
 	case Project_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
 	default:
@@ -605,7 +603,7 @@ func (fpvs *Project_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Project_FieldSubPathValue) CompareWith(source *Project) (int, bool) {
 	switch fpvs.Selector() {
 	case Project_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
 	default:
@@ -690,8 +688,8 @@ type Project_FieldSubPathArrayItemValue struct {
 func (fpaivs *Project_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Project_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Project_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue, bool) {
@@ -703,7 +701,7 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemVal
 func (fpaivs *Project_FieldSubPathArrayItemValue) ContainsValue(source *Project) bool {
 	switch fpaivs.Selector() {
 	case Project_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
 	default:
@@ -755,7 +753,7 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 			values = append(values, v)
 		}
 	case Project_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Project_FieldPathSelectorMultiRegionPolicy:
@@ -773,8 +771,8 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsTitleArrayOfValues() ([]s
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*multi_region_policy.MultiRegionPolicy, bool) {
@@ -792,8 +790,8 @@ var _ Project_FieldPathArrayOfValues = (*Project_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Project_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Project_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Project_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Project_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {

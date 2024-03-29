@@ -18,10 +18,7 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 //
 // Returns resource changes for specified time range, region, scope and filter.
 // Note that resource change logs are Resource oriented - primary object is
-// resource here. Audit monitors resources that have non-custom store. Resource
-// change logs are stored only in region which executed those changes and never
-// duplicated. Because of that its important to pay attention to region IDs in a
-// request object.
+// resource here. Audit monitors resources that have non-custom store.
 //
 // Note that filter field is mandatory and minimal filters are:
 // * --filter 'service.name=[SERVICE_NAME] and resource.type=[RESOURCE_NAME]'
@@ -53,16 +50,14 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // scope):
 // * Checks activities within one hour for role binding resources
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/demo'
 //   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z",
 //   "endTime":"2020-09-08T13:00:00Z"}' -o json
 //
 // * Checks modification of specific RoleBinding
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/demo'
 //   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
 //   resource.name="projects/x/roleBindings/myRB"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
@@ -71,22 +66,15 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // email)
 //
 // $ cuttle audit query resource-change-log --parents 'project/demo'
-// --region_ids us-west
 //   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
 //   authentication.principal="user:we.know.who@domain.com"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 message ListResourceChangeLogsRequest {
-  // Parent reference of ntt.audit.v1alpha2.ResourceChangeLog
+  // Parent names of ntt.audit.v1alpha2.ResourceChangeLog
   repeated string parents = 1;
 
   // A audit filter that specifies which resource change logs should be returned
   string filter = 2;
-
-  // Regions from which records are queried. If empty, then global view is
-  // queried. Its possible also to specify global view (by not providing
-  // request_ids) BUT still provide negative filter condition (NOT IN, !=). In
-  // those cases some regions will be skipped.
-  repeated string region_ids = 3;
 
   // The time interval for which results should be returned. Only logs
   // that contain data points in the specified interval are included

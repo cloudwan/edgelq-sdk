@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &plan_assignment.PlanAssignment{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetPlanAssignmentDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*plan_assignment.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetPlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetPlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetPlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetPlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetPlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetPlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*plan_assignment.PlanAssignment)
+}
+
+func (h *GetPlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*plan_assignment.PlanAssignment) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceNames(
 		return plan_assignment.PlanAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(plan_assignment.PlanAssignmentNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return plan_assignment.PlanAssignmentNameList(names)
 		}
 	}
 	return (plan_assignment.PlanAssignmentNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetPlanAssignmentsDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetPlanAssignmentsRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetPlanAssignmentsRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetPlanAssignmentsDescriptorServerMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetPlanAssignmentsResponse) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetPlanAssignmentsResponse) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPlanAssignments(); len(resources) > 0 {
+			return plan_assignment.PlanAssignmentList(resources)
+		}
+	}
+	return (plan_assignment.PlanAssignmentList)(nil)
 }
 
 func GetBatchGetPlanAssignmentsDescriptor() *BatchGetPlanAssignmentsDescriptor {
@@ -523,6 +612,30 @@ func (h *ListPlanAssignmentsDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return (*plan_assignment.ParentName)(nil)
 }
 
+func (h *ListPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListPlanAssignmentsRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListPlanAssignmentsRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPlanAssignmentsResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListPlanAssignmentsDescriptorServerMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListPlanAssignmentsResponse) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListPlanAssignmentsResponse) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPlanAssignments(); len(resources) > 0 {
+			return plan_assignment.PlanAssignmentList(resources)
+		}
+	}
+	return (plan_assignment.PlanAssignmentList)(nil)
 }
 
 func GetListPlanAssignmentsDescriptor() *ListPlanAssignmentsDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchPlanAssignmentDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*plan_assignment.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchPlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchPlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPlanAssignmentResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPlanAssignmentResponse) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *plan_assignment.PlanAssignmentChange_Added_:
+				return tResChange.Added.GetPlanAssignment()
+			case *plan_assignment.PlanAssignmentChange_Modified_:
+				return tResChange.Modified.GetPlanAssignment()
+			case *plan_assignment.PlanAssignmentChange_Current_:
+				return tResChange.Current.GetPlanAssignment()
+			}
+		}
+	}
+	return (*plan_assignment.PlanAssignment)(nil)
+}
+
+func (h *WatchPlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPlanAssignmentResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPlanAssignmentResponse) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchPlanAssignmentsDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*plan_assignment.ParentName)(nil)
+}
+
+func (h *WatchPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPlanAssignmentsRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPlanAssignmentsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPlanAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPlanAssignmentsRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchPlanAssignmentsDescriptorServerMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPlanAssignmentsResponse) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPlanAssignmentsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPlanAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPlanAssignmentsResponse) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetPlanAssignmentChanges(); len(resChanges) > 0 {
+			list := make(plan_assignment.PlanAssignmentList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *plan_assignment.PlanAssignmentChange_Added_:
+					list = append(list, tResChange.Added.GetPlanAssignment())
+				case *plan_assignment.PlanAssignmentChange_Modified_:
+					list = append(list, tResChange.Modified.GetPlanAssignment())
+				case *plan_assignment.PlanAssignmentChange_Current_:
+					list = append(list, tResChange.Current.GetPlanAssignment())
+				}
+			}
+			return list
+		}
+	}
+	return (plan_assignment.PlanAssignmentList)(nil)
 }
 
 func GetWatchPlanAssignmentsDescriptor() *WatchPlanAssignmentsDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreatePlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*plan_assignment.ParentName)(nil)
+}
+
+func (h *CreatePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreatePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreatePlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetPlanAssignment()
+	}
+	return (*plan_assignment.PlanAssignment)(nil)
+}
+
+func (h *CreatePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreatePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreatePlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreatePlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*plan_assignment.PlanAssignment)
+}
+
+func (h *CreatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*plan_assignment.PlanAssignment) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdatePlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdatePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdatePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdatePlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetPlanAssignment()
+	}
+	return (*plan_assignment.PlanAssignment)(nil)
+}
+
+func (h *UpdatePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdatePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdatePlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*plan_assignment.PlanAssignment)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdatePlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*plan_assignment.PlanAssignment)
+}
+
+func (h *UpdatePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*plan_assignment.PlanAssignment) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdatePlanAssignmentDescriptor() *UpdatePlanAssignmentDescriptor {
 	return updatePlanAssignmentDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeletePlanAssignmentDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeletePlanAssignmentDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeletePlanAssignmentDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeletePlanAssignmentDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*plan_assignment.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeletePlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
-func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeletePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeletePlanAssignmentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *plan_assignment.Name
+		OverrideExtractResourceBody(*DeletePlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeletePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeletePlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *plan_assignment.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg 
 }
 
 func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*plan_assignment.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*plan_assignment.Name
 	})
 	if ok {
 		return plan_assignment.PlanAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceNames(msg
 }
 
 func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *plan_assignment.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *plan_assignment.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1584,6 +1984,33 @@ func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(m
 	return nil
 }
 
+func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*MigratePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*MigratePlanAssignmentRequest) *plan_assignment.PlanAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetPlanAssignment()
+	}
+	return (*plan_assignment.PlanAssignment)(nil)
+}
+
+func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*MigratePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*MigratePlanAssignmentRequest) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*plan_assignment.PlanAssignment)
 	var asInterface interface{} = h
@@ -1621,6 +2048,22 @@ func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*plan_assignment.PlanAssignment)
+}
+
+func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*plan_assignment.PlanAssignment) []*plan_assignment.PlanAssignment
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

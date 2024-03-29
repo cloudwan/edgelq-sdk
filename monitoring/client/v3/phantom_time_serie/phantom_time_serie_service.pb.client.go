@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &phantom_time_serie.PhantomTimeSerie{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type PhantomTimeSerieServiceClient interface {
 	WatchPhantomTimeSeries(ctx context.Context, in *WatchPhantomTimeSeriesRequest, opts ...grpc.CallOption) (WatchPhantomTimeSeriesClientStream, error)
 	CreatePhantomTimeSerie(ctx context.Context, in *CreatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error)
 	UpdatePhantomTimeSerie(ctx context.Context, in *UpdatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error)
-	DeletePhantomTimeSerie(ctx context.Context, in *DeletePhantomTimeSerieRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePhantomTimeSerie(ctx context.Context, in *DeletePhantomTimeSerieRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdatePhantomTimeSerie(ctx context.Context, in *UpdatePhantomTi
 	return out, nil
 }
 
-func (c *client) DeletePhantomTimeSerie(ctx context.Context, in *DeletePhantomTimeSerieRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeletePhantomTimeSerie(ctx context.Context, in *DeletePhantomTimeSerieRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.PhantomTimeSerieService/DeletePhantomTimeSerie", in, out, opts...)
 	if err != nil {
 		return nil, err

@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -26,7 +23,7 @@ import (
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
 	log "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log"
 )
 
@@ -40,8 +37,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -50,7 +45,7 @@ var (
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &log.Log{}
 )
 

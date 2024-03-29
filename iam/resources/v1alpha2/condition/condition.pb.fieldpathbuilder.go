@@ -6,26 +6,26 @@ package condition
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ConditionFieldPathBuilder struct{}
@@ -189,27 +189,27 @@ func (ConditionPathSelectorMetadata) FieldPath() *Condition_FieldTerminalPath {
 	return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorMetadata}
 }
 
-func (s ConditionPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *Condition_FieldTerminalPathValue {
+func (s ConditionPathSelectorMetadata) WithValue(value *meta.Meta) *Condition_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldTerminalPathValue)
 }
 
-func (s ConditionPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Condition_FieldTerminalPathArrayOfValues {
+func (s ConditionPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *Condition_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldTerminalPathArrayOfValues)
 }
 
-func (ConditionPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *Condition_FieldSubPath {
+func (ConditionPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s ConditionPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *Condition_FieldSubPathValue {
 	return &Condition_FieldSubPathValue{Condition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ConditionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *Condition_FieldSubPathArrayOfValues {
 	return &Condition_FieldSubPathArrayOfValues{Condition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ConditionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *Condition_FieldSubPathArrayItemValue {
+func (s ConditionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *Condition_FieldSubPathArrayItemValue {
 	return &Condition_FieldSubPathArrayItemValue{Condition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -265,20 +265,24 @@ func (ConditionPathSelectorMetadata) Lifecycle() ConditionPathSelectorMetadataLi
 	return ConditionPathSelectorMetadataLifecycle{}
 }
 
+func (ConditionPathSelectorMetadata) Services() ConditionPathSelectorMetadataServices {
+	return ConditionPathSelectorMetadataServices{}
+}
+
 type ConditionPathSelectorMetadataCreateTime struct{}
 
 func (ConditionPathSelectorMetadataCreateTime) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -287,15 +291,15 @@ type ConditionPathSelectorMetadataUpdateTime struct{}
 func (ConditionPathSelectorMetadataUpdateTime) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -304,15 +308,15 @@ type ConditionPathSelectorMetadataDeleteTime struct{}
 func (ConditionPathSelectorMetadataDeleteTime) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -321,7 +325,7 @@ type ConditionPathSelectorMetadataUuid struct{}
 func (ConditionPathSelectorMetadataUuid) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -338,7 +342,7 @@ type ConditionPathSelectorMetadataTags struct{}
 func (ConditionPathSelectorMetadataTags) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -359,7 +363,7 @@ type ConditionPathSelectorMetadataLabels struct{}
 func (ConditionPathSelectorMetadataLabels) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -382,7 +386,7 @@ type ConditionMapPathSelectorMetadataLabels struct {
 func (s ConditionMapPathSelectorMetadataLabels) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -399,7 +403,7 @@ type ConditionPathSelectorMetadataAnnotations struct{}
 func (ConditionPathSelectorMetadataAnnotations) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -422,7 +426,7 @@ type ConditionMapPathSelectorMetadataAnnotations struct {
 func (s ConditionMapPathSelectorMetadataAnnotations) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -439,7 +443,7 @@ type ConditionPathSelectorMetadataGeneration struct{}
 func (ConditionPathSelectorMetadataGeneration) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -456,7 +460,7 @@ type ConditionPathSelectorMetadataResourceVersion struct{}
 func (ConditionPathSelectorMetadataResourceVersion) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -473,19 +477,19 @@ type ConditionPathSelectorMetadataOwnerReferences struct{}
 func (ConditionPathSelectorMetadataOwnerReferences) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
-func (s ConditionPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Condition_FieldSubPathArrayItemValue {
+func (s ConditionPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Condition_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Condition_FieldSubPathArrayItemValue)
 }
 
@@ -509,10 +513,6 @@ func (ConditionPathSelectorMetadataOwnerReferences) Controller() ConditionPathSe
 	return ConditionPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (ConditionPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (ConditionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -522,7 +522,7 @@ type ConditionPathSelectorMetadataOwnerReferencesKind struct{}
 func (ConditionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -539,7 +539,7 @@ type ConditionPathSelectorMetadataOwnerReferencesVersion struct{}
 func (ConditionPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -556,7 +556,7 @@ type ConditionPathSelectorMetadataOwnerReferencesName struct{}
 func (ConditionPathSelectorMetadataOwnerReferencesName) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -573,7 +573,7 @@ type ConditionPathSelectorMetadataOwnerReferencesRegion struct{}
 func (ConditionPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -590,7 +590,7 @@ type ConditionPathSelectorMetadataOwnerReferencesController struct{}
 func (ConditionPathSelectorMetadataOwnerReferencesController) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -602,29 +602,12 @@ func (s ConditionPathSelectorMetadataOwnerReferencesController) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
-type ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Condition_FieldSubPath {
-	return &Condition_FieldSubPath{
-		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Condition_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
-}
-
-func (s ConditionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Condition_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
-}
-
 type ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -641,7 +624,7 @@ type ConditionPathSelectorMetadataShards struct{}
 func (ConditionPathSelectorMetadataShards) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -664,7 +647,7 @@ type ConditionMapPathSelectorMetadataShards struct {
 func (s ConditionMapPathSelectorMetadataShards) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -681,15 +664,15 @@ type ConditionPathSelectorMetadataSyncing struct{}
 func (ConditionPathSelectorMetadataSyncing) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -706,7 +689,7 @@ type ConditionPathSelectorMetadataSyncingOwningRegion struct{}
 func (ConditionPathSelectorMetadataSyncingOwningRegion) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -723,7 +706,7 @@ type ConditionPathSelectorMetadataSyncingRegions struct{}
 func (ConditionPathSelectorMetadataSyncingRegions) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -744,15 +727,15 @@ type ConditionPathSelectorMetadataLifecycle struct{}
 func (ConditionPathSelectorMetadataLifecycle) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -769,15 +752,15 @@ type ConditionPathSelectorMetadataLifecycleState struct{}
 func (ConditionPathSelectorMetadataLifecycleState) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s ConditionPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Condition_FieldSubPathValue {
+func (s ConditionPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Condition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
 }
 
-func (s ConditionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Condition_FieldSubPathArrayOfValues {
+func (s ConditionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 
@@ -786,7 +769,7 @@ type ConditionPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (ConditionPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Condition_FieldSubPath {
 	return &Condition_FieldSubPath{
 		selector: Condition_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -796,6 +779,69 @@ func (s ConditionPathSelectorMetadataLifecycleBlockDeletion) WithValue(value boo
 
 func (s ConditionPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+type ConditionPathSelectorMetadataServices struct{}
+
+func (ConditionPathSelectorMetadataServices) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+func (ConditionPathSelectorMetadataServices) OwningService() ConditionPathSelectorMetadataServicesOwningService {
+	return ConditionPathSelectorMetadataServicesOwningService{}
+}
+
+func (ConditionPathSelectorMetadataServices) AllowedServices() ConditionPathSelectorMetadataServicesAllowedServices {
+	return ConditionPathSelectorMetadataServicesAllowedServices{}
+}
+
+type ConditionPathSelectorMetadataServicesOwningService struct{}
+
+func (ConditionPathSelectorMetadataServicesOwningService) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorMetadataServicesOwningService) WithValue(value string) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+type ConditionPathSelectorMetadataServicesAllowedServices struct{}
+
+func (ConditionPathSelectorMetadataServicesAllowedServices) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+func (s ConditionPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Condition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Condition_FieldSubPathArrayItemValue)
 }
 
 type ConditionParameterDeclarationFieldPathBuilder struct{}

@@ -13,17 +13,17 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -36,17 +36,17 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type PhantomTimeSerie_FieldMask struct {
@@ -139,16 +139,16 @@ func (fieldMask *PhantomTimeSerie_FieldMask) Subtract(other *PhantomTimeSerie_Fi
 	result := &PhantomTimeSerie_FieldMask{}
 	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[PhantomTimeSerie_FieldPathSelector]gotenobject.FieldMask{
-		PhantomTimeSerie_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorMetric:   &monitoring_common.Metric_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorResource: &monitoring_common.MonitoredResource_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorValue:    &monitoring_common.TypedValue_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorMetric:   &common.Metric_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorResource: &common.MonitoredResource_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorValue:    &common.TypedValue_FieldMask{},
 	}
 	mySubMasks := map[PhantomTimeSerie_FieldPathSelector]gotenobject.FieldMask{
-		PhantomTimeSerie_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorMetric:   &monitoring_common.Metric_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorResource: &monitoring_common.MonitoredResource_FieldMask{},
-		PhantomTimeSerie_FieldPathSelectorValue:    &monitoring_common.TypedValue_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorMetric:   &common.Metric_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorResource: &common.MonitoredResource_FieldMask{},
+		PhantomTimeSerie_FieldPathSelectorValue:    &common.TypedValue_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -165,13 +165,13 @@ func (fieldMask *PhantomTimeSerie_FieldMask) Subtract(other *PhantomTimeSerie_Fi
 				if tp, ok := path.(*PhantomTimeSerie_FieldTerminalPath); ok {
 					switch tp.selector {
 					case PhantomTimeSerie_FieldPathSelectorMetadata:
-						mySubMasks[PhantomTimeSerie_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[PhantomTimeSerie_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case PhantomTimeSerie_FieldPathSelectorMetric:
-						mySubMasks[PhantomTimeSerie_FieldPathSelectorMetric] = monitoring_common.FullMetric_FieldMask()
+						mySubMasks[PhantomTimeSerie_FieldPathSelectorMetric] = common.FullMetric_FieldMask()
 					case PhantomTimeSerie_FieldPathSelectorResource:
-						mySubMasks[PhantomTimeSerie_FieldPathSelectorResource] = monitoring_common.FullMonitoredResource_FieldMask()
+						mySubMasks[PhantomTimeSerie_FieldPathSelectorResource] = common.FullMonitoredResource_FieldMask()
 					case PhantomTimeSerie_FieldPathSelectorValue:
-						mySubMasks[PhantomTimeSerie_FieldPathSelectorValue] = monitoring_common.FullTypedValue_FieldMask()
+						mySubMasks[PhantomTimeSerie_FieldPathSelectorValue] = common.FullTypedValue_FieldMask()
 					}
 				} else if tp, ok := path.(*PhantomTimeSerie_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -210,12 +210,12 @@ func (fieldMask *PhantomTimeSerie_FieldMask) FilterInputFields() *PhantomTimeSer
 		case PhantomTimeSerie_FieldPathSelectorValueType:
 		case PhantomTimeSerie_FieldPathSelectorMetadata:
 			if _, ok := path.(*PhantomTimeSerie_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PhantomTimeSerie_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*PhantomTimeSerie_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PhantomTimeSerie_FieldSubPath{selector: PhantomTimeSerie_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -229,15 +229,15 @@ func (fieldMask *PhantomTimeSerie_FieldMask) FilterInputFields() *PhantomTimeSer
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PhantomTimeSerie_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PhantomTimeSerie_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PhantomTimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PhantomTimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -259,7 +259,7 @@ func (fieldMask PhantomTimeSerie_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *PhantomTimeSerie_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -278,7 +278,7 @@ func (fieldMask PhantomTimeSerie_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *PhantomTimeSerie_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -346,13 +346,13 @@ func (fieldMask *PhantomTimeSerie_FieldMask) Project(source *PhantomTimeSerie) *
 		return source
 	}
 	result := &PhantomTimeSerie{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	metricMask := &monitoring_common.Metric_FieldMask{}
+	metricMask := &common.Metric_FieldMask{}
 	wholeMetricAccepted := false
-	resourceMask := &monitoring_common.MonitoredResource_FieldMask{}
+	resourceMask := &common.MonitoredResource_FieldMask{}
 	wholeResourceAccepted := false
-	valueMask := &monitoring_common.TypedValue_FieldMask{}
+	valueMask := &common.TypedValue_FieldMask{}
 	wholeValueAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -385,13 +385,13 @@ func (fieldMask *PhantomTimeSerie_FieldMask) Project(source *PhantomTimeSerie) *
 		case *PhantomTimeSerie_FieldSubPath:
 			switch tp.selector {
 			case PhantomTimeSerie_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case PhantomTimeSerie_FieldPathSelectorMetric:
-				metricMask.AppendPath(tp.subPath.(monitoring_common.Metric_FieldPath))
+				metricMask.AppendPath(tp.subPath.(common.Metric_FieldPath))
 			case PhantomTimeSerie_FieldPathSelectorResource:
-				resourceMask.AppendPath(tp.subPath.(monitoring_common.MonitoredResource_FieldPath))
+				resourceMask.AppendPath(tp.subPath.(common.MonitoredResource_FieldPath))
 			case PhantomTimeSerie_FieldPathSelectorValue:
-				valueMask.AppendPath(tp.subPath.(monitoring_common.TypedValue_FieldPath))
+				valueMask.AppendPath(tp.subPath.(common.TypedValue_FieldPath))
 			}
 		}
 	}

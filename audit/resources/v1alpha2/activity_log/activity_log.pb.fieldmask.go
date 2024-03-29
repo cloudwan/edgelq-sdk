@@ -13,20 +13,20 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -39,20 +39,20 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 )
 
 type ActivityLog_FieldMask struct {
@@ -69,6 +69,7 @@ func FullActivityLog_FieldMask() *ActivityLog_FieldMask {
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorService})
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorMethod})
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestMetadata})
+	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestRouting})
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorResource})
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorCategory})
 	res.Paths = append(res.Paths, &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorLabels})
@@ -116,7 +117,7 @@ func (fieldMask *ActivityLog_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ActivityLog_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -146,22 +147,24 @@ func (fieldMask *ActivityLog_FieldMask) Reset() {
 
 func (fieldMask *ActivityLog_FieldMask) Subtract(other *ActivityLog_FieldMask) *ActivityLog_FieldMask {
 	result := &ActivityLog_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[ActivityLog_FieldPathSelector]gotenobject.FieldMask{
-		ActivityLog_FieldPathSelectorAuthentication:  &audit_common.Authentication_FieldMask{},
-		ActivityLog_FieldPathSelectorAuthorization:   &audit_common.Authorization_FieldMask{},
-		ActivityLog_FieldPathSelectorService:         &audit_common.ServiceData_FieldMask{},
+		ActivityLog_FieldPathSelectorAuthentication:  &common.Authentication_FieldMask{},
+		ActivityLog_FieldPathSelectorAuthorization:   &common.Authorization_FieldMask{},
+		ActivityLog_FieldPathSelectorService:         &common.ServiceData_FieldMask{},
 		ActivityLog_FieldPathSelectorMethod:          &ActivityLog_Method_FieldMask{},
 		ActivityLog_FieldPathSelectorRequestMetadata: &ActivityLog_RequestMetadata_FieldMask{},
+		ActivityLog_FieldPathSelectorRequestRouting:  &ActivityLog_RequestRouting_FieldMask{},
 		ActivityLog_FieldPathSelectorResource:        &ActivityLog_Resource_FieldMask{},
 		ActivityLog_FieldPathSelectorEvents:          &ActivityLog_Event_FieldMask{},
 	}
 	mySubMasks := map[ActivityLog_FieldPathSelector]gotenobject.FieldMask{
-		ActivityLog_FieldPathSelectorAuthentication:  &audit_common.Authentication_FieldMask{},
-		ActivityLog_FieldPathSelectorAuthorization:   &audit_common.Authorization_FieldMask{},
-		ActivityLog_FieldPathSelectorService:         &audit_common.ServiceData_FieldMask{},
+		ActivityLog_FieldPathSelectorAuthentication:  &common.Authentication_FieldMask{},
+		ActivityLog_FieldPathSelectorAuthorization:   &common.Authorization_FieldMask{},
+		ActivityLog_FieldPathSelectorService:         &common.ServiceData_FieldMask{},
 		ActivityLog_FieldPathSelectorMethod:          &ActivityLog_Method_FieldMask{},
 		ActivityLog_FieldPathSelectorRequestMetadata: &ActivityLog_RequestMetadata_FieldMask{},
+		ActivityLog_FieldPathSelectorRequestRouting:  &ActivityLog_RequestRouting_FieldMask{},
 		ActivityLog_FieldPathSelectorResource:        &ActivityLog_Resource_FieldMask{},
 		ActivityLog_FieldPathSelectorEvents:          &ActivityLog_Event_FieldMask{},
 	}
@@ -180,15 +183,17 @@ func (fieldMask *ActivityLog_FieldMask) Subtract(other *ActivityLog_FieldMask) *
 				if tp, ok := path.(*ActivityLog_FieldTerminalPath); ok {
 					switch tp.selector {
 					case ActivityLog_FieldPathSelectorAuthentication:
-						mySubMasks[ActivityLog_FieldPathSelectorAuthentication] = audit_common.FullAuthentication_FieldMask()
+						mySubMasks[ActivityLog_FieldPathSelectorAuthentication] = common.FullAuthentication_FieldMask()
 					case ActivityLog_FieldPathSelectorAuthorization:
-						mySubMasks[ActivityLog_FieldPathSelectorAuthorization] = audit_common.FullAuthorization_FieldMask()
+						mySubMasks[ActivityLog_FieldPathSelectorAuthorization] = common.FullAuthorization_FieldMask()
 					case ActivityLog_FieldPathSelectorService:
-						mySubMasks[ActivityLog_FieldPathSelectorService] = audit_common.FullServiceData_FieldMask()
+						mySubMasks[ActivityLog_FieldPathSelectorService] = common.FullServiceData_FieldMask()
 					case ActivityLog_FieldPathSelectorMethod:
 						mySubMasks[ActivityLog_FieldPathSelectorMethod] = FullActivityLog_Method_FieldMask()
 					case ActivityLog_FieldPathSelectorRequestMetadata:
 						mySubMasks[ActivityLog_FieldPathSelectorRequestMetadata] = FullActivityLog_RequestMetadata_FieldMask()
+					case ActivityLog_FieldPathSelectorRequestRouting:
+						mySubMasks[ActivityLog_FieldPathSelectorRequestRouting] = FullActivityLog_RequestRouting_FieldMask()
 					case ActivityLog_FieldPathSelectorResource:
 						mySubMasks[ActivityLog_FieldPathSelectorResource] = FullActivityLog_Resource_FieldMask()
 					case ActivityLog_FieldPathSelectorEvents:
@@ -228,15 +233,15 @@ func (fieldMask *ActivityLog_FieldMask) FilterInputFields() *ActivityLog_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -258,7 +263,7 @@ func (fieldMask ActivityLog_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -277,7 +282,7 @@ func (fieldMask ActivityLog_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -345,16 +350,18 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 		return source
 	}
 	result := &ActivityLog{}
-	authenticationMask := &audit_common.Authentication_FieldMask{}
+	authenticationMask := &common.Authentication_FieldMask{}
 	wholeAuthenticationAccepted := false
-	authorizationMask := &audit_common.Authorization_FieldMask{}
+	authorizationMask := &common.Authorization_FieldMask{}
 	wholeAuthorizationAccepted := false
-	serviceMask := &audit_common.ServiceData_FieldMask{}
+	serviceMask := &common.ServiceData_FieldMask{}
 	wholeServiceAccepted := false
 	methodMask := &ActivityLog_Method_FieldMask{}
 	wholeMethodAccepted := false
 	requestMetadataMask := &ActivityLog_RequestMetadata_FieldMask{}
 	wholeRequestMetadataAccepted := false
+	requestRoutingMask := &ActivityLog_RequestRouting_FieldMask{}
+	wholeRequestRoutingAccepted := false
 	resourceMask := &ActivityLog_Resource_FieldMask{}
 	wholeResourceAccepted := false
 	eventsMask := &ActivityLog_Event_FieldMask{}
@@ -387,6 +394,9 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 			case ActivityLog_FieldPathSelectorRequestMetadata:
 				result.RequestMetadata = source.RequestMetadata
 				wholeRequestMetadataAccepted = true
+			case ActivityLog_FieldPathSelectorRequestRouting:
+				result.RequestRouting = source.RequestRouting
+				wholeRequestRoutingAccepted = true
 			case ActivityLog_FieldPathSelectorResource:
 				result.Resource = source.Resource
 				wholeResourceAccepted = true
@@ -402,15 +412,17 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 		case *ActivityLog_FieldSubPath:
 			switch tp.selector {
 			case ActivityLog_FieldPathSelectorAuthentication:
-				authenticationMask.AppendPath(tp.subPath.(audit_common.Authentication_FieldPath))
+				authenticationMask.AppendPath(tp.subPath.(common.Authentication_FieldPath))
 			case ActivityLog_FieldPathSelectorAuthorization:
-				authorizationMask.AppendPath(tp.subPath.(audit_common.Authorization_FieldPath))
+				authorizationMask.AppendPath(tp.subPath.(common.Authorization_FieldPath))
 			case ActivityLog_FieldPathSelectorService:
-				serviceMask.AppendPath(tp.subPath.(audit_common.ServiceData_FieldPath))
+				serviceMask.AppendPath(tp.subPath.(common.ServiceData_FieldPath))
 			case ActivityLog_FieldPathSelectorMethod:
 				methodMask.AppendPath(tp.subPath.(ActivityLogMethod_FieldPath))
 			case ActivityLog_FieldPathSelectorRequestMetadata:
 				requestMetadataMask.AppendPath(tp.subPath.(ActivityLogRequestMetadata_FieldPath))
+			case ActivityLog_FieldPathSelectorRequestRouting:
+				requestRoutingMask.AppendPath(tp.subPath.(ActivityLogRequestRouting_FieldPath))
 			case ActivityLog_FieldPathSelectorResource:
 				resourceMask.AppendPath(tp.subPath.(ActivityLogResource_FieldPath))
 			case ActivityLog_FieldPathSelectorEvents:
@@ -437,6 +449,9 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 	}
 	if wholeRequestMetadataAccepted == false && len(requestMetadataMask.Paths) > 0 {
 		result.RequestMetadata = requestMetadataMask.Project(source.GetRequestMetadata())
+	}
+	if wholeRequestRoutingAccepted == false && len(requestRoutingMask.Paths) > 0 {
+		result.RequestRouting = requestRoutingMask.Project(source.GetRequestRouting())
 	}
 	if wholeResourceAccepted == false && len(resourceMask.Paths) > 0 {
 		result.Resource = resourceMask.Project(source.GetResource())
@@ -626,15 +641,15 @@ func (fieldMask *ActivityLog_Event_FieldMask) FilterInputFields() *ActivityLog_E
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -656,7 +671,7 @@ func (fieldMask ActivityLog_Event_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Event_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -675,7 +690,7 @@ func (fieldMask ActivityLog_Event_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Event_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -986,15 +1001,15 @@ func (fieldMask *ActivityLog_Method_FieldMask) FilterInputFields() *ActivityLog_
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Method_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Method_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Method_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Method_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1016,7 +1031,7 @@ func (fieldMask ActivityLog_Method_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Method_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1035,7 +1050,7 @@ func (fieldMask ActivityLog_Method_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Method_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1242,15 +1257,15 @@ func (fieldMask *ActivityLog_RequestMetadata_FieldMask) FilterInputFields() *Act
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_RequestMetadata_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_RequestMetadata_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_RequestMetadata_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_RequestMetadata_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1272,7 +1287,7 @@ func (fieldMask ActivityLog_RequestMetadata_FieldMask) Marshal() ([]byte, error)
 }
 
 func (fieldMask *ActivityLog_RequestMetadata_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1291,7 +1306,7 @@ func (fieldMask ActivityLog_RequestMetadata_FieldMask) MarshalJSON() ([]byte, er
 }
 
 func (fieldMask *ActivityLog_RequestMetadata_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1379,6 +1394,262 @@ func (fieldMask *ActivityLog_RequestMetadata_FieldMask) ProjectRaw(source goteno
 }
 
 func (fieldMask *ActivityLog_RequestMetadata_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ActivityLog_RequestRouting_FieldMask struct {
+	Paths []ActivityLogRequestRouting_FieldPath
+}
+
+func FullActivityLog_RequestRouting_FieldMask() *ActivityLog_RequestRouting_FieldMask {
+	res := &ActivityLog_RequestRouting_FieldMask{}
+	res.Paths = append(res.Paths, &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorViaRegion})
+	res.Paths = append(res.Paths, &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorDestRegions})
+	return res
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseActivityLogRequestRouting_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ActivityLogRequestRouting_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseActivityLogRequestRouting_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Subtract(other *ActivityLog_RequestRouting_FieldMask) *ActivityLog_RequestRouting_FieldMask {
+	result := &ActivityLog_RequestRouting_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ActivityLogRequestRouting_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ActivityLog_RequestRouting_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) FilterInputFields() *ActivityLog_RequestRouting_FieldMask {
+	result := &ActivityLog_RequestRouting_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ActivityLogRequestRouting_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseActivityLogRequestRouting_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ActivityLog_RequestRouting_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ActivityLog_RequestRouting_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) AppendPath(path ActivityLogRequestRouting_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ActivityLogRequestRouting_FieldPath))
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) GetPaths() []ActivityLogRequestRouting_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseActivityLogRequestRouting_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Set(target, source *ActivityLog_RequestRouting) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ActivityLog_RequestRouting), source.(*ActivityLog_RequestRouting))
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) Project(source *ActivityLog_RequestRouting) *ActivityLog_RequestRouting {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ActivityLog_RequestRouting{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ActivityLogRequestRouting_FieldTerminalPath:
+			switch tp.selector {
+			case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+				result.ViaRegion = source.ViaRegion
+			case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+				result.DestRegions = source.DestRegions
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ActivityLog_RequestRouting))
+}
+
+func (fieldMask *ActivityLog_RequestRouting_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -1524,15 +1795,15 @@ func (fieldMask *ActivityLog_Resource_FieldMask) FilterInputFields() *ActivityLo
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Resource_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Resource_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Resource_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Resource_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1554,7 +1825,7 @@ func (fieldMask ActivityLog_Resource_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Resource_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1573,7 +1844,7 @@ func (fieldMask ActivityLog_Resource_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ActivityLog_Resource_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1791,15 +2062,15 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1821,7 +2092,7 @@ func (fieldMask ActivityLog_Event_ClientMsgEvent_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1840,7 +2111,7 @@ func (fieldMask ActivityLog_Event_ClientMsgEvent_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2048,15 +2319,15 @@ func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) FilterInput
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2078,7 +2349,7 @@ func (fieldMask ActivityLog_Event_RegionalServerMsgEvent_FieldMask) Marshal() ([
 }
 
 func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2097,7 +2368,7 @@ func (fieldMask ActivityLog_Event_RegionalServerMsgEvent_FieldMask) MarshalJSON(
 }
 
 func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2201,7 +2472,6 @@ func FullActivityLog_Event_ServerMsgEvent_FieldMask() *ActivityLog_Event_ServerM
 	res := &ActivityLog_Event_ServerMsgEvent_FieldMask{}
 	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorData})
 	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime})
-	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId})
 	return res
 }
 
@@ -2245,7 +2515,7 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ActivityLogEventServerMsgEvent_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2275,7 +2545,7 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Reset() {
 
 func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Subtract(other *ActivityLog_Event_ServerMsgEvent_FieldMask) *ActivityLog_Event_ServerMsgEvent_FieldMask {
 	result := &ActivityLog_Event_ServerMsgEvent_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2307,15 +2577,15 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2337,7 +2607,7 @@ func (fieldMask ActivityLog_Event_ServerMsgEvent_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2356,7 +2626,7 @@ func (fieldMask ActivityLog_Event_ServerMsgEvent_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2433,8 +2703,6 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Project(source *Act
 				result.Data = source.Data
 			case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 				result.Time = source.Time
-			case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-				result.RoutedRegionId = source.RoutedRegionId
 			}
 		}
 	}
@@ -2592,15 +2860,15 @@ func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) FilterInputField
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2622,7 +2890,7 @@ func (fieldMask ActivityLog_Event_RegionalExitEvent_FieldMask) Marshal() ([]byte
 }
 
 func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2641,7 +2909,7 @@ func (fieldMask ActivityLog_Event_RegionalExitEvent_FieldMask) MarshalJSON() ([]
 }
 
 func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2887,15 +3155,15 @@ func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) FilterInputFields() *Act
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2917,7 +3185,7 @@ func (fieldMask ActivityLog_Event_ExitEvent_FieldMask) Marshal() ([]byte, error)
 }
 
 func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2936,7 +3204,7 @@ func (fieldMask ActivityLog_Event_ExitEvent_FieldMask) MarshalJSON() ([]byte, er
 }
 
 func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3155,15 +3423,15 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FilterInputFields() 
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -3185,7 +3453,7 @@ func (fieldMask ActivityLog_Resource_Difference_FieldMask) Marshal() ([]byte, er
 }
 
 func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -3204,7 +3472,7 @@ func (fieldMask ActivityLog_Resource_Difference_FieldMask) MarshalJSON() ([]byte
 }
 
 func (fieldMask *ActivityLog_Resource_Difference_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

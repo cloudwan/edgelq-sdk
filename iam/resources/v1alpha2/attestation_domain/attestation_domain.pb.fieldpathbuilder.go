@@ -6,24 +6,24 @@ package attestation_domain
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type AttestationDomainFieldPathBuilder struct{}
@@ -56,27 +56,27 @@ func (AttestationDomainPathSelectorMetadata) FieldPath() *AttestationDomain_Fiel
 	return &AttestationDomain_FieldTerminalPath{selector: AttestationDomain_FieldPathSelectorMetadata}
 }
 
-func (s AttestationDomainPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *AttestationDomain_FieldTerminalPathValue {
+func (s AttestationDomainPathSelectorMetadata) WithValue(value *meta.Meta) *AttestationDomain_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldTerminalPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *AttestationDomain_FieldTerminalPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *AttestationDomain_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldTerminalPathArrayOfValues)
 }
 
-func (AttestationDomainPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *AttestationDomain_FieldSubPath {
+func (AttestationDomainPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{selector: AttestationDomain_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s AttestationDomainPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *AttestationDomain_FieldSubPathValue {
 	return &AttestationDomain_FieldSubPathValue{AttestationDomain_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s AttestationDomainPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *AttestationDomain_FieldSubPathArrayOfValues {
 	return &AttestationDomain_FieldSubPathArrayOfValues{AttestationDomain_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s AttestationDomainPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *AttestationDomain_FieldSubPathArrayItemValue {
+func (s AttestationDomainPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *AttestationDomain_FieldSubPathArrayItemValue {
 	return &AttestationDomain_FieldSubPathArrayItemValue{AttestationDomain_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -132,20 +132,24 @@ func (AttestationDomainPathSelectorMetadata) Lifecycle() AttestationDomainPathSe
 	return AttestationDomainPathSelectorMetadataLifecycle{}
 }
 
+func (AttestationDomainPathSelectorMetadata) Services() AttestationDomainPathSelectorMetadataServices {
+	return AttestationDomainPathSelectorMetadataServices{}
+}
+
 type AttestationDomainPathSelectorMetadataCreateTime struct{}
 
 func (AttestationDomainPathSelectorMetadataCreateTime) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -154,15 +158,15 @@ type AttestationDomainPathSelectorMetadataUpdateTime struct{}
 func (AttestationDomainPathSelectorMetadataUpdateTime) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -171,15 +175,15 @@ type AttestationDomainPathSelectorMetadataDeleteTime struct{}
 func (AttestationDomainPathSelectorMetadataDeleteTime) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -188,7 +192,7 @@ type AttestationDomainPathSelectorMetadataUuid struct{}
 func (AttestationDomainPathSelectorMetadataUuid) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -205,7 +209,7 @@ type AttestationDomainPathSelectorMetadataTags struct{}
 func (AttestationDomainPathSelectorMetadataTags) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -226,7 +230,7 @@ type AttestationDomainPathSelectorMetadataLabels struct{}
 func (AttestationDomainPathSelectorMetadataLabels) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -249,7 +253,7 @@ type AttestationDomainMapPathSelectorMetadataLabels struct {
 func (s AttestationDomainMapPathSelectorMetadataLabels) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -266,7 +270,7 @@ type AttestationDomainPathSelectorMetadataAnnotations struct{}
 func (AttestationDomainPathSelectorMetadataAnnotations) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -289,7 +293,7 @@ type AttestationDomainMapPathSelectorMetadataAnnotations struct {
 func (s AttestationDomainMapPathSelectorMetadataAnnotations) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -306,7 +310,7 @@ type AttestationDomainPathSelectorMetadataGeneration struct{}
 func (AttestationDomainPathSelectorMetadataGeneration) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -323,7 +327,7 @@ type AttestationDomainPathSelectorMetadataResourceVersion struct{}
 func (AttestationDomainPathSelectorMetadataResourceVersion) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -340,19 +344,19 @@ type AttestationDomainPathSelectorMetadataOwnerReferences struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferences) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
-func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *AttestationDomain_FieldSubPathArrayItemValue {
+func (s AttestationDomainPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *AttestationDomain_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AttestationDomain_FieldSubPathArrayItemValue)
 }
 
@@ -376,10 +380,6 @@ func (AttestationDomainPathSelectorMetadataOwnerReferences) Controller() Attesta
 	return AttestationDomainPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (AttestationDomainPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (AttestationDomainPathSelectorMetadataOwnerReferences) RequiresOwnerReference() AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -389,7 +389,7 @@ type AttestationDomainPathSelectorMetadataOwnerReferencesKind struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferencesKind) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -406,7 +406,7 @@ type AttestationDomainPathSelectorMetadataOwnerReferencesVersion struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferencesVersion) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -423,7 +423,7 @@ type AttestationDomainPathSelectorMetadataOwnerReferencesName struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferencesName) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -440,7 +440,7 @@ type AttestationDomainPathSelectorMetadataOwnerReferencesRegion struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferencesRegion) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -457,7 +457,7 @@ type AttestationDomainPathSelectorMetadataOwnerReferencesController struct{}
 func (AttestationDomainPathSelectorMetadataOwnerReferencesController) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -469,29 +469,12 @@ func (s AttestationDomainPathSelectorMetadataOwnerReferencesController) WithArra
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
-type AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *AttestationDomain_FieldSubPath {
-	return &AttestationDomain_FieldSubPath{
-		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *AttestationDomain_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
-}
-
-func (s AttestationDomainPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *AttestationDomain_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
-}
-
 type AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -508,7 +491,7 @@ type AttestationDomainPathSelectorMetadataShards struct{}
 func (AttestationDomainPathSelectorMetadataShards) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -531,7 +514,7 @@ type AttestationDomainMapPathSelectorMetadataShards struct {
 func (s AttestationDomainMapPathSelectorMetadataShards) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -548,15 +531,15 @@ type AttestationDomainPathSelectorMetadataSyncing struct{}
 func (AttestationDomainPathSelectorMetadataSyncing) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -573,7 +556,7 @@ type AttestationDomainPathSelectorMetadataSyncingOwningRegion struct{}
 func (AttestationDomainPathSelectorMetadataSyncingOwningRegion) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -590,7 +573,7 @@ type AttestationDomainPathSelectorMetadataSyncingRegions struct{}
 func (AttestationDomainPathSelectorMetadataSyncingRegions) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -611,15 +594,15 @@ type AttestationDomainPathSelectorMetadataLifecycle struct{}
 func (AttestationDomainPathSelectorMetadataLifecycle) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -636,15 +619,15 @@ type AttestationDomainPathSelectorMetadataLifecycleState struct{}
 func (AttestationDomainPathSelectorMetadataLifecycleState) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s AttestationDomainPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *AttestationDomain_FieldSubPathValue {
+func (s AttestationDomainPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *AttestationDomain_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
 }
 
-func (s AttestationDomainPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *AttestationDomain_FieldSubPathArrayOfValues {
+func (s AttestationDomainPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 
@@ -653,7 +636,7 @@ type AttestationDomainPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (AttestationDomainPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *AttestationDomain_FieldSubPath {
 	return &AttestationDomain_FieldSubPath{
 		selector: AttestationDomain_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -663,6 +646,69 @@ func (s AttestationDomainPathSelectorMetadataLifecycleBlockDeletion) WithValue(v
 
 func (s AttestationDomainPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
+}
+
+type AttestationDomainPathSelectorMetadataServices struct{}
+
+func (AttestationDomainPathSelectorMetadataServices) FieldPath() *AttestationDomain_FieldSubPath {
+	return &AttestationDomain_FieldSubPath{
+		selector: AttestationDomain_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s AttestationDomainPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *AttestationDomain_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
+}
+
+func (s AttestationDomainPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *AttestationDomain_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
+}
+
+func (AttestationDomainPathSelectorMetadataServices) OwningService() AttestationDomainPathSelectorMetadataServicesOwningService {
+	return AttestationDomainPathSelectorMetadataServicesOwningService{}
+}
+
+func (AttestationDomainPathSelectorMetadataServices) AllowedServices() AttestationDomainPathSelectorMetadataServicesAllowedServices {
+	return AttestationDomainPathSelectorMetadataServicesAllowedServices{}
+}
+
+type AttestationDomainPathSelectorMetadataServicesOwningService struct{}
+
+func (AttestationDomainPathSelectorMetadataServicesOwningService) FieldPath() *AttestationDomain_FieldSubPath {
+	return &AttestationDomain_FieldSubPath{
+		selector: AttestationDomain_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s AttestationDomainPathSelectorMetadataServicesOwningService) WithValue(value string) *AttestationDomain_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
+}
+
+func (s AttestationDomainPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *AttestationDomain_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
+}
+
+type AttestationDomainPathSelectorMetadataServicesAllowedServices struct{}
+
+func (AttestationDomainPathSelectorMetadataServicesAllowedServices) FieldPath() *AttestationDomain_FieldSubPath {
+	return &AttestationDomain_FieldSubPath{
+		selector: AttestationDomain_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s AttestationDomainPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *AttestationDomain_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
+}
+
+func (s AttestationDomainPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *AttestationDomain_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
+}
+
+func (s AttestationDomainPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *AttestationDomain_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AttestationDomain_FieldSubPathArrayItemValue)
 }
 
 type AttestationDomainPathSelectorName struct{}

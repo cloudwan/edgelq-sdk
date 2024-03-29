@@ -6,8 +6,6 @@ package accepted_plan
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -15,13 +13,13 @@ import (
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -29,7 +27,9 @@ var (
 	_ = &plan.Plan{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type AcceptedPlanFieldPathBuilder struct{}
@@ -373,27 +373,27 @@ func (AcceptedPlanPathSelectorMetadata) FieldPath() *AcceptedPlan_FieldTerminalP
 	return &AcceptedPlan_FieldTerminalPath{selector: AcceptedPlan_FieldPathSelectorMetadata}
 }
 
-func (s AcceptedPlanPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *AcceptedPlan_FieldTerminalPathValue {
+func (s AcceptedPlanPathSelectorMetadata) WithValue(value *meta.Meta) *AcceptedPlan_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldTerminalPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *AcceptedPlan_FieldTerminalPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *AcceptedPlan_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldTerminalPathArrayOfValues)
 }
 
-func (AcceptedPlanPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *AcceptedPlan_FieldSubPath {
+func (AcceptedPlanPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{selector: AcceptedPlan_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s AcceptedPlanPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *AcceptedPlan_FieldSubPathValue {
 	return &AcceptedPlan_FieldSubPathValue{AcceptedPlan_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s AcceptedPlanPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return &AcceptedPlan_FieldSubPathArrayOfValues{AcceptedPlan_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s AcceptedPlanPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *AcceptedPlan_FieldSubPathArrayItemValue {
+func (s AcceptedPlanPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *AcceptedPlan_FieldSubPathArrayItemValue {
 	return &AcceptedPlan_FieldSubPathArrayItemValue{AcceptedPlan_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -449,20 +449,24 @@ func (AcceptedPlanPathSelectorMetadata) Lifecycle() AcceptedPlanPathSelectorMeta
 	return AcceptedPlanPathSelectorMetadataLifecycle{}
 }
 
+func (AcceptedPlanPathSelectorMetadata) Services() AcceptedPlanPathSelectorMetadataServices {
+	return AcceptedPlanPathSelectorMetadataServices{}
+}
+
 type AcceptedPlanPathSelectorMetadataCreateTime struct{}
 
 func (AcceptedPlanPathSelectorMetadataCreateTime) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -471,15 +475,15 @@ type AcceptedPlanPathSelectorMetadataUpdateTime struct{}
 func (AcceptedPlanPathSelectorMetadataUpdateTime) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -488,15 +492,15 @@ type AcceptedPlanPathSelectorMetadataDeleteTime struct{}
 func (AcceptedPlanPathSelectorMetadataDeleteTime) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -505,7 +509,7 @@ type AcceptedPlanPathSelectorMetadataUuid struct{}
 func (AcceptedPlanPathSelectorMetadataUuid) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -522,7 +526,7 @@ type AcceptedPlanPathSelectorMetadataTags struct{}
 func (AcceptedPlanPathSelectorMetadataTags) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -543,7 +547,7 @@ type AcceptedPlanPathSelectorMetadataLabels struct{}
 func (AcceptedPlanPathSelectorMetadataLabels) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -566,7 +570,7 @@ type AcceptedPlanMapPathSelectorMetadataLabels struct {
 func (s AcceptedPlanMapPathSelectorMetadataLabels) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -583,7 +587,7 @@ type AcceptedPlanPathSelectorMetadataAnnotations struct{}
 func (AcceptedPlanPathSelectorMetadataAnnotations) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -606,7 +610,7 @@ type AcceptedPlanMapPathSelectorMetadataAnnotations struct {
 func (s AcceptedPlanMapPathSelectorMetadataAnnotations) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -623,7 +627,7 @@ type AcceptedPlanPathSelectorMetadataGeneration struct{}
 func (AcceptedPlanPathSelectorMetadataGeneration) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -640,7 +644,7 @@ type AcceptedPlanPathSelectorMetadataResourceVersion struct{}
 func (AcceptedPlanPathSelectorMetadataResourceVersion) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -657,19 +661,19 @@ type AcceptedPlanPathSelectorMetadataOwnerReferences struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferences) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
-func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *AcceptedPlan_FieldSubPathArrayItemValue {
+func (s AcceptedPlanPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *AcceptedPlan_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AcceptedPlan_FieldSubPathArrayItemValue)
 }
 
@@ -693,10 +697,6 @@ func (AcceptedPlanPathSelectorMetadataOwnerReferences) Controller() AcceptedPlan
 	return AcceptedPlanPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (AcceptedPlanPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (AcceptedPlanPathSelectorMetadataOwnerReferences) RequiresOwnerReference() AcceptedPlanPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return AcceptedPlanPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -706,7 +706,7 @@ type AcceptedPlanPathSelectorMetadataOwnerReferencesKind struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesKind) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -723,7 +723,7 @@ type AcceptedPlanPathSelectorMetadataOwnerReferencesVersion struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesVersion) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -740,7 +740,7 @@ type AcceptedPlanPathSelectorMetadataOwnerReferencesName struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesName) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -757,7 +757,7 @@ type AcceptedPlanPathSelectorMetadataOwnerReferencesRegion struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesRegion) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -774,7 +774,7 @@ type AcceptedPlanPathSelectorMetadataOwnerReferencesController struct{}
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesController) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -786,29 +786,12 @@ func (s AcceptedPlanPathSelectorMetadataOwnerReferencesController) WithArrayOfVa
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
-type AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *AcceptedPlan_FieldSubPath {
-	return &AcceptedPlan_FieldSubPath{
-		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *AcceptedPlan_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
-}
-
-func (s AcceptedPlanPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *AcceptedPlan_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
-}
-
 type AcceptedPlanPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (AcceptedPlanPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -825,7 +808,7 @@ type AcceptedPlanPathSelectorMetadataShards struct{}
 func (AcceptedPlanPathSelectorMetadataShards) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -848,7 +831,7 @@ type AcceptedPlanMapPathSelectorMetadataShards struct {
 func (s AcceptedPlanMapPathSelectorMetadataShards) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -865,15 +848,15 @@ type AcceptedPlanPathSelectorMetadataSyncing struct{}
 func (AcceptedPlanPathSelectorMetadataSyncing) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -890,7 +873,7 @@ type AcceptedPlanPathSelectorMetadataSyncingOwningRegion struct{}
 func (AcceptedPlanPathSelectorMetadataSyncingOwningRegion) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -907,7 +890,7 @@ type AcceptedPlanPathSelectorMetadataSyncingRegions struct{}
 func (AcceptedPlanPathSelectorMetadataSyncingRegions) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -928,15 +911,15 @@ type AcceptedPlanPathSelectorMetadataLifecycle struct{}
 func (AcceptedPlanPathSelectorMetadataLifecycle) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -953,15 +936,15 @@ type AcceptedPlanPathSelectorMetadataLifecycleState struct{}
 func (AcceptedPlanPathSelectorMetadataLifecycleState) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s AcceptedPlanPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *AcceptedPlan_FieldSubPathValue {
+func (s AcceptedPlanPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *AcceptedPlan_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
 }
 
-func (s AcceptedPlanPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *AcceptedPlan_FieldSubPathArrayOfValues {
+func (s AcceptedPlanPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
 }
 
@@ -970,7 +953,7 @@ type AcceptedPlanPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (AcceptedPlanPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *AcceptedPlan_FieldSubPath {
 	return &AcceptedPlan_FieldSubPath{
 		selector: AcceptedPlan_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -980,6 +963,69 @@ func (s AcceptedPlanPathSelectorMetadataLifecycleBlockDeletion) WithValue(value 
 
 func (s AcceptedPlanPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *AcceptedPlan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
+}
+
+type AcceptedPlanPathSelectorMetadataServices struct{}
+
+func (AcceptedPlanPathSelectorMetadataServices) FieldPath() *AcceptedPlan_FieldSubPath {
+	return &AcceptedPlan_FieldSubPath{
+		selector: AcceptedPlan_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s AcceptedPlanPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *AcceptedPlan_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
+}
+
+func (s AcceptedPlanPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *AcceptedPlan_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
+}
+
+func (AcceptedPlanPathSelectorMetadataServices) OwningService() AcceptedPlanPathSelectorMetadataServicesOwningService {
+	return AcceptedPlanPathSelectorMetadataServicesOwningService{}
+}
+
+func (AcceptedPlanPathSelectorMetadataServices) AllowedServices() AcceptedPlanPathSelectorMetadataServicesAllowedServices {
+	return AcceptedPlanPathSelectorMetadataServicesAllowedServices{}
+}
+
+type AcceptedPlanPathSelectorMetadataServicesOwningService struct{}
+
+func (AcceptedPlanPathSelectorMetadataServicesOwningService) FieldPath() *AcceptedPlan_FieldSubPath {
+	return &AcceptedPlan_FieldSubPath{
+		selector: AcceptedPlan_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s AcceptedPlanPathSelectorMetadataServicesOwningService) WithValue(value string) *AcceptedPlan_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
+}
+
+func (s AcceptedPlanPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *AcceptedPlan_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
+}
+
+type AcceptedPlanPathSelectorMetadataServicesAllowedServices struct{}
+
+func (AcceptedPlanPathSelectorMetadataServicesAllowedServices) FieldPath() *AcceptedPlan_FieldSubPath {
+	return &AcceptedPlan_FieldSubPath{
+		selector: AcceptedPlan_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s AcceptedPlanPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *AcceptedPlan_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AcceptedPlan_FieldSubPathValue)
+}
+
+func (s AcceptedPlanPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *AcceptedPlan_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AcceptedPlan_FieldSubPathArrayOfValues)
+}
+
+func (s AcceptedPlanPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *AcceptedPlan_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AcceptedPlan_FieldSubPathArrayItemValue)
 }
 
 type AcceptedPlanAssigneeFieldPathBuilder struct{}

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	config_map "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &config_map.ConfigMap{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ConfigMapServiceClient interface {
 	WatchConfigMaps(ctx context.Context, in *WatchConfigMapsRequest, opts ...grpc.CallOption) (WatchConfigMapsClientStream, error)
 	CreateConfigMap(ctx context.Context, in *CreateConfigMapRequest, opts ...grpc.CallOption) (*config_map.ConfigMap, error)
 	UpdateConfigMap(ctx context.Context, in *UpdateConfigMapRequest, opts ...grpc.CallOption) (*config_map.ConfigMap, error)
-	DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateConfigMap(ctx context.Context, in *UpdateConfigMapRequest
 	return out, nil
 }
 
-func (c *client) DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1alpha2.ConfigMapService/DeleteConfigMap", in, out, opts...)
 	if err != nil {
 		return nil, err

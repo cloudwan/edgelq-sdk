@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	resource_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/resource"
 	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiResourceAccess struct {
@@ -42,8 +44,11 @@ func NewApiResourceAccess(client resource_client.ResourceServiceClient) resource
 }
 
 func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.GetQuery) (*resource.Resource, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &resource_client.GetResourceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetResource(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.Get
 
 func (a *apiResourceAccess) BatchGetResources(ctx context.Context, refs []*resource.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*resource.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &resource_client.BatchGetResourcesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(resource.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiResourceAccess) QueryResources(ctx context.Context, query *resource.
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListResources(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiResourceAccess) QueryResources(ctx context.Context, query *resource.
 }
 
 func (a *apiResourceAccess) WatchResource(ctx context.Context, query *resource.GetQuery, observerCb func(*resource.ResourceChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &resource_client.WatchResourceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchResource(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiResourceAccess) WatchResources(ctx context.Context, query *resource.
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchResources(ctx, request)
 	if initErr != nil {
@@ -181,43 +202,54 @@ func (a *apiResourceAccess) SaveResource(ctx context.Context, res *resource.Reso
 			}
 		}
 	}
-
-	if saveOpts.OnlyUpdate() || previousRes != nil {
-		updateRequest := &resource_client.UpdateResourceRequest{
-			Resource: res,
-		}
-		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
-			updateRequest.UpdateMask = updateMask.(*resource.Resource_FieldMask)
-		}
-		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
-			updateRequest.Cas = &resource_client.UpdateResourceRequest_CAS{
-				ConditionalState: conditionalState.(*resource.Resource),
-				FieldMask:        mask.(*resource.Resource_FieldMask),
-			}
-		}
-		_, err := a.client.UpdateResource(ctx, updateRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	} else {
-		createRequest := &resource_client.CreateResourceRequest{
-			Resource: res,
-		}
-		_, err := a.client.CreateResource(ctx, createRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
+	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
 }
 
 func (a *apiResourceAccess) DeleteResource(ctx context.Context, ref *resource.Reference, opts ...gotenresource.DeleteOption) error {
-	request := &resource_client.DeleteResourceRequest{
-		Name: ref,
+	return fmt.Errorf("Delete operation on Resource is prohibited")
+}
+func getParentAndFilter(fullFilter *resource.Filter) (*resource.Filter, *resource.ParentName) {
+	var withParentExtraction func(cnd resource.FilterCondition) resource.FilterCondition
+	var resultParent *resource.ParentName
+	var resultFilter *resource.Filter
+	withParentExtraction = func(cnd resource.FilterCondition) resource.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *resource.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]resource.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return resource.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *resource.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*resource.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
 	}
-	_, err := a.client.DeleteResource(ctx, request)
-	return err
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &resource.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

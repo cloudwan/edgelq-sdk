@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_condition.AlertingCondition{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -118,7 +116,7 @@ func BuildAlert_FieldPath(fp gotenobject.RawFieldPath) (Alert_FieldPath, error) 
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Alert_FieldSubPath{selector: Alert_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -241,7 +239,7 @@ func (fp *Alert_FieldTerminalPath) GetDefault() interface{} {
 	case Alert_FieldPathSelectorName:
 		return (*Name)(nil)
 	case Alert_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Alert_FieldPathSelectorDisplayName:
 		return ""
 	case Alert_FieldPathSelectorInfo:
@@ -291,7 +289,7 @@ func (fp *Alert_FieldTerminalPath) WithIValue(value interface{}) Alert_FieldPath
 	case Alert_FieldPathSelectorName:
 		return &Alert_FieldTerminalPathValue{Alert_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Alert_FieldPathSelectorMetadata:
-		return &Alert_FieldTerminalPathValue{Alert_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Alert_FieldTerminalPathValue{Alert_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Alert_FieldPathSelectorDisplayName:
 		return &Alert_FieldTerminalPathValue{Alert_FieldTerminalPath: *fp, value: value.(string)}
 	case Alert_FieldPathSelectorInfo:
@@ -313,7 +311,7 @@ func (fp *Alert_FieldTerminalPath) WithIArrayOfValues(values interface{}) Alert_
 	case Alert_FieldPathSelectorName:
 		return &Alert_FieldTerminalPathArrayOfValues{Alert_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Alert_FieldPathSelectorMetadata:
-		return &Alert_FieldTerminalPathArrayOfValues{Alert_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Alert_FieldTerminalPathArrayOfValues{Alert_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Alert_FieldPathSelectorDisplayName:
 		return &Alert_FieldTerminalPathArrayOfValues{Alert_FieldTerminalPath: *fp, values: values.([]string)}
 	case Alert_FieldPathSelectorInfo:
@@ -351,8 +349,8 @@ var _ Alert_FieldPath = (*Alert_FieldSubPath)(nil)
 func (fps *Alert_FieldSubPath) Selector() Alert_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Alert_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Alert_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Alert_FieldSubPath) AsInfoSubPath() (AlertInfo_FieldPath, bool) {
@@ -522,8 +520,8 @@ func (fpv *Alert_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *Alert_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Alert_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Alert_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
@@ -548,7 +546,7 @@ func (fpv *Alert_FieldTerminalPathValue) SetTo(target **Alert) {
 	case Alert_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case Alert_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Alert_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case Alert_FieldPathSelectorInfo:
@@ -619,8 +617,8 @@ type Alert_FieldSubPathValue struct {
 
 var _ Alert_FieldPathValue = (*Alert_FieldSubPathValue)(nil)
 
-func (fpvs *Alert_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Alert_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Alert_FieldSubPathValue) AsInfoPathValue() (AlertInfo_FieldPathValue, bool) {
@@ -638,7 +636,7 @@ func (fpvs *Alert_FieldSubPathValue) SetTo(target **Alert) {
 	}
 	switch fpvs.Selector() {
 	case Alert_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Alert_FieldPathSelectorInfo:
 		fpvs.subPathValue.(AlertInfo_FieldPathValue).SetTo(&(*target).Info)
 	case Alert_FieldPathSelectorState:
@@ -660,7 +658,7 @@ func (fpvs *Alert_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Alert_FieldSubPathValue) CompareWith(source *Alert) (int, bool) {
 	switch fpvs.Selector() {
 	case Alert_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Alert_FieldPathSelectorInfo:
 		return fpvs.subPathValue.(AlertInfo_FieldPathValue).CompareWith(source.GetInfo())
 	case Alert_FieldPathSelectorState:
@@ -747,8 +745,8 @@ type Alert_FieldSubPathArrayItemValue struct {
 func (fpaivs *Alert_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Alert_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Alert_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Alert_FieldSubPathArrayItemValue) AsInfoPathItemValue() (AlertInfo_FieldPathArrayItemValue, bool) {
@@ -764,7 +762,7 @@ func (fpaivs *Alert_FieldSubPathArrayItemValue) AsStatePathItemValue() (AlertSta
 func (fpaivs *Alert_FieldSubPathArrayItemValue) ContainsValue(source *Alert) bool {
 	switch fpaivs.Selector() {
 	case Alert_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Alert_FieldPathSelectorInfo:
 		return fpaivs.subPathItemValue.(AlertInfo_FieldPathArrayItemValue).ContainsValue(source.GetInfo())
 	case Alert_FieldPathSelectorState:
@@ -814,7 +812,7 @@ func (fpaov *Alert_FieldTerminalPathArrayOfValues) GetRawValues() (values []inte
 			values = append(values, v)
 		}
 	case Alert_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Alert_FieldPathSelectorDisplayName:
@@ -836,8 +834,8 @@ func (fpaov *Alert_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Nam
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *Alert_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Alert_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Alert_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -863,8 +861,8 @@ var _ Alert_FieldPathArrayOfValues = (*Alert_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Alert_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Alert_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Alert_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Alert_FieldSubPathArrayOfValues) AsInfoPathArrayOfValues() (AlertInfo_FieldPathArrayOfValues, bool) {
@@ -1602,7 +1600,7 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 	} else {
 		switch fp[0] {
 		case "lifetime":
-			if subpath, err := monitoring_common.BuildTimeRange_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildTimeRange_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorLifetime, subPath: subpath}, nil
@@ -1716,7 +1714,7 @@ func (fp *AlertState_FieldTerminalPath) GetDefault() interface{} {
 	case AlertState_FieldPathSelectorIsSilenced:
 		return false
 	case AlertState_FieldPathSelectorLifetime:
-		return (*monitoring_common.TimeRange)(nil)
+		return (*common.TimeRange)(nil)
 	case AlertState_FieldPathSelectorNeedsNotification:
 		return false
 	case AlertState_FieldPathSelectorNotificationCreated:
@@ -1778,7 +1776,7 @@ func (fp *AlertState_FieldTerminalPath) WithIValue(value interface{}) AlertState
 	case AlertState_FieldPathSelectorIsSilenced:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	case AlertState_FieldPathSelectorLifetime:
-		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*monitoring_common.TimeRange)}
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*common.TimeRange)}
 	case AlertState_FieldPathSelectorNeedsNotification:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	case AlertState_FieldPathSelectorNotificationCreated:
@@ -1804,7 +1802,7 @@ func (fp *AlertState_FieldTerminalPath) WithIArrayOfValues(values interface{}) A
 	case AlertState_FieldPathSelectorIsSilenced:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case AlertState_FieldPathSelectorLifetime:
-		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TimeRange)}
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*common.TimeRange)}
 	case AlertState_FieldPathSelectorNeedsNotification:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case AlertState_FieldPathSelectorNotificationCreated:
@@ -1842,8 +1840,8 @@ var _ AlertState_FieldPath = (*AlertState_FieldSubPath)(nil)
 func (fps *AlertState_FieldSubPath) Selector() AlertState_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertState_FieldSubPath) AsLifetimeSubPath() (monitoring_common.TimeRange_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.TimeRange_FieldPath)
+func (fps *AlertState_FieldSubPath) AsLifetimeSubPath() (common.TimeRange_FieldPath, bool) {
+	res, ok := fps.subPath.(common.TimeRange_FieldPath)
 	return res, ok
 }
 
@@ -1995,8 +1993,8 @@ func (fpv *AlertState_FieldTerminalPathValue) AsIsSilencedValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *AlertState_FieldTerminalPathValue) AsLifetimeValue() (*monitoring_common.TimeRange, bool) {
-	res, ok := fpv.value.(*monitoring_common.TimeRange)
+func (fpv *AlertState_FieldTerminalPathValue) AsLifetimeValue() (*common.TimeRange, bool) {
+	res, ok := fpv.value.(*common.TimeRange)
 	return res, ok
 }
 func (fpv *AlertState_FieldTerminalPathValue) AsNeedsNotificationValue() (bool, bool) {
@@ -2025,7 +2023,7 @@ func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
 	case AlertState_FieldPathSelectorIsSilenced:
 		(*target).IsSilenced = fpv.value.(bool)
 	case AlertState_FieldPathSelectorLifetime:
-		(*target).Lifetime = fpv.value.(*monitoring_common.TimeRange)
+		(*target).Lifetime = fpv.value.(*common.TimeRange)
 	case AlertState_FieldPathSelectorNeedsNotification:
 		(*target).NeedsNotification = fpv.value.(bool)
 	case AlertState_FieldPathSelectorNotificationCreated:
@@ -2123,8 +2121,8 @@ type AlertState_FieldSubPathValue struct {
 
 var _ AlertState_FieldPathValue = (*AlertState_FieldSubPathValue)(nil)
 
-func (fpvs *AlertState_FieldSubPathValue) AsLifetimePathValue() (monitoring_common.TimeRange_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue)
+func (fpvs *AlertState_FieldSubPathValue) AsLifetimePathValue() (common.TimeRange_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.TimeRange_FieldPathValue)
 	return res, ok
 }
 
@@ -2134,7 +2132,7 @@ func (fpvs *AlertState_FieldSubPathValue) SetTo(target **Alert_State) {
 	}
 	switch fpvs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
-		fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).SetTo(&(*target).Lifetime)
+		fpvs.subPathValue.(common.TimeRange_FieldPathValue).SetTo(&(*target).Lifetime)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -2152,7 +2150,7 @@ func (fpvs *AlertState_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AlertState_FieldSubPathValue) CompareWith(source *Alert_State) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
-		return fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).CompareWith(source.GetLifetime())
+		return fpvs.subPathValue.(common.TimeRange_FieldPathValue).CompareWith(source.GetLifetime())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -2235,8 +2233,8 @@ type AlertState_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertState_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsLifetimePathItemValue() (monitoring_common.TimeRange_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue)
+func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsLifetimePathItemValue() (common.TimeRange_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.TimeRange_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -2244,7 +2242,7 @@ func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsLifetimePathItemValue() (
 func (fpaivs *AlertState_FieldSubPathArrayItemValue) ContainsValue(source *Alert_State) bool {
 	switch fpaivs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
-		return fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetLifetime())
+		return fpaivs.subPathItemValue.(common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetLifetime())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpaivs.Selector()))
 	}
@@ -2298,7 +2296,7 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case AlertState_FieldPathSelectorLifetime:
-		for _, v := range fpaov.values.([]*monitoring_common.TimeRange) {
+		for _, v := range fpaov.values.([]*common.TimeRange) {
 			values = append(values, v)
 		}
 	case AlertState_FieldPathSelectorNeedsNotification:
@@ -2328,8 +2326,8 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsIsSilencedArrayOfValue
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
-func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsLifetimeArrayOfValues() ([]*monitoring_common.TimeRange, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.TimeRange)
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsLifetimeArrayOfValues() ([]*common.TimeRange, bool) {
+	res, ok := fpaov.values.([]*common.TimeRange)
 	return res, ok
 }
 func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNeedsNotificationArrayOfValues() ([]bool, bool) {
@@ -2355,8 +2353,8 @@ var _ AlertState_FieldPathArrayOfValues = (*AlertState_FieldSubPathArrayOfValues
 func (fpsaov *AlertState_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsLifetimePathArrayOfValues() (monitoring_common.TimeRange_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TimeRange_FieldPathArrayOfValues)
+func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsLifetimePathArrayOfValues() (common.TimeRange_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.TimeRange_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -2413,13 +2411,13 @@ func BuildAlertInfoTimeSerie_FieldPath(fp gotenobject.RawFieldPath) (AlertInfoTi
 	} else {
 		switch fp[0] {
 		case "metric":
-			if subpath, err := monitoring_common.BuildMetric_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildMetric_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertInfoTimeSerie_FieldSubPath{selector: AlertInfoTimeSerie_FieldPathSelectorMetric, subPath: subpath}, nil
 			}
 		case "monitored_resource", "monitoredResource", "monitored-resource":
-			if subpath, err := monitoring_common.BuildMonitoredResource_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildMonitoredResource_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertInfoTimeSerie_FieldSubPath{selector: AlertInfoTimeSerie_FieldPathSelectorMonitoredResource, subPath: subpath}, nil
@@ -2517,9 +2515,9 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) GetDefault() interface{} {
 	case AlertInfoTimeSerie_FieldPathSelectorKey:
 		return ([]byte)(nil)
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		return (*monitoring_common.Metric)(nil)
+		return (*common.Metric)(nil)
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		return (*monitoring_common.MonitoredResource)(nil)
+		return (*common.MonitoredResource)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2558,9 +2556,9 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIValue(value interface{}) Al
 	case AlertInfoTimeSerie_FieldPathSelectorKey:
 		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.([]byte)}
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*monitoring_common.Metric)}
+		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*common.Metric)}
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*monitoring_common.MonitoredResource)}
+		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*common.MonitoredResource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2576,9 +2574,9 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIArrayOfValues(values interf
 	case AlertInfoTimeSerie_FieldPathSelectorKey:
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([][]byte)}
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*monitoring_common.Metric)}
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.Metric)}
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*monitoring_common.MonitoredResource)}
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.MonitoredResource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2610,12 +2608,12 @@ var _ AlertInfoTimeSerie_FieldPath = (*AlertInfoTimeSerie_FieldSubPath)(nil)
 func (fps *AlertInfoTimeSerie_FieldSubPath) Selector() AlertInfoTimeSerie_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertInfoTimeSerie_FieldSubPath) AsMetricSubPath() (monitoring_common.Metric_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.Metric_FieldPath)
+func (fps *AlertInfoTimeSerie_FieldSubPath) AsMetricSubPath() (common.Metric_FieldPath, bool) {
+	res, ok := fps.subPath.(common.Metric_FieldPath)
 	return res, ok
 }
-func (fps *AlertInfoTimeSerie_FieldSubPath) AsMonitoredResourceSubPath() (monitoring_common.MonitoredResource_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.MonitoredResource_FieldPath)
+func (fps *AlertInfoTimeSerie_FieldSubPath) AsMonitoredResourceSubPath() (common.MonitoredResource_FieldPath, bool) {
+	res, ok := fps.subPath.(common.MonitoredResource_FieldPath)
 	return res, ok
 }
 
@@ -2768,12 +2766,12 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsKeyValue() ([]byte, bool
 	res, ok := fpv.value.([]byte)
 	return res, ok
 }
-func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsMetricValue() (*monitoring_common.Metric, bool) {
-	res, ok := fpv.value.(*monitoring_common.Metric)
+func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsMetricValue() (*common.Metric, bool) {
+	res, ok := fpv.value.(*common.Metric)
 	return res, ok
 }
-func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsMonitoredResourceValue() (*monitoring_common.MonitoredResource, bool) {
-	res, ok := fpv.value.(*monitoring_common.MonitoredResource)
+func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsMonitoredResourceValue() (*common.MonitoredResource, bool) {
+	res, ok := fpv.value.(*common.MonitoredResource)
 	return res, ok
 }
 
@@ -2786,9 +2784,9 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) SetTo(target **Alert_Info_
 	case AlertInfoTimeSerie_FieldPathSelectorKey:
 		(*target).Key = fpv.value.([]byte)
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		(*target).Metric = fpv.value.(*monitoring_common.Metric)
+		(*target).Metric = fpv.value.(*common.Metric)
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		(*target).MonitoredResource = fpv.value.(*monitoring_common.MonitoredResource)
+		(*target).MonitoredResource = fpv.value.(*common.MonitoredResource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpv.selector))
 	}
@@ -2824,12 +2822,12 @@ type AlertInfoTimeSerie_FieldSubPathValue struct {
 
 var _ AlertInfoTimeSerie_FieldPathValue = (*AlertInfoTimeSerie_FieldSubPathValue)(nil)
 
-func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) AsMetricPathValue() (monitoring_common.Metric_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue)
+func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) AsMetricPathValue() (common.Metric_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.Metric_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) AsMonitoredResourcePathValue() (monitoring_common.MonitoredResource_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue)
+func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) AsMonitoredResourcePathValue() (common.MonitoredResource_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.MonitoredResource_FieldPathValue)
 	return res, ok
 }
 
@@ -2839,9 +2837,9 @@ func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) SetTo(target **Alert_Info_Time
 	}
 	switch fpvs.Selector() {
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue).SetTo(&(*target).Metric)
+		fpvs.subPathValue.(common.Metric_FieldPathValue).SetTo(&(*target).Metric)
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue).SetTo(&(*target).MonitoredResource)
+		fpvs.subPathValue.(common.MonitoredResource_FieldPathValue).SetTo(&(*target).MonitoredResource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpvs.Selector()))
 	}
@@ -2859,9 +2857,9 @@ func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AlertInfoTimeSerie_FieldSubPathValue) CompareWith(source *Alert_Info_TimeSerie) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		return fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue).CompareWith(source.GetMetric())
+		return fpvs.subPathValue.(common.Metric_FieldPathValue).CompareWith(source.GetMetric())
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		return fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue).CompareWith(source.GetMonitoredResource())
+		return fpvs.subPathValue.(common.MonitoredResource_FieldPathValue).CompareWith(source.GetMonitoredResource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpvs.Selector()))
 	}
@@ -2944,12 +2942,12 @@ type AlertInfoTimeSerie_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) AsMetricPathItemValue() (monitoring_common.Metric_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.Metric_FieldPathArrayItemValue)
+func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) AsMetricPathItemValue() (common.Metric_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.Metric_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) AsMonitoredResourcePathItemValue() (monitoring_common.MonitoredResource_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.MonitoredResource_FieldPathArrayItemValue)
+func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) AsMonitoredResourcePathItemValue() (common.MonitoredResource_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.MonitoredResource_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -2957,9 +2955,9 @@ func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) AsMonitoredResource
 func (fpaivs *AlertInfoTimeSerie_FieldSubPathArrayItemValue) ContainsValue(source *Alert_Info_TimeSerie) bool {
 	switch fpaivs.Selector() {
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		return fpaivs.subPathItemValue.(monitoring_common.Metric_FieldPathArrayItemValue).ContainsValue(source.GetMetric())
+		return fpaivs.subPathItemValue.(common.Metric_FieldPathArrayItemValue).ContainsValue(source.GetMetric())
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		return fpaivs.subPathItemValue.(monitoring_common.MonitoredResource_FieldPathArrayItemValue).ContainsValue(source.GetMonitoredResource())
+		return fpaivs.subPathItemValue.(common.MonitoredResource_FieldPathArrayItemValue).ContainsValue(source.GetMonitoredResource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpaivs.Selector()))
 	}
@@ -3005,11 +3003,11 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (
 			values = append(values, v)
 		}
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
-		for _, v := range fpaov.values.([]*monitoring_common.Metric) {
+		for _, v := range fpaov.values.([]*common.Metric) {
 			values = append(values, v)
 		}
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
-		for _, v := range fpaov.values.([]*monitoring_common.MonitoredResource) {
+		for _, v := range fpaov.values.([]*common.MonitoredResource) {
 			values = append(values, v)
 		}
 	}
@@ -3019,12 +3017,12 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsKeyArrayOfValu
 	res, ok := fpaov.values.([][]byte)
 	return res, ok
 }
-func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMetricArrayOfValues() ([]*monitoring_common.Metric, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.Metric)
+func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMetricArrayOfValues() ([]*common.Metric, bool) {
+	res, ok := fpaov.values.([]*common.Metric)
 	return res, ok
 }
-func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMonitoredResourceArrayOfValues() ([]*monitoring_common.MonitoredResource, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.MonitoredResource)
+func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMonitoredResourceArrayOfValues() ([]*common.MonitoredResource, bool) {
+	res, ok := fpaov.values.([]*common.MonitoredResource)
 	return res, ok
 }
 
@@ -3038,12 +3036,12 @@ var _ AlertInfoTimeSerie_FieldPathArrayOfValues = (*AlertInfoTimeSerie_FieldSubP
 func (fpsaov *AlertInfoTimeSerie_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertInfoTimeSerie_FieldSubPathArrayOfValues) AsMetricPathArrayOfValues() (monitoring_common.Metric_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.Metric_FieldPathArrayOfValues)
+func (fpsaov *AlertInfoTimeSerie_FieldSubPathArrayOfValues) AsMetricPathArrayOfValues() (common.Metric_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.Metric_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AlertInfoTimeSerie_FieldSubPathArrayOfValues) AsMonitoredResourcePathArrayOfValues() (monitoring_common.MonitoredResource_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.MonitoredResource_FieldPathArrayOfValues)
+func (fpsaov *AlertInfoTimeSerie_FieldSubPathArrayOfValues) AsMonitoredResourcePathArrayOfValues() (common.MonitoredResource_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.MonitoredResource_FieldPathArrayOfValues)
 	return res, ok
 }
 

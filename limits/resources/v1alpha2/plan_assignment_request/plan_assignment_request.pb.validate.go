@@ -15,21 +15,18 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 var (
@@ -42,20 +39,18 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &plan_assignment.PlanAssignment{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 func (obj *PlanAssignmentRequest) GotenValidate() error {
@@ -91,33 +86,33 @@ func (obj *PlanAssignmentRequest_Status) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *PlanAssignmentRequest_Request) GotenValidate() error {
+func (obj *PlanAssignmentRequest_RequestType) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
 	switch opt := obj.Request.(type) {
-	case *PlanAssignmentRequest_Request_Assign_:
+	case *PlanAssignmentRequest_RequestType_Assign_:
 		if subobj, ok := interface{}(opt.Assign).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Request", "assign", opt.Assign, "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("RequestType", "assign", opt.Assign, "nested object validation failed", err)
 			}
 		}
-	case *PlanAssignmentRequest_Request_Extend_:
+	case *PlanAssignmentRequest_RequestType_Extend_:
 		if subobj, ok := interface{}(opt.Extend).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Request", "extend", opt.Extend, "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("RequestType", "extend", opt.Extend, "nested object validation failed", err)
 			}
 		}
-	case *PlanAssignmentRequest_Request_Redistribute_:
+	case *PlanAssignmentRequest_RequestType_Redistribute_:
 		if subobj, ok := interface{}(opt.Redistribute).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Request", "redistribute", opt.Redistribute, "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("RequestType", "redistribute", opt.Redistribute, "nested object validation failed", err)
 			}
 		}
-	case *PlanAssignmentRequest_Request_Unassign_:
+	case *PlanAssignmentRequest_RequestType_Unassign_:
 		if subobj, ok := interface{}(opt.Unassign).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Request", "unassign", opt.Unassign, "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("RequestType", "unassign", opt.Unassign, "nested object validation failed", err)
 			}
 		}
 	default:
@@ -128,7 +123,7 @@ func (obj *PlanAssignmentRequest_Request) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *PlanAssignmentRequest_Request_Assign) GotenValidate() error {
+func (obj *PlanAssignmentRequest_RequestType_Assign) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -151,7 +146,7 @@ func (obj *PlanAssignmentRequest_Request_Assign) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *PlanAssignmentRequest_Request_Extend) GotenValidate() error {
+func (obj *PlanAssignmentRequest_RequestType_Extend) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -174,7 +169,7 @@ func (obj *PlanAssignmentRequest_Request_Extend) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *PlanAssignmentRequest_Request_Redistribute) GotenValidate() error {
+func (obj *PlanAssignmentRequest_RequestType_Redistribute) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -190,7 +185,7 @@ func (obj *PlanAssignmentRequest_Request_Redistribute) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *PlanAssignmentRequest_Request_Unassign) GotenValidate() error {
+func (obj *PlanAssignmentRequest_RequestType_Unassign) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

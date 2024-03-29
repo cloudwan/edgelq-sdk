@@ -13,15 +13,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -34,14 +34,14 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
@@ -129,11 +129,11 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 	result := &Project_FieldMask{}
 	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
-		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 	mySubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
-		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 
@@ -151,7 +151,7 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 				if tp, ok := path.(*Project_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Project_FieldPathSelectorMetadata:
-						mySubMasks[Project_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Project_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Project_FieldPathSelectorMultiRegionPolicy:
 						mySubMasks[Project_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
 					}
@@ -188,12 +188,12 @@ func (fieldMask *Project_FieldMask) FilterInputFields() *Project_FieldMask {
 		switch path.Selector() {
 		case Project_FieldPathSelectorMetadata:
 			if _, ok := path.(*Project_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Project_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Project_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Project_FieldSubPath{selector: Project_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -207,15 +207,15 @@ func (fieldMask *Project_FieldMask) FilterInputFields() *Project_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Project_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Project_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Project_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Project_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -237,7 +237,7 @@ func (fieldMask Project_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Project_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -256,7 +256,7 @@ func (fieldMask Project_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Project_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -324,7 +324,7 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 		return source
 	}
 	result := &Project{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
@@ -345,7 +345,7 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 		case *Project_FieldSubPath:
 			switch tp.selector {
 			case Project_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Project_FieldPathSelectorMultiRegionPolicy:
 				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
 			}

@@ -17,14 +17,13 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	any "github.com/golang/protobuf/ptypes/any"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // ensure the imports are used
@@ -41,14 +40,13 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &any.Any{}
+	_ = &anypb.Any{}
 )
 
 // FieldPath provides implementation to handle
@@ -191,7 +189,7 @@ func (fp *Status_FieldTerminalPath) GetDefault() interface{} {
 	case Status_FieldPathSelectorMessage:
 		return ""
 	case Status_FieldPathSelectorDetails:
-		return ([]*any.Any)(nil)
+		return ([]*anypb.Any)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Status: %d", fp.selector))
 	}
@@ -234,7 +232,7 @@ func (fp *Status_FieldTerminalPath) WithIValue(value interface{}) Status_FieldPa
 	case Status_FieldPathSelectorMessage:
 		return &Status_FieldTerminalPathValue{Status_FieldTerminalPath: *fp, value: value.(string)}
 	case Status_FieldPathSelectorDetails:
-		return &Status_FieldTerminalPathValue{Status_FieldTerminalPath: *fp, value: value.([]*any.Any)}
+		return &Status_FieldTerminalPathValue{Status_FieldTerminalPath: *fp, value: value.([]*anypb.Any)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Status: %d", fp.selector))
 	}
@@ -252,7 +250,7 @@ func (fp *Status_FieldTerminalPath) WithIArrayOfValues(values interface{}) Statu
 	case Status_FieldPathSelectorMessage:
 		return &Status_FieldTerminalPathArrayOfValues{Status_FieldTerminalPath: *fp, values: values.([]string)}
 	case Status_FieldPathSelectorDetails:
-		return &Status_FieldTerminalPathArrayOfValues{Status_FieldTerminalPath: *fp, values: values.([][]*any.Any)}
+		return &Status_FieldTerminalPathArrayOfValues{Status_FieldTerminalPath: *fp, values: values.([][]*anypb.Any)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Status: %d", fp.selector))
 	}
@@ -266,7 +264,7 @@ func (fp *Status_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) go
 func (fp *Status_FieldTerminalPath) WithIArrayItemValue(value interface{}) Status_FieldPathArrayItemValue {
 	switch fp.selector {
 	case Status_FieldPathSelectorDetails:
-		return &Status_FieldTerminalPathArrayItemValue{Status_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &Status_FieldTerminalPathArrayItemValue{Status_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Status: %d", fp.selector))
 	}
@@ -323,8 +321,8 @@ func (fpv *Status_FieldTerminalPathValue) AsMessageValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Status_FieldTerminalPathValue) AsDetailsValue() ([]*any.Any, bool) {
-	res, ok := fpv.value.([]*any.Any)
+func (fpv *Status_FieldTerminalPathValue) AsDetailsValue() ([]*anypb.Any, bool) {
+	res, ok := fpv.value.([]*anypb.Any)
 	return res, ok
 }
 
@@ -339,7 +337,7 @@ func (fpv *Status_FieldTerminalPathValue) SetTo(target **Status) {
 	case Status_FieldPathSelectorMessage:
 		(*target).Message = fpv.value.(string)
 	case Status_FieldPathSelectorDetails:
-		(*target).Details = fpv.value.([]*any.Any)
+		(*target).Details = fpv.value.([]*anypb.Any)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Status: %d", fpv.selector))
 	}
@@ -424,8 +422,8 @@ var _ Status_FieldPathArrayItemValue = (*Status_FieldTerminalPathArrayItemValue)
 func (fpaiv *Status_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *Status_FieldTerminalPathArrayItemValue) AsDetailsItemValue() (*any.Any, bool) {
-	res, ok := fpaiv.value.(*any.Any)
+func (fpaiv *Status_FieldTerminalPathArrayItemValue) AsDetailsItemValue() (*anypb.Any, bool) {
+	res, ok := fpaiv.value.(*anypb.Any)
 	return res, ok
 }
 
@@ -496,7 +494,7 @@ func (fpaov *Status_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 			values = append(values, v)
 		}
 	case Status_FieldPathSelectorDetails:
-		for _, v := range fpaov.values.([][]*any.Any) {
+		for _, v := range fpaov.values.([][]*anypb.Any) {
 			values = append(values, v)
 		}
 	}
@@ -510,7 +508,7 @@ func (fpaov *Status_FieldTerminalPathArrayOfValues) AsMessageArrayOfValues() ([]
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Status_FieldTerminalPathArrayOfValues) AsDetailsArrayOfValues() ([][]*any.Any, bool) {
-	res, ok := fpaov.values.([][]*any.Any)
+func (fpaov *Status_FieldTerminalPathArrayOfValues) AsDetailsArrayOfValues() ([][]*anypb.Any, bool) {
+	res, ok := fpaov.values.([][]*anypb.Any)
 	return res, ok
 }

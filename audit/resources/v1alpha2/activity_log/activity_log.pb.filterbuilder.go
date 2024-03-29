@@ -11,17 +11,17 @@ import (
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -32,17 +32,17 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &rpc.Status{}
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &meta_service.Service{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -214,6 +214,10 @@ func (b *filterCndBuilder) Method() *filterCndBuilderMethod {
 
 func (b *filterCndBuilder) RequestMetadata() *filterCndBuilderRequestMetadata {
 	return &filterCndBuilderRequestMetadata{builder: b.builder}
+}
+
+func (b *filterCndBuilder) RequestRouting() *filterCndBuilderRequestRouting {
+	return &filterCndBuilderRequestRouting{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Resource() *filterCndBuilderResource {
@@ -413,37 +417,37 @@ type filterCndBuilderAuthentication struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderAuthentication) Eq(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Eq(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderAuthentication) Neq(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Neq(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderAuthentication) Gt(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Gt(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderAuthentication) Gte(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Gte(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderAuthentication) Lt(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Lt(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderAuthentication) Lte(value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) Lte(value *common.Authentication) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderAuthentication) In(values []*audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) In(values []*common.Authentication) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authentication().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAuthentication) NotIn(values []*audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) NotIn(values []*common.Authentication) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authentication().WithArrayOfValues(values),
 	})
@@ -461,7 +465,7 @@ func (b *filterCndBuilderAuthentication) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderAuthentication) compare(op gotenfilter.CompareOperator, value *audit_common.Authentication) *FilterBuilder {
+func (b *filterCndBuilderAuthentication) compare(op gotenfilter.CompareOperator, value *common.Authentication) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Authentication().WithValue(value),
@@ -598,37 +602,37 @@ type filterCndBuilderAuthorization struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderAuthorization) Eq(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Eq(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderAuthorization) Neq(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Neq(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderAuthorization) Gt(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Gt(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderAuthorization) Gte(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Gte(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderAuthorization) Lt(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Lt(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderAuthorization) Lte(value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) Lte(value *common.Authorization) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderAuthorization) In(values []*audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) In(values []*common.Authorization) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authorization().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAuthorization) NotIn(values []*audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) NotIn(values []*common.Authorization) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authorization().WithArrayOfValues(values),
 	})
@@ -646,7 +650,7 @@ func (b *filterCndBuilderAuthorization) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderAuthorization) compare(op gotenfilter.CompareOperator, value *audit_common.Authorization) *FilterBuilder {
+func (b *filterCndBuilderAuthorization) compare(op gotenfilter.CompareOperator, value *common.Authorization) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Authorization().WithValue(value),
@@ -851,37 +855,37 @@ type filterCndBuilderService struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderService) Eq(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Eq(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderService) Neq(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Neq(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderService) Gt(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Gt(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderService) Gte(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Gte(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderService) Lt(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Lt(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderService) Lte(value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) Lte(value *common.ServiceData) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderService) In(values []*audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) In(values []*common.ServiceData) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Service().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderService) NotIn(values []*audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) NotIn(values []*common.ServiceData) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Service().WithArrayOfValues(values),
 	})
@@ -899,7 +903,7 @@ func (b *filterCndBuilderService) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderService) compare(op gotenfilter.CompareOperator, value *audit_common.ServiceData) *FilterBuilder {
+func (b *filterCndBuilderService) compare(op gotenfilter.CompareOperator, value *common.ServiceData) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Service().WithValue(value),
@@ -1402,6 +1406,225 @@ func (b *filterCndBuilderRequestMetadataUserAgent) compare(op gotenfilter.Compar
 	})
 }
 
+type filterCndBuilderRequestRouting struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderRequestRouting) Eq(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderRequestRouting) Neq(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderRequestRouting) Gt(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderRequestRouting) Gte(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderRequestRouting) Lt(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderRequestRouting) Lte(value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderRequestRouting) In(values []*ActivityLog_RequestRouting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRouting) NotIn(values []*ActivityLog_RequestRouting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRouting) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRouting) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRouting) compare(op gotenfilter.CompareOperator, value *ActivityLog_RequestRouting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().RequestRouting().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderRequestRouting) ViaRegion() *filterCndBuilderRequestRoutingViaRegion {
+	return &filterCndBuilderRequestRoutingViaRegion{builder: b.builder}
+}
+
+func (b *filterCndBuilderRequestRouting) DestRegions() *filterCndBuilderRequestRoutingDestRegions {
+	return &filterCndBuilderRequestRoutingDestRegions{builder: b.builder}
+}
+
+type filterCndBuilderRequestRoutingViaRegion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().ViaRegion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().ViaRegion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().ViaRegion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().ViaRegion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingViaRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().RequestRouting().ViaRegion().WithValue(value),
+	})
+}
+
+type filterCndBuilderRequestRoutingDestRegions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().FieldPath(),
+		Value:     NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewActivityLogFieldPathBuilder().RequestRouting().DestRegions()
+	itemValues := make([]ActivityLog_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewActivityLogFieldPathBuilder().RequestRouting().DestRegions()
+	itemValues := make([]ActivityLog_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderRequestRoutingDestRegions) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().RequestRouting().DestRegions().WithValue(value),
+	})
+}
+
 type filterCndBuilderResource struct {
 	builder *FilterBuilder
 }
@@ -1603,37 +1826,37 @@ type filterCndBuilderResourceDifferenceFields struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Eq(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Eq(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Neq(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Neq(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Gt(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Gt(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Gte(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Gte(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Lt(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Lt(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) Lte(value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) Lte(value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) In(values []*field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) In(values []*fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().Fields().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) NotIn(values []*field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) NotIn(values []*fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().Fields().WithArrayOfValues(values),
 	})
@@ -1651,7 +1874,7 @@ func (b *filterCndBuilderResourceDifferenceFields) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceFields) compare(op gotenfilter.CompareOperator, value *field_mask.FieldMask) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceFields) compare(op gotenfilter.CompareOperator, value *fieldmaskpb.FieldMask) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Resource().Difference().Fields().WithValue(value),
@@ -1662,37 +1885,37 @@ type filterCndBuilderResourceDifferenceBefore struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().Before().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().Before().WithArrayOfValues(values),
 	})
@@ -1710,7 +1933,7 @@ func (b *filterCndBuilderResourceDifferenceBefore) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceBefore) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceBefore) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Resource().Difference().Before().WithValue(value),
@@ -1721,37 +1944,37 @@ type filterCndBuilderResourceDifferenceAfter struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().After().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().After().WithArrayOfValues(values),
 	})
@@ -1769,7 +1992,7 @@ func (b *filterCndBuilderResourceDifferenceAfter) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResourceDifferenceAfter) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderResourceDifferenceAfter) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Resource().Difference().After().WithValue(value),
@@ -2142,37 +2365,37 @@ type filterCndBuilderEventsClientMessageData struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageData) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ClientMessage().Data().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsClientMessageData) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ClientMessage().Data().WithArrayOfValues(values),
 	})
@@ -2190,7 +2413,7 @@ func (b *filterCndBuilderEventsClientMessageData) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsClientMessageData) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageData) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().ClientMessage().Data().WithValue(value),
@@ -2201,37 +2424,37 @@ type filterCndBuilderEventsClientMessageTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ClientMessage().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ClientMessage().Time().WithArrayOfValues(values),
 	})
@@ -2249,7 +2472,7 @@ func (b *filterCndBuilderEventsClientMessageTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsClientMessageTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsClientMessageTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().ClientMessage().Time().WithValue(value),
@@ -2323,45 +2546,41 @@ func (b *filterCndBuilderEventsServerMessage) Time() *filterCndBuilderEventsServ
 	return &filterCndBuilderEventsServerMessageTime{builder: b.builder}
 }
 
-func (b *filterCndBuilderEventsServerMessage) RoutedRegionId() *filterCndBuilderEventsServerMessageRoutedRegionId {
-	return &filterCndBuilderEventsServerMessageRoutedRegionId{builder: b.builder}
-}
-
 type filterCndBuilderEventsServerMessageData struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageData) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().Data().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsServerMessageData) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().Data().WithArrayOfValues(values),
 	})
@@ -2379,7 +2598,7 @@ func (b *filterCndBuilderEventsServerMessageData) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsServerMessageData) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageData) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().ServerMessage().Data().WithValue(value),
@@ -2390,37 +2609,37 @@ type filterCndBuilderEventsServerMessageTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().Time().WithArrayOfValues(values),
 	})
@@ -2438,69 +2657,10 @@ func (b *filterCndBuilderEventsServerMessageTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsServerMessageTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsServerMessageTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().ServerMessage().Time().WithValue(value),
-	})
-}
-
-type filterCndBuilderEventsServerMessageRoutedRegionId struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().RoutedRegionId().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().ServerMessage().RoutedRegionId().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewActivityLogFieldPathBuilder().Events().ServerMessage().RoutedRegionId().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewActivityLogFieldPathBuilder().Events().ServerMessage().RoutedRegionId().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderEventsServerMessageRoutedRegionId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().ServerMessage().RoutedRegionId().WithValue(value),
 	})
 }
 
@@ -2764,37 +2924,37 @@ type filterCndBuilderEventsExitStatusDetails struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Eq(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Eq(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Neq(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Neq(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Gt(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Gt(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Gte(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Gte(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Lt(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Lt(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Lte(value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Lte(value []*anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) In(values [][]*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) In(values [][]*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().Exit().Status().Details().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) NotIn(values [][]*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) NotIn(values [][]*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().Exit().Status().Details().WithArrayOfValues(values),
 	})
@@ -2812,7 +2972,7 @@ func (b *filterCndBuilderEventsExitStatusDetails) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) Contains(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) Contains(value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewActivityLogFieldPathBuilder().Events().Exit().Status().Details().FieldPath(),
@@ -2820,7 +2980,7 @@ func (b *filterCndBuilderEventsExitStatusDetails) Contains(value *any.Any) *Filt
 	})
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) ContainsAnyOf(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) ContainsAnyOf(values []*anypb.Any) *FilterBuilder {
 	pathSelector := NewActivityLogFieldPathBuilder().Events().Exit().Status().Details()
 	itemValues := make([]ActivityLog_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2833,7 +2993,7 @@ func (b *filterCndBuilderEventsExitStatusDetails) ContainsAnyOf(values []*any.An
 	})
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) ContainsAll(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) ContainsAll(values []*anypb.Any) *FilterBuilder {
 	pathSelector := NewActivityLogFieldPathBuilder().Events().Exit().Status().Details()
 	itemValues := make([]ActivityLog_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2846,7 +3006,7 @@ func (b *filterCndBuilderEventsExitStatusDetails) ContainsAll(values []*any.Any)
 	})
 }
 
-func (b *filterCndBuilderEventsExitStatusDetails) compare(op gotenfilter.CompareOperator, value []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsExitStatusDetails) compare(op gotenfilter.CompareOperator, value []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().Exit().Status().Details().WithValue(value),
@@ -2857,37 +3017,37 @@ type filterCndBuilderEventsExitTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsExitTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsExitTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().Exit().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsExitTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().Exit().Time().WithArrayOfValues(values),
 	})
@@ -2905,7 +3065,7 @@ func (b *filterCndBuilderEventsExitTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsExitTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsExitTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().Exit().Time().WithValue(value),
@@ -2987,37 +3147,37 @@ type filterCndBuilderEventsRegionalServerMessageData struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Data().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Data().WithArrayOfValues(values),
 	})
@@ -3035,7 +3195,7 @@ func (b *filterCndBuilderEventsRegionalServerMessageData) IsNan() *FilterBuilder
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageData) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageData) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Data().WithValue(value),
@@ -3046,37 +3206,37 @@ type filterCndBuilderEventsRegionalServerMessageTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Time().WithArrayOfValues(values),
 	})
@@ -3094,7 +3254,7 @@ func (b *filterCndBuilderEventsRegionalServerMessageTime) IsNan() *FilterBuilder
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalServerMessageTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalServerMessageTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().RegionalServerMessage().Time().WithValue(value),
@@ -3235,37 +3395,37 @@ type filterCndBuilderEventsRegionalExitData struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Eq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Eq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Neq(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Neq(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Gt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Gt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Gte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Gte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Lt(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Lt(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) Lte(value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) Lte(value *anypb.Any) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) In(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) In(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalExit().Data().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) NotIn(values []*any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) NotIn(values []*anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalExit().Data().WithArrayOfValues(values),
 	})
@@ -3283,7 +3443,7 @@ func (b *filterCndBuilderEventsRegionalExitData) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalExitData) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitData) compare(op gotenfilter.CompareOperator, value *anypb.Any) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().RegionalExit().Data().WithValue(value),
@@ -3294,37 +3454,37 @@ type filterCndBuilderEventsRegionalExitTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalExit().Time().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Events().RegionalExit().Time().WithArrayOfValues(values),
 	})
@@ -3342,7 +3502,7 @@ func (b *filterCndBuilderEventsRegionalExitTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderEventsRegionalExitTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderEventsRegionalExitTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Events().RegionalExit().Time().WithValue(value),

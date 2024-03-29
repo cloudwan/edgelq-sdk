@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -25,6 +22,7 @@ import (
 import (
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 )
 
 var (
@@ -37,8 +35,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -46,6 +42,7 @@ var (
 var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
+	_ = &project.Project{}
 )
 
 func (obj *VerifyRequest) GotenValidate() error {

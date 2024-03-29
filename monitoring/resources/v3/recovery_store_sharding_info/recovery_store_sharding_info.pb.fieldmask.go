@@ -13,16 +13,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -35,16 +35,16 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type RecoveryStoreShardingInfo_FieldMask struct {
@@ -134,12 +134,12 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) Subtract(other *RecoverySt
 	otherSubMasks := map[RecoveryStoreShardingInfo_FieldPathSelector]gotenobject.FieldMask{
 		RecoveryStoreShardingInfo_FieldPathSelectorValidityPeriod: &RecoveryStoreShardingInfo_ValidityPeriod_FieldMask{},
 		RecoveryStoreShardingInfo_FieldPathSelectorSpec:           &RecoveryStoreShardingInfo_ShardingSpec_FieldMask{},
-		RecoveryStoreShardingInfo_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		RecoveryStoreShardingInfo_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[RecoveryStoreShardingInfo_FieldPathSelector]gotenobject.FieldMask{
 		RecoveryStoreShardingInfo_FieldPathSelectorValidityPeriod: &RecoveryStoreShardingInfo_ValidityPeriod_FieldMask{},
 		RecoveryStoreShardingInfo_FieldPathSelectorSpec:           &RecoveryStoreShardingInfo_ShardingSpec_FieldMask{},
-		RecoveryStoreShardingInfo_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		RecoveryStoreShardingInfo_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -160,7 +160,7 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) Subtract(other *RecoverySt
 					case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 						mySubMasks[RecoveryStoreShardingInfo_FieldPathSelectorSpec] = FullRecoveryStoreShardingInfo_ShardingSpec_FieldMask()
 					case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-						mySubMasks[RecoveryStoreShardingInfo_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[RecoveryStoreShardingInfo_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*RecoveryStoreShardingInfo_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -195,12 +195,12 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) FilterInputFields() *Recov
 		switch path.Selector() {
 		case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
 			if _, ok := path.(*RecoveryStoreShardingInfo_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &RecoveryStoreShardingInfo_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*RecoveryStoreShardingInfo_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &RecoveryStoreShardingInfo_FieldSubPath{selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -214,15 +214,15 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) FilterInputFields() *Recov
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *RecoveryStoreShardingInfo_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *RecoveryStoreShardingInfo_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *RecoveryStoreShardingInfo_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *RecoveryStoreShardingInfo_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -244,7 +244,7 @@ func (fieldMask RecoveryStoreShardingInfo_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -263,7 +263,7 @@ func (fieldMask RecoveryStoreShardingInfo_FieldMask) MarshalJSON() ([]byte, erro
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -335,7 +335,7 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) Project(source *RecoverySt
 	wholeValidityPeriodAccepted := false
 	specMask := &RecoveryStoreShardingInfo_ShardingSpec_FieldMask{}
 	wholeSpecAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -361,7 +361,7 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) Project(source *RecoverySt
 			case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(RecoveryStoreShardingInfoShardingSpec_FieldPath))
 			case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}
@@ -501,15 +501,15 @@ func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) FilterInput
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -531,7 +531,7 @@ func (fieldMask RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) Marshal() ([
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -550,7 +550,7 @@ func (fieldMask RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) MarshalJSON(
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -757,15 +757,15 @@ func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) FilterInputFi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -787,7 +787,7 @@ func (fieldMask RecoveryStoreShardingInfo_ShardingSpec_FieldMask) Marshal() ([]b
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -806,7 +806,7 @@ func (fieldMask RecoveryStoreShardingInfo_ShardingSpec_FieldMask) MarshalJSON() 
 }
 
 func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

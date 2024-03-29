@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,9 +44,9 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_common.PCR{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 var attestationDomain_RegexpId = regexp.MustCompile("^(?P<attestation_domain_id>[\\w][\\w.-]{0,127})$")
@@ -58,14 +58,6 @@ func (r *AttestationDomain) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *AttestationDomain) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *AttestationDomain) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_common.PCR{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -123,7 +121,7 @@ func BuildAttestationDomain_FieldPath(fp gotenobject.RawFieldPath) (AttestationD
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AttestationDomain_FieldSubPath{selector: AttestationDomain_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -248,7 +246,7 @@ func (fp *AttestationDomain_FieldTerminalPath) GetSingleRaw(source proto.Message
 func (fp *AttestationDomain_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case AttestationDomain_FieldPathSelectorName:
 		return (*Name)(nil)
 	case AttestationDomain_FieldPathSelectorDisplayName:
@@ -303,7 +301,7 @@ func (fp *AttestationDomain_FieldTerminalPath) SplitIntoTerminalIPaths() []goten
 func (fp *AttestationDomain_FieldTerminalPath) WithIValue(value interface{}) AttestationDomain_FieldPathValue {
 	switch fp.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		return &AttestationDomain_FieldTerminalPathValue{AttestationDomain_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &AttestationDomain_FieldTerminalPathValue{AttestationDomain_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case AttestationDomain_FieldPathSelectorName:
 		return &AttestationDomain_FieldTerminalPathValue{AttestationDomain_FieldTerminalPath: *fp, value: value.(*Name)}
 	case AttestationDomain_FieldPathSelectorDisplayName:
@@ -327,7 +325,7 @@ func (fp *AttestationDomain_FieldTerminalPath) WithIArrayOfValues(values interfa
 	fpaov := &AttestationDomain_FieldTerminalPathArrayOfValues{AttestationDomain_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		return &AttestationDomain_FieldTerminalPathArrayOfValues{AttestationDomain_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &AttestationDomain_FieldTerminalPathArrayOfValues{AttestationDomain_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case AttestationDomain_FieldPathSelectorName:
 		return &AttestationDomain_FieldTerminalPathArrayOfValues{AttestationDomain_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case AttestationDomain_FieldPathSelectorDisplayName:
@@ -373,8 +371,8 @@ var _ AttestationDomain_FieldPath = (*AttestationDomain_FieldSubPath)(nil)
 func (fps *AttestationDomain_FieldSubPath) Selector() AttestationDomain_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AttestationDomain_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *AttestationDomain_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *AttestationDomain_FieldSubPath) AsPoliciesSubPath() (AttestationDomainPolicy_FieldPath, bool) {
@@ -548,8 +546,8 @@ var _ AttestationDomain_FieldPathValue = (*AttestationDomain_FieldTerminalPathVa
 func (fpv *AttestationDomain_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *AttestationDomain_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *AttestationDomain_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *AttestationDomain_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
@@ -580,7 +578,7 @@ func (fpv *AttestationDomain_FieldTerminalPathValue) SetTo(target **AttestationD
 	}
 	switch fpv.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case AttestationDomain_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case AttestationDomain_FieldPathSelectorDisplayName:
@@ -665,8 +663,8 @@ type AttestationDomain_FieldSubPathValue struct {
 
 var _ AttestationDomain_FieldPathValue = (*AttestationDomain_FieldSubPathValue)(nil)
 
-func (fpvs *AttestationDomain_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *AttestationDomain_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *AttestationDomain_FieldSubPathValue) AsPoliciesPathValue() (AttestationDomainPolicy_FieldPathValue, bool) {
@@ -684,7 +682,7 @@ func (fpvs *AttestationDomain_FieldSubPathValue) SetTo(target **AttestationDomai
 	}
 	switch fpvs.Selector() {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case AttestationDomain_FieldPathSelectorPolicies:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case AttestationDomain_FieldPathSelectorEnrollmentList:
@@ -706,7 +704,7 @@ func (fpvs *AttestationDomain_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AttestationDomain_FieldSubPathValue) CompareWith(source *AttestationDomain) (int, bool) {
 	switch fpvs.Selector() {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case AttestationDomain_FieldPathSelectorPolicies:
 		return 0, false // repeated field
 	case AttestationDomain_FieldPathSelectorEnrollmentList:
@@ -801,8 +799,8 @@ type AttestationDomain_FieldSubPathArrayItemValue struct {
 func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) AsPoliciesPathItemValue() (AttestationDomainPolicy_FieldPathArrayItemValue, bool) {
@@ -818,7 +816,7 @@ func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) AsEnrollmentListPath
 func (fpaivs *AttestationDomain_FieldSubPathArrayItemValue) ContainsValue(source *AttestationDomain) bool {
 	switch fpaivs.Selector() {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case AttestationDomain_FieldPathSelectorPolicies:
 		return false // repeated/map field
 	case AttestationDomain_FieldPathSelectorEnrollmentList:
@@ -864,7 +862,7 @@ var _ AttestationDomain_FieldPathArrayOfValues = (*AttestationDomain_FieldTermin
 func (fpaov *AttestationDomain_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case AttestationDomain_FieldPathSelectorName:
@@ -890,8 +888,8 @@ func (fpaov *AttestationDomain_FieldTerminalPathArrayOfValues) GetRawValues() (v
 	}
 	return
 }
-func (fpaov *AttestationDomain_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *AttestationDomain_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *AttestationDomain_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
@@ -925,8 +923,8 @@ var _ AttestationDomain_FieldPathArrayOfValues = (*AttestationDomain_FieldSubPat
 func (fpsaov *AttestationDomain_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AttestationDomain_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *AttestationDomain_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *AttestationDomain_FieldSubPathArrayOfValues) AsPoliciesPathArrayOfValues() (AttestationDomainPolicy_FieldPathArrayOfValues, bool) {

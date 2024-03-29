@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	method_descriptor_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/method_descriptor"
 	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/method_descriptor"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiMethodDescriptorAccess struct {
@@ -42,8 +44,11 @@ func NewApiMethodDescriptorAccess(client method_descriptor_client.MethodDescript
 }
 
 func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, query *method_descriptor.GetQuery) (*method_descriptor.MethodDescriptor, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &method_descriptor_client.GetMethodDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetMethodDescriptor(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, que
 
 func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Context, refs []*method_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*method_descriptor.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &method_descriptor_client.BatchGetMethodDescriptorsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(method_descriptor.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiMethodDescriptorAccess) QueryMethodDescriptors(ctx context.Context, 
 }
 
 func (a *apiMethodDescriptorAccess) WatchMethodDescriptor(ctx context.Context, query *method_descriptor.GetQuery, observerCb func(*method_descriptor.MethodDescriptorChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &method_descriptor_client.WatchMethodDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchMethodDescriptor(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 			}
 		}
 	}
-
+	var resp *method_descriptor.MethodDescriptor
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &method_descriptor_client.UpdateMethodDescriptorRequest{
 			MethodDescriptor: res,
@@ -195,21 +211,22 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 				FieldMask:        mask.(*method_descriptor.MethodDescriptor_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateMethodDescriptor(ctx, updateRequest)
+		resp, err = a.client.UpdateMethodDescriptor(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &method_descriptor_client.CreateMethodDescriptorRequest{
 			MethodDescriptor: res,
 		}
-		_, err := a.client.CreateMethodDescriptor(ctx, createRequest)
+		resp, err = a.client.CreateMethodDescriptor(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, opts ...gotenresource.DeleteOption) error {

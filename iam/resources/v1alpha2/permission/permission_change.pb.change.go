@@ -10,7 +10,7 @@ import (
 
 // proto imports
 import (
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -20,7 +20,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 func (c *PermissionChange) IsAdd() bool {

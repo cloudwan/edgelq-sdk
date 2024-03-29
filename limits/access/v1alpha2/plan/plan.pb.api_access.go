@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	plan_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiPlanAccess struct {
@@ -42,8 +44,11 @@ func NewApiPlanAccess(client plan_client.PlanServiceClient) plan.PlanAccess {
 }
 
 func (a *apiPlanAccess) GetPlan(ctx context.Context, query *plan.GetQuery) (*plan.Plan, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &plan_client.GetPlanRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetPlan(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiPlanAccess) GetPlan(ctx context.Context, query *plan.GetQuery) (*pla
 
 func (a *apiPlanAccess) BatchGetPlans(ctx context.Context, refs []*plan.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*plan.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &plan_client.BatchGetPlansRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(plan.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiPlanAccess) QueryPlans(ctx context.Context, query *plan.ListQuery) (
 }
 
 func (a *apiPlanAccess) WatchPlan(ctx context.Context, query *plan.GetQuery, observerCb func(*plan.PlanChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &plan_client.WatchPlanRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchPlan(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiPlanAccess) SavePlan(ctx context.Context, res *plan.Plan, opts ...go
 			}
 		}
 	}
-
+	var resp *plan.Plan
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &plan_client.UpdatePlanRequest{
 			Plan: res,
@@ -195,26 +211,30 @@ func (a *apiPlanAccess) SavePlan(ctx context.Context, res *plan.Plan, opts ...go
 				FieldMask:        mask.(*plan.Plan_FieldMask),
 			}
 		}
-		_, err := a.client.UpdatePlan(ctx, updateRequest)
+		resp, err = a.client.UpdatePlan(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &plan_client.CreatePlanRequest{
 			Plan: res,
 		}
-		_, err := a.client.CreatePlan(ctx, createRequest)
+		resp, err = a.client.CreatePlan(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiPlanAccess) DeletePlan(ctx context.Context, ref *plan.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &plan_client.DeletePlanRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeletePlan(ctx, request)
 	return err

@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -113,7 +111,7 @@ func BuildGroup_FieldPath(fp gotenobject.RawFieldPath) (Group_FieldPath, error) 
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Group_FieldSubPath{selector: Group_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -218,7 +216,7 @@ func (fp *Group_FieldTerminalPath) GetDefault() interface{} {
 	case Group_FieldPathSelectorEmail:
 		return ""
 	case Group_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fp.selector))
 	}
@@ -265,7 +263,7 @@ func (fp *Group_FieldTerminalPath) WithIValue(value interface{}) Group_FieldPath
 	case Group_FieldPathSelectorEmail:
 		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(string)}
 	case Group_FieldPathSelectorMetadata:
-		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fp.selector))
 	}
@@ -285,7 +283,7 @@ func (fp *Group_FieldTerminalPath) WithIArrayOfValues(values interface{}) Group_
 	case Group_FieldPathSelectorEmail:
 		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]string)}
 	case Group_FieldPathSelectorMetadata:
-		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fp.selector))
 	}
@@ -317,8 +315,8 @@ var _ Group_FieldPath = (*Group_FieldSubPath)(nil)
 func (fps *Group_FieldSubPath) Selector() Group_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Group_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Group_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -470,8 +468,8 @@ func (fpv *Group_FieldTerminalPathValue) AsEmailValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Group_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Group_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -488,7 +486,7 @@ func (fpv *Group_FieldTerminalPathValue) SetTo(target **Group) {
 	case Group_FieldPathSelectorEmail:
 		(*target).Email = fpv.value.(string)
 	case Group_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fpv.selector))
 	}
@@ -559,8 +557,8 @@ type Group_FieldSubPathValue struct {
 
 var _ Group_FieldPathValue = (*Group_FieldSubPathValue)(nil)
 
-func (fpvs *Group_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Group_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -570,7 +568,7 @@ func (fpvs *Group_FieldSubPathValue) SetTo(target **Group) {
 	}
 	switch fpvs.Selector() {
 	case Group_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fpvs.Selector()))
 	}
@@ -588,7 +586,7 @@ func (fpvs *Group_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Group_FieldSubPathValue) CompareWith(source *Group) (int, bool) {
 	switch fpvs.Selector() {
 	case Group_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fpvs.Selector()))
 	}
@@ -671,8 +669,8 @@ type Group_FieldSubPathArrayItemValue struct {
 func (fpaivs *Group_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Group_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Group_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -680,7 +678,7 @@ func (fpaivs *Group_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_m
 func (fpaivs *Group_FieldSubPathArrayItemValue) ContainsValue(source *Group) bool {
 	switch fpaivs.Selector() {
 	case Group_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fpaivs.Selector()))
 	}
@@ -734,7 +732,7 @@ func (fpaov *Group_FieldTerminalPathArrayOfValues) GetRawValues() (values []inte
 			values = append(values, v)
 		}
 	case Group_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -752,8 +750,8 @@ func (fpaov *Group_FieldTerminalPathArrayOfValues) AsEmailArrayOfValues() ([]str
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Group_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Group_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -767,7 +765,7 @@ var _ Group_FieldPathArrayOfValues = (*Group_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Group_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Group_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Group_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

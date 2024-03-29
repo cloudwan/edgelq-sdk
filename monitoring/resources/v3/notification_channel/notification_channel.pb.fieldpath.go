@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -123,7 +121,7 @@ func BuildNotificationChannel_FieldPath(fp gotenobject.RawFieldPath) (Notificati
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &NotificationChannel_FieldSubPath{selector: NotificationChannel_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -250,7 +248,7 @@ func (fp *NotificationChannel_FieldTerminalPath) GetDefault() interface{} {
 	case NotificationChannel_FieldPathSelectorName:
 		return (*Name)(nil)
 	case NotificationChannel_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case NotificationChannel_FieldPathSelectorDisplayName:
 		return ""
 	case NotificationChannel_FieldPathSelectorSpec:
@@ -305,7 +303,7 @@ func (fp *NotificationChannel_FieldTerminalPath) WithIValue(value interface{}) N
 	case NotificationChannel_FieldPathSelectorName:
 		return &NotificationChannel_FieldTerminalPathValue{NotificationChannel_FieldTerminalPath: *fp, value: value.(*Name)}
 	case NotificationChannel_FieldPathSelectorMetadata:
-		return &NotificationChannel_FieldTerminalPathValue{NotificationChannel_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &NotificationChannel_FieldTerminalPathValue{NotificationChannel_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case NotificationChannel_FieldPathSelectorDisplayName:
 		return &NotificationChannel_FieldTerminalPathValue{NotificationChannel_FieldTerminalPath: *fp, value: value.(string)}
 	case NotificationChannel_FieldPathSelectorSpec:
@@ -329,7 +327,7 @@ func (fp *NotificationChannel_FieldTerminalPath) WithIArrayOfValues(values inter
 	case NotificationChannel_FieldPathSelectorName:
 		return &NotificationChannel_FieldTerminalPathArrayOfValues{NotificationChannel_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case NotificationChannel_FieldPathSelectorMetadata:
-		return &NotificationChannel_FieldTerminalPathArrayOfValues{NotificationChannel_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &NotificationChannel_FieldTerminalPathArrayOfValues{NotificationChannel_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case NotificationChannel_FieldPathSelectorDisplayName:
 		return &NotificationChannel_FieldTerminalPathArrayOfValues{NotificationChannel_FieldTerminalPath: *fp, values: values.([]string)}
 	case NotificationChannel_FieldPathSelectorSpec:
@@ -369,8 +367,8 @@ var _ NotificationChannel_FieldPath = (*NotificationChannel_FieldSubPath)(nil)
 func (fps *NotificationChannel_FieldSubPath) Selector() NotificationChannel_FieldPathSelector {
 	return fps.selector
 }
-func (fps *NotificationChannel_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *NotificationChannel_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *NotificationChannel_FieldSubPath) AsSpecSubPath() (NotificationChannelSpec_FieldPath, bool) {
@@ -540,8 +538,8 @@ func (fpv *NotificationChannel_FieldTerminalPathValue) AsNameValue() (*Name, boo
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *NotificationChannel_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *NotificationChannel_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *NotificationChannel_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
@@ -570,7 +568,7 @@ func (fpv *NotificationChannel_FieldTerminalPathValue) SetTo(target **Notificati
 	case NotificationChannel_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case NotificationChannel_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case NotificationChannel_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case NotificationChannel_FieldPathSelectorSpec:
@@ -653,8 +651,8 @@ type NotificationChannel_FieldSubPathValue struct {
 
 var _ NotificationChannel_FieldPathValue = (*NotificationChannel_FieldSubPathValue)(nil)
 
-func (fpvs *NotificationChannel_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *NotificationChannel_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *NotificationChannel_FieldSubPathValue) AsSpecPathValue() (NotificationChannelSpec_FieldPathValue, bool) {
@@ -672,7 +670,7 @@ func (fpvs *NotificationChannel_FieldSubPathValue) SetTo(target **NotificationCh
 	}
 	switch fpvs.Selector() {
 	case NotificationChannel_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case NotificationChannel_FieldPathSelectorSpec:
 		fpvs.subPathValue.(NotificationChannelSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case NotificationChannel_FieldPathSelectorState:
@@ -694,7 +692,7 @@ func (fpvs *NotificationChannel_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *NotificationChannel_FieldSubPathValue) CompareWith(source *NotificationChannel) (int, bool) {
 	switch fpvs.Selector() {
 	case NotificationChannel_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case NotificationChannel_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(NotificationChannelSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case NotificationChannel_FieldPathSelectorState:
@@ -781,8 +779,8 @@ type NotificationChannel_FieldSubPathArrayItemValue struct {
 func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) AsSpecPathItemValue() (NotificationChannelSpec_FieldPathArrayItemValue, bool) {
@@ -798,7 +796,7 @@ func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) AsStatePathItemVal
 func (fpaivs *NotificationChannel_FieldSubPathArrayItemValue) ContainsValue(source *NotificationChannel) bool {
 	switch fpaivs.Selector() {
 	case NotificationChannel_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case NotificationChannel_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(NotificationChannelSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case NotificationChannel_FieldPathSelectorState:
@@ -848,7 +846,7 @@ func (fpaov *NotificationChannel_FieldTerminalPathArrayOfValues) GetRawValues() 
 			values = append(values, v)
 		}
 	case NotificationChannel_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case NotificationChannel_FieldPathSelectorDisplayName:
@@ -874,8 +872,8 @@ func (fpaov *NotificationChannel_FieldTerminalPathArrayOfValues) AsNameArrayOfVa
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *NotificationChannel_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *NotificationChannel_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *NotificationChannel_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -905,8 +903,8 @@ var _ NotificationChannel_FieldPathArrayOfValues = (*NotificationChannel_FieldSu
 func (fpsaov *NotificationChannel_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *NotificationChannel_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *NotificationChannel_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *NotificationChannel_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (NotificationChannelSpec_FieldPathArrayOfValues, bool) {
@@ -4707,7 +4705,7 @@ func (fp *NotificationChannelStateError_FieldTerminalPath) GetSingleRaw(source p
 func (fp *NotificationChannelStateError_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case NotificationChannelStateError_FieldPathSelectorMessage:
 		return ""
 	default:
@@ -4745,7 +4743,7 @@ func (fp *NotificationChannelStateError_FieldTerminalPath) SplitIntoTerminalIPat
 func (fp *NotificationChannelStateError_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelStateError_FieldPathValue {
 	switch fp.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		return &NotificationChannelStateError_FieldTerminalPathValue{NotificationChannelStateError_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &NotificationChannelStateError_FieldTerminalPathValue{NotificationChannelStateError_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case NotificationChannelStateError_FieldPathSelectorMessage:
 		return &NotificationChannelStateError_FieldTerminalPathValue{NotificationChannelStateError_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -4761,7 +4759,7 @@ func (fp *NotificationChannelStateError_FieldTerminalPath) WithIArrayOfValues(va
 	fpaov := &NotificationChannelStateError_FieldTerminalPathArrayOfValues{NotificationChannelStateError_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		return &NotificationChannelStateError_FieldTerminalPathArrayOfValues{NotificationChannelStateError_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &NotificationChannelStateError_FieldTerminalPathArrayOfValues{NotificationChannelStateError_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case NotificationChannelStateError_FieldPathSelectorMessage:
 		return &NotificationChannelStateError_FieldTerminalPathArrayOfValues{NotificationChannelStateError_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -4824,8 +4822,8 @@ var _ NotificationChannelStateError_FieldPathValue = (*NotificationChannelStateE
 func (fpv *NotificationChannelStateError_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *NotificationChannelStateError_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *NotificationChannelStateError_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *NotificationChannelStateError_FieldTerminalPathValue) AsMessageValue() (string, bool) {
@@ -4840,7 +4838,7 @@ func (fpv *NotificationChannelStateError_FieldTerminalPathValue) SetTo(target **
 	}
 	switch fpv.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	case NotificationChannelStateError_FieldPathSelectorMessage:
 		(*target).Message = fpv.value.(string)
 	default:
@@ -4857,7 +4855,7 @@ func (fpv *NotificationChannelStateError_FieldTerminalPathValue) SetToRaw(target
 func (fpv *NotificationChannelStateError_FieldTerminalPathValue) CompareWith(source *NotificationChannel_State_Error) (int, bool) {
 	switch fpv.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -4994,7 +4992,7 @@ var _ NotificationChannelStateError_FieldPathArrayOfValues = (*NotificationChann
 func (fpaov *NotificationChannelStateError_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case NotificationChannelStateError_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case NotificationChannelStateError_FieldPathSelectorMessage:
@@ -5004,8 +5002,8 @@ func (fpaov *NotificationChannelStateError_FieldTerminalPathArrayOfValues) GetRa
 	}
 	return
 }
-func (fpaov *NotificationChannelStateError_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *NotificationChannelStateError_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *NotificationChannelStateError_FieldTerminalPathArrayOfValues) AsMessageArrayOfValues() ([]string, bool) {

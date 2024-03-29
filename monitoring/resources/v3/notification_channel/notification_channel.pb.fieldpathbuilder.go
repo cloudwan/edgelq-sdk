@@ -6,18 +6,18 @@ package notification_channel
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type NotificationChannelFieldPathBuilder struct{}
@@ -64,27 +64,27 @@ func (NotificationChannelPathSelectorMetadata) FieldPath() *NotificationChannel_
 	return &NotificationChannel_FieldTerminalPath{selector: NotificationChannel_FieldPathSelectorMetadata}
 }
 
-func (s NotificationChannelPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *NotificationChannel_FieldTerminalPathValue {
+func (s NotificationChannelPathSelectorMetadata) WithValue(value *meta.Meta) *NotificationChannel_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldTerminalPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *NotificationChannel_FieldTerminalPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *NotificationChannel_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldTerminalPathArrayOfValues)
 }
 
-func (NotificationChannelPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *NotificationChannel_FieldSubPath {
+func (NotificationChannelPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{selector: NotificationChannel_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s NotificationChannelPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *NotificationChannel_FieldSubPathValue {
 	return &NotificationChannel_FieldSubPathValue{NotificationChannel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s NotificationChannelPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *NotificationChannel_FieldSubPathArrayOfValues {
 	return &NotificationChannel_FieldSubPathArrayOfValues{NotificationChannel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s NotificationChannelPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *NotificationChannel_FieldSubPathArrayItemValue {
+func (s NotificationChannelPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *NotificationChannel_FieldSubPathArrayItemValue {
 	return &NotificationChannel_FieldSubPathArrayItemValue{NotificationChannel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -140,20 +140,24 @@ func (NotificationChannelPathSelectorMetadata) Lifecycle() NotificationChannelPa
 	return NotificationChannelPathSelectorMetadataLifecycle{}
 }
 
+func (NotificationChannelPathSelectorMetadata) Services() NotificationChannelPathSelectorMetadataServices {
+	return NotificationChannelPathSelectorMetadataServices{}
+}
+
 type NotificationChannelPathSelectorMetadataCreateTime struct{}
 
 func (NotificationChannelPathSelectorMetadataCreateTime) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -162,15 +166,15 @@ type NotificationChannelPathSelectorMetadataUpdateTime struct{}
 func (NotificationChannelPathSelectorMetadataUpdateTime) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -179,15 +183,15 @@ type NotificationChannelPathSelectorMetadataDeleteTime struct{}
 func (NotificationChannelPathSelectorMetadataDeleteTime) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -196,7 +200,7 @@ type NotificationChannelPathSelectorMetadataUuid struct{}
 func (NotificationChannelPathSelectorMetadataUuid) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -213,7 +217,7 @@ type NotificationChannelPathSelectorMetadataTags struct{}
 func (NotificationChannelPathSelectorMetadataTags) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -234,7 +238,7 @@ type NotificationChannelPathSelectorMetadataLabels struct{}
 func (NotificationChannelPathSelectorMetadataLabels) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -257,7 +261,7 @@ type NotificationChannelMapPathSelectorMetadataLabels struct {
 func (s NotificationChannelMapPathSelectorMetadataLabels) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -274,7 +278,7 @@ type NotificationChannelPathSelectorMetadataAnnotations struct{}
 func (NotificationChannelPathSelectorMetadataAnnotations) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -297,7 +301,7 @@ type NotificationChannelMapPathSelectorMetadataAnnotations struct {
 func (s NotificationChannelMapPathSelectorMetadataAnnotations) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -314,7 +318,7 @@ type NotificationChannelPathSelectorMetadataGeneration struct{}
 func (NotificationChannelPathSelectorMetadataGeneration) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -331,7 +335,7 @@ type NotificationChannelPathSelectorMetadataResourceVersion struct{}
 func (NotificationChannelPathSelectorMetadataResourceVersion) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -348,19 +352,19 @@ type NotificationChannelPathSelectorMetadataOwnerReferences struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferences) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
-func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *NotificationChannel_FieldSubPathArrayItemValue {
+func (s NotificationChannelPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *NotificationChannel_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannel_FieldSubPathArrayItemValue)
 }
 
@@ -384,10 +388,6 @@ func (NotificationChannelPathSelectorMetadataOwnerReferences) Controller() Notif
 	return NotificationChannelPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (NotificationChannelPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (NotificationChannelPathSelectorMetadataOwnerReferences) RequiresOwnerReference() NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -397,7 +397,7 @@ type NotificationChannelPathSelectorMetadataOwnerReferencesKind struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferencesKind) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -414,7 +414,7 @@ type NotificationChannelPathSelectorMetadataOwnerReferencesVersion struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferencesVersion) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -431,7 +431,7 @@ type NotificationChannelPathSelectorMetadataOwnerReferencesName struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferencesName) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -448,7 +448,7 @@ type NotificationChannelPathSelectorMetadataOwnerReferencesRegion struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferencesRegion) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -465,7 +465,7 @@ type NotificationChannelPathSelectorMetadataOwnerReferencesController struct{}
 func (NotificationChannelPathSelectorMetadataOwnerReferencesController) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -477,29 +477,12 @@ func (s NotificationChannelPathSelectorMetadataOwnerReferencesController) WithAr
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
-type NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *NotificationChannel_FieldSubPath {
-	return &NotificationChannel_FieldSubPath{
-		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *NotificationChannel_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
-}
-
-func (s NotificationChannelPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *NotificationChannel_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
-}
-
 type NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -516,7 +499,7 @@ type NotificationChannelPathSelectorMetadataShards struct{}
 func (NotificationChannelPathSelectorMetadataShards) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -539,7 +522,7 @@ type NotificationChannelMapPathSelectorMetadataShards struct {
 func (s NotificationChannelMapPathSelectorMetadataShards) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -556,15 +539,15 @@ type NotificationChannelPathSelectorMetadataSyncing struct{}
 func (NotificationChannelPathSelectorMetadataSyncing) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -581,7 +564,7 @@ type NotificationChannelPathSelectorMetadataSyncingOwningRegion struct{}
 func (NotificationChannelPathSelectorMetadataSyncingOwningRegion) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -598,7 +581,7 @@ type NotificationChannelPathSelectorMetadataSyncingRegions struct{}
 func (NotificationChannelPathSelectorMetadataSyncingRegions) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -619,15 +602,15 @@ type NotificationChannelPathSelectorMetadataLifecycle struct{}
 func (NotificationChannelPathSelectorMetadataLifecycle) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -644,15 +627,15 @@ type NotificationChannelPathSelectorMetadataLifecycleState struct{}
 func (NotificationChannelPathSelectorMetadataLifecycleState) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -661,7 +644,7 @@ type NotificationChannelPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (NotificationChannelPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -671,6 +654,69 @@ func (s NotificationChannelPathSelectorMetadataLifecycleBlockDeletion) WithValue
 
 func (s NotificationChannelPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorMetadataServices struct{}
+
+func (NotificationChannelPathSelectorMetadataServices) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+func (NotificationChannelPathSelectorMetadataServices) OwningService() NotificationChannelPathSelectorMetadataServicesOwningService {
+	return NotificationChannelPathSelectorMetadataServicesOwningService{}
+}
+
+func (NotificationChannelPathSelectorMetadataServices) AllowedServices() NotificationChannelPathSelectorMetadataServicesAllowedServices {
+	return NotificationChannelPathSelectorMetadataServicesAllowedServices{}
+}
+
+type NotificationChannelPathSelectorMetadataServicesOwningService struct{}
+
+func (NotificationChannelPathSelectorMetadataServicesOwningService) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorMetadataServicesOwningService) WithValue(value string) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorMetadataServicesAllowedServices struct{}
+
+func (NotificationChannelPathSelectorMetadataServicesAllowedServices) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+func (s NotificationChannelPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *NotificationChannel_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannel_FieldSubPathArrayItemValue)
 }
 
 type NotificationChannelPathSelectorDisplayName struct{}
@@ -1066,11 +1112,11 @@ func (NotificationChannelPathSelectorStateErrorTime) FieldPath() *NotificationCh
 	}
 }
 
-func (s NotificationChannelPathSelectorStateErrorTime) WithValue(value *timestamp.Timestamp) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorStateErrorTime) WithValue(value *timestamppb.Timestamp) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorStateErrorTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorStateErrorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -1468,11 +1514,11 @@ func (NotificationChannel_StatePathSelectorErrorTime) FieldPath() *NotificationC
 	}
 }
 
-func (s NotificationChannel_StatePathSelectorErrorTime) WithValue(value *timestamp.Timestamp) *NotificationChannelState_FieldSubPathValue {
+func (s NotificationChannel_StatePathSelectorErrorTime) WithValue(value *timestamppb.Timestamp) *NotificationChannelState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannelState_FieldSubPathValue)
 }
 
-func (s NotificationChannel_StatePathSelectorErrorTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannelState_FieldSubPathArrayOfValues {
+func (s NotificationChannel_StatePathSelectorErrorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannelState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelState_FieldSubPathArrayOfValues)
 }
 
@@ -1725,11 +1771,11 @@ func (NotificationChannel_State_ErrorPathSelectorTime) FieldPath() *Notification
 	return &NotificationChannelStateError_FieldTerminalPath{selector: NotificationChannelStateError_FieldPathSelectorTime}
 }
 
-func (s NotificationChannel_State_ErrorPathSelectorTime) WithValue(value *timestamp.Timestamp) *NotificationChannelStateError_FieldTerminalPathValue {
+func (s NotificationChannel_State_ErrorPathSelectorTime) WithValue(value *timestamppb.Timestamp) *NotificationChannelStateError_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannelStateError_FieldTerminalPathValue)
 }
 
-func (s NotificationChannel_State_ErrorPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *NotificationChannelStateError_FieldTerminalPathArrayOfValues {
+func (s NotificationChannel_State_ErrorPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *NotificationChannelStateError_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelStateError_FieldTerminalPathArrayOfValues)
 }
 

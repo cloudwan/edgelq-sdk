@@ -10,8 +10,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/attestation;attestation_client";
 option java_multiple_files = false;

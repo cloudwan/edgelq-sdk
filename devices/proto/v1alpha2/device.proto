@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package ntt.devices.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/latlng.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device;device";
 option java_multiple_files = true;
@@ -29,7 +29,7 @@ message Device {
   string name = 1;
 
   // Metadata of Device
-  ntt.types.Meta metadata = 2;
+  goten.types.Meta metadata = 2;
 
   // Spec holds the expected state of the Device, meaning configurations.
   Spec spec = 3;

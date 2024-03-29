@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.monitoring.v3;
 
-import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+import "goten-sdk/types/multi_region_policy.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project;project";
 option java_multiple_files = true;
@@ -27,8 +27,8 @@ message Project {
   string title = 2;
 
   // metadata
-  ntt.types.Meta metadata = 3;
+  goten.types.Meta metadata = 3;
 
   // Multi region policy
-  ntt.types.MultiRegionPolicy multi_region_policy = 4;
+  goten.types.MultiRegionPolicy multi_region_policy = 4;
 }

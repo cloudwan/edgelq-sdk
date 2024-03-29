@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	alerting_policy_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alerting_policy"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiAlertingPolicyAccess struct {
@@ -42,8 +44,11 @@ func NewApiAlertingPolicyAccess(client alerting_policy_client.AlertingPolicyServ
 }
 
 func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *alerting_policy.GetQuery) (*alerting_policy.AlertingPolicy, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &alerting_policy_client.GetAlertingPolicyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetAlertingPolicy(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *
 
 func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, refs []*alerting_policy.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*alerting_policy.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &alerting_policy_client.BatchGetAlertingPoliciesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(alerting_policy.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, que
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListAlertingPolicies(ctx, request)
 	if err != nil {
 		return nil, err
@@ -118,6 +133,9 @@ func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, qu
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.SearchAlertingPolicies(ctx, request)
 	if err != nil {
 		return nil, err
@@ -132,8 +150,11 @@ func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, qu
 }
 
 func (a *apiAlertingPolicyAccess) WatchAlertingPolicy(ctx context.Context, query *alerting_policy.GetQuery, observerCb func(*alerting_policy.AlertingPolicyChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &alerting_policy_client.WatchAlertingPolicyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchAlertingPolicy(ctx, request)
@@ -164,6 +185,9 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicies(ctx context.Context, que
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchAlertingPolicies(ctx, request)
 	if initErr != nil {
@@ -205,7 +229,8 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 			}
 		}
 	}
-
+	var resp *alerting_policy.AlertingPolicy
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &alerting_policy_client.UpdateAlertingPolicyRequest{
 			AlertingPolicy: res,
@@ -219,29 +244,76 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 				FieldMask:        mask.(*alerting_policy.AlertingPolicy_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateAlertingPolicy(ctx, updateRequest)
+		resp, err = a.client.UpdateAlertingPolicy(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &alerting_policy_client.CreateAlertingPolicyRequest{
 			AlertingPolicy: res,
 		}
-		_, err := a.client.CreateAlertingPolicy(ctx, createRequest)
+		resp, err = a.client.CreateAlertingPolicy(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref *alerting_policy.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &alerting_policy_client.DeleteAlertingPolicyRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteAlertingPolicy(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *alerting_policy.Filter) (*alerting_policy.Filter, *alerting_policy.ParentName) {
+	var withParentExtraction func(cnd alerting_policy.FilterCondition) alerting_policy.FilterCondition
+	var resultParent *alerting_policy.ParentName
+	var resultFilter *alerting_policy.Filter
+	withParentExtraction = func(cnd alerting_policy.FilterCondition) alerting_policy.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *alerting_policy.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]alerting_policy.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return alerting_policy.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *alerting_policy.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*alerting_policy.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &alerting_policy.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

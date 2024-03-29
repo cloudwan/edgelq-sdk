@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/common.proto";
+import "edgelq-sdk/limits/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan;plan";
+option java_multiple_files = true;
+option java_outer_classname = "PlanProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// Plan is a bundle with set of limits for various resources in given service.
+// Note that Plan limits are regional. For example, if plan predicts
+// for example 1000 pods and is assigned for resource enabled for 2
+// regions, then project will be allowed to create 1000 pods in each
+// region.
+message Plan {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/Plan"
+    pattern : "services/{service}/plans/{plan}"
+    pattern : "organizations/{organization}/plans/{plan}"
+  };
+
+  // Name of Plan
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 5;
+
+  // Plan display name
+  string display_name = 2;
+
+  // Service where plan applies. If this Plan is a child of Service itself,
+  // they must be equal.
+  string service = 3;
+
+  // List of limits per each resource.
+  repeated LimitValue resource_limits = 4;
+
+  // Plan level
+  PlanLevel plan_level = 6;
+
+  // Business tier - this only is used to determine default plan when
+  // project/organization is created. It is possible to set this value to
+  // UNDEFINED rendering this plan as non-default.
+  ntt.iam.v1.BusinessTier business_tier = 7;
+
+  // Spec generation, incremented for every change in resource_limits field.
+  int64 generation = 8;
+
+  // LimitValue informs how many instances of resource for given type are
+  // permitted.
+  message LimitValue {
+    // Reference to resource
+    string resource = 1;
+
+    // Limit for given resource.
+    int64 value = 2;
+  }
+
+  // PlanLevel defines entity level for whom plan can be assigned
+  enum PlanLevel {
+    UNDEFINED = 0;
+
+    SERVICE = 1;
+
+    ORGANIZATION = 2;
+
+    PROJECT = 3;
+  }
+}

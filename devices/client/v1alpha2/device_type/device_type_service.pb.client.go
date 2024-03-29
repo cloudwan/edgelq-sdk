@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &device_type.DeviceType{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type DeviceTypeServiceClient interface {
 	WatchDeviceTypes(ctx context.Context, in *WatchDeviceTypesRequest, opts ...grpc.CallOption) (WatchDeviceTypesClientStream, error)
 	CreateDeviceType(ctx context.Context, in *CreateDeviceTypeRequest, opts ...grpc.CallOption) (*device_type.DeviceType, error)
 	UpdateDeviceType(ctx context.Context, in *UpdateDeviceTypeRequest, opts ...grpc.CallOption) (*device_type.DeviceType, error)
-	DeleteDeviceType(ctx context.Context, in *DeleteDeviceTypeRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteDeviceType(ctx context.Context, in *DeleteDeviceTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateDeviceType(ctx context.Context, in *UpdateDeviceTypeReque
 	return out, nil
 }
 
-func (c *client) DeleteDeviceType(ctx context.Context, in *DeleteDeviceTypeRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteDeviceType(ctx context.Context, in *DeleteDeviceTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.DeviceTypeService/DeleteDeviceType", in, out, opts...)
 	if err != nil {
 		return nil, err

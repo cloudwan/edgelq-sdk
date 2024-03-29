@@ -17,14 +17,13 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -41,14 +40,13 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -114,7 +112,7 @@ func BuildService_FieldPath(fp gotenobject.RawFieldPath) (Service_FieldPath, err
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Service_FieldSubPath{selector: Service_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -228,7 +226,7 @@ func (fp *Service_FieldTerminalPath) GetDefault() interface{} {
 	case Service_FieldPathSelectorAllVersions:
 		return ([]string)(nil)
 	case Service_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fp.selector))
 	}
@@ -280,7 +278,7 @@ func (fp *Service_FieldTerminalPath) WithIValue(value interface{}) Service_Field
 	case Service_FieldPathSelectorAllVersions:
 		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.([]string)}
 	case Service_FieldPathSelectorMetadata:
-		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fp.selector))
 	}
@@ -302,7 +300,7 @@ func (fp *Service_FieldTerminalPath) WithIArrayOfValues(values interface{}) Serv
 	case Service_FieldPathSelectorAllVersions:
 		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([][]string)}
 	case Service_FieldPathSelectorMetadata:
-		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fp.selector))
 	}
@@ -336,8 +334,8 @@ var _ Service_FieldPath = (*Service_FieldSubPath)(nil)
 func (fps *Service_FieldSubPath) Selector() Service_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Service_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Service_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -493,8 +491,8 @@ func (fpv *Service_FieldTerminalPathValue) AsAllVersionsValue() ([]string, bool)
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *Service_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Service_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -513,7 +511,7 @@ func (fpv *Service_FieldTerminalPathValue) SetTo(target **Service) {
 	case Service_FieldPathSelectorAllVersions:
 		(*target).AllVersions = fpv.value.([]string)
 	case Service_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fpv.selector))
 	}
@@ -586,8 +584,8 @@ type Service_FieldSubPathValue struct {
 
 var _ Service_FieldPathValue = (*Service_FieldSubPathValue)(nil)
 
-func (fpvs *Service_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Service_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -597,7 +595,7 @@ func (fpvs *Service_FieldSubPathValue) SetTo(target **Service) {
 	}
 	switch fpvs.Selector() {
 	case Service_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fpvs.Selector()))
 	}
@@ -615,7 +613,7 @@ func (fpvs *Service_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Service_FieldSubPathValue) CompareWith(source *Service) (int, bool) {
 	switch fpvs.Selector() {
 	case Service_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fpvs.Selector()))
 	}
@@ -702,8 +700,8 @@ type Service_FieldSubPathArrayItemValue struct {
 func (fpaivs *Service_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Service_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Service_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -711,7 +709,7 @@ func (fpaivs *Service_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt
 func (fpaivs *Service_FieldSubPathArrayItemValue) ContainsValue(source *Service) bool {
 	switch fpaivs.Selector() {
 	case Service_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fpaivs.Selector()))
 	}
@@ -769,7 +767,7 @@ func (fpaov *Service_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 			values = append(values, v)
 		}
 	case Service_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -791,8 +789,8 @@ func (fpaov *Service_FieldTerminalPathArrayOfValues) AsAllVersionsArrayOfValues(
 	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
-func (fpaov *Service_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Service_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -806,7 +804,7 @@ var _ Service_FieldPathArrayOfValues = (*Service_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Service_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Service_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Service_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

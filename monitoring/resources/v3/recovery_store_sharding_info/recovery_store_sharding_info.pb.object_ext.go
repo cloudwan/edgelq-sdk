@@ -9,16 +9,16 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -27,16 +27,16 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func (o *RecoveryStoreShardingInfo) GotenObjectExt() {}
@@ -150,7 +150,7 @@ func (o *RecoveryStoreShardingInfo) Merge(source *RecoveryStoreShardingInfo) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -197,8 +197,8 @@ func (o *RecoveryStoreShardingInfo_ValidityPeriod) Clone() *RecoveryStoreShardin
 		return nil
 	}
 	result := &RecoveryStoreShardingInfo_ValidityPeriod{}
-	result.StartTime = proto.Clone(o.StartTime).(*timestamp.Timestamp)
-	result.EndTime = proto.Clone(o.EndTime).(*timestamp.Timestamp)
+	result.StartTime = proto.Clone(o.StartTime).(*timestamppb.Timestamp)
+	result.EndTime = proto.Clone(o.EndTime).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -209,13 +209,13 @@ func (o *RecoveryStoreShardingInfo_ValidityPeriod) CloneRaw() gotenobject.GotenO
 func (o *RecoveryStoreShardingInfo_ValidityPeriod) Merge(source *RecoveryStoreShardingInfo_ValidityPeriod) {
 	if source.GetStartTime() != nil {
 		if o.StartTime == nil {
-			o.StartTime = new(timestamp.Timestamp)
+			o.StartTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.StartTime, source.GetStartTime())
 	}
 	if source.GetEndTime() != nil {
 		if o.EndTime == nil {
-			o.EndTime = new(timestamp.Timestamp)
+			o.EndTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.EndTime, source.GetEndTime())
 	}
@@ -262,7 +262,7 @@ func (o *RecoveryStoreShardingInfo_ShardingSpec) Clone() *RecoveryStoreShardingI
 		return nil
 	}
 	result := &RecoveryStoreShardingInfo_ShardingSpec{}
-	result.TsBlobPeriod = proto.Clone(o.TsBlobPeriod).(*duration.Duration)
+	result.TsBlobPeriod = proto.Clone(o.TsBlobPeriod).(*durationpb.Duration)
 	result.ShardsCount = o.ShardsCount
 	return result
 }
@@ -274,7 +274,7 @@ func (o *RecoveryStoreShardingInfo_ShardingSpec) CloneRaw() gotenobject.GotenObj
 func (o *RecoveryStoreShardingInfo_ShardingSpec) Merge(source *RecoveryStoreShardingInfo_ShardingSpec) {
 	if source.GetTsBlobPeriod() != nil {
 		if o.TsBlobPeriod == nil {
-			o.TsBlobPeriod = new(duration.Duration)
+			o.TsBlobPeriod = new(durationpb.Duration)
 		}
 		proto.Merge(o.TsBlobPeriod, source.GetTsBlobPeriod())
 	}

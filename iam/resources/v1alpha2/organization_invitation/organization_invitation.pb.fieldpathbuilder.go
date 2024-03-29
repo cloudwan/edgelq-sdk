@@ -6,8 +6,6 @@ package organization_invitation
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
@@ -18,14 +16,14 @@ import (
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &iam_invitation.Actor{}
@@ -37,7 +35,9 @@ var (
 	_ = &user.User{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type OrganizationInvitationFieldPathBuilder struct{}
@@ -292,11 +292,11 @@ func (OrganizationInvitationPathSelectorInvitationExpirationDate) FieldPath() *O
 	}
 }
 
-func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithValue(value *timestamp.Timestamp) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithValue(value *timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -363,27 +363,27 @@ func (OrganizationInvitationPathSelectorMetadata) FieldPath() *OrganizationInvit
 	return &OrganizationInvitation_FieldTerminalPath{selector: OrganizationInvitation_FieldPathSelectorMetadata}
 }
 
-func (s OrganizationInvitationPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *OrganizationInvitation_FieldTerminalPathValue {
+func (s OrganizationInvitationPathSelectorMetadata) WithValue(value *meta.Meta) *OrganizationInvitation_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldTerminalPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *OrganizationInvitation_FieldTerminalPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *OrganizationInvitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldTerminalPathArrayOfValues)
 }
 
-func (OrganizationInvitationPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *OrganizationInvitation_FieldSubPath {
+func (OrganizationInvitationPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{selector: OrganizationInvitation_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s OrganizationInvitationPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *OrganizationInvitation_FieldSubPathValue {
 	return &OrganizationInvitation_FieldSubPathValue{OrganizationInvitation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s OrganizationInvitationPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return &OrganizationInvitation_FieldSubPathArrayOfValues{OrganizationInvitation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s OrganizationInvitationPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *OrganizationInvitation_FieldSubPathArrayItemValue {
+func (s OrganizationInvitationPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *OrganizationInvitation_FieldSubPathArrayItemValue {
 	return &OrganizationInvitation_FieldSubPathArrayItemValue{OrganizationInvitation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -439,20 +439,24 @@ func (OrganizationInvitationPathSelectorMetadata) Lifecycle() OrganizationInvita
 	return OrganizationInvitationPathSelectorMetadataLifecycle{}
 }
 
+func (OrganizationInvitationPathSelectorMetadata) Services() OrganizationInvitationPathSelectorMetadataServices {
+	return OrganizationInvitationPathSelectorMetadataServices{}
+}
+
 type OrganizationInvitationPathSelectorMetadataCreateTime struct{}
 
 func (OrganizationInvitationPathSelectorMetadataCreateTime) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -461,15 +465,15 @@ type OrganizationInvitationPathSelectorMetadataUpdateTime struct{}
 func (OrganizationInvitationPathSelectorMetadataUpdateTime) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -478,15 +482,15 @@ type OrganizationInvitationPathSelectorMetadataDeleteTime struct{}
 func (OrganizationInvitationPathSelectorMetadataDeleteTime) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -495,7 +499,7 @@ type OrganizationInvitationPathSelectorMetadataUuid struct{}
 func (OrganizationInvitationPathSelectorMetadataUuid) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -512,7 +516,7 @@ type OrganizationInvitationPathSelectorMetadataTags struct{}
 func (OrganizationInvitationPathSelectorMetadataTags) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -533,7 +537,7 @@ type OrganizationInvitationPathSelectorMetadataLabels struct{}
 func (OrganizationInvitationPathSelectorMetadataLabels) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -556,7 +560,7 @@ type OrganizationInvitationMapPathSelectorMetadataLabels struct {
 func (s OrganizationInvitationMapPathSelectorMetadataLabels) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -573,7 +577,7 @@ type OrganizationInvitationPathSelectorMetadataAnnotations struct{}
 func (OrganizationInvitationPathSelectorMetadataAnnotations) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -596,7 +600,7 @@ type OrganizationInvitationMapPathSelectorMetadataAnnotations struct {
 func (s OrganizationInvitationMapPathSelectorMetadataAnnotations) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -613,7 +617,7 @@ type OrganizationInvitationPathSelectorMetadataGeneration struct{}
 func (OrganizationInvitationPathSelectorMetadataGeneration) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -630,7 +634,7 @@ type OrganizationInvitationPathSelectorMetadataResourceVersion struct{}
 func (OrganizationInvitationPathSelectorMetadataResourceVersion) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -647,19 +651,19 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferences struct{}
 func (OrganizationInvitationPathSelectorMetadataOwnerReferences) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *OrganizationInvitation_FieldSubPathArrayItemValue {
+func (s OrganizationInvitationPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *OrganizationInvitation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*OrganizationInvitation_FieldSubPathArrayItemValue)
 }
 
@@ -683,10 +687,6 @@ func (OrganizationInvitationPathSelectorMetadataOwnerReferences) Controller() Or
 	return OrganizationInvitationPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (OrganizationInvitationPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (OrganizationInvitationPathSelectorMetadataOwnerReferences) RequiresOwnerReference() OrganizationInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return OrganizationInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -696,7 +696,7 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferencesKind struct{}
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesKind) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -713,7 +713,7 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferencesVersion struct{}
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesVersion) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -730,7 +730,7 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferencesName struct{}
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesName) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -747,7 +747,7 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferencesRegion struct{}
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesRegion) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -764,7 +764,7 @@ type OrganizationInvitationPathSelectorMetadataOwnerReferencesController struct{
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesController) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -776,29 +776,12 @@ func (s OrganizationInvitationPathSelectorMetadataOwnerReferencesController) Wit
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
-type OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *OrganizationInvitation_FieldSubPath {
-	return &OrganizationInvitation_FieldSubPath{
-		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *OrganizationInvitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
-}
-
-func (s OrganizationInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *OrganizationInvitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
-}
-
 type OrganizationInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (OrganizationInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -815,7 +798,7 @@ type OrganizationInvitationPathSelectorMetadataShards struct{}
 func (OrganizationInvitationPathSelectorMetadataShards) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -838,7 +821,7 @@ type OrganizationInvitationMapPathSelectorMetadataShards struct {
 func (s OrganizationInvitationMapPathSelectorMetadataShards) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -855,15 +838,15 @@ type OrganizationInvitationPathSelectorMetadataSyncing struct{}
 func (OrganizationInvitationPathSelectorMetadataSyncing) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -880,7 +863,7 @@ type OrganizationInvitationPathSelectorMetadataSyncingOwningRegion struct{}
 func (OrganizationInvitationPathSelectorMetadataSyncingOwningRegion) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -897,7 +880,7 @@ type OrganizationInvitationPathSelectorMetadataSyncingRegions struct{}
 func (OrganizationInvitationPathSelectorMetadataSyncingRegions) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -918,15 +901,15 @@ type OrganizationInvitationPathSelectorMetadataLifecycle struct{}
 func (OrganizationInvitationPathSelectorMetadataLifecycle) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -943,15 +926,15 @@ type OrganizationInvitationPathSelectorMetadataLifecycleState struct{}
 func (OrganizationInvitationPathSelectorMetadataLifecycleState) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -960,7 +943,7 @@ type OrganizationInvitationPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (OrganizationInvitationPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -970,4 +953,67 @@ func (s OrganizationInvitationPathSelectorMetadataLifecycleBlockDeletion) WithVa
 
 func (s OrganizationInvitationPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+type OrganizationInvitationPathSelectorMetadataServices struct{}
+
+func (OrganizationInvitationPathSelectorMetadataServices) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+func (OrganizationInvitationPathSelectorMetadataServices) OwningService() OrganizationInvitationPathSelectorMetadataServicesOwningService {
+	return OrganizationInvitationPathSelectorMetadataServicesOwningService{}
+}
+
+func (OrganizationInvitationPathSelectorMetadataServices) AllowedServices() OrganizationInvitationPathSelectorMetadataServicesAllowedServices {
+	return OrganizationInvitationPathSelectorMetadataServicesAllowedServices{}
+}
+
+type OrganizationInvitationPathSelectorMetadataServicesOwningService struct{}
+
+func (OrganizationInvitationPathSelectorMetadataServicesOwningService) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServicesOwningService) WithValue(value string) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+type OrganizationInvitationPathSelectorMetadataServicesAllowedServices struct{}
+
+func (OrganizationInvitationPathSelectorMetadataServicesAllowedServices) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+func (s OrganizationInvitationPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *OrganizationInvitation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OrganizationInvitation_FieldSubPathArrayItemValue)
 }

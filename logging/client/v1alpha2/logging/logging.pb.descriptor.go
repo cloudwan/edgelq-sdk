@@ -51,7 +51,7 @@ func (d *LoggingDescriptor) GetVersion() string {
 
 func (d *LoggingDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *LoggingDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

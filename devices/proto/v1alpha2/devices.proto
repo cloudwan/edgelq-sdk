@@ -12,6 +12,7 @@ import "edgelq-sdk/devices/proto/v1alpha2/device_custom.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_service.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_type.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_type_service.proto";
+import "edgelq-sdk/devices/proto/v1alpha2/devices_versioning.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/os_image_profile.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/os_image_profile_service.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/os_version.proto";

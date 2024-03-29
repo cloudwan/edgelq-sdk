@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	role_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiRoleAccess struct {
@@ -42,8 +44,11 @@ func NewApiRoleAccess(client role_client.RoleServiceClient) role.RoleAccess {
 }
 
 func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*role.Role, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &role_client.GetRoleRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetRole(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*rol
 
 func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*role.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &role_client.BatchGetRolesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(role.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiRoleAccess) QueryRoles(ctx context.Context, query *role.ListQuery) (
 }
 
 func (a *apiRoleAccess) WatchRole(ctx context.Context, query *role.GetQuery, observerCb func(*role.RoleChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &role_client.WatchRoleRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchRole(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiRoleAccess) SaveRole(ctx context.Context, res *role.Role, opts ...go
 			}
 		}
 	}
-
+	var resp *role.Role
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &role_client.UpdateRoleRequest{
 			Role: res,
@@ -195,26 +211,30 @@ func (a *apiRoleAccess) SaveRole(ctx context.Context, res *role.Role, opts ...go
 				FieldMask:        mask.(*role.Role_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateRole(ctx, updateRequest)
+		resp, err = a.client.UpdateRole(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &role_client.CreateRoleRequest{
 			Role: res,
 		}
-		_, err := a.client.CreateRole(ctx, createRequest)
+		resp, err = a.client.CreateRole(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiRoleAccess) DeleteRole(ctx context.Context, ref *role.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &role_client.DeleteRoleRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteRole(ctx, request)
 	return err

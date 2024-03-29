@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization_invitation.OrganizationInvitation{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type OrganizationInvitationServiceClient interface {
 	WatchOrganizationInvitations(ctx context.Context, in *WatchOrganizationInvitationsRequest, opts ...grpc.CallOption) (WatchOrganizationInvitationsClientStream, error)
 	CreateOrganizationInvitation(ctx context.Context, in *CreateOrganizationInvitationRequest, opts ...grpc.CallOption) (*organization_invitation.OrganizationInvitation, error)
 	UpdateOrganizationInvitation(ctx context.Context, in *UpdateOrganizationInvitationRequest, opts ...grpc.CallOption) (*organization_invitation.OrganizationInvitation, error)
-	DeleteOrganizationInvitation(ctx context.Context, in *DeleteOrganizationInvitationRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOrganizationInvitation(ctx context.Context, in *DeleteOrganizationInvitationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	AcceptOrganizationInvitation(ctx context.Context, in *AcceptOrganizationInvitationRequest, opts ...grpc.CallOption) (*AcceptOrganizationInvitationResponse, error)
 	DeclineOrganizationInvitation(ctx context.Context, in *DeclineOrganizationInvitationRequest, opts ...grpc.CallOption) (*DeclineOrganizationInvitationResponse, error)
 	ListMyOrganizationInvitations(ctx context.Context, in *ListMyOrganizationInvitationsRequest, opts ...grpc.CallOption) (*ListMyOrganizationInvitationsResponse, error)
@@ -189,8 +189,8 @@ func (c *client) UpdateOrganizationInvitation(ctx context.Context, in *UpdateOrg
 	return out, nil
 }
 
-func (c *client) DeleteOrganizationInvitation(ctx context.Context, in *DeleteOrganizationInvitationRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteOrganizationInvitation(ctx context.Context, in *DeleteOrganizationInvitationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.OrganizationInvitationService/DeleteOrganizationInvitation", in, out, opts...)
 	if err != nil {
 		return nil, err

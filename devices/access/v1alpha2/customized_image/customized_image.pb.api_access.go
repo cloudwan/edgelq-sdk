@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/customized_image"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiCustomizedImageAccess struct {
@@ -42,8 +44,11 @@ func NewApiCustomizedImageAccess(client customized_image_client.CustomizedImageS
 }
 
 func (a *apiCustomizedImageAccess) GetCustomizedImage(ctx context.Context, query *customized_image.GetQuery) (*customized_image.CustomizedImage, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &customized_image_client.GetCustomizedImageRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetCustomizedImage(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiCustomizedImageAccess) GetCustomizedImage(ctx context.Context, query
 
 func (a *apiCustomizedImageAccess) BatchGetCustomizedImages(ctx context.Context, refs []*customized_image.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*customized_image.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &customized_image_client.BatchGetCustomizedImagesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(customized_image.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiCustomizedImageAccess) QueryCustomizedImages(ctx context.Context, qu
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListCustomizedImages(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiCustomizedImageAccess) QueryCustomizedImages(ctx context.Context, qu
 }
 
 func (a *apiCustomizedImageAccess) WatchCustomizedImage(ctx context.Context, query *customized_image.GetQuery, observerCb func(*customized_image.CustomizedImageChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &customized_image_client.WatchCustomizedImageRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchCustomizedImage(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiCustomizedImageAccess) WatchCustomizedImages(ctx context.Context, qu
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchCustomizedImages(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiCustomizedImageAccess) SaveCustomizedImage(ctx context.Context, res 
 			}
 		}
 	}
-
+	var resp *customized_image.CustomizedImage
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &customized_image_client.UpdateCustomizedImageRequest{
 			CustomizedImage: res,
@@ -195,29 +217,76 @@ func (a *apiCustomizedImageAccess) SaveCustomizedImage(ctx context.Context, res 
 				FieldMask:        mask.(*customized_image.CustomizedImage_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateCustomizedImage(ctx, updateRequest)
+		resp, err = a.client.UpdateCustomizedImage(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &customized_image_client.CreateCustomizedImageRequest{
 			CustomizedImage: res,
 		}
-		_, err := a.client.CreateCustomizedImage(ctx, createRequest)
+		resp, err = a.client.CreateCustomizedImage(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiCustomizedImageAccess) DeleteCustomizedImage(ctx context.Context, ref *customized_image.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &customized_image_client.DeleteCustomizedImageRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteCustomizedImage(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *customized_image.Filter) (*customized_image.Filter, *customized_image.ParentName) {
+	var withParentExtraction func(cnd customized_image.FilterCondition) customized_image.FilterCondition
+	var resultParent *customized_image.ParentName
+	var resultFilter *customized_image.Filter
+	withParentExtraction = func(cnd customized_image.FilterCondition) customized_image.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *customized_image.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]customized_image.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return customized_image.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *customized_image.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*customized_image.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &customized_image.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

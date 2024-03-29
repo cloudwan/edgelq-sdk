@@ -14,7 +14,6 @@ import (
 // proto imports
 import (
 	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
-	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &resource.Resource{}
-	_ = &empty.Empty{}
 )
 
 var (
@@ -38,9 +36,6 @@ var (
 	listResourcesDescriptor     *ListResourcesDescriptor
 	watchResourceDescriptor     *WatchResourceDescriptor
 	watchResourcesDescriptor    *WatchResourcesDescriptor
-	createResourceDescriptor    *CreateResourceDescriptor
-	updateResourceDescriptor    *UpdateResourceDescriptor
-	deleteResourceDescriptor    *DeleteResourceDescriptor
 )
 
 type GetResourceDescriptor struct{}
@@ -139,8 +134,8 @@ func (h *GetResourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Mes
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*resource.Name)(nil)
@@ -166,6 +161,30 @@ func (h *GetResourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.M
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetResourceDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetResourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetResourceRequest) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetResourceDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetResourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetResourceRequest) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +226,22 @@ func (h *GetResourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.M
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetResourceDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*resource.Resource)
+}
+
+func (h *GetResourceDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*resource.Resource)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*resource.Resource) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +358,8 @@ func (h *BatchGetResourcesDescriptorClientMsgHandle) ExtractResourceNames(msg pr
 		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(resource.ResourceNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return resource.ResourceNameList(names)
 		}
 	}
 	return (resource.ResourceNameList)(nil)
@@ -342,6 +373,30 @@ func (h *BatchGetResourcesDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetResourcesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetResourcesRequest) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetResourcesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetResourcesRequest) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +444,35 @@ func (h *BatchGetResourcesDescriptorServerMsgHandle) ExtractCollectionName(msg p
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetResourcesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetResourcesResponse) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetResourcesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetResourcesResponse) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetResources(); len(resources) > 0 {
+			return resource.ResourceList(resources)
+		}
+	}
+	return (resource.ResourceList)(nil)
 }
 
 func GetBatchGetResourcesDescriptor() *BatchGetResourcesDescriptor {
@@ -522,6 +606,30 @@ func (h *ListResourcesDescriptorClientMsgHandle) ExtractCollectionName(msg proto
 	return (*resource.ParentName)(nil)
 }
 
+func (h *ListResourcesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListResourcesRequest) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListResourcesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListResourcesRequest) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListResourcesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourcesResponse)
 	var asInterface interface{} = h
@@ -565,6 +673,35 @@ func (h *ListResourcesDescriptorServerMsgHandle) ExtractCollectionName(msg proto
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListResourcesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListResourcesResponse) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListResourcesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListResourcesResponse) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetResources(); len(resources) > 0 {
+			return resource.ResourceList(resources)
+		}
+	}
+	return (resource.ResourceList)(nil)
 }
 
 func GetListResourcesDescriptor() *ListResourcesDescriptor {
@@ -667,8 +804,8 @@ func (h *WatchResourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.M
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*resource.Name)(nil)
@@ -694,6 +831,30 @@ func (h *WatchResourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchResourceDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchResourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchResourceRequest) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchResourceDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchResourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchResourceRequest) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +905,42 @@ func (h *WatchResourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchResourceDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchResourceResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchResourceResponse) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *resource.ResourceChange_Added_:
+				return tResChange.Added.GetResource()
+			case *resource.ResourceChange_Modified_:
+				return tResChange.Modified.GetResource()
+			case *resource.ResourceChange_Current_:
+				return tResChange.Current.GetResource()
+			}
+		}
+	}
+	return (*resource.Resource)(nil)
+}
+
+func (h *WatchResourceDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchResourceResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchResourceResponse) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1069,35 @@ func (h *WatchResourcesDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*resource.ParentName)(nil)
+}
+
+func (h *WatchResourcesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchResourcesRequest) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchResourcesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchResourcesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchResourcesRequest) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchResourcesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -933,526 +1154,48 @@ func (h *WatchResourcesDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 	return nil
 }
 
+func (h *WatchResourcesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchResourcesResponse) *resource.Resource
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchResourcesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchResourcesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchResourcesResponse) []*resource.Resource
+	})
+	if ok {
+		return resource.ResourceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetResourceChanges(); len(resChanges) > 0 {
+			list := make(resource.ResourceList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *resource.ResourceChange_Added_:
+					list = append(list, tResChange.Added.GetResource())
+				case *resource.ResourceChange_Modified_:
+					list = append(list, tResChange.Modified.GetResource())
+				case *resource.ResourceChange_Current_:
+					list = append(list, tResChange.Current.GetResource())
+				}
+			}
+			return list
+		}
+	}
+	return (resource.ResourceList)(nil)
+}
+
 func GetWatchResourcesDescriptor() *WatchResourcesDescriptor {
 	return watchResourcesDescriptor
-}
-
-type CreateResourceDescriptor struct{}
-
-type CreateResourceDescriptorClientMsgHandle struct{}
-
-type CreateResourceDescriptorServerMsgHandle struct{}
-
-func (d *CreateResourceDescriptor) NewEmptyClientMsg() proto.Message {
-	return &CreateResourceRequest{}
-}
-
-func (d *CreateResourceDescriptor) NewEmptyServerMsg() proto.Message {
-	return &resource.Resource{}
-}
-
-func (d *CreateResourceDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *CreateResourceDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *CreateResourceDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *CreateResourceDescriptor) IsCollection() bool {
-	return true
-}
-
-func (d *CreateResourceDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *CreateResourceDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *CreateResourceDescriptor) RequestHasResourceBody() bool {
-	return true
-}
-
-func (d *CreateResourceDescriptor) GetVerb() string {
-	return "create"
-}
-
-func (d *CreateResourceDescriptor) GetMethodName() string {
-	return "CreateResource"
-}
-
-func (d *CreateResourceDescriptor) GetFullMethodName() string {
-	return "/ntt.meta.v1alpha2.ResourceService/CreateResource"
-}
-
-func (d *CreateResourceDescriptor) GetProtoPkgName() string {
-	return "ntt.meta.v1alpha2"
-}
-
-func (d *CreateResourceDescriptor) GetApiName() string {
-	return "ResourceService"
-}
-
-func (d *CreateResourceDescriptor) GetServiceDomain() string {
-	return "meta.edgelq.com"
-}
-
-func (d *CreateResourceDescriptor) GetServiceVersion() string {
-	return "v1alpha2"
-}
-
-func (d *CreateResourceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return resourceServiceDescriptor
-}
-
-func (d *CreateResourceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return resource.GetDescriptor()
-}
-
-func (d *CreateResourceDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &CreateResourceDescriptorClientMsgHandle{}
-}
-
-func (d *CreateResourceDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &CreateResourceDescriptorServerMsgHandle{}
-}
-
-func (h *CreateResourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*CreateResourceRequest) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		res := typedMsg.GetResource()
-		if name := res.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*resource.Name)(nil)
-}
-
-func (h *CreateResourceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*CreateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*CreateResourceRequest) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *CreateResourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*CreateResourceRequest) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*resource.ParentName)(nil)
-}
-
-func (h *CreateResourceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*resource.Resource) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		if name := typedMsg.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*resource.Name)(nil)
-}
-
-func (h *CreateResourceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*resource.Resource) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *CreateResourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*resource.Resource) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func GetCreateResourceDescriptor() *CreateResourceDescriptor {
-	return createResourceDescriptor
-}
-
-type UpdateResourceDescriptor struct{}
-
-type UpdateResourceDescriptorClientMsgHandle struct{}
-
-type UpdateResourceDescriptorServerMsgHandle struct{}
-
-func (d *UpdateResourceDescriptor) NewEmptyClientMsg() proto.Message {
-	return &UpdateResourceRequest{}
-}
-
-func (d *UpdateResourceDescriptor) NewEmptyServerMsg() proto.Message {
-	return &resource.Resource{}
-}
-
-func (d *UpdateResourceDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *UpdateResourceDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *UpdateResourceDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *UpdateResourceDescriptor) IsCollection() bool {
-	return false
-}
-
-func (d *UpdateResourceDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *UpdateResourceDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *UpdateResourceDescriptor) RequestHasResourceBody() bool {
-	return true
-}
-
-func (d *UpdateResourceDescriptor) GetVerb() string {
-	return "update"
-}
-
-func (d *UpdateResourceDescriptor) GetMethodName() string {
-	return "UpdateResource"
-}
-
-func (d *UpdateResourceDescriptor) GetFullMethodName() string {
-	return "/ntt.meta.v1alpha2.ResourceService/UpdateResource"
-}
-
-func (d *UpdateResourceDescriptor) GetProtoPkgName() string {
-	return "ntt.meta.v1alpha2"
-}
-
-func (d *UpdateResourceDescriptor) GetApiName() string {
-	return "ResourceService"
-}
-
-func (d *UpdateResourceDescriptor) GetServiceDomain() string {
-	return "meta.edgelq.com"
-}
-
-func (d *UpdateResourceDescriptor) GetServiceVersion() string {
-	return "v1alpha2"
-}
-
-func (d *UpdateResourceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return resourceServiceDescriptor
-}
-
-func (d *UpdateResourceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return resource.GetDescriptor()
-}
-
-func (d *UpdateResourceDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &UpdateResourceDescriptorClientMsgHandle{}
-}
-
-func (d *UpdateResourceDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &UpdateResourceDescriptorServerMsgHandle{}
-}
-
-func (h *UpdateResourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*UpdateResourceRequest) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		res := typedMsg.GetResource()
-		if name := res.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*resource.Name)(nil)
-}
-
-func (h *UpdateResourceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*UpdateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*UpdateResourceRequest) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *UpdateResourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*UpdateResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*UpdateResourceRequest) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *UpdateResourceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*resource.Resource) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		if name := typedMsg.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*resource.Name)(nil)
-}
-
-func (h *UpdateResourceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*resource.Resource) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *UpdateResourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*resource.Resource)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*resource.Resource) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func GetUpdateResourceDescriptor() *UpdateResourceDescriptor {
-	return updateResourceDescriptor
-}
-
-type DeleteResourceDescriptor struct{}
-
-type DeleteResourceDescriptorClientMsgHandle struct{}
-
-type DeleteResourceDescriptorServerMsgHandle struct{}
-
-func (d *DeleteResourceDescriptor) NewEmptyClientMsg() proto.Message {
-	return &DeleteResourceRequest{}
-}
-
-func (d *DeleteResourceDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
-}
-
-func (d *DeleteResourceDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *DeleteResourceDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *DeleteResourceDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *DeleteResourceDescriptor) IsCollection() bool {
-	return false
-}
-
-func (d *DeleteResourceDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *DeleteResourceDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *DeleteResourceDescriptor) RequestHasResourceBody() bool {
-	return false
-}
-
-func (d *DeleteResourceDescriptor) GetVerb() string {
-	return "delete"
-}
-
-func (d *DeleteResourceDescriptor) GetMethodName() string {
-	return "DeleteResource"
-}
-
-func (d *DeleteResourceDescriptor) GetFullMethodName() string {
-	return "/ntt.meta.v1alpha2.ResourceService/DeleteResource"
-}
-
-func (d *DeleteResourceDescriptor) GetProtoPkgName() string {
-	return "ntt.meta.v1alpha2"
-}
-
-func (d *DeleteResourceDescriptor) GetApiName() string {
-	return "ResourceService"
-}
-
-func (d *DeleteResourceDescriptor) GetServiceDomain() string {
-	return "meta.edgelq.com"
-}
-
-func (d *DeleteResourceDescriptor) GetServiceVersion() string {
-	return "v1alpha2"
-}
-
-func (d *DeleteResourceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return resourceServiceDescriptor
-}
-
-func (d *DeleteResourceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return resource.GetDescriptor()
-}
-
-func (d *DeleteResourceDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &DeleteResourceDescriptorClientMsgHandle{}
-}
-
-func (d *DeleteResourceDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &DeleteResourceDescriptorServerMsgHandle{}
-}
-
-func (h *DeleteResourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*DeleteResourceRequest) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
-		}
-	}
-	return (*resource.Name)(nil)
-}
-
-func (h *DeleteResourceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*DeleteResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*DeleteResourceRequest) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *DeleteResourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteResourceRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*DeleteResourceRequest) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteResourceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *resource.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteResourceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*resource.Name
-	})
-	if ok {
-		return resource.ResourceNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *DeleteResourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *resource.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func GetDeleteResourceDescriptor() *DeleteResourceDescriptor {
-	return deleteResourceDescriptor
 }
 
 type ResourceServiceDescriptor struct{}
@@ -1464,9 +1207,6 @@ func (d *ResourceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodD
 		listResourcesDescriptor,
 		watchResourceDescriptor,
 		watchResourcesDescriptor,
-		createResourceDescriptor,
-		updateResourceDescriptor,
-		deleteResourceDescriptor,
 	}
 }
 
@@ -1501,18 +1241,12 @@ func initDescriptors() {
 	listResourcesDescriptor = &ListResourcesDescriptor{}
 	watchResourceDescriptor = &WatchResourceDescriptor{}
 	watchResourcesDescriptor = &WatchResourcesDescriptor{}
-	createResourceDescriptor = &CreateResourceDescriptor{}
-	updateResourceDescriptor = &UpdateResourceDescriptor{}
-	deleteResourceDescriptor = &DeleteResourceDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(resourceServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getResourceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetResourcesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listResourcesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchResourceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchResourcesDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(createResourceDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(updateResourceDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteResourceDescriptor)
 }
 
 func init() {

@@ -6,18 +6,18 @@ package customized_image
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type CustomizedImageFieldPathBuilder struct{}
@@ -58,27 +58,27 @@ func (CustomizedImagePathSelectorMetadata) FieldPath() *CustomizedImage_FieldTer
 	return &CustomizedImage_FieldTerminalPath{selector: CustomizedImage_FieldPathSelectorMetadata}
 }
 
-func (s CustomizedImagePathSelectorMetadata) WithValue(value *ntt_meta.Meta) *CustomizedImage_FieldTerminalPathValue {
+func (s CustomizedImagePathSelectorMetadata) WithValue(value *meta.Meta) *CustomizedImage_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldTerminalPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *CustomizedImage_FieldTerminalPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *CustomizedImage_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldTerminalPathArrayOfValues)
 }
 
-func (CustomizedImagePathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *CustomizedImage_FieldSubPath {
+func (CustomizedImagePathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{selector: CustomizedImage_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s CustomizedImagePathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *CustomizedImage_FieldSubPathValue {
 	return &CustomizedImage_FieldSubPathValue{CustomizedImage_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s CustomizedImagePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *CustomizedImage_FieldSubPathArrayOfValues {
 	return &CustomizedImage_FieldSubPathArrayOfValues{CustomizedImage_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s CustomizedImagePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *CustomizedImage_FieldSubPathArrayItemValue {
+func (s CustomizedImagePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *CustomizedImage_FieldSubPathArrayItemValue {
 	return &CustomizedImage_FieldSubPathArrayItemValue{CustomizedImage_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -134,20 +134,24 @@ func (CustomizedImagePathSelectorMetadata) Lifecycle() CustomizedImagePathSelect
 	return CustomizedImagePathSelectorMetadataLifecycle{}
 }
 
+func (CustomizedImagePathSelectorMetadata) Services() CustomizedImagePathSelectorMetadataServices {
+	return CustomizedImagePathSelectorMetadataServices{}
+}
+
 type CustomizedImagePathSelectorMetadataCreateTime struct{}
 
 func (CustomizedImagePathSelectorMetadataCreateTime) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -156,15 +160,15 @@ type CustomizedImagePathSelectorMetadataUpdateTime struct{}
 func (CustomizedImagePathSelectorMetadataUpdateTime) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -173,15 +177,15 @@ type CustomizedImagePathSelectorMetadataDeleteTime struct{}
 func (CustomizedImagePathSelectorMetadataDeleteTime) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -190,7 +194,7 @@ type CustomizedImagePathSelectorMetadataUuid struct{}
 func (CustomizedImagePathSelectorMetadataUuid) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -207,7 +211,7 @@ type CustomizedImagePathSelectorMetadataTags struct{}
 func (CustomizedImagePathSelectorMetadataTags) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -228,7 +232,7 @@ type CustomizedImagePathSelectorMetadataLabels struct{}
 func (CustomizedImagePathSelectorMetadataLabels) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -251,7 +255,7 @@ type CustomizedImageMapPathSelectorMetadataLabels struct {
 func (s CustomizedImageMapPathSelectorMetadataLabels) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -268,7 +272,7 @@ type CustomizedImagePathSelectorMetadataAnnotations struct{}
 func (CustomizedImagePathSelectorMetadataAnnotations) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -291,7 +295,7 @@ type CustomizedImageMapPathSelectorMetadataAnnotations struct {
 func (s CustomizedImageMapPathSelectorMetadataAnnotations) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -308,7 +312,7 @@ type CustomizedImagePathSelectorMetadataGeneration struct{}
 func (CustomizedImagePathSelectorMetadataGeneration) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -325,7 +329,7 @@ type CustomizedImagePathSelectorMetadataResourceVersion struct{}
 func (CustomizedImagePathSelectorMetadataResourceVersion) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -342,19 +346,19 @@ type CustomizedImagePathSelectorMetadataOwnerReferences struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferences) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
-func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *CustomizedImage_FieldSubPathArrayItemValue {
+func (s CustomizedImagePathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *CustomizedImage_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CustomizedImage_FieldSubPathArrayItemValue)
 }
 
@@ -378,10 +382,6 @@ func (CustomizedImagePathSelectorMetadataOwnerReferences) Controller() Customize
 	return CustomizedImagePathSelectorMetadataOwnerReferencesController{}
 }
 
-func (CustomizedImagePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (CustomizedImagePathSelectorMetadataOwnerReferences) RequiresOwnerReference() CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -391,7 +391,7 @@ type CustomizedImagePathSelectorMetadataOwnerReferencesKind struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferencesKind) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -408,7 +408,7 @@ type CustomizedImagePathSelectorMetadataOwnerReferencesVersion struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferencesVersion) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -425,7 +425,7 @@ type CustomizedImagePathSelectorMetadataOwnerReferencesName struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferencesName) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -442,7 +442,7 @@ type CustomizedImagePathSelectorMetadataOwnerReferencesRegion struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferencesRegion) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -459,7 +459,7 @@ type CustomizedImagePathSelectorMetadataOwnerReferencesController struct{}
 func (CustomizedImagePathSelectorMetadataOwnerReferencesController) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -471,29 +471,12 @@ func (s CustomizedImagePathSelectorMetadataOwnerReferencesController) WithArrayO
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
-type CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *CustomizedImage_FieldSubPath {
-	return &CustomizedImage_FieldSubPath{
-		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *CustomizedImage_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
-}
-
-func (s CustomizedImagePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
-}
-
 type CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -510,7 +493,7 @@ type CustomizedImagePathSelectorMetadataShards struct{}
 func (CustomizedImagePathSelectorMetadataShards) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -533,7 +516,7 @@ type CustomizedImageMapPathSelectorMetadataShards struct {
 func (s CustomizedImageMapPathSelectorMetadataShards) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -550,15 +533,15 @@ type CustomizedImagePathSelectorMetadataSyncing struct{}
 func (CustomizedImagePathSelectorMetadataSyncing) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -575,7 +558,7 @@ type CustomizedImagePathSelectorMetadataSyncingOwningRegion struct{}
 func (CustomizedImagePathSelectorMetadataSyncingOwningRegion) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -592,7 +575,7 @@ type CustomizedImagePathSelectorMetadataSyncingRegions struct{}
 func (CustomizedImagePathSelectorMetadataSyncingRegions) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -613,15 +596,15 @@ type CustomizedImagePathSelectorMetadataLifecycle struct{}
 func (CustomizedImagePathSelectorMetadataLifecycle) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -638,15 +621,15 @@ type CustomizedImagePathSelectorMetadataLifecycleState struct{}
 func (CustomizedImagePathSelectorMetadataLifecycleState) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -655,7 +638,7 @@ type CustomizedImagePathSelectorMetadataLifecycleBlockDeletion struct{}
 func (CustomizedImagePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -665,6 +648,69 @@ func (s CustomizedImagePathSelectorMetadataLifecycleBlockDeletion) WithValue(val
 
 func (s CustomizedImagePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorMetadataServices struct{}
+
+func (CustomizedImagePathSelectorMetadataServices) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+func (CustomizedImagePathSelectorMetadataServices) OwningService() CustomizedImagePathSelectorMetadataServicesOwningService {
+	return CustomizedImagePathSelectorMetadataServicesOwningService{}
+}
+
+func (CustomizedImagePathSelectorMetadataServices) AllowedServices() CustomizedImagePathSelectorMetadataServicesAllowedServices {
+	return CustomizedImagePathSelectorMetadataServicesAllowedServices{}
+}
+
+type CustomizedImagePathSelectorMetadataServicesOwningService struct{}
+
+func (CustomizedImagePathSelectorMetadataServicesOwningService) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorMetadataServicesOwningService) WithValue(value string) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorMetadataServicesAllowedServices struct{}
+
+func (CustomizedImagePathSelectorMetadataServicesAllowedServices) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorMetadataServicesAllowedServices) WithValue(value []string) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+func (s CustomizedImagePathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *CustomizedImage_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CustomizedImage_FieldSubPathArrayItemValue)
 }
 
 type CustomizedImagePathSelectorSpec struct{}

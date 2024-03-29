@@ -13,17 +13,17 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -36,17 +36,17 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 type Plan_FieldMask struct {
@@ -138,11 +138,11 @@ func (fieldMask *Plan_FieldMask) Subtract(other *Plan_FieldMask) *Plan_FieldMask
 	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Plan_FieldPathSelector]gotenobject.FieldMask{
 		Plan_FieldPathSelectorResourceLimits: &common.Allowance_FieldMask{},
-		Plan_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		Plan_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Plan_FieldPathSelector]gotenobject.FieldMask{
 		Plan_FieldPathSelectorResourceLimits: &common.Allowance_FieldMask{},
-		Plan_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		Plan_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -161,7 +161,7 @@ func (fieldMask *Plan_FieldMask) Subtract(other *Plan_FieldMask) *Plan_FieldMask
 					case Plan_FieldPathSelectorResourceLimits:
 						mySubMasks[Plan_FieldPathSelectorResourceLimits] = common.FullAllowance_FieldMask()
 					case Plan_FieldPathSelectorMetadata:
-						mySubMasks[Plan_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Plan_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Plan_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -196,12 +196,12 @@ func (fieldMask *Plan_FieldMask) FilterInputFields() *Plan_FieldMask {
 		switch path.Selector() {
 		case Plan_FieldPathSelectorMetadata:
 			if _, ok := path.(*Plan_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Plan_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Plan_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Plan_FieldSubPath{selector: Plan_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -215,15 +215,15 @@ func (fieldMask *Plan_FieldMask) FilterInputFields() *Plan_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Plan_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Plan_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Plan_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Plan_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -245,7 +245,7 @@ func (fieldMask Plan_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Plan_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -264,7 +264,7 @@ func (fieldMask Plan_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Plan_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -334,7 +334,7 @@ func (fieldMask *Plan_FieldMask) Project(source *Plan) *Plan {
 	result := &Plan{}
 	resourceLimitsMask := &common.Allowance_FieldMask{}
 	wholeResourceLimitsAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -363,7 +363,7 @@ func (fieldMask *Plan_FieldMask) Project(source *Plan) *Plan {
 			case Plan_FieldPathSelectorResourceLimits:
 				resourceLimitsMask.AppendPath(tp.subPath.(common.Allowance_FieldPath))
 			case Plan_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

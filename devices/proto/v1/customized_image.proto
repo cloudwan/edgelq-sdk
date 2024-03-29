@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1/customized_image;customized_image";
+option java_multiple_files = true;
+option java_outer_classname = "CustomizedImageProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// CustomizedImage Resource
+message CustomizedImage {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/CustomizedImage"
+    pattern : "projects/{project}/regions/{region}/customizedImages/"
+              "{customized_image}"
+  };
+
+  // Name of CustomizedImage
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  Spec spec = 3;
+
+  Status status = 4;
+
+  message Spec {
+    string version = 1;
+
+    string device_type = 2;
+
+    string provisioning_policy = 3;
+
+    bool install_ai_accelerator = 4;
+
+    string password = 5;
+
+    bool encryption = 6;
+
+    string encryption_password = 7;
+
+    string disk_mapping = 8;
+
+    string network_agent = 9;
+
+    string ntp = 10;
+
+    string http_proxy = 11;
+
+    string https_proxy = 12;
+
+    string no_proxy = 13;
+  }
+
+  message Status {
+    // State of the image.
+    State state = 1;
+
+    // Error log when state is ERROR.
+    string log = 2;
+
+    // TODO hide this from client
+    string file = 5;
+
+    enum State {
+      // Initial state
+      STATE_UNSPECIFIED = 0;
+
+      // Backend is processing the customization request.
+      IN_PROGRESS = 1;
+
+      // There was an error processing the customization request. Check the
+      // parameters and try again.
+      ERROR = 2;
+
+      // The customized image is ready to download.
+      READY = 3;
+    }
+  }
+}

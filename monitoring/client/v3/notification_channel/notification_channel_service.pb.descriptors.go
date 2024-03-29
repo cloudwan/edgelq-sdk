@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification_channel.NotificationChannel{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetNotificationChannelDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification_channel.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetNotificationChannelDescriptorClientMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetNotificationChannelDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification_channel.NotificationChannel)
+}
+
+func (h *GetNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification_channel.NotificationChannel)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification_channel.NotificationChannel) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetNotificationChannelsDescriptorClientMsgHandle) ExtractResourceN
 		return notification_channel.NotificationChannelNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(notification_channel.NotificationChannelNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return notification_channel.NotificationChannelNameList(names)
 		}
 	}
 	return (notification_channel.NotificationChannelNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetNotificationChannelsDescriptorClientMsgHandle) ExtractCollectio
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetNotificationChannelsRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetNotificationChannelsRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetNotificationChannelsDescriptorServerMsgHandle) ExtractCollectio
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetNotificationChannelsResponse) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetNotificationChannelsResponse) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetNotificationChannels(); len(resources) > 0 {
+			return notification_channel.NotificationChannelList(resources)
+		}
+	}
+	return (notification_channel.NotificationChannelList)(nil)
 }
 
 func GetBatchGetNotificationChannelsDescriptor() *BatchGetNotificationChannelsDescriptor {
@@ -523,6 +612,30 @@ func (h *ListNotificationChannelsDescriptorClientMsgHandle) ExtractCollectionNam
 	return (*notification_channel.ParentName)(nil)
 }
 
+func (h *ListNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListNotificationChannelsRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListNotificationChannelsRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListNotificationChannelsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListNotificationChannelsResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListNotificationChannelsDescriptorServerMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListNotificationChannelsResponse) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListNotificationChannelsResponse) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetNotificationChannels(); len(resources) > 0 {
+			return notification_channel.NotificationChannelList(resources)
+		}
+	}
+	return (notification_channel.NotificationChannelList)(nil)
 }
 
 func GetListNotificationChannelsDescriptor() *ListNotificationChannelsDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchNotificationChannelDescriptorClientMsgHandle) ExtractResourceName(
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification_channel.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchNotificationChannelDescriptorClientMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchNotificationChannelDescriptorServerMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationChannelResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationChannelResponse) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *notification_channel.NotificationChannelChange_Added_:
+				return tResChange.Added.GetNotificationChannel()
+			case *notification_channel.NotificationChannelChange_Modified_:
+				return tResChange.Modified.GetNotificationChannel()
+			case *notification_channel.NotificationChannelChange_Current_:
+				return tResChange.Current.GetNotificationChannel()
+			}
+		}
+	}
+	return (*notification_channel.NotificationChannel)(nil)
+}
+
+func (h *WatchNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationChannelResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationChannelResponse) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchNotificationChannelsDescriptorClientMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*notification_channel.ParentName)(nil)
+}
+
+func (h *WatchNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationChannelsRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationChannelsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationChannelsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationChannelsRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchNotificationChannelsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchNotificationChannelsDescriptorServerMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchNotificationChannelsResponse) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchNotificationChannelsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchNotificationChannelsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchNotificationChannelsResponse) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetNotificationChannelChanges(); len(resChanges) > 0 {
+			list := make(notification_channel.NotificationChannelList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *notification_channel.NotificationChannelChange_Added_:
+					list = append(list, tResChange.Added.GetNotificationChannel())
+				case *notification_channel.NotificationChannelChange_Modified_:
+					list = append(list, tResChange.Modified.GetNotificationChannel())
+				case *notification_channel.NotificationChannelChange_Current_:
+					list = append(list, tResChange.Current.GetNotificationChannel())
+				}
+			}
+			return list
+		}
+	}
+	return (notification_channel.NotificationChannelList)(nil)
 }
 
 func GetWatchNotificationChannelsDescriptor() *WatchNotificationChannelsDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreateNotificationChannelDescriptorClientMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*notification_channel.ParentName)(nil)
+}
+
+func (h *CreateNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetNotificationChannel()
+	}
+	return (*notification_channel.NotificationChannel)(nil)
+}
+
+func (h *CreateNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreateNotificationChannelDescriptorServerMsgHandle) ExtractCollectionNa
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification_channel.NotificationChannel)
+}
+
+func (h *CreateNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification_channel.NotificationChannel)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification_channel.NotificationChannel) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdateNotificationChannelDescriptorClientMsgHandle) ExtractCollectionNa
 	return nil
 }
 
+func (h *UpdateNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetNotificationChannel()
+	}
+	return (*notification_channel.NotificationChannel)(nil)
+}
+
+func (h *UpdateNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*notification_channel.NotificationChannel)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdateNotificationChannelDescriptorServerMsgHandle) ExtractCollectionNa
 	return nil
 }
 
+func (h *UpdateNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*notification_channel.NotificationChannel)
+}
+
+func (h *UpdateNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*notification_channel.NotificationChannel)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*notification_channel.NotificationChannel) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateNotificationChannelDescriptor() *UpdateNotificationChannelDescriptor {
 	return updateNotificationChannelDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeleteNotificationChannelDescriptor) NewEmptyClientMsg() proto.Message 
 }
 
 func (d *DeleteNotificationChannelDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteNotificationChannelDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeleteNotificationChannelDescriptorClientMsgHandle) ExtractResourceName
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification_channel.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeleteNotificationChannelDescriptorClientMsgHandle) ExtractCollectionNa
 	return nil
 }
 
-func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteNotificationChannelRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *notification_channel.Name
+		OverrideExtractResourceBody(*DeleteNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *notification_channel.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceName
 }
 
 func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*notification_channel.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*notification_channel.Name
 	})
 	if ok {
 		return notification_channel.NotificationChannelNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceName
 }
 
 func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *notification_channel.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *notification_channel.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1467,7 +1867,7 @@ func (d *TestNotificationChannelDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *TestNotificationChannelDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *TestNotificationChannelDescriptor) IsUnary() bool {
@@ -1552,8 +1952,8 @@ func (h *TestNotificationChannelDescriptorClientMsgHandle) ExtractResourceName(m
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*notification_channel.Name)(nil)
@@ -1583,11 +1983,35 @@ func (h *TestNotificationChannelDescriptorClientMsgHandle) ExtractCollectionName
 	return nil
 }
 
-func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *TestNotificationChannelDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*TestNotificationChannelRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *notification_channel.Name
+		OverrideExtractResourceBody(*TestNotificationChannelRequest) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *TestNotificationChannelDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*TestNotificationChannelRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*TestNotificationChannelRequest) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *notification_channel.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1596,10 +2020,10 @@ func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceName(m
 }
 
 func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*notification_channel.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*notification_channel.Name
 	})
 	if ok {
 		return notification_channel.NotificationChannelNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1608,13 +2032,37 @@ func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceNames(
 }
 
 func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *notification_channel.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *notification_channel.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *notification_channel.NotificationChannel
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *TestNotificationChannelDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*notification_channel.NotificationChannel
+	})
+	if ok {
+		return notification_channel.NotificationChannelList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

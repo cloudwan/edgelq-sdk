@@ -15,9 +15,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
@@ -25,11 +22,10 @@ import (
 import (
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
-	view "github.com/cloudwan/goten-sdk/runtime/api/view"
-	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	view "github.com/cloudwan/goten-sdk/types/view"
+	watch_type "github.com/cloudwan/goten-sdk/types/watch_type"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -42,8 +38,6 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
@@ -51,9 +45,8 @@ var (
 var (
 	_ = &deployment.Deployment{}
 	_ = &region.Region{}
-	_ = &empty.Empty{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -180,68 +173,6 @@ func (obj *WatchDeploymentsResponse) GotenValidate() error {
 	return nil
 }
 func (obj *WatchDeploymentsResponse_PageTokenChange) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *CreateDeploymentRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Deployment == nil {
-		return gotenvalidate.NewValidationError("CreateDeploymentRequest", "deployment", obj.Deployment, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Deployment).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CreateDeploymentRequest", "deployment", obj.Deployment, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *UpdateDeploymentRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Deployment == nil {
-		return gotenvalidate.NewValidationError("UpdateDeploymentRequest", "deployment", obj.Deployment, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Deployment).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("UpdateDeploymentRequest", "deployment", obj.Deployment, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Cas).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("UpdateDeploymentRequest", "cas", obj.Cas, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *UpdateDeploymentRequest_CAS) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.ConditionalState).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *DeleteDeploymentRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

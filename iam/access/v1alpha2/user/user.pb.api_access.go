@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	user_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/user"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiUserAccess struct {
@@ -42,8 +44,11 @@ func NewApiUserAccess(client user_client.UserServiceClient) user.UserAccess {
 }
 
 func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*user.User, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &user_client.GetUserRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetUser(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*use
 
 func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*user.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &user_client.BatchGetUsersRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(user.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiUserAccess) QueryUsers(ctx context.Context, query *user.ListQuery) (
 }
 
 func (a *apiUserAccess) WatchUser(ctx context.Context, query *user.GetQuery, observerCb func(*user.UserChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &user_client.WatchUserRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchUser(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiUserAccess) SaveUser(ctx context.Context, res *user.User, opts ...go
 			}
 		}
 	}
-
+	var resp *user.User
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &user_client.UpdateUserRequest{
 			User: res,
@@ -195,26 +211,30 @@ func (a *apiUserAccess) SaveUser(ctx context.Context, res *user.User, opts ...go
 				FieldMask:        mask.(*user.User_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateUser(ctx, updateRequest)
+		resp, err = a.client.UpdateUser(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &user_client.CreateUserRequest{
 			User: res,
 		}
-		_, err := a.client.CreateUser(ctx, createRequest)
+		resp, err = a.client.CreateUser(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiUserAccess) DeleteUser(ctx context.Context, ref *user.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &user_client.DeleteUserRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteUser(ctx, request)
 	return err

@@ -13,9 +13,9 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/view"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	"github.com/cloudwan/goten-sdk/types/view"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	limit_pool_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/limit_pool"
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool"
@@ -37,7 +37,7 @@ type QueryWatcher struct {
 }
 
 type QueryWatcherParams struct {
-	Parent       *limit_pool.ParentReference
+	Parent       *limit_pool.ParentName
 	Filter       *limit_pool.Filter
 	View         view.View
 	FieldMask    *limit_pool.LimitPool_FieldMask
@@ -287,6 +287,20 @@ func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherEventConstructor(limit_pool.GetDescriptor(),
+		func(evtId int, changes gotenresource.ResourceChangeList, isReset, isLostSync, isCurrent bool, snapshotSize int64) gotenaccess.QueryWatcherEvent {
+			return &QueryWatcherEvent{
+				Identifier:   evtId,
+				Changes:      changes.(limit_pool.LimitPoolChangeList),
+				Reset:        isReset,
+				LostSync:     isLostSync,
+				InSync:       isCurrent,
+				SnapshotSize: snapshotSize,
+				CheckSize:    snapshotSize >= 0,
+			}
+		},
+	)
+
 	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(limit_pool.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
 		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
 		cfg := &QueryWatcherParams{
@@ -308,7 +322,7 @@ func init() {
 			cfg.Cursor = params.Cursor.(*limit_pool.PagerCursor)
 		}
 		if params.Parent != nil {
-			cfg.Parent = params.Parent.(*limit_pool.ParentReference)
+			cfg.Parent = params.Parent.(*limit_pool.ParentName)
 		}
 		if params.Filter != nil {
 			cfg.Filter = params.Filter.(*limit_pool.Filter)

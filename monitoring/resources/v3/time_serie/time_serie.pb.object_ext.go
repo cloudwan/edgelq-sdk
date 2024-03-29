@@ -9,14 +9,14 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 )
 
@@ -26,14 +26,14 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 )
 
@@ -111,19 +111,19 @@ func (o *Point) CloneRaw() gotenobject.GotenObjectExt {
 func (o *Point) Merge(source *Point) {
 	if source.GetInterval() != nil {
 		if o.Interval == nil {
-			o.Interval = new(monitoring_common.TimeInterval)
+			o.Interval = new(common.TimeInterval)
 		}
 		o.Interval.Merge(source.GetInterval())
 	}
 	if source.GetValue() != nil {
 		if o.Value == nil {
-			o.Value = new(monitoring_common.TypedValue)
+			o.Value = new(common.TypedValue)
 		}
 		o.Value.Merge(source.GetValue())
 	}
 	if source.GetAggregation() != nil {
 		if o.Aggregation == nil {
-			o.Aggregation = new(monitoring_common.Aggregation)
+			o.Aggregation = new(common.Aggregation)
 		}
 		o.Aggregation.Merge(source.GetAggregation())
 	}
@@ -181,16 +181,6 @@ func (o *TimeSerie) MakeDiffFieldMask(other *TimeSerie) *TimeSerie_FieldMask {
 			}
 		}
 	}
-	{
-		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetadata})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TimeSerie_FieldSubPath{selector: TimeSerie_FieldPathSelectorMetadata, subPath: subpath})
-			}
-		}
-	}
 	if o.GetMetricKind() != other.GetMetricKind() {
 		res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetricKind})
 	}
@@ -229,7 +219,6 @@ func (o *TimeSerie) Clone() *TimeSerie {
 	result.Region = o.Region
 	result.Metric = o.Metric.Clone()
 	result.Resource = o.Resource.Clone()
-	result.Metadata = o.Metadata.Clone()
 	result.MetricKind = o.MetricKind
 	result.ValueType = o.ValueType
 	result.Points = make([]*Point, len(o.Points))
@@ -252,21 +241,15 @@ func (o *TimeSerie) Merge(source *TimeSerie) {
 	o.Region = source.GetRegion()
 	if source.GetMetric() != nil {
 		if o.Metric == nil {
-			o.Metric = new(monitoring_common.Metric)
+			o.Metric = new(common.Metric)
 		}
 		o.Metric.Merge(source.GetMetric())
 	}
 	if source.GetResource() != nil {
 		if o.Resource == nil {
-			o.Resource = new(monitoring_common.MonitoredResource)
+			o.Resource = new(common.MonitoredResource)
 		}
 		o.Resource.Merge(source.GetResource())
-	}
-	if source.GetMetadata() != nil {
-		if o.Metadata == nil {
-			o.Metadata = new(monitoring_common.MonitoredResourceMetadata)
-		}
-		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.MetricKind = source.GetMetricKind()
 	o.ValueType = source.GetValueType()

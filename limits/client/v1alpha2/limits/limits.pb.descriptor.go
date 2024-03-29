@@ -68,7 +68,7 @@ func (d *LimitsDescriptor) GetVersion() string {
 
 func (d *LimitsDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *LimitsDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

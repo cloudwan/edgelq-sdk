@@ -24,10 +24,10 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
-	duration "github.com/golang/protobuf/ptypes/duration"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -45,14 +45,14 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &duration.Duration{}
+	_ = &common.LabelDescriptor{}
+	_ = &durationpb.Duration{}
+	_ = &meta.Meta{}
 )
 
 var alertingCondition_RegexpId = regexp.MustCompile("^(?P<alerting_condition_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Project_Region_AlertingPolicy = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-zA-Z0-9-]{1,128})/alertingPolicies/(?P<alerting_policy_id>-|[\\w][\\w.-]{0,127})/alertingConditions/(?P<alerting_condition_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project_Region_AlertingPolicy = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/alertingPolicies/(?P<alerting_policy_id>-|[\\w][\\w.-]{0,127})/alertingConditions/(?P<alerting_condition_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *AlertingCondition) MaybePopulateDefaults() error {
 	alertingConditionInterface := interface{}(r)
@@ -60,14 +60,6 @@ func (r *AlertingCondition) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *AlertingCondition) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *AlertingCondition) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

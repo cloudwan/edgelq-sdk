@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type RecoveryStoreShardingInfoServiceClient interface {
 	WatchRecoveryStoreShardingInfos(ctx context.Context, in *WatchRecoveryStoreShardingInfosRequest, opts ...grpc.CallOption) (WatchRecoveryStoreShardingInfosClientStream, error)
 	CreateRecoveryStoreShardingInfo(ctx context.Context, in *CreateRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*recovery_store_sharding_info.RecoveryStoreShardingInfo, error)
 	UpdateRecoveryStoreShardingInfo(ctx context.Context, in *UpdateRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*recovery_store_sharding_info.RecoveryStoreShardingInfo, error)
-	DeleteRecoveryStoreShardingInfo(ctx context.Context, in *DeleteRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteRecoveryStoreShardingInfo(ctx context.Context, in *DeleteRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateRecoveryStoreShardingInfo(ctx context.Context, in *Update
 	return out, nil
 }
 
-func (c *client) DeleteRecoveryStoreShardingInfo(ctx context.Context, in *DeleteRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteRecoveryStoreShardingInfo(ctx context.Context, in *DeleteRecoveryStoreShardingInfoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.RecoveryStoreShardingInfoService/DeleteRecoveryStoreShardingInfo", in, out, opts...)
 	if err != nil {
 		return nil, err

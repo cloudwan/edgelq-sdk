@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	alert_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alert"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiAlertAccess struct {
@@ -42,8 +44,11 @@ func NewApiAlertAccess(client alert_client.AlertServiceClient) alert.AlertAccess
 }
 
 func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*alert.Alert, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &alert_client.GetAlertRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetAlert(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*
 
 func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*alert.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &alert_client.BatchGetAlertsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(alert.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListAlerts(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery
 }
 
 func (a *apiAlertAccess) WatchAlert(ctx context.Context, query *alert.GetQuery, observerCb func(*alert.AlertChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &alert_client.WatchAlertRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchAlert(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiAlertAccess) WatchAlerts(ctx context.Context, query *alert.WatchQuer
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchAlerts(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 			}
 		}
 	}
-
+	var resp *alert.Alert
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &alert_client.UpdateAlertRequest{
 			Alert: res,
@@ -195,29 +217,76 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 				FieldMask:        mask.(*alert.Alert_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateAlert(ctx, updateRequest)
+		resp, err = a.client.UpdateAlert(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &alert_client.CreateAlertRequest{
 			Alert: res,
 		}
-		_, err := a.client.CreateAlert(ctx, createRequest)
+		resp, err = a.client.CreateAlert(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &alert_client.DeleteAlertRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteAlert(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *alert.Filter) (*alert.Filter, *alert.ParentName) {
+	var withParentExtraction func(cnd alert.FilterCondition) alert.FilterCondition
+	var resultParent *alert.ParentName
+	var resultFilter *alert.Filter
+	withParentExtraction = func(cnd alert.FilterCondition) alert.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *alert.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]alert.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return alert.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *alert.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*alert.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &alert.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

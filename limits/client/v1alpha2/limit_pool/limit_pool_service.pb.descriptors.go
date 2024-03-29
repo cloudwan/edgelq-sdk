@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &limit_pool.LimitPool{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetLimitPoolDescriptorClientMsgHandle) ExtractResourceName(msg proto.Me
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*limit_pool.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetLimitPoolDescriptorClientMsgHandle) ExtractCollectionName(msg proto.
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLimitPoolDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetLimitPoolRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLimitPoolDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetLimitPoolRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetLimitPoolDescriptorServerMsgHandle) ExtractCollectionName(msg proto.
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLimitPoolDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*limit_pool.LimitPool)
+}
+
+func (h *GetLimitPoolDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*limit_pool.LimitPool) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetLimitPoolsDescriptorClientMsgHandle) ExtractResourceNames(msg p
 		return limit_pool.LimitPoolNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(limit_pool.LimitPoolNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return limit_pool.LimitPoolNameList(names)
 		}
 	}
 	return (limit_pool.LimitPoolNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetLimitPoolsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLimitPoolsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetLimitPoolsRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLimitPoolsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetLimitPoolsRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetLimitPoolsDescriptorServerMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetLimitPoolsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetLimitPoolsResponse) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLimitPoolsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetLimitPoolsResponse) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLimitPools(); len(resources) > 0 {
+			return limit_pool.LimitPoolList(resources)
+		}
+	}
+	return (limit_pool.LimitPoolList)(nil)
 }
 
 func GetBatchGetLimitPoolsDescriptor() *BatchGetLimitPoolsDescriptor {
@@ -522,6 +611,30 @@ func (h *ListLimitPoolsDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	return (*limit_pool.ParentName)(nil)
 }
 
+func (h *ListLimitPoolsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLimitPoolsRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLimitPoolsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLimitPoolsRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListLimitPoolsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListLimitPoolsResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListLimitPoolsDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListLimitPoolsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLimitPoolsResponse) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLimitPoolsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLimitPoolsResponse) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLimitPools(); len(resources) > 0 {
+			return limit_pool.LimitPoolList(resources)
+		}
+	}
+	return (limit_pool.LimitPoolList)(nil)
 }
 
 func GetListLimitPoolsDescriptor() *ListLimitPoolsDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchLimitPoolDescriptorClientMsgHandle) ExtractResourceName(msg proto.
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*limit_pool.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchLimitPoolDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLimitPoolDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLimitPoolRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLimitPoolDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLimitPoolRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchLimitPoolDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLimitPoolDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLimitPoolResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLimitPoolResponse) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *limit_pool.LimitPoolChange_Added_:
+				return tResChange.Added.GetLimitPool()
+			case *limit_pool.LimitPoolChange_Modified_:
+				return tResChange.Modified.GetLimitPool()
+			case *limit_pool.LimitPoolChange_Current_:
+				return tResChange.Current.GetLimitPool()
+			}
+		}
+	}
+	return (*limit_pool.LimitPool)(nil)
+}
+
+func (h *WatchLimitPoolDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLimitPoolResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLimitPoolResponse) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchLimitPoolsDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*limit_pool.ParentName)(nil)
+}
+
+func (h *WatchLimitPoolsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLimitPoolsRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLimitPoolsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLimitPoolsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLimitPoolsRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchLimitPoolsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchLimitPoolsDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchLimitPoolsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLimitPoolsResponse) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLimitPoolsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLimitPoolsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLimitPoolsResponse) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetLimitPoolChanges(); len(resChanges) > 0 {
+			list := make(limit_pool.LimitPoolList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *limit_pool.LimitPoolChange_Added_:
+					list = append(list, tResChange.Added.GetLimitPool())
+				case *limit_pool.LimitPoolChange_Modified_:
+					list = append(list, tResChange.Modified.GetLimitPool())
+				case *limit_pool.LimitPoolChange_Current_:
+					list = append(list, tResChange.Current.GetLimitPool())
+				}
+			}
+			return list
+		}
+	}
+	return (limit_pool.LimitPoolList)(nil)
 }
 
 func GetWatchLimitPoolsDescriptor() *WatchLimitPoolsDescriptor {
@@ -1065,6 +1331,33 @@ func (h *UpdateLimitPoolDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
+func (h *UpdateLimitPoolDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateLimitPoolRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetLimitPool()
+	}
+	return (*limit_pool.LimitPool)(nil)
+}
+
+func (h *UpdateLimitPoolDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateLimitPoolRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateLimitPoolDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*limit_pool.LimitPool)
 	var asInterface interface{} = h
@@ -1106,6 +1399,22 @@ func (h *UpdateLimitPoolDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
+func (h *UpdateLimitPoolDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*limit_pool.LimitPool)
+}
+
+func (h *UpdateLimitPoolDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*limit_pool.LimitPool) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateLimitPoolDescriptor() *UpdateLimitPoolDescriptor {
 	return updateLimitPoolDescriptor
 }
@@ -1121,7 +1430,7 @@ func (d *DeleteLimitPoolDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteLimitPoolDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteLimitPoolDescriptor) IsUnary() bool {
@@ -1206,8 +1515,8 @@ func (h *DeleteLimitPoolDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*limit_pool.Name)(nil)
@@ -1237,11 +1546,35 @@ func (h *DeleteLimitPoolDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
-func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteLimitPoolDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteLimitPoolRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *limit_pool.Name
+		OverrideExtractResourceBody(*DeleteLimitPoolRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLimitPoolDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteLimitPoolRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteLimitPoolRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *limit_pool.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1250,10 +1583,10 @@ func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceName(msg proto
 }
 
 func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*limit_pool.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*limit_pool.Name
 	})
 	if ok {
 		return limit_pool.LimitPoolNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1262,13 +1595,37 @@ func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *limit_pool.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *limit_pool.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLimitPoolDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1373,8 +1730,8 @@ func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*limit_pool.Name)(nil)
@@ -1400,6 +1757,30 @@ func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*MigrateLimitPoolSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*MigrateLimitPoolSourceRequest) *limit_pool.LimitPool
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*MigrateLimitPoolSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*MigrateLimitPoolSourceRequest) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1441,6 +1822,22 @@ func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*limit_pool.LimitPool)
+}
+
+func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*limit_pool.LimitPool) []*limit_pool.LimitPool
+	})
+	if ok {
+		return limit_pool.LimitPoolList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

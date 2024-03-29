@@ -10,8 +10,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/limit_pool;limit_pool_client";
 option java_multiple_files = false;
@@ -20,7 +20,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 
 // Request message for method [GetLimitPool][ntt.limits.v1alpha2.GetLimitPool]
 message GetLimitPoolRequest {
-  // Reference of ntt.limits.v1alpha2.LimitPool
+  // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -29,7 +29,7 @@ message GetLimitPoolRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -44,7 +44,7 @@ message BatchGetLimitPoolsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -94,7 +94,7 @@ message ListLimitPoolsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -129,7 +129,7 @@ message ListLimitPoolsResponse {
 // Request message for method
 // [WatchLimitPool][ntt.limits.v1alpha2.WatchLimitPool]
 message WatchLimitPoolRequest {
-  // Reference to ntt.limits.v1alpha2.LimitPool
+  // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -138,7 +138,7 @@ message WatchLimitPoolRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchLimitPoolResponse
@@ -149,9 +149,9 @@ message WatchLimitPoolResponse { LimitPoolChange change = 1; }
 message WatchLimitPoolsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.limits.v1alpha2.LimitPool
+  // Parent name of ntt.limits.v1alpha2.LimitPool
   string parent = 1;
 
   // Requested page size. Server may return fewer LimitPools than requested.
@@ -195,7 +195,7 @@ message WatchLimitPoolsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // LimitPool that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -303,7 +303,7 @@ message UpdateLimitPoolRequest {
 // Request message for method
 // [DeleteLimitPool][ntt.limits.v1alpha2.DeleteLimitPool]
 message DeleteLimitPoolRequest {
-  // Reference of ntt.limits.v1alpha2.LimitPool
+  // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;
 }
 

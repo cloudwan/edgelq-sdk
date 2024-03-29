@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/attestation_domain.proto";
+import "edgelq-sdk/iam/proto/v1/attestation_domain_change.proto";
+import "edgelq-sdk/iam/proto/v1/common.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/attestation;attestation_client";
+option java_multiple_files = false;
+option java_outer_classname = "AttestationCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Request message for method [Verify][ntt.iam.v1.Verify]
+message VerifyRequest {
+  oneof msg {
+    AskForChallenge ask_for_challenge = 1;
+
+    ChallengeResponse challenge_response = 2;
+  }
+
+  message AskForChallenge {
+    // This will be used to set "sub" claim for attestation token.
+    // This "sub" should be compared to "sub" of JWT access token during
+    // validation. "Sub" comparison ties both tokens together and protects
+    // against theft/reuse of one of them by another service account.
+    string subject = 1;
+
+    // attestation domain ref
+    string attestation_domain = 2;
+
+    TpmVersion tpm_version = 3;
+
+    // PKIX encoded EK public
+    bytes ekpub = 4;
+
+    // ASN.1 DER encoded EK certificate.
+    bytes ekcert = 5;
+
+    // For Intel TPMs, Intel hosts certificates at a public URL derived from the
+    // Public key. Clients or servers can perform an HTTP GET to this URL, and
+    // use ParseEKCertificate on the response body.
+    string ekcerturl = 6;
+
+    // https://trustedcomputinggroup.org/wp-content/uploads/TPM-Main-Part-2-TPM-Structures_v1.2_rev116_01032011.pdf
+    // https://www.trustedcomputinggroup.org/wp-content/uploads/TPM-Rev-2.0-Part-2-Structures-01.38.pdf
+    // TPMT_PUBLIC (TPM 2.0) or TPM_PUBKEY (TPM 1.2)
+    bytes akpub = 7;
+
+    // TPMS_CREATION_DATA
+    bytes creation_data = 8;
+
+    // TPMS_ATTEST
+    bytes attest = 9;
+
+    // TPMT_SIGNATURE
+    bytes signature = 10;
+
+    // ChallengeFormat defines the method of generating identity activation
+    // challenge by the Verifier (server). It should affect the interpretation
+    // ChallengeResponse fields cred_encrypted_by_ekpub and
+    // secret_encrypted_by_cred. Attestor (client) is responsible for chosing
+    // the right format depending on TPM version and the presence of TrouSerS
+    // daemon.
+    ChallengeFormat challenge_format = 11;
+
+    enum ChallengeFormat {
+      // Credential Protection as defined in section 24 of the TPM specification
+      // revision 2 part 1 See:
+      // https://trustedcomputinggroup.org/resource/tpm-library-specification/
+      // Returned primitives are of type TPM2B_ID_OBJECT and
+      // TPM2B_ENCRYPTED_SECRET.
+      // NOTE: ECC is not supported.
+      //
+      // Reference implementation:
+      //  github.com/google/go-attestation@v0.3.2/attest/activation.go:generateChallengeTPM20,
+      //  which uses
+      //  github.com/google/go-tmp@v0.3.2/tmp2/credactivation/credential_activation.go:Generate
+      TPM20_CREDENTIAL = 0;
+
+      // Challenge as defined in section 15.1 of the TPM 1.2 commands spec
+      // See:
+      // https://trustedcomputinggroup.org/wp-content/uploads/TPM-Main-Part-3-Commands_v1.2_rev116_01032011.pdf
+      // Returned primitives are of type TPM12_EKBLOB (with
+      // TPM_EK_BLOB_ACTIVATE) and bytes.
+      //
+      // Reference implementation:
+      //  github.com/google/go-attestation@v0.3.2/attest/activation.go:generateChallengeTPM12,
+      //  which uses
+      //  github.com/google/go-attestation@v0.3.2/attest/challenge.go:generateChallenge12
+      TPM12_EKBLOB = 1;
+
+      // TSPI_EKBLOB is a TPM1.2 challenge format accepted by TrouSerS daemon's
+      // Tspi_TPM_ActivateIdentity function. As far as I can tell, it's not
+      // documented except in the code. Returned primitives are of type
+      // TPM12_EKBLOB (with TPM_EK_BLOB_ACTIVATE) and bytes.
+      //
+      // Reference implementation:
+      //  github.com/google/go-attestation@v0.3.2/attest/activation.go:generateChallengeTPM12,
+      //  which uses
+      //  github.com/google/go-tspi@v0.3.0/verification/verification.go:GenerateChallengeEx
+      TSPI_EKBLOB = 2;
+    }
+  }
+
+  message ChallengeResponse {
+    bytes ak_activation_decrypted_secret = 1;
+
+    repeated Quote quotes = 2;
+
+    repeated PCR pcrs = 3;
+
+    // Binary contents of /sys/kernel/security/tpm0/binary_bios_measurements
+    bytes eventlog = 4;
+
+    message Quote {
+      // TPMS_ATTEST (TSS_VALIDATION.Data or TSS_VALIDATION.rgbData)
+      // This contains PCR selection information for which the signature was
+      // calculated and other required data, like nonce.
+      bytes quote = 1;
+
+      // TSS_VALIDATION.ValidationData or TSS_VALIDATION.rgbValidationData
+      bytes signature = 2;
+    }
+  }
+}
+
+// Response message for method [Verify][ntt.iam.v1.Verify]
+message VerifyResponse {
+  oneof msg {
+    Challenge challenge = 1;
+
+    AttestationSuccessful attestation_successful = 2;
+  }
+
+  message Challenge {
+    // Platform attestation
+    bytes platform_attestation_nonce = 1;
+
+    // AK Identity Activation
+    bytes cred_encrypted_by_ekpub = 2;
+
+    bytes secret_encrypted_by_cred = 3;
+  }
+
+  message AttestationSuccessful { string attestation_token = 1; }
+}

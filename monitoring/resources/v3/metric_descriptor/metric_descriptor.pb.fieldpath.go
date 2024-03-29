@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -25,10 +24,10 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -45,7 +44,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -53,10 +51,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -172,13 +170,13 @@ func BuildMetricDescriptor_FieldPath(fp gotenobject.RawFieldPath) (MetricDescrip
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "labels":
-			if subpath, err := monitoring_common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorLabels, subPath: subpath}, nil
@@ -190,13 +188,13 @@ func BuildMetricDescriptor_FieldPath(fp gotenobject.RawFieldPath) (MetricDescrip
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata, subPath: subpath}, nil
 			}
 		case "distribution_bucket_options", "distributionBucketOptions", "distribution-bucket-options":
-			if subpath, err := monitoring_common.BuildDistributionBucketOptions_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildDistributionBucketOptions_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions, subPath: subpath}, nil
 			}
 		case "promoted_label_key_sets", "promotedLabelKeySets", "promoted-label-key-sets":
-			if subpath, err := monitoring_common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subpath}, nil
@@ -372,7 +370,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) GetSingleRaw(source proto.Message)
 func (fp *MetricDescriptor_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case MetricDescriptor_FieldPathSelectorName:
 		return (*Name)(nil)
 	case MetricDescriptor_FieldPathSelectorType:
@@ -380,7 +378,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) GetDefault() interface{} {
 	case MetricDescriptor_FieldPathSelectorResourceTypes:
 		return ([]string)(nil)
 	case MetricDescriptor_FieldPathSelectorLabels:
-		return ([]*monitoring_common.LabelDescriptor)(nil)
+		return ([]*common.LabelDescriptor)(nil)
 	case MetricDescriptor_FieldPathSelectorMetricKind:
 		return MetricDescriptor_METRIC_KIND_UNSPECIFIED
 	case MetricDescriptor_FieldPathSelectorValueType:
@@ -394,9 +392,9 @@ func (fp *MetricDescriptor_FieldTerminalPath) GetDefault() interface{} {
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		return (*MetricDescriptor_MetricDescriptorMetadata)(nil)
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		return (*monitoring_common.Distribution_BucketOptions)(nil)
+		return (*common.Distribution_BucketOptions)(nil)
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return ([]*monitoring_common.LabelKeySet)(nil)
+		return ([]*common.LabelKeySet)(nil)
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return (*MetricDescriptor_IndexSpec)(nil)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -468,7 +466,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) SplitIntoTerminalIPaths() []goteno
 func (fp *MetricDescriptor_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptor_FieldPathValue {
 	switch fp.selector {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case MetricDescriptor_FieldPathSelectorName:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*Name)}
 	case MetricDescriptor_FieldPathSelectorType:
@@ -476,7 +474,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIValue(value interface{}) Metr
 	case MetricDescriptor_FieldPathSelectorResourceTypes:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]string)}
 	case MetricDescriptor_FieldPathSelectorLabels:
-		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]*monitoring_common.LabelDescriptor)}
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelDescriptor)}
 	case MetricDescriptor_FieldPathSelectorMetricKind:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(MetricDescriptor_MetricKind)}
 	case MetricDescriptor_FieldPathSelectorValueType:
@@ -490,9 +488,9 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIValue(value interface{}) Metr
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_MetricDescriptorMetadata)}
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*monitoring_common.Distribution_BucketOptions)}
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*common.Distribution_BucketOptions)}
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]*monitoring_common.LabelKeySet)}
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_IndexSpec)}
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -510,7 +508,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIArrayOfValues(values interfac
 	fpaov := &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case MetricDescriptor_FieldPathSelectorName:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case MetricDescriptor_FieldPathSelectorType:
@@ -518,7 +516,7 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIArrayOfValues(values interfac
 	case MetricDescriptor_FieldPathSelectorResourceTypes:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]string)}
 	case MetricDescriptor_FieldPathSelectorLabels:
-		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]*monitoring_common.LabelDescriptor)}
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelDescriptor)}
 	case MetricDescriptor_FieldPathSelectorMetricKind:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_MetricKind)}
 	case MetricDescriptor_FieldPathSelectorValueType:
@@ -532,9 +530,9 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIArrayOfValues(values interfac
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_MetricDescriptorMetadata)}
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*monitoring_common.Distribution_BucketOptions)}
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*common.Distribution_BucketOptions)}
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]*monitoring_common.LabelKeySet)}
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_IndexSpec)}
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -554,9 +552,9 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIArrayItemValue(value interfac
 	case MetricDescriptor_FieldPathSelectorResourceTypes:
 		return &MetricDescriptor_FieldTerminalPathArrayItemValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case MetricDescriptor_FieldPathSelectorLabels:
-		return &MetricDescriptor_FieldTerminalPathArrayItemValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*monitoring_common.LabelDescriptor)}
+		return &MetricDescriptor_FieldTerminalPathArrayItemValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelDescriptor)}
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MetricDescriptor_FieldTerminalPathArrayItemValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*monitoring_common.LabelKeySet)}
+		return &MetricDescriptor_FieldTerminalPathArrayItemValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelKeySet)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
 	}
@@ -576,24 +574,24 @@ var _ MetricDescriptor_FieldPath = (*MetricDescriptor_FieldSubPath)(nil)
 func (fps *MetricDescriptor_FieldSubPath) Selector() MetricDescriptor_FieldPathSelector {
 	return fps.selector
 }
-func (fps *MetricDescriptor_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *MetricDescriptor_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *MetricDescriptor_FieldSubPath) AsLabelsSubPath() (monitoring_common.LabelDescriptor_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.LabelDescriptor_FieldPath)
+func (fps *MetricDescriptor_FieldSubPath) AsLabelsSubPath() (common.LabelDescriptor_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelDescriptor_FieldPath)
 	return res, ok
 }
 func (fps *MetricDescriptor_FieldSubPath) AsMetricDescriptorMetadataSubPath() (MetricDescriptorMetricDescriptorMetadata_FieldPath, bool) {
 	res, ok := fps.subPath.(MetricDescriptorMetricDescriptorMetadata_FieldPath)
 	return res, ok
 }
-func (fps *MetricDescriptor_FieldSubPath) AsDistributionBucketOptionsSubPath() (monitoring_common.DistributionBucketOptions_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.DistributionBucketOptions_FieldPath)
+func (fps *MetricDescriptor_FieldSubPath) AsDistributionBucketOptionsSubPath() (common.DistributionBucketOptions_FieldPath, bool) {
+	res, ok := fps.subPath.(common.DistributionBucketOptions_FieldPath)
 	return res, ok
 }
-func (fps *MetricDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (monitoring_common.LabelKeySet_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.LabelKeySet_FieldPath)
+func (fps *MetricDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (common.LabelKeySet_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelKeySet_FieldPath)
 	return res, ok
 }
 func (fps *MetricDescriptor_FieldSubPath) AsIndexSpecSubPath() (MetricDescriptorIndexSpec_FieldPath, bool) {
@@ -803,8 +801,8 @@ var _ MetricDescriptor_FieldPathValue = (*MetricDescriptor_FieldTerminalPathValu
 func (fpv *MetricDescriptor_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *MetricDescriptor_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *MetricDescriptor_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
@@ -819,8 +817,8 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) AsResourceTypesValue() ([]st
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *MetricDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpv.value.([]*monitoring_common.LabelDescriptor)
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*common.LabelDescriptor, bool) {
+	res, ok := fpv.value.([]*common.LabelDescriptor)
 	return res, ok
 }
 func (fpv *MetricDescriptor_FieldTerminalPathValue) AsMetricKindValue() (MetricDescriptor_MetricKind, bool) {
@@ -847,12 +845,12 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) AsMetricDescriptorMetadataVa
 	res, ok := fpv.value.(*MetricDescriptor_MetricDescriptorMetadata)
 	return res, ok
 }
-func (fpv *MetricDescriptor_FieldTerminalPathValue) AsDistributionBucketOptionsValue() (*monitoring_common.Distribution_BucketOptions, bool) {
-	res, ok := fpv.value.(*monitoring_common.Distribution_BucketOptions)
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsDistributionBucketOptionsValue() (*common.Distribution_BucketOptions, bool) {
+	res, ok := fpv.value.(*common.Distribution_BucketOptions)
 	return res, ok
 }
-func (fpv *MetricDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpv.value.([]*monitoring_common.LabelKeySet)
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*common.LabelKeySet, bool) {
+	res, ok := fpv.value.([]*common.LabelKeySet)
 	return res, ok
 }
 func (fpv *MetricDescriptor_FieldTerminalPathValue) AsIndexSpecValue() (*MetricDescriptor_IndexSpec, bool) {
@@ -871,7 +869,7 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) SetTo(target **MetricDescrip
 	}
 	switch fpv.selector {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case MetricDescriptor_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case MetricDescriptor_FieldPathSelectorType:
@@ -879,7 +877,7 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) SetTo(target **MetricDescrip
 	case MetricDescriptor_FieldPathSelectorResourceTypes:
 		(*target).ResourceTypes = fpv.value.([]string)
 	case MetricDescriptor_FieldPathSelectorLabels:
-		(*target).Labels = fpv.value.([]*monitoring_common.LabelDescriptor)
+		(*target).Labels = fpv.value.([]*common.LabelDescriptor)
 	case MetricDescriptor_FieldPathSelectorMetricKind:
 		(*target).MetricKind = fpv.value.(MetricDescriptor_MetricKind)
 	case MetricDescriptor_FieldPathSelectorValueType:
@@ -893,9 +891,9 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) SetTo(target **MetricDescrip
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		(*target).MetricDescriptorMetadata = fpv.value.(*MetricDescriptor_MetricDescriptorMetadata)
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		(*target).DistributionBucketOptions = fpv.value.(*monitoring_common.Distribution_BucketOptions)
+		(*target).DistributionBucketOptions = fpv.value.(*common.Distribution_BucketOptions)
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		(*target).PromotedLabelKeySets = fpv.value.([]*monitoring_common.LabelKeySet)
+		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		(*target).IndexSpec = fpv.value.(*MetricDescriptor_IndexSpec)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -1024,24 +1022,24 @@ type MetricDescriptor_FieldSubPathValue struct {
 
 var _ MetricDescriptor_FieldPathValue = (*MetricDescriptor_FieldSubPathValue)(nil)
 
-func (fpvs *MetricDescriptor_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MetricDescriptor_FieldSubPathValue) AsLabelsPathValue() (monitoring_common.LabelDescriptor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.LabelDescriptor_FieldPathValue)
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsLabelsPathValue() (common.LabelDescriptor_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelDescriptor_FieldPathValue)
 	return res, ok
 }
 func (fpvs *MetricDescriptor_FieldSubPathValue) AsMetricDescriptorMetadataPathValue() (MetricDescriptorMetricDescriptorMetadata_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(MetricDescriptorMetricDescriptorMetadata_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MetricDescriptor_FieldSubPathValue) AsDistributionBucketOptionsPathValue() (monitoring_common.DistributionBucketOptions_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.DistributionBucketOptions_FieldPathValue)
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsDistributionBucketOptionsPathValue() (common.DistributionBucketOptions_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.DistributionBucketOptions_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MetricDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (monitoring_common.LabelKeySet_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.LabelKeySet_FieldPathValue)
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (common.LabelKeySet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelKeySet_FieldPathValue)
 	return res, ok
 }
 func (fpvs *MetricDescriptor_FieldSubPathValue) AsIndexSpecPathValue() (MetricDescriptorIndexSpec_FieldPathValue, bool) {
@@ -1059,13 +1057,13 @@ func (fpvs *MetricDescriptor_FieldSubPathValue) SetTo(target **MetricDescriptor)
 	}
 	switch fpvs.Selector() {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case MetricDescriptor_FieldPathSelectorLabels:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		fpvs.subPathValue.(MetricDescriptorMetricDescriptorMetadata_FieldPathValue).SetTo(&(*target).MetricDescriptorMetadata)
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		fpvs.subPathValue.(monitoring_common.DistributionBucketOptions_FieldPathValue).SetTo(&(*target).DistributionBucketOptions)
+		fpvs.subPathValue.(common.DistributionBucketOptions_FieldPathValue).SetTo(&(*target).DistributionBucketOptions)
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
@@ -1089,13 +1087,13 @@ func (fpvs *MetricDescriptor_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *MetricDescriptor_FieldSubPathValue) CompareWith(source *MetricDescriptor) (int, bool) {
 	switch fpvs.Selector() {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case MetricDescriptor_FieldPathSelectorLabels:
 		return 0, false // repeated field
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		return fpvs.subPathValue.(MetricDescriptorMetricDescriptorMetadata_FieldPathValue).CompareWith(source.GetMetricDescriptorMetadata())
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		return fpvs.subPathValue.(monitoring_common.DistributionBucketOptions_FieldPathValue).CompareWith(source.GetDistributionBucketOptions())
+		return fpvs.subPathValue.(common.DistributionBucketOptions_FieldPathValue).CompareWith(source.GetDistributionBucketOptions())
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return 0, false // repeated field
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
@@ -1155,12 +1153,12 @@ func (fpaiv *MetricDescriptor_FieldTerminalPathArrayItemValue) AsResourceTypesIt
 	res, ok := fpaiv.value.(string)
 	return res, ok
 }
-func (fpaiv *MetricDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpaiv.value.(*monitoring_common.LabelDescriptor)
+func (fpaiv *MetricDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*common.LabelDescriptor, bool) {
+	res, ok := fpaiv.value.(*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaiv *MetricDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpaiv.value.(*monitoring_common.LabelKeySet)
+func (fpaiv *MetricDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*common.LabelKeySet, bool) {
+	res, ok := fpaiv.value.(*common.LabelKeySet)
 	return res, ok
 }
 
@@ -1196,24 +1194,24 @@ type MetricDescriptor_FieldSubPathArrayItemValue struct {
 func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (monitoring_common.LabelDescriptor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.LabelDescriptor_FieldPathArrayItemValue)
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (common.LabelDescriptor_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelDescriptor_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsMetricDescriptorMetadataPathItemValue() (MetricDescriptorMetricDescriptorMetadata_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(MetricDescriptorMetricDescriptorMetadata_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsDistributionBucketOptionsPathItemValue() (monitoring_common.DistributionBucketOptions_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.DistributionBucketOptions_FieldPathArrayItemValue)
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsDistributionBucketOptionsPathItemValue() (common.DistributionBucketOptions_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.DistributionBucketOptions_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (monitoring_common.LabelKeySet_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.LabelKeySet_FieldPathArrayItemValue)
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (common.LabelKeySet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelKeySet_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsIndexSpecPathItemValue() (MetricDescriptorIndexSpec_FieldPathArrayItemValue, bool) {
@@ -1229,13 +1227,13 @@ func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsStorageConfigPathIt
 func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor) bool {
 	switch fpaivs.Selector() {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case MetricDescriptor_FieldPathSelectorLabels:
 		return false // repeated/map field
 	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 		return fpaivs.subPathItemValue.(MetricDescriptorMetricDescriptorMetadata_FieldPathArrayItemValue).ContainsValue(source.GetMetricDescriptorMetadata())
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		return fpaivs.subPathItemValue.(monitoring_common.DistributionBucketOptions_FieldPathArrayItemValue).ContainsValue(source.GetDistributionBucketOptions())
+		return fpaivs.subPathItemValue.(common.DistributionBucketOptions_FieldPathArrayItemValue).ContainsValue(source.GetDistributionBucketOptions())
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return false // repeated/map field
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
@@ -1283,7 +1281,7 @@ var _ MetricDescriptor_FieldPathArrayOfValues = (*MetricDescriptor_FieldTerminal
 func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case MetricDescriptor_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorName:
@@ -1299,7 +1297,7 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorLabels:
-		for _, v := range fpaov.values.([][]*monitoring_common.LabelDescriptor) {
+		for _, v := range fpaov.values.([][]*common.LabelDescriptor) {
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorMetricKind:
@@ -1327,11 +1325,11 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-		for _, v := range fpaov.values.([]*monitoring_common.Distribution_BucketOptions) {
+		for _, v := range fpaov.values.([]*common.Distribution_BucketOptions) {
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		for _, v := range fpaov.values.([][]*monitoring_common.LabelKeySet) {
+		for _, v := range fpaov.values.([][]*common.LabelKeySet) {
 			values = append(values, v)
 		}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
@@ -1345,8 +1343,8 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 	}
 	return
 }
-func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
@@ -1361,8 +1359,8 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsResourceTypesArr
 	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
-func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*monitoring_common.LabelDescriptor, bool) {
-	res, ok := fpaov.values.([][]*monitoring_common.LabelDescriptor)
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*common.LabelDescriptor, bool) {
+	res, ok := fpaov.values.([][]*common.LabelDescriptor)
 	return res, ok
 }
 func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsMetricKindArrayOfValues() ([]MetricDescriptor_MetricKind, bool) {
@@ -1389,12 +1387,12 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsMetricDescriptor
 	res, ok := fpaov.values.([]*MetricDescriptor_MetricDescriptorMetadata)
 	return res, ok
 }
-func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsDistributionBucketOptionsArrayOfValues() ([]*monitoring_common.Distribution_BucketOptions, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.Distribution_BucketOptions)
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsDistributionBucketOptionsArrayOfValues() ([]*common.Distribution_BucketOptions, bool) {
+	res, ok := fpaov.values.([]*common.Distribution_BucketOptions)
 	return res, ok
 }
-func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*monitoring_common.LabelKeySet, bool) {
-	res, ok := fpaov.values.([][]*monitoring_common.LabelKeySet)
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*common.LabelKeySet, bool) {
+	res, ok := fpaov.values.([][]*common.LabelKeySet)
 	return res, ok
 }
 func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsIndexSpecArrayOfValues() ([]*MetricDescriptor_IndexSpec, bool) {
@@ -1416,24 +1414,24 @@ var _ MetricDescriptor_FieldPathArrayOfValues = (*MetricDescriptor_FieldSubPathA
 func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (monitoring_common.LabelDescriptor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.LabelDescriptor_FieldPathArrayOfValues)
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (common.LabelDescriptor_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelDescriptor_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsMetricDescriptorMetadataPathArrayOfValues() (MetricDescriptorMetricDescriptorMetadata_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorMetricDescriptorMetadata_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsDistributionBucketOptionsPathArrayOfValues() (monitoring_common.DistributionBucketOptions_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.DistributionBucketOptions_FieldPathArrayOfValues)
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsDistributionBucketOptionsPathArrayOfValues() (common.DistributionBucketOptions_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.DistributionBucketOptions_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (monitoring_common.LabelKeySet_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.LabelKeySet_FieldPathArrayOfValues)
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (common.LabelKeySet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelKeySet_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsIndexSpecPathArrayOfValues() (MetricDescriptorIndexSpec_FieldPathArrayOfValues, bool) {

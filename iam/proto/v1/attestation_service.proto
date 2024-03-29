@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/attestation_custom.proto";
+import "edgelq-sdk/iam/proto/v1/attestation_domain.proto";
+import "edgelq-sdk/iam/proto/v1/attestation_domain_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/attestation;attestation_client";
+option java_multiple_files = false;
+option java_outer_classname = "AttestationServiceProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Attestation service API for IAM
+service AttestationService {
+  option (google.api.default_host) = "iam.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // Verify
+  rpc Verify(stream VerifyRequest) returns (stream VerifyResponse) {
+    option (google.api.http) = {
+      post : "/v1/{ask_for_challenge.attestation_domain=projects/*/"
+             "attestationDomains/*}:verify"
+    };
+  }
+}

@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ntt.monitoring.v3;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/monitoring/proto/v3/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition;alerting_condition";
 option java_multiple_files = true;
@@ -27,7 +27,7 @@ message AlertingCondition {
   string name = 1;
 
   // Metadata
-  ntt.types.Meta metadata = 2;
+  goten.types.Meta metadata = 2;
 
   // Display Name
   string display_name = 3;

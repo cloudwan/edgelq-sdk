@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ntt.meta.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment;deployment";
 option java_multiple_files = true;
@@ -28,5 +28,5 @@ message Deployment {
   string service = 2;
 
   // Metadata
-  ntt.types.Meta metadata = 3;
+  goten.types.Meta metadata = 3;
 }

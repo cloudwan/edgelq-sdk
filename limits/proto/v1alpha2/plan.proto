@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ntt.limits.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan;plan";
 option java_multiple_files = true;
@@ -44,7 +44,7 @@ message Plan {
   ntt.iam.v1alpha2.BusinessTier business_tier = 7;
 
   // Metadata
-  ntt.types.Meta metadata = 5;
+  goten.types.Meta metadata = 5;
 
   // PlanLevel defines entity level for whom plan can be assigned
   enum PlanLevel {

@@ -6,8 +6,6 @@ package plan_assignment_request
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -17,13 +15,13 @@ import (
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -33,7 +31,9 @@ var (
 	_ = &plan_assignment.PlanAssignment{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type PlanAssignmentRequestFieldPathBuilder struct{}
@@ -80,27 +80,27 @@ func (PlanAssignmentRequestPathSelectorRequest) FieldPath() *PlanAssignmentReque
 	return &PlanAssignmentRequest_FieldTerminalPath{selector: PlanAssignmentRequest_FieldPathSelectorRequest}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequest) WithValue(value *PlanAssignmentRequest_Request) *PlanAssignmentRequest_FieldTerminalPathValue {
+func (s PlanAssignmentRequestPathSelectorRequest) WithValue(value *PlanAssignmentRequest_RequestType) *PlanAssignmentRequest_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorRequest) WithArrayOfValues(values []*PlanAssignmentRequest_Request) *PlanAssignmentRequest_FieldTerminalPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequest) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType) *PlanAssignmentRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentRequestPathSelectorRequest) WithSubPath(subPath PlanAssignmentRequestRequest_FieldPath) *PlanAssignmentRequest_FieldSubPath {
+func (PlanAssignmentRequestPathSelectorRequest) WithSubPath(subPath PlanAssignmentRequestRequestType_FieldPath) *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorRequest, subPath: subPath}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequest) WithSubValue(subPathValue PlanAssignmentRequestRequest_FieldPathValue) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorRequest) WithSubValue(subPathValue PlanAssignmentRequestRequestType_FieldPathValue) *PlanAssignmentRequest_FieldSubPathValue {
 	return &PlanAssignmentRequest_FieldSubPathValue{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequest) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequest_FieldPathArrayOfValues) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequest) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestType_FieldPathArrayOfValues) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return &PlanAssignmentRequest_FieldSubPathArrayOfValues{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequest) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequest_FieldPathArrayItemValue) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
+func (s PlanAssignmentRequestPathSelectorRequest) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestType_FieldPathArrayItemValue) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
 	return &PlanAssignmentRequest_FieldSubPathArrayItemValue{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -125,15 +125,15 @@ type PlanAssignmentRequestPathSelectorRequestAssign struct{}
 func (PlanAssignmentRequestPathSelectorRequestAssign) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestAssign) WithValue(value *PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorRequestAssign) WithValue(value *PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestAssign) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequestAssign) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -154,7 +154,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignPlan struct{}
 func (PlanAssignmentRequestPathSelectorRequestAssignPlan) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().Plan().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().Plan().FieldPath(),
 	}
 }
 
@@ -171,7 +171,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignExtensions struct{}
 func (PlanAssignmentRequestPathSelectorRequestAssignExtensions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().Extensions().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().Extensions().FieldPath(),
 	}
 }
 
@@ -200,7 +200,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignExtensionsResource struct{}
 func (PlanAssignmentRequestPathSelectorRequestAssignExtensionsResource) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().Extensions().Resource().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().Extensions().Resource().FieldPath(),
 	}
 }
 
@@ -217,7 +217,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignExtensionsValue struct{}
 func (PlanAssignmentRequestPathSelectorRequestAssignExtensionsValue) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().Extensions().Value().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().Extensions().Value().FieldPath(),
 	}
 }
 
@@ -234,7 +234,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributions struct{
 func (PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().RegionalDistributions().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().RegionalDistributions().FieldPath(),
 	}
 }
 
@@ -263,7 +263,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributionsResource
 func (PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributionsResource) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().RegionalDistributions().Resource().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
@@ -280,7 +280,7 @@ type PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributionsLimitsBy
 func (PlanAssignmentRequestPathSelectorRequestAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().RegionalDistributions().LimitsByRegion().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
@@ -303,7 +303,7 @@ type PlanAssignmentRequestMapPathSelectorRequestAssignRegionalDistributionsLimit
 func (s PlanAssignmentRequestMapPathSelectorRequestAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Assign().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Assign().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -320,15 +320,15 @@ type PlanAssignmentRequestPathSelectorRequestExtend struct{}
 func (PlanAssignmentRequestPathSelectorRequestExtend) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestExtend) WithValue(value *PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorRequestExtend) WithValue(value *PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestExtend) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequestExtend) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -349,7 +349,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendAssignment struct{}
 func (PlanAssignmentRequestPathSelectorRequestExtendAssignment) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().Assignment().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().Assignment().FieldPath(),
 	}
 }
 
@@ -366,7 +366,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendAdditions struct{}
 func (PlanAssignmentRequestPathSelectorRequestExtendAdditions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().Additions().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().Additions().FieldPath(),
 	}
 }
 
@@ -395,7 +395,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendAdditionsResource struct{}
 func (PlanAssignmentRequestPathSelectorRequestExtendAdditionsResource) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().Additions().Resource().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().Additions().Resource().FieldPath(),
 	}
 }
 
@@ -412,7 +412,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendAdditionsValue struct{}
 func (PlanAssignmentRequestPathSelectorRequestExtendAdditionsValue) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().Additions().Value().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().Additions().Value().FieldPath(),
 	}
 }
 
@@ -429,7 +429,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributions struct{
 func (PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().RegionalDistributions().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().RegionalDistributions().FieldPath(),
 	}
 }
 
@@ -458,7 +458,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributionsResource
 func (PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributionsResource) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().RegionalDistributions().Resource().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
@@ -475,7 +475,7 @@ type PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributionsLimitsBy
 func (PlanAssignmentRequestPathSelectorRequestExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().RegionalDistributions().LimitsByRegion().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
@@ -498,7 +498,7 @@ type PlanAssignmentRequestMapPathSelectorRequestExtendRegionalDistributionsLimit
 func (s PlanAssignmentRequestMapPathSelectorRequestExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Extend().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Extend().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -515,15 +515,15 @@ type PlanAssignmentRequestPathSelectorRequestRedistribute struct{}
 func (PlanAssignmentRequestPathSelectorRequestRedistribute) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestRedistribute) WithValue(value *PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorRequestRedistribute) WithValue(value *PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestRedistribute) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequestRedistribute) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -540,7 +540,7 @@ type PlanAssignmentRequestPathSelectorRequestRedistributeAssignment struct{}
 func (PlanAssignmentRequestPathSelectorRequestRedistributeAssignment) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().Assignment().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().Assignment().FieldPath(),
 	}
 }
 
@@ -557,7 +557,7 @@ type PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributions s
 func (PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().RegionalDistributions().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().RegionalDistributions().FieldPath(),
 	}
 }
 
@@ -586,7 +586,7 @@ type PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributionsRe
 func (PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributionsResource) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().RegionalDistributions().Resource().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
@@ -603,7 +603,7 @@ type PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributionsLi
 func (PlanAssignmentRequestPathSelectorRequestRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().RegionalDistributions().LimitsByRegion().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
@@ -626,7 +626,7 @@ type PlanAssignmentRequestMapPathSelectorRequestRedistributeRegionalDistribution
 func (s PlanAssignmentRequestMapPathSelectorRequestRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Redistribute().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Redistribute().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -643,15 +643,15 @@ type PlanAssignmentRequestPathSelectorRequestUnassign struct{}
 func (PlanAssignmentRequestPathSelectorRequestUnassign) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Unassign().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Unassign().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestUnassign) WithValue(value *PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorRequestUnassign) WithValue(value *PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorRequestUnassign) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorRequestUnassign) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -664,7 +664,7 @@ type PlanAssignmentRequestPathSelectorRequestUnassignAssignment struct{}
 func (PlanAssignmentRequestPathSelectorRequestUnassignAssignment) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorRequest,
-		subPath:  NewPlanAssignmentRequestRequestFieldPathBuilder().Unassign().Assignment().FieldPath(),
+		subPath:  NewPlanAssignmentRequestRequestTypeFieldPathBuilder().Unassign().Assignment().FieldPath(),
 	}
 }
 
@@ -782,27 +782,27 @@ func (PlanAssignmentRequestPathSelectorMetadata) FieldPath() *PlanAssignmentRequ
 	return &PlanAssignmentRequest_FieldTerminalPath{selector: PlanAssignmentRequest_FieldPathSelectorMetadata}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *PlanAssignmentRequest_FieldTerminalPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadata) WithValue(value *meta.Meta) *PlanAssignmentRequest_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *PlanAssignmentRequest_FieldTerminalPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *PlanAssignmentRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentRequestPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *PlanAssignmentRequest_FieldSubPath {
+func (PlanAssignmentRequestPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *PlanAssignmentRequest_FieldSubPathValue {
 	return &PlanAssignmentRequest_FieldSubPathValue{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return &PlanAssignmentRequest_FieldSubPathArrayOfValues{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
+func (s PlanAssignmentRequestPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
 	return &PlanAssignmentRequest_FieldSubPathArrayItemValue{PlanAssignmentRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -858,20 +858,24 @@ func (PlanAssignmentRequestPathSelectorMetadata) Lifecycle() PlanAssignmentReque
 	return PlanAssignmentRequestPathSelectorMetadataLifecycle{}
 }
 
+func (PlanAssignmentRequestPathSelectorMetadata) Services() PlanAssignmentRequestPathSelectorMetadataServices {
+	return PlanAssignmentRequestPathSelectorMetadataServices{}
+}
+
 type PlanAssignmentRequestPathSelectorMetadataCreateTime struct{}
 
 func (PlanAssignmentRequestPathSelectorMetadataCreateTime) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -880,15 +884,15 @@ type PlanAssignmentRequestPathSelectorMetadataUpdateTime struct{}
 func (PlanAssignmentRequestPathSelectorMetadataUpdateTime) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -897,15 +901,15 @@ type PlanAssignmentRequestPathSelectorMetadataDeleteTime struct{}
 func (PlanAssignmentRequestPathSelectorMetadataDeleteTime) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -914,7 +918,7 @@ type PlanAssignmentRequestPathSelectorMetadataUuid struct{}
 func (PlanAssignmentRequestPathSelectorMetadataUuid) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -931,7 +935,7 @@ type PlanAssignmentRequestPathSelectorMetadataTags struct{}
 func (PlanAssignmentRequestPathSelectorMetadataTags) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -952,7 +956,7 @@ type PlanAssignmentRequestPathSelectorMetadataLabels struct{}
 func (PlanAssignmentRequestPathSelectorMetadataLabels) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -975,7 +979,7 @@ type PlanAssignmentRequestMapPathSelectorMetadataLabels struct {
 func (s PlanAssignmentRequestMapPathSelectorMetadataLabels) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -992,7 +996,7 @@ type PlanAssignmentRequestPathSelectorMetadataAnnotations struct{}
 func (PlanAssignmentRequestPathSelectorMetadataAnnotations) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -1015,7 +1019,7 @@ type PlanAssignmentRequestMapPathSelectorMetadataAnnotations struct {
 func (s PlanAssignmentRequestMapPathSelectorMetadataAnnotations) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -1032,7 +1036,7 @@ type PlanAssignmentRequestPathSelectorMetadataGeneration struct{}
 func (PlanAssignmentRequestPathSelectorMetadataGeneration) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -1049,7 +1053,7 @@ type PlanAssignmentRequestPathSelectorMetadataResourceVersion struct{}
 func (PlanAssignmentRequestPathSelectorMetadataResourceVersion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -1066,19 +1070,19 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferences struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferences) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
+func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequest_FieldSubPathArrayItemValue)
 }
 
@@ -1102,10 +1106,6 @@ func (PlanAssignmentRequestPathSelectorMetadataOwnerReferences) Controller() Pla
 	return PlanAssignmentRequestPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (PlanAssignmentRequestPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferences) RequiresOwnerReference() PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -1115,7 +1115,7 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesKind struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesKind) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -1132,7 +1132,7 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesVersion struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesVersion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -1149,7 +1149,7 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesName struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesName) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -1166,7 +1166,7 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRegion struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -1183,7 +1183,7 @@ type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesController struct{}
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesController) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -1195,29 +1195,12 @@ func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferencesController) With
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
-	return &PlanAssignmentRequest_FieldSubPath{
-		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *PlanAssignmentRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
-}
-
-func (s PlanAssignmentRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
-}
-
 type PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (PlanAssignmentRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -1234,7 +1217,7 @@ type PlanAssignmentRequestPathSelectorMetadataShards struct{}
 func (PlanAssignmentRequestPathSelectorMetadataShards) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -1257,7 +1240,7 @@ type PlanAssignmentRequestMapPathSelectorMetadataShards struct {
 func (s PlanAssignmentRequestMapPathSelectorMetadataShards) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -1274,15 +1257,15 @@ type PlanAssignmentRequestPathSelectorMetadataSyncing struct{}
 func (PlanAssignmentRequestPathSelectorMetadataSyncing) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -1299,7 +1282,7 @@ type PlanAssignmentRequestPathSelectorMetadataSyncingOwningRegion struct{}
 func (PlanAssignmentRequestPathSelectorMetadataSyncingOwningRegion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -1316,7 +1299,7 @@ type PlanAssignmentRequestPathSelectorMetadataSyncingRegions struct{}
 func (PlanAssignmentRequestPathSelectorMetadataSyncingRegions) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -1337,15 +1320,15 @@ type PlanAssignmentRequestPathSelectorMetadataLifecycle struct{}
 func (PlanAssignmentRequestPathSelectorMetadataLifecycle) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -1362,15 +1345,15 @@ type PlanAssignmentRequestPathSelectorMetadataLifecycleState struct{}
 func (PlanAssignmentRequestPathSelectorMetadataLifecycleState) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *PlanAssignmentRequest_FieldSubPathValue {
+func (s PlanAssignmentRequestPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *PlanAssignmentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequestPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+func (s PlanAssignmentRequestPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -1379,7 +1362,7 @@ type PlanAssignmentRequestPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (PlanAssignmentRequestPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *PlanAssignmentRequest_FieldSubPath {
 	return &PlanAssignmentRequest_FieldSubPath{
 		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -1389,6 +1372,69 @@ func (s PlanAssignmentRequestPathSelectorMetadataLifecycleBlockDeletion) WithVal
 
 func (s PlanAssignmentRequestPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
+}
+
+type PlanAssignmentRequestPathSelectorMetadataServices struct{}
+
+func (PlanAssignmentRequestPathSelectorMetadataServices) FieldPath() *PlanAssignmentRequest_FieldSubPath {
+	return &PlanAssignmentRequest_FieldSubPath{
+		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *PlanAssignmentRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
+}
+
+func (PlanAssignmentRequestPathSelectorMetadataServices) OwningService() PlanAssignmentRequestPathSelectorMetadataServicesOwningService {
+	return PlanAssignmentRequestPathSelectorMetadataServicesOwningService{}
+}
+
+func (PlanAssignmentRequestPathSelectorMetadataServices) AllowedServices() PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices {
+	return PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices{}
+}
+
+type PlanAssignmentRequestPathSelectorMetadataServicesOwningService struct{}
+
+func (PlanAssignmentRequestPathSelectorMetadataServicesOwningService) FieldPath() *PlanAssignmentRequest_FieldSubPath {
+	return &PlanAssignmentRequest_FieldSubPath{
+		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServicesOwningService) WithValue(value string) *PlanAssignmentRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
+}
+
+type PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices struct{}
+
+func (PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices) FieldPath() *PlanAssignmentRequest_FieldSubPath {
+	return &PlanAssignmentRequest_FieldSubPath{
+		selector: PlanAssignmentRequest_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *PlanAssignmentRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequest_FieldSubPathValue)
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *PlanAssignmentRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequest_FieldSubPathArrayOfValues)
+}
+
+func (s PlanAssignmentRequestPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *PlanAssignmentRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequest_FieldSubPathArrayItemValue)
 }
 
 type PlanAssignmentRequestStatusFieldPathBuilder struct{}
@@ -1431,1179 +1477,1179 @@ func (s PlanAssignmentRequest_StatusPathSelectorReason) WithArrayOfValues(values
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestStatus_FieldTerminalPathArrayOfValues)
 }
 
-type PlanAssignmentRequestRequestFieldPathBuilder struct{}
+type PlanAssignmentRequestRequestTypeFieldPathBuilder struct{}
 
-func NewPlanAssignmentRequestRequestFieldPathBuilder() PlanAssignmentRequestRequestFieldPathBuilder {
-	return PlanAssignmentRequestRequestFieldPathBuilder{}
+func NewPlanAssignmentRequestRequestTypeFieldPathBuilder() PlanAssignmentRequestRequestTypeFieldPathBuilder {
+	return PlanAssignmentRequestRequestTypeFieldPathBuilder{}
 }
-func (PlanAssignmentRequestRequestFieldPathBuilder) Assign() PlanAssignmentRequest_RequestPathSelectorAssign {
-	return PlanAssignmentRequest_RequestPathSelectorAssign{}
+func (PlanAssignmentRequestRequestTypeFieldPathBuilder) Assign() PlanAssignmentRequest_RequestTypePathSelectorAssign {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssign{}
 }
-func (PlanAssignmentRequestRequestFieldPathBuilder) Extend() PlanAssignmentRequest_RequestPathSelectorExtend {
-	return PlanAssignmentRequest_RequestPathSelectorExtend{}
+func (PlanAssignmentRequestRequestTypeFieldPathBuilder) Extend() PlanAssignmentRequest_RequestTypePathSelectorExtend {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtend{}
 }
-func (PlanAssignmentRequestRequestFieldPathBuilder) Redistribute() PlanAssignmentRequest_RequestPathSelectorRedistribute {
-	return PlanAssignmentRequest_RequestPathSelectorRedistribute{}
+func (PlanAssignmentRequestRequestTypeFieldPathBuilder) Redistribute() PlanAssignmentRequest_RequestTypePathSelectorRedistribute {
+	return PlanAssignmentRequest_RequestTypePathSelectorRedistribute{}
 }
-func (PlanAssignmentRequestRequestFieldPathBuilder) Unassign() PlanAssignmentRequest_RequestPathSelectorUnassign {
-	return PlanAssignmentRequest_RequestPathSelectorUnassign{}
-}
-
-type PlanAssignmentRequest_RequestPathSelectorAssign struct{}
-
-func (PlanAssignmentRequest_RequestPathSelectorAssign) FieldPath() *PlanAssignmentRequestRequest_FieldTerminalPath {
-	return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign}
+func (PlanAssignmentRequestRequestTypeFieldPathBuilder) Unassign() PlanAssignmentRequest_RequestTypePathSelectorUnassign {
+	return PlanAssignmentRequest_RequestTypePathSelectorUnassign{}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssign) WithValue(value *PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequestRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestTypePathSelectorAssign struct{}
+
+func (PlanAssignmentRequest_RequestTypePathSelectorAssign) FieldPath() *PlanAssignmentRequestRequestType_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssign) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssign) WithValue(value *PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequestRequestType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldTerminalPathValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssign) WithSubPath(subPath PlanAssignmentRequestRequestAssign_FieldPath) *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign, subPath: subPath}
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssign) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssign) WithSubValue(subPathValue PlanAssignmentRequestRequestAssign_FieldPathValue) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssign) WithSubPath(subPath PlanAssignmentRequestRequestTypeAssign_FieldPath) *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssign) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayOfValues{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssign) WithSubValue(subPathValue PlanAssignmentRequestRequestTypeAssign_FieldPathValue) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssign) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayItemValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssign) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssign) Plan() PlanAssignmentRequest_RequestPathSelectorAssignPlan {
-	return PlanAssignmentRequest_RequestPathSelectorAssignPlan{}
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssign) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssign) Extensions() PlanAssignmentRequest_RequestPathSelectorAssignExtensions {
-	return PlanAssignmentRequest_RequestPathSelectorAssignExtensions{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssign) Plan() PlanAssignmentRequest_RequestTypePathSelectorAssignPlan {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignPlan{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssign) RegionalDistributions() PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions {
-	return PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssign) Extensions() PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignPlan struct{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssign) RegionalDistributions() PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions{}
+}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignPlan) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().Plan().FieldPath(),
+type PlanAssignmentRequest_RequestTypePathSelectorAssignPlan struct{}
+
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignPlan) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().Plan().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignPlan) WithValue(value *plan.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignPlan) WithValue(value *plan.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignPlan) WithArrayOfValues(values []*plan.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignPlan) WithArrayOfValues(values []*plan.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignExtensions struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignExtensions) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().Extensions().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().Extensions().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignExtensions) Resource() PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource {
-	return PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) Resource() PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignExtensions) Value() PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue {
-	return PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignExtensions) Value() PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().Extensions().Resource().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().Extensions().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().Extensions().Value().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().Extensions().Value().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue) WithValue(value int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue) WithValue(value int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignExtensionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignExtensionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().RegionalDistributions().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().RegionalDistributions().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) Resource() PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource {
-	return PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) Resource() PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorAssignRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestTypePathSelectorAssignRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign,
-		subPath:  NewPlanAssignmentRequestRequestAssignFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign,
+		subPath:  NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorAssignRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorAssignRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtend struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtend struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtend) FieldPath() *PlanAssignmentRequestRequest_FieldTerminalPath {
-	return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtend) FieldPath() *PlanAssignmentRequestRequestType_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtend) WithValue(value *PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequestRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldTerminalPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtend) WithValue(value *PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequestRequestType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtend) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtend) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtend) WithSubPath(subPath PlanAssignmentRequestRequestExtend_FieldPath) *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend, subPath: subPath}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtend) WithSubPath(subPath PlanAssignmentRequestRequestTypeExtend_FieldPath) *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtend) WithSubValue(subPathValue PlanAssignmentRequestRequestExtend_FieldPathValue) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtend) WithSubValue(subPathValue PlanAssignmentRequestRequestTypeExtend_FieldPathValue) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtend) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayOfValues{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtend) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtend) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayItemValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtend) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtend) Assignment() PlanAssignmentRequest_RequestPathSelectorExtendAssignment {
-	return PlanAssignmentRequest_RequestPathSelectorExtendAssignment{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtend) Assignment() PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtend) Additions() PlanAssignmentRequest_RequestPathSelectorExtendAdditions {
-	return PlanAssignmentRequest_RequestPathSelectorExtendAdditions{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtend) Additions() PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtend) RegionalDistributions() PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions {
-	return PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtend) RegionalDistributions() PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendAssignment struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAssignment) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().Assignment().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().Assignment().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendAdditions struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAdditions) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().Additions().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().Additions().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAdditions) Resource() PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource {
-	return PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) Resource() PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAdditions) Value() PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue {
-	return PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAdditions) Value() PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().Additions().Resource().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().Additions().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().Additions().Value().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().Additions().Value().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue) WithValue(value int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue) WithValue(value int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendAdditionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendAdditionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().RegionalDistributions().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().RegionalDistributions().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) Resource() PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource {
-	return PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) Resource() PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorExtendRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestTypePathSelectorExtendRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend,
-		subPath:  NewPlanAssignmentRequestRequestExtendFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend,
+		subPath:  NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorExtendRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorExtendRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorRedistribute struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorRedistribute struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistribute) FieldPath() *PlanAssignmentRequestRequest_FieldTerminalPath {
-	return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistribute) FieldPath() *PlanAssignmentRequestRequestType_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistribute) WithValue(value *PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequestRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldTerminalPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithValue(value *PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequestRequestType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistribute) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistribute) WithSubPath(subPath PlanAssignmentRequestRequestRedistribute_FieldPath) *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute, subPath: subPath}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithSubPath(subPath PlanAssignmentRequestRequestTypeRedistribute_FieldPath) *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistribute) WithSubValue(subPathValue PlanAssignmentRequestRequestRedistribute_FieldPathValue) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithSubValue(subPathValue PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistribute) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayOfValues{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistribute) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayItemValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistribute) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistribute) Assignment() PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment {
-	return PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment{}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistribute) Assignment() PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment {
+	return PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistribute) RegionalDistributions() PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions {
-	return PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions{}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistribute) RegionalDistributions() PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions {
+	return PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute,
-		subPath:  NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder().Assignment().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute,
+		subPath:  NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder().Assignment().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute,
-		subPath:  NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder().RegionalDistributions().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute,
+		subPath:  NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder().RegionalDistributions().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) Resource() PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource {
-	return PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource{}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) Resource() PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource{}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute,
-		subPath:  NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute,
+		subPath:  NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder().RegionalDistributions().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute,
-		subPath:  NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute,
+		subPath:  NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder().RegionalDistributions().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestTypePathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute,
-		subPath:  NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute,
+		subPath:  NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder().RegionalDistributions().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypeMapPathSelectorRedistributeRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_RequestPathSelectorUnassign struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorUnassign struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorUnassign) FieldPath() *PlanAssignmentRequestRequest_FieldTerminalPath {
-	return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign}
+func (PlanAssignmentRequest_RequestTypePathSelectorUnassign) FieldPath() *PlanAssignmentRequestRequestType_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassign) WithValue(value *PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequestRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldTerminalPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithValue(value *PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequestRequestType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassign) WithArrayOfValues(values []*PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithArrayOfValues(values []*PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorUnassign) WithSubPath(subPath PlanAssignmentRequestRequestUnassign_FieldPath) *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign, subPath: subPath}
+func (PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithSubPath(subPath PlanAssignmentRequestRequestTypeUnassign_FieldPath) *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassign) WithSubValue(subPathValue PlanAssignmentRequestRequestUnassign_FieldPathValue) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithSubValue(subPathValue PlanAssignmentRequestRequestTypeUnassign_FieldPathValue) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassign) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayOfValues{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithSubArrayOfValues(subPathArrayOfValues PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassign) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue) *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayItemValue{PlanAssignmentRequestRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassign) WithSubArrayItemValue(subPathArrayItemValue PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue) *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_RequestPathSelectorUnassign) Assignment() PlanAssignmentRequest_RequestPathSelectorUnassignAssignment {
-	return PlanAssignmentRequest_RequestPathSelectorUnassignAssignment{}
+func (PlanAssignmentRequest_RequestTypePathSelectorUnassign) Assignment() PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment {
+	return PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment{}
 }
 
-type PlanAssignmentRequest_RequestPathSelectorUnassignAssignment struct{}
+type PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment struct{}
 
-func (PlanAssignmentRequest_RequestPathSelectorUnassignAssignment) FieldPath() *PlanAssignmentRequestRequest_FieldSubPath {
-	return &PlanAssignmentRequestRequest_FieldSubPath{
-		selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign,
-		subPath:  NewPlanAssignmentRequestRequestUnassignFieldPathBuilder().Assignment().FieldPath(),
+func (PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment) FieldPath() *PlanAssignmentRequestRequestType_FieldSubPath {
+	return &PlanAssignmentRequestRequestType_FieldSubPath{
+		selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign,
+		subPath:  NewPlanAssignmentRequestRequestTypeUnassignFieldPathBuilder().Assignment().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassignAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequest_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestType_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_RequestPathSelectorUnassignAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestTypePathSelectorUnassignAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequestRequestAssignFieldPathBuilder struct{}
+type PlanAssignmentRequestRequestTypeAssignFieldPathBuilder struct{}
 
-func NewPlanAssignmentRequestRequestAssignFieldPathBuilder() PlanAssignmentRequestRequestAssignFieldPathBuilder {
-	return PlanAssignmentRequestRequestAssignFieldPathBuilder{}
+func NewPlanAssignmentRequestRequestTypeAssignFieldPathBuilder() PlanAssignmentRequestRequestTypeAssignFieldPathBuilder {
+	return PlanAssignmentRequestRequestTypeAssignFieldPathBuilder{}
 }
-func (PlanAssignmentRequestRequestAssignFieldPathBuilder) Plan() PlanAssignmentRequest_Request_AssignPathSelectorPlan {
-	return PlanAssignmentRequest_Request_AssignPathSelectorPlan{}
+func (PlanAssignmentRequestRequestTypeAssignFieldPathBuilder) Plan() PlanAssignmentRequest_RequestType_AssignPathSelectorPlan {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorPlan{}
 }
-func (PlanAssignmentRequestRequestAssignFieldPathBuilder) Extensions() PlanAssignmentRequest_Request_AssignPathSelectorExtensions {
-	return PlanAssignmentRequest_Request_AssignPathSelectorExtensions{}
+func (PlanAssignmentRequestRequestTypeAssignFieldPathBuilder) Extensions() PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions{}
 }
-func (PlanAssignmentRequestRequestAssignFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions {
-	return PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions{}
-}
-
-type PlanAssignmentRequest_Request_AssignPathSelectorPlan struct{}
-
-func (PlanAssignmentRequest_Request_AssignPathSelectorPlan) FieldPath() *PlanAssignmentRequestRequestAssign_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan}
+func (PlanAssignmentRequestRequestTypeAssignFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions{}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorPlan) WithValue(value *plan.Reference) *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_AssignPathSelectorPlan struct{}
+
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorPlan) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorPlan) WithArrayOfValues(values []*plan.Reference) *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorPlan) WithValue(value *plan.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue)
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorExtensions struct{}
-
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensions) FieldPath() *PlanAssignmentRequestRequestAssign_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorPlan) WithArrayOfValues(values []*plan.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions struct{}
+
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue)
-}
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithSubPath(subPath common.Allowance_FieldPath) *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions, subPath: subPath}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithSubValue(subPathValue common.Allowance_FieldPathValue) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathValue{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue)
+}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithSubPath(subPath common.Allowance_FieldPath) *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithSubArrayOfValues(subPathArrayOfValues common.Allowance_FieldPathArrayOfValues) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithSubValue(subPathValue common.Allowance_FieldPathValue) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensions) WithSubArrayItemValue(subPathArrayItemValue common.Allowance_FieldPathArrayItemValue) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithSubArrayOfValues(subPathArrayOfValues common.Allowance_FieldPathArrayOfValues) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensions) Resource() PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource {
-	return PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource{}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) WithSubArrayItemValue(subPathArrayItemValue common.Allowance_FieldPathArrayItemValue) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensions) Value() PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue {
-	return PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue{}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) Resource() PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource{}
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource struct{}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensions) Value() PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue{}
+}
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource) FieldPath() *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{
-		selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions,
+type PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource struct{}
+
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions,
 		subPath:  common.NewAllowanceFieldPathBuilder().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue struct{}
+type PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue struct{}
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue) FieldPath() *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{
-		selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions,
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions,
 		subPath:  common.NewAllowanceFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue) WithValue(value int64) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue) WithValue(value int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorExtensionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorExtensionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions struct{}
+type PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions struct{}
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestAssign_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue)
 }
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions, subPath: subPath}
-}
-
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathValue{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestAssign_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource {
-	return PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource{}
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestTypeAssign_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource{}
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource struct{}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion{}
+}
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{
-		selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions,
+type PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource struct{}
+
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{
-		selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions,
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_Request_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestType_AssignPathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestAssign_FieldSubPath {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPath{
-		selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions,
+func (s PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeAssign_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestAssign_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestAssign_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_AssignMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequestRequestExtendFieldPathBuilder struct{}
+type PlanAssignmentRequestRequestTypeExtendFieldPathBuilder struct{}
 
-func NewPlanAssignmentRequestRequestExtendFieldPathBuilder() PlanAssignmentRequestRequestExtendFieldPathBuilder {
-	return PlanAssignmentRequestRequestExtendFieldPathBuilder{}
+func NewPlanAssignmentRequestRequestTypeExtendFieldPathBuilder() PlanAssignmentRequestRequestTypeExtendFieldPathBuilder {
+	return PlanAssignmentRequestRequestTypeExtendFieldPathBuilder{}
 }
-func (PlanAssignmentRequestRequestExtendFieldPathBuilder) Assignment() PlanAssignmentRequest_Request_ExtendPathSelectorAssignment {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorAssignment{}
+func (PlanAssignmentRequestRequestTypeExtendFieldPathBuilder) Assignment() PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment{}
 }
-func (PlanAssignmentRequestRequestExtendFieldPathBuilder) Additions() PlanAssignmentRequest_Request_ExtendPathSelectorAdditions {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorAdditions{}
+func (PlanAssignmentRequestRequestTypeExtendFieldPathBuilder) Additions() PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions{}
 }
-func (PlanAssignmentRequestRequestExtendFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions{}
-}
-
-type PlanAssignmentRequest_Request_ExtendPathSelectorAssignment struct{}
-
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestExtend_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment}
+func (PlanAssignmentRequestRequestTypeExtendFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions{}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment struct{}
+
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue)
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorAdditions struct{}
-
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) FieldPath() *PlanAssignmentRequestRequestExtend_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions struct{}
+
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithValue(value []*common.Allowance) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue)
-}
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithSubPath(subPath common.Allowance_FieldPath) *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions, subPath: subPath}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithArrayOfValues(values [][]*common.Allowance) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithSubValue(subPathValue common.Allowance_FieldPathValue) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathValue{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithItemValue(value *common.Allowance) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue)
+}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithSubPath(subPath common.Allowance_FieldPath) *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithSubArrayOfValues(subPathArrayOfValues common.Allowance_FieldPathArrayOfValues) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithSubValue(subPathValue common.Allowance_FieldPathValue) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) WithSubArrayItemValue(subPathArrayItemValue common.Allowance_FieldPathArrayItemValue) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithSubArrayOfValues(subPathArrayOfValues common.Allowance_FieldPathArrayOfValues) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) Resource() PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource{}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) WithSubArrayItemValue(subPathArrayItemValue common.Allowance_FieldPathArrayItemValue) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditions) Value() PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue{}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) Resource() PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource{}
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource struct{}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditions) Value() PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue{}
+}
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource) FieldPath() *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{
-		selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions,
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource struct{}
+
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions,
 		subPath:  common.NewAllowanceFieldPathBuilder().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue struct{}
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue struct{}
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue) FieldPath() *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{
-		selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions,
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions,
 		subPath:  common.NewAllowanceFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue) WithValue(value int64) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue) WithValue(value int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorAdditionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorAdditionsValue) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions struct{}
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions struct{}
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestExtend_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue)
 }
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions, subPath: subPath}
-}
-
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathValue{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestExtend_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource{}
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestTypeExtend_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource{}
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource struct{}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion{}
+}
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{
-		selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions,
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource struct{}
+
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{
-		selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions,
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_Request_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestType_ExtendPathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestExtend_FieldSubPath {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPath{
-		selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions,
+func (s PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeExtend_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestExtend_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestExtend_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_ExtendMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequestRequestRedistributeFieldPathBuilder struct{}
+type PlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder struct{}
 
-func NewPlanAssignmentRequestRequestRedistributeFieldPathBuilder() PlanAssignmentRequestRequestRedistributeFieldPathBuilder {
-	return PlanAssignmentRequestRequestRedistributeFieldPathBuilder{}
+func NewPlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder() PlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder {
+	return PlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder{}
 }
-func (PlanAssignmentRequestRequestRedistributeFieldPathBuilder) Assignment() PlanAssignmentRequest_Request_RedistributePathSelectorAssignment {
-	return PlanAssignmentRequest_Request_RedistributePathSelectorAssignment{}
+func (PlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder) Assignment() PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment {
+	return PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment{}
 }
-func (PlanAssignmentRequestRequestRedistributeFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions {
-	return PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions{}
-}
-
-type PlanAssignmentRequest_Request_RedistributePathSelectorAssignment struct{}
-
-func (PlanAssignmentRequest_Request_RedistributePathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment}
+func (PlanAssignmentRequestRequestTypeRedistributeFieldPathBuilder) RegionalDistributions() PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions {
+	return PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions{}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment struct{}
+
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue)
 }
 
-type PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions struct{}
-
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions struct{}
+
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) FieldPath() *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithValue(value []*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue)
-}
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestRedistribute_FieldSubPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions, subPath: subPath}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithArrayOfValues(values [][]*common.RegionalDistribution) *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathValue{PlanAssignmentRequestRequestRedistribute_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithItemValue(value *common.RegionalDistribution) *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue)
+}
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithSubPath(subPath common.RegionalDistribution_FieldPath) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions, subPath: subPath}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestRedistribute_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithSubValue(subPathValue common.RegionalDistribution_FieldPathValue) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue{PlanAssignmentRequestRequestTypeRedistribute_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestRedistribute_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithSubArrayOfValues(subPathArrayOfValues common.RegionalDistribution_FieldPathArrayOfValues) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues{PlanAssignmentRequestRequestTypeRedistribute_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource {
-	return PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource{}
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) WithSubArrayItemValue(subPathArrayItemValue common.RegionalDistribution_FieldPathArrayItemValue) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue{PlanAssignmentRequestRequestTypeRedistribute_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion{}
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) Resource() PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource {
+	return PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource{}
 }
 
-type PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource struct{}
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributions) LimitsByRegion() PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion{}
+}
 
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestRedistribute_FieldSubPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPath{
-		selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions,
+type PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource struct{}
+
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource) FieldPath() *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().Resource().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource) WithValue(value *meta_resource.Reference) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsResource) WithArrayOfValues(values []*meta_resource.Reference) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion struct{}
+type PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion struct{}
 
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestRedistribute_FieldSubPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPath{
-		selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions,
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithValue(value map[string]int64) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []map[string]int64) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues)
 }
 
-func (PlanAssignmentRequest_Request_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion {
-	return PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
+func (PlanAssignmentRequest_RequestType_RedistributePathSelectorRegionalDistributionsLimitsByRegion) WithKey(key string) PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion {
+	return PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion{key: key}
 }
 
-type PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion struct {
+type PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion struct {
 	key string
 }
 
-func (s PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestRedistribute_FieldSubPath {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPath{
-		selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions,
+func (s PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) FieldPath() *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{
+		selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions,
 		subPath:  common.NewRegionalDistributionFieldPathBuilder().LimitsByRegion().WithKey(s.key).FieldPath(),
 	}
 }
 
-func (s PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathValue)
+func (s PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) WithValue(value int64) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue)
 }
 
-func (s PlanAssignmentRequest_Request_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_RedistributeMapPathSelectorRegionalDistributionsLimitsByRegion) WithArrayOfValues(values []int64) *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues)
 }
 
-type PlanAssignmentRequestRequestUnassignFieldPathBuilder struct{}
+type PlanAssignmentRequestRequestTypeUnassignFieldPathBuilder struct{}
 
-func NewPlanAssignmentRequestRequestUnassignFieldPathBuilder() PlanAssignmentRequestRequestUnassignFieldPathBuilder {
-	return PlanAssignmentRequestRequestUnassignFieldPathBuilder{}
+func NewPlanAssignmentRequestRequestTypeUnassignFieldPathBuilder() PlanAssignmentRequestRequestTypeUnassignFieldPathBuilder {
+	return PlanAssignmentRequestRequestTypeUnassignFieldPathBuilder{}
 }
-func (PlanAssignmentRequestRequestUnassignFieldPathBuilder) Assignment() PlanAssignmentRequest_Request_UnassignPathSelectorAssignment {
-	return PlanAssignmentRequest_Request_UnassignPathSelectorAssignment{}
-}
-
-type PlanAssignmentRequest_Request_UnassignPathSelectorAssignment struct{}
-
-func (PlanAssignmentRequest_Request_UnassignPathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestUnassign_FieldTerminalPath {
-	return &PlanAssignmentRequestRequestUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment}
+func (PlanAssignmentRequestRequestTypeUnassignFieldPathBuilder) Assignment() PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment {
+	return PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment{}
 }
 
-func (s PlanAssignmentRequest_Request_UnassignPathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue)
+type PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment struct{}
+
+func (PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment) FieldPath() *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath {
+	return &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment}
 }
 
-func (s PlanAssignmentRequest_Request_UnassignPathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues)
+func (s PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment) WithValue(value *plan_assignment.Reference) *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue)
+}
+
+func (s PlanAssignmentRequest_RequestType_UnassignPathSelectorAssignment) WithArrayOfValues(values []*plan_assignment.Reference) *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues)
 }

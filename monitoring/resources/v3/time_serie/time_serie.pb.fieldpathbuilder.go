@@ -7,27 +7,27 @@ package time_serie
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type PointFieldPathBuilder struct{}
@@ -51,27 +51,27 @@ func (PointPathSelectorInterval) FieldPath() *Point_FieldTerminalPath {
 	return &Point_FieldTerminalPath{selector: Point_FieldPathSelectorInterval}
 }
 
-func (s PointPathSelectorInterval) WithValue(value *monitoring_common.TimeInterval) *Point_FieldTerminalPathValue {
+func (s PointPathSelectorInterval) WithValue(value *common.TimeInterval) *Point_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldTerminalPathValue)
 }
 
-func (s PointPathSelectorInterval) WithArrayOfValues(values []*monitoring_common.TimeInterval) *Point_FieldTerminalPathArrayOfValues {
+func (s PointPathSelectorInterval) WithArrayOfValues(values []*common.TimeInterval) *Point_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldTerminalPathArrayOfValues)
 }
 
-func (PointPathSelectorInterval) WithSubPath(subPath monitoring_common.TimeInterval_FieldPath) *Point_FieldSubPath {
+func (PointPathSelectorInterval) WithSubPath(subPath common.TimeInterval_FieldPath) *Point_FieldSubPath {
 	return &Point_FieldSubPath{selector: Point_FieldPathSelectorInterval, subPath: subPath}
 }
 
-func (s PointPathSelectorInterval) WithSubValue(subPathValue monitoring_common.TimeInterval_FieldPathValue) *Point_FieldSubPathValue {
+func (s PointPathSelectorInterval) WithSubValue(subPathValue common.TimeInterval_FieldPathValue) *Point_FieldSubPathValue {
 	return &Point_FieldSubPathValue{Point_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PointPathSelectorInterval) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.TimeInterval_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorInterval) WithSubArrayOfValues(subPathArrayOfValues common.TimeInterval_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
 	return &Point_FieldSubPathArrayOfValues{Point_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PointPathSelectorInterval) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.TimeInterval_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
+func (s PointPathSelectorInterval) WithSubArrayItemValue(subPathArrayItemValue common.TimeInterval_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
 	return &Point_FieldSubPathArrayItemValue{Point_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -88,15 +88,15 @@ type PointPathSelectorIntervalEndTime struct{}
 func (PointPathSelectorIntervalEndTime) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorInterval,
-		subPath:  monitoring_common.NewTimeIntervalFieldPathBuilder().EndTime().FieldPath(),
+		subPath:  common.NewTimeIntervalFieldPathBuilder().EndTime().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorIntervalEndTime) WithValue(value *timestamp.Timestamp) *Point_FieldSubPathValue {
+func (s PointPathSelectorIntervalEndTime) WithValue(value *timestamppb.Timestamp) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorIntervalEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorIntervalEndTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -105,15 +105,15 @@ type PointPathSelectorIntervalStartTime struct{}
 func (PointPathSelectorIntervalStartTime) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorInterval,
-		subPath:  monitoring_common.NewTimeIntervalFieldPathBuilder().StartTime().FieldPath(),
+		subPath:  common.NewTimeIntervalFieldPathBuilder().StartTime().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorIntervalStartTime) WithValue(value *timestamp.Timestamp) *Point_FieldSubPathValue {
+func (s PointPathSelectorIntervalStartTime) WithValue(value *timestamppb.Timestamp) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorIntervalStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorIntervalStartTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -123,27 +123,27 @@ func (PointPathSelectorValue) FieldPath() *Point_FieldTerminalPath {
 	return &Point_FieldTerminalPath{selector: Point_FieldPathSelectorValue}
 }
 
-func (s PointPathSelectorValue) WithValue(value *monitoring_common.TypedValue) *Point_FieldTerminalPathValue {
+func (s PointPathSelectorValue) WithValue(value *common.TypedValue) *Point_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldTerminalPathValue)
 }
 
-func (s PointPathSelectorValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *Point_FieldTerminalPathArrayOfValues {
+func (s PointPathSelectorValue) WithArrayOfValues(values []*common.TypedValue) *Point_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldTerminalPathArrayOfValues)
 }
 
-func (PointPathSelectorValue) WithSubPath(subPath monitoring_common.TypedValue_FieldPath) *Point_FieldSubPath {
+func (PointPathSelectorValue) WithSubPath(subPath common.TypedValue_FieldPath) *Point_FieldSubPath {
 	return &Point_FieldSubPath{selector: Point_FieldPathSelectorValue, subPath: subPath}
 }
 
-func (s PointPathSelectorValue) WithSubValue(subPathValue monitoring_common.TypedValue_FieldPathValue) *Point_FieldSubPathValue {
+func (s PointPathSelectorValue) WithSubValue(subPathValue common.TypedValue_FieldPathValue) *Point_FieldSubPathValue {
 	return &Point_FieldSubPathValue{Point_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PointPathSelectorValue) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.TypedValue_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValue) WithSubArrayOfValues(subPathArrayOfValues common.TypedValue_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
 	return &Point_FieldSubPathArrayOfValues{Point_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PointPathSelectorValue) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.TypedValue_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
+func (s PointPathSelectorValue) WithSubArrayItemValue(subPathArrayItemValue common.TypedValue_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
 	return &Point_FieldSubPathArrayItemValue{Point_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -172,7 +172,7 @@ type PointPathSelectorValueBoolValue struct{}
 func (PointPathSelectorValueBoolValue) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().BoolValue().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().BoolValue().FieldPath(),
 	}
 }
 
@@ -189,7 +189,7 @@ type PointPathSelectorValueInt64Value struct{}
 func (PointPathSelectorValueInt64Value) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().Int64Value().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().Int64Value().FieldPath(),
 	}
 }
 
@@ -206,7 +206,7 @@ type PointPathSelectorValueDoubleValue struct{}
 func (PointPathSelectorValueDoubleValue) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DoubleValue().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DoubleValue().FieldPath(),
 	}
 }
 
@@ -223,7 +223,7 @@ type PointPathSelectorValueStringValue struct{}
 func (PointPathSelectorValueStringValue) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().StringValue().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().StringValue().FieldPath(),
 	}
 }
 
@@ -240,15 +240,15 @@ type PointPathSelectorValueDistributionValue struct{}
 func (PointPathSelectorValueDistributionValue) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValue) WithValue(value *monitoring_common.Distribution) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValue) WithValue(value *common.Distribution) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValue) WithArrayOfValues(values []*common.Distribution) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -281,7 +281,7 @@ type PointPathSelectorValueDistributionValueCount struct{}
 func (PointPathSelectorValueDistributionValueCount) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().Count().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().Count().FieldPath(),
 	}
 }
 
@@ -298,7 +298,7 @@ type PointPathSelectorValueDistributionValueMean struct{}
 func (PointPathSelectorValueDistributionValueMean) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().Mean().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().Mean().FieldPath(),
 	}
 }
 
@@ -315,7 +315,7 @@ type PointPathSelectorValueDistributionValueSumOfSquaredDeviation struct{}
 func (PointPathSelectorValueDistributionValueSumOfSquaredDeviation) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().SumOfSquaredDeviation().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().SumOfSquaredDeviation().FieldPath(),
 	}
 }
 
@@ -332,15 +332,15 @@ type PointPathSelectorValueDistributionValueRange struct{}
 func (PointPathSelectorValueDistributionValueRange) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().Range().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().Range().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueRange) WithValue(value *common.Distribution_Range) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueRange) WithArrayOfValues(values []*common.Distribution_Range) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -357,7 +357,7 @@ type PointPathSelectorValueDistributionValueRangeMin struct{}
 func (PointPathSelectorValueDistributionValueRangeMin) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().Range().Min().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().Range().Min().FieldPath(),
 	}
 }
 
@@ -374,7 +374,7 @@ type PointPathSelectorValueDistributionValueRangeMax struct{}
 func (PointPathSelectorValueDistributionValueRangeMax) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().Range().Max().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().Range().Max().FieldPath(),
 	}
 }
 
@@ -391,15 +391,15 @@ type PointPathSelectorValueDistributionValueBucketOptions struct{}
 func (PointPathSelectorValueDistributionValueBucketOptions) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueBucketOptions) WithValue(value *common.Distribution_BucketOptions) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueBucketOptions) WithArrayOfValues(values []*common.Distribution_BucketOptions) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -424,15 +424,15 @@ type PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets struct{}
 func (PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *common.Distribution_BucketOptions_Linear) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Linear) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -453,7 +453,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsNumFiniteB
 func (PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().NumFiniteBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().NumFiniteBuckets().FieldPath(),
 	}
 }
 
@@ -470,7 +470,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsWidth stru
 func (PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsWidth) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().Width().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().Width().FieldPath(),
 	}
 }
 
@@ -487,7 +487,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsOffset str
 func (PointPathSelectorValueDistributionValueBucketOptionsLinearBucketsOffset) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().Offset().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().LinearBuckets().Offset().FieldPath(),
 	}
 }
 
@@ -504,15 +504,15 @@ type PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets stru
 func (PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *common.Distribution_BucketOptions_Exponential) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Exponential) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -533,7 +533,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsNumFi
 func (PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
 	}
 }
 
@@ -550,7 +550,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsGrowt
 func (PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().GrowthFactor().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().GrowthFactor().FieldPath(),
 	}
 }
 
@@ -567,7 +567,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsScale
 func (PointPathSelectorValueDistributionValueBucketOptionsExponentialBucketsScale) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().Scale().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExponentialBuckets().Scale().FieldPath(),
 	}
 }
 
@@ -584,15 +584,15 @@ type PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets struct{
 func (PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExplicitBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExplicitBuckets().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *common.Distribution_BucketOptions_Explicit) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Explicit) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -605,7 +605,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsExplicitBucketsBounds s
 func (PointPathSelectorValueDistributionValueBucketOptionsExplicitBucketsBounds) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExplicitBuckets().Bounds().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().ExplicitBuckets().Bounds().FieldPath(),
 	}
 }
 
@@ -626,15 +626,15 @@ type PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets struct{}
 func (PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *Point_FieldSubPathValue {
+func (s PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *common.Distribution_BucketOptions_Dynamic) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Dynamic) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -651,7 +651,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsDynamicBucketsCompressi
 func (PointPathSelectorValueDistributionValueBucketOptionsDynamicBucketsCompression) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().Compression().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().Compression().FieldPath(),
 	}
 }
 
@@ -668,7 +668,7 @@ type PointPathSelectorValueDistributionValueBucketOptionsDynamicBucketsMeans str
 func (PointPathSelectorValueDistributionValueBucketOptionsDynamicBucketsMeans) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().Means().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketOptions().DynamicBuckets().Means().FieldPath(),
 	}
 }
 
@@ -689,7 +689,7 @@ type PointPathSelectorValueDistributionValueBucketCounts struct{}
 func (PointPathSelectorValueDistributionValueBucketCounts) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorValue,
-		subPath:  monitoring_common.NewTypedValueFieldPathBuilder().DistributionValue().BucketCounts().FieldPath(),
+		subPath:  common.NewTypedValueFieldPathBuilder().DistributionValue().BucketCounts().FieldPath(),
 	}
 }
 
@@ -711,27 +711,27 @@ func (PointPathSelectorAggregation) FieldPath() *Point_FieldTerminalPath {
 	return &Point_FieldTerminalPath{selector: Point_FieldPathSelectorAggregation}
 }
 
-func (s PointPathSelectorAggregation) WithValue(value *monitoring_common.Aggregation) *Point_FieldTerminalPathValue {
+func (s PointPathSelectorAggregation) WithValue(value *common.Aggregation) *Point_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldTerminalPathValue)
 }
 
-func (s PointPathSelectorAggregation) WithArrayOfValues(values []*monitoring_common.Aggregation) *Point_FieldTerminalPathArrayOfValues {
+func (s PointPathSelectorAggregation) WithArrayOfValues(values []*common.Aggregation) *Point_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldTerminalPathArrayOfValues)
 }
 
-func (PointPathSelectorAggregation) WithSubPath(subPath monitoring_common.Aggregation_FieldPath) *Point_FieldSubPath {
+func (PointPathSelectorAggregation) WithSubPath(subPath common.Aggregation_FieldPath) *Point_FieldSubPath {
 	return &Point_FieldSubPath{selector: Point_FieldPathSelectorAggregation, subPath: subPath}
 }
 
-func (s PointPathSelectorAggregation) WithSubValue(subPathValue monitoring_common.Aggregation_FieldPathValue) *Point_FieldSubPathValue {
+func (s PointPathSelectorAggregation) WithSubValue(subPathValue common.Aggregation_FieldPathValue) *Point_FieldSubPathValue {
 	return &Point_FieldSubPathValue{Point_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PointPathSelectorAggregation) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.Aggregation_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorAggregation) WithSubArrayOfValues(subPathArrayOfValues common.Aggregation_FieldPathArrayOfValues) *Point_FieldSubPathArrayOfValues {
 	return &Point_FieldSubPathArrayOfValues{Point_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PointPathSelectorAggregation) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.Aggregation_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
+func (s PointPathSelectorAggregation) WithSubArrayItemValue(subPathArrayItemValue common.Aggregation_FieldPathArrayItemValue) *Point_FieldSubPathArrayItemValue {
 	return &Point_FieldSubPathArrayItemValue{Point_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -756,15 +756,15 @@ type PointPathSelectorAggregationAlignmentPeriod struct{}
 func (PointPathSelectorAggregationAlignmentPeriod) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorAggregation,
-		subPath:  monitoring_common.NewAggregationFieldPathBuilder().AlignmentPeriod().FieldPath(),
+		subPath:  common.NewAggregationFieldPathBuilder().AlignmentPeriod().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorAggregationAlignmentPeriod) WithValue(value *duration.Duration) *Point_FieldSubPathValue {
+func (s PointPathSelectorAggregationAlignmentPeriod) WithValue(value *durationpb.Duration) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorAggregationAlignmentPeriod) WithArrayOfValues(values []*duration.Duration) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorAggregationAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -773,15 +773,15 @@ type PointPathSelectorAggregationPerSeriesAligner struct{}
 func (PointPathSelectorAggregationPerSeriesAligner) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorAggregation,
-		subPath:  monitoring_common.NewAggregationFieldPathBuilder().PerSeriesAligner().FieldPath(),
+		subPath:  common.NewAggregationFieldPathBuilder().PerSeriesAligner().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorAggregationPerSeriesAligner) WithValue(value monitoring_common.Aggregation_Aligner) *Point_FieldSubPathValue {
+func (s PointPathSelectorAggregationPerSeriesAligner) WithValue(value common.Aggregation_Aligner) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorAggregationPerSeriesAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorAggregationPerSeriesAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -790,15 +790,15 @@ type PointPathSelectorAggregationCrossSeriesReducer struct{}
 func (PointPathSelectorAggregationCrossSeriesReducer) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorAggregation,
-		subPath:  monitoring_common.NewAggregationFieldPathBuilder().CrossSeriesReducer().FieldPath(),
+		subPath:  common.NewAggregationFieldPathBuilder().CrossSeriesReducer().FieldPath(),
 	}
 }
 
-func (s PointPathSelectorAggregationCrossSeriesReducer) WithValue(value monitoring_common.Aggregation_Reducer) *Point_FieldSubPathValue {
+func (s PointPathSelectorAggregationCrossSeriesReducer) WithValue(value common.Aggregation_Reducer) *Point_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Point_FieldSubPathValue)
 }
 
-func (s PointPathSelectorAggregationCrossSeriesReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *Point_FieldSubPathArrayOfValues {
+func (s PointPathSelectorAggregationCrossSeriesReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *Point_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Point_FieldSubPathArrayOfValues)
 }
 
@@ -807,7 +807,7 @@ type PointPathSelectorAggregationGroupByFields struct{}
 func (PointPathSelectorAggregationGroupByFields) FieldPath() *Point_FieldSubPath {
 	return &Point_FieldSubPath{
 		selector: Point_FieldPathSelectorAggregation,
-		subPath:  monitoring_common.NewAggregationFieldPathBuilder().GroupByFields().FieldPath(),
+		subPath:  common.NewAggregationFieldPathBuilder().GroupByFields().FieldPath(),
 	}
 }
 
@@ -842,9 +842,6 @@ func (TimeSerieFieldPathBuilder) Metric() TimeSeriePathSelectorMetric {
 }
 func (TimeSerieFieldPathBuilder) Resource() TimeSeriePathSelectorResource {
 	return TimeSeriePathSelectorResource{}
-}
-func (TimeSerieFieldPathBuilder) Metadata() TimeSeriePathSelectorMetadata {
-	return TimeSeriePathSelectorMetadata{}
 }
 func (TimeSerieFieldPathBuilder) MetricKind() TimeSeriePathSelectorMetricKind {
 	return TimeSeriePathSelectorMetricKind{}
@@ -904,27 +901,27 @@ func (TimeSeriePathSelectorMetric) FieldPath() *TimeSerie_FieldTerminalPath {
 	return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetric}
 }
 
-func (s TimeSeriePathSelectorMetric) WithValue(value *monitoring_common.Metric) *TimeSerie_FieldTerminalPathValue {
+func (s TimeSeriePathSelectorMetric) WithValue(value *common.Metric) *TimeSerie_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldTerminalPathValue)
 }
 
-func (s TimeSeriePathSelectorMetric) WithArrayOfValues(values []*monitoring_common.Metric) *TimeSerie_FieldTerminalPathArrayOfValues {
+func (s TimeSeriePathSelectorMetric) WithArrayOfValues(values []*common.Metric) *TimeSerie_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldTerminalPathArrayOfValues)
 }
 
-func (TimeSeriePathSelectorMetric) WithSubPath(subPath monitoring_common.Metric_FieldPath) *TimeSerie_FieldSubPath {
+func (TimeSeriePathSelectorMetric) WithSubPath(subPath common.Metric_FieldPath) *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{selector: TimeSerie_FieldPathSelectorMetric, subPath: subPath}
 }
 
-func (s TimeSeriePathSelectorMetric) WithSubValue(subPathValue monitoring_common.Metric_FieldPathValue) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorMetric) WithSubValue(subPathValue common.Metric_FieldPathValue) *TimeSerie_FieldSubPathValue {
 	return &TimeSerie_FieldSubPathValue{TimeSerie_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TimeSeriePathSelectorMetric) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.Metric_FieldPathArrayOfValues) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorMetric) WithSubArrayOfValues(subPathArrayOfValues common.Metric_FieldPathArrayOfValues) *TimeSerie_FieldSubPathArrayOfValues {
 	return &TimeSerie_FieldSubPathArrayOfValues{TimeSerie_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TimeSeriePathSelectorMetric) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.Metric_FieldPathArrayItemValue) *TimeSerie_FieldSubPathArrayItemValue {
+func (s TimeSeriePathSelectorMetric) WithSubArrayItemValue(subPathArrayItemValue common.Metric_FieldPathArrayItemValue) *TimeSerie_FieldSubPathArrayItemValue {
 	return &TimeSerie_FieldSubPathArrayItemValue{TimeSerie_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -945,7 +942,7 @@ type TimeSeriePathSelectorMetricType struct{}
 func (TimeSeriePathSelectorMetricType) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorMetric,
-		subPath:  monitoring_common.NewMetricFieldPathBuilder().Type().FieldPath(),
+		subPath:  common.NewMetricFieldPathBuilder().Type().FieldPath(),
 	}
 }
 
@@ -962,7 +959,7 @@ type TimeSeriePathSelectorMetricLabels struct{}
 func (TimeSeriePathSelectorMetricLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorMetric,
-		subPath:  monitoring_common.NewMetricFieldPathBuilder().Labels().FieldPath(),
+		subPath:  common.NewMetricFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -985,7 +982,7 @@ type TimeSerieMapPathSelectorMetricLabels struct {
 func (s TimeSerieMapPathSelectorMetricLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorMetric,
-		subPath:  monitoring_common.NewMetricFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  common.NewMetricFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -1002,7 +999,7 @@ type TimeSeriePathSelectorMetricReducedLabels struct{}
 func (TimeSeriePathSelectorMetricReducedLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorMetric,
-		subPath:  monitoring_common.NewMetricFieldPathBuilder().ReducedLabels().FieldPath(),
+		subPath:  common.NewMetricFieldPathBuilder().ReducedLabels().FieldPath(),
 	}
 }
 
@@ -1024,27 +1021,27 @@ func (TimeSeriePathSelectorResource) FieldPath() *TimeSerie_FieldTerminalPath {
 	return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorResource}
 }
 
-func (s TimeSeriePathSelectorResource) WithValue(value *monitoring_common.MonitoredResource) *TimeSerie_FieldTerminalPathValue {
+func (s TimeSeriePathSelectorResource) WithValue(value *common.MonitoredResource) *TimeSerie_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldTerminalPathValue)
 }
 
-func (s TimeSeriePathSelectorResource) WithArrayOfValues(values []*monitoring_common.MonitoredResource) *TimeSerie_FieldTerminalPathArrayOfValues {
+func (s TimeSeriePathSelectorResource) WithArrayOfValues(values []*common.MonitoredResource) *TimeSerie_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldTerminalPathArrayOfValues)
 }
 
-func (TimeSeriePathSelectorResource) WithSubPath(subPath monitoring_common.MonitoredResource_FieldPath) *TimeSerie_FieldSubPath {
+func (TimeSeriePathSelectorResource) WithSubPath(subPath common.MonitoredResource_FieldPath) *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{selector: TimeSerie_FieldPathSelectorResource, subPath: subPath}
 }
 
-func (s TimeSeriePathSelectorResource) WithSubValue(subPathValue monitoring_common.MonitoredResource_FieldPathValue) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorResource) WithSubValue(subPathValue common.MonitoredResource_FieldPathValue) *TimeSerie_FieldSubPathValue {
 	return &TimeSerie_FieldSubPathValue{TimeSerie_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TimeSeriePathSelectorResource) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.MonitoredResource_FieldPathArrayOfValues) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorResource) WithSubArrayOfValues(subPathArrayOfValues common.MonitoredResource_FieldPathArrayOfValues) *TimeSerie_FieldSubPathArrayOfValues {
 	return &TimeSerie_FieldSubPathArrayOfValues{TimeSerie_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TimeSeriePathSelectorResource) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.MonitoredResource_FieldPathArrayItemValue) *TimeSerie_FieldSubPathArrayItemValue {
+func (s TimeSeriePathSelectorResource) WithSubArrayItemValue(subPathArrayItemValue common.MonitoredResource_FieldPathArrayItemValue) *TimeSerie_FieldSubPathArrayItemValue {
 	return &TimeSerie_FieldSubPathArrayItemValue{TimeSerie_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -1065,7 +1062,7 @@ type TimeSeriePathSelectorResourceType struct{}
 func (TimeSeriePathSelectorResourceType) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorResource,
-		subPath:  monitoring_common.NewMonitoredResourceFieldPathBuilder().Type().FieldPath(),
+		subPath:  common.NewMonitoredResourceFieldPathBuilder().Type().FieldPath(),
 	}
 }
 
@@ -1082,7 +1079,7 @@ type TimeSeriePathSelectorResourceLabels struct{}
 func (TimeSeriePathSelectorResourceLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorResource,
-		subPath:  monitoring_common.NewMonitoredResourceFieldPathBuilder().Labels().FieldPath(),
+		subPath:  common.NewMonitoredResourceFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -1105,7 +1102,7 @@ type TimeSerieMapPathSelectorResourceLabels struct {
 func (s TimeSerieMapPathSelectorResourceLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorResource,
-		subPath:  monitoring_common.NewMonitoredResourceFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  common.NewMonitoredResourceFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -1122,7 +1119,7 @@ type TimeSeriePathSelectorResourceReducedLabels struct{}
 func (TimeSeriePathSelectorResourceReducedLabels) FieldPath() *TimeSerie_FieldSubPath {
 	return &TimeSerie_FieldSubPath{
 		selector: TimeSerie_FieldPathSelectorResource,
-		subPath:  monitoring_common.NewMonitoredResourceFieldPathBuilder().ReducedLabels().FieldPath(),
+		subPath:  common.NewMonitoredResourceFieldPathBuilder().ReducedLabels().FieldPath(),
 	}
 }
 
@@ -1136,80 +1133,6 @@ func (s TimeSeriePathSelectorResourceReducedLabels) WithArrayOfValues(values [][
 
 func (s TimeSeriePathSelectorResourceReducedLabels) WithItemValue(value string) *TimeSerie_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*TimeSerie_FieldSubPathArrayItemValue)
-}
-
-type TimeSeriePathSelectorMetadata struct{}
-
-func (TimeSeriePathSelectorMetadata) FieldPath() *TimeSerie_FieldTerminalPath {
-	return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetadata}
-}
-
-func (s TimeSeriePathSelectorMetadata) WithValue(value *monitoring_common.MonitoredResourceMetadata) *TimeSerie_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldTerminalPathValue)
-}
-
-func (s TimeSeriePathSelectorMetadata) WithArrayOfValues(values []*monitoring_common.MonitoredResourceMetadata) *TimeSerie_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldTerminalPathArrayOfValues)
-}
-
-func (TimeSeriePathSelectorMetadata) WithSubPath(subPath monitoring_common.MonitoredResourceMetadata_FieldPath) *TimeSerie_FieldSubPath {
-	return &TimeSerie_FieldSubPath{selector: TimeSerie_FieldPathSelectorMetadata, subPath: subPath}
-}
-
-func (s TimeSeriePathSelectorMetadata) WithSubValue(subPathValue monitoring_common.MonitoredResourceMetadata_FieldPathValue) *TimeSerie_FieldSubPathValue {
-	return &TimeSerie_FieldSubPathValue{TimeSerie_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TimeSeriePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues monitoring_common.MonitoredResourceMetadata_FieldPathArrayOfValues) *TimeSerie_FieldSubPathArrayOfValues {
-	return &TimeSerie_FieldSubPathArrayOfValues{TimeSerie_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TimeSeriePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue monitoring_common.MonitoredResourceMetadata_FieldPathArrayItemValue) *TimeSerie_FieldSubPathArrayItemValue {
-	return &TimeSerie_FieldSubPathArrayItemValue{TimeSerie_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TimeSeriePathSelectorMetadata) UserLabels() TimeSeriePathSelectorMetadataUserLabels {
-	return TimeSeriePathSelectorMetadataUserLabels{}
-}
-
-type TimeSeriePathSelectorMetadataUserLabels struct{}
-
-func (TimeSeriePathSelectorMetadataUserLabels) FieldPath() *TimeSerie_FieldSubPath {
-	return &TimeSerie_FieldSubPath{
-		selector: TimeSerie_FieldPathSelectorMetadata,
-		subPath:  monitoring_common.NewMonitoredResourceMetadataFieldPathBuilder().UserLabels().FieldPath(),
-	}
-}
-
-func (s TimeSeriePathSelectorMetadataUserLabels) WithValue(value map[string]string) *TimeSerie_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
-}
-
-func (s TimeSeriePathSelectorMetadataUserLabels) WithArrayOfValues(values []map[string]string) *TimeSerie_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
-}
-
-func (TimeSeriePathSelectorMetadataUserLabels) WithKey(key string) TimeSerieMapPathSelectorMetadataUserLabels {
-	return TimeSerieMapPathSelectorMetadataUserLabels{key: key}
-}
-
-type TimeSerieMapPathSelectorMetadataUserLabels struct {
-	key string
-}
-
-func (s TimeSerieMapPathSelectorMetadataUserLabels) FieldPath() *TimeSerie_FieldSubPath {
-	return &TimeSerie_FieldSubPath{
-		selector: TimeSerie_FieldPathSelectorMetadata,
-		subPath:  monitoring_common.NewMonitoredResourceMetadataFieldPathBuilder().UserLabels().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s TimeSerieMapPathSelectorMetadataUserLabels) WithValue(value string) *TimeSerie_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
-}
-
-func (s TimeSerieMapPathSelectorMetadataUserLabels) WithArrayOfValues(values []string) *TimeSerie_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
 type TimeSeriePathSelectorMetricKind struct{}
@@ -1294,11 +1217,11 @@ func (TimeSeriePathSelectorPointsInterval) FieldPath() *TimeSerie_FieldSubPath {
 	}
 }
 
-func (s TimeSeriePathSelectorPointsInterval) WithValue(value *monitoring_common.TimeInterval) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsInterval) WithValue(value *common.TimeInterval) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsInterval) WithArrayOfValues(values []*monitoring_common.TimeInterval) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsInterval) WithArrayOfValues(values []*common.TimeInterval) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1319,11 +1242,11 @@ func (TimeSeriePathSelectorPointsIntervalEndTime) FieldPath() *TimeSerie_FieldSu
 	}
 }
 
-func (s TimeSeriePathSelectorPointsIntervalEndTime) WithValue(value *timestamp.Timestamp) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsIntervalEndTime) WithValue(value *timestamppb.Timestamp) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsIntervalEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsIntervalEndTime) WithArrayOfValues(values []*timestamppb.Timestamp) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1336,11 +1259,11 @@ func (TimeSeriePathSelectorPointsIntervalStartTime) FieldPath() *TimeSerie_Field
 	}
 }
 
-func (s TimeSeriePathSelectorPointsIntervalStartTime) WithValue(value *timestamp.Timestamp) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsIntervalStartTime) WithValue(value *timestamppb.Timestamp) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsIntervalStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsIntervalStartTime) WithArrayOfValues(values []*timestamppb.Timestamp) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1353,11 +1276,11 @@ func (TimeSeriePathSelectorPointsValue) FieldPath() *TimeSerie_FieldSubPath {
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValue) WithValue(value *monitoring_common.TypedValue) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValue) WithValue(value *common.TypedValue) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValue) WithArrayOfValues(values []*common.TypedValue) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1458,11 +1381,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValue) FieldPath() *TimeSerie_
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValue) WithValue(value *monitoring_common.Distribution) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValue) WithValue(value *common.Distribution) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValue) WithArrayOfValues(values []*common.Distribution) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1550,11 +1473,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueRange) FieldPath() *TimeS
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueRange) WithValue(value *common.Distribution_Range) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueRange) WithArrayOfValues(values []*common.Distribution_Range) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1609,11 +1532,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueBucketOptions) FieldPath(
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptions) WithValue(value *common.Distribution_BucketOptions) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptions) WithArrayOfValues(values []*common.Distribution_BucketOptions) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1642,11 +1565,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsLinearBucket
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *common.Distribution_BucketOptions_Linear) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Linear) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1722,11 +1645,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExponentialB
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *common.Distribution_BucketOptions_Exponential) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Exponential) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1802,11 +1725,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExplicitBuck
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *common.Distribution_BucketOptions_Explicit) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Explicit) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1844,11 +1767,11 @@ func (TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsDynamicBucke
 	}
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *common.Distribution_BucketOptions_Dynamic) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Dynamic) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1928,11 +1851,11 @@ func (TimeSeriePathSelectorPointsAggregation) FieldPath() *TimeSerie_FieldSubPat
 	}
 }
 
-func (s TimeSeriePathSelectorPointsAggregation) WithValue(value *monitoring_common.Aggregation) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsAggregation) WithValue(value *common.Aggregation) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsAggregation) WithArrayOfValues(values []*monitoring_common.Aggregation) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsAggregation) WithArrayOfValues(values []*common.Aggregation) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1961,11 +1884,11 @@ func (TimeSeriePathSelectorPointsAggregationAlignmentPeriod) FieldPath() *TimeSe
 	}
 }
 
-func (s TimeSeriePathSelectorPointsAggregationAlignmentPeriod) WithValue(value *duration.Duration) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsAggregationAlignmentPeriod) WithValue(value *durationpb.Duration) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsAggregationAlignmentPeriod) WithArrayOfValues(values []*duration.Duration) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsAggregationAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1978,11 +1901,11 @@ func (TimeSeriePathSelectorPointsAggregationPerSeriesAligner) FieldPath() *TimeS
 	}
 }
 
-func (s TimeSeriePathSelectorPointsAggregationPerSeriesAligner) WithValue(value monitoring_common.Aggregation_Aligner) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsAggregationPerSeriesAligner) WithValue(value common.Aggregation_Aligner) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsAggregationPerSeriesAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsAggregationPerSeriesAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -1995,11 +1918,11 @@ func (TimeSeriePathSelectorPointsAggregationCrossSeriesReducer) FieldPath() *Tim
 	}
 }
 
-func (s TimeSeriePathSelectorPointsAggregationCrossSeriesReducer) WithValue(value monitoring_common.Aggregation_Reducer) *TimeSerie_FieldSubPathValue {
+func (s TimeSeriePathSelectorPointsAggregationCrossSeriesReducer) WithValue(value common.Aggregation_Reducer) *TimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldSubPathValue)
 }
 
-func (s TimeSeriePathSelectorPointsAggregationCrossSeriesReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *TimeSerie_FieldSubPathArrayOfValues {
+func (s TimeSeriePathSelectorPointsAggregationCrossSeriesReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *TimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -2089,10 +2012,6 @@ func (BulkTimeSeriesPathSelectorTimeSeries) Resource() BulkTimeSeriesPathSelecto
 	return BulkTimeSeriesPathSelectorTimeSeriesResource{}
 }
 
-func (BulkTimeSeriesPathSelectorTimeSeries) Metadata() BulkTimeSeriesPathSelectorTimeSeriesMetadata {
-	return BulkTimeSeriesPathSelectorTimeSeriesMetadata{}
-}
-
 func (BulkTimeSeriesPathSelectorTimeSeries) MetricKind() BulkTimeSeriesPathSelectorTimeSeriesMetricKind {
 	return BulkTimeSeriesPathSelectorTimeSeriesMetricKind{}
 }
@@ -2165,11 +2084,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesMetric) FieldPath() *BulkTimeSeries_Fi
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetric) WithValue(value *monitoring_common.Metric) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesMetric) WithValue(value *common.Metric) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetric) WithArrayOfValues(values []*monitoring_common.Metric) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesMetric) WithArrayOfValues(values []*common.Metric) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2272,11 +2191,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesResource) FieldPath() *BulkTimeSeries_
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesResource) WithValue(value *monitoring_common.MonitoredResource) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesResource) WithValue(value *common.MonitoredResource) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesResource) WithArrayOfValues(values []*monitoring_common.MonitoredResource) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesResource) WithArrayOfValues(values []*common.MonitoredResource) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2370,67 +2289,6 @@ func (s BulkTimeSeriesPathSelectorTimeSeriesResourceReducedLabels) WithItemValue
 	return s.FieldPath().WithIArrayItemValue(value).(*BulkTimeSeries_FieldSubPathArrayItemValue)
 }
 
-type BulkTimeSeriesPathSelectorTimeSeriesMetadata struct{}
-
-func (BulkTimeSeriesPathSelectorTimeSeriesMetadata) FieldPath() *BulkTimeSeries_FieldSubPath {
-	return &BulkTimeSeries_FieldSubPath{
-		selector: BulkTimeSeries_FieldPathSelectorTimeSeries,
-		subPath:  NewTimeSerieFieldPathBuilder().Metadata().FieldPath(),
-	}
-}
-
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetadata) WithValue(value *monitoring_common.MonitoredResourceMetadata) *BulkTimeSeries_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
-}
-
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetadata) WithArrayOfValues(values []*monitoring_common.MonitoredResourceMetadata) *BulkTimeSeries_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
-}
-
-func (BulkTimeSeriesPathSelectorTimeSeriesMetadata) UserLabels() BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels {
-	return BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels{}
-}
-
-type BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels struct{}
-
-func (BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels) FieldPath() *BulkTimeSeries_FieldSubPath {
-	return &BulkTimeSeries_FieldSubPath{
-		selector: BulkTimeSeries_FieldPathSelectorTimeSeries,
-		subPath:  NewTimeSerieFieldPathBuilder().Metadata().UserLabels().FieldPath(),
-	}
-}
-
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels) WithValue(value map[string]string) *BulkTimeSeries_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
-}
-
-func (s BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels) WithArrayOfValues(values []map[string]string) *BulkTimeSeries_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
-}
-
-func (BulkTimeSeriesPathSelectorTimeSeriesMetadataUserLabels) WithKey(key string) BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels {
-	return BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels{key: key}
-}
-
-type BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels struct {
-	key string
-}
-
-func (s BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels) FieldPath() *BulkTimeSeries_FieldSubPath {
-	return &BulkTimeSeries_FieldSubPath{
-		selector: BulkTimeSeries_FieldPathSelectorTimeSeries,
-		subPath:  NewTimeSerieFieldPathBuilder().Metadata().UserLabels().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels) WithValue(value string) *BulkTimeSeries_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
-}
-
-func (s BulkTimeSeriesMapPathSelectorTimeSeriesMetadataUserLabels) WithArrayOfValues(values []string) *BulkTimeSeries_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
-}
-
 type BulkTimeSeriesPathSelectorTimeSeriesMetricKind struct{}
 
 func (BulkTimeSeriesPathSelectorTimeSeriesMetricKind) FieldPath() *BulkTimeSeries_FieldSubPath {
@@ -2507,11 +2365,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsInterval) FieldPath() *BulkTimeS
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsInterval) WithValue(value *monitoring_common.TimeInterval) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsInterval) WithValue(value *common.TimeInterval) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsInterval) WithArrayOfValues(values []*monitoring_common.TimeInterval) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsInterval) WithArrayOfValues(values []*common.TimeInterval) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2532,11 +2390,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalEndTime) FieldPath() *Bu
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalEndTime) WithValue(value *timestamp.Timestamp) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalEndTime) WithValue(value *timestamppb.Timestamp) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalEndTime) WithArrayOfValues(values []*timestamppb.Timestamp) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2549,11 +2407,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalStartTime) FieldPath() *
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalStartTime) WithValue(value *timestamp.Timestamp) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalStartTime) WithValue(value *timestamppb.Timestamp) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsIntervalStartTime) WithArrayOfValues(values []*timestamppb.Timestamp) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2566,11 +2424,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValue) FieldPath() *BulkTimeSeri
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValue) WithValue(value *monitoring_common.TypedValue) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValue) WithValue(value *common.TypedValue) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValue) WithArrayOfValues(values []*common.TypedValue) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2671,11 +2529,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValue) FieldPat
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValue) WithValue(value *monitoring_common.Distribution) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValue) WithValue(value *common.Distribution) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValue) WithArrayOfValues(values []*common.Distribution) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2763,11 +2621,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueRange) Fie
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueRange) WithValue(value *common.Distribution_Range) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueRange) WithArrayOfValues(values []*common.Distribution_Range) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2822,11 +2680,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOpti
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptions) WithValue(value *common.Distribution_BucketOptions) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptions) WithArrayOfValues(values []*common.Distribution_BucketOptions) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2855,11 +2713,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOpti
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *common.Distribution_BucketOptions_Linear) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Linear) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2935,11 +2793,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOpti
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *common.Distribution_BucketOptions_Exponential) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Exponential) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3015,11 +2873,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOpti
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *common.Distribution_BucketOptions_Explicit) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Explicit) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3057,11 +2915,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOpti
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *common.Distribution_BucketOptions_Dynamic) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*common.Distribution_BucketOptions_Dynamic) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3141,11 +2999,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsAggregation) FieldPath() *BulkTi
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregation) WithValue(value *monitoring_common.Aggregation) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregation) WithValue(value *common.Aggregation) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregation) WithArrayOfValues(values []*monitoring_common.Aggregation) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregation) WithArrayOfValues(values []*common.Aggregation) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3174,11 +3032,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationAlignmentPeriod) Fiel
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationAlignmentPeriod) WithValue(value *duration.Duration) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationAlignmentPeriod) WithValue(value *durationpb.Duration) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationAlignmentPeriod) WithArrayOfValues(values []*duration.Duration) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3191,11 +3049,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationPerSeriesAligner) Fie
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationPerSeriesAligner) WithValue(value monitoring_common.Aggregation_Aligner) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationPerSeriesAligner) WithValue(value common.Aggregation_Aligner) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationPerSeriesAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationPerSeriesAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -3208,11 +3066,11 @@ func (BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationCrossSeriesReducer) F
 	}
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationCrossSeriesReducer) WithValue(value monitoring_common.Aggregation_Reducer) *BulkTimeSeries_FieldSubPathValue {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationCrossSeriesReducer) WithValue(value common.Aggregation_Reducer) *BulkTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
 }
 
-func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationCrossSeriesReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *BulkTimeSeries_FieldSubPathArrayOfValues {
+func (s BulkTimeSeriesPathSelectorTimeSeriesPointsAggregationCrossSeriesReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 

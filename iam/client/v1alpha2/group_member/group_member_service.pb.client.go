@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &group_member.GroupMember{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type GroupMemberServiceClient interface {
 	WatchGroupMembers(ctx context.Context, in *WatchGroupMembersRequest, opts ...grpc.CallOption) (WatchGroupMembersClientStream, error)
 	CreateGroupMember(ctx context.Context, in *CreateGroupMemberRequest, opts ...grpc.CallOption) (*group_member.GroupMember, error)
 	UpdateGroupMember(ctx context.Context, in *UpdateGroupMemberRequest, opts ...grpc.CallOption) (*group_member.GroupMember, error)
-	DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateGroupMember(ctx context.Context, in *UpdateGroupMemberReq
 	return out, nil
 }
 
-func (c *client) DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.GroupMemberService/DeleteGroupMember", in, out, opts...)
 	if err != nil {
 		return nil, err

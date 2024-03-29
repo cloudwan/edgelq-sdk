@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -111,7 +109,7 @@ func BuildSecret_FieldPath(fp gotenobject.RawFieldPath) (Secret_FieldPath, error
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Secret_FieldSubPath{selector: Secret_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -223,7 +221,7 @@ func (fp *Secret_FieldTerminalPath) GetDefault() interface{} {
 	case Secret_FieldPathSelectorData:
 		return (map[string]string)(nil)
 	case Secret_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fp.selector))
 	}
@@ -270,7 +268,7 @@ func (fp *Secret_FieldTerminalPath) WithIValue(value interface{}) Secret_FieldPa
 	case Secret_FieldPathSelectorData:
 		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case Secret_FieldPathSelectorMetadata:
-		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fp.selector))
 	}
@@ -290,7 +288,7 @@ func (fp *Secret_FieldTerminalPath) WithIArrayOfValues(values interface{}) Secre
 	case Secret_FieldPathSelectorData:
 		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case Secret_FieldPathSelectorMetadata:
-		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fp.selector))
 	}
@@ -454,8 +452,8 @@ var _ Secret_FieldPath = (*Secret_FieldSubPath)(nil)
 func (fps *Secret_FieldSubPath) Selector() Secret_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Secret_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Secret_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -607,8 +605,8 @@ func (fpv *Secret_FieldTerminalPathValue) AsDataValue() (map[string]string, bool
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
 }
-func (fpv *Secret_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Secret_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -625,7 +623,7 @@ func (fpv *Secret_FieldTerminalPathValue) SetTo(target **Secret) {
 	case Secret_FieldPathSelectorData:
 		(*target).Data = fpv.value.(map[string]string)
 	case Secret_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fpv.selector))
 	}
@@ -739,8 +737,8 @@ type Secret_FieldSubPathValue struct {
 
 var _ Secret_FieldPathValue = (*Secret_FieldSubPathValue)(nil)
 
-func (fpvs *Secret_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Secret_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -750,7 +748,7 @@ func (fpvs *Secret_FieldSubPathValue) SetTo(target **Secret) {
 	}
 	switch fpvs.Selector() {
 	case Secret_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fpvs.Selector()))
 	}
@@ -768,7 +766,7 @@ func (fpvs *Secret_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Secret_FieldSubPathValue) CompareWith(source *Secret) (int, bool) {
 	switch fpvs.Selector() {
 	case Secret_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fpvs.Selector()))
 	}
@@ -851,8 +849,8 @@ type Secret_FieldSubPathArrayItemValue struct {
 func (fpaivs *Secret_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Secret_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Secret_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -860,7 +858,7 @@ func (fpaivs *Secret_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_
 func (fpaivs *Secret_FieldSubPathArrayItemValue) ContainsValue(source *Secret) bool {
 	switch fpaivs.Selector() {
 	case Secret_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fpaivs.Selector()))
 	}
@@ -914,7 +912,7 @@ func (fpaov *Secret_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 			values = append(values, v)
 		}
 	case Secret_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -932,8 +930,8 @@ func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]map
 	res, ok := fpaov.values.([]map[string]string)
 	return res, ok
 }
-func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -968,7 +966,7 @@ var _ Secret_FieldPathArrayOfValues = (*Secret_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Secret_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Secret_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Secret_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

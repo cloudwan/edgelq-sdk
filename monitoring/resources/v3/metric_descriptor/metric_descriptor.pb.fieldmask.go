@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -21,10 +21,10 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -37,7 +37,7 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
@@ -45,10 +45,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type MetricDescriptor_FieldMask struct {
@@ -147,20 +147,20 @@ func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_Fi
 	result := &MetricDescriptor_FieldMask{}
 	removedSelectors := make([]bool, 15)
 	otherSubMasks := map[MetricDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MetricDescriptor_FieldPathSelectorMetadata:                  &ntt_meta.Meta_FieldMask{},
-		MetricDescriptor_FieldPathSelectorLabels:                    &monitoring_common.LabelDescriptor_FieldMask{},
+		MetricDescriptor_FieldPathSelectorMetadata:                  &meta.Meta_FieldMask{},
+		MetricDescriptor_FieldPathSelectorLabels:                    &common.LabelDescriptor_FieldMask{},
 		MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:  &MetricDescriptor_MetricDescriptorMetadata_FieldMask{},
-		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &monitoring_common.Distribution_BucketOptions_FieldMask{},
-		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &monitoring_common.LabelKeySet_FieldMask{},
+		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &common.Distribution_BucketOptions_FieldMask{},
+		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &common.LabelKeySet_FieldMask{},
 		MetricDescriptor_FieldPathSelectorIndexSpec:                 &MetricDescriptor_IndexSpec_FieldMask{},
 		MetricDescriptor_FieldPathSelectorStorageConfig:             &MetricDescriptor_StorageConfig_FieldMask{},
 	}
 	mySubMasks := map[MetricDescriptor_FieldPathSelector]gotenobject.FieldMask{
-		MetricDescriptor_FieldPathSelectorMetadata:                  &ntt_meta.Meta_FieldMask{},
-		MetricDescriptor_FieldPathSelectorLabels:                    &monitoring_common.LabelDescriptor_FieldMask{},
+		MetricDescriptor_FieldPathSelectorMetadata:                  &meta.Meta_FieldMask{},
+		MetricDescriptor_FieldPathSelectorLabels:                    &common.LabelDescriptor_FieldMask{},
 		MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:  &MetricDescriptor_MetricDescriptorMetadata_FieldMask{},
-		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &monitoring_common.Distribution_BucketOptions_FieldMask{},
-		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &monitoring_common.LabelKeySet_FieldMask{},
+		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &common.Distribution_BucketOptions_FieldMask{},
+		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &common.LabelKeySet_FieldMask{},
 		MetricDescriptor_FieldPathSelectorIndexSpec:                 &MetricDescriptor_IndexSpec_FieldMask{},
 		MetricDescriptor_FieldPathSelectorStorageConfig:             &MetricDescriptor_StorageConfig_FieldMask{},
 	}
@@ -179,15 +179,15 @@ func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_Fi
 				if tp, ok := path.(*MetricDescriptor_FieldTerminalPath); ok {
 					switch tp.selector {
 					case MetricDescriptor_FieldPathSelectorMetadata:
-						mySubMasks[MetricDescriptor_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[MetricDescriptor_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case MetricDescriptor_FieldPathSelectorLabels:
-						mySubMasks[MetricDescriptor_FieldPathSelectorLabels] = monitoring_common.FullLabelDescriptor_FieldMask()
+						mySubMasks[MetricDescriptor_FieldPathSelectorLabels] = common.FullLabelDescriptor_FieldMask()
 					case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 						mySubMasks[MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata] = FullMetricDescriptor_MetricDescriptorMetadata_FieldMask()
 					case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-						mySubMasks[MetricDescriptor_FieldPathSelectorDistributionBucketOptions] = monitoring_common.FullDistribution_BucketOptions_FieldMask()
+						mySubMasks[MetricDescriptor_FieldPathSelectorDistributionBucketOptions] = common.FullDistribution_BucketOptions_FieldMask()
 					case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-						mySubMasks[MetricDescriptor_FieldPathSelectorPromotedLabelKeySets] = monitoring_common.FullLabelKeySet_FieldMask()
+						mySubMasks[MetricDescriptor_FieldPathSelectorPromotedLabelKeySets] = common.FullLabelKeySet_FieldMask()
 					case MetricDescriptor_FieldPathSelectorIndexSpec:
 						mySubMasks[MetricDescriptor_FieldPathSelectorIndexSpec] = FullMetricDescriptor_IndexSpec_FieldMask()
 					case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -226,12 +226,12 @@ func (fieldMask *MetricDescriptor_FieldMask) FilterInputFields() *MetricDescript
 		switch path.Selector() {
 		case MetricDescriptor_FieldPathSelectorMetadata:
 			if _, ok := path.(*MetricDescriptor_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MetricDescriptor_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*MetricDescriptor_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -245,15 +245,15 @@ func (fieldMask *MetricDescriptor_FieldMask) FilterInputFields() *MetricDescript
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -275,7 +275,7 @@ func (fieldMask MetricDescriptor_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *MetricDescriptor_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -294,7 +294,7 @@ func (fieldMask MetricDescriptor_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *MetricDescriptor_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -362,15 +362,15 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 		return source
 	}
 	result := &MetricDescriptor{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	labelsMask := &monitoring_common.LabelDescriptor_FieldMask{}
+	labelsMask := &common.LabelDescriptor_FieldMask{}
 	wholeLabelsAccepted := false
 	metricDescriptorMetadataMask := &MetricDescriptor_MetricDescriptorMetadata_FieldMask{}
 	wholeMetricDescriptorMetadataAccepted := false
-	distributionBucketOptionsMask := &monitoring_common.Distribution_BucketOptions_FieldMask{}
+	distributionBucketOptionsMask := &common.Distribution_BucketOptions_FieldMask{}
 	wholeDistributionBucketOptionsAccepted := false
-	promotedLabelKeySetsMask := &monitoring_common.LabelKeySet_FieldMask{}
+	promotedLabelKeySetsMask := &common.LabelKeySet_FieldMask{}
 	wholePromotedLabelKeySetsAccepted := false
 	indexSpecMask := &MetricDescriptor_IndexSpec_FieldMask{}
 	wholeIndexSpecAccepted := false
@@ -422,15 +422,15 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 		case *MetricDescriptor_FieldSubPath:
 			switch tp.selector {
 			case MetricDescriptor_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case MetricDescriptor_FieldPathSelectorLabels:
-				labelsMask.AppendPath(tp.subPath.(monitoring_common.LabelDescriptor_FieldPath))
+				labelsMask.AppendPath(tp.subPath.(common.LabelDescriptor_FieldPath))
 			case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
 				metricDescriptorMetadataMask.AppendPath(tp.subPath.(MetricDescriptorMetricDescriptorMetadata_FieldPath))
 			case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
-				distributionBucketOptionsMask.AppendPath(tp.subPath.(monitoring_common.DistributionBucketOptions_FieldPath))
+				distributionBucketOptionsMask.AppendPath(tp.subPath.(common.DistributionBucketOptions_FieldPath))
 			case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
-				promotedLabelKeySetsMask.AppendPath(tp.subPath.(monitoring_common.LabelKeySet_FieldPath))
+				promotedLabelKeySetsMask.AppendPath(tp.subPath.(common.LabelKeySet_FieldPath))
 			case MetricDescriptor_FieldPathSelectorIndexSpec:
 				indexSpecMask.AppendPath(tp.subPath.(MetricDescriptorIndexSpec_FieldPath))
 			case MetricDescriptor_FieldPathSelectorStorageConfig:
@@ -589,15 +589,15 @@ func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) FilterInpu
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -619,7 +619,7 @@ func (fieldMask MetricDescriptor_MetricDescriptorMetadata_FieldMask) Marshal() (
 }
 
 func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -638,7 +638,7 @@ func (fieldMask MetricDescriptor_MetricDescriptorMetadata_FieldMask) MarshalJSON
 }
 
 func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -868,15 +868,15 @@ func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) FilterInputFields() *Metr
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -898,7 +898,7 @@ func (fieldMask MetricDescriptor_IndexSpec_FieldMask) Marshal() ([]byte, error) 
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -917,7 +917,7 @@ func (fieldMask MetricDescriptor_IndexSpec_FieldMask) MarshalJSON() ([]byte, err
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1134,15 +1134,15 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) FilterInputFields() *
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1164,7 +1164,7 @@ func (fieldMask MetricDescriptor_StorageConfig_FieldMask) Marshal() ([]byte, err
 }
 
 func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1183,7 +1183,7 @@ func (fieldMask MetricDescriptor_StorageConfig_FieldMask) MarshalJSON() ([]byte,
 }
 
 func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1388,15 +1388,15 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1418,7 +1418,7 @@ func (fieldMask MetricDescriptor_IndexSpec_Index_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1437,7 +1437,7 @@ func (fieldMask MetricDescriptor_IndexSpec_Index_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1670,15 +1670,15 @@ func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Filt
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1700,7 +1700,7 @@ func (fieldMask MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Marsh
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1719,7 +1719,7 @@ func (fieldMask MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Marsh
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

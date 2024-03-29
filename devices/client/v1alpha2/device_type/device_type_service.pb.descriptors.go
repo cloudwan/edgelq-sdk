@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &device_type.DeviceType{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractResourceName(msg proto.M
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*device_type.Name)(nil)
@@ -159,6 +159,30 @@ func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg proto.
 }
 
 func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetDeviceTypeRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDeviceTypeDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetDeviceTypeRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -192,6 +216,22 @@ func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg proto.
 }
 
 func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*device_type.DeviceType)
+}
+
+func (h *GetDeviceTypeDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*device_type.DeviceType)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*device_type.DeviceType) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -307,18 +347,38 @@ func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractResourceNames(msg 
 		return device_type.DeviceTypeNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(device_type.DeviceTypeNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return device_type.DeviceTypeNameList(names)
 		}
 	}
 	return (device_type.DeviceTypeNameList)(nil)
 }
 
 func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetDeviceTypesRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetDeviceTypesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetDeviceTypesRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -357,6 +417,35 @@ func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg 
 
 func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetDeviceTypesResponse) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetDeviceTypesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetDeviceTypesResponse) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDeviceTypes(); len(resources) > 0 {
+			return device_type.DeviceTypeList(resources)
+		}
+	}
+	return (device_type.DeviceTypeList)(nil)
 }
 
 func GetBatchGetDeviceTypesDescriptor() *BatchGetDeviceTypesDescriptor {
@@ -477,6 +566,30 @@ func (h *ListDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
+func (h *ListDeviceTypesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListDeviceTypesRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListDeviceTypesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListDeviceTypesRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDeviceTypesResponse)
 	var asInterface interface{} = h
@@ -512,6 +625,35 @@ func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 
 func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListDeviceTypesResponse) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListDeviceTypesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListDeviceTypesResponse) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDeviceTypes(); len(resources) > 0 {
+			return device_type.DeviceTypeList(resources)
+		}
+	}
+	return (device_type.DeviceTypeList)(nil)
 }
 
 func GetListDeviceTypesDescriptor() *ListDeviceTypesDescriptor {
@@ -614,8 +756,8 @@ func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*device_type.Name)(nil)
@@ -634,6 +776,30 @@ func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchDeviceTypeRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchDeviceTypeDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchDeviceTypeRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -676,6 +842,42 @@ func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchDeviceTypeResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchDeviceTypeResponse) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *device_type.DeviceTypeChange_Added_:
+				return tResChange.Added.GetDeviceType()
+			case *device_type.DeviceTypeChange_Modified_:
+				return tResChange.Modified.GetDeviceType()
+			case *device_type.DeviceTypeChange_Current_:
+				return tResChange.Current.GetDeviceType()
+			}
+		}
+	}
+	return (*device_type.DeviceType)(nil)
+}
+
+func (h *WatchDeviceTypeDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchDeviceTypeResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchDeviceTypeResponse) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -797,6 +999,30 @@ func (h *WatchDeviceTypesDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *WatchDeviceTypesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchDeviceTypesRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchDeviceTypesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchDeviceTypesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchDeviceTypesRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeviceTypesResponse)
 	var asInterface interface{} = h
@@ -841,6 +1067,46 @@ func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 
 func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchDeviceTypesResponse) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchDeviceTypesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchDeviceTypesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchDeviceTypesResponse) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetDeviceTypeChanges(); len(resChanges) > 0 {
+			list := make(device_type.DeviceTypeList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *device_type.DeviceTypeChange_Added_:
+					list = append(list, tResChange.Added.GetDeviceType())
+				case *device_type.DeviceTypeChange_Modified_:
+					list = append(list, tResChange.Modified.GetDeviceType())
+				case *device_type.DeviceTypeChange_Current_:
+					list = append(list, tResChange.Current.GetDeviceType())
+				}
+			}
+			return list
+		}
+	}
+	return (device_type.DeviceTypeList)(nil)
 }
 
 func GetWatchDeviceTypesDescriptor() *WatchDeviceTypesDescriptor {
@@ -967,6 +1233,33 @@ func (h *CreateDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *CreateDeviceTypeDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateDeviceTypeRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetDeviceType()
+	}
+	return (*device_type.DeviceType)(nil)
+}
+
+func (h *CreateDeviceTypeDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateDeviceTypeRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*device_type.DeviceType)
 	var asInterface interface{} = h
@@ -997,6 +1290,22 @@ func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*device_type.DeviceType)
+}
+
+func (h *CreateDeviceTypeDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*device_type.DeviceType)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*device_type.DeviceType) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1124,6 +1433,33 @@ func (h *UpdateDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *UpdateDeviceTypeDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateDeviceTypeRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetDeviceType()
+	}
+	return (*device_type.DeviceType)(nil)
+}
+
+func (h *UpdateDeviceTypeDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateDeviceTypeRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*device_type.DeviceType)
 	var asInterface interface{} = h
@@ -1157,6 +1493,22 @@ func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*device_type.DeviceType)
+}
+
+func (h *UpdateDeviceTypeDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*device_type.DeviceType)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*device_type.DeviceType) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateDeviceTypeDescriptor() *UpdateDeviceTypeDescriptor {
 	return updateDeviceTypeDescriptor
 }
@@ -1172,7 +1524,7 @@ func (d *DeleteDeviceTypeDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteDeviceTypeDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteDeviceTypeDescriptor) IsUnary() bool {
@@ -1257,8 +1609,8 @@ func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractResourceName(msg prot
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*device_type.Name)(nil)
@@ -1280,11 +1632,35 @@ func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
-func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteDeviceTypeRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *device_type.Name
+		OverrideExtractResourceBody(*DeleteDeviceTypeRequest) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteDeviceTypeDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteDeviceTypeRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteDeviceTypeRequest) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *device_type.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1293,10 +1669,10 @@ func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceName(msg prot
 }
 
 func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*device_type.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*device_type.Name
 	})
 	if ok {
 		return device_type.DeviceTypeNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1305,6 +1681,30 @@ func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *device_type.DeviceType
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteDeviceTypeDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*device_type.DeviceType
+	})
+	if ok {
+		return device_type.DeviceTypeList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 

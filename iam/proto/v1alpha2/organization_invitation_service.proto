@@ -10,8 +10,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/organization_invitation;organization_invitation_client";
 option java_multiple_files = false;
@@ -21,7 +21,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // Request message for method
 // [GetOrganizationInvitation][ntt.iam.v1alpha2.GetOrganizationInvitation]
 message GetOrganizationInvitationRequest {
-  // Reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // Name of ntt.iam.v1alpha2.OrganizationInvitation
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -30,7 +30,7 @@ message GetOrganizationInvitationRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -45,7 +45,7 @@ message BatchGetOrganizationInvitationsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -95,7 +95,7 @@ message ListOrganizationInvitationsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -131,7 +131,7 @@ message ListOrganizationInvitationsResponse {
 // Request message for method
 // [WatchOrganizationInvitation][ntt.iam.v1alpha2.WatchOrganizationInvitation]
 message WatchOrganizationInvitationRequest {
-  // Reference to ntt.iam.v1alpha2.OrganizationInvitation
+  // Name of ntt.iam.v1alpha2.OrganizationInvitation
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -140,7 +140,7 @@ message WatchOrganizationInvitationRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchOrganizationInvitationResponse
@@ -153,9 +153,9 @@ message WatchOrganizationInvitationResponse {
 message WatchOrganizationInvitationsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // Parent name of ntt.iam.v1alpha2.OrganizationInvitation
   string parent = 1;
 
   // Requested page size. Server may return fewer OrganizationInvitations than
@@ -200,7 +200,7 @@ message WatchOrganizationInvitationsRequest {
   // Additional fields can be amended by request field field_mask Changes to
   // OrganizationInvitation that don't affect any of masked fields won't be sent
   // back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -279,7 +279,7 @@ message WatchOrganizationInvitationsResponse {
 // Request message for method
 // [CreateOrganizationInvitation][ntt.iam.v1alpha2.CreateOrganizationInvitation]
 message CreateOrganizationInvitationRequest {
-  // Parent reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // Parent name of ntt.iam.v1alpha2.OrganizationInvitation
   string parent = 1;
 
   // OrganizationInvitation resource body
@@ -325,7 +325,7 @@ message UpdateOrganizationInvitationRequest {
 // Request message for method
 // [DeleteOrganizationInvitation][ntt.iam.v1alpha2.DeleteOrganizationInvitation]
 message DeleteOrganizationInvitationRequest {
-  // Reference of ntt.iam.v1alpha2.OrganizationInvitation
+  // Name of ntt.iam.v1alpha2.OrganizationInvitation
   string name = 1;
 }
 

@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	limit_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/limit"
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiLimitAccess struct {
@@ -42,8 +44,11 @@ func NewApiLimitAccess(client limit_client.LimitServiceClient) limit.LimitAccess
 }
 
 func (a *apiLimitAccess) GetLimit(ctx context.Context, query *limit.GetQuery) (*limit.Limit, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &limit_client.GetLimitRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetLimit(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiLimitAccess) GetLimit(ctx context.Context, query *limit.GetQuery) (*
 
 func (a *apiLimitAccess) BatchGetLimits(ctx context.Context, refs []*limit.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*limit.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &limit_client.BatchGetLimitsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(limit.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiLimitAccess) QueryLimits(ctx context.Context, query *limit.ListQuery
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListLimits(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiLimitAccess) QueryLimits(ctx context.Context, query *limit.ListQuery
 }
 
 func (a *apiLimitAccess) WatchLimit(ctx context.Context, query *limit.GetQuery, observerCb func(*limit.LimitChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &limit_client.WatchLimitRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchLimit(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiLimitAccess) WatchLimits(ctx context.Context, query *limit.WatchQuer
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchLimits(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiLimitAccess) SaveLimit(ctx context.Context, res *limit.Limit, opts .
 			}
 		}
 	}
-
+	var resp *limit.Limit
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &limit_client.UpdateLimitRequest{
 			Limit: res,
@@ -195,22 +217,70 @@ func (a *apiLimitAccess) SaveLimit(ctx context.Context, res *limit.Limit, opts .
 				FieldMask:        mask.(*limit.Limit_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateLimit(ctx, updateRequest)
+		resp, err = a.client.UpdateLimit(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		return fmt.Errorf("create operation on %s is prohibited", res.Name.AsReference().String())
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiLimitAccess) DeleteLimit(ctx context.Context, ref *limit.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &limit_client.DeleteLimitRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteLimit(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *limit.Filter) (*limit.Filter, *limit.ParentName) {
+	var withParentExtraction func(cnd limit.FilterCondition) limit.FilterCondition
+	var resultParent *limit.ParentName
+	var resultFilter *limit.Filter
+	withParentExtraction = func(cnd limit.FilterCondition) limit.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *limit.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]limit.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return limit.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *limit.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*limit.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &limit.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

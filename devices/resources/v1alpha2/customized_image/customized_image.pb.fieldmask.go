@@ -13,15 +13,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -34,15 +34,15 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type CustomizedImage_FieldMask struct {
@@ -130,12 +130,12 @@ func (fieldMask *CustomizedImage_FieldMask) Subtract(other *CustomizedImage_Fiel
 	result := &CustomizedImage_FieldMask{}
 	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[CustomizedImage_FieldPathSelector]gotenobject.FieldMask{
-		CustomizedImage_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		CustomizedImage_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		CustomizedImage_FieldPathSelectorSpec:     &CustomizedImage_Spec_FieldMask{},
 		CustomizedImage_FieldPathSelectorStatus:   &CustomizedImage_Status_FieldMask{},
 	}
 	mySubMasks := map[CustomizedImage_FieldPathSelector]gotenobject.FieldMask{
-		CustomizedImage_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		CustomizedImage_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		CustomizedImage_FieldPathSelectorSpec:     &CustomizedImage_Spec_FieldMask{},
 		CustomizedImage_FieldPathSelectorStatus:   &CustomizedImage_Status_FieldMask{},
 	}
@@ -154,7 +154,7 @@ func (fieldMask *CustomizedImage_FieldMask) Subtract(other *CustomizedImage_Fiel
 				if tp, ok := path.(*CustomizedImage_FieldTerminalPath); ok {
 					switch tp.selector {
 					case CustomizedImage_FieldPathSelectorMetadata:
-						mySubMasks[CustomizedImage_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[CustomizedImage_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case CustomizedImage_FieldPathSelectorSpec:
 						mySubMasks[CustomizedImage_FieldPathSelectorSpec] = FullCustomizedImage_Spec_FieldMask()
 					case CustomizedImage_FieldPathSelectorStatus:
@@ -193,12 +193,12 @@ func (fieldMask *CustomizedImage_FieldMask) FilterInputFields() *CustomizedImage
 		switch path.Selector() {
 		case CustomizedImage_FieldPathSelectorMetadata:
 			if _, ok := path.(*CustomizedImage_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &CustomizedImage_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*CustomizedImage_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &CustomizedImage_FieldSubPath{selector: CustomizedImage_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -212,15 +212,15 @@ func (fieldMask *CustomizedImage_FieldMask) FilterInputFields() *CustomizedImage
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *CustomizedImage_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *CustomizedImage_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *CustomizedImage_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *CustomizedImage_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -242,7 +242,7 @@ func (fieldMask CustomizedImage_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *CustomizedImage_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -261,7 +261,7 @@ func (fieldMask CustomizedImage_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *CustomizedImage_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -329,7 +329,7 @@ func (fieldMask *CustomizedImage_FieldMask) Project(source *CustomizedImage) *Cu
 		return source
 	}
 	result := &CustomizedImage{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	specMask := &CustomizedImage_Spec_FieldMask{}
 	wholeSpecAccepted := false
@@ -355,7 +355,7 @@ func (fieldMask *CustomizedImage_FieldMask) Project(source *CustomizedImage) *Cu
 		case *CustomizedImage_FieldSubPath:
 			switch tp.selector {
 			case CustomizedImage_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case CustomizedImage_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(CustomizedImageSpec_FieldPath))
 			case CustomizedImage_FieldPathSelectorStatus:
@@ -510,15 +510,15 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) FilterInputFields() *Customized
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *CustomizedImage_Spec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *CustomizedImage_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *CustomizedImage_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *CustomizedImage_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -540,7 +540,7 @@ func (fieldMask CustomizedImage_Spec_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *CustomizedImage_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -559,7 +559,7 @@ func (fieldMask CustomizedImage_Spec_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *CustomizedImage_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -789,15 +789,15 @@ func (fieldMask *CustomizedImage_Status_FieldMask) FilterInputFields() *Customiz
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *CustomizedImage_Status_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *CustomizedImage_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *CustomizedImage_Status_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *CustomizedImage_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -819,7 +819,7 @@ func (fieldMask CustomizedImage_Status_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *CustomizedImage_Status_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -838,7 +838,7 @@ func (fieldMask CustomizedImage_Status_FieldMask) MarshalJSON() ([]byte, error) 
 }
 
 func (fieldMask *CustomizedImage_Status_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

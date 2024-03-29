@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &device.Device{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type DeviceServiceClient interface {
 	WatchDevices(ctx context.Context, in *WatchDevicesRequest, opts ...grpc.CallOption) (WatchDevicesClientStream, error)
 	CreateDevice(ctx context.Context, in *CreateDeviceRequest, opts ...grpc.CallOption) (*device.Device, error)
 	UpdateDevice(ctx context.Context, in *UpdateDeviceRequest, opts ...grpc.CallOption) (*device.Device, error)
-	DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ProvisionServiceAccountToDevice(ctx context.Context, in *ProvisionServiceAccountToDeviceRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToDeviceResponse, error)
 	RemoveServiceAccountFromDevice(ctx context.Context, in *RemoveServiceAccountFromDeviceRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromDeviceResponse, error)
 }
@@ -188,8 +188,8 @@ func (c *client) UpdateDevice(ctx context.Context, in *UpdateDeviceRequest, opts
 	return out, nil
 }
 
-func (c *client) DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.DeviceService/DeleteDevice", in, out, opts...)
 	if err != nil {
 		return nil, err

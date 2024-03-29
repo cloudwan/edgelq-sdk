@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &alerting_condition.AlertingCondition{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type AlertingConditionServiceClient interface {
 	WatchAlertingConditions(ctx context.Context, in *WatchAlertingConditionsRequest, opts ...grpc.CallOption) (WatchAlertingConditionsClientStream, error)
 	CreateAlertingCondition(ctx context.Context, in *CreateAlertingConditionRequest, opts ...grpc.CallOption) (*alerting_condition.AlertingCondition, error)
 	UpdateAlertingCondition(ctx context.Context, in *UpdateAlertingConditionRequest, opts ...grpc.CallOption) (*alerting_condition.AlertingCondition, error)
-	DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SearchAlertingConditions(ctx context.Context, in *SearchAlertingConditionsRequest, opts ...grpc.CallOption) (*SearchAlertingConditionsResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateAlertingCondition(ctx context.Context, in *UpdateAlerting
 	return out, nil
 }
 
-func (c *client) DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingConditionService/DeleteAlertingCondition", in, out, opts...)
 	if err != nil {
 		return nil, err

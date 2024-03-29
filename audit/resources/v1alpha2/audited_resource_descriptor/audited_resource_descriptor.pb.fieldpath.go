@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
-	_ = &ntt_meta.Meta{}
+	_ = &common.Authentication{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -141,19 +139,19 @@ func BuildAuditedResourceDescriptor_FieldPath(fp gotenobject.RawFieldPath) (Audi
 	} else {
 		switch fp[0] {
 		case "labels":
-			if subpath, err := audit_common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AuditedResourceDescriptor_FieldSubPath{selector: AuditedResourceDescriptor_FieldPathSelectorLabels, subPath: subpath}, nil
 			}
 		case "promoted_label_key_sets", "promotedLabelKeySets", "promoted-label-key-sets":
-			if subpath, err := audit_common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AuditedResourceDescriptor_FieldSubPath{selector: AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AuditedResourceDescriptor_FieldSubPath{selector: AuditedResourceDescriptor_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -300,9 +298,9 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) GetDefault() interface{} 
 	case AuditedResourceDescriptor_FieldPathSelectorDescription:
 		return ""
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		return ([]*audit_common.LabelDescriptor)(nil)
+		return ([]*common.LabelDescriptor)(nil)
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return ([]*audit_common.LabelKeySet)(nil)
+		return ([]*common.LabelKeySet)(nil)
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
 		return ([]string)(nil)
 	case AuditedResourceDescriptor_FieldPathSelectorSpecFields:
@@ -312,7 +310,7 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) GetDefault() interface{} 
 	case AuditedResourceDescriptor_FieldPathSelectorMetaFields:
 		return ([]string)(nil)
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fp.selector))
 	}
@@ -375,9 +373,9 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIValue(value interfac
 	case AuditedResourceDescriptor_FieldPathSelectorDescription:
 		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*audit_common.LabelDescriptor)}
+		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelDescriptor)}
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*audit_common.LabelKeySet)}
+		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
 		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]string)}
 	case AuditedResourceDescriptor_FieldPathSelectorSpecFields:
@@ -387,7 +385,7 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIValue(value interfac
 	case AuditedResourceDescriptor_FieldPathSelectorMetaFields:
 		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.([]string)}
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &AuditedResourceDescriptor_FieldTerminalPathValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fp.selector))
 	}
@@ -407,9 +405,9 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIArrayOfValues(values
 	case AuditedResourceDescriptor_FieldPathSelectorDescription:
 		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([]string)}
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*audit_common.LabelDescriptor)}
+		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelDescriptor)}
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*audit_common.LabelKeySet)}
+		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
 		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]string)}
 	case AuditedResourceDescriptor_FieldPathSelectorSpecFields:
@@ -419,7 +417,7 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIArrayOfValues(values
 	case AuditedResourceDescriptor_FieldPathSelectorMetaFields:
 		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([][]string)}
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &AuditedResourceDescriptor_FieldTerminalPathArrayOfValues{AuditedResourceDescriptor_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fp.selector))
 	}
@@ -433,9 +431,9 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithRawIArrayOfValues(val
 func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIArrayItemValue(value interface{}) AuditedResourceDescriptor_FieldPathArrayItemValue {
 	switch fp.selector {
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		return &AuditedResourceDescriptor_FieldTerminalPathArrayItemValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*audit_common.LabelDescriptor)}
+		return &AuditedResourceDescriptor_FieldTerminalPathArrayItemValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelDescriptor)}
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &AuditedResourceDescriptor_FieldTerminalPathArrayItemValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*audit_common.LabelKeySet)}
+		return &AuditedResourceDescriptor_FieldTerminalPathArrayItemValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelKeySet)}
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
 		return &AuditedResourceDescriptor_FieldTerminalPathArrayItemValue{AuditedResourceDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case AuditedResourceDescriptor_FieldPathSelectorSpecFields:
@@ -463,16 +461,16 @@ var _ AuditedResourceDescriptor_FieldPath = (*AuditedResourceDescriptor_FieldSub
 func (fps *AuditedResourceDescriptor_FieldSubPath) Selector() AuditedResourceDescriptor_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AuditedResourceDescriptor_FieldSubPath) AsLabelsSubPath() (audit_common.LabelDescriptor_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.LabelDescriptor_FieldPath)
+func (fps *AuditedResourceDescriptor_FieldSubPath) AsLabelsSubPath() (common.LabelDescriptor_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelDescriptor_FieldPath)
 	return res, ok
 }
-func (fps *AuditedResourceDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (audit_common.LabelKeySet_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.LabelKeySet_FieldPath)
+func (fps *AuditedResourceDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (common.LabelKeySet_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelKeySet_FieldPath)
 	return res, ok
 }
-func (fps *AuditedResourceDescriptor_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *AuditedResourceDescriptor_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -650,12 +648,12 @@ func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsDescriptionValue(
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*audit_common.LabelDescriptor, bool) {
-	res, ok := fpv.value.([]*audit_common.LabelDescriptor)
+func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*common.LabelDescriptor, bool) {
+	res, ok := fpv.value.([]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*audit_common.LabelKeySet, bool) {
-	res, ok := fpv.value.([]*audit_common.LabelKeySet)
+func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*common.LabelKeySet, bool) {
+	res, ok := fpv.value.([]*common.LabelKeySet)
 	return res, ok
 }
 func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsVersionsValue() ([]string, bool) {
@@ -674,8 +672,8 @@ func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsMetaFieldsValue()
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -692,9 +690,9 @@ func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) SetTo(target **Audi
 	case AuditedResourceDescriptor_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		(*target).Labels = fpv.value.([]*audit_common.LabelDescriptor)
+		(*target).Labels = fpv.value.([]*common.LabelDescriptor)
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		(*target).PromotedLabelKeySets = fpv.value.([]*audit_common.LabelKeySet)
+		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
 		(*target).Versions = fpv.value.([]string)
 	case AuditedResourceDescriptor_FieldPathSelectorSpecFields:
@@ -704,7 +702,7 @@ func (fpv *AuditedResourceDescriptor_FieldTerminalPathValue) SetTo(target **Audi
 	case AuditedResourceDescriptor_FieldPathSelectorMetaFields:
 		(*target).MetaFields = fpv.value.([]string)
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fpv.selector))
 	}
@@ -787,16 +785,16 @@ type AuditedResourceDescriptor_FieldSubPathValue struct {
 
 var _ AuditedResourceDescriptor_FieldPathValue = (*AuditedResourceDescriptor_FieldSubPathValue)(nil)
 
-func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsLabelsPathValue() (audit_common.LabelDescriptor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.LabelDescriptor_FieldPathValue)
+func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsLabelsPathValue() (common.LabelDescriptor_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelDescriptor_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (audit_common.LabelKeySet_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.LabelKeySet_FieldPathValue)
+func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (common.LabelKeySet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelKeySet_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -810,7 +808,7 @@ func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) SetTo(target **AuditedR
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fpvs.Selector()))
 	}
@@ -832,7 +830,7 @@ func (fpvs *AuditedResourceDescriptor_FieldSubPathValue) CompareWith(source *Aud
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return 0, false // repeated field
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fpvs.Selector()))
 	}
@@ -882,12 +880,12 @@ var _ AuditedResourceDescriptor_FieldPathArrayItemValue = (*AuditedResourceDescr
 func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*audit_common.LabelDescriptor, bool) {
-	res, ok := fpaiv.value.(*audit_common.LabelDescriptor)
+func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*common.LabelDescriptor, bool) {
+	res, ok := fpaiv.value.(*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*audit_common.LabelKeySet, bool) {
-	res, ok := fpaiv.value.(*audit_common.LabelKeySet)
+func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*common.LabelKeySet, bool) {
+	res, ok := fpaiv.value.(*common.LabelKeySet)
 	return res, ok
 }
 func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) AsVersionsItemValue() (string, bool) {
@@ -939,16 +937,16 @@ type AuditedResourceDescriptor_FieldSubPathArrayItemValue struct {
 func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (audit_common.LabelDescriptor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.LabelDescriptor_FieldPathArrayItemValue)
+func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (common.LabelDescriptor_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelDescriptor_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (audit_common.LabelKeySet_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.LabelKeySet_FieldPathArrayItemValue)
+func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (common.LabelKeySet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelKeySet_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -960,7 +958,7 @@ func (fpaivs *AuditedResourceDescriptor_FieldSubPathArrayItemValue) ContainsValu
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return false // repeated/map field
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AuditedResourceDescriptor: %d", fpaivs.Selector()))
 	}
@@ -1014,11 +1012,11 @@ func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) GetRawVal
 			values = append(values, v)
 		}
 	case AuditedResourceDescriptor_FieldPathSelectorLabels:
-		for _, v := range fpaov.values.([][]*audit_common.LabelDescriptor) {
+		for _, v := range fpaov.values.([][]*common.LabelDescriptor) {
 			values = append(values, v)
 		}
 	case AuditedResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		for _, v := range fpaov.values.([][]*audit_common.LabelKeySet) {
+		for _, v := range fpaov.values.([][]*common.LabelKeySet) {
 			values = append(values, v)
 		}
 	case AuditedResourceDescriptor_FieldPathSelectorVersions:
@@ -1038,7 +1036,7 @@ func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) GetRawVal
 			values = append(values, v)
 		}
 	case AuditedResourceDescriptor_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -1056,12 +1054,12 @@ func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsDescrip
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*audit_common.LabelDescriptor, bool) {
-	res, ok := fpaov.values.([][]*audit_common.LabelDescriptor)
+func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*common.LabelDescriptor, bool) {
+	res, ok := fpaov.values.([][]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*audit_common.LabelKeySet, bool) {
-	res, ok := fpaov.values.([][]*audit_common.LabelKeySet)
+func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*common.LabelKeySet, bool) {
+	res, ok := fpaov.values.([][]*common.LabelKeySet)
 	return res, ok
 }
 func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsVersionsArrayOfValues() ([][]string, bool) {
@@ -1080,8 +1078,8 @@ func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsMetaFie
 	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
-func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *AuditedResourceDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -1095,15 +1093,15 @@ var _ AuditedResourceDescriptor_FieldPathArrayOfValues = (*AuditedResourceDescri
 func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (audit_common.LabelDescriptor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.LabelDescriptor_FieldPathArrayOfValues)
+func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (common.LabelDescriptor_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelDescriptor_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (audit_common.LabelKeySet_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.LabelKeySet_FieldPathArrayOfValues)
+func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (common.LabelKeySet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelKeySet_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *AuditedResourceDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

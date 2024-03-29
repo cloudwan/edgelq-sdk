@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/common/api/attestation.proto";
+import "edgelq-sdk/common/api/credentials.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/ztp_provision_hardware;ztp_provision_hardware_client";
+option java_multiple_files = false;
+option java_outer_classname = "ZtpProvisionHardwareCustomProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// Request message for method
+// [ProvisionHardware][ntt.devices.v1.ProvisionHardware]
+message ProvisionHardwareRequest {
+  oneof msg {
+    ProvisioningTarget provisioning_target = 1;
+
+    ntt.api.DeviceIdentity identify = 2;
+
+    ntt.api.IdentityChallengeResponse challenge_response = 3;
+  }
+
+  // ProvisioningTarget is used to know the correct region to route the request
+  message ProvisioningTarget {
+    // one of provisioning_policy_name or device_name is required
+    string provisioning_policy_name = 1;
+
+    string device_name = 2;
+  }
+}
+
+// Response message for method
+// [ProvisionHardware][ntt.devices.v1.ProvisionHardware]
+message ProvisionHardwareResponse {
+  oneof msg {
+    ntt.api.IdentityChallenge identity_challenge = 1;
+
+    ProvisioningResponse provisioning_response = 2;
+  }
+
+  // One of provisioning service_account and policy name or
+  // device service_account and device name will be returned.
+  message ProvisioningResponse {
+    ntt.api.ServiceAccount service_account = 1;
+
+    string provisioning_policy_name = 2;
+
+    string device_name = 3;
+  }
+}

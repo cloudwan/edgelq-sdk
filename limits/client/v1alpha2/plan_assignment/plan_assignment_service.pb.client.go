@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &plan_assignment.PlanAssignment{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type PlanAssignmentServiceClient interface {
 	WatchPlanAssignments(ctx context.Context, in *WatchPlanAssignmentsRequest, opts ...grpc.CallOption) (WatchPlanAssignmentsClientStream, error)
 	CreatePlanAssignment(ctx context.Context, in *CreatePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
 	UpdatePlanAssignment(ctx context.Context, in *UpdatePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
-	DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	MigratePlanAssignment(ctx context.Context, in *MigratePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdatePlanAssignment(ctx context.Context, in *UpdatePlanAssignm
 	return out, nil
 }
 
-func (c *client) DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentService/DeletePlanAssignment", in, out, opts...)
 	if err != nil {
 		return nil, err

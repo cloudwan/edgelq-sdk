@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -25,7 +25,7 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -142,7 +142,7 @@ func (o *ServiceBusinessTier) Clone() *ServiceBusinessTier {
 	} else if data, err := o.Service.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Service = &meta_service.Reference{}
+		result.Service = &meta_service.Name{}
 		if err := result.Service.ParseProtoString(data); err != nil {
 			panic(err)
 		}
@@ -160,7 +160,7 @@ func (o *ServiceBusinessTier) Merge(source *ServiceBusinessTier) {
 		if data, err := source.GetService().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Service = &meta_service.Reference{}
+			o.Service = &meta_service.Name{}
 			if err := o.Service.ParseProtoString(data); err != nil {
 				panic(err)
 			}
@@ -296,7 +296,7 @@ func (o *ServiceErrors_Error) Clone() *ServiceErrors_Error {
 	} else if data, err := o.Service.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Service = &meta_service.Reference{}
+		result.Service = &meta_service.Name{}
 		if err := result.Service.ParseProtoString(data); err != nil {
 			panic(err)
 		}
@@ -314,7 +314,7 @@ func (o *ServiceErrors_Error) Merge(source *ServiceErrors_Error) {
 		if data, err := source.GetService().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Service = &meta_service.Reference{}
+			o.Service = &meta_service.Name{}
 			if err := o.Service.ParseProtoString(data); err != nil {
 				panic(err)
 			}

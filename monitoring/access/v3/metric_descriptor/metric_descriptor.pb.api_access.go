@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	metric_descriptor_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/metric_descriptor"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiMetricDescriptorAccess struct {
@@ -42,8 +44,11 @@ func NewApiMetricDescriptorAccess(client metric_descriptor_client.MetricDescript
 }
 
 func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, query *metric_descriptor.GetQuery) (*metric_descriptor.MetricDescriptor, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &metric_descriptor_client.GetMetricDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetMetricDescriptor(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, que
 
 func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Context, refs []*metric_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*metric_descriptor.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &metric_descriptor_client.BatchGetMetricDescriptorsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(metric_descriptor.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, 
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListMetricDescriptors(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, 
 }
 
 func (a *apiMetricDescriptorAccess) WatchMetricDescriptor(ctx context.Context, query *metric_descriptor.GetQuery, observerCb func(*metric_descriptor.MetricDescriptorChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &metric_descriptor_client.WatchMetricDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchMetricDescriptor(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiMetricDescriptorAccess) WatchMetricDescriptors(ctx context.Context, 
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchMetricDescriptors(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiMetricDescriptorAccess) SaveMetricDescriptor(ctx context.Context, re
 			}
 		}
 	}
-
+	var resp *metric_descriptor.MetricDescriptor
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &metric_descriptor_client.UpdateMetricDescriptorRequest{
 			MetricDescriptor: res,
@@ -195,29 +217,76 @@ func (a *apiMetricDescriptorAccess) SaveMetricDescriptor(ctx context.Context, re
 				FieldMask:        mask.(*metric_descriptor.MetricDescriptor_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateMetricDescriptor(ctx, updateRequest)
+		resp, err = a.client.UpdateMetricDescriptor(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &metric_descriptor_client.CreateMetricDescriptorRequest{
 			MetricDescriptor: res,
 		}
-		_, err := a.client.CreateMetricDescriptor(ctx, createRequest)
+		resp, err = a.client.CreateMetricDescriptor(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiMetricDescriptorAccess) DeleteMetricDescriptor(ctx context.Context, ref *metric_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &metric_descriptor_client.DeleteMetricDescriptorRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteMetricDescriptor(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *metric_descriptor.Filter) (*metric_descriptor.Filter, *metric_descriptor.ParentName) {
+	var withParentExtraction func(cnd metric_descriptor.FilterCondition) metric_descriptor.FilterCondition
+	var resultParent *metric_descriptor.ParentName
+	var resultFilter *metric_descriptor.Filter
+	withParentExtraction = func(cnd metric_descriptor.FilterCondition) metric_descriptor.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *metric_descriptor.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]metric_descriptor.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return metric_descriptor.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *metric_descriptor.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*metric_descriptor.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &metric_descriptor.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

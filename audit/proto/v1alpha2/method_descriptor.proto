@@ -3,8 +3,8 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/method_descriptor;method_descriptor";
 option java_multiple_files = true;
@@ -46,5 +46,5 @@ message MethodDescriptor {
   repeated string versions = 6;
 
   // Metadata
-  ntt.types.Meta metadata = 7;
+  goten.types.Meta metadata = 7;
 }

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &pod.Pod{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type PodServiceClient interface {
 	WatchPods(ctx context.Context, in *WatchPodsRequest, opts ...grpc.CallOption) (WatchPodsClientStream, error)
 	CreatePod(ctx context.Context, in *CreatePodRequest, opts ...grpc.CallOption) (*pod.Pod, error)
 	UpdatePod(ctx context.Context, in *UpdatePodRequest, opts ...grpc.CallOption) (*pod.Pod, error)
-	DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdatePod(ctx context.Context, in *UpdatePodRequest, opts ...gr
 	return out, nil
 }
 
-func (c *client) DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1alpha2.PodService/DeletePod", in, out, opts...)
 	if err != nil {
 		return nil, err

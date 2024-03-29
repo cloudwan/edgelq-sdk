@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &service_account.ServiceAccount{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetServiceAccountDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*service_account.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetServiceAccountDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetServiceAccountDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetServiceAccountRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetServiceAccountDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetServiceAccountRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetServiceAccountDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetServiceAccountDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*service_account.ServiceAccount)
+}
+
+func (h *GetServiceAccountDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*service_account.ServiceAccount)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*service_account.ServiceAccount) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetServiceAccountsDescriptorClientMsgHandle) ExtractResourceNames(
 		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(service_account.ServiceAccountNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return service_account.ServiceAccountNameList(names)
 		}
 	}
 	return (service_account.ServiceAccountNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetServiceAccountsDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetServiceAccountsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetServiceAccountsRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetServiceAccountsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetServiceAccountsRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetServiceAccountsDescriptorServerMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetServiceAccountsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetServiceAccountsResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetServiceAccountsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetServiceAccountsResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetServiceAccounts(); len(resources) > 0 {
+			return service_account.ServiceAccountList(resources)
+		}
+	}
+	return (service_account.ServiceAccountList)(nil)
 }
 
 func GetBatchGetServiceAccountsDescriptor() *BatchGetServiceAccountsDescriptor {
@@ -522,6 +611,30 @@ func (h *ListServiceAccountsDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return (*service_account.ParentName)(nil)
 }
 
+func (h *ListServiceAccountsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListServiceAccountsRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListServiceAccountsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListServiceAccountsRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListServiceAccountsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListServiceAccountsResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListServiceAccountsDescriptorServerMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListServiceAccountsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListServiceAccountsResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListServiceAccountsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListServiceAccountsResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetServiceAccounts(); len(resources) > 0 {
+			return service_account.ServiceAccountList(resources)
+		}
+	}
+	return (service_account.ServiceAccountList)(nil)
 }
 
 func GetListServiceAccountsDescriptor() *ListServiceAccountsDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchServiceAccountDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*service_account.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchServiceAccountDescriptorClientMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchServiceAccountRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchServiceAccountRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchServiceAccountDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchServiceAccountResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchServiceAccountResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *service_account.ServiceAccountChange_Added_:
+				return tResChange.Added.GetServiceAccount()
+			case *service_account.ServiceAccountChange_Modified_:
+				return tResChange.Modified.GetServiceAccount()
+			case *service_account.ServiceAccountChange_Current_:
+				return tResChange.Current.GetServiceAccount()
+			}
+		}
+	}
+	return (*service_account.ServiceAccount)(nil)
+}
+
+func (h *WatchServiceAccountDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchServiceAccountResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchServiceAccountResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchServiceAccountsDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*service_account.ParentName)(nil)
+}
+
+func (h *WatchServiceAccountsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchServiceAccountsRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchServiceAccountsRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchServiceAccountsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchServiceAccountsDescriptorServerMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchServiceAccountsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchServiceAccountsResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchServiceAccountsResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetServiceAccountChanges(); len(resChanges) > 0 {
+			list := make(service_account.ServiceAccountList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *service_account.ServiceAccountChange_Added_:
+					list = append(list, tResChange.Added.GetServiceAccount())
+				case *service_account.ServiceAccountChange_Modified_:
+					list = append(list, tResChange.Modified.GetServiceAccount())
+				case *service_account.ServiceAccountChange_Current_:
+					list = append(list, tResChange.Current.GetServiceAccount())
+				}
+			}
+			return list
+		}
+	}
+	return (service_account.ServiceAccountList)(nil)
 }
 
 func GetWatchServiceAccountsDescriptor() *WatchServiceAccountsDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateServiceAccountDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*service_account.ParentName)(nil)
+}
+
+func (h *CreateServiceAccountDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateServiceAccountRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetServiceAccount()
+	}
+	return (*service_account.ServiceAccount)(nil)
+}
+
+func (h *CreateServiceAccountDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateServiceAccountRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateServiceAccountDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateServiceAccountDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateServiceAccountDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*service_account.ServiceAccount)
+}
+
+func (h *CreateServiceAccountDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*service_account.ServiceAccount)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*service_account.ServiceAccount) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateServiceAccountDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdateServiceAccountDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateServiceAccountRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetServiceAccount()
+	}
+	return (*service_account.ServiceAccount)(nil)
+}
+
+func (h *UpdateServiceAccountDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateServiceAccountRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateServiceAccountDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account.ServiceAccount)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateServiceAccountDescriptorServerMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdateServiceAccountDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*service_account.ServiceAccount)
+}
+
+func (h *UpdateServiceAccountDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*service_account.ServiceAccount)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*service_account.ServiceAccount) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateServiceAccountDescriptor() *UpdateServiceAccountDescriptor {
 	return updateServiceAccountDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteServiceAccountDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteServiceAccountDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteServiceAccountDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteServiceAccountDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*service_account.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteServiceAccountDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
-func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteServiceAccountDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteServiceAccountRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *service_account.Name
+		OverrideExtractResourceBody(*DeleteServiceAccountRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteServiceAccountDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteServiceAccountRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteServiceAccountRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *service_account.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceName(msg 
 }
 
 func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*service_account.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*service_account.Name
 	})
 	if ok {
 		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceNames(msg
 }
 
 func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *service_account.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *service_account.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteServiceAccountDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

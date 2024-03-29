@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,7 +54,7 @@ type MonitoredResourceDescriptorServiceClient interface {
 	WatchMonitoredResourceDescriptors(ctx context.Context, in *WatchMonitoredResourceDescriptorsRequest, opts ...grpc.CallOption) (WatchMonitoredResourceDescriptorsClientStream, error)
 	CreateMonitoredResourceDescriptor(ctx context.Context, in *CreateMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*monitored_resource_descriptor.MonitoredResourceDescriptor, error)
 	UpdateMonitoredResourceDescriptor(ctx context.Context, in *UpdateMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*monitored_resource_descriptor.MonitoredResourceDescriptor, error)
-	DeleteMonitoredResourceDescriptor(ctx context.Context, in *DeleteMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteMonitoredResourceDescriptor(ctx context.Context, in *DeleteMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetMonitoredResourceDescriptor(ctx context.Context, in *GetMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*monitored_resource_descriptor.MonitoredResourceDescriptor, error)
 	ListMonitoredResourceDescriptors(ctx context.Context, in *ListMonitoredResourceDescriptorsRequest, opts ...grpc.CallOption) (*ListMonitoredResourceDescriptorsResponse, error)
 }
@@ -168,8 +168,8 @@ func (c *client) UpdateMonitoredResourceDescriptor(ctx context.Context, in *Upda
 	return out, nil
 }
 
-func (c *client) DeleteMonitoredResourceDescriptor(ctx context.Context, in *DeleteMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteMonitoredResourceDescriptor(ctx context.Context, in *DeleteMonitoredResourceDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.MonitoredResourceDescriptorService/DeleteMonitoredResourceDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err

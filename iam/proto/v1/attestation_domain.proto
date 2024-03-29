@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain;attestation_domain";
+option java_multiple_files = true;
+option java_outer_classname = "AttestationDomainProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// AttestationDomain Resource
+message AttestationDomain {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/AttestationDomain"
+    pattern : "projects/{project}/attestationDomains/{attestation_domain}"
+  };
+
+  // Name of AttestationDomain
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 2;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 1;
+
+  // Display name
+  string display_name = 3;
+
+  // If false (default), attestation verifier SHALL check CA certificate chain
+  // up to the TPM chip manufacturers CA (defined in manufacturer_ca_issuers).
+  // This step is necessary to prove that the attestation request comes from a
+  // genuine TPM device, and not a TPM emulator.
+  //
+  // If true, attestation verifier SHALL skip EKcert verification -
+  // !!INSECURE!! Without this check, any keys may come from a simulated TPM
+  // on the device. An attacker may therefore forge any key they want.
+  // Therefore, this option should only be changed for development purposes.
+  bool insecure_skip_manufacturer_ekcert_verification = 4;
+
+  // Attestees wanting to attest under this attestation domain SHALL fulfill
+  // requirements of at least one of attestation policies defined in this list.
+  // Policies are checked in the order they appear on this list.
+  repeated Policy policies = 5;
+
+  // Attestation policy may require atestees pubkey to be present on
+  // enrollment_list.
+  repeated EnrolledKey enrollment_list = 6;
+
+  // Policy defines a singular attestation policy, that should match a
+  // homogenous class of device (i.e. hardware and firmware configuration) in
+  // the fleet.
+  message Policy {
+    // List of acceptable manufacturer's root CAs certs (in PEM format).
+    //
+    // To obtain such a cert, run something like:
+    // `tpm2_getekcertificate -o cert.bin`
+    // `openssl x509 -inform der -in cert.bin -noout -text`
+    // Then manually download certificate specified in Authority Information
+    // Access (AIA). Repeat the above `openssl` command on the newly
+    // downloadedfile (change the value of `-in` argument). Continue this until
+    // you reach a certificate which does not have AIA. It's the root
+    // certificate. Convert it to PEM like so: `openssl x509 -inform der -in
+    // root.crt -out root.pem` Still, we need to encode newlines: `awk 'NF
+    // {sub(/\r/, ""); printf "%s\\n",$0;}' root.pem` Then paste the output
+    // here.
+    //
+    // Note: multiple PEM certificates may be included here by simple means of
+    // concatenation.
+    string manufacturer_root_ca_certs_pem = 1;
+
+    // If true, the attestee's pubkey SHALL be present on this
+    // AttestationDomain's enrollment list, otherwise fail the attestation.
+    bool require_enrollment = 2;
+
+    // If true, the verifier SHALL parse, replay and verify TPM event log
+    // provided by the atestee, otherwise fail the attestation.
+    // Note that requiring verification of event does not provide additional
+    // security. See
+    // https://github.com/google/go-attestation/blob/master/docs/event-log-disclosure.md#event-type-and-verification-footguns
+    bool verify_event_log = 3;
+
+    // List of expected PCR values.
+    // All PCRs on this list SHALL match exactly the PCRs provided by the
+    // atestee, otherwise the attestation SHALL be failed. The verifier SHALL
+    // perform sanity checks: PCR index/digest pairs are unique and the size of
+    // the list is sane (TODO).
+    // They can be read from TPM by running something like `tpm2_pcrread`.
+    repeated PCR expected_pcrs = 4;
+  }
+
+  // EnrolledKey defines an enrolled key.
+  message EnrolledKey {
+    // PEM encoded EK pubkey.
+    // It can be read from TPM by running something like `tpm2_createek -G rsa
+    // -u ek.pub -c key.ctx -f pem`.
+    string pubkey_pem = 1;
+
+    // User's comments for this entry
+    string comment = 2;
+  }
+}

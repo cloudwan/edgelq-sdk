@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &distribution.Distribution{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type DistributionServiceClient interface {
 	WatchDistributions(ctx context.Context, in *WatchDistributionsRequest, opts ...grpc.CallOption) (WatchDistributionsClientStream, error)
 	CreateDistribution(ctx context.Context, in *CreateDistributionRequest, opts ...grpc.CallOption) (*distribution.Distribution, error)
 	UpdateDistribution(ctx context.Context, in *UpdateDistributionRequest, opts ...grpc.CallOption) (*distribution.Distribution, error)
-	DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateDistribution(ctx context.Context, in *UpdateDistributionR
 	return out, nil
 }
 
-func (c *client) DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1alpha2.DistributionService/DeleteDistribution", in, out, opts...)
 	if err != nil {
 		return nil, err

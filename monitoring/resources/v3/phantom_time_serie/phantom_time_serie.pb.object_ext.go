@@ -9,17 +9,17 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -28,17 +28,17 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 func (o *PhantomTimeSerie) GotenObjectExt() {}
@@ -158,7 +158,7 @@ func (o *PhantomTimeSerie) CloneRaw() gotenobject.GotenObjectExt {
 func (o *PhantomTimeSerie) Merge(source *PhantomTimeSerie) {
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -181,13 +181,13 @@ func (o *PhantomTimeSerie) Merge(source *PhantomTimeSerie) {
 	o.Project = source.GetProject()
 	if source.GetMetric() != nil {
 		if o.Metric == nil {
-			o.Metric = new(monitoring_common.Metric)
+			o.Metric = new(common.Metric)
 		}
 		o.Metric.Merge(source.GetMetric())
 	}
 	if source.GetResource() != nil {
 		if o.Resource == nil {
-			o.Resource = new(monitoring_common.MonitoredResource)
+			o.Resource = new(common.MonitoredResource)
 		}
 		o.Resource.Merge(source.GetResource())
 	}
@@ -195,7 +195,7 @@ func (o *PhantomTimeSerie) Merge(source *PhantomTimeSerie) {
 	o.ValueType = source.GetValueType()
 	if source.GetValue() != nil {
 		if o.Value == nil {
-			o.Value = new(monitoring_common.TypedValue)
+			o.Value = new(common.TypedValue)
 		}
 		o.Value.Merge(source.GetValue())
 	}

@@ -24,8 +24,8 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,8 +43,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device_type.DeviceType{}
+	_ = &meta.Meta{}
 )
 
 var osVersion_RegexpId = regexp.MustCompile("^(?P<os_version_id>[\\w][\\w.-]{0,127})$")
@@ -56,14 +56,6 @@ func (r *OsVersion) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *OsVersion) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *OsVersion) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

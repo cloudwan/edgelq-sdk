@@ -24,8 +24,8 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,8 +43,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service.Service{}
+	_ = &meta.Meta{}
 )
 
 var resource_RegexpId = regexp.MustCompile("^(?P<resource_id>[a-zA-Z]{1,128})$")
@@ -56,14 +56,6 @@ func (r *Resource) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *Resource) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *Resource) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

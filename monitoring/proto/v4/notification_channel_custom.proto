@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/notification_channel.proto";
+import "edgelq-sdk/monitoring/proto/v4/notification_channel_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/notification_channel;notification_channel_client";
+option java_multiple_files = false;
+option java_outer_classname = "NotificationChannelCustomProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Request message for method
+// [TestNotificationChannel][ntt.monitoring.v4.TestNotificationChannel]
+message TestNotificationChannelRequest {
+  // Name of ntt.monitoring.v4.NotificationChannel
+  string name = 1;
+}

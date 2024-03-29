@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "goten-sdk/meta-service/proto/v1/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/common;common";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// RegionalPlanAssignment binds region and plan.
+message RegionalPlanAssignment {
+  // Plan for given region
+  string plan = 1;
+
+  // Region ID for this override
+  string region = 2;
+
+  // Applied generation spec of the plan.
+  int64 plan_generation = 3;
+}
+
+// Allowance informs how many instances of resource for given type are
+// permitted.
+message Allowance {
+  // Reference to resource
+  string resource = 1;
+
+  // Limit or extension for given resource.
+  int64 value = 2;
+
+  // Region ID where allowance applies - empty if for all.
+  string region = 3;
+}

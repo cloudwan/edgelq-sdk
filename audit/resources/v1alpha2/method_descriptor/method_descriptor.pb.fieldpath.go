@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
-	_ = &ntt_meta.Meta{}
+	_ = &common.Authentication{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -126,19 +124,19 @@ func BuildMethodDescriptor_FieldPath(fp gotenobject.RawFieldPath) (MethodDescrip
 	} else {
 		switch fp[0] {
 		case "labels":
-			if subpath, err := audit_common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MethodDescriptor_FieldSubPath{selector: MethodDescriptor_FieldPathSelectorLabels, subPath: subpath}, nil
 			}
 		case "promoted_label_key_sets", "promotedLabelKeySets", "promoted-label-key-sets":
-			if subpath, err := audit_common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MethodDescriptor_FieldSubPath{selector: MethodDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MethodDescriptor_FieldSubPath{selector: MethodDescriptor_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -264,13 +262,13 @@ func (fp *MethodDescriptor_FieldTerminalPath) GetDefault() interface{} {
 	case MethodDescriptor_FieldPathSelectorDescription:
 		return ""
 	case MethodDescriptor_FieldPathSelectorLabels:
-		return ([]*audit_common.LabelDescriptor)(nil)
+		return ([]*common.LabelDescriptor)(nil)
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return ([]*audit_common.LabelKeySet)(nil)
+		return ([]*common.LabelKeySet)(nil)
 	case MethodDescriptor_FieldPathSelectorVersions:
 		return ([]string)(nil)
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fp.selector))
 	}
@@ -324,13 +322,13 @@ func (fp *MethodDescriptor_FieldTerminalPath) WithIValue(value interface{}) Meth
 	case MethodDescriptor_FieldPathSelectorDescription:
 		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case MethodDescriptor_FieldPathSelectorLabels:
-		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.([]*audit_common.LabelDescriptor)}
+		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelDescriptor)}
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.([]*audit_common.LabelKeySet)}
+		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case MethodDescriptor_FieldPathSelectorVersions:
 		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.([]string)}
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &MethodDescriptor_FieldTerminalPathValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fp.selector))
 	}
@@ -350,13 +348,13 @@ func (fp *MethodDescriptor_FieldTerminalPath) WithIArrayOfValues(values interfac
 	case MethodDescriptor_FieldPathSelectorDescription:
 		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([]string)}
 	case MethodDescriptor_FieldPathSelectorLabels:
-		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([][]*audit_common.LabelDescriptor)}
+		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelDescriptor)}
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([][]*audit_common.LabelKeySet)}
+		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case MethodDescriptor_FieldPathSelectorVersions:
 		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([][]string)}
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &MethodDescriptor_FieldTerminalPathArrayOfValues{MethodDescriptor_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fp.selector))
 	}
@@ -370,9 +368,9 @@ func (fp *MethodDescriptor_FieldTerminalPath) WithRawIArrayOfValues(values inter
 func (fp *MethodDescriptor_FieldTerminalPath) WithIArrayItemValue(value interface{}) MethodDescriptor_FieldPathArrayItemValue {
 	switch fp.selector {
 	case MethodDescriptor_FieldPathSelectorLabels:
-		return &MethodDescriptor_FieldTerminalPathArrayItemValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*audit_common.LabelDescriptor)}
+		return &MethodDescriptor_FieldTerminalPathArrayItemValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelDescriptor)}
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &MethodDescriptor_FieldTerminalPathArrayItemValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*audit_common.LabelKeySet)}
+		return &MethodDescriptor_FieldTerminalPathArrayItemValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelKeySet)}
 	case MethodDescriptor_FieldPathSelectorVersions:
 		return &MethodDescriptor_FieldTerminalPathArrayItemValue{MethodDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -394,16 +392,16 @@ var _ MethodDescriptor_FieldPath = (*MethodDescriptor_FieldSubPath)(nil)
 func (fps *MethodDescriptor_FieldSubPath) Selector() MethodDescriptor_FieldPathSelector {
 	return fps.selector
 }
-func (fps *MethodDescriptor_FieldSubPath) AsLabelsSubPath() (audit_common.LabelDescriptor_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.LabelDescriptor_FieldPath)
+func (fps *MethodDescriptor_FieldSubPath) AsLabelsSubPath() (common.LabelDescriptor_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelDescriptor_FieldPath)
 	return res, ok
 }
-func (fps *MethodDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (audit_common.LabelKeySet_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.LabelKeySet_FieldPath)
+func (fps *MethodDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (common.LabelKeySet_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelKeySet_FieldPath)
 	return res, ok
 }
-func (fps *MethodDescriptor_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *MethodDescriptor_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -581,20 +579,20 @@ func (fpv *MethodDescriptor_FieldTerminalPathValue) AsDescriptionValue() (string
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *MethodDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*audit_common.LabelDescriptor, bool) {
-	res, ok := fpv.value.([]*audit_common.LabelDescriptor)
+func (fpv *MethodDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*common.LabelDescriptor, bool) {
+	res, ok := fpv.value.([]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpv *MethodDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*audit_common.LabelKeySet, bool) {
-	res, ok := fpv.value.([]*audit_common.LabelKeySet)
+func (fpv *MethodDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*common.LabelKeySet, bool) {
+	res, ok := fpv.value.([]*common.LabelKeySet)
 	return res, ok
 }
 func (fpv *MethodDescriptor_FieldTerminalPathValue) AsVersionsValue() ([]string, bool) {
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *MethodDescriptor_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *MethodDescriptor_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -611,13 +609,13 @@ func (fpv *MethodDescriptor_FieldTerminalPathValue) SetTo(target **MethodDescrip
 	case MethodDescriptor_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
 	case MethodDescriptor_FieldPathSelectorLabels:
-		(*target).Labels = fpv.value.([]*audit_common.LabelDescriptor)
+		(*target).Labels = fpv.value.([]*common.LabelDescriptor)
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		(*target).PromotedLabelKeySets = fpv.value.([]*audit_common.LabelKeySet)
+		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case MethodDescriptor_FieldPathSelectorVersions:
 		(*target).Versions = fpv.value.([]string)
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fpv.selector))
 	}
@@ -694,16 +692,16 @@ type MethodDescriptor_FieldSubPathValue struct {
 
 var _ MethodDescriptor_FieldPathValue = (*MethodDescriptor_FieldSubPathValue)(nil)
 
-func (fpvs *MethodDescriptor_FieldSubPathValue) AsLabelsPathValue() (audit_common.LabelDescriptor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.LabelDescriptor_FieldPathValue)
+func (fpvs *MethodDescriptor_FieldSubPathValue) AsLabelsPathValue() (common.LabelDescriptor_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelDescriptor_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MethodDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (audit_common.LabelKeySet_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.LabelKeySet_FieldPathValue)
+func (fpvs *MethodDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (common.LabelKeySet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelKeySet_FieldPathValue)
 	return res, ok
 }
-func (fpvs *MethodDescriptor_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *MethodDescriptor_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -717,7 +715,7 @@ func (fpvs *MethodDescriptor_FieldSubPathValue) SetTo(target **MethodDescriptor)
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fpvs.Selector()))
 	}
@@ -739,7 +737,7 @@ func (fpvs *MethodDescriptor_FieldSubPathValue) CompareWith(source *MethodDescri
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return 0, false // repeated field
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fpvs.Selector()))
 	}
@@ -789,12 +787,12 @@ var _ MethodDescriptor_FieldPathArrayItemValue = (*MethodDescriptor_FieldTermina
 func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*audit_common.LabelDescriptor, bool) {
-	res, ok := fpaiv.value.(*audit_common.LabelDescriptor)
+func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*common.LabelDescriptor, bool) {
+	res, ok := fpaiv.value.(*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*audit_common.LabelKeySet, bool) {
-	res, ok := fpaiv.value.(*audit_common.LabelKeySet)
+func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*common.LabelKeySet, bool) {
+	res, ok := fpaiv.value.(*common.LabelKeySet)
 	return res, ok
 }
 func (fpaiv *MethodDescriptor_FieldTerminalPathArrayItemValue) AsVersionsItemValue() (string, bool) {
@@ -834,16 +832,16 @@ type MethodDescriptor_FieldSubPathArrayItemValue struct {
 func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (audit_common.LabelDescriptor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.LabelDescriptor_FieldPathArrayItemValue)
+func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (common.LabelDescriptor_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelDescriptor_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (audit_common.LabelKeySet_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.LabelKeySet_FieldPathArrayItemValue)
+func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (common.LabelKeySet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelKeySet_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -855,7 +853,7 @@ func (fpaivs *MethodDescriptor_FieldSubPathArrayItemValue) ContainsValue(source 
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return false // repeated/map field
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MethodDescriptor: %d", fpaivs.Selector()))
 	}
@@ -909,11 +907,11 @@ func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case MethodDescriptor_FieldPathSelectorLabels:
-		for _, v := range fpaov.values.([][]*audit_common.LabelDescriptor) {
+		for _, v := range fpaov.values.([][]*common.LabelDescriptor) {
 			values = append(values, v)
 		}
 	case MethodDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		for _, v := range fpaov.values.([][]*audit_common.LabelKeySet) {
+		for _, v := range fpaov.values.([][]*common.LabelKeySet) {
 			values = append(values, v)
 		}
 	case MethodDescriptor_FieldPathSelectorVersions:
@@ -921,7 +919,7 @@ func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case MethodDescriptor_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -939,20 +937,20 @@ func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsDescriptionArray
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*audit_common.LabelDescriptor, bool) {
-	res, ok := fpaov.values.([][]*audit_common.LabelDescriptor)
+func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*common.LabelDescriptor, bool) {
+	res, ok := fpaov.values.([][]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*audit_common.LabelKeySet, bool) {
-	res, ok := fpaov.values.([][]*audit_common.LabelKeySet)
+func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*common.LabelKeySet, bool) {
+	res, ok := fpaov.values.([][]*common.LabelKeySet)
 	return res, ok
 }
 func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsVersionsArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
-func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *MethodDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -966,15 +964,15 @@ var _ MethodDescriptor_FieldPathArrayOfValues = (*MethodDescriptor_FieldSubPathA
 func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (audit_common.LabelDescriptor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.LabelDescriptor_FieldPathArrayOfValues)
+func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (common.LabelDescriptor_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelDescriptor_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (audit_common.LabelKeySet_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.LabelKeySet_FieldPathArrayOfValues)
+func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (common.LabelKeySet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelKeySet_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *MethodDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

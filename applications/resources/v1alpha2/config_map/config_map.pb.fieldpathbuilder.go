@@ -7,17 +7,17 @@ package config_map
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &timestamp.Timestamp{}
 )
 
 type ConfigMapFieldPathBuilder struct{}
@@ -75,27 +75,27 @@ func (ConfigMapPathSelectorMetadata) FieldPath() *ConfigMap_FieldTerminalPath {
 	return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorMetadata}
 }
 
-func (s ConfigMapPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *ConfigMap_FieldTerminalPathValue {
+func (s ConfigMapPathSelectorMetadata) WithValue(value *meta.Meta) *ConfigMap_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldTerminalPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ConfigMap_FieldTerminalPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *ConfigMap_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldTerminalPathArrayOfValues)
 }
 
-func (ConfigMapPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *ConfigMap_FieldSubPath {
+func (ConfigMapPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{selector: ConfigMap_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s ConfigMapPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *ConfigMap_FieldSubPathValue {
 	return &ConfigMap_FieldSubPathValue{ConfigMap_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ConfigMapPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *ConfigMap_FieldSubPathArrayOfValues {
 	return &ConfigMap_FieldSubPathArrayOfValues{ConfigMap_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ConfigMapPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *ConfigMap_FieldSubPathArrayItemValue {
+func (s ConfigMapPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *ConfigMap_FieldSubPathArrayItemValue {
 	return &ConfigMap_FieldSubPathArrayItemValue{ConfigMap_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -151,20 +151,24 @@ func (ConfigMapPathSelectorMetadata) Lifecycle() ConfigMapPathSelectorMetadataLi
 	return ConfigMapPathSelectorMetadataLifecycle{}
 }
 
+func (ConfigMapPathSelectorMetadata) Services() ConfigMapPathSelectorMetadataServices {
+	return ConfigMapPathSelectorMetadataServices{}
+}
+
 type ConfigMapPathSelectorMetadataCreateTime struct{}
 
 func (ConfigMapPathSelectorMetadataCreateTime) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -173,15 +177,15 @@ type ConfigMapPathSelectorMetadataUpdateTime struct{}
 func (ConfigMapPathSelectorMetadataUpdateTime) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -190,15 +194,15 @@ type ConfigMapPathSelectorMetadataDeleteTime struct{}
 func (ConfigMapPathSelectorMetadataDeleteTime) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -207,7 +211,7 @@ type ConfigMapPathSelectorMetadataUuid struct{}
 func (ConfigMapPathSelectorMetadataUuid) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -224,7 +228,7 @@ type ConfigMapPathSelectorMetadataTags struct{}
 func (ConfigMapPathSelectorMetadataTags) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -245,7 +249,7 @@ type ConfigMapPathSelectorMetadataLabels struct{}
 func (ConfigMapPathSelectorMetadataLabels) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -268,7 +272,7 @@ type ConfigMapMapPathSelectorMetadataLabels struct {
 func (s ConfigMapMapPathSelectorMetadataLabels) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -285,7 +289,7 @@ type ConfigMapPathSelectorMetadataAnnotations struct{}
 func (ConfigMapPathSelectorMetadataAnnotations) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -308,7 +312,7 @@ type ConfigMapMapPathSelectorMetadataAnnotations struct {
 func (s ConfigMapMapPathSelectorMetadataAnnotations) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -325,7 +329,7 @@ type ConfigMapPathSelectorMetadataGeneration struct{}
 func (ConfigMapPathSelectorMetadataGeneration) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -342,7 +346,7 @@ type ConfigMapPathSelectorMetadataResourceVersion struct{}
 func (ConfigMapPathSelectorMetadataResourceVersion) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -359,19 +363,19 @@ type ConfigMapPathSelectorMetadataOwnerReferences struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferences) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
-func (s ConfigMapPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ConfigMap_FieldSubPathArrayItemValue {
+func (s ConfigMapPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ConfigMap_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ConfigMap_FieldSubPathArrayItemValue)
 }
 
@@ -395,10 +399,6 @@ func (ConfigMapPathSelectorMetadataOwnerReferences) Controller() ConfigMapPathSe
 	return ConfigMapPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (ConfigMapPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (ConfigMapPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -408,7 +408,7 @@ type ConfigMapPathSelectorMetadataOwnerReferencesKind struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferencesKind) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -425,7 +425,7 @@ type ConfigMapPathSelectorMetadataOwnerReferencesVersion struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferencesVersion) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -442,7 +442,7 @@ type ConfigMapPathSelectorMetadataOwnerReferencesName struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferencesName) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -459,7 +459,7 @@ type ConfigMapPathSelectorMetadataOwnerReferencesRegion struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferencesRegion) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -476,7 +476,7 @@ type ConfigMapPathSelectorMetadataOwnerReferencesController struct{}
 func (ConfigMapPathSelectorMetadataOwnerReferencesController) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -488,29 +488,12 @@ func (s ConfigMapPathSelectorMetadataOwnerReferencesController) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
-type ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ConfigMap_FieldSubPath {
-	return &ConfigMap_FieldSubPath{
-		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ConfigMap_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
-}
-
-func (s ConfigMapPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ConfigMap_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
-}
-
 type ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -527,7 +510,7 @@ type ConfigMapPathSelectorMetadataShards struct{}
 func (ConfigMapPathSelectorMetadataShards) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -550,7 +533,7 @@ type ConfigMapMapPathSelectorMetadataShards struct {
 func (s ConfigMapMapPathSelectorMetadataShards) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -567,15 +550,15 @@ type ConfigMapPathSelectorMetadataSyncing struct{}
 func (ConfigMapPathSelectorMetadataSyncing) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -592,7 +575,7 @@ type ConfigMapPathSelectorMetadataSyncingOwningRegion struct{}
 func (ConfigMapPathSelectorMetadataSyncingOwningRegion) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -609,7 +592,7 @@ type ConfigMapPathSelectorMetadataSyncingRegions struct{}
 func (ConfigMapPathSelectorMetadataSyncingRegions) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -630,15 +613,15 @@ type ConfigMapPathSelectorMetadataLifecycle struct{}
 func (ConfigMapPathSelectorMetadataLifecycle) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -655,15 +638,15 @@ type ConfigMapPathSelectorMetadataLifecycleState struct{}
 func (ConfigMapPathSelectorMetadataLifecycleState) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 
@@ -672,7 +655,7 @@ type ConfigMapPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (ConfigMapPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ConfigMap_FieldSubPath {
 	return &ConfigMap_FieldSubPath{
 		selector: ConfigMap_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -682,6 +665,69 @@ func (s ConfigMapPathSelectorMetadataLifecycleBlockDeletion) WithValue(value boo
 
 func (s ConfigMapPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
+}
+
+type ConfigMapPathSelectorMetadataServices struct{}
+
+func (ConfigMapPathSelectorMetadataServices) FieldPath() *ConfigMap_FieldSubPath {
+	return &ConfigMap_FieldSubPath{
+		selector: ConfigMap_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s ConfigMapPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *ConfigMap_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
+}
+
+func (s ConfigMapPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ConfigMap_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
+}
+
+func (ConfigMapPathSelectorMetadataServices) OwningService() ConfigMapPathSelectorMetadataServicesOwningService {
+	return ConfigMapPathSelectorMetadataServicesOwningService{}
+}
+
+func (ConfigMapPathSelectorMetadataServices) AllowedServices() ConfigMapPathSelectorMetadataServicesAllowedServices {
+	return ConfigMapPathSelectorMetadataServicesAllowedServices{}
+}
+
+type ConfigMapPathSelectorMetadataServicesOwningService struct{}
+
+func (ConfigMapPathSelectorMetadataServicesOwningService) FieldPath() *ConfigMap_FieldSubPath {
+	return &ConfigMap_FieldSubPath{
+		selector: ConfigMap_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ConfigMapPathSelectorMetadataServicesOwningService) WithValue(value string) *ConfigMap_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
+}
+
+func (s ConfigMapPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *ConfigMap_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
+}
+
+type ConfigMapPathSelectorMetadataServicesAllowedServices struct{}
+
+func (ConfigMapPathSelectorMetadataServicesAllowedServices) FieldPath() *ConfigMap_FieldSubPath {
+	return &ConfigMap_FieldSubPath{
+		selector: ConfigMap_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ConfigMapPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *ConfigMap_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
+}
+
+func (s ConfigMapPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ConfigMap_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
+}
+
+func (s ConfigMapPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *ConfigMap_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ConfigMap_FieldSubPathArrayItemValue)
 }
 
 type ConfigMapPathSelectorData struct{}

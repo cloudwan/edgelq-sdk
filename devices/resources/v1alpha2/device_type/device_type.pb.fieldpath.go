@@ -17,14 +17,13 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -41,14 +40,13 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -91,7 +89,7 @@ func (s DeviceType_FieldPathSelector) String() string {
 	case DeviceType_FieldPathSelectorArchitecture:
 		return "architecture"
 	case DeviceType_FieldPathSelectorDescription:
-		return "_description"
+		return "description"
 	default:
 		panic(fmt.Sprintf("Invalid selector for DeviceType: %d", s))
 	}
@@ -113,13 +111,13 @@ func BuildDeviceType_FieldPath(fp gotenobject.RawFieldPath) (DeviceType_FieldPat
 			return &DeviceType_FieldTerminalPath{selector: DeviceType_FieldPathSelectorHardware}, nil
 		case "architecture":
 			return &DeviceType_FieldTerminalPath{selector: DeviceType_FieldPathSelectorArchitecture}, nil
-		case "_description", "description", "Description":
+		case "description":
 			return &DeviceType_FieldTerminalPath{selector: DeviceType_FieldPathSelectorDescription}, nil
 		}
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &DeviceType_FieldSubPath{selector: DeviceType_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -228,7 +226,7 @@ func (fp *DeviceType_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceType_FieldPathSelectorName:
 		return (*Name)(nil)
 	case DeviceType_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case DeviceType_FieldPathSelectorDisplayName:
 		return ""
 	case DeviceType_FieldPathSelectorHardware:
@@ -285,7 +283,7 @@ func (fp *DeviceType_FieldTerminalPath) WithIValue(value interface{}) DeviceType
 	case DeviceType_FieldPathSelectorName:
 		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(*Name)}
 	case DeviceType_FieldPathSelectorMetadata:
-		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case DeviceType_FieldPathSelectorDisplayName:
 		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceType_FieldPathSelectorHardware:
@@ -309,7 +307,7 @@ func (fp *DeviceType_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 	case DeviceType_FieldPathSelectorName:
 		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case DeviceType_FieldPathSelectorMetadata:
-		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case DeviceType_FieldPathSelectorDisplayName:
 		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceType_FieldPathSelectorHardware:
@@ -349,8 +347,8 @@ var _ DeviceType_FieldPath = (*DeviceType_FieldSubPath)(nil)
 func (fps *DeviceType_FieldSubPath) Selector() DeviceType_FieldPathSelector {
 	return fps.selector
 }
-func (fps *DeviceType_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *DeviceType_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -494,8 +492,8 @@ func (fpv *DeviceType_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *DeviceType_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *DeviceType_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *DeviceType_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
@@ -524,7 +522,7 @@ func (fpv *DeviceType_FieldTerminalPathValue) SetTo(target **DeviceType) {
 	case DeviceType_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case DeviceType_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case DeviceType_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case DeviceType_FieldPathSelectorHardware:
@@ -623,8 +621,8 @@ type DeviceType_FieldSubPathValue struct {
 
 var _ DeviceType_FieldPathValue = (*DeviceType_FieldSubPathValue)(nil)
 
-func (fpvs *DeviceType_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *DeviceType_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -634,7 +632,7 @@ func (fpvs *DeviceType_FieldSubPathValue) SetTo(target **DeviceType) {
 	}
 	switch fpvs.Selector() {
 	case DeviceType_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for DeviceType: %d", fpvs.Selector()))
 	}
@@ -652,7 +650,7 @@ func (fpvs *DeviceType_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *DeviceType_FieldSubPathValue) CompareWith(source *DeviceType) (int, bool) {
 	switch fpvs.Selector() {
 	case DeviceType_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for DeviceType: %d", fpvs.Selector()))
 	}
@@ -735,8 +733,8 @@ type DeviceType_FieldSubPathArrayItemValue struct {
 func (fpaivs *DeviceType_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *DeviceType_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *DeviceType_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -744,7 +742,7 @@ func (fpaivs *DeviceType_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (
 func (fpaivs *DeviceType_FieldSubPathArrayItemValue) ContainsValue(source *DeviceType) bool {
 	switch fpaivs.Selector() {
 	case DeviceType_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for DeviceType: %d", fpaivs.Selector()))
 	}
@@ -790,7 +788,7 @@ func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case DeviceType_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case DeviceType_FieldPathSelectorDisplayName:
@@ -816,8 +814,8 @@ func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -847,7 +845,7 @@ var _ DeviceType_FieldPathArrayOfValues = (*DeviceType_FieldSubPathArrayOfValues
 func (fpsaov *DeviceType_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *DeviceType_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *DeviceType_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

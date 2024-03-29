@@ -17,20 +17,19 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -47,20 +46,19 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &plan_assignment.PlanAssignment{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -131,7 +129,7 @@ func BuildPlanAssignmentRequest_FieldPath(fp gotenobject.RawFieldPath) (PlanAssi
 	} else {
 		switch fp[0] {
 		case "request":
-			if subpath, err := BuildPlanAssignmentRequestRequest_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildPlanAssignmentRequestRequestType_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorRequest, subPath: subpath}, nil
@@ -143,7 +141,7 @@ func BuildPlanAssignmentRequest_FieldPath(fp gotenobject.RawFieldPath) (PlanAssi
 				return &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorStatus, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -264,7 +262,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) GetDefault() interface{} {
 	case PlanAssignmentRequest_FieldPathSelectorName:
 		return (*Name)(nil)
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		return (*PlanAssignmentRequest_Request)(nil)
+		return (*PlanAssignmentRequest_RequestType)(nil)
 	case PlanAssignmentRequest_FieldPathSelectorService:
 		return (*meta_service.Reference)(nil)
 	case PlanAssignmentRequest_FieldPathSelectorApprover:
@@ -272,7 +270,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) GetDefault() interface{} {
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		return (*PlanAssignmentRequest_Status)(nil)
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fp.selector))
 	}
@@ -319,7 +317,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) WithIValue(value interface{})
 	case PlanAssignmentRequest_FieldPathSelectorName:
 		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*Name)}
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Request)}
+		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_RequestType)}
 	case PlanAssignmentRequest_FieldPathSelectorService:
 		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
 	case PlanAssignmentRequest_FieldPathSelectorApprover:
@@ -327,7 +325,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) WithIValue(value interface{})
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Status)}
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &PlanAssignmentRequest_FieldTerminalPathValue{PlanAssignmentRequest_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fp.selector))
 	}
@@ -343,7 +341,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) WithIArrayOfValues(values int
 	case PlanAssignmentRequest_FieldPathSelectorName:
 		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Request)}
+		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_RequestType)}
 	case PlanAssignmentRequest_FieldPathSelectorService:
 		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
 	case PlanAssignmentRequest_FieldPathSelectorApprover:
@@ -351,7 +349,7 @@ func (fp *PlanAssignmentRequest_FieldTerminalPath) WithIArrayOfValues(values int
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Status)}
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &PlanAssignmentRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequest_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fp.selector))
 	}
@@ -383,16 +381,16 @@ var _ PlanAssignmentRequest_FieldPath = (*PlanAssignmentRequest_FieldSubPath)(ni
 func (fps *PlanAssignmentRequest_FieldSubPath) Selector() PlanAssignmentRequest_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PlanAssignmentRequest_FieldSubPath) AsRequestSubPath() (PlanAssignmentRequestRequest_FieldPath, bool) {
-	res, ok := fps.subPath.(PlanAssignmentRequestRequest_FieldPath)
+func (fps *PlanAssignmentRequest_FieldSubPath) AsRequestSubPath() (PlanAssignmentRequestRequestType_FieldPath, bool) {
+	res, ok := fps.subPath.(PlanAssignmentRequestRequestType_FieldPath)
 	return res, ok
 }
 func (fps *PlanAssignmentRequest_FieldSubPath) AsStatusSubPath() (PlanAssignmentRequestStatus_FieldPath, bool) {
 	res, ok := fps.subPath.(PlanAssignmentRequestStatus_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequest_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *PlanAssignmentRequest_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -554,8 +552,8 @@ func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsNameValue() (*Name, b
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsRequestValue() (*PlanAssignmentRequest_Request, bool) {
-	res, ok := fpv.value.(*PlanAssignmentRequest_Request)
+func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsRequestValue() (*PlanAssignmentRequest_RequestType, bool) {
+	res, ok := fpv.value.(*PlanAssignmentRequest_RequestType)
 	return res, ok
 }
 func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsServiceValue() (*meta_service.Reference, bool) {
@@ -570,8 +568,8 @@ func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsStatusValue() (*PlanA
 	res, ok := fpv.value.(*PlanAssignmentRequest_Status)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -584,7 +582,7 @@ func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) SetTo(target **PlanAssi
 	case PlanAssignmentRequest_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		(*target).Request = fpv.value.(*PlanAssignmentRequest_Request)
+		(*target).Request = fpv.value.(*PlanAssignmentRequest_RequestType)
 	case PlanAssignmentRequest_FieldPathSelectorService:
 		(*target).Service = fpv.value.(*meta_service.Reference)
 	case PlanAssignmentRequest_FieldPathSelectorApprover:
@@ -592,7 +590,7 @@ func (fpv *PlanAssignmentRequest_FieldTerminalPathValue) SetTo(target **PlanAssi
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*PlanAssignmentRequest_Status)
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fpv.selector))
 	}
@@ -685,16 +683,16 @@ type PlanAssignmentRequest_FieldSubPathValue struct {
 
 var _ PlanAssignmentRequest_FieldPathValue = (*PlanAssignmentRequest_FieldSubPathValue)(nil)
 
-func (fpvs *PlanAssignmentRequest_FieldSubPathValue) AsRequestPathValue() (PlanAssignmentRequestRequest_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequest_FieldPathValue)
+func (fpvs *PlanAssignmentRequest_FieldSubPathValue) AsRequestPathValue() (PlanAssignmentRequestRequestType_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestType_FieldPathValue)
 	return res, ok
 }
 func (fpvs *PlanAssignmentRequest_FieldSubPathValue) AsStatusPathValue() (PlanAssignmentRequestStatus_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(PlanAssignmentRequestStatus_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequest_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *PlanAssignmentRequest_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -704,11 +702,11 @@ func (fpvs *PlanAssignmentRequest_FieldSubPathValue) SetTo(target **PlanAssignme
 	}
 	switch fpvs.Selector() {
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		fpvs.subPathValue.(PlanAssignmentRequestRequest_FieldPathValue).SetTo(&(*target).Request)
+		fpvs.subPathValue.(PlanAssignmentRequestRequestType_FieldPathValue).SetTo(&(*target).Request)
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		fpvs.subPathValue.(PlanAssignmentRequestStatus_FieldPathValue).SetTo(&(*target).Status)
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fpvs.Selector()))
 	}
@@ -726,11 +724,11 @@ func (fpvs *PlanAssignmentRequest_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *PlanAssignmentRequest_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest) (int, bool) {
 	switch fpvs.Selector() {
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		return fpvs.subPathValue.(PlanAssignmentRequestRequest_FieldPathValue).CompareWith(source.GetRequest())
+		return fpvs.subPathValue.(PlanAssignmentRequestRequestType_FieldPathValue).CompareWith(source.GetRequest())
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		return fpvs.subPathValue.(PlanAssignmentRequestStatus_FieldPathValue).CompareWith(source.GetStatus())
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fpvs.Selector()))
 	}
@@ -813,16 +811,16 @@ type PlanAssignmentRequest_FieldSubPathArrayItemValue struct {
 func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsRequestPathItemValue() (PlanAssignmentRequestRequest_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequest_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsRequestPathItemValue() (PlanAssignmentRequestRequestType_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestType_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsStatusPathItemValue() (PlanAssignmentRequestStatus_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestStatus_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -830,11 +828,11 @@ func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) AsMetadataPathIt
 func (fpaivs *PlanAssignmentRequest_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest) bool {
 	switch fpaivs.Selector() {
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequest_FieldPathArrayItemValue).ContainsValue(source.GetRequest())
+		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestType_FieldPathArrayItemValue).ContainsValue(source.GetRequest())
 	case PlanAssignmentRequest_FieldPathSelectorStatus:
 		return fpaivs.subPathItemValue.(PlanAssignmentRequestStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest: %d", fpaivs.Selector()))
 	}
@@ -880,7 +878,7 @@ func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 			values = append(values, v)
 		}
 	case PlanAssignmentRequest_FieldPathSelectorRequest:
-		for _, v := range fpaov.values.([]*PlanAssignmentRequest_Request) {
+		for _, v := range fpaov.values.([]*PlanAssignmentRequest_RequestType) {
 			values = append(values, v)
 		}
 	case PlanAssignmentRequest_FieldPathSelectorService:
@@ -896,7 +894,7 @@ func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 			values = append(values, v)
 		}
 	case PlanAssignmentRequest_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -906,8 +904,8 @@ func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsNameArrayOf
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsRequestArrayOfValues() ([]*PlanAssignmentRequest_Request, bool) {
-	res, ok := fpaov.values.([]*PlanAssignmentRequest_Request)
+func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsRequestArrayOfValues() ([]*PlanAssignmentRequest_RequestType, bool) {
+	res, ok := fpaov.values.([]*PlanAssignmentRequest_RequestType)
 	return res, ok
 }
 func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Reference, bool) {
@@ -922,8 +920,8 @@ func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsStatusArray
 	res, ok := fpaov.values.([]*PlanAssignmentRequest_Status)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *PlanAssignmentRequest_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -937,16 +935,16 @@ var _ PlanAssignmentRequest_FieldPathArrayOfValues = (*PlanAssignmentRequest_Fie
 func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) AsRequestPathArrayOfValues() (PlanAssignmentRequestRequest_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequest_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) AsRequestPathArrayOfValues() (PlanAssignmentRequestRequestType_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestType_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) AsStatusPathArrayOfValues() (PlanAssignmentRequestStatus_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestStatus_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequest_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -1373,707 +1371,707 @@ func (fpaov *PlanAssignmentRequestStatus_FieldTerminalPathArrayOfValues) AsReaso
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PlanAssignmentRequestRequest_FieldPath interface {
+type PlanAssignmentRequestRequestType_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() PlanAssignmentRequestRequest_FieldPathSelector
-	Get(source *PlanAssignmentRequest_Request) []interface{}
-	GetSingle(source *PlanAssignmentRequest_Request) (interface{}, bool)
-	ClearValue(item *PlanAssignmentRequest_Request)
+	Selector() PlanAssignmentRequestRequestType_FieldPathSelector
+	Get(source *PlanAssignmentRequest_RequestType) []interface{}
+	GetSingle(source *PlanAssignmentRequest_RequestType) (interface{}, bool)
+	ClearValue(item *PlanAssignmentRequest_RequestType)
 
-	// Those methods build corresponding PlanAssignmentRequestRequest_FieldPathValue
+	// Those methods build corresponding PlanAssignmentRequestRequestType_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PlanAssignmentRequestRequest_FieldPathValue
-	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequest_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequest_FieldPathArrayItemValue
+	WithIValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathValue
+	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestType_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathArrayItemValue
 }
 
-type PlanAssignmentRequestRequest_FieldPathSelector int32
+type PlanAssignmentRequestRequestType_FieldPathSelector int32
 
 const (
-	PlanAssignmentRequestRequest_FieldPathSelectorAssign       PlanAssignmentRequestRequest_FieldPathSelector = 0
-	PlanAssignmentRequestRequest_FieldPathSelectorExtend       PlanAssignmentRequestRequest_FieldPathSelector = 1
-	PlanAssignmentRequestRequest_FieldPathSelectorRedistribute PlanAssignmentRequestRequest_FieldPathSelector = 2
-	PlanAssignmentRequestRequest_FieldPathSelectorUnassign     PlanAssignmentRequestRequest_FieldPathSelector = 3
+	PlanAssignmentRequestRequestType_FieldPathSelectorAssign       PlanAssignmentRequestRequestType_FieldPathSelector = 0
+	PlanAssignmentRequestRequestType_FieldPathSelectorExtend       PlanAssignmentRequestRequestType_FieldPathSelector = 1
+	PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute PlanAssignmentRequestRequestType_FieldPathSelector = 2
+	PlanAssignmentRequestRequestType_FieldPathSelectorUnassign     PlanAssignmentRequestRequestType_FieldPathSelector = 3
 )
 
-func (s PlanAssignmentRequestRequest_FieldPathSelector) String() string {
+func (s PlanAssignmentRequestRequestType_FieldPathSelector) String() string {
 	switch s {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 		return "assign"
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 		return "extend"
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 		return "redistribute"
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 		return "unassign"
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", s))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", s))
 	}
 }
 
-func BuildPlanAssignmentRequestRequest_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequest_FieldPath, error) {
+func BuildPlanAssignmentRequestRequestType_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestType_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_Request")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_RequestType")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "assign":
-			return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign}, nil
+			return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign}, nil
 		case "extend":
-			return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend}, nil
+			return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend}, nil
 		case "redistribute":
-			return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute}, nil
+			return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute}, nil
 		case "unassign":
-			return &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign}, nil
+			return &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign}, nil
 		}
 	} else {
 		switch fp[0] {
 		case "assign":
-			if subpath, err := BuildPlanAssignmentRequestRequestAssign_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildPlanAssignmentRequestRequestTypeAssign_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign, subPath: subpath}, nil
 			}
 		case "extend":
-			if subpath, err := BuildPlanAssignmentRequestRequestExtend_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildPlanAssignmentRequestRequestTypeExtend_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend, subPath: subpath}, nil
 			}
 		case "redistribute":
-			if subpath, err := BuildPlanAssignmentRequestRequestRedistribute_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildPlanAssignmentRequestRequestTypeRedistribute_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute, subPath: subpath}, nil
 			}
 		case "unassign":
-			if subpath, err := BuildPlanAssignmentRequestRequestUnassign_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildPlanAssignmentRequestRequestTypeUnassign_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequest_FieldSubPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign, subPath: subpath}, nil
 			}
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_Request", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_RequestType", fp)
 }
 
-func ParsePlanAssignmentRequestRequest_FieldPath(rawField string) (PlanAssignmentRequestRequest_FieldPath, error) {
+func ParsePlanAssignmentRequestRequestType_FieldPath(rawField string) (PlanAssignmentRequestRequestType_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildPlanAssignmentRequestRequest_FieldPath(fp)
+	return BuildPlanAssignmentRequestRequestType_FieldPath(fp)
 }
 
-func MustParsePlanAssignmentRequestRequest_FieldPath(rawField string) PlanAssignmentRequestRequest_FieldPath {
-	fp, err := ParsePlanAssignmentRequestRequest_FieldPath(rawField)
+func MustParsePlanAssignmentRequestRequestType_FieldPath(rawField string) PlanAssignmentRequestRequestType_FieldPath {
+	fp, err := ParsePlanAssignmentRequestRequestType_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type PlanAssignmentRequestRequest_FieldTerminalPath struct {
-	selector PlanAssignmentRequestRequest_FieldPathSelector
+type PlanAssignmentRequestRequestType_FieldTerminalPath struct {
+	selector PlanAssignmentRequestRequestType_FieldPathSelector
 }
 
-var _ PlanAssignmentRequestRequest_FieldPath = (*PlanAssignmentRequestRequest_FieldTerminalPath)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPath = (*PlanAssignmentRequestRequestType_FieldTerminalPath)(nil)
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) Selector() PlanAssignmentRequestRequest_FieldPathSelector {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) Selector() PlanAssignmentRequestRequestType_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) String() string {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) JSONString() string {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source PlanAssignmentRequest_Request
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) Get(source *PlanAssignmentRequest_Request) (values []interface{}) {
+// Get returns all values pointed by specific field from source PlanAssignmentRequest_RequestType
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) Get(source *PlanAssignmentRequest_RequestType) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-			if source, ok := source.Request.(*PlanAssignmentRequest_Request_Assign_); ok && source != nil {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+			if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok && source != nil {
 				if source.Assign != nil {
 					values = append(values, source.Assign)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-			if source, ok := source.Request.(*PlanAssignmentRequest_Request_Extend_); ok && source != nil {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+			if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok && source != nil {
 				if source.Extend != nil {
 					values = append(values, source.Extend)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-			if source, ok := source.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok && source != nil {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+			if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok && source != nil {
 				if source.Redistribute != nil {
 					values = append(values, source.Redistribute)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-			if source, ok := source.Request.(*PlanAssignmentRequest_Request_Unassign_); ok && source != nil {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+			if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok && source != nil {
 				if source.Unassign != nil {
 					values = append(values, source.Unassign)
 				}
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PlanAssignmentRequest_Request))
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PlanAssignmentRequest_RequestType))
 }
 
-// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_Request
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_Request) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_RequestType
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType) (interface{}, bool) {
 	switch fp.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 		res := source.GetAssign()
 		return res, res != nil
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 		res := source.GetExtend()
 		return res, res != nil
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 		res := source.GetRedistribute()
 		return res, res != nil
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 		res := source.GetUnassign()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PlanAssignmentRequest_Request))
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PlanAssignmentRequest_RequestType))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) GetDefault() interface{} {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		return (*PlanAssignmentRequest_Request_Assign)(nil)
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		return (*PlanAssignmentRequest_Request_Extend)(nil)
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		return (*PlanAssignmentRequest_Request_Redistribute)(nil)
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		return (*PlanAssignmentRequest_Request_Unassign)(nil)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		return (*PlanAssignmentRequest_RequestType_Assign)(nil)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		return (*PlanAssignmentRequest_RequestType_Extend)(nil)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		return (*PlanAssignmentRequest_RequestType_Redistribute)(nil)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		return (*PlanAssignmentRequest_RequestType_Unassign)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_Request) {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_RequestType) {
 	if item != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-			if item, ok := item.Request.(*PlanAssignmentRequest_Request_Assign_); ok {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+			if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok {
 				item.Assign = nil
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-			if item, ok := item.Request.(*PlanAssignmentRequest_Request_Extend_); ok {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+			if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok {
 				item.Extend = nil
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-			if item, ok := item.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+			if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
 				item.Redistribute = nil
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-			if item, ok := item.Request.(*PlanAssignmentRequest_Request_Unassign_); ok {
+		case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+			if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok {
 				item.Unassign = nil
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PlanAssignmentRequest_Request))
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PlanAssignmentRequest_RequestType))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) IsLeaf() bool {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequest_FieldPathValue {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathValue{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Request_Assign)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathValue{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Request_Extend)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathValue{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Request_Redistribute)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathValue{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_Request_Unassign)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathValue{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_RequestType_Assign)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathValue{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_RequestType_Extend)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathValue{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_RequestType_Redistribute)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathValue{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, value: value.(*PlanAssignmentRequest_RequestType_Unassign)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequest_FieldPathArrayOfValues {
-	fpaov := &PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequest_FieldTerminalPath: *fp}
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestType_FieldPathArrayOfValues {
+	fpaov := &PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Request_Assign)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Request_Extend)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Request_Redistribute)}
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		return &PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequest_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_Request_Unassign)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_RequestType_Assign)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_RequestType_Extend)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_RequestType_Redistribute)}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		return &PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestType_FieldTerminalPath: *fp, values: values.([]*PlanAssignmentRequest_RequestType_Unassign)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequest_FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-type PlanAssignmentRequestRequest_FieldSubPath struct {
-	selector PlanAssignmentRequestRequest_FieldPathSelector
+type PlanAssignmentRequestRequestType_FieldSubPath struct {
+	selector PlanAssignmentRequestRequestType_FieldPathSelector
 	subPath  gotenobject.FieldPath
 }
 
-var _ PlanAssignmentRequestRequest_FieldPath = (*PlanAssignmentRequestRequest_FieldSubPath)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPath = (*PlanAssignmentRequestRequestType_FieldSubPath)(nil)
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) Selector() PlanAssignmentRequestRequest_FieldPathSelector {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) Selector() PlanAssignmentRequestRequestType_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) AsAssignSubPath() (PlanAssignmentRequestRequestAssign_FieldPath, bool) {
-	res, ok := fps.subPath.(PlanAssignmentRequestRequestAssign_FieldPath)
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) AsAssignSubPath() (PlanAssignmentRequestRequestTypeAssign_FieldPath, bool) {
+	res, ok := fps.subPath.(PlanAssignmentRequestRequestTypeAssign_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) AsExtendSubPath() (PlanAssignmentRequestRequestExtend_FieldPath, bool) {
-	res, ok := fps.subPath.(PlanAssignmentRequestRequestExtend_FieldPath)
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) AsExtendSubPath() (PlanAssignmentRequestRequestTypeExtend_FieldPath, bool) {
+	res, ok := fps.subPath.(PlanAssignmentRequestRequestTypeExtend_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) AsRedistributeSubPath() (PlanAssignmentRequestRequestRedistribute_FieldPath, bool) {
-	res, ok := fps.subPath.(PlanAssignmentRequestRequestRedistribute_FieldPath)
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) AsRedistributeSubPath() (PlanAssignmentRequestRequestTypeRedistribute_FieldPath, bool) {
+	res, ok := fps.subPath.(PlanAssignmentRequestRequestTypeRedistribute_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) AsUnassignSubPath() (PlanAssignmentRequestRequestUnassign_FieldPath, bool) {
-	res, ok := fps.subPath.(PlanAssignmentRequestRequestUnassign_FieldPath)
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) AsUnassignSubPath() (PlanAssignmentRequestRequestTypeUnassign_FieldPath, bool) {
+	res, ok := fps.subPath.(PlanAssignmentRequestRequestTypeUnassign_FieldPath)
 	return res, ok
 }
 
 // String returns path representation in proto convention
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) String() string {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) String() string {
 	return fps.selector.String() + "." + fps.subPath.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) JSONString() string {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) JSONString() string {
 	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
 }
 
-// Get returns all values pointed by selected field from source PlanAssignmentRequest_Request
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) Get(source *PlanAssignmentRequest_Request) (values []interface{}) {
+// Get returns all values pointed by selected field from source PlanAssignmentRequest_RequestType
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) Get(source *PlanAssignmentRequest_RequestType) (values []interface{}) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 		values = append(values, fps.subPath.GetRaw(source.GetAssign())...)
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 		values = append(values, fps.subPath.GetRaw(source.GetExtend())...)
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 		values = append(values, fps.subPath.GetRaw(source.GetRedistribute())...)
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 		values = append(values, fps.subPath.GetRaw(source.GetUnassign())...)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fps.selector))
 	}
 	return
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*PlanAssignmentRequest_Request))
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*PlanAssignmentRequest_RequestType))
 }
 
-// GetSingle returns value of selected field from source PlanAssignmentRequest_Request
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) GetSingle(source *PlanAssignmentRequest_Request) (interface{}, bool) {
+// GetSingle returns value of selected field from source PlanAssignmentRequest_RequestType
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) GetSingle(source *PlanAssignmentRequest_RequestType) (interface{}, bool) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 		if source.GetAssign() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAssign())
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 		if source.GetExtend() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetExtend())
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 		if source.GetRedistribute() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRedistribute())
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 		if source.GetUnassign() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetUnassign())
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fps.selector))
 	}
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*PlanAssignmentRequest_Request))
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*PlanAssignmentRequest_RequestType))
 }
 
 // GetDefault returns a default value of the field type
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) GetDefault() interface{} {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) GetDefault() interface{} {
 	return fps.subPath.GetDefault()
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) ClearValue(item *PlanAssignmentRequest_Request) {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) ClearValue(item *PlanAssignmentRequest_RequestType) {
 	if item != nil {
 		switch fps.selector {
-		case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+		case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 			if item.Request != nil {
-				if item, ok := item.Request.(*PlanAssignmentRequest_Request_Assign_); ok {
+				if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok {
 					fps.subPath.ClearValueRaw(item.Assign)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+		case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 			if item.Request != nil {
-				if item, ok := item.Request.(*PlanAssignmentRequest_Request_Extend_); ok {
+				if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok {
 					fps.subPath.ClearValueRaw(item.Extend)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+		case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 			if item.Request != nil {
-				if item, ok := item.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok {
+				if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
 					fps.subPath.ClearValueRaw(item.Redistribute)
 				}
 			}
-		case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+		case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 			if item.Request != nil {
-				if item, ok := item.Request.(*PlanAssignmentRequest_Request_Unassign_); ok {
+				if item, ok := item.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok {
 					fps.subPath.ClearValueRaw(item.Unassign)
 				}
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fps.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fps.selector))
 		}
 	}
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*PlanAssignmentRequest_Request))
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*PlanAssignmentRequest_RequestType))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) IsLeaf() bool {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequest_FieldTerminalPath{selector: fps.selector}}
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestType_FieldTerminalPath{selector: fps.selector}}
 	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
 	return iPaths
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequest_FieldPathValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fps.WithIValue(value)
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequest_FieldPathArrayOfValues {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestType_FieldPathArrayOfValues {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fps.WithIArrayOfValues(values)
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequest_FieldPathArrayItemValue {
-	return &PlanAssignmentRequestRequest_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestType_FieldPathArrayItemValue {
+	return &PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequest_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fps *PlanAssignmentRequestRequestType_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fps.WithIArrayItemValue(value)
 }
 
-// PlanAssignmentRequestRequest_FieldPathValue allows storing values for Request fields according to their type
-type PlanAssignmentRequestRequest_FieldPathValue interface {
-	PlanAssignmentRequestRequest_FieldPath
+// PlanAssignmentRequestRequestType_FieldPathValue allows storing values for RequestType fields according to their type
+type PlanAssignmentRequestRequestType_FieldPathValue interface {
+	PlanAssignmentRequestRequestType_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **PlanAssignmentRequest_Request)
-	CompareWith(*PlanAssignmentRequest_Request) (cmp int, comparable bool)
+	SetTo(target **PlanAssignmentRequest_RequestType)
+	CompareWith(*PlanAssignmentRequest_RequestType) (cmp int, comparable bool)
 }
 
-func ParsePlanAssignmentRequestRequest_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequest_FieldPathValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequest_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestType_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestType_FieldPathValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestType_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Request field path value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestType field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(PlanAssignmentRequestRequest_FieldPathValue), nil
+	return fpv.(PlanAssignmentRequestRequestType_FieldPathValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequest_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequest_FieldPathValue {
-	fpv, err := ParsePlanAssignmentRequestRequest_FieldPathValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestType_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestType_FieldPathValue {
+	fpv, err := ParsePlanAssignmentRequestRequestType_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type PlanAssignmentRequestRequest_FieldTerminalPathValue struct {
-	PlanAssignmentRequestRequest_FieldTerminalPath
+type PlanAssignmentRequestRequestType_FieldTerminalPathValue struct {
+	PlanAssignmentRequestRequestType_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequest_FieldPathValue = (*PlanAssignmentRequestRequest_FieldTerminalPathValue)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPathValue = (*PlanAssignmentRequestRequestType_FieldTerminalPathValue)(nil)
 
-// GetRawValue returns raw value stored under selected path for 'Request' as interface{}
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+// GetRawValue returns raw value stored under selected path for 'RequestType' as interface{}
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) AsAssignValue() (*PlanAssignmentRequest_Request_Assign, bool) {
-	res, ok := fpv.value.(*PlanAssignmentRequest_Request_Assign)
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) AsAssignValue() (*PlanAssignmentRequest_RequestType_Assign, bool) {
+	res, ok := fpv.value.(*PlanAssignmentRequest_RequestType_Assign)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) AsExtendValue() (*PlanAssignmentRequest_Request_Extend, bool) {
-	res, ok := fpv.value.(*PlanAssignmentRequest_Request_Extend)
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) AsExtendValue() (*PlanAssignmentRequest_RequestType_Extend, bool) {
+	res, ok := fpv.value.(*PlanAssignmentRequest_RequestType_Extend)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) AsRedistributeValue() (*PlanAssignmentRequest_Request_Redistribute, bool) {
-	res, ok := fpv.value.(*PlanAssignmentRequest_Request_Redistribute)
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) AsRedistributeValue() (*PlanAssignmentRequest_RequestType_Redistribute, bool) {
+	res, ok := fpv.value.(*PlanAssignmentRequest_RequestType_Redistribute)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) AsUnassignValue() (*PlanAssignmentRequest_Request_Unassign, bool) {
-	res, ok := fpv.value.(*PlanAssignmentRequest_Request_Unassign)
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) AsUnassignValue() (*PlanAssignmentRequest_RequestType_Unassign, bool) {
+	res, ok := fpv.value.(*PlanAssignmentRequest_RequestType_Unassign)
 	return res, ok
 }
 
-// SetTo stores value for selected field for object Request
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_Request) {
+// SetTo stores value for selected field for object RequestType
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_RequestType) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request)
+		*target = new(PlanAssignmentRequest_RequestType)
 	}
 	switch fpv.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Assign_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Assign_{}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Assign_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Assign_{}
 		}
-		(*target).Request.(*PlanAssignmentRequest_Request_Assign_).Assign = fpv.value.(*PlanAssignmentRequest_Request_Assign)
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Extend_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Extend_{}
+		(*target).Request.(*PlanAssignmentRequest_RequestType_Assign_).Assign = fpv.value.(*PlanAssignmentRequest_RequestType_Assign)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Extend_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Extend_{}
 		}
-		(*target).Request.(*PlanAssignmentRequest_Request_Extend_).Extend = fpv.value.(*PlanAssignmentRequest_Request_Extend)
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Redistribute_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Redistribute_{}
+		(*target).Request.(*PlanAssignmentRequest_RequestType_Extend_).Extend = fpv.value.(*PlanAssignmentRequest_RequestType_Extend)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Redistribute_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Redistribute_{}
 		}
-		(*target).Request.(*PlanAssignmentRequest_Request_Redistribute_).Redistribute = fpv.value.(*PlanAssignmentRequest_Request_Redistribute)
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Unassign_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Unassign_{}
+		(*target).Request.(*PlanAssignmentRequest_RequestType_Redistribute_).Redistribute = fpv.value.(*PlanAssignmentRequest_RequestType_Redistribute)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Unassign_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Unassign_{}
 		}
-		(*target).Request.(*PlanAssignmentRequest_Request_Unassign_).Unassign = fpv.value.(*PlanAssignmentRequest_Request_Unassign)
+		(*target).Request.(*PlanAssignmentRequest_RequestType_Unassign_).Unassign = fpv.value.(*PlanAssignmentRequest_RequestType_Unassign)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request)
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'PlanAssignmentRequestRequest_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_Request'.
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_Request) (int, bool) {
+// CompareWith compares value in the 'PlanAssignmentRequestRequestType_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_RequestType'.
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_RequestType) (int, bool) {
 	switch fpv.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
 		return 0, false
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
 		return 0, false
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
 		return 0, false
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PlanAssignmentRequest_Request))
+func (fpv *PlanAssignmentRequestRequestType_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PlanAssignmentRequest_RequestType))
 }
 
-type PlanAssignmentRequestRequest_FieldSubPathValue struct {
-	PlanAssignmentRequestRequest_FieldPath
+type PlanAssignmentRequestRequestType_FieldSubPathValue struct {
+	PlanAssignmentRequestRequestType_FieldPath
 	subPathValue gotenobject.FieldPathValue
 }
 
-var _ PlanAssignmentRequestRequest_FieldPathValue = (*PlanAssignmentRequestRequest_FieldSubPathValue)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPathValue = (*PlanAssignmentRequestRequestType_FieldSubPathValue)(nil)
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) AsAssignPathValue() (PlanAssignmentRequestRequestAssign_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestAssign_FieldPathValue)
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) AsAssignPathValue() (PlanAssignmentRequestRequestTypeAssign_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestTypeAssign_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) AsExtendPathValue() (PlanAssignmentRequestRequestExtend_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestExtend_FieldPathValue)
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) AsExtendPathValue() (PlanAssignmentRequestRequestTypeExtend_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestTypeExtend_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) AsRedistributePathValue() (PlanAssignmentRequestRequestRedistribute_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestRedistribute_FieldPathValue)
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) AsRedistributePathValue() (PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) AsUnassignPathValue() (PlanAssignmentRequestRequestUnassign_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestUnassign_FieldPathValue)
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) AsUnassignPathValue() (PlanAssignmentRequestRequestTypeUnassign_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PlanAssignmentRequestRequestTypeUnassign_FieldPathValue)
 	return res, ok
 }
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_Request) {
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_RequestType) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request)
+		*target = new(PlanAssignmentRequest_RequestType)
 	}
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Assign_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Assign_{}
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Assign_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Assign_{}
 		}
-		fpvs.subPathValue.(PlanAssignmentRequestRequestAssign_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_Request_Assign_).Assign)
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Extend_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Extend_{}
+		fpvs.subPathValue.(PlanAssignmentRequestRequestTypeAssign_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_RequestType_Assign_).Assign)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Extend_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Extend_{}
 		}
-		fpvs.subPathValue.(PlanAssignmentRequestRequestExtend_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_Request_Extend_).Extend)
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Redistribute_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Redistribute_{}
+		fpvs.subPathValue.(PlanAssignmentRequestRequestTypeExtend_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_RequestType_Extend_).Extend)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Redistribute_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Redistribute_{}
 		}
-		fpvs.subPathValue.(PlanAssignmentRequestRequestRedistribute_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_Request_Redistribute_).Redistribute)
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		if _, ok := (*target).Request.(*PlanAssignmentRequest_Request_Unassign_); !ok {
-			(*target).Request = &PlanAssignmentRequest_Request_Unassign_{}
+		fpvs.subPathValue.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_RequestType_Redistribute_).Redistribute)
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		if _, ok := (*target).Request.(*PlanAssignmentRequest_RequestType_Unassign_); !ok {
+			(*target).Request = &PlanAssignmentRequest_RequestType_Unassign_{}
 		}
-		fpvs.subPathValue.(PlanAssignmentRequestRequestUnassign_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_Request_Unassign_).Unassign)
+		fpvs.subPathValue.(PlanAssignmentRequestRequestTypeUnassign_FieldPathValue).SetTo(&(*target).Request.(*PlanAssignmentRequest_RequestType_Unassign_).Unassign)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request)
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType)
 	fpvs.SetTo(&typedObject)
 }
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) GetRawValue() interface{} {
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) GetRawValue() interface{} {
 	return fpvs.subPathValue.GetRawValue()
 }
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_Request) (int, bool) {
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_RequestType) (int, bool) {
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		return fpvs.subPathValue.(PlanAssignmentRequestRequestAssign_FieldPathValue).CompareWith(source.GetAssign())
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		return fpvs.subPathValue.(PlanAssignmentRequestRequestExtend_FieldPathValue).CompareWith(source.GetExtend())
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		return fpvs.subPathValue.(PlanAssignmentRequestRequestRedistribute_FieldPathValue).CompareWith(source.GetRedistribute())
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		return fpvs.subPathValue.(PlanAssignmentRequestRequestUnassign_FieldPathValue).CompareWith(source.GetUnassign())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		return fpvs.subPathValue.(PlanAssignmentRequestRequestTypeAssign_FieldPathValue).CompareWith(source.GetAssign())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		return fpvs.subPathValue.(PlanAssignmentRequestRequestTypeExtend_FieldPathValue).CompareWith(source.GetExtend())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		return fpvs.subPathValue.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue).CompareWith(source.GetRedistribute())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		return fpvs.subPathValue.(PlanAssignmentRequestRequestTypeUnassign_FieldPathValue).CompareWith(source.GetUnassign())
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequest_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*PlanAssignmentRequest_Request))
+func (fpvs *PlanAssignmentRequestRequestType_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*PlanAssignmentRequest_RequestType))
 }
 
-// PlanAssignmentRequestRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for Request according to their type
+// PlanAssignmentRequestRequestType_FieldPathArrayItemValue allows storing single item in Path-specific values for RequestType according to their type
 // Present only for array (repeated) types.
-type PlanAssignmentRequestRequest_FieldPathArrayItemValue interface {
+type PlanAssignmentRequestRequestType_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	PlanAssignmentRequestRequest_FieldPath
-	ContainsValue(*PlanAssignmentRequest_Request) bool
+	PlanAssignmentRequestRequestType_FieldPath
+	ContainsValue(*PlanAssignmentRequest_RequestType) bool
 }
 
-// ParsePlanAssignmentRequestRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePlanAssignmentRequestRequest_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequest_FieldPathArrayItemValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequest_FieldPath(pathStr)
+// ParsePlanAssignmentRequestRequestType_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePlanAssignmentRequestRequestType_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestType_FieldPathArrayItemValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestType_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Request field path array item value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestType field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(PlanAssignmentRequestRequest_FieldPathArrayItemValue), nil
+	return fpaiv.(PlanAssignmentRequestRequestType_FieldPathArrayItemValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequest_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequest_FieldPathArrayItemValue {
-	fpaiv, err := ParsePlanAssignmentRequestRequest_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestType_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestType_FieldPathArrayItemValue {
+	fpaiv, err := ParsePlanAssignmentRequestRequestType_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue struct {
-	PlanAssignmentRequestRequest_FieldTerminalPath
+type PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue struct {
+	PlanAssignmentRequestRequestType_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequest_FieldPathArrayItemValue = (*PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object PlanAssignmentRequest_Request as interface{}
-func (fpaiv *PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object PlanAssignmentRequest_RequestType as interface{}
+func (fpaiv *PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_Request) (interface{}, bool) {
+func (fpaiv *PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_RequestType) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_Request))
+func (fpaiv *PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_RequestType))
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'Request'
-func (fpaiv *PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request) bool {
-	slice := fpaiv.PlanAssignmentRequestRequest_FieldTerminalPath.Get(source)
+// Contains returns a boolean indicating if value that is being held is present in given 'RequestType'
+func (fpaiv *PlanAssignmentRequestRequestType_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType) bool {
+	slice := fpaiv.PlanAssignmentRequestRequestType_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -2086,195 +2084,195 @@ func (fpaiv *PlanAssignmentRequestRequest_FieldTerminalPathArrayItemValue) Conta
 	return false
 }
 
-type PlanAssignmentRequestRequest_FieldSubPathArrayItemValue struct {
-	PlanAssignmentRequestRequest_FieldPath
+type PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue struct {
+	PlanAssignmentRequestRequestType_FieldPath
 	subPathItemValue gotenobject.FieldPathArrayItemValue
 }
 
 // GetRawValue returns stored array item value
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) AsAssignPathItemValue() (PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) AsAssignPathItemValue() (PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) AsExtendPathItemValue() (PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) AsExtendPathItemValue() (PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) AsRedistributePathItemValue() (PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) AsRedistributePathItemValue() (PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) AsUnassignPathItemValue() (PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) AsUnassignPathItemValue() (PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue)
 	return res, ok
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'Request'
-func (fpaivs *PlanAssignmentRequestRequest_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request) bool {
+// Contains returns a boolean indicating if value that is being held is present in given 'RequestType'
+func (fpaivs *PlanAssignmentRequestRequestType_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType) bool {
 	switch fpaivs.Selector() {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue).ContainsValue(source.GetAssign())
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue).ContainsValue(source.GetExtend())
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue).ContainsValue(source.GetRedistribute())
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue).ContainsValue(source.GetUnassign())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue).ContainsValue(source.GetAssign())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue).ContainsValue(source.GetExtend())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue).ContainsValue(source.GetRedistribute())
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		return fpaivs.subPathItemValue.(PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue).ContainsValue(source.GetUnassign())
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request: %d", fpaivs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType: %d", fpaivs.Selector()))
 	}
 }
 
-// PlanAssignmentRequestRequest_FieldPathArrayOfValues allows storing slice of values for Request fields according to their type
-type PlanAssignmentRequestRequest_FieldPathArrayOfValues interface {
+// PlanAssignmentRequestRequestType_FieldPathArrayOfValues allows storing slice of values for RequestType fields according to their type
+type PlanAssignmentRequestRequestType_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	PlanAssignmentRequestRequest_FieldPath
+	PlanAssignmentRequestRequestType_FieldPath
 }
 
-func ParsePlanAssignmentRequestRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequest_FieldPathArrayOfValues, error) {
-	fp, err := ParsePlanAssignmentRequestRequest_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestType_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestType_FieldPathArrayOfValues, error) {
+	fp, err := ParsePlanAssignmentRequestRequestType_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Request field path array of values from %s: %v", valuesStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestType field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(PlanAssignmentRequestRequest_FieldPathArrayOfValues), nil
+	return fpaov.(PlanAssignmentRequestRequestType_FieldPathArrayOfValues), nil
 }
 
-func MustParsePlanAssignmentRequestRequest_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequest_FieldPathArrayOfValues {
-	fpaov, err := ParsePlanAssignmentRequestRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParsePlanAssignmentRequestRequestType_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestType_FieldPathArrayOfValues {
+	fpaov, err := ParsePlanAssignmentRequestRequestType_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues struct {
-	PlanAssignmentRequestRequest_FieldTerminalPath
+type PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues struct {
+	PlanAssignmentRequestRequestType_FieldTerminalPath
 	values interface{}
 }
 
-var _ PlanAssignmentRequestRequest_FieldPathArrayOfValues = (*PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-		for _, v := range fpaov.values.([]*PlanAssignmentRequest_Request_Assign) {
+	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		for _, v := range fpaov.values.([]*PlanAssignmentRequest_RequestType_Assign) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-		for _, v := range fpaov.values.([]*PlanAssignmentRequest_Request_Extend) {
+	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		for _, v := range fpaov.values.([]*PlanAssignmentRequest_RequestType_Extend) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-		for _, v := range fpaov.values.([]*PlanAssignmentRequest_Request_Redistribute) {
+	case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+		for _, v := range fpaov.values.([]*PlanAssignmentRequest_RequestType_Redistribute) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-		for _, v := range fpaov.values.([]*PlanAssignmentRequest_Request_Unassign) {
+	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		for _, v := range fpaov.values.([]*PlanAssignmentRequest_RequestType_Unassign) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues) AsAssignArrayOfValues() ([]*PlanAssignmentRequest_Request_Assign, bool) {
-	res, ok := fpaov.values.([]*PlanAssignmentRequest_Request_Assign)
+func (fpaov *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues) AsAssignArrayOfValues() ([]*PlanAssignmentRequest_RequestType_Assign, bool) {
+	res, ok := fpaov.values.([]*PlanAssignmentRequest_RequestType_Assign)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues) AsExtendArrayOfValues() ([]*PlanAssignmentRequest_Request_Extend, bool) {
-	res, ok := fpaov.values.([]*PlanAssignmentRequest_Request_Extend)
+func (fpaov *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues) AsExtendArrayOfValues() ([]*PlanAssignmentRequest_RequestType_Extend, bool) {
+	res, ok := fpaov.values.([]*PlanAssignmentRequest_RequestType_Extend)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues) AsRedistributeArrayOfValues() ([]*PlanAssignmentRequest_Request_Redistribute, bool) {
-	res, ok := fpaov.values.([]*PlanAssignmentRequest_Request_Redistribute)
+func (fpaov *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues) AsRedistributeArrayOfValues() ([]*PlanAssignmentRequest_RequestType_Redistribute, bool) {
+	res, ok := fpaov.values.([]*PlanAssignmentRequest_RequestType_Redistribute)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequest_FieldTerminalPathArrayOfValues) AsUnassignArrayOfValues() ([]*PlanAssignmentRequest_Request_Unassign, bool) {
-	res, ok := fpaov.values.([]*PlanAssignmentRequest_Request_Unassign)
+func (fpaov *PlanAssignmentRequestRequestType_FieldTerminalPathArrayOfValues) AsUnassignArrayOfValues() ([]*PlanAssignmentRequest_RequestType_Unassign, bool) {
+	res, ok := fpaov.values.([]*PlanAssignmentRequest_RequestType_Unassign)
 	return res, ok
 }
 
-type PlanAssignmentRequestRequest_FieldSubPathArrayOfValues struct {
-	PlanAssignmentRequestRequest_FieldPath
+type PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues struct {
+	PlanAssignmentRequestRequestType_FieldPath
 	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
 }
 
-var _ PlanAssignmentRequestRequest_FieldPathArrayOfValues = (*PlanAssignmentRequestRequest_FieldSubPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestType_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues)(nil)
 
-func (fpsaov *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+func (fpsaov *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues) AsAssignPathArrayOfValues() (PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues) AsAssignPathArrayOfValues() (PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues) AsExtendPathArrayOfValues() (PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues) AsExtendPathArrayOfValues() (PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues) AsRedistributePathArrayOfValues() (PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues) AsRedistributePathArrayOfValues() (PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequestRequest_FieldSubPathArrayOfValues) AsUnassignPathArrayOfValues() (PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignmentRequestRequestType_FieldSubPathArrayOfValues) AsUnassignPathArrayOfValues() (PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues)
 	return res, ok
 }
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PlanAssignmentRequestRequestAssign_FieldPath interface {
+type PlanAssignmentRequestRequestTypeAssign_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() PlanAssignmentRequestRequestAssign_FieldPathSelector
-	Get(source *PlanAssignmentRequest_Request_Assign) []interface{}
-	GetSingle(source *PlanAssignmentRequest_Request_Assign) (interface{}, bool)
-	ClearValue(item *PlanAssignmentRequest_Request_Assign)
+	Selector() PlanAssignmentRequestRequestTypeAssign_FieldPathSelector
+	Get(source *PlanAssignmentRequest_RequestType_Assign) []interface{}
+	GetSingle(source *PlanAssignmentRequest_RequestType_Assign) (interface{}, bool)
+	ClearValue(item *PlanAssignmentRequest_RequestType_Assign)
 
-	// Those methods build corresponding PlanAssignmentRequestRequestAssign_FieldPathValue
+	// Those methods build corresponding PlanAssignmentRequestRequestTypeAssign_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathValue
-	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue
+	WithIValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathValue
+	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue
 }
 
-type PlanAssignmentRequestRequestAssign_FieldPathSelector int32
+type PlanAssignmentRequestRequestTypeAssign_FieldPathSelector int32
 
 const (
-	PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan                  PlanAssignmentRequestRequestAssign_FieldPathSelector = 0
-	PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions            PlanAssignmentRequestRequestAssign_FieldPathSelector = 1
-	PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestAssign_FieldPathSelector = 2
+	PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan                  PlanAssignmentRequestRequestTypeAssign_FieldPathSelector = 0
+	PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions            PlanAssignmentRequestRequestTypeAssign_FieldPathSelector = 1
+	PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestTypeAssign_FieldPathSelector = 2
 )
 
-func (s PlanAssignmentRequestRequestAssign_FieldPathSelector) String() string {
+func (s PlanAssignmentRequestRequestTypeAssign_FieldPathSelector) String() string {
 	switch s {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		return "plan"
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		return "extensions"
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		return "regional_distributions"
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", s))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", s))
 	}
 }
 
-func BuildPlanAssignmentRequestRequestAssign_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestAssign_FieldPath, error) {
+func BuildPlanAssignmentRequestRequestTypeAssign_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestTypeAssign_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_Request_Assign")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_RequestType_Assign")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "plan":
-			return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan}, nil
+			return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan}, nil
 		case "extensions":
-			return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions}, nil
+			return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions}, nil
 		case "regional_distributions", "regionalDistributions", "regional-distributions":
-			return &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions}, nil
+			return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2282,339 +2280,339 @@ func BuildPlanAssignmentRequestRequestAssign_FieldPath(fp gotenobject.RawFieldPa
 			if subpath, err := common.BuildAllowance_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequestAssign_FieldSubPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions, subPath: subpath}, nil
 			}
 		case "regional_distributions", "regionalDistributions", "regional-distributions":
 			if subpath, err := common.BuildRegionalDistribution_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequestAssign_FieldSubPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
 			}
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_Request_Assign", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_RequestType_Assign", fp)
 }
 
-func ParsePlanAssignmentRequestRequestAssign_FieldPath(rawField string) (PlanAssignmentRequestRequestAssign_FieldPath, error) {
+func ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(rawField string) (PlanAssignmentRequestRequestTypeAssign_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildPlanAssignmentRequestRequestAssign_FieldPath(fp)
+	return BuildPlanAssignmentRequestRequestTypeAssign_FieldPath(fp)
 }
 
-func MustParsePlanAssignmentRequestRequestAssign_FieldPath(rawField string) PlanAssignmentRequestRequestAssign_FieldPath {
-	fp, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(rawField)
+func MustParsePlanAssignmentRequestRequestTypeAssign_FieldPath(rawField string) PlanAssignmentRequestRequestTypeAssign_FieldPath {
+	fp, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type PlanAssignmentRequestRequestAssign_FieldTerminalPath struct {
-	selector PlanAssignmentRequestRequestAssign_FieldPathSelector
+type PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath struct {
+	selector PlanAssignmentRequestRequestTypeAssign_FieldPathSelector
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPath = (*PlanAssignmentRequestRequestAssign_FieldTerminalPath)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPath = (*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath)(nil)
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) Selector() PlanAssignmentRequestRequestAssign_FieldPathSelector {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) Selector() PlanAssignmentRequestRequestTypeAssign_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) String() string {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) JSONString() string {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source PlanAssignmentRequest_Request_Assign
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) Get(source *PlanAssignmentRequest_Request_Assign) (values []interface{}) {
+// Get returns all values pointed by specific field from source PlanAssignmentRequest_RequestType_Assign
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) Get(source *PlanAssignmentRequest_RequestType_Assign) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 			if source.Plan != nil {
 				values = append(values, source.Plan)
 			}
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 			for _, value := range source.GetExtensions() {
 				values = append(values, value)
 			}
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 			for _, value := range source.GetRegionalDistributions() {
 				values = append(values, value)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PlanAssignmentRequest_Request_Assign))
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_Request_Assign
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_Request_Assign) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_RequestType_Assign
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType_Assign) (interface{}, bool) {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		res := source.GetPlan()
 		return res, res != nil
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		res := source.GetExtensions()
 		return res, res != nil
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		res := source.GetRegionalDistributions()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PlanAssignmentRequest_Request_Assign))
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) GetDefault() interface{} {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		return (*plan.Reference)(nil)
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		return ([]*common.Allowance)(nil)
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		return ([]*common.RegionalDistribution)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_Request_Assign) {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_RequestType_Assign) {
 	if item != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 			item.Plan = nil
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 			item.Extensions = nil
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 			item.RegionalDistributions = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PlanAssignmentRequest_Request_Assign))
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, value: value.(*plan.Reference)}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, value: value.([]*common.Allowance)}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, value: value.(*plan.Reference)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, value: value.([]*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues {
-	fpaov := &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp}
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues {
+	fpaov := &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, values: values.([]*plan.Reference)}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, values: values.([][]*common.Allowance)}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, values: values.([]*plan.Reference)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, values: values.([][]*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, value: value.(*common.Allowance)}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestAssign_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, value: value.(*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestAssign_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-type PlanAssignmentRequestRequestAssign_FieldSubPath struct {
-	selector PlanAssignmentRequestRequestAssign_FieldPathSelector
+type PlanAssignmentRequestRequestTypeAssign_FieldSubPath struct {
+	selector PlanAssignmentRequestRequestTypeAssign_FieldPathSelector
 	subPath  gotenobject.FieldPath
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPath = (*PlanAssignmentRequestRequestAssign_FieldSubPath)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPath = (*PlanAssignmentRequestRequestTypeAssign_FieldSubPath)(nil)
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) Selector() PlanAssignmentRequestRequestAssign_FieldPathSelector {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) Selector() PlanAssignmentRequestRequestTypeAssign_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) AsExtensionsSubPath() (common.Allowance_FieldPath, bool) {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) AsExtensionsSubPath() (common.Allowance_FieldPath, bool) {
 	res, ok := fps.subPath.(common.Allowance_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
 	res, ok := fps.subPath.(common.RegionalDistribution_FieldPath)
 	return res, ok
 }
 
 // String returns path representation in proto convention
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) String() string {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) String() string {
 	return fps.selector.String() + "." + fps.subPath.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) JSONString() string {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) JSONString() string {
 	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
 }
 
-// Get returns all values pointed by selected field from source PlanAssignmentRequest_Request_Assign
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) Get(source *PlanAssignmentRequest_Request_Assign) (values []interface{}) {
+// Get returns all values pointed by selected field from source PlanAssignmentRequest_RequestType_Assign
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) Get(source *PlanAssignmentRequest_RequestType_Assign) (values []interface{}) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		for _, item := range source.GetExtensions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		for _, item := range source.GetRegionalDistributions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fps.selector))
 	}
 	return
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*PlanAssignmentRequest_Request_Assign))
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-// GetSingle returns value of selected field from source PlanAssignmentRequest_Request_Assign
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) GetSingle(source *PlanAssignmentRequest_Request_Assign) (interface{}, bool) {
+// GetSingle returns value of selected field from source PlanAssignmentRequest_RequestType_Assign
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) GetSingle(source *PlanAssignmentRequest_RequestType_Assign) (interface{}, bool) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		if len(source.GetExtensions()) == 0 {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetExtensions()[0])
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		if len(source.GetRegionalDistributions()) == 0 {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRegionalDistributions()[0])
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fps.selector))
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*PlanAssignmentRequest_Request_Assign))
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
 // GetDefault returns a default value of the field type
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) GetDefault() interface{} {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) GetDefault() interface{} {
 	return fps.subPath.GetDefault()
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) ClearValue(item *PlanAssignmentRequest_Request_Assign) {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) ClearValue(item *PlanAssignmentRequest_RequestType_Assign) {
 	if item != nil {
 		switch fps.selector {
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 			for _, subItem := range item.Extensions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
-		case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 			for _, subItem := range item.RegionalDistributions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fps.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fps.selector))
 		}
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*PlanAssignmentRequest_Request_Assign))
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) IsLeaf() bool {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: fps.selector}}
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: fps.selector}}
 	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
 	return iPaths
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fps.WithIValue(value)
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fps.WithIArrayOfValues(values)
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue {
-	return &PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestAssign_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fps *PlanAssignmentRequestRequestTypeAssign_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fps.WithIArrayItemValue(value)
 }
 
-// PlanAssignmentRequestRequestAssign_FieldPathValue allows storing values for Assign fields according to their type
-type PlanAssignmentRequestRequestAssign_FieldPathValue interface {
-	PlanAssignmentRequestRequestAssign_FieldPath
+// PlanAssignmentRequestRequestTypeAssign_FieldPathValue allows storing values for Assign fields according to their type
+type PlanAssignmentRequestRequestTypeAssign_FieldPathValue interface {
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **PlanAssignmentRequest_Request_Assign)
-	CompareWith(*PlanAssignmentRequest_Request_Assign) (cmp int, comparable bool)
+	SetTo(target **PlanAssignmentRequest_RequestType_Assign)
+	CompareWith(*PlanAssignmentRequest_RequestType_Assign) (cmp int, comparable bool)
 }
 
-func ParsePlanAssignmentRequestRequestAssign_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestAssign_FieldPathValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeAssign_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeAssign_FieldPathValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -2622,67 +2620,67 @@ func ParsePlanAssignmentRequestRequestAssign_FieldPathValue(pathStr, valueStr st
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Assign field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(PlanAssignmentRequestRequestAssign_FieldPathValue), nil
+	return fpv.(PlanAssignmentRequestRequestTypeAssign_FieldPathValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestAssign_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestAssign_FieldPathValue {
-	fpv, err := ParsePlanAssignmentRequestRequestAssign_FieldPathValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeAssign_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeAssign_FieldPathValue {
+	fpv, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type PlanAssignmentRequestRequestAssign_FieldTerminalPathValue struct {
-	PlanAssignmentRequestRequestAssign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPathValue = (*PlanAssignmentRequestRequestAssign_FieldTerminalPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPathValue = (*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'Assign' as interface{}
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) AsPlanValue() (*plan.Reference, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) AsPlanValue() (*plan.Reference, bool) {
 	res, ok := fpv.value.(*plan.Reference)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) AsExtensionsValue() ([]*common.Allowance, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) AsExtensionsValue() ([]*common.Allowance, bool) {
 	res, ok := fpv.value.([]*common.Allowance)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
 	res, ok := fpv.value.([]*common.RegionalDistribution)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object Assign
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_Request_Assign) {
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Assign) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Assign)
+		*target = new(PlanAssignmentRequest_RequestType_Assign)
 	}
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		(*target).Plan = fpv.value.(*plan.Reference)
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		(*target).Extensions = fpv.value.([]*common.Allowance)
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		(*target).RegionalDistributions = fpv.value.([]*common.RegionalDistribution)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Assign)
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Assign)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'PlanAssignmentRequestRequestAssign_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_Request_Assign'.
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_Request_Assign) (int, bool) {
+// CompareWith compares value in the 'PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_RequestType_Assign'.
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Assign) (int, bool) {
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		leftValue := fpv.value.(*plan.Reference)
 		rightValue := source.GetPlan()
 		if leftValue == nil {
@@ -2701,84 +2699,84 @@ func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) CompareWit
 		} else {
 			return 1, true
 		}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		return 0, false
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestAssign_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PlanAssignmentRequest_Request_Assign))
+func (fpv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-type PlanAssignmentRequestRequestAssign_FieldSubPathValue struct {
-	PlanAssignmentRequestRequestAssign_FieldPath
+type PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
 	subPathValue gotenobject.FieldPathValue
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPathValue = (*PlanAssignmentRequestRequestAssign_FieldSubPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPathValue = (*PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue)(nil)
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) AsExtensionsPathValue() (common.Allowance_FieldPathValue, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) AsExtensionsPathValue() (common.Allowance_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.Allowance_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.RegionalDistribution_FieldPathValue)
 	return res, ok
 }
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_Request_Assign) {
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Assign) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Assign)
+		*target = new(PlanAssignmentRequest_RequestType_Assign)
 	}
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		panic("FieldPath setter is unsupported for array subpaths")
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Assign)
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Assign)
 	fpvs.SetTo(&typedObject)
 }
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) GetRawValue() interface{} {
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) GetRawValue() interface{} {
 	return fpvs.subPathValue.GetRawValue()
 }
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_Request_Assign) (int, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Assign) (int, bool) {
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		return 0, false // repeated field
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		return 0, false // repeated field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestAssign_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*PlanAssignmentRequest_Request_Assign))
+func (fpvs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-// PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue allows storing single item in Path-specific values for Assign according to their type
+// PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue allows storing single item in Path-specific values for Assign according to their type
 // Present only for array (repeated) types.
-type PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue interface {
+type PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	PlanAssignmentRequestRequestAssign_FieldPath
-	ContainsValue(*PlanAssignmentRequest_Request_Assign) bool
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
+	ContainsValue(*PlanAssignmentRequest_RequestType_Assign) bool
 }
 
-// ParsePlanAssignmentRequestRequestAssign_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePlanAssignmentRequestRequestAssign_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(pathStr)
+// ParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -2786,48 +2784,48 @@ func ParsePlanAssignmentRequestRequestAssign_FieldPathArrayItemValue(pathStr, va
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Assign field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue), nil
+	return fpaiv.(PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestAssign_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue {
-	fpaiv, err := ParsePlanAssignmentRequestRequestAssign_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue {
+	fpaiv, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue struct {
-	PlanAssignmentRequestRequestAssign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object PlanAssignmentRequest_Request_Assign as interface{}
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object PlanAssignmentRequest_RequestType_Assign as interface{}
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) AsExtensionsItemValue() (*common.Allowance, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) AsExtensionsItemValue() (*common.Allowance, bool) {
 	res, ok := fpaiv.value.(*common.Allowance)
 	return res, ok
 }
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
 	res, ok := fpaiv.value.(*common.RegionalDistribution)
 	return res, ok
 }
 
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_Request_Assign) (interface{}, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_RequestType_Assign) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_Request_Assign))
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Assign'
-func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Assign) bool {
-	slice := fpaiv.PlanAssignmentRequestRequestAssign_FieldTerminalPath.Get(source)
+func (fpaiv *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Assign) bool {
+	slice := fpaiv.PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -2840,44 +2838,44 @@ func (fpaiv *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayItemValue)
 	return false
 }
 
-type PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue struct {
-	PlanAssignmentRequestRequestAssign_FieldPath
+type PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
 	subPathItemValue gotenobject.FieldPathArrayItemValue
 }
 
 // GetRawValue returns stored array item value
-func (fpaivs *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+func (fpaivs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue) AsExtensionsPathItemValue() (common.Allowance_FieldPathArrayItemValue, bool) {
+func (fpaivs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue) AsExtensionsPathItemValue() (common.Allowance_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.Allowance_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
+func (fpaivs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.RegionalDistribution_FieldPathArrayItemValue)
 	return res, ok
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Assign'
-func (fpaivs *PlanAssignmentRequestRequestAssign_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Assign) bool {
+func (fpaivs *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Assign) bool {
 	switch fpaivs.Selector() {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		return false // repeated/map field
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		return false // repeated/map field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Assign: %d", fpaivs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Assign: %d", fpaivs.Selector()))
 	}
 }
 
-// PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues allows storing slice of values for Assign fields according to their type
-type PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues interface {
+// PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues allows storing slice of values for Assign fields according to their type
+type PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	PlanAssignmentRequestRequestAssign_FieldPath
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
 }
 
-func ParsePlanAssignmentRequestRequestAssign_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues, error) {
-	fp, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -2885,122 +2883,122 @@ func ParsePlanAssignmentRequestRequestAssign_FieldPathArrayOfValues(pathStr, val
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Assign field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues), nil
+	return fpaov.(PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues), nil
 }
 
-func MustParsePlanAssignmentRequestRequestAssign_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues {
-	fpaov, err := ParsePlanAssignmentRequestRequestAssign_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues {
+	fpaov, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues struct {
-	PlanAssignmentRequestRequestAssign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath
 	values interface{}
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 		for _, v := range fpaov.values.([]*plan.Reference) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 		for _, v := range fpaov.values.([][]*common.Allowance) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 		for _, v := range fpaov.values.([][]*common.RegionalDistribution) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues) AsPlanArrayOfValues() ([]*plan.Reference, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues) AsPlanArrayOfValues() ([]*plan.Reference, bool) {
 	res, ok := fpaov.values.([]*plan.Reference)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues) AsExtensionsArrayOfValues() ([][]*common.Allowance, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues) AsExtensionsArrayOfValues() ([][]*common.Allowance, bool) {
 	res, ok := fpaov.values.([][]*common.Allowance)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequestAssign_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
 	res, ok := fpaov.values.([][]*common.RegionalDistribution)
 	return res, ok
 }
 
-type PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues struct {
-	PlanAssignmentRequestRequestAssign_FieldPath
+type PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeAssign_FieldPath
 	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
 }
 
-var _ PlanAssignmentRequestRequestAssign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeAssign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues)(nil)
 
-func (fpsaov *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+func (fpsaov *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues) AsExtensionsPathArrayOfValues() (common.Allowance_FieldPathArrayOfValues, bool) {
+func (fpsaov *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues) AsExtensionsPathArrayOfValues() (common.Allowance_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.Allowance_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequestRequestAssign_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
+func (fpsaov *PlanAssignmentRequestRequestTypeAssign_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.RegionalDistribution_FieldPathArrayOfValues)
 	return res, ok
 }
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PlanAssignmentRequestRequestExtend_FieldPath interface {
+type PlanAssignmentRequestRequestTypeExtend_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() PlanAssignmentRequestRequestExtend_FieldPathSelector
-	Get(source *PlanAssignmentRequest_Request_Extend) []interface{}
-	GetSingle(source *PlanAssignmentRequest_Request_Extend) (interface{}, bool)
-	ClearValue(item *PlanAssignmentRequest_Request_Extend)
+	Selector() PlanAssignmentRequestRequestTypeExtend_FieldPathSelector
+	Get(source *PlanAssignmentRequest_RequestType_Extend) []interface{}
+	GetSingle(source *PlanAssignmentRequest_RequestType_Extend) (interface{}, bool)
+	ClearValue(item *PlanAssignmentRequest_RequestType_Extend)
 
-	// Those methods build corresponding PlanAssignmentRequestRequestExtend_FieldPathValue
+	// Those methods build corresponding PlanAssignmentRequestRequestTypeExtend_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathValue
-	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue
+	WithIValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathValue
+	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue
 }
 
-type PlanAssignmentRequestRequestExtend_FieldPathSelector int32
+type PlanAssignmentRequestRequestTypeExtend_FieldPathSelector int32
 
 const (
-	PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment            PlanAssignmentRequestRequestExtend_FieldPathSelector = 0
-	PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions             PlanAssignmentRequestRequestExtend_FieldPathSelector = 1
-	PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestExtend_FieldPathSelector = 2
+	PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment            PlanAssignmentRequestRequestTypeExtend_FieldPathSelector = 0
+	PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions             PlanAssignmentRequestRequestTypeExtend_FieldPathSelector = 1
+	PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestTypeExtend_FieldPathSelector = 2
 )
 
-func (s PlanAssignmentRequestRequestExtend_FieldPathSelector) String() string {
+func (s PlanAssignmentRequestRequestTypeExtend_FieldPathSelector) String() string {
 	switch s {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		return "assignment"
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		return "additions"
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		return "regional_distributions"
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", s))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", s))
 	}
 }
 
-func BuildPlanAssignmentRequestRequestExtend_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestExtend_FieldPath, error) {
+func BuildPlanAssignmentRequestRequestTypeExtend_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestTypeExtend_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_Request_Extend")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_RequestType_Extend")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "assignment":
-			return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment}, nil
+			return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment}, nil
 		case "additions":
-			return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions}, nil
+			return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions}, nil
 		case "regional_distributions", "regionalDistributions", "regional-distributions":
-			return &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions}, nil
+			return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3008,339 +3006,339 @@ func BuildPlanAssignmentRequestRequestExtend_FieldPath(fp gotenobject.RawFieldPa
 			if subpath, err := common.BuildAllowance_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequestExtend_FieldSubPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions, subPath: subpath}, nil
 			}
 		case "regional_distributions", "regionalDistributions", "regional-distributions":
 			if subpath, err := common.BuildRegionalDistribution_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequestExtend_FieldSubPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
 			}
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_Request_Extend", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_RequestType_Extend", fp)
 }
 
-func ParsePlanAssignmentRequestRequestExtend_FieldPath(rawField string) (PlanAssignmentRequestRequestExtend_FieldPath, error) {
+func ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(rawField string) (PlanAssignmentRequestRequestTypeExtend_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildPlanAssignmentRequestRequestExtend_FieldPath(fp)
+	return BuildPlanAssignmentRequestRequestTypeExtend_FieldPath(fp)
 }
 
-func MustParsePlanAssignmentRequestRequestExtend_FieldPath(rawField string) PlanAssignmentRequestRequestExtend_FieldPath {
-	fp, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(rawField)
+func MustParsePlanAssignmentRequestRequestTypeExtend_FieldPath(rawField string) PlanAssignmentRequestRequestTypeExtend_FieldPath {
+	fp, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type PlanAssignmentRequestRequestExtend_FieldTerminalPath struct {
-	selector PlanAssignmentRequestRequestExtend_FieldPathSelector
+type PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath struct {
+	selector PlanAssignmentRequestRequestTypeExtend_FieldPathSelector
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPath = (*PlanAssignmentRequestRequestExtend_FieldTerminalPath)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPath = (*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath)(nil)
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) Selector() PlanAssignmentRequestRequestExtend_FieldPathSelector {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) Selector() PlanAssignmentRequestRequestTypeExtend_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) String() string {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) JSONString() string {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source PlanAssignmentRequest_Request_Extend
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) Get(source *PlanAssignmentRequest_Request_Extend) (values []interface{}) {
+// Get returns all values pointed by specific field from source PlanAssignmentRequest_RequestType_Extend
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) Get(source *PlanAssignmentRequest_RequestType_Extend) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 			if source.Assignment != nil {
 				values = append(values, source.Assignment)
 			}
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 			for _, value := range source.GetAdditions() {
 				values = append(values, value)
 			}
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 			for _, value := range source.GetRegionalDistributions() {
 				values = append(values, value)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PlanAssignmentRequest_Request_Extend))
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_Request_Extend
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_Request_Extend) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_RequestType_Extend
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType_Extend) (interface{}, bool) {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		res := source.GetAssignment()
 		return res, res != nil
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		res := source.GetAdditions()
 		return res, res != nil
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		res := source.GetRegionalDistributions()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PlanAssignmentRequest_Request_Extend))
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) GetDefault() interface{} {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		return (*plan_assignment.Reference)(nil)
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		return ([]*common.Allowance)(nil)
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		return ([]*common.RegionalDistribution)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_Request_Extend) {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_RequestType_Extend) {
 	if item != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 			item.Assignment = nil
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 			item.Additions = nil
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 			item.RegionalDistributions = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PlanAssignmentRequest_Request_Extend))
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, value: value.([]*common.Allowance)}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, value: value.([]*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues {
-	fpaov := &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp}
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues {
+	fpaov := &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, values: values.([][]*common.Allowance)}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, values: values.([][]*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, value: value.(*common.Allowance)}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestExtend_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, value: value.(*common.Allowance)}
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestExtend_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-type PlanAssignmentRequestRequestExtend_FieldSubPath struct {
-	selector PlanAssignmentRequestRequestExtend_FieldPathSelector
+type PlanAssignmentRequestRequestTypeExtend_FieldSubPath struct {
+	selector PlanAssignmentRequestRequestTypeExtend_FieldPathSelector
 	subPath  gotenobject.FieldPath
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPath = (*PlanAssignmentRequestRequestExtend_FieldSubPath)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPath = (*PlanAssignmentRequestRequestTypeExtend_FieldSubPath)(nil)
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) Selector() PlanAssignmentRequestRequestExtend_FieldPathSelector {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) Selector() PlanAssignmentRequestRequestTypeExtend_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) AsAdditionsSubPath() (common.Allowance_FieldPath, bool) {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) AsAdditionsSubPath() (common.Allowance_FieldPath, bool) {
 	res, ok := fps.subPath.(common.Allowance_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
 	res, ok := fps.subPath.(common.RegionalDistribution_FieldPath)
 	return res, ok
 }
 
 // String returns path representation in proto convention
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) String() string {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) String() string {
 	return fps.selector.String() + "." + fps.subPath.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) JSONString() string {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) JSONString() string {
 	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
 }
 
-// Get returns all values pointed by selected field from source PlanAssignmentRequest_Request_Extend
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) Get(source *PlanAssignmentRequest_Request_Extend) (values []interface{}) {
+// Get returns all values pointed by selected field from source PlanAssignmentRequest_RequestType_Extend
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) Get(source *PlanAssignmentRequest_RequestType_Extend) (values []interface{}) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		for _, item := range source.GetAdditions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		for _, item := range source.GetRegionalDistributions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fps.selector))
 	}
 	return
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*PlanAssignmentRequest_Request_Extend))
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-// GetSingle returns value of selected field from source PlanAssignmentRequest_Request_Extend
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) GetSingle(source *PlanAssignmentRequest_Request_Extend) (interface{}, bool) {
+// GetSingle returns value of selected field from source PlanAssignmentRequest_RequestType_Extend
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) GetSingle(source *PlanAssignmentRequest_RequestType_Extend) (interface{}, bool) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		if len(source.GetAdditions()) == 0 {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAdditions()[0])
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		if len(source.GetRegionalDistributions()) == 0 {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRegionalDistributions()[0])
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fps.selector))
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*PlanAssignmentRequest_Request_Extend))
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
 // GetDefault returns a default value of the field type
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) GetDefault() interface{} {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) GetDefault() interface{} {
 	return fps.subPath.GetDefault()
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) ClearValue(item *PlanAssignmentRequest_Request_Extend) {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) ClearValue(item *PlanAssignmentRequest_RequestType_Extend) {
 	if item != nil {
 		switch fps.selector {
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 			for _, subItem := range item.Additions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
-		case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 			for _, subItem := range item.RegionalDistributions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fps.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fps.selector))
 		}
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*PlanAssignmentRequest_Request_Extend))
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) IsLeaf() bool {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: fps.selector}}
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: fps.selector}}
 	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
 	return iPaths
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fps.WithIValue(value)
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fps.WithIArrayOfValues(values)
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue {
-	return &PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestExtend_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fps *PlanAssignmentRequestRequestTypeExtend_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fps.WithIArrayItemValue(value)
 }
 
-// PlanAssignmentRequestRequestExtend_FieldPathValue allows storing values for Extend fields according to their type
-type PlanAssignmentRequestRequestExtend_FieldPathValue interface {
-	PlanAssignmentRequestRequestExtend_FieldPath
+// PlanAssignmentRequestRequestTypeExtend_FieldPathValue allows storing values for Extend fields according to their type
+type PlanAssignmentRequestRequestTypeExtend_FieldPathValue interface {
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **PlanAssignmentRequest_Request_Extend)
-	CompareWith(*PlanAssignmentRequest_Request_Extend) (cmp int, comparable bool)
+	SetTo(target **PlanAssignmentRequest_RequestType_Extend)
+	CompareWith(*PlanAssignmentRequest_RequestType_Extend) (cmp int, comparable bool)
 }
 
-func ParsePlanAssignmentRequestRequestExtend_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestExtend_FieldPathValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeExtend_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeExtend_FieldPathValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -3348,67 +3346,67 @@ func ParsePlanAssignmentRequestRequestExtend_FieldPathValue(pathStr, valueStr st
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Extend field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(PlanAssignmentRequestRequestExtend_FieldPathValue), nil
+	return fpv.(PlanAssignmentRequestRequestTypeExtend_FieldPathValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestExtend_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestExtend_FieldPathValue {
-	fpv, err := ParsePlanAssignmentRequestRequestExtend_FieldPathValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeExtend_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeExtend_FieldPathValue {
+	fpv, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type PlanAssignmentRequestRequestExtend_FieldTerminalPathValue struct {
-	PlanAssignmentRequestRequestExtend_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPathValue = (*PlanAssignmentRequestRequestExtend_FieldTerminalPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPathValue = (*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'Extend' as interface{}
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
 	res, ok := fpv.value.(*plan_assignment.Reference)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) AsAdditionsValue() ([]*common.Allowance, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) AsAdditionsValue() ([]*common.Allowance, bool) {
 	res, ok := fpv.value.([]*common.Allowance)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
 	res, ok := fpv.value.([]*common.RegionalDistribution)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object Extend
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_Request_Extend) {
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Extend) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Extend)
+		*target = new(PlanAssignmentRequest_RequestType_Extend)
 	}
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		(*target).Assignment = fpv.value.(*plan_assignment.Reference)
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		(*target).Additions = fpv.value.([]*common.Allowance)
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		(*target).RegionalDistributions = fpv.value.([]*common.RegionalDistribution)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Extend)
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Extend)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'PlanAssignmentRequestRequestExtend_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_Request_Extend'.
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_Request_Extend) (int, bool) {
+// CompareWith compares value in the 'PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_RequestType_Extend'.
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Extend) (int, bool) {
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		leftValue := fpv.value.(*plan_assignment.Reference)
 		rightValue := source.GetAssignment()
 		if leftValue == nil {
@@ -3427,84 +3425,84 @@ func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) CompareWit
 		} else {
 			return 1, true
 		}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		return 0, false
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestExtend_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PlanAssignmentRequest_Request_Extend))
+func (fpv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-type PlanAssignmentRequestRequestExtend_FieldSubPathValue struct {
-	PlanAssignmentRequestRequestExtend_FieldPath
+type PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
 	subPathValue gotenobject.FieldPathValue
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPathValue = (*PlanAssignmentRequestRequestExtend_FieldSubPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPathValue = (*PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue)(nil)
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) AsAdditionsPathValue() (common.Allowance_FieldPathValue, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) AsAdditionsPathValue() (common.Allowance_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.Allowance_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.RegionalDistribution_FieldPathValue)
 	return res, ok
 }
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_Request_Extend) {
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Extend) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Extend)
+		*target = new(PlanAssignmentRequest_RequestType_Extend)
 	}
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		panic("FieldPath setter is unsupported for array subpaths")
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Extend)
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Extend)
 	fpvs.SetTo(&typedObject)
 }
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) GetRawValue() interface{} {
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) GetRawValue() interface{} {
 	return fpvs.subPathValue.GetRawValue()
 }
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_Request_Extend) (int, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Extend) (int, bool) {
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		return 0, false // repeated field
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		return 0, false // repeated field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestExtend_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*PlanAssignmentRequest_Request_Extend))
+func (fpvs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-// PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue allows storing single item in Path-specific values for Extend according to their type
+// PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue allows storing single item in Path-specific values for Extend according to their type
 // Present only for array (repeated) types.
-type PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue interface {
+type PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	PlanAssignmentRequestRequestExtend_FieldPath
-	ContainsValue(*PlanAssignmentRequest_Request_Extend) bool
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
+	ContainsValue(*PlanAssignmentRequest_RequestType_Extend) bool
 }
 
-// ParsePlanAssignmentRequestRequestExtend_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePlanAssignmentRequestRequestExtend_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(pathStr)
+// ParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -3512,48 +3510,48 @@ func ParsePlanAssignmentRequestRequestExtend_FieldPathArrayItemValue(pathStr, va
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Extend field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue), nil
+	return fpaiv.(PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestExtend_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue {
-	fpaiv, err := ParsePlanAssignmentRequestRequestExtend_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue {
+	fpaiv, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue struct {
-	PlanAssignmentRequestRequestExtend_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object PlanAssignmentRequest_Request_Extend as interface{}
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object PlanAssignmentRequest_RequestType_Extend as interface{}
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) AsAdditionsItemValue() (*common.Allowance, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) AsAdditionsItemValue() (*common.Allowance, bool) {
 	res, ok := fpaiv.value.(*common.Allowance)
 	return res, ok
 }
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
 	res, ok := fpaiv.value.(*common.RegionalDistribution)
 	return res, ok
 }
 
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_Request_Extend) (interface{}, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_RequestType_Extend) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_Request_Extend))
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Extend'
-func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Extend) bool {
-	slice := fpaiv.PlanAssignmentRequestRequestExtend_FieldTerminalPath.Get(source)
+func (fpaiv *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Extend) bool {
+	slice := fpaiv.PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -3566,44 +3564,44 @@ func (fpaiv *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayItemValue)
 	return false
 }
 
-type PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue struct {
-	PlanAssignmentRequestRequestExtend_FieldPath
+type PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
 	subPathItemValue gotenobject.FieldPathArrayItemValue
 }
 
 // GetRawValue returns stored array item value
-func (fpaivs *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+func (fpaivs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue) AsAdditionsPathItemValue() (common.Allowance_FieldPathArrayItemValue, bool) {
+func (fpaivs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue) AsAdditionsPathItemValue() (common.Allowance_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.Allowance_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
+func (fpaivs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.RegionalDistribution_FieldPathArrayItemValue)
 	return res, ok
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Extend'
-func (fpaivs *PlanAssignmentRequestRequestExtend_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Extend) bool {
+func (fpaivs *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Extend) bool {
 	switch fpaivs.Selector() {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		return false // repeated/map field
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		return false // repeated/map field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Extend: %d", fpaivs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Extend: %d", fpaivs.Selector()))
 	}
 }
 
-// PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues allows storing slice of values for Extend fields according to their type
-type PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues interface {
+// PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues allows storing slice of values for Extend fields according to their type
+type PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	PlanAssignmentRequestRequestExtend_FieldPath
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
 }
 
-func ParsePlanAssignmentRequestRequestExtend_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues, error) {
-	fp, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -3611,117 +3609,117 @@ func ParsePlanAssignmentRequestRequestExtend_FieldPathArrayOfValues(pathStr, val
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Extend field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues), nil
+	return fpaov.(PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues), nil
 }
 
-func MustParsePlanAssignmentRequestRequestExtend_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues {
-	fpaov, err := ParsePlanAssignmentRequestRequestExtend_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues {
+	fpaov, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues struct {
-	PlanAssignmentRequestRequestExtend_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath
 	values interface{}
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 		for _, v := range fpaov.values.([]*plan_assignment.Reference) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 		for _, v := range fpaov.values.([][]*common.Allowance) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 		for _, v := range fpaov.values.([][]*common.RegionalDistribution) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
 	res, ok := fpaov.values.([]*plan_assignment.Reference)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues) AsAdditionsArrayOfValues() ([][]*common.Allowance, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues) AsAdditionsArrayOfValues() ([][]*common.Allowance, bool) {
 	res, ok := fpaov.values.([][]*common.Allowance)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequestExtend_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
 	res, ok := fpaov.values.([][]*common.RegionalDistribution)
 	return res, ok
 }
 
-type PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues struct {
-	PlanAssignmentRequestRequestExtend_FieldPath
+type PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeExtend_FieldPath
 	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
 }
 
-var _ PlanAssignmentRequestRequestExtend_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeExtend_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues)(nil)
 
-func (fpsaov *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+func (fpsaov *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues) AsAdditionsPathArrayOfValues() (common.Allowance_FieldPathArrayOfValues, bool) {
+func (fpsaov *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues) AsAdditionsPathArrayOfValues() (common.Allowance_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.Allowance_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignmentRequestRequestExtend_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
+func (fpsaov *PlanAssignmentRequestRequestTypeExtend_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.RegionalDistribution_FieldPathArrayOfValues)
 	return res, ok
 }
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PlanAssignmentRequestRequestRedistribute_FieldPath interface {
+type PlanAssignmentRequestRequestTypeRedistribute_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() PlanAssignmentRequestRequestRedistribute_FieldPathSelector
-	Get(source *PlanAssignmentRequest_Request_Redistribute) []interface{}
-	GetSingle(source *PlanAssignmentRequest_Request_Redistribute) (interface{}, bool)
-	ClearValue(item *PlanAssignmentRequest_Request_Redistribute)
+	Selector() PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector
+	Get(source *PlanAssignmentRequest_RequestType_Redistribute) []interface{}
+	GetSingle(source *PlanAssignmentRequest_RequestType_Redistribute) (interface{}, bool)
+	ClearValue(item *PlanAssignmentRequest_RequestType_Redistribute)
 
-	// Those methods build corresponding PlanAssignmentRequestRequestRedistribute_FieldPathValue
+	// Those methods build corresponding PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathValue
-	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue
+	WithIValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue
+	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldPathSelector int32
+type PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector int32
 
 const (
-	PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment            PlanAssignmentRequestRequestRedistribute_FieldPathSelector = 0
-	PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestRedistribute_FieldPathSelector = 1
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment            PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector = 0
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector = 1
 )
 
-func (s PlanAssignmentRequestRequestRedistribute_FieldPathSelector) String() string {
+func (s PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector) String() string {
 	switch s {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		return "assignment"
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		return "regional_distributions"
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", s))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", s))
 	}
 }
 
-func BuildPlanAssignmentRequestRequestRedistribute_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestRedistribute_FieldPath, error) {
+func BuildPlanAssignmentRequestRequestTypeRedistribute_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestTypeRedistribute_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_Request_Redistribute")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_RequestType_Redistribute")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "assignment":
-			return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment}, nil
+			return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment}, nil
 		case "regional_distributions", "regionalDistributions", "regional-distributions":
-			return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions}, nil
+			return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3729,299 +3727,299 @@ func BuildPlanAssignmentRequestRequestRedistribute_FieldPath(fp gotenobject.RawF
 			if subpath, err := common.BuildRegionalDistribution_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &PlanAssignmentRequestRequestRedistribute_FieldSubPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
+				return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
 			}
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_Request_Redistribute", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_RequestType_Redistribute", fp)
 }
 
-func ParsePlanAssignmentRequestRequestRedistribute_FieldPath(rawField string) (PlanAssignmentRequestRequestRedistribute_FieldPath, error) {
+func ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(rawField string) (PlanAssignmentRequestRequestTypeRedistribute_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildPlanAssignmentRequestRequestRedistribute_FieldPath(fp)
+	return BuildPlanAssignmentRequestRequestTypeRedistribute_FieldPath(fp)
 }
 
-func MustParsePlanAssignmentRequestRequestRedistribute_FieldPath(rawField string) PlanAssignmentRequestRequestRedistribute_FieldPath {
-	fp, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(rawField)
+func MustParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(rawField string) PlanAssignmentRequestRequestTypeRedistribute_FieldPath {
+	fp, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldTerminalPath struct {
-	selector PlanAssignmentRequestRequestRedistribute_FieldPathSelector
+type PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath struct {
+	selector PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPath = (*PlanAssignmentRequestRequestRedistribute_FieldTerminalPath)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPath = (*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath)(nil)
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) Selector() PlanAssignmentRequestRequestRedistribute_FieldPathSelector {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) Selector() PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) String() string {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) JSONString() string {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source PlanAssignmentRequest_Request_Redistribute
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) Get(source *PlanAssignmentRequest_Request_Redistribute) (values []interface{}) {
+// Get returns all values pointed by specific field from source PlanAssignmentRequest_RequestType_Redistribute
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) Get(source *PlanAssignmentRequest_RequestType_Redistribute) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 			if source.Assignment != nil {
 				values = append(values, source.Assignment)
 			}
-		case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 			for _, value := range source.GetRegionalDistributions() {
 				values = append(values, value)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_Request_Redistribute
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_Request_Redistribute) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_RequestType_Redistribute
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType_Redistribute) (interface{}, bool) {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		res := source.GetAssignment()
 		return res, res != nil
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		res := source.GetRegionalDistributions()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) GetDefault() interface{} {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		return (*plan_assignment.Reference)(nil)
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		return ([]*common.RegionalDistribution)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_Request_Redistribute) {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_RequestType_Redistribute) {
 	if item != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 			item.Assignment = nil
-		case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 			item.RegionalDistributions = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PlanAssignmentRequest_Request_Redistribute))
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp, value: value.([]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues {
-	fpaov := &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp}
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues {
+	fpaov := &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp, values: values.([][]*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
-		return &PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestRedistribute_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
+		return &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue{PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath: *fp, value: value.(*common.RegionalDistribution)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldSubPath struct {
-	selector PlanAssignmentRequestRequestRedistribute_FieldPathSelector
+type PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath struct {
+	selector PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector
 	subPath  gotenobject.FieldPath
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPath = (*PlanAssignmentRequestRequestRedistribute_FieldSubPath)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPath = (*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath)(nil)
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) Selector() PlanAssignmentRequestRequestRedistribute_FieldPathSelector {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) Selector() PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) AsRegionalDistributionsSubPath() (common.RegionalDistribution_FieldPath, bool) {
 	res, ok := fps.subPath.(common.RegionalDistribution_FieldPath)
 	return res, ok
 }
 
 // String returns path representation in proto convention
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) String() string {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) String() string {
 	return fps.selector.String() + "." + fps.subPath.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) JSONString() string {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) JSONString() string {
 	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
 }
 
-// Get returns all values pointed by selected field from source PlanAssignmentRequest_Request_Redistribute
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) Get(source *PlanAssignmentRequest_Request_Redistribute) (values []interface{}) {
+// Get returns all values pointed by selected field from source PlanAssignmentRequest_RequestType_Redistribute
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) Get(source *PlanAssignmentRequest_RequestType_Redistribute) (values []interface{}) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		for _, item := range source.GetRegionalDistributions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fps.selector))
 	}
 	return
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-// GetSingle returns value of selected field from source PlanAssignmentRequest_Request_Redistribute
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) GetSingle(source *PlanAssignmentRequest_Request_Redistribute) (interface{}, bool) {
+// GetSingle returns value of selected field from source PlanAssignmentRequest_RequestType_Redistribute
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) GetSingle(source *PlanAssignmentRequest_RequestType_Redistribute) (interface{}, bool) {
 	switch fps.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		if len(source.GetRegionalDistributions()) == 0 {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRegionalDistributions()[0])
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fps.selector))
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
 // GetDefault returns a default value of the field type
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) GetDefault() interface{} {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) GetDefault() interface{} {
 	return fps.subPath.GetDefault()
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) ClearValue(item *PlanAssignmentRequest_Request_Redistribute) {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) ClearValue(item *PlanAssignmentRequest_RequestType_Redistribute) {
 	if item != nil {
 		switch fps.selector {
-		case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+		case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 			for _, subItem := range item.RegionalDistributions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fps.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fps.selector))
 		}
 	}
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*PlanAssignmentRequest_Request_Redistribute))
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) IsLeaf() bool {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: fps.selector}}
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: fps.selector}}
 	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
 	return iPaths
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathValue {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fps.WithIValue(value)
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fps.WithIArrayOfValues(values)
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue {
-	return &PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue {
+	return &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
 }
 
-func (fps *PlanAssignmentRequestRequestRedistribute_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fps *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fps.WithIArrayItemValue(value)
 }
 
-// PlanAssignmentRequestRequestRedistribute_FieldPathValue allows storing values for Redistribute fields according to their type
-type PlanAssignmentRequestRequestRedistribute_FieldPathValue interface {
-	PlanAssignmentRequestRequestRedistribute_FieldPath
+// PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue allows storing values for Redistribute fields according to their type
+type PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue interface {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **PlanAssignmentRequest_Request_Redistribute)
-	CompareWith(*PlanAssignmentRequest_Request_Redistribute) (cmp int, comparable bool)
+	SetTo(target **PlanAssignmentRequest_RequestType_Redistribute)
+	CompareWith(*PlanAssignmentRequest_RequestType_Redistribute) (cmp int, comparable bool)
 }
 
-func ParsePlanAssignmentRequestRequestRedistribute_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestRedistribute_FieldPathValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4029,61 +4027,61 @@ func ParsePlanAssignmentRequestRequestRedistribute_FieldPathValue(pathStr, value
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Redistribute field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(PlanAssignmentRequestRequestRedistribute_FieldPathValue), nil
+	return fpv.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestRedistribute_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestRedistribute_FieldPathValue {
-	fpv, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPathValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue {
+	fpv, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue struct {
-	PlanAssignmentRequestRequestRedistribute_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPathValue = (*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue = (*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'Redistribute' as interface{}
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
 	res, ok := fpv.value.(*plan_assignment.Reference)
 	return res, ok
 }
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) AsRegionalDistributionsValue() ([]*common.RegionalDistribution, bool) {
 	res, ok := fpv.value.([]*common.RegionalDistribution)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object Redistribute
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_Request_Redistribute) {
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Redistribute) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Redistribute)
+		*target = new(PlanAssignmentRequest_RequestType_Redistribute)
 	}
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		(*target).Assignment = fpv.value.(*plan_assignment.Reference)
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		(*target).RegionalDistributions = fpv.value.([]*common.RegionalDistribution)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Redistribute)
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Redistribute)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_Request_Redistribute'.
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_Request_Redistribute) (int, bool) {
+// CompareWith compares value in the 'PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_RequestType_Redistribute'.
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Redistribute) (int, bool) {
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		leftValue := fpv.value.(*plan_assignment.Reference)
 		rightValue := source.GetAssignment()
 		if leftValue == nil {
@@ -4102,74 +4100,74 @@ func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) Comp
 		} else {
 			return 1, true
 		}
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fpv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldSubPathValue struct {
-	PlanAssignmentRequestRequestRedistribute_FieldPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 	subPathValue gotenobject.FieldPathValue
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPathValue = (*PlanAssignmentRequestRequestRedistribute_FieldSubPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPathValue = (*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue)(nil)
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) AsRegionalDistributionsPathValue() (common.RegionalDistribution_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.RegionalDistribution_FieldPathValue)
 	return res, ok
 }
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_Request_Redistribute) {
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Redistribute) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Redistribute)
+		*target = new(PlanAssignmentRequest_RequestType_Redistribute)
 	}
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Redistribute)
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Redistribute)
 	fpvs.SetTo(&typedObject)
 }
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) GetRawValue() interface{} {
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) GetRawValue() interface{} {
 	return fpvs.subPathValue.GetRawValue()
 }
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_Request_Redistribute) (int, bool) {
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Redistribute) (int, bool) {
 	switch fpvs.Selector() {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		return 0, false // repeated field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *PlanAssignmentRequestRequestRedistribute_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fpvs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-// PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue allows storing single item in Path-specific values for Redistribute according to their type
+// PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue allows storing single item in Path-specific values for Redistribute according to their type
 // Present only for array (repeated) types.
-type PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue interface {
+type PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	PlanAssignmentRequestRequestRedistribute_FieldPath
-	ContainsValue(*PlanAssignmentRequest_Request_Redistribute) bool
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
+	ContainsValue(*PlanAssignmentRequest_RequestType_Redistribute) bool
 }
 
-// ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(pathStr)
+// ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4177,44 +4175,44 @@ func ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue(pathS
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Redistribute field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue), nil
+	return fpaiv.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue {
-	fpaiv, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue {
+	fpaiv, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue struct {
-	PlanAssignmentRequestRequestRedistribute_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object PlanAssignmentRequest_Request_Redistribute as interface{}
-func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object PlanAssignmentRequest_RequestType_Redistribute as interface{}
+func (fpaiv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue) AsRegionalDistributionsItemValue() (*common.RegionalDistribution, bool) {
 	res, ok := fpaiv.value.(*common.RegionalDistribution)
 	return res, ok
 }
 
-func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_Request_Redistribute) (interface{}, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_RequestType_Redistribute) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fpaiv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Redistribute'
-func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Redistribute) bool {
-	slice := fpaiv.PlanAssignmentRequestRequestRedistribute_FieldTerminalPath.Get(source)
+func (fpaiv *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Redistribute) bool {
+	slice := fpaiv.PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -4227,38 +4225,38 @@ func (fpaiv *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayItem
 	return false
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue struct {
-	PlanAssignmentRequestRequestRedistribute_FieldPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 	subPathItemValue gotenobject.FieldPathArrayItemValue
 }
 
 // GetRawValue returns stored array item value
-func (fpaivs *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+func (fpaivs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
+func (fpaivs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue) AsRegionalDistributionsPathItemValue() (common.RegionalDistribution_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.RegionalDistribution_FieldPathArrayItemValue)
 	return res, ok
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Redistribute'
-func (fpaivs *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Redistribute) bool {
+func (fpaivs *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Redistribute) bool {
 	switch fpaivs.Selector() {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		return false // repeated/map field
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Redistribute: %d", fpaivs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Redistribute: %d", fpaivs.Selector()))
 	}
 }
 
-// PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues allows storing slice of values for Redistribute fields according to their type
-type PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues interface {
+// PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues allows storing slice of values for Redistribute fields according to their type
+type PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	PlanAssignmentRequestRequestRedistribute_FieldPath
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 }
 
-func ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues, error) {
-	fp, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4266,258 +4264,258 @@ func ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues(pathSt
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Redistribute field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues), nil
+	return fpaov.(PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues), nil
 }
 
-func MustParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues {
-	fpaov, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues {
+	fpaov, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues struct {
-	PlanAssignmentRequestRequestRedistribute_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath
 	values interface{}
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 		for _, v := range fpaov.values.([]*plan_assignment.Reference) {
 			values = append(values, v)
 		}
-	case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+	case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 		for _, v := range fpaov.values.([][]*common.RegionalDistribution) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
 	res, ok := fpaov.values.([]*plan_assignment.Reference)
 	return res, ok
 }
-func (fpaov *PlanAssignmentRequestRequestRedistribute_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPathArrayOfValues) AsRegionalDistributionsArrayOfValues() ([][]*common.RegionalDistribution, bool) {
 	res, ok := fpaov.values.([][]*common.RegionalDistribution)
 	return res, ok
 }
 
-type PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues struct {
-	PlanAssignmentRequestRequestRedistribute_FieldPath
+type PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
 }
 
-var _ PlanAssignmentRequestRequestRedistribute_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeRedistribute_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues)(nil)
 
-func (fpsaov *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+func (fpsaov *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PlanAssignmentRequestRequestRedistribute_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
+func (fpsaov *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPathArrayOfValues) AsRegionalDistributionsPathArrayOfValues() (common.RegionalDistribution_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.RegionalDistribution_FieldPathArrayOfValues)
 	return res, ok
 }
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PlanAssignmentRequestRequestUnassign_FieldPath interface {
+type PlanAssignmentRequestRequestTypeUnassign_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() PlanAssignmentRequestRequestUnassign_FieldPathSelector
-	Get(source *PlanAssignmentRequest_Request_Unassign) []interface{}
-	GetSingle(source *PlanAssignmentRequest_Request_Unassign) (interface{}, bool)
-	ClearValue(item *PlanAssignmentRequest_Request_Unassign)
+	Selector() PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector
+	Get(source *PlanAssignmentRequest_RequestType_Unassign) []interface{}
+	GetSingle(source *PlanAssignmentRequest_RequestType_Unassign) (interface{}, bool)
+	ClearValue(item *PlanAssignmentRequest_RequestType_Unassign)
 
-	// Those methods build corresponding PlanAssignmentRequestRequestUnassign_FieldPathValue
+	// Those methods build corresponding PlanAssignmentRequestRequestTypeUnassign_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PlanAssignmentRequestRequestUnassign_FieldPathValue
-	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue
+	WithIValue(value interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathValue
+	WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue
 }
 
-type PlanAssignmentRequestRequestUnassign_FieldPathSelector int32
+type PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector int32
 
 const (
-	PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment PlanAssignmentRequestRequestUnassign_FieldPathSelector = 0
+	PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector = 0
 )
 
-func (s PlanAssignmentRequestRequestUnassign_FieldPathSelector) String() string {
+func (s PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector) String() string {
 	switch s {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		return "assignment"
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", s))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", s))
 	}
 }
 
-func BuildPlanAssignmentRequestRequestUnassign_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestUnassign_FieldPath, error) {
+func BuildPlanAssignmentRequestRequestTypeUnassign_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignmentRequestRequestTypeUnassign_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_Request_Unassign")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PlanAssignmentRequest_RequestType_Unassign")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "assignment":
-			return &PlanAssignmentRequestRequestUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment}, nil
+			return &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment}, nil
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_Request_Unassign", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PlanAssignmentRequest_RequestType_Unassign", fp)
 }
 
-func ParsePlanAssignmentRequestRequestUnassign_FieldPath(rawField string) (PlanAssignmentRequestRequestUnassign_FieldPath, error) {
+func ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(rawField string) (PlanAssignmentRequestRequestTypeUnassign_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildPlanAssignmentRequestRequestUnassign_FieldPath(fp)
+	return BuildPlanAssignmentRequestRequestTypeUnassign_FieldPath(fp)
 }
 
-func MustParsePlanAssignmentRequestRequestUnassign_FieldPath(rawField string) PlanAssignmentRequestRequestUnassign_FieldPath {
-	fp, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(rawField)
+func MustParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(rawField string) PlanAssignmentRequestRequestTypeUnassign_FieldPath {
+	fp, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type PlanAssignmentRequestRequestUnassign_FieldTerminalPath struct {
-	selector PlanAssignmentRequestRequestUnassign_FieldPathSelector
+type PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath struct {
+	selector PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector
 }
 
-var _ PlanAssignmentRequestRequestUnassign_FieldPath = (*PlanAssignmentRequestRequestUnassign_FieldTerminalPath)(nil)
+var _ PlanAssignmentRequestRequestTypeUnassign_FieldPath = (*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath)(nil)
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) Selector() PlanAssignmentRequestRequestUnassign_FieldPathSelector {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) Selector() PlanAssignmentRequestRequestTypeUnassign_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) String() string {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) JSONString() string {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source PlanAssignmentRequest_Request_Unassign
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) Get(source *PlanAssignmentRequest_Request_Unassign) (values []interface{}) {
+// Get returns all values pointed by specific field from source PlanAssignmentRequest_RequestType_Unassign
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) Get(source *PlanAssignmentRequest_RequestType_Unassign) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 			if source.Assignment != nil {
 				values = append(values, source.Assignment)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PlanAssignmentRequest_Request_Unassign))
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
-// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_Request_Unassign
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_Request_Unassign) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source PlanAssignmentRequest_RequestType_Unassign
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType_Unassign) (interface{}, bool) {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		res := source.GetAssignment()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PlanAssignmentRequest_Request_Unassign))
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) GetDefault() interface{} {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		return (*plan_assignment.Reference)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_Request_Unassign) {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) ClearValue(item *PlanAssignmentRequest_RequestType_Unassign) {
 	if item != nil {
 		switch fp.selector {
-		case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+		case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 			item.Assignment = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PlanAssignmentRequest_Request_Unassign))
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestUnassign_FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithIValue(value interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathValue {
 	switch fp.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue{PlanAssignmentRequestRequestUnassign_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue{PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath: *fp, value: value.(*plan_assignment.Reference)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues {
-	fpaov := &PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestUnassign_FieldTerminalPath: *fp}
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithIArrayOfValues(values interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues {
+	fpaov := &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
-		return &PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestUnassign_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
+		return &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues{PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath: *fp, values: values.([]*plan_assignment.Reference)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithIArrayItemValue(value interface{}) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fp.selector))
 	}
 }
 
-func (fp *PlanAssignmentRequestRequestUnassign_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-// PlanAssignmentRequestRequestUnassign_FieldPathValue allows storing values for Unassign fields according to their type
-type PlanAssignmentRequestRequestUnassign_FieldPathValue interface {
-	PlanAssignmentRequestRequestUnassign_FieldPath
+// PlanAssignmentRequestRequestTypeUnassign_FieldPathValue allows storing values for Unassign fields according to their type
+type PlanAssignmentRequestRequestTypeUnassign_FieldPathValue interface {
+	PlanAssignmentRequestRequestTypeUnassign_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **PlanAssignmentRequest_Request_Unassign)
-	CompareWith(*PlanAssignmentRequest_Request_Unassign) (cmp int, comparable bool)
+	SetTo(target **PlanAssignmentRequest_RequestType_Unassign)
+	CompareWith(*PlanAssignmentRequest_RequestType_Unassign) (cmp int, comparable bool)
 }
 
-func ParsePlanAssignmentRequestRequestUnassign_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestUnassign_FieldPathValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeUnassign_FieldPathValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4525,55 +4523,55 @@ func ParsePlanAssignmentRequestRequestUnassign_FieldPathValue(pathStr, valueStr 
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Unassign field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(PlanAssignmentRequestRequestUnassign_FieldPathValue), nil
+	return fpv.(PlanAssignmentRequestRequestTypeUnassign_FieldPathValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestUnassign_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestUnassign_FieldPathValue {
-	fpv, err := ParsePlanAssignmentRequestRequestUnassign_FieldPathValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeUnassign_FieldPathValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeUnassign_FieldPathValue {
+	fpv, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue struct {
-	PlanAssignmentRequestRequestUnassign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue struct {
+	PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestUnassign_FieldPathValue = (*PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue)(nil)
+var _ PlanAssignmentRequestRequestTypeUnassign_FieldPathValue = (*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'Unassign' as interface{}
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) AsAssignmentValue() (*plan_assignment.Reference, bool) {
 	res, ok := fpv.value.(*plan_assignment.Reference)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object Unassign
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_Request_Unassign) {
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) SetTo(target **PlanAssignmentRequest_RequestType_Unassign) {
 	if *target == nil {
-		*target = new(PlanAssignmentRequest_Request_Unassign)
+		*target = new(PlanAssignmentRequest_RequestType_Unassign)
 	}
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		(*target).Assignment = fpv.value.(*plan_assignment.Reference)
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PlanAssignmentRequest_Request_Unassign)
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PlanAssignmentRequest_RequestType_Unassign)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_Request_Unassign'.
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_Request_Unassign) (int, bool) {
+// CompareWith compares value in the 'PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue' with the value under path in 'PlanAssignmentRequest_RequestType_Unassign'.
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) CompareWith(source *PlanAssignmentRequest_RequestType_Unassign) (int, bool) {
 	switch fpv.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		leftValue := fpv.value.(*plan_assignment.Reference)
 		rightValue := source.GetAssignment()
 		if leftValue == nil {
@@ -4593,25 +4591,25 @@ func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) CompareW
 			return 1, true
 		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_Request_Unassign: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for PlanAssignmentRequest_RequestType_Unassign: %d", fpv.selector))
 	}
 }
 
-func (fpv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PlanAssignmentRequest_Request_Unassign))
+func (fpv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
-// PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue allows storing single item in Path-specific values for Unassign according to their type
+// PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue allows storing single item in Path-specific values for Unassign according to their type
 // Present only for array (repeated) types.
-type PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue interface {
+type PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	PlanAssignmentRequestRequestUnassign_FieldPath
-	ContainsValue(*PlanAssignmentRequest_Request_Unassign) bool
+	PlanAssignmentRequestRequestTypeUnassign_FieldPath
+	ContainsValue(*PlanAssignmentRequest_RequestType_Unassign) bool
 }
 
-// ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue, error) {
-	fp, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(pathStr)
+// ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue(pathStr, valueStr string) (PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4619,40 +4617,40 @@ func ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue(pathStr, 
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Unassign field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue), nil
+	return fpaiv.(PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue), nil
 }
 
-func MustParsePlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue {
-	fpaiv, err := ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue(pathStr, valueStr string) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue {
+	fpaiv, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue struct {
-	PlanAssignmentRequestRequestUnassign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue struct {
+	PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath
 	value interface{}
 }
 
-var _ PlanAssignmentRequestRequestUnassign_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue)(nil)
+var _ PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayItemValue = (*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object PlanAssignmentRequest_Request_Unassign as interface{}
-func (fpaiv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object PlanAssignmentRequest_RequestType_Unassign as interface{}
+func (fpaiv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_Request_Unassign) (interface{}, bool) {
+func (fpaiv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue) GetSingle(source *PlanAssignmentRequest_RequestType_Unassign) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_Request_Unassign))
+func (fpaiv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Unassign'
-func (fpaiv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_Request_Unassign) bool {
-	slice := fpaiv.PlanAssignmentRequestRequestUnassign_FieldTerminalPath.Get(source)
+func (fpaiv *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignmentRequest_RequestType_Unassign) bool {
+	slice := fpaiv.PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -4665,14 +4663,14 @@ func (fpaiv *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayItemValu
 	return false
 }
 
-// PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues allows storing slice of values for Unassign fields according to their type
-type PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues interface {
+// PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues allows storing slice of values for Unassign fields according to their type
+type PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	PlanAssignmentRequestRequestUnassign_FieldPath
+	PlanAssignmentRequestRequestTypeUnassign_FieldPath
 }
 
-func ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues, error) {
-	fp, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(pathStr)
+func ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues(pathStr, valuesStr string) (PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues, error) {
+	fp, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -4680,34 +4678,34 @@ func ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues(pathStr, v
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Unassign field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues), nil
+	return fpaov.(PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues), nil
 }
 
-func MustParsePlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues {
-	fpaov, err := ParsePlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues(pathStr, valuesStr string) PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues {
+	fpaov, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues struct {
-	PlanAssignmentRequestRequestUnassign_FieldTerminalPath
+type PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues struct {
+	PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath
 	values interface{}
 }
 
-var _ PlanAssignmentRequestRequestUnassign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues)(nil)
+var _ PlanAssignmentRequestRequestTypeUnassign_FieldPathArrayOfValues = (*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+	case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 		for _, v := range fpaov.values.([]*plan_assignment.Reference) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PlanAssignmentRequestRequestUnassign_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
+func (fpaov *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPathArrayOfValues) AsAssignmentArrayOfValues() ([]*plan_assignment.Reference, bool) {
 	res, ok := fpaov.values.([]*plan_assignment.Reference)
 	return res, ok
 }

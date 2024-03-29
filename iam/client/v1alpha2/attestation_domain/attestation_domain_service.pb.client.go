@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &attestation_domain.AttestationDomain{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type AttestationDomainServiceClient interface {
 	WatchAttestationDomains(ctx context.Context, in *WatchAttestationDomainsRequest, opts ...grpc.CallOption) (WatchAttestationDomainsClientStream, error)
 	CreateAttestationDomain(ctx context.Context, in *CreateAttestationDomainRequest, opts ...grpc.CallOption) (*attestation_domain.AttestationDomain, error)
 	UpdateAttestationDomain(ctx context.Context, in *UpdateAttestationDomainRequest, opts ...grpc.CallOption) (*attestation_domain.AttestationDomain, error)
-	DeleteAttestationDomain(ctx context.Context, in *DeleteAttestationDomainRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAttestationDomain(ctx context.Context, in *DeleteAttestationDomainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateAttestationDomain(ctx context.Context, in *UpdateAttestat
 	return out, nil
 }
 
-func (c *client) DeleteAttestationDomain(ctx context.Context, in *DeleteAttestationDomainRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteAttestationDomain(ctx context.Context, in *DeleteAttestationDomainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.AttestationDomainService/DeleteAttestationDomain", in, out, opts...)
 	if err != nil {
 		return nil, err

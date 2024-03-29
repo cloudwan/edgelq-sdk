@@ -11,7 +11,7 @@ import (
 // proto imports
 import (
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -22,7 +22,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &alerting_condition.AlertingCondition{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 func (c *AlertChange) IsAdd() bool {

@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -27,8 +26,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -45,7 +44,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -56,7 +54,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 )
 
 // FieldPath provides implementation to handle
@@ -281,7 +279,7 @@ func (fp *Log_FieldTerminalPath) GetDefault() interface{} {
 	case Log_FieldPathSelectorLabels:
 		return (map[string]string)(nil)
 	case Log_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case Log_FieldPathSelectorPayload:
 		return (*structpb.Struct)(nil)
 	default:
@@ -354,7 +352,7 @@ func (fp *Log_FieldTerminalPath) WithIValue(value interface{}) Log_FieldPathValu
 	case Log_FieldPathSelectorLabels:
 		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case Log_FieldPathSelectorTime:
-		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case Log_FieldPathSelectorPayload:
 		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(*structpb.Struct)}
 	default:
@@ -384,7 +382,7 @@ func (fp *Log_FieldTerminalPath) WithIArrayOfValues(values interface{}) Log_Fiel
 	case Log_FieldPathSelectorLabels:
 		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case Log_FieldPathSelectorTime:
-		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case Log_FieldPathSelectorPayload:
 		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]*structpb.Struct)}
 	default:
@@ -607,8 +605,8 @@ func (fpv *Log_FieldTerminalPathValue) AsLabelsValue() (map[string]string, bool)
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
 }
-func (fpv *Log_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *Log_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *Log_FieldTerminalPathValue) AsPayloadValue() (*structpb.Struct, bool) {
@@ -637,7 +635,7 @@ func (fpv *Log_FieldTerminalPathValue) SetTo(target **Log) {
 	case Log_FieldPathSelectorLabels:
 		(*target).Labels = fpv.value.(map[string]string)
 	case Log_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	case Log_FieldPathSelectorPayload:
 		(*target).Payload = fpv.value.(*structpb.Struct)
 	default:
@@ -734,7 +732,7 @@ func (fpv *Log_FieldTerminalPathValue) CompareWith(source *Log) (int, bool) {
 	case Log_FieldPathSelectorLabels:
 		return 0, false
 	case Log_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -950,7 +948,7 @@ func (fpaov *Log_FieldTerminalPathArrayOfValues) GetRawValues() (values []interf
 			values = append(values, v)
 		}
 	case Log_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case Log_FieldPathSelectorPayload:
@@ -988,8 +986,8 @@ func (fpaov *Log_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([]map[
 	res, ok := fpaov.values.([]map[string]string)
 	return res, ok
 }
-func (fpaov *Log_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *Log_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *Log_FieldTerminalPathArrayOfValues) AsPayloadArrayOfValues() ([]*structpb.Struct, bool) {

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &log_descriptor.LogDescriptor{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetLogDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg prot
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*log_descriptor.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetLogDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLogDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetLogDescriptorRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLogDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetLogDescriptorRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetLogDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg pr
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetLogDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*log_descriptor.LogDescriptor)
+}
+
+func (h *GetLogDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*log_descriptor.LogDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*log_descriptor.LogDescriptor) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetLogDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(m
 		return log_descriptor.LogDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(log_descriptor.LogDescriptorNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return log_descriptor.LogDescriptorNameList(names)
 		}
 	}
 	return (log_descriptor.LogDescriptorNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetLogDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetLogDescriptorsRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetLogDescriptorsRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetLogDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetLogDescriptorsResponse) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetLogDescriptorsResponse) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLogDescriptors(); len(resources) > 0 {
+			return log_descriptor.LogDescriptorList(resources)
+		}
+	}
+	return (log_descriptor.LogDescriptorList)(nil)
 }
 
 func GetBatchGetLogDescriptorsDescriptor() *BatchGetLogDescriptorsDescriptor {
@@ -522,6 +611,30 @@ func (h *ListLogDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return (*log_descriptor.ParentName)(nil)
 }
 
+func (h *ListLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLogDescriptorsRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLogDescriptorsRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListLogDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListLogDescriptorsResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListLogDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLogDescriptorsResponse) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLogDescriptorsResponse) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLogDescriptors(); len(resources) > 0 {
+			return log_descriptor.LogDescriptorList(resources)
+		}
+	}
+	return (log_descriptor.LogDescriptorList)(nil)
 }
 
 func GetListLogDescriptorsDescriptor() *ListLogDescriptorsDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchLogDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg pr
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*log_descriptor.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchLogDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLogDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLogDescriptorRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLogDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLogDescriptorRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchLogDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLogDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLogDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLogDescriptorResponse) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *log_descriptor.LogDescriptorChange_Added_:
+				return tResChange.Added.GetLogDescriptor()
+			case *log_descriptor.LogDescriptorChange_Modified_:
+				return tResChange.Modified.GetLogDescriptor()
+			case *log_descriptor.LogDescriptorChange_Current_:
+				return tResChange.Current.GetLogDescriptor()
+			}
+		}
+	}
+	return (*log_descriptor.LogDescriptor)(nil)
+}
+
+func (h *WatchLogDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLogDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLogDescriptorResponse) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchLogDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*log_descriptor.ParentName)(nil)
+}
+
+func (h *WatchLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLogDescriptorsRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLogDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLogDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLogDescriptorsRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchLogDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchLogDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchLogDescriptorsResponse) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchLogDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchLogDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchLogDescriptorsResponse) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetLogDescriptorChanges(); len(resChanges) > 0 {
+			list := make(log_descriptor.LogDescriptorList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *log_descriptor.LogDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetLogDescriptor())
+				case *log_descriptor.LogDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetLogDescriptor())
+				case *log_descriptor.LogDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetLogDescriptor())
+				}
+			}
+			return list
+		}
+	}
+	return (log_descriptor.LogDescriptorList)(nil)
 }
 
 func GetWatchLogDescriptorsDescriptor() *WatchLogDescriptorsDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateLogDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*log_descriptor.ParentName)(nil)
+}
+
+func (h *CreateLogDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateLogDescriptorRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetLogDescriptor()
+	}
+	return (*log_descriptor.LogDescriptor)(nil)
+}
+
+func (h *CreateLogDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateLogDescriptorRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateLogDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateLogDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateLogDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*log_descriptor.LogDescriptor)
+}
+
+func (h *CreateLogDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*log_descriptor.LogDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*log_descriptor.LogDescriptor) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateLogDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return nil
 }
 
+func (h *UpdateLogDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateLogDescriptorRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetLogDescriptor()
+	}
+	return (*log_descriptor.LogDescriptor)(nil)
+}
+
+func (h *UpdateLogDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateLogDescriptorRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateLogDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*log_descriptor.LogDescriptor)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateLogDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg
 	return nil
 }
 
+func (h *UpdateLogDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*log_descriptor.LogDescriptor)
+}
+
+func (h *UpdateLogDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*log_descriptor.LogDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*log_descriptor.LogDescriptor) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateLogDescriptorDescriptor() *UpdateLogDescriptorDescriptor {
 	return updateLogDescriptorDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteLogDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteLogDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteLogDescriptorDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteLogDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*log_descriptor.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteLogDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return nil
 }
 
-func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteLogDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteLogDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *log_descriptor.Name
+		OverrideExtractResourceBody(*DeleteLogDescriptorRequest) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLogDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteLogDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteLogDescriptorRequest) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *log_descriptor.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg p
 }
 
 func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*log_descriptor.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*log_descriptor.Name
 	})
 	if ok {
 		return log_descriptor.LogDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg 
 }
 
 func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *log_descriptor.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *log_descriptor.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *log_descriptor.LogDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteLogDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*log_descriptor.LogDescriptor
+	})
+	if ok {
+		return log_descriptor.LogDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

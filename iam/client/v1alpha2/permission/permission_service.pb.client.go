@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &permission.Permission{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type PermissionServiceClient interface {
 	WatchPermissions(ctx context.Context, in *WatchPermissionsRequest, opts ...grpc.CallOption) (WatchPermissionsClientStream, error)
 	CreatePermission(ctx context.Context, in *CreatePermissionRequest, opts ...grpc.CallOption) (*permission.Permission, error)
 	UpdatePermission(ctx context.Context, in *UpdatePermissionRequest, opts ...grpc.CallOption) (*permission.Permission, error)
-	DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdatePermission(ctx context.Context, in *UpdatePermissionReque
 	return out, nil
 }
 
-func (c *client) DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.PermissionService/DeletePermission", in, out, opts...)
 	if err != nil {
 		return nil, err

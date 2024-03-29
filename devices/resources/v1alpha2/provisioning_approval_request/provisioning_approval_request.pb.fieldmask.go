@@ -13,16 +13,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -35,16 +35,16 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &meta.Meta{}
 )
 
 type ProvisioningApprovalRequest_FieldMask struct {
@@ -134,12 +134,12 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) Subtract(other *Provisio
 	otherSubMasks := map[ProvisioningApprovalRequest_FieldPathSelector]gotenobject.FieldMask{
 		ProvisioningApprovalRequest_FieldPathSelectorSpec:     &ProvisioningApprovalRequest_Spec_FieldMask{},
 		ProvisioningApprovalRequest_FieldPathSelectorStatus:   &ProvisioningApprovalRequest_Status_FieldMask{},
-		ProvisioningApprovalRequest_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		ProvisioningApprovalRequest_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[ProvisioningApprovalRequest_FieldPathSelector]gotenobject.FieldMask{
 		ProvisioningApprovalRequest_FieldPathSelectorSpec:     &ProvisioningApprovalRequest_Spec_FieldMask{},
 		ProvisioningApprovalRequest_FieldPathSelectorStatus:   &ProvisioningApprovalRequest_Status_FieldMask{},
-		ProvisioningApprovalRequest_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		ProvisioningApprovalRequest_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -160,7 +160,7 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) Subtract(other *Provisio
 					case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 						mySubMasks[ProvisioningApprovalRequest_FieldPathSelectorStatus] = FullProvisioningApprovalRequest_Status_FieldMask()
 					case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-						mySubMasks[ProvisioningApprovalRequest_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[ProvisioningApprovalRequest_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*ProvisioningApprovalRequest_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -195,12 +195,12 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) FilterInputFields() *Pro
 		switch path.Selector() {
 		case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
 			if _, ok := path.(*ProvisioningApprovalRequest_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &ProvisioningApprovalRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*ProvisioningApprovalRequest_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &ProvisioningApprovalRequest_FieldSubPath{selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -214,15 +214,15 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) FilterInputFields() *Pro
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ProvisioningApprovalRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ProvisioningApprovalRequest_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ProvisioningApprovalRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ProvisioningApprovalRequest_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -244,7 +244,7 @@ func (fieldMask ProvisioningApprovalRequest_FieldMask) Marshal() ([]byte, error)
 }
 
 func (fieldMask *ProvisioningApprovalRequest_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -263,7 +263,7 @@ func (fieldMask ProvisioningApprovalRequest_FieldMask) MarshalJSON() ([]byte, er
 }
 
 func (fieldMask *ProvisioningApprovalRequest_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -335,7 +335,7 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) Project(source *Provisio
 	wholeSpecAccepted := false
 	statusMask := &ProvisioningApprovalRequest_Status_FieldMask{}
 	wholeStatusAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -361,7 +361,7 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) Project(source *Provisio
 			case ProvisioningApprovalRequest_FieldPathSelectorStatus:
 				statusMask.AppendPath(tp.subPath.(ProvisioningApprovalRequestStatus_FieldPath))
 			case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}
@@ -501,15 +501,15 @@ func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) FilterInputFields()
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -531,7 +531,7 @@ func (fieldMask ProvisioningApprovalRequest_Spec_FieldMask) Marshal() ([]byte, e
 }
 
 func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -550,7 +550,7 @@ func (fieldMask ProvisioningApprovalRequest_Spec_FieldMask) MarshalJSON() ([]byt
 }
 
 func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -755,15 +755,15 @@ func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) FilterInputFields
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -785,7 +785,7 @@ func (fieldMask ProvisioningApprovalRequest_Status_FieldMask) Marshal() ([]byte,
 }
 
 func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -804,7 +804,7 @@ func (fieldMask ProvisioningApprovalRequest_Status_FieldMask) MarshalJSON() ([]b
 }
 
 func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

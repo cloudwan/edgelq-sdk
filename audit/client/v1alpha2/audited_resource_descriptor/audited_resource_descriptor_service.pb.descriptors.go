@@ -136,8 +136,8 @@ func (h *GetAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceN
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*audited_resource_descriptor.Name)(nil)
@@ -156,6 +156,30 @@ func (h *GetAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceN
 }
 
 func (h *GetAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetAuditedResourceDescriptorRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetAuditedResourceDescriptorRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -189,6 +213,22 @@ func (h *GetAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceN
 }
 
 func (h *GetAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *GetAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+}
+
+func (h *GetAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*audited_resource_descriptor.AuditedResourceDescriptor) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -304,18 +344,38 @@ func (h *BatchGetAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractRes
 		return audited_resource_descriptor.AuditedResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(audited_resource_descriptor.AuditedResourceDescriptorNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return audited_resource_descriptor.AuditedResourceDescriptorNameList(names)
 		}
 	}
 	return (audited_resource_descriptor.AuditedResourceDescriptorNameList)(nil)
 }
 
 func (h *BatchGetAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *BatchGetAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAuditedResourceDescriptorsRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAuditedResourceDescriptorsRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -354,6 +414,35 @@ func (h *BatchGetAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractRes
 
 func (h *BatchGetAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *BatchGetAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetAuditedResourceDescriptorsResponse) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetAuditedResourceDescriptorsResponse) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAuditedResourceDescriptors(); len(resources) > 0 {
+			return audited_resource_descriptor.AuditedResourceDescriptorList(resources)
+		}
+	}
+	return (audited_resource_descriptor.AuditedResourceDescriptorList)(nil)
 }
 
 func GetBatchGetAuditedResourceDescriptorsDescriptor() *BatchGetAuditedResourceDescriptorsDescriptor {
@@ -474,6 +563,30 @@ func (h *ListAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractCollect
 	return nil
 }
 
+func (h *ListAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAuditedResourceDescriptorsRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAuditedResourceDescriptorsRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAuditedResourceDescriptorsResponse)
 	var asInterface interface{} = h
@@ -509,6 +622,35 @@ func (h *ListAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourc
 
 func (h *ListAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *ListAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListAuditedResourceDescriptorsResponse) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListAuditedResourceDescriptorsResponse) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAuditedResourceDescriptors(); len(resources) > 0 {
+			return audited_resource_descriptor.AuditedResourceDescriptorList(resources)
+		}
+	}
+	return (audited_resource_descriptor.AuditedResourceDescriptorList)(nil)
 }
 
 func GetListAuditedResourceDescriptorsDescriptor() *ListAuditedResourceDescriptorsDescriptor {
@@ -611,8 +753,8 @@ func (h *WatchAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourc
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*audited_resource_descriptor.Name)(nil)
@@ -631,6 +773,30 @@ func (h *WatchAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourc
 }
 
 func (h *WatchAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAuditedResourceDescriptorRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAuditedResourceDescriptorRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -673,6 +839,42 @@ func (h *WatchAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourc
 }
 
 func (h *WatchAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAuditedResourceDescriptorResponse) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *audited_resource_descriptor.AuditedResourceDescriptorChange_Added_:
+				return tResChange.Added.GetAuditedResourceDescriptor()
+			case *audited_resource_descriptor.AuditedResourceDescriptorChange_Modified_:
+				return tResChange.Modified.GetAuditedResourceDescriptor()
+			case *audited_resource_descriptor.AuditedResourceDescriptorChange_Current_:
+				return tResChange.Current.GetAuditedResourceDescriptor()
+			}
+		}
+	}
+	return (*audited_resource_descriptor.AuditedResourceDescriptor)(nil)
+}
+
+func (h *WatchAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAuditedResourceDescriptorResponse) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -794,6 +996,30 @@ func (h *WatchAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractCollec
 	return nil
 }
 
+func (h *WatchAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAuditedResourceDescriptorsRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAuditedResourceDescriptorsRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *WatchAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAuditedResourceDescriptorsResponse)
 	var asInterface interface{} = h
@@ -838,6 +1064,46 @@ func (h *WatchAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResour
 
 func (h *WatchAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchAuditedResourceDescriptorsResponse) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAuditedResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchAuditedResourceDescriptorsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchAuditedResourceDescriptorsResponse) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetAuditedResourceDescriptorChanges(); len(resChanges) > 0 {
+			list := make(audited_resource_descriptor.AuditedResourceDescriptorList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *audited_resource_descriptor.AuditedResourceDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetAuditedResourceDescriptor())
+				case *audited_resource_descriptor.AuditedResourceDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetAuditedResourceDescriptor())
+				case *audited_resource_descriptor.AuditedResourceDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetAuditedResourceDescriptor())
+				}
+			}
+			return list
+		}
+	}
+	return (audited_resource_descriptor.AuditedResourceDescriptorList)(nil)
 }
 
 func GetWatchAuditedResourceDescriptorsDescriptor() *WatchAuditedResourceDescriptorsDescriptor {
@@ -964,6 +1230,33 @@ func (h *CreateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractCollec
 	return nil
 }
 
+func (h *CreateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateAuditedResourceDescriptorRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAuditedResourceDescriptor()
+	}
+	return (*audited_resource_descriptor.AuditedResourceDescriptor)(nil)
+}
+
+func (h *CreateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateAuditedResourceDescriptorRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CreateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
 	var asInterface interface{} = h
@@ -994,6 +1287,22 @@ func (h *CreateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResour
 }
 
 func (h *CreateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CreateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+}
+
+func (h *CreateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*audited_resource_descriptor.AuditedResourceDescriptor) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -1121,6 +1430,33 @@ func (h *UpdateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractCollec
 	return nil
 }
 
+func (h *UpdateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateAuditedResourceDescriptorRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetAuditedResourceDescriptor()
+	}
+	return (*audited_resource_descriptor.AuditedResourceDescriptor)(nil)
+}
+
+func (h *UpdateAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateAuditedResourceDescriptorRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
 	var asInterface interface{} = h
@@ -1151,6 +1487,22 @@ func (h *UpdateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResour
 }
 
 func (h *UpdateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *UpdateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+}
+
+func (h *UpdateAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*audited_resource_descriptor.AuditedResourceDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*audited_resource_descriptor.AuditedResourceDescriptor) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 

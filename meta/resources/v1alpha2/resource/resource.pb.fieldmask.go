@@ -13,15 +13,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -34,15 +34,15 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service.Service{}
+	_ = &meta.Meta{}
 )
 
 type Resource_FieldMask struct {
@@ -131,10 +131,10 @@ func (fieldMask *Resource_FieldMask) Subtract(other *Resource_FieldMask) *Resour
 	result := &Resource_FieldMask{}
 	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[Resource_FieldPathSelector]gotenobject.FieldMask{
-		Resource_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Resource_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Resource_FieldPathSelector]gotenobject.FieldMask{
-		Resource_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Resource_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -151,7 +151,7 @@ func (fieldMask *Resource_FieldMask) Subtract(other *Resource_FieldMask) *Resour
 				if tp, ok := path.(*Resource_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Resource_FieldPathSelectorMetadata:
-						mySubMasks[Resource_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Resource_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Resource_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -186,12 +186,12 @@ func (fieldMask *Resource_FieldMask) FilterInputFields() *Resource_FieldMask {
 		switch path.Selector() {
 		case Resource_FieldPathSelectorMetadata:
 			if _, ok := path.(*Resource_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Resource_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Resource_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Resource_FieldSubPath{selector: Resource_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -205,15 +205,15 @@ func (fieldMask *Resource_FieldMask) FilterInputFields() *Resource_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Resource_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Resource_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Resource_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Resource_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -235,7 +235,7 @@ func (fieldMask Resource_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Resource_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -254,7 +254,7 @@ func (fieldMask Resource_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Resource_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -322,7 +322,7 @@ func (fieldMask *Resource_FieldMask) Project(source *Resource) *Resource {
 		return source
 	}
 	result := &Resource{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -344,7 +344,7 @@ func (fieldMask *Resource_FieldMask) Project(source *Resource) *Resource {
 		case *Resource_FieldSubPath:
 			switch tp.selector {
 			case Resource_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

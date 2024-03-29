@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	config_map_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/config_map"
 	config_map "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiConfigMapAccess struct {
@@ -42,8 +44,11 @@ func NewApiConfigMapAccess(client config_map_client.ConfigMapServiceClient) conf
 }
 
 func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map.GetQuery) (*config_map.ConfigMap, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &config_map_client.GetConfigMapRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetConfigMap(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map
 
 func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*config_map.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*config_map.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &config_map_client.BatchGetConfigMapsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(config_map.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListConfigMaps(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_
 }
 
 func (a *apiConfigMapAccess) WatchConfigMap(ctx context.Context, query *config_map.GetQuery, observerCb func(*config_map.ConfigMapChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &config_map_client.WatchConfigMapRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchConfigMap(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiConfigMapAccess) WatchConfigMaps(ctx context.Context, query *config_
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchConfigMaps(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiConfigMapAccess) SaveConfigMap(ctx context.Context, res *config_map.
 			}
 		}
 	}
-
+	var resp *config_map.ConfigMap
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &config_map_client.UpdateConfigMapRequest{
 			ConfigMap: res,
@@ -195,29 +217,76 @@ func (a *apiConfigMapAccess) SaveConfigMap(ctx context.Context, res *config_map.
 				FieldMask:        mask.(*config_map.ConfigMap_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateConfigMap(ctx, updateRequest)
+		resp, err = a.client.UpdateConfigMap(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &config_map_client.CreateConfigMapRequest{
 			ConfigMap: res,
 		}
-		_, err := a.client.CreateConfigMap(ctx, createRequest)
+		resp, err = a.client.CreateConfigMap(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiConfigMapAccess) DeleteConfigMap(ctx context.Context, ref *config_map.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &config_map_client.DeleteConfigMapRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteConfigMap(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *config_map.Filter) (*config_map.Filter, *config_map.ParentName) {
+	var withParentExtraction func(cnd config_map.FilterCondition) config_map.FilterCondition
+	var resultParent *config_map.ParentName
+	var resultFilter *config_map.Filter
+	withParentExtraction = func(cnd config_map.FilterCondition) config_map.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *config_map.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]config_map.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return config_map.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *config_map.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*config_map.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &config_map.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

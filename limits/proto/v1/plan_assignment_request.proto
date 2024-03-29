@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/limits/proto/v1/common.proto";
+import "edgelq-sdk/limits/proto/v1/plan.proto";
+import "edgelq-sdk/limits/proto/v1/plan_assignment.proto";
+import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment_request;plan_assignment_request";
+option java_multiple_files = true;
+option java_outer_classname = "PlanAssignmentRequestProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// PlanAssignmentRequest gives administrator a way to modify their
+// PlanAssignment instances in a safe way, with respect to parent
+// organization/system limits.
+// PlanAssignmentRequest can be used to:
+// * Assign/Reassign new plan for specific service
+// * Extend specific resource limits for existing PlanAssignment
+// * Redistribute limits across regions (available for project PlanAssignments)
+// * Unassign existing PlanAssignment
+// Certain requests may be automatically approved by system (for example, if
+// they would result in lowering limits), other require higher administrator
+// consent. User creating request should check status field after operation
+// to check if request was automatically approved.
+message PlanAssignmentRequest {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/PlanAssignmentRequest"
+    pattern : "projects/{project}/planAssignmentRequests/"
+              "{plan_assignment_request}"
+    pattern : "organizations/{organization}/planAssignmentRequests/"
+              "{plan_assignment_request}"
+  };
+
+  // Name of PlanAssignmentRequest
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 6;
+
+  // Purpose of this request
+  RequestType request = 2;
+
+  // Service associated with this request.
+  string service = 3;
+
+  // Approver - it can be org or service in practice, note its always equal
+  // to the parent name of AcceptedPlan
+  string approver = 4;
+
+  Status status = 5;
+
+  // Status
+  message Status {
+    // Conclusion
+    Conclusion conclusion = 1;
+
+    // Optional message with reason
+    string reason = 2;
+
+    enum Conclusion {
+      UNDEFINED = 0;
+
+      PENDING = 1;
+
+      APPROVED = 2;
+
+      REJECTED = 3;
+    }
+  }
+
+  // RequestType describes what should change in existing PlanAssignment,
+  // optionally if new one should be created.
+  message RequestType {
+    oneof request {
+      // Assign request
+      Assign assign = 1;
+
+      // Extend request
+      Extend extend = 2;
+
+      // Unassign request
+      Unassign unassign = 4;
+    }
+
+    // Assign request requests for new PlanAssignment instance. If there
+    // already is a plan for associated service, then previous record is
+    // overwritten in the scope of the "region". In other words, this request
+    // can also be used to upgrade/downgrade existing plan. If "region" is
+    // specified, all extensions from existing plan for given region will be
+    // discarded and overwritten from this one. If "region" is not specified,
+    // then
+    message Assign {
+      // Plan to apply
+      string plan = 1;
+
+      // List of all extensions over basic plan. Extensions without specified
+      // region will apply to all regions if value of field "region" in this
+      // request is also empty. However, if "region" is specified, then
+      // extensions defined here will be applicable for this region only.
+      repeated Allowance extensions = 2;
+
+      // Optional region ID for the plan - if not specified,
+      // assigned plan will apply to all regions (default plan for region),
+      // BUT it will not override plans for specific region in existing
+      // PlanAssignment.
+      string region = 4;
+
+      reserved 3;
+    }
+
+    // Extend request should be used in order to increase (optionally
+    // decrease) limits from existing plan assignment. Note each addition
+    // can be applied to one or all regions.
+    message Extend {
+      // Reference to existing plan assignment
+      string assignment = 1;
+
+      // List of limits to merge within existing assignment
+      repeated Allowance additions = 2;
+
+      reserved 3;
+    }
+
+    // Unassign is used to remove existing PlanAssignment if "region" is empty.
+    // This will always be automatically approved unless limits are in use by
+    // existing resources.
+    // If "region" is specified, then this request will remove region specific
+    // overrides only. Note that this will not be self approved if this would
+    // result in increased value of limits.
+    message Unassign {
+      string assignment = 1;
+
+      string region = 2;
+    }
+
+    reserved 3;
+  }
+}

@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/notification;notification";
+option java_multiple_files = true;
+option java_outer_classname = "NotificationProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// Notification Resource
+message Notification {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/Notification"
+    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
+              "{alerting_policy}/notifications/{notification}"
+  };
+
+  // Name of Notification
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.:-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Reference to alerting policy that this notification is for
+  string alerting_policy = 3;
+
+  // References to alerts that are part of this notification
+  repeated string alerts = 4;
+
+  State state = 6;
+
+  message State {
+    bool is_resolved = 1;
+
+    // Notification state
+    repeated NotificationState notification_state = 2;
+
+    // Internal state to keep track of whether any notification sends needs to
+    // be retried for new incident
+    bool incident_notify_attempts_done = 3;
+
+    // Internal state to keep track of whether any notification sends needs to
+    // be retried for resolution
+    bool resolution_notify_attempts_done = 4;
+
+    // Time range for which alerts for the policy are clubbed together
+    TimeRange alerts_lifetime = 5;
+
+    repeated NotificationState resolution_notification_state = 6;
+
+    // Alert has ended and any needed notifications are processed
+    bool lifecycle_completed = 7;
+
+    message NotificationState {
+      // Notification channel name
+      string notification_channel = 1;
+
+      Status status = 2;
+
+      // Error message if status is FAILED
+      string error = 3;
+
+      // Provider specific data. Allows tracking ids of notifications sent to
+      // specific channels.
+      ProviderData provider_data = 4;
+
+      int64 notify_attempts = 5;
+
+      // Provider specific data
+      message ProviderData {
+        Slack slack = 3;
+
+        PagerDuty pager_duty = 4;
+
+        // Slack
+        message Slack { string ts = 1; }
+
+        // Pager Duty
+        message PagerDuty { string incident_key = 1; }
+      }
+
+      enum Status {
+        UNKNOWN = 0;
+
+        PENDING = 1;
+
+        FAILED = 2;
+
+        SUPPRESSED = 3;
+
+        SENT = 4;
+
+        // Status types that can be used by webhook integrated providers, like
+        // PagerDuty.
+        DELIVERED = 5;
+
+        ACKNOWLEDGED = 6;
+
+        UNACKNOWLEDGED = 7;
+      }
+    }
+  }
+}

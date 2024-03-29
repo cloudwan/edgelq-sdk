@@ -13,20 +13,20 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -39,20 +39,20 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alert.Alert{}
 	_ = &alerting_condition.AlertingCondition{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type Notification_FieldMask struct {
@@ -141,11 +141,11 @@ func (fieldMask *Notification_FieldMask) Subtract(other *Notification_FieldMask)
 	result := &Notification_FieldMask{}
 	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[Notification_FieldPathSelector]gotenobject.FieldMask{
-		Notification_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Notification_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Notification_FieldPathSelectorState:    &Notification_State_FieldMask{},
 	}
 	mySubMasks := map[Notification_FieldPathSelector]gotenobject.FieldMask{
-		Notification_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Notification_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Notification_FieldPathSelectorState:    &Notification_State_FieldMask{},
 	}
 
@@ -163,7 +163,7 @@ func (fieldMask *Notification_FieldMask) Subtract(other *Notification_FieldMask)
 				if tp, ok := path.(*Notification_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Notification_FieldPathSelectorMetadata:
-						mySubMasks[Notification_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Notification_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Notification_FieldPathSelectorState:
 						mySubMasks[Notification_FieldPathSelectorState] = FullNotification_State_FieldMask()
 					}
@@ -200,12 +200,12 @@ func (fieldMask *Notification_FieldMask) FilterInputFields() *Notification_Field
 		switch path.Selector() {
 		case Notification_FieldPathSelectorMetadata:
 			if _, ok := path.(*Notification_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Notification_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Notification_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Notification_FieldSubPath{selector: Notification_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -219,15 +219,15 @@ func (fieldMask *Notification_FieldMask) FilterInputFields() *Notification_Field
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -249,7 +249,7 @@ func (fieldMask Notification_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Notification_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -268,7 +268,7 @@ func (fieldMask Notification_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Notification_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -336,7 +336,7 @@ func (fieldMask *Notification_FieldMask) Project(source *Notification) *Notifica
 		return source
 	}
 	result := &Notification{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	stateMask := &Notification_State_FieldMask{}
 	wholeStateAccepted := false
@@ -361,7 +361,7 @@ func (fieldMask *Notification_FieldMask) Project(source *Notification) *Notifica
 		case *Notification_FieldSubPath:
 			switch tp.selector {
 			case Notification_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Notification_FieldPathSelectorState:
 				stateMask.AppendPath(tp.subPath.(NotificationState_FieldPath))
 			}
@@ -476,12 +476,12 @@ func (fieldMask *Notification_State_FieldMask) Subtract(other *Notification_Stat
 	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[NotificationState_FieldPathSelector]gotenobject.FieldMask{
 		NotificationState_FieldPathSelectorNotificationState:           &Notification_State_NotificationState_FieldMask{},
-		NotificationState_FieldPathSelectorAlertsLifetime:              &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorAlertsLifetime:              &common.TimeRange_FieldMask{},
 		NotificationState_FieldPathSelectorResolutionNotificationState: &Notification_State_NotificationState_FieldMask{},
 	}
 	mySubMasks := map[NotificationState_FieldPathSelector]gotenobject.FieldMask{
 		NotificationState_FieldPathSelectorNotificationState:           &Notification_State_NotificationState_FieldMask{},
-		NotificationState_FieldPathSelectorAlertsLifetime:              &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorAlertsLifetime:              &common.TimeRange_FieldMask{},
 		NotificationState_FieldPathSelectorResolutionNotificationState: &Notification_State_NotificationState_FieldMask{},
 	}
 
@@ -501,7 +501,7 @@ func (fieldMask *Notification_State_FieldMask) Subtract(other *Notification_Stat
 					case NotificationState_FieldPathSelectorNotificationState:
 						mySubMasks[NotificationState_FieldPathSelectorNotificationState] = FullNotification_State_NotificationState_FieldMask()
 					case NotificationState_FieldPathSelectorAlertsLifetime:
-						mySubMasks[NotificationState_FieldPathSelectorAlertsLifetime] = monitoring_common.FullTimeRange_FieldMask()
+						mySubMasks[NotificationState_FieldPathSelectorAlertsLifetime] = common.FullTimeRange_FieldMask()
 					case NotificationState_FieldPathSelectorResolutionNotificationState:
 						mySubMasks[NotificationState_FieldPathSelectorResolutionNotificationState] = FullNotification_State_NotificationState_FieldMask()
 					}
@@ -539,15 +539,15 @@ func (fieldMask *Notification_State_FieldMask) FilterInputFields() *Notification
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_State_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_State_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_State_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_State_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -569,7 +569,7 @@ func (fieldMask Notification_State_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Notification_State_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -588,7 +588,7 @@ func (fieldMask Notification_State_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Notification_State_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -658,7 +658,7 @@ func (fieldMask *Notification_State_FieldMask) Project(source *Notification_Stat
 	result := &Notification_State{}
 	notificationStateMask := &Notification_State_NotificationState_FieldMask{}
 	wholeNotificationStateAccepted := false
-	alertsLifetimeMask := &monitoring_common.TimeRange_FieldMask{}
+	alertsLifetimeMask := &common.TimeRange_FieldMask{}
 	wholeAlertsLifetimeAccepted := false
 	resolutionNotificationStateMask := &Notification_State_NotificationState_FieldMask{}
 	wholeResolutionNotificationStateAccepted := false
@@ -690,7 +690,7 @@ func (fieldMask *Notification_State_FieldMask) Project(source *Notification_Stat
 			case NotificationState_FieldPathSelectorNotificationState:
 				notificationStateMask.AppendPath(tp.subPath.(NotificationStateNotificationState_FieldPath))
 			case NotificationState_FieldPathSelectorAlertsLifetime:
-				alertsLifetimeMask.AppendPath(tp.subPath.(monitoring_common.TimeRange_FieldPath))
+				alertsLifetimeMask.AppendPath(tp.subPath.(common.TimeRange_FieldPath))
 			case NotificationState_FieldPathSelectorResolutionNotificationState:
 				resolutionNotificationStateMask.AppendPath(tp.subPath.(NotificationStateNotificationState_FieldPath))
 			}
@@ -865,15 +865,15 @@ func (fieldMask *Notification_State_NotificationState_FieldMask) FilterInputFiel
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_State_NotificationState_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_State_NotificationState_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_State_NotificationState_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_State_NotificationState_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -895,7 +895,7 @@ func (fieldMask Notification_State_NotificationState_FieldMask) Marshal() ([]byt
 }
 
 func (fieldMask *Notification_State_NotificationState_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -914,7 +914,7 @@ func (fieldMask Notification_State_NotificationState_FieldMask) MarshalJSON() ([
 }
 
 func (fieldMask *Notification_State_NotificationState_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1168,15 +1168,15 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Fi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1198,7 +1198,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_FieldMask) Mar
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1217,7 +1217,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_FieldMask) Mar
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1442,15 +1442,15 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMa
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1472,7 +1472,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_Slack_FieldMas
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1491,7 +1491,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_Slack_FieldMas
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1696,15 +1696,15 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_Fie
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1726,7 +1726,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_PagerDuty_Fiel
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1745,7 +1745,7 @@ func (fieldMask Notification_State_NotificationState_ProviderData_PagerDuty_Fiel
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

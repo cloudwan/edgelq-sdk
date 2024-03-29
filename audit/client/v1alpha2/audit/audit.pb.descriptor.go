@@ -58,7 +58,7 @@ func (d *AuditDescriptor) GetVersion() string {
 
 func (d *AuditDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *AuditDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

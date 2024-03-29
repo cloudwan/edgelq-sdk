@@ -3,11 +3,11 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/common.proto";
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod;pod";
 option java_multiple_files = true;
@@ -30,7 +30,7 @@ message Pod {
   // Display name of Pod
   string display_name = 2;
 
-  ntt.types.Meta metadata = 3;
+  goten.types.Meta metadata = 3;
 
   PodSpec spec = 4;
 

@@ -13,14 +13,14 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -33,14 +33,14 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 type Permission_FieldMask struct {
@@ -128,10 +128,10 @@ func (fieldMask *Permission_FieldMask) Subtract(other *Permission_FieldMask) *Pe
 	result := &Permission_FieldMask{}
 	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[Permission_FieldPathSelector]gotenobject.FieldMask{
-		Permission_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Permission_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Permission_FieldPathSelector]gotenobject.FieldMask{
-		Permission_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		Permission_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -148,7 +148,7 @@ func (fieldMask *Permission_FieldMask) Subtract(other *Permission_FieldMask) *Pe
 				if tp, ok := path.(*Permission_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Permission_FieldPathSelectorMetadata:
-						mySubMasks[Permission_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Permission_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Permission_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -183,12 +183,12 @@ func (fieldMask *Permission_FieldMask) FilterInputFields() *Permission_FieldMask
 		switch path.Selector() {
 		case Permission_FieldPathSelectorMetadata:
 			if _, ok := path.(*Permission_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Permission_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Permission_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Permission_FieldSubPath{selector: Permission_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -202,15 +202,15 @@ func (fieldMask *Permission_FieldMask) FilterInputFields() *Permission_FieldMask
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Permission_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Permission_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Permission_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Permission_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -232,7 +232,7 @@ func (fieldMask Permission_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Permission_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -251,7 +251,7 @@ func (fieldMask Permission_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Permission_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -319,7 +319,7 @@ func (fieldMask *Permission_FieldMask) Project(source *Permission) *Permission {
 		return source
 	}
 	result := &Permission{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -339,7 +339,7 @@ func (fieldMask *Permission_FieldMask) Project(source *Permission) *Permission {
 		case *Permission_FieldSubPath:
 			switch tp.selector {
 			case Permission_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

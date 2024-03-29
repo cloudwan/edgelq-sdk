@@ -6,20 +6,20 @@ package os_image_profile
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type OsImageProfileFieldPathBuilder struct{}
@@ -84,27 +84,27 @@ func (OsImageProfilePathSelectorMetadata) FieldPath() *OsImageProfile_FieldTermi
 	return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorMetadata}
 }
 
-func (s OsImageProfilePathSelectorMetadata) WithValue(value *ntt_meta.Meta) *OsImageProfile_FieldTerminalPathValue {
+func (s OsImageProfilePathSelectorMetadata) WithValue(value *meta.Meta) *OsImageProfile_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldTerminalPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *OsImageProfile_FieldTerminalPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *OsImageProfile_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldTerminalPathArrayOfValues)
 }
 
-func (OsImageProfilePathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *OsImageProfile_FieldSubPath {
+func (OsImageProfilePathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{selector: OsImageProfile_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s OsImageProfilePathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *OsImageProfile_FieldSubPathValue {
 	return &OsImageProfile_FieldSubPathValue{OsImageProfile_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s OsImageProfilePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *OsImageProfile_FieldSubPathArrayOfValues {
 	return &OsImageProfile_FieldSubPathArrayOfValues{OsImageProfile_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s OsImageProfilePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *OsImageProfile_FieldSubPathArrayItemValue {
+func (s OsImageProfilePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *OsImageProfile_FieldSubPathArrayItemValue {
 	return &OsImageProfile_FieldSubPathArrayItemValue{OsImageProfile_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -160,20 +160,24 @@ func (OsImageProfilePathSelectorMetadata) Lifecycle() OsImageProfilePathSelector
 	return OsImageProfilePathSelectorMetadataLifecycle{}
 }
 
+func (OsImageProfilePathSelectorMetadata) Services() OsImageProfilePathSelectorMetadataServices {
+	return OsImageProfilePathSelectorMetadataServices{}
+}
+
 type OsImageProfilePathSelectorMetadataCreateTime struct{}
 
 func (OsImageProfilePathSelectorMetadataCreateTime) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -182,15 +186,15 @@ type OsImageProfilePathSelectorMetadataUpdateTime struct{}
 func (OsImageProfilePathSelectorMetadataUpdateTime) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -199,15 +203,15 @@ type OsImageProfilePathSelectorMetadataDeleteTime struct{}
 func (OsImageProfilePathSelectorMetadataDeleteTime) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -216,7 +220,7 @@ type OsImageProfilePathSelectorMetadataUuid struct{}
 func (OsImageProfilePathSelectorMetadataUuid) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -233,7 +237,7 @@ type OsImageProfilePathSelectorMetadataTags struct{}
 func (OsImageProfilePathSelectorMetadataTags) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -254,7 +258,7 @@ type OsImageProfilePathSelectorMetadataLabels struct{}
 func (OsImageProfilePathSelectorMetadataLabels) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -277,7 +281,7 @@ type OsImageProfileMapPathSelectorMetadataLabels struct {
 func (s OsImageProfileMapPathSelectorMetadataLabels) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -294,7 +298,7 @@ type OsImageProfilePathSelectorMetadataAnnotations struct{}
 func (OsImageProfilePathSelectorMetadataAnnotations) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -317,7 +321,7 @@ type OsImageProfileMapPathSelectorMetadataAnnotations struct {
 func (s OsImageProfileMapPathSelectorMetadataAnnotations) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -334,7 +338,7 @@ type OsImageProfilePathSelectorMetadataGeneration struct{}
 func (OsImageProfilePathSelectorMetadataGeneration) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -351,7 +355,7 @@ type OsImageProfilePathSelectorMetadataResourceVersion struct{}
 func (OsImageProfilePathSelectorMetadataResourceVersion) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -368,19 +372,19 @@ type OsImageProfilePathSelectorMetadataOwnerReferences struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferences) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
-func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *OsImageProfile_FieldSubPathArrayItemValue {
+func (s OsImageProfilePathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *OsImageProfile_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*OsImageProfile_FieldSubPathArrayItemValue)
 }
 
@@ -404,10 +408,6 @@ func (OsImageProfilePathSelectorMetadataOwnerReferences) Controller() OsImagePro
 	return OsImageProfilePathSelectorMetadataOwnerReferencesController{}
 }
 
-func (OsImageProfilePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (OsImageProfilePathSelectorMetadataOwnerReferences) RequiresOwnerReference() OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -417,7 +417,7 @@ type OsImageProfilePathSelectorMetadataOwnerReferencesKind struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferencesKind) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -434,7 +434,7 @@ type OsImageProfilePathSelectorMetadataOwnerReferencesVersion struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferencesVersion) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -451,7 +451,7 @@ type OsImageProfilePathSelectorMetadataOwnerReferencesName struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferencesName) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -468,7 +468,7 @@ type OsImageProfilePathSelectorMetadataOwnerReferencesRegion struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferencesRegion) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -485,7 +485,7 @@ type OsImageProfilePathSelectorMetadataOwnerReferencesController struct{}
 func (OsImageProfilePathSelectorMetadataOwnerReferencesController) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -497,29 +497,12 @@ func (s OsImageProfilePathSelectorMetadataOwnerReferencesController) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
-type OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *OsImageProfile_FieldSubPath {
-	return &OsImageProfile_FieldSubPath{
-		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *OsImageProfile_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
-}
-
-func (s OsImageProfilePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *OsImageProfile_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
-}
-
 type OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -536,7 +519,7 @@ type OsImageProfilePathSelectorMetadataShards struct{}
 func (OsImageProfilePathSelectorMetadataShards) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -559,7 +542,7 @@ type OsImageProfileMapPathSelectorMetadataShards struct {
 func (s OsImageProfileMapPathSelectorMetadataShards) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -576,15 +559,15 @@ type OsImageProfilePathSelectorMetadataSyncing struct{}
 func (OsImageProfilePathSelectorMetadataSyncing) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -601,7 +584,7 @@ type OsImageProfilePathSelectorMetadataSyncingOwningRegion struct{}
 func (OsImageProfilePathSelectorMetadataSyncingOwningRegion) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -618,7 +601,7 @@ type OsImageProfilePathSelectorMetadataSyncingRegions struct{}
 func (OsImageProfilePathSelectorMetadataSyncingRegions) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -639,15 +622,15 @@ type OsImageProfilePathSelectorMetadataLifecycle struct{}
 func (OsImageProfilePathSelectorMetadataLifecycle) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -664,15 +647,15 @@ type OsImageProfilePathSelectorMetadataLifecycleState struct{}
 func (OsImageProfilePathSelectorMetadataLifecycleState) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s OsImageProfilePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *OsImageProfile_FieldSubPathValue {
+func (s OsImageProfilePathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *OsImageProfile_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
 }
 
-func (s OsImageProfilePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *OsImageProfile_FieldSubPathArrayOfValues {
+func (s OsImageProfilePathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 
@@ -681,7 +664,7 @@ type OsImageProfilePathSelectorMetadataLifecycleBlockDeletion struct{}
 func (OsImageProfilePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *OsImageProfile_FieldSubPath {
 	return &OsImageProfile_FieldSubPath{
 		selector: OsImageProfile_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -691,6 +674,69 @@ func (s OsImageProfilePathSelectorMetadataLifecycleBlockDeletion) WithValue(valu
 
 func (s OsImageProfilePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
+}
+
+type OsImageProfilePathSelectorMetadataServices struct{}
+
+func (OsImageProfilePathSelectorMetadataServices) FieldPath() *OsImageProfile_FieldSubPath {
+	return &OsImageProfile_FieldSubPath{
+		selector: OsImageProfile_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s OsImageProfilePathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *OsImageProfile_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
+}
+
+func (s OsImageProfilePathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *OsImageProfile_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
+}
+
+func (OsImageProfilePathSelectorMetadataServices) OwningService() OsImageProfilePathSelectorMetadataServicesOwningService {
+	return OsImageProfilePathSelectorMetadataServicesOwningService{}
+}
+
+func (OsImageProfilePathSelectorMetadataServices) AllowedServices() OsImageProfilePathSelectorMetadataServicesAllowedServices {
+	return OsImageProfilePathSelectorMetadataServicesAllowedServices{}
+}
+
+type OsImageProfilePathSelectorMetadataServicesOwningService struct{}
+
+func (OsImageProfilePathSelectorMetadataServicesOwningService) FieldPath() *OsImageProfile_FieldSubPath {
+	return &OsImageProfile_FieldSubPath{
+		selector: OsImageProfile_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s OsImageProfilePathSelectorMetadataServicesOwningService) WithValue(value string) *OsImageProfile_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
+}
+
+func (s OsImageProfilePathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *OsImageProfile_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
+}
+
+type OsImageProfilePathSelectorMetadataServicesAllowedServices struct{}
+
+func (OsImageProfilePathSelectorMetadataServicesAllowedServices) FieldPath() *OsImageProfile_FieldSubPath {
+	return &OsImageProfile_FieldSubPath{
+		selector: OsImageProfile_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s OsImageProfilePathSelectorMetadataServicesAllowedServices) WithValue(value []string) *OsImageProfile_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
+}
+
+func (s OsImageProfilePathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *OsImageProfile_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
+}
+
+func (s OsImageProfilePathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *OsImageProfile_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OsImageProfile_FieldSubPathArrayItemValue)
 }
 
 type OsImageProfilePathSelectorDisplayName struct{}

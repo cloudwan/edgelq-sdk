@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -125,7 +123,7 @@ func BuildRecoveryStoreShardingInfo_FieldPath(fp gotenobject.RawFieldPath) (Reco
 				return &RecoveryStoreShardingInfo_FieldSubPath{selector: RecoveryStoreShardingInfo_FieldPathSelectorSpec, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &RecoveryStoreShardingInfo_FieldSubPath{selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -236,7 +234,7 @@ func (fp *RecoveryStoreShardingInfo_FieldTerminalPath) GetDefault() interface{} 
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		return (*RecoveryStoreShardingInfo_ShardingSpec)(nil)
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fp.selector))
 	}
@@ -281,7 +279,7 @@ func (fp *RecoveryStoreShardingInfo_FieldTerminalPath) WithIValue(value interfac
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		return &RecoveryStoreShardingInfo_FieldTerminalPathValue{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, value: value.(*RecoveryStoreShardingInfo_ShardingSpec)}
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		return &RecoveryStoreShardingInfo_FieldTerminalPathValue{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &RecoveryStoreShardingInfo_FieldTerminalPathValue{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fp.selector))
 	}
@@ -301,7 +299,7 @@ func (fp *RecoveryStoreShardingInfo_FieldTerminalPath) WithIArrayOfValues(values
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		return &RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, values: values.([]*RecoveryStoreShardingInfo_ShardingSpec)}
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		return &RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfo_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fp.selector))
 	}
@@ -341,8 +339,8 @@ func (fps *RecoveryStoreShardingInfo_FieldSubPath) AsSpecSubPath() (RecoveryStor
 	res, ok := fps.subPath.(RecoveryStoreShardingInfoShardingSpec_FieldPath)
 	return res, ok
 }
-func (fps *RecoveryStoreShardingInfo_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *RecoveryStoreShardingInfo_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -512,8 +510,8 @@ func (fpv *RecoveryStoreShardingInfo_FieldTerminalPathValue) AsSpecValue() (*Rec
 	res, ok := fpv.value.(*RecoveryStoreShardingInfo_ShardingSpec)
 	return res, ok
 }
-func (fpv *RecoveryStoreShardingInfo_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *RecoveryStoreShardingInfo_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -530,7 +528,7 @@ func (fpv *RecoveryStoreShardingInfo_FieldTerminalPathValue) SetTo(target **Reco
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*RecoveryStoreShardingInfo_ShardingSpec)
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fpv.selector))
 	}
@@ -593,8 +591,8 @@ func (fpvs *RecoveryStoreShardingInfo_FieldSubPathValue) AsSpecPathValue() (Reco
 	res, ok := fpvs.subPathValue.(RecoveryStoreShardingInfoShardingSpec_FieldPathValue)
 	return res, ok
 }
-func (fpvs *RecoveryStoreShardingInfo_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *RecoveryStoreShardingInfo_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -608,7 +606,7 @@ func (fpvs *RecoveryStoreShardingInfo_FieldSubPathValue) SetTo(target **Recovery
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		fpvs.subPathValue.(RecoveryStoreShardingInfoShardingSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fpvs.Selector()))
 	}
@@ -630,7 +628,7 @@ func (fpvs *RecoveryStoreShardingInfo_FieldSubPathValue) CompareWith(source *Rec
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(RecoveryStoreShardingInfoShardingSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fpvs.Selector()))
 	}
@@ -721,8 +719,8 @@ func (fpaivs *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue) AsSpecPathIt
 	res, ok := fpaivs.subPathItemValue.(RecoveryStoreShardingInfoShardingSpec_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -734,7 +732,7 @@ func (fpaivs *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue) ContainsValu
 	case RecoveryStoreShardingInfo_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(RecoveryStoreShardingInfoShardingSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo: %d", fpaivs.Selector()))
 	}
@@ -788,7 +786,7 @@ func (fpaov *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues) GetRawVal
 			values = append(values, v)
 		}
 	case RecoveryStoreShardingInfo_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -806,8 +804,8 @@ func (fpaov *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues) AsSpecArr
 	res, ok := fpaov.values.([]*RecoveryStoreShardingInfo_ShardingSpec)
 	return res, ok
 }
-func (fpaov *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -829,8 +827,8 @@ func (fpsaov *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues) AsSpecPathArr
 	res, ok := fpsaov.subPathArrayOfValues.(RecoveryStoreShardingInfoShardingSpec_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -964,9 +962,9 @@ func (fp *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath) GetSingleRa
 func (fp *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo_ValidityPeriod: %d", fp.selector))
 	}
@@ -1002,9 +1000,9 @@ func (fp *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath) SplitIntoTe
 func (fp *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath) WithIValue(value interface{}) RecoveryStoreShardingInfoValidityPeriod_FieldPathValue {
 	switch fp.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo_ValidityPeriod: %d", fp.selector))
 	}
@@ -1018,9 +1016,9 @@ func (fp *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath) WithIArrayO
 	fpaov := &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo_ValidityPeriod: %d", fp.selector))
 	}
@@ -1081,12 +1079,12 @@ var _ RecoveryStoreShardingInfoValidityPeriod_FieldPathValue = (*RecoveryStoreSh
 func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) AsStartTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) AsStartTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) AsEndTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) AsEndTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -1097,9 +1095,9 @@ func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) SetTo
 	}
 	switch fpv.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		(*target).StartTime = fpv.value.(*timestamp.Timestamp)
+		(*target).StartTime = fpv.value.(*timestamppb.Timestamp)
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		(*target).EndTime = fpv.value.(*timestamp.Timestamp)
+		(*target).EndTime = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RecoveryStoreShardingInfo_ValidityPeriod: %d", fpv.selector))
 	}
@@ -1114,7 +1112,7 @@ func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) SetTo
 func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) CompareWith(source *RecoveryStoreShardingInfo_ValidityPeriod) (int, bool) {
 	switch fpv.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetStartTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1133,7 +1131,7 @@ func (fpv *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue) Compa
 			return 1, true
 		}
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetEndTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1260,22 +1258,22 @@ var _ RecoveryStoreShardingInfoValidityPeriod_FieldPathArrayOfValues = (*Recover
 func (fpaov *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues) AsStartTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues) AsStartTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpaov *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues) AsEndTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues) AsEndTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -1406,7 +1404,7 @@ func (fp *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath) GetSingleRaw(
 func (fp *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		return (*duration.Duration)(nil)
+		return (*durationpb.Duration)(nil)
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorShardsCount:
 		return uint32(0)
 	default:
@@ -1444,7 +1442,7 @@ func (fp *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath) SplitIntoTerm
 func (fp *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath) WithIValue(value interface{}) RecoveryStoreShardingInfoShardingSpec_FieldPathValue {
 	switch fp.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, value: value.(*duration.Duration)}
+		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorShardsCount:
 		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, value: value.(uint32)}
 	default:
@@ -1460,7 +1458,7 @@ func (fp *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath) WithIArrayOfV
 	fpaov := &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, values: values.([]*duration.Duration)}
+		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorShardsCount:
 		return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues{RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath: *fp, values: values.([]uint32)}
 	default:
@@ -1523,8 +1521,8 @@ var _ RecoveryStoreShardingInfoShardingSpec_FieldPathValue = (*RecoveryStoreShar
 func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) AsTsBlobPeriodValue() (*duration.Duration, bool) {
-	res, ok := fpv.value.(*duration.Duration)
+func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) AsTsBlobPeriodValue() (*durationpb.Duration, bool) {
+	res, ok := fpv.value.(*durationpb.Duration)
 	return res, ok
 }
 func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) AsShardsCountValue() (uint32, bool) {
@@ -1539,7 +1537,7 @@ func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) SetTo(t
 	}
 	switch fpv.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		(*target).TsBlobPeriod = fpv.value.(*duration.Duration)
+		(*target).TsBlobPeriod = fpv.value.(*durationpb.Duration)
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorShardsCount:
 		(*target).ShardsCount = fpv.value.(uint32)
 	default:
@@ -1556,7 +1554,7 @@ func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) SetToRa
 func (fpv *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue) CompareWith(source *RecoveryStoreShardingInfo_ShardingSpec) (int, bool) {
 	switch fpv.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		leftValue := fpv.value.(*duration.Duration)
+		leftValue := fpv.value.(*durationpb.Duration)
 		rightValue := source.GetTsBlobPeriod()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1693,7 +1691,7 @@ var _ RecoveryStoreShardingInfoShardingSpec_FieldPathArrayOfValues = (*RecoveryS
 func (fpaov *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod:
-		for _, v := range fpaov.values.([]*duration.Duration) {
+		for _, v := range fpaov.values.([]*durationpb.Duration) {
 			values = append(values, v)
 		}
 	case RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorShardsCount:
@@ -1703,8 +1701,8 @@ func (fpaov *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValue
 	}
 	return
 }
-func (fpaov *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues) AsTsBlobPeriodArrayOfValues() ([]*duration.Duration, bool) {
-	res, ok := fpaov.values.([]*duration.Duration)
+func (fpaov *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues) AsTsBlobPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
+	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
 func (fpaov *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues) AsShardsCountArrayOfValues() ([]uint32, bool) {

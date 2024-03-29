@@ -4,7 +4,7 @@ package ntt.monitoring.v3;
 
 import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
 import "google/protobuf/field_mask.proto";
-import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/types/view.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/metric_descriptor;metric_descriptor_client";
 option java_multiple_files = false;
@@ -16,7 +16,6 @@ option java_package = "com.ntt.monitoring.pb.v3";
 message ListMetricDescriptorsRequest {
   // The project on which to execute the request. The format is
   // `"projects/{project_id_or_number}"`.
-  // TODO: enable when multi-parents are supported
   string parent = 5;
 
   // If this field is empty, all custom and
@@ -47,7 +46,7 @@ message ListMetricDescriptorsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -93,7 +92,7 @@ message GetMetricDescriptorRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 5;
+  goten.types.View view = 5;
 }
 
 // Request message for method
@@ -101,7 +100,6 @@ message GetMetricDescriptorRequest {
 message CreateMetricDescriptorRequest {
   // The project on which to execute the request. The format is
   // `"projects/{project_id_or_number}"`.
-  // TODO: enable when multi-parents are supported
   string parent = 3;
 
   // The new [custom metric](/monitoring/custom-metrics)

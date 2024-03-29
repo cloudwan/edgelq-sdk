@@ -13,16 +13,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -35,16 +35,16 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service_account.ServiceAccount{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type ServiceAccountKey_FieldMask struct {
@@ -137,10 +137,10 @@ func (fieldMask *ServiceAccountKey_FieldMask) Subtract(other *ServiceAccountKey_
 	result := &ServiceAccountKey_FieldMask{}
 	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[ServiceAccountKey_FieldPathSelector]gotenobject.FieldMask{
-		ServiceAccountKey_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		ServiceAccountKey_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[ServiceAccountKey_FieldPathSelector]gotenobject.FieldMask{
-		ServiceAccountKey_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		ServiceAccountKey_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -157,7 +157,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) Subtract(other *ServiceAccountKey_
 				if tp, ok := path.(*ServiceAccountKey_FieldTerminalPath); ok {
 					switch tp.selector {
 					case ServiceAccountKey_FieldPathSelectorMetadata:
-						mySubMasks[ServiceAccountKey_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[ServiceAccountKey_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*ServiceAccountKey_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -196,12 +196,12 @@ func (fieldMask *ServiceAccountKey_FieldMask) FilterInputFields() *ServiceAccoun
 		case ServiceAccountKey_FieldPathSelectorValidNotAfter:
 		case ServiceAccountKey_FieldPathSelectorMetadata:
 			if _, ok := path.(*ServiceAccountKey_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &ServiceAccountKey_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*ServiceAccountKey_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &ServiceAccountKey_FieldSubPath{selector: ServiceAccountKey_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -215,15 +215,15 @@ func (fieldMask *ServiceAccountKey_FieldMask) FilterInputFields() *ServiceAccoun
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ServiceAccountKey_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *ServiceAccountKey_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *ServiceAccountKey_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ServiceAccountKey_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -245,7 +245,7 @@ func (fieldMask ServiceAccountKey_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *ServiceAccountKey_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -264,7 +264,7 @@ func (fieldMask ServiceAccountKey_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *ServiceAccountKey_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -332,7 +332,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) Project(source *ServiceAccountKey)
 		return source
 	}
 	result := &ServiceAccountKey{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -362,7 +362,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) Project(source *ServiceAccountKey)
 		case *ServiceAccountKey_FieldSubPath:
 			switch tp.selector {
 			case ServiceAccountKey_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}

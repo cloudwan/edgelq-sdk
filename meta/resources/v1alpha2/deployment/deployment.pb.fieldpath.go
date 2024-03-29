@@ -17,16 +17,15 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,16 +42,15 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &region.Region{}
 	_ = &service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -108,7 +106,7 @@ func BuildDeployment_FieldPath(fp gotenobject.RawFieldPath) (Deployment_FieldPat
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Deployment_FieldSubPath{selector: Deployment_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -210,7 +208,7 @@ func (fp *Deployment_FieldTerminalPath) GetDefault() interface{} {
 	case Deployment_FieldPathSelectorService:
 		return (*service.Reference)(nil)
 	case Deployment_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fp.selector))
 	}
@@ -252,7 +250,7 @@ func (fp *Deployment_FieldTerminalPath) WithIValue(value interface{}) Deployment
 	case Deployment_FieldPathSelectorService:
 		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*service.Reference)}
 	case Deployment_FieldPathSelectorMetadata:
-		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fp.selector))
 	}
@@ -270,7 +268,7 @@ func (fp *Deployment_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 	case Deployment_FieldPathSelectorService:
 		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*service.Reference)}
 	case Deployment_FieldPathSelectorMetadata:
-		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fp.selector))
 	}
@@ -302,8 +300,8 @@ var _ Deployment_FieldPath = (*Deployment_FieldSubPath)(nil)
 func (fps *Deployment_FieldSubPath) Selector() Deployment_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Deployment_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Deployment_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -451,8 +449,8 @@ func (fpv *Deployment_FieldTerminalPathValue) AsServiceValue() (*service.Referen
 	res, ok := fpv.value.(*service.Reference)
 	return res, ok
 }
-func (fpv *Deployment_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Deployment_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -467,7 +465,7 @@ func (fpv *Deployment_FieldTerminalPathValue) SetTo(target **Deployment) {
 	case Deployment_FieldPathSelectorService:
 		(*target).Service = fpv.value.(*service.Reference)
 	case Deployment_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fpv.selector))
 	}
@@ -537,8 +535,8 @@ type Deployment_FieldSubPathValue struct {
 
 var _ Deployment_FieldPathValue = (*Deployment_FieldSubPathValue)(nil)
 
-func (fpvs *Deployment_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Deployment_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -548,7 +546,7 @@ func (fpvs *Deployment_FieldSubPathValue) SetTo(target **Deployment) {
 	}
 	switch fpvs.Selector() {
 	case Deployment_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fpvs.Selector()))
 	}
@@ -566,7 +564,7 @@ func (fpvs *Deployment_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Deployment_FieldSubPathValue) CompareWith(source *Deployment) (int, bool) {
 	switch fpvs.Selector() {
 	case Deployment_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fpvs.Selector()))
 	}
@@ -649,8 +647,8 @@ type Deployment_FieldSubPathArrayItemValue struct {
 func (fpaivs *Deployment_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Deployment_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Deployment_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -658,7 +656,7 @@ func (fpaivs *Deployment_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (
 func (fpaivs *Deployment_FieldSubPathArrayItemValue) ContainsValue(source *Deployment) bool {
 	switch fpaivs.Selector() {
 	case Deployment_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Deployment: %d", fpaivs.Selector()))
 	}
@@ -708,7 +706,7 @@ func (fpaov *Deployment_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case Deployment_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -722,8 +720,8 @@ func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues()
 	res, ok := fpaov.values.([]*service.Reference)
 	return res, ok
 }
-func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -737,7 +735,7 @@ var _ Deployment_FieldPathArrayOfValues = (*Deployment_FieldSubPathArrayOfValues
 func (fpsaov *Deployment_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Deployment_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Deployment_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	region_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/region"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiRegionAccess struct {
@@ -42,8 +44,11 @@ func NewApiRegionAccess(client region_client.RegionServiceClient) region.RegionA
 }
 
 func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery) (*region.Region, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &region_client.GetRegionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetRegion(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery)
 
 func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*region.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &region_client.BatchGetRegionsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(region.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiRegionAccess) QueryRegions(ctx context.Context, query *region.ListQu
 }
 
 func (a *apiRegionAccess) WatchRegion(ctx context.Context, query *region.GetQuery, observerCb func(*region.RegionChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &region_client.WatchRegionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchRegion(ctx, request)
@@ -181,43 +196,11 @@ func (a *apiRegionAccess) SaveRegion(ctx context.Context, res *region.Region, op
 			}
 		}
 	}
-
-	if saveOpts.OnlyUpdate() || previousRes != nil {
-		updateRequest := &region_client.UpdateRegionRequest{
-			Region: res,
-		}
-		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
-			updateRequest.UpdateMask = updateMask.(*region.Region_FieldMask)
-		}
-		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
-			updateRequest.Cas = &region_client.UpdateRegionRequest_CAS{
-				ConditionalState: conditionalState.(*region.Region),
-				FieldMask:        mask.(*region.Region_FieldMask),
-			}
-		}
-		_, err := a.client.UpdateRegion(ctx, updateRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	} else {
-		createRequest := &region_client.CreateRegionRequest{
-			Region: res,
-		}
-		_, err := a.client.CreateRegion(ctx, createRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
+	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
 }
 
 func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Reference, opts ...gotenresource.DeleteOption) error {
-	request := &region_client.DeleteRegionRequest{
-		Name: ref,
-	}
-	_, err := a.client.DeleteRegion(ctx, request)
-	return err
+	return fmt.Errorf("Delete operation on Region is prohibited")
 }
 
 func init() {

@@ -9,16 +9,16 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -27,16 +27,16 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func (o *NotificationChannel) GotenObjectExt() {}
@@ -146,7 +146,7 @@ func (o *NotificationChannel) Merge(source *NotificationChannel) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -700,7 +700,7 @@ func (o *NotificationChannel_State_Error) Clone() *NotificationChannel_State_Err
 		return nil
 	}
 	result := &NotificationChannel_State_Error{}
-	result.Time = proto.Clone(o.Time).(*timestamp.Timestamp)
+	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	result.Message = o.Message
 	return result
 }
@@ -712,7 +712,7 @@ func (o *NotificationChannel_State_Error) CloneRaw() gotenobject.GotenObjectExt 
 func (o *NotificationChannel_State_Error) Merge(source *NotificationChannel_State_Error) {
 	if source.GetTime() != nil {
 		if o.Time == nil {
-			o.Time = new(timestamp.Timestamp)
+			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
 	}

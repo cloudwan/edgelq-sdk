@@ -11,7 +11,7 @@ import (
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -22,7 +22,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 func (c *MetricDescriptorChange) IsAdd() bool {

@@ -6,8 +6,6 @@ package provisioning_policy
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -19,17 +17,17 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -41,11 +39,13 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &meta_service.Service{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ProvisioningPolicyFieldPathBuilder struct{}
@@ -288,11 +288,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadata) FieldPath() *Provision
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadata) WithValue(value *ntt_meta.Meta) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadata) WithValue(value *meta.Meta) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadata) WithArrayOfValues(values []*meta.Meta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -348,6 +348,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadata) Lifecycle() Provisioni
 	return ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadata) Services() ProvisioningPolicyPathSelectorSpecTemplateMetadataServices {
+	return ProvisioningPolicyPathSelectorSpecTemplateMetadataServices{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -357,11 +361,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) FieldPath() 
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -374,11 +378,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataUpdateTime) FieldPath() 
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -391,11 +395,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataDeleteTime) FieldPath() 
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -560,15 +564,15 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) FieldPa
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
 }
 
@@ -590,10 +594,6 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) Region(
 
 func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) Controller() ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesController {
 	return ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesController{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) BlockOwnerDeletion() ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion {
-	return ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
 func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferences) RequiresOwnerReference() ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference {
@@ -685,23 +685,6 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesControl
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
 type ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -768,11 +751,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) FieldPath() *Pr
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithValue(value *meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -831,11 +814,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle) FieldPath() *
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle) WithValue(value *meta.Lifecycle) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -856,11 +839,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleState) FieldPat
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -879,6 +862,69 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleBlockDeletion
 
 func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateMetadataServices struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadataServices) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Metadata().Services().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServices) WithValue(value *meta.ServicesInfo) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadataServices) OwningService() ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService {
+	return ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadataServices) AllowedServices() ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices {
+	return ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices{}
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Metadata().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesOwningService) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Metadata().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices) WithValue(value []string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataServicesAllowedServices) WithItemValue(value string) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicyPathSelectorSpecTemplateSpec struct{}
@@ -1843,11 +1889,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpecSshConfigRejectPeriod) Field
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecSshConfigRejectPeriod) WithValue(value *duration.Duration) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecSshConfigRejectPeriod) WithValue(value *durationpb.Duration) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecSshConfigRejectPeriod) WithArrayOfValues(values []*duration.Duration) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecSshConfigRejectPeriod) WithArrayOfValues(values []*durationpb.Duration) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2363,27 +2409,27 @@ func (ProvisioningPolicyPathSelectorMetadata) FieldPath() *ProvisioningPolicy_Fi
 	return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorMetadata}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *ProvisioningPolicy_FieldTerminalPathValue {
+func (s ProvisioningPolicyPathSelectorMetadata) WithValue(value *meta.Meta) *ProvisioningPolicy_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldTerminalPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
 }
 
-func (ProvisioningPolicyPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *ProvisioningPolicy_FieldSubPath {
+func (ProvisioningPolicyPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{selector: ProvisioningPolicy_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *ProvisioningPolicy_FieldSubPathValue {
 	return &ProvisioningPolicy_FieldSubPathValue{ProvisioningPolicy_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return &ProvisioningPolicy_FieldSubPathArrayOfValues{ProvisioningPolicy_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicyPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return &ProvisioningPolicy_FieldSubPathArrayItemValue{ProvisioningPolicy_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -2439,20 +2485,24 @@ func (ProvisioningPolicyPathSelectorMetadata) Lifecycle() ProvisioningPolicyPath
 	return ProvisioningPolicyPathSelectorMetadataLifecycle{}
 }
 
+func (ProvisioningPolicyPathSelectorMetadata) Services() ProvisioningPolicyPathSelectorMetadataServices {
+	return ProvisioningPolicyPathSelectorMetadataServices{}
+}
+
 type ProvisioningPolicyPathSelectorMetadataCreateTime struct{}
 
 func (ProvisioningPolicyPathSelectorMetadataCreateTime) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2461,15 +2511,15 @@ type ProvisioningPolicyPathSelectorMetadataUpdateTime struct{}
 func (ProvisioningPolicyPathSelectorMetadataUpdateTime) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2478,15 +2528,15 @@ type ProvisioningPolicyPathSelectorMetadataDeleteTime struct{}
 func (ProvisioningPolicyPathSelectorMetadataDeleteTime) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2495,7 +2545,7 @@ type ProvisioningPolicyPathSelectorMetadataUuid struct{}
 func (ProvisioningPolicyPathSelectorMetadataUuid) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -2512,7 +2562,7 @@ type ProvisioningPolicyPathSelectorMetadataTags struct{}
 func (ProvisioningPolicyPathSelectorMetadataTags) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -2533,7 +2583,7 @@ type ProvisioningPolicyPathSelectorMetadataLabels struct{}
 func (ProvisioningPolicyPathSelectorMetadataLabels) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -2556,7 +2606,7 @@ type ProvisioningPolicyMapPathSelectorMetadataLabels struct {
 func (s ProvisioningPolicyMapPathSelectorMetadataLabels) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -2573,7 +2623,7 @@ type ProvisioningPolicyPathSelectorMetadataAnnotations struct{}
 func (ProvisioningPolicyPathSelectorMetadataAnnotations) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -2596,7 +2646,7 @@ type ProvisioningPolicyMapPathSelectorMetadataAnnotations struct {
 func (s ProvisioningPolicyMapPathSelectorMetadataAnnotations) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -2613,7 +2663,7 @@ type ProvisioningPolicyPathSelectorMetadataGeneration struct{}
 func (ProvisioningPolicyPathSelectorMetadataGeneration) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -2630,7 +2680,7 @@ type ProvisioningPolicyPathSelectorMetadataResourceVersion struct{}
 func (ProvisioningPolicyPathSelectorMetadataResourceVersion) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -2647,19 +2697,19 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferences struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferences) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicyPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
 }
 
@@ -2683,10 +2733,6 @@ func (ProvisioningPolicyPathSelectorMetadataOwnerReferences) Controller() Provis
 	return ProvisioningPolicyPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (ProvisioningPolicyPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ProvisioningPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return ProvisioningPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -2696,7 +2742,7 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferencesKind struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesKind) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -2713,7 +2759,7 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferencesVersion struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesVersion) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -2730,7 +2776,7 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferencesName struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesName) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -2747,7 +2793,7 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferencesRegion struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesRegion) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -2764,7 +2810,7 @@ type ProvisioningPolicyPathSelectorMetadataOwnerReferencesController struct{}
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesController) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -2776,29 +2822,12 @@ func (s ProvisioningPolicyPathSelectorMetadataOwnerReferencesController) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
 type ProvisioningPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ProvisioningPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -2815,7 +2844,7 @@ type ProvisioningPolicyPathSelectorMetadataShards struct{}
 func (ProvisioningPolicyPathSelectorMetadataShards) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -2838,7 +2867,7 @@ type ProvisioningPolicyMapPathSelectorMetadataShards struct {
 func (s ProvisioningPolicyMapPathSelectorMetadataShards) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -2855,15 +2884,15 @@ type ProvisioningPolicyPathSelectorMetadataSyncing struct{}
 func (ProvisioningPolicyPathSelectorMetadataSyncing) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2880,7 +2909,7 @@ type ProvisioningPolicyPathSelectorMetadataSyncingOwningRegion struct{}
 func (ProvisioningPolicyPathSelectorMetadataSyncingOwningRegion) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -2897,7 +2926,7 @@ type ProvisioningPolicyPathSelectorMetadataSyncingRegions struct{}
 func (ProvisioningPolicyPathSelectorMetadataSyncingRegions) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -2918,15 +2947,15 @@ type ProvisioningPolicyPathSelectorMetadataLifecycle struct{}
 func (ProvisioningPolicyPathSelectorMetadataLifecycle) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2943,15 +2972,15 @@ type ProvisioningPolicyPathSelectorMetadataLifecycleState struct{}
 func (ProvisioningPolicyPathSelectorMetadataLifecycleState) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2960,7 +2989,7 @@ type ProvisioningPolicyPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (ProvisioningPolicyPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -2970,6 +2999,69 @@ func (s ProvisioningPolicyPathSelectorMetadataLifecycleBlockDeletion) WithValue(
 
 func (s ProvisioningPolicyPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorMetadataServices struct{}
+
+func (ProvisioningPolicyPathSelectorMetadataServices) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicyPathSelectorMetadataServices) OwningService() ProvisioningPolicyPathSelectorMetadataServicesOwningService {
+	return ProvisioningPolicyPathSelectorMetadataServicesOwningService{}
+}
+
+func (ProvisioningPolicyPathSelectorMetadataServices) AllowedServices() ProvisioningPolicyPathSelectorMetadataServicesAllowedServices {
+	return ProvisioningPolicyPathSelectorMetadataServicesAllowedServices{}
+}
+
+type ProvisioningPolicyPathSelectorMetadataServicesOwningService struct{}
+
+func (ProvisioningPolicyPathSelectorMetadataServicesOwningService) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServicesOwningService) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorMetadataServicesAllowedServices struct{}
+
+func (ProvisioningPolicyPathSelectorMetadataServicesAllowedServices) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicyPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicySpecFieldPathBuilder struct{}
@@ -3129,11 +3221,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadata) FieldPath() *Provisio
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadata) WithValue(value *ntt_meta.Meta) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadata) WithValue(value *meta.Meta) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadata) WithArrayOfValues(values []*meta.Meta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3189,6 +3281,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadata) Lifecycle() Provision
 	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle{}
 }
 
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadata) Services() ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices {
+	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices{}
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -3198,11 +3294,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) FieldPath()
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3215,11 +3311,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataUpdateTime) FieldPath()
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3232,11 +3328,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataDeleteTime) FieldPath()
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3401,15 +3497,15 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) FieldP
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
 }
 
@@ -3431,10 +3527,6 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) Region
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) Controller() ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesController {
 	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesController{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) BlockOwnerDeletion() ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion {
-	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferences) RequiresOwnerReference() ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference {
@@ -3526,23 +3618,6 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesContro
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
 type ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -3609,11 +3684,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) FieldPath() *P
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3672,11 +3747,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle) FieldPath() 
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle) WithValue(value *meta.Lifecycle) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3697,11 +3772,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleState) FieldPa
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -3720,6 +3795,69 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleBlockDeletio
 
 func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Metadata().Services().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices) WithValue(value *meta.ServicesInfo) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices) OwningService() ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService {
+	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataServices) AllowedServices() ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices {
+	return ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesOwningService) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithValue(value []string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithItemValue(value string) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicy_SpecPathSelectorTemplateSpec struct{}
@@ -4684,11 +4822,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpecSshConfigRejectPeriod) Fiel
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecSshConfigRejectPeriod) WithValue(value *duration.Duration) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecSshConfigRejectPeriod) WithValue(value *durationpb.Duration) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecSshConfigRejectPeriod) WithArrayOfValues(values []*duration.Duration) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecSshConfigRejectPeriod) WithArrayOfValues(values []*durationpb.Duration) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -5186,27 +5324,27 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) FieldPath() *Provisi
 	return &ProvisioningPolicySpecTemplate_FieldTerminalPath{selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithValue(value *ntt_meta.Meta) *ProvisioningPolicySpecTemplate_FieldTerminalPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithValue(value *meta.Meta) *ProvisioningPolicySpecTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldTerminalPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *ProvisioningPolicySpecTemplate_FieldSubPath {
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return &ProvisioningPolicySpecTemplate_FieldSubPathValue{ProvisioningPolicySpecTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return &ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues{ProvisioningPolicySpecTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
 	return &ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue{ProvisioningPolicySpecTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -5262,20 +5400,24 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) Lifecycle() Provisio
 	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle{}
 }
 
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadata) Services() ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices{}
+}
+
 type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime struct{}
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5284,15 +5426,15 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5301,15 +5443,15 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5318,7 +5460,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUuid struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataUuid) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -5335,7 +5477,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataTags struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataTags) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -5356,7 +5498,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLabels struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLabels) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -5379,7 +5521,7 @@ type ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataLabels struct {
 func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataLabels) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5396,7 +5538,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataAnnotations struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataAnnotations) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -5419,7 +5561,7 @@ type ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataAnnotations struct {
 func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataAnnotations) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5436,7 +5578,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataGeneration struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataGeneration) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -5453,7 +5595,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataResourceVersion struct{
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataResourceVersion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -5470,19 +5612,19 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences struct{
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -5506,10 +5648,6 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) Contr
 	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesController{}
 }
 
-func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferences) RequiresOwnerReference() ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -5519,7 +5657,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesKind str
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesKind) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -5536,7 +5674,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesVersion 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesVersion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -5553,7 +5691,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesName str
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesName) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -5570,7 +5708,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRegion s
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRegion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -5587,7 +5725,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesControll
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesController) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -5599,29 +5737,12 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesContr
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
 type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -5638,7 +5759,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataShards struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataShards) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -5661,7 +5782,7 @@ type ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataShards struct {
 func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorMetadataShards) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5678,15 +5799,15 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5703,7 +5824,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncingOwningRegion str
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncingOwningRegion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -5720,7 +5841,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncingRegions struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncingRegions) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -5741,15 +5862,15 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5766,15 +5887,15 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState struct{}
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5783,7 +5904,7 @@ type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -5793,6 +5914,69 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleBlockDeleti
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices) OwningService() ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServices) AllowedServices() ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices{}
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithValue(value []string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpec struct{}
@@ -6770,11 +6954,11 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecSshConfigRejectPeriod) Fie
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecSshConfigRejectPeriod) WithValue(value *duration.Duration) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecSshConfigRejectPeriod) WithValue(value *durationpb.Duration) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecSshConfigRejectPeriod) WithArrayOfValues(values []*duration.Duration) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecSshConfigRejectPeriod) WithArrayOfValues(values []*durationpb.Duration) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

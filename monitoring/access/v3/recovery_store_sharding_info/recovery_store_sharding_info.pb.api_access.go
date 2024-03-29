@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/recovery_store_sharding_info"
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiRecoveryStoreShardingInfoAccess struct {
@@ -42,8 +44,11 @@ func NewApiRecoveryStoreShardingInfoAccess(client recovery_store_sharding_info_c
 }
 
 func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx context.Context, query *recovery_store_sharding_info.GetQuery) (*recovery_store_sharding_info.RecoveryStoreShardingInfo, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetRecoveryStoreShardingInfo(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx co
 
 func (a *apiRecoveryStoreShardingInfoAccess) BatchGetRecoveryStoreShardingInfos(ctx context.Context, refs []*recovery_store_sharding_info.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*recovery_store_sharding_info.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &recovery_store_sharding_info_client.BatchGetRecoveryStoreShardingInfosRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(recovery_store_sharding_info.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiRecoveryStoreShardingInfoAccess) QueryRecoveryStoreShardingInfos(ctx
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListRecoveryStoreShardingInfos(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiRecoveryStoreShardingInfoAccess) QueryRecoveryStoreShardingInfos(ctx
 }
 
 func (a *apiRecoveryStoreShardingInfoAccess) WatchRecoveryStoreShardingInfo(ctx context.Context, query *recovery_store_sharding_info.GetQuery, observerCb func(*recovery_store_sharding_info.RecoveryStoreShardingInfoChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &recovery_store_sharding_info_client.WatchRecoveryStoreShardingInfoRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchRecoveryStoreShardingInfo(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiRecoveryStoreShardingInfoAccess) WatchRecoveryStoreShardingInfos(ctx
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchRecoveryStoreShardingInfos(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiRecoveryStoreShardingInfoAccess) SaveRecoveryStoreShardingInfo(ctx c
 			}
 		}
 	}
-
+	var resp *recovery_store_sharding_info.RecoveryStoreShardingInfo
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &recovery_store_sharding_info_client.UpdateRecoveryStoreShardingInfoRequest{
 			RecoveryStoreShardingInfo: res,
@@ -195,29 +217,76 @@ func (a *apiRecoveryStoreShardingInfoAccess) SaveRecoveryStoreShardingInfo(ctx c
 				FieldMask:        mask.(*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateRecoveryStoreShardingInfo(ctx, updateRequest)
+		resp, err = a.client.UpdateRecoveryStoreShardingInfo(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &recovery_store_sharding_info_client.CreateRecoveryStoreShardingInfoRequest{
 			RecoveryStoreShardingInfo: res,
 		}
-		_, err := a.client.CreateRecoveryStoreShardingInfo(ctx, createRequest)
+		resp, err = a.client.CreateRecoveryStoreShardingInfo(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiRecoveryStoreShardingInfoAccess) DeleteRecoveryStoreShardingInfo(ctx context.Context, ref *recovery_store_sharding_info.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &recovery_store_sharding_info_client.DeleteRecoveryStoreShardingInfoRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteRecoveryStoreShardingInfo(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *recovery_store_sharding_info.Filter) (*recovery_store_sharding_info.Filter, *recovery_store_sharding_info.ParentName) {
+	var withParentExtraction func(cnd recovery_store_sharding_info.FilterCondition) recovery_store_sharding_info.FilterCondition
+	var resultParent *recovery_store_sharding_info.ParentName
+	var resultFilter *recovery_store_sharding_info.Filter
+	withParentExtraction = func(cnd recovery_store_sharding_info.FilterCondition) recovery_store_sharding_info.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *recovery_store_sharding_info.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]recovery_store_sharding_info.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return recovery_store_sharding_info.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *recovery_store_sharding_info.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*recovery_store_sharding_info.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &recovery_store_sharding_info.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

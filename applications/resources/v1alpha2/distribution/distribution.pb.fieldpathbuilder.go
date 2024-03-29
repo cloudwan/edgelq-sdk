@@ -8,8 +8,6 @@ package distribution
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -20,18 +18,18 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -42,10 +40,12 @@ var (
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type DistributionFieldPathBuilder struct{}
@@ -103,27 +103,27 @@ func (DistributionPathSelectorMetadata) FieldPath() *Distribution_FieldTerminalP
 	return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorMetadata}
 }
 
-func (s DistributionPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *Distribution_FieldTerminalPathValue {
+func (s DistributionPathSelectorMetadata) WithValue(value *meta.Meta) *Distribution_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldTerminalPathValue)
 }
 
-func (s DistributionPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Distribution_FieldTerminalPathArrayOfValues {
+func (s DistributionPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *Distribution_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldTerminalPathArrayOfValues)
 }
 
-func (DistributionPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *Distribution_FieldSubPath {
+func (DistributionPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{selector: Distribution_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s DistributionPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *Distribution_FieldSubPathValue {
 	return &Distribution_FieldSubPathValue{Distribution_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s DistributionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *Distribution_FieldSubPathArrayOfValues {
 	return &Distribution_FieldSubPathArrayOfValues{Distribution_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s DistributionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *Distribution_FieldSubPathArrayItemValue {
 	return &Distribution_FieldSubPathArrayItemValue{Distribution_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -179,20 +179,24 @@ func (DistributionPathSelectorMetadata) Lifecycle() DistributionPathSelectorMeta
 	return DistributionPathSelectorMetadataLifecycle{}
 }
 
+func (DistributionPathSelectorMetadata) Services() DistributionPathSelectorMetadataServices {
+	return DistributionPathSelectorMetadataServices{}
+}
+
 type DistributionPathSelectorMetadataCreateTime struct{}
 
 func (DistributionPathSelectorMetadataCreateTime) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -201,15 +205,15 @@ type DistributionPathSelectorMetadataUpdateTime struct{}
 func (DistributionPathSelectorMetadataUpdateTime) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -218,15 +222,15 @@ type DistributionPathSelectorMetadataDeleteTime struct{}
 func (DistributionPathSelectorMetadataDeleteTime) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -235,7 +239,7 @@ type DistributionPathSelectorMetadataUuid struct{}
 func (DistributionPathSelectorMetadataUuid) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -252,7 +256,7 @@ type DistributionPathSelectorMetadataTags struct{}
 func (DistributionPathSelectorMetadataTags) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -273,7 +277,7 @@ type DistributionPathSelectorMetadataLabels struct{}
 func (DistributionPathSelectorMetadataLabels) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -296,7 +300,7 @@ type DistributionMapPathSelectorMetadataLabels struct {
 func (s DistributionMapPathSelectorMetadataLabels) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -313,7 +317,7 @@ type DistributionPathSelectorMetadataAnnotations struct{}
 func (DistributionPathSelectorMetadataAnnotations) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -336,7 +340,7 @@ type DistributionMapPathSelectorMetadataAnnotations struct {
 func (s DistributionMapPathSelectorMetadataAnnotations) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -353,7 +357,7 @@ type DistributionPathSelectorMetadataGeneration struct{}
 func (DistributionPathSelectorMetadataGeneration) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -370,7 +374,7 @@ type DistributionPathSelectorMetadataResourceVersion struct{}
 func (DistributionPathSelectorMetadataResourceVersion) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -387,19 +391,19 @@ type DistributionPathSelectorMetadataOwnerReferences struct{}
 func (DistributionPathSelectorMetadataOwnerReferences) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -423,10 +427,6 @@ func (DistributionPathSelectorMetadataOwnerReferences) Controller() Distribution
 	return DistributionPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (DistributionPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (DistributionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -436,7 +436,7 @@ type DistributionPathSelectorMetadataOwnerReferencesKind struct{}
 func (DistributionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -453,7 +453,7 @@ type DistributionPathSelectorMetadataOwnerReferencesVersion struct{}
 func (DistributionPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -470,7 +470,7 @@ type DistributionPathSelectorMetadataOwnerReferencesName struct{}
 func (DistributionPathSelectorMetadataOwnerReferencesName) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -487,7 +487,7 @@ type DistributionPathSelectorMetadataOwnerReferencesRegion struct{}
 func (DistributionPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -504,7 +504,7 @@ type DistributionPathSelectorMetadataOwnerReferencesController struct{}
 func (DistributionPathSelectorMetadataOwnerReferencesController) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -516,29 +516,12 @@ func (s DistributionPathSelectorMetadataOwnerReferencesController) WithArrayOfVa
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-type DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Distribution_FieldSubPath {
-	return &Distribution_FieldSubPath{
-		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Distribution_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
-}
-
-func (s DistributionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
-}
-
 type DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -555,7 +538,7 @@ type DistributionPathSelectorMetadataShards struct{}
 func (DistributionPathSelectorMetadataShards) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -578,7 +561,7 @@ type DistributionMapPathSelectorMetadataShards struct {
 func (s DistributionMapPathSelectorMetadataShards) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -595,15 +578,15 @@ type DistributionPathSelectorMetadataSyncing struct{}
 func (DistributionPathSelectorMetadataSyncing) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -620,7 +603,7 @@ type DistributionPathSelectorMetadataSyncingOwningRegion struct{}
 func (DistributionPathSelectorMetadataSyncingOwningRegion) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -637,7 +620,7 @@ type DistributionPathSelectorMetadataSyncingRegions struct{}
 func (DistributionPathSelectorMetadataSyncingRegions) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -658,15 +641,15 @@ type DistributionPathSelectorMetadataLifecycle struct{}
 func (DistributionPathSelectorMetadataLifecycle) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -683,15 +666,15 @@ type DistributionPathSelectorMetadataLifecycleState struct{}
 func (DistributionPathSelectorMetadataLifecycleState) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s DistributionPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -700,7 +683,7 @@ type DistributionPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (DistributionPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Distribution_FieldSubPath {
 	return &Distribution_FieldSubPath{
 		selector: Distribution_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -710,6 +693,69 @@ func (s DistributionPathSelectorMetadataLifecycleBlockDeletion) WithValue(value 
 
 func (s DistributionPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorMetadataServices struct{}
+
+func (DistributionPathSelectorMetadataServices) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (DistributionPathSelectorMetadataServices) OwningService() DistributionPathSelectorMetadataServicesOwningService {
+	return DistributionPathSelectorMetadataServicesOwningService{}
+}
+
+func (DistributionPathSelectorMetadataServices) AllowedServices() DistributionPathSelectorMetadataServicesAllowedServices {
+	return DistributionPathSelectorMetadataServicesAllowedServices{}
+}
+
+type DistributionPathSelectorMetadataServicesOwningService struct{}
+
+func (DistributionPathSelectorMetadataServicesOwningService) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorMetadataServicesOwningService) WithValue(value string) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorMetadataServicesAllowedServices struct{}
+
+func (DistributionPathSelectorMetadataServicesAllowedServices) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (s DistributionPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Distribution_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
 type DistributionPathSelectorSpec struct{}
@@ -937,11 +983,11 @@ func (DistributionPathSelectorSpecTemplateMetadata) FieldPath() *Distribution_Fi
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadata) WithValue(value *ntt_meta.Meta) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadata) WithValue(value *meta.Meta) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadata) WithArrayOfValues(values []*meta.Meta) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -997,6 +1043,10 @@ func (DistributionPathSelectorSpecTemplateMetadata) Lifecycle() DistributionPath
 	return DistributionPathSelectorSpecTemplateMetadataLifecycle{}
 }
 
+func (DistributionPathSelectorSpecTemplateMetadata) Services() DistributionPathSelectorSpecTemplateMetadataServices {
+	return DistributionPathSelectorSpecTemplateMetadataServices{}
+}
+
 type DistributionPathSelectorSpecTemplateMetadataCreateTime struct{}
 
 func (DistributionPathSelectorSpecTemplateMetadataCreateTime) FieldPath() *Distribution_FieldSubPath {
@@ -1006,11 +1056,11 @@ func (DistributionPathSelectorSpecTemplateMetadataCreateTime) FieldPath() *Distr
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1023,11 +1073,11 @@ func (DistributionPathSelectorSpecTemplateMetadataUpdateTime) FieldPath() *Distr
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1040,11 +1090,11 @@ func (DistributionPathSelectorSpecTemplateMetadataDeleteTime) FieldPath() *Distr
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1209,15 +1259,15 @@ func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) FieldPath() *
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Distribution_FieldSubPathArrayItemValue {
+func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Distribution_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
@@ -1239,10 +1289,6 @@ func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) Region() Dist
 
 func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) Controller() DistributionPathSelectorSpecTemplateMetadataOwnerReferencesController {
 	return DistributionPathSelectorSpecTemplateMetadataOwnerReferencesController{}
-}
-
-func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) BlockOwnerDeletion() DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion {
-	return DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
 func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) RequiresOwnerReference() DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference {
@@ -1334,23 +1380,6 @@ func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesController) W
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
-type DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Distribution_FieldSubPath {
-	return &Distribution_FieldSubPath{
-		selector: Distribution_FieldPathSelectorSpec,
-		subPath:  NewDistributionSpecFieldPathBuilder().Template().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Distribution_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
-}
-
-func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
-}
-
 type DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Distribution_FieldSubPath {
@@ -1417,11 +1446,11 @@ func (DistributionPathSelectorSpecTemplateMetadataSyncing) FieldPath() *Distribu
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithValue(value *meta.SyncingMeta) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1480,11 +1509,11 @@ func (DistributionPathSelectorSpecTemplateMetadataLifecycle) FieldPath() *Distri
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataLifecycle) WithValue(value *meta.Lifecycle) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1505,11 +1534,11 @@ func (DistributionPathSelectorSpecTemplateMetadataLifecycleState) FieldPath() *D
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1528,6 +1557,69 @@ func (s DistributionPathSelectorSpecTemplateMetadataLifecycleBlockDeletion) With
 
 func (s DistributionPathSelectorSpecTemplateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorSpecTemplateMetadataServices struct{}
+
+func (DistributionPathSelectorSpecTemplateMetadataServices) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Metadata().Services().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServices) WithValue(value *meta.ServicesInfo) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (DistributionPathSelectorSpecTemplateMetadataServices) OwningService() DistributionPathSelectorSpecTemplateMetadataServicesOwningService {
+	return DistributionPathSelectorSpecTemplateMetadataServicesOwningService{}
+}
+
+func (DistributionPathSelectorSpecTemplateMetadataServices) AllowedServices() DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices {
+	return DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices{}
+}
+
+type DistributionPathSelectorSpecTemplateMetadataServicesOwningService struct{}
+
+func (DistributionPathSelectorSpecTemplateMetadataServicesOwningService) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Metadata().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServicesOwningService) WithValue(value string) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServicesOwningService) WithArrayOfValues(values []string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices struct{}
+
+func (DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Metadata().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices) WithValue(value []string) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataServicesAllowedServices) WithItemValue(value string) *Distribution_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
 }
 
 type DistributionPathSelectorSpecTemplateSpec struct{}
@@ -3316,11 +3408,11 @@ func (Distribution_SpecPathSelectorTemplateMetadata) FieldPath() *DistributionSp
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadata) WithValue(value *ntt_meta.Meta) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadata) WithValue(value *meta.Meta) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadata) WithArrayOfValues(values []*meta.Meta) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3376,6 +3468,10 @@ func (Distribution_SpecPathSelectorTemplateMetadata) Lifecycle() Distribution_Sp
 	return Distribution_SpecPathSelectorTemplateMetadataLifecycle{}
 }
 
+func (Distribution_SpecPathSelectorTemplateMetadata) Services() Distribution_SpecPathSelectorTemplateMetadataServices {
+	return Distribution_SpecPathSelectorTemplateMetadataServices{}
+}
+
 type Distribution_SpecPathSelectorTemplateMetadataCreateTime struct{}
 
 func (Distribution_SpecPathSelectorTemplateMetadataCreateTime) FieldPath() *DistributionSpec_FieldSubPath {
@@ -3385,11 +3481,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataCreateTime) FieldPath() *Dist
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3402,11 +3498,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataUpdateTime) FieldPath() *Dist
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3419,11 +3515,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataDeleteTime) FieldPath() *Dist
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3588,15 +3684,15 @@ func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) FieldPath() 
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *DistributionSpec_FieldSubPathArrayItemValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *DistributionSpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
@@ -3618,10 +3714,6 @@ func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) Region() Dis
 
 func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) Controller() Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesController {
 	return Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesController{}
-}
-
-func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) BlockOwnerDeletion() Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion {
-	return Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
 func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) RequiresOwnerReference() Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference {
@@ -3713,23 +3805,6 @@ func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesController) 
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
-type Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *DistributionSpec_FieldSubPath {
-	return &DistributionSpec_FieldSubPath{
-		selector: DistributionSpec_FieldPathSelectorTemplate,
-		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *DistributionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
-}
-
-func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *DistributionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
-}
-
 type Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *DistributionSpec_FieldSubPath {
@@ -3796,11 +3871,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataSyncing) FieldPath() *Distrib
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *meta.SyncingMeta) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3859,11 +3934,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataLifecycle) FieldPath() *Distr
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataLifecycle) WithValue(value *meta.Lifecycle) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3884,11 +3959,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataLifecycleState) FieldPath() *
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -3907,6 +3982,69 @@ func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleBlockDeletion) Wit
 
 func (s Distribution_SpecPathSelectorTemplateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+type Distribution_SpecPathSelectorTemplateMetadataServices struct{}
+
+func (Distribution_SpecPathSelectorTemplateMetadataServices) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Metadata().Services().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServices) WithValue(value *meta.ServicesInfo) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+func (Distribution_SpecPathSelectorTemplateMetadataServices) OwningService() Distribution_SpecPathSelectorTemplateMetadataServicesOwningService {
+	return Distribution_SpecPathSelectorTemplateMetadataServicesOwningService{}
+}
+
+func (Distribution_SpecPathSelectorTemplateMetadataServices) AllowedServices() Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices {
+	return Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices{}
+}
+
+type Distribution_SpecPathSelectorTemplateMetadataServicesOwningService struct{}
+
+func (Distribution_SpecPathSelectorTemplateMetadataServicesOwningService) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServicesOwningService) WithValue(value string) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServicesOwningService) WithArrayOfValues(values []string) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+type Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices struct{}
+
+func (Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithValue(value []string) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataServicesAllowedServices) WithItemValue(value string) *DistributionSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
 }
 
 type Distribution_SpecPathSelectorTemplateSpec struct{}
@@ -5464,27 +5602,27 @@ func (Distribution_Spec_TemplatePathSelectorMetadata) FieldPath() *DistributionS
 	return &DistributionSpecTemplate_FieldTerminalPath{selector: DistributionSpecTemplate_FieldPathSelectorMetadata}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadata) WithValue(value *ntt_meta.Meta) *DistributionSpecTemplate_FieldTerminalPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadata) WithValue(value *meta.Meta) *DistributionSpecTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldTerminalPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *DistributionSpecTemplate_FieldTerminalPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *DistributionSpecTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (Distribution_Spec_TemplatePathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *DistributionSpecTemplate_FieldSubPath {
+func (Distribution_Spec_TemplatePathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{selector: DistributionSpecTemplate_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *DistributionSpecTemplate_FieldSubPathValue {
 	return &DistributionSpecTemplate_FieldSubPathValue{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return &DistributionSpecTemplate_FieldSubPathArrayOfValues{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return &DistributionSpecTemplate_FieldSubPathArrayItemValue{DistributionSpecTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -5540,20 +5678,24 @@ func (Distribution_Spec_TemplatePathSelectorMetadata) Lifecycle() Distribution_S
 	return Distribution_Spec_TemplatePathSelectorMetadataLifecycle{}
 }
 
+func (Distribution_Spec_TemplatePathSelectorMetadata) Services() Distribution_Spec_TemplatePathSelectorMetadataServices {
+	return Distribution_Spec_TemplatePathSelectorMetadataServices{}
+}
+
 type Distribution_Spec_TemplatePathSelectorMetadataCreateTime struct{}
 
 func (Distribution_Spec_TemplatePathSelectorMetadataCreateTime) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5562,15 +5704,15 @@ type Distribution_Spec_TemplatePathSelectorMetadataUpdateTime struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataUpdateTime) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5579,15 +5721,15 @@ type Distribution_Spec_TemplatePathSelectorMetadataDeleteTime struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataDeleteTime) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5596,7 +5738,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataUuid struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataUuid) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -5613,7 +5755,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataTags struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataTags) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -5634,7 +5776,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataLabels struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataLabels) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -5657,7 +5799,7 @@ type Distribution_Spec_TemplateMapPathSelectorMetadataLabels struct {
 func (s Distribution_Spec_TemplateMapPathSelectorMetadataLabels) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5674,7 +5816,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataAnnotations struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataAnnotations) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -5697,7 +5839,7 @@ type Distribution_Spec_TemplateMapPathSelectorMetadataAnnotations struct {
 func (s Distribution_Spec_TemplateMapPathSelectorMetadataAnnotations) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5714,7 +5856,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataGeneration struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataGeneration) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -5731,7 +5873,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataResourceVersion struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataResourceVersion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -5748,19 +5890,19 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -5784,10 +5926,6 @@ func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) Controller(
 	return Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesController{}
 }
 
-func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) RequiresOwnerReference() Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -5797,7 +5935,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesKind struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesKind) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -5814,7 +5952,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesVersion struct
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesVersion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -5831,7 +5969,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesName struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesName) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -5848,7 +5986,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRegion struct{
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRegion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -5865,7 +6003,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesController str
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesController) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -5877,29 +6015,12 @@ func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesController)
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
-type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
-	return &DistributionSpecTemplate_FieldSubPath{
-		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *DistributionSpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
-}
-
-func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
-}
-
 type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -5916,7 +6037,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataShards struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataShards) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -5939,7 +6060,7 @@ type Distribution_Spec_TemplateMapPathSelectorMetadataShards struct {
 func (s Distribution_Spec_TemplateMapPathSelectorMetadataShards) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -5956,15 +6077,15 @@ type Distribution_Spec_TemplatePathSelectorMetadataSyncing struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataSyncing) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -5981,7 +6102,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataSyncingOwningRegion struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataSyncingOwningRegion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -5998,7 +6119,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataSyncingRegions struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataSyncingRegions) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -6019,15 +6140,15 @@ type Distribution_Spec_TemplatePathSelectorMetadataLifecycle struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataLifecycle) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6044,15 +6165,15 @@ type Distribution_Spec_TemplatePathSelectorMetadataLifecycleState struct{}
 func (Distribution_Spec_TemplatePathSelectorMetadataLifecycleState) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -6061,7 +6182,7 @@ type Distribution_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion struct
 func (Distribution_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *DistributionSpecTemplate_FieldSubPath {
 	return &DistributionSpecTemplate_FieldSubPath{
 		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -6071,6 +6192,69 @@ func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion) Wi
 
 func (s Distribution_Spec_TemplatePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type Distribution_Spec_TemplatePathSelectorMetadataServices struct{}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataServices) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataServices) OwningService() Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService {
+	return Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService{}
+}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataServices) AllowedServices() Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices {
+	return Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices{}
+}
+
+type Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService struct{}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService) WithValue(value string) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices struct{}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithValue(value []string) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
 }
 
 type Distribution_Spec_TemplatePathSelectorSpec struct{}

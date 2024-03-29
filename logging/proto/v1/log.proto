@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log;log";
+option java_multiple_files = true;
+option java_outer_classname = "LogProto";
+option java_package = "com.ntt.logging.pb.v1";
+
+// Log Resource
+message Log {
+  option (google.api.resource) = {
+    type : "logging.edgelq.com/Log"
+    pattern : "projects/{project}/logs/{log}"
+    pattern : "organizations/{organization}/logs/{log}"
+    pattern : "services/{service}/logs/{log}"
+    pattern : "projects/{project}/regions/{region}/buckets/{bucket}/logs/{log}"
+    pattern : "organizations/{organization}/regions/{region}/buckets/{bucket}/"
+              "logs/{log}"
+    pattern : "services/{service}/regions/{region}/buckets/{bucket}/logs/{log}"
+  };
+
+  // Name of Log
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w./-=+]{1,128}
+  string name = 1;
+
+  // Contains scope from name field without resource ID.
+  // Used for internal purpose for filtering (logs are using custom store).
+  // Example formats are:
+  // - organization/umbrella
+  // - projects/mars_exploration
+  // - services/devices.edgelq.com
+  string scope = 2;
+
+  // Service name, for example "devices.edgelq.com"
+  string service = 3;
+
+  // Region of the service to which log is assigned, for example "us-west2"
+  string region = 4;
+
+  // Associated service version, for example "v1"
+  string version = 5;
+
+  // Associated log descriptor
+  string log_descriptor = 6;
+
+  // List of query-able labels
+  map<string, string> labels = 7;
+
+  // Log timestamp
+  google.protobuf.Timestamp time = 8;
+
+  // Log JSON payload
+  google.protobuf.Struct json_payload = 9;
+
+  // Log Protobuf payload
+  google.protobuf.Any pb_payload = 10;
+}

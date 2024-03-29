@@ -24,9 +24,9 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,9 +44,9 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
+	_ = &meta.Meta{}
 )
 
 var organizationInvitation_RegexpId = regexp.MustCompile("^(?P<organization_invitation_id>[\\w][\\w.-]{0,127})$")
@@ -58,14 +58,6 @@ func (r *OrganizationInvitation) MaybePopulateDefaults() error {
 		return defaulter.PopulateDefaults()
 	}
 	return nil
-}
-
-func (r *OrganizationInvitation) GetRawName() gotenresource.Name {
-	return r.GetName()
-}
-
-func (r *OrganizationInvitation) GetResourceDescriptor() gotenresource.Descriptor {
-	return descriptor
 }
 
 type Name struct {

@@ -11,6 +11,7 @@ import "edgelq-sdk/limits/proto/v1alpha2/limit_pool.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/limit_pool_custom.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/limit_pool_service.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/limit_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limits_versioning.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_custom.proto";

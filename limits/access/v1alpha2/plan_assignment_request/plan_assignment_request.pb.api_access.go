@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	plan_assignment_request_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan_assignment_request"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiPlanAssignmentRequestAccess struct {
@@ -42,8 +44,11 @@ func NewApiPlanAssignmentRequestAccess(client plan_assignment_request_client.Pla
 }
 
 func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Context, query *plan_assignment_request.GetQuery) (*plan_assignment_request.PlanAssignmentRequest, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &plan_assignment_request_client.GetPlanAssignmentRequestRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetPlanAssignmentRequest(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Co
 
 func (a *apiPlanAssignmentRequestAccess) BatchGetPlanAssignmentRequests(ctx context.Context, refs []*plan_assignment_request.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*plan_assignment_request.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &plan_assignment_request_client.BatchGetPlanAssignmentRequestsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(plan_assignment_request.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListPlanAssignmentRequests(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context
 }
 
 func (a *apiPlanAssignmentRequestAccess) WatchPlanAssignmentRequest(ctx context.Context, query *plan_assignment_request.GetQuery, observerCb func(*plan_assignment_request.PlanAssignmentRequestChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &plan_assignment_request_client.WatchPlanAssignmentRequestRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchPlanAssignmentRequest(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiPlanAssignmentRequestAccess) WatchPlanAssignmentRequests(ctx context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchPlanAssignmentRequests(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiPlanAssignmentRequestAccess) SavePlanAssignmentRequest(ctx context.C
 			}
 		}
 	}
-
+	var resp *plan_assignment_request.PlanAssignmentRequest
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &plan_assignment_request_client.UpdatePlanAssignmentRequestRequest{
 			PlanAssignmentRequest: res,
@@ -195,29 +217,76 @@ func (a *apiPlanAssignmentRequestAccess) SavePlanAssignmentRequest(ctx context.C
 				FieldMask:        mask.(*plan_assignment_request.PlanAssignmentRequest_FieldMask),
 			}
 		}
-		_, err := a.client.UpdatePlanAssignmentRequest(ctx, updateRequest)
+		resp, err = a.client.UpdatePlanAssignmentRequest(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &plan_assignment_request_client.CreatePlanAssignmentRequestRequest{
 			PlanAssignmentRequest: res,
 		}
-		_, err := a.client.CreatePlanAssignmentRequest(ctx, createRequest)
+		resp, err = a.client.CreatePlanAssignmentRequest(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiPlanAssignmentRequestAccess) DeletePlanAssignmentRequest(ctx context.Context, ref *plan_assignment_request.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &plan_assignment_request_client.DeletePlanAssignmentRequestRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeletePlanAssignmentRequest(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *plan_assignment_request.Filter) (*plan_assignment_request.Filter, *plan_assignment_request.ParentName) {
+	var withParentExtraction func(cnd plan_assignment_request.FilterCondition) plan_assignment_request.FilterCondition
+	var resultParent *plan_assignment_request.ParentName
+	var resultFilter *plan_assignment_request.Filter
+	withParentExtraction = func(cnd plan_assignment_request.FilterCondition) plan_assignment_request.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *plan_assignment_request.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]plan_assignment_request.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return plan_assignment_request.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *plan_assignment_request.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*plan_assignment_request.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &plan_assignment_request.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

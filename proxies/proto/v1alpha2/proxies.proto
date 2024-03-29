@@ -6,6 +6,7 @@ import "edgelq-sdk/proxies/proto/v1alpha2/broker_custom.proto";
 import "edgelq-sdk/proxies/proto/v1alpha2/broker_service.proto";
 import "edgelq-sdk/proxies/proto/v1alpha2/project.proto";
 import "edgelq-sdk/proxies/proto/v1alpha2/project_service.proto";
+import "edgelq-sdk/proxies/proto/v1alpha2/proxies_versioning.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

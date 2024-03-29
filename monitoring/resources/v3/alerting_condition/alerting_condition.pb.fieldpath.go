@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
-	duration "github.com/golang/protobuf/ptypes/duration"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &duration.Duration{}
+	_ = &common.LabelDescriptor{}
+	_ = &durationpb.Duration{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -125,7 +123,7 @@ func BuildAlertingCondition_FieldPath(fp gotenobject.RawFieldPath) (AlertingCond
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertingCondition_FieldSubPath{selector: AlertingCondition_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -252,7 +250,7 @@ func (fp *AlertingCondition_FieldTerminalPath) GetDefault() interface{} {
 	case AlertingCondition_FieldPathSelectorName:
 		return (*Name)(nil)
 	case AlertingCondition_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case AlertingCondition_FieldPathSelectorDisplayName:
 		return ""
 	case AlertingCondition_FieldPathSelectorDescription:
@@ -307,7 +305,7 @@ func (fp *AlertingCondition_FieldTerminalPath) WithIValue(value interface{}) Ale
 	case AlertingCondition_FieldPathSelectorName:
 		return &AlertingCondition_FieldTerminalPathValue{AlertingCondition_FieldTerminalPath: *fp, value: value.(*Name)}
 	case AlertingCondition_FieldPathSelectorMetadata:
-		return &AlertingCondition_FieldTerminalPathValue{AlertingCondition_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &AlertingCondition_FieldTerminalPathValue{AlertingCondition_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case AlertingCondition_FieldPathSelectorDisplayName:
 		return &AlertingCondition_FieldTerminalPathValue{AlertingCondition_FieldTerminalPath: *fp, value: value.(string)}
 	case AlertingCondition_FieldPathSelectorDescription:
@@ -331,7 +329,7 @@ func (fp *AlertingCondition_FieldTerminalPath) WithIArrayOfValues(values interfa
 	case AlertingCondition_FieldPathSelectorName:
 		return &AlertingCondition_FieldTerminalPathArrayOfValues{AlertingCondition_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case AlertingCondition_FieldPathSelectorMetadata:
-		return &AlertingCondition_FieldTerminalPathArrayOfValues{AlertingCondition_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &AlertingCondition_FieldTerminalPathArrayOfValues{AlertingCondition_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case AlertingCondition_FieldPathSelectorDisplayName:
 		return &AlertingCondition_FieldTerminalPathArrayOfValues{AlertingCondition_FieldTerminalPath: *fp, values: values.([]string)}
 	case AlertingCondition_FieldPathSelectorDescription:
@@ -371,8 +369,8 @@ var _ AlertingCondition_FieldPath = (*AlertingCondition_FieldSubPath)(nil)
 func (fps *AlertingCondition_FieldSubPath) Selector() AlertingCondition_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertingCondition_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *AlertingCondition_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *AlertingCondition_FieldSubPath) AsSpecSubPath() (AlertingConditionSpec_FieldPath, bool) {
@@ -542,8 +540,8 @@ func (fpv *AlertingCondition_FieldTerminalPathValue) AsNameValue() (*Name, bool)
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *AlertingCondition_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *AlertingCondition_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *AlertingCondition_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
@@ -572,7 +570,7 @@ func (fpv *AlertingCondition_FieldTerminalPathValue) SetTo(target **AlertingCond
 	case AlertingCondition_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case AlertingCondition_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case AlertingCondition_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case AlertingCondition_FieldPathSelectorDescription:
@@ -655,8 +653,8 @@ type AlertingCondition_FieldSubPathValue struct {
 
 var _ AlertingCondition_FieldPathValue = (*AlertingCondition_FieldSubPathValue)(nil)
 
-func (fpvs *AlertingCondition_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *AlertingCondition_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *AlertingCondition_FieldSubPathValue) AsSpecPathValue() (AlertingConditionSpec_FieldPathValue, bool) {
@@ -674,7 +672,7 @@ func (fpvs *AlertingCondition_FieldSubPathValue) SetTo(target **AlertingConditio
 	}
 	switch fpvs.Selector() {
 	case AlertingCondition_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case AlertingCondition_FieldPathSelectorSpec:
 		fpvs.subPathValue.(AlertingConditionSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case AlertingCondition_FieldPathSelectorState:
@@ -696,7 +694,7 @@ func (fpvs *AlertingCondition_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AlertingCondition_FieldSubPathValue) CompareWith(source *AlertingCondition) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertingCondition_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case AlertingCondition_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(AlertingConditionSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case AlertingCondition_FieldPathSelectorState:
@@ -783,8 +781,8 @@ type AlertingCondition_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) AsSpecPathItemValue() (AlertingConditionSpec_FieldPathArrayItemValue, bool) {
@@ -800,7 +798,7 @@ func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) AsStatePathItemValue
 func (fpaivs *AlertingCondition_FieldSubPathArrayItemValue) ContainsValue(source *AlertingCondition) bool {
 	switch fpaivs.Selector() {
 	case AlertingCondition_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case AlertingCondition_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(AlertingConditionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case AlertingCondition_FieldPathSelectorState:
@@ -850,7 +848,7 @@ func (fpaov *AlertingCondition_FieldTerminalPathArrayOfValues) GetRawValues() (v
 			values = append(values, v)
 		}
 	case AlertingCondition_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case AlertingCondition_FieldPathSelectorDisplayName:
@@ -876,8 +874,8 @@ func (fpaov *AlertingCondition_FieldTerminalPathArrayOfValues) AsNameArrayOfValu
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *AlertingCondition_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *AlertingCondition_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *AlertingCondition_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -907,8 +905,8 @@ var _ AlertingCondition_FieldPathArrayOfValues = (*AlertingCondition_FieldSubPat
 func (fpsaov *AlertingCondition_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertingCondition_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *AlertingCondition_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *AlertingCondition_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (AlertingConditionSpec_FieldPathArrayOfValues, bool) {
@@ -2133,7 +2131,7 @@ func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) GetDefault() interf
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
 		return (*AlertingCondition_Spec_TimeSeries_CombineThreshold)(nil)
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		return (*duration.Duration)(nil)
+		return (*durationpb.Duration)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries: %d", fp.selector))
 	}
@@ -2178,7 +2176,7 @@ func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) WithIValue(value in
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
 		return &AlertingConditionSpecTimeSeries_FieldTerminalPathValue{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, value: value.(*AlertingCondition_Spec_TimeSeries_CombineThreshold)}
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		return &AlertingConditionSpecTimeSeries_FieldTerminalPathValue{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, value: value.(*duration.Duration)}
+		return &AlertingConditionSpecTimeSeries_FieldTerminalPathValue{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries: %d", fp.selector))
 	}
@@ -2198,7 +2196,7 @@ func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) WithIArrayOfValues(
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
 		return &AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, values: values.([]*AlertingCondition_Spec_TimeSeries_CombineThreshold)}
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		return &AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, values: values.([]*duration.Duration)}
+		return &AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeries_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries: %d", fp.selector))
 	}
@@ -2409,8 +2407,8 @@ func (fpv *AlertingConditionSpecTimeSeries_FieldTerminalPathValue) AsCombineThre
 	res, ok := fpv.value.(*AlertingCondition_Spec_TimeSeries_CombineThreshold)
 	return res, ok
 }
-func (fpv *AlertingConditionSpecTimeSeries_FieldTerminalPathValue) AsDurationValue() (*duration.Duration, bool) {
-	res, ok := fpv.value.(*duration.Duration)
+func (fpv *AlertingConditionSpecTimeSeries_FieldTerminalPathValue) AsDurationValue() (*durationpb.Duration, bool) {
+	res, ok := fpv.value.(*durationpb.Duration)
 	return res, ok
 }
 
@@ -2427,7 +2425,7 @@ func (fpv *AlertingConditionSpecTimeSeries_FieldTerminalPathValue) SetTo(target 
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
 		(*target).CombineThreshold = fpv.value.(*AlertingCondition_Spec_TimeSeries_CombineThreshold)
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		(*target).Duration = fpv.value.(*duration.Duration)
+		(*target).Duration = fpv.value.(*durationpb.Duration)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries: %d", fpv.selector))
 	}
@@ -2448,7 +2446,7 @@ func (fpv *AlertingConditionSpecTimeSeries_FieldTerminalPathValue) CompareWith(s
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
 		return 0, false
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		leftValue := fpv.value.(*duration.Duration)
+		leftValue := fpv.value.(*durationpb.Duration)
 		rightValue := source.GetDuration()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -2685,7 +2683,7 @@ func (fpaov *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues) Get
 			values = append(values, v)
 		}
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorDuration:
-		for _, v := range fpaov.values.([]*duration.Duration) {
+		for _, v := range fpaov.values.([]*durationpb.Duration) {
 			values = append(values, v)
 		}
 	}
@@ -2703,8 +2701,8 @@ func (fpaov *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues) AsC
 	res, ok := fpaov.values.([]*AlertingCondition_Spec_TimeSeries_CombineThreshold)
 	return res, ok
 }
-func (fpaov *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues) AsDurationArrayOfValues() ([]*duration.Duration, bool) {
-	res, ok := fpaov.values.([]*duration.Duration)
+func (fpaov *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues) AsDurationArrayOfValues() ([]*durationpb.Duration, bool) {
+	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
 
@@ -3158,13 +3156,13 @@ func BuildAlertingConditionSpecTimeSeriesQuery_FieldPath(fp gotenobject.RawField
 	} else {
 		switch fp[0] {
 		case "selector":
-			if subpath, err := monitoring_common.BuildTimeSeriesSelector_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildTimeSeriesSelector_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector, subPath: subpath}, nil
 			}
 		case "aggregation":
-			if subpath, err := monitoring_common.BuildAggregation_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildAggregation_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation, subPath: subpath}, nil
@@ -3255,9 +3253,9 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) GetSingleRaw(s
 func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		return (*monitoring_common.TimeSeriesSelector)(nil)
+		return (*common.TimeSeriesSelector)(nil)
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		return (*monitoring_common.Aggregation)(nil)
+		return (*common.Aggregation)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3292,9 +3290,9 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) SplitIntoTermi
 func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*monitoring_common.TimeSeriesSelector)}
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*common.TimeSeriesSelector)}
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*monitoring_common.Aggregation)}
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*common.Aggregation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3308,9 +3306,9 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIArrayOfVa
 	fpaov := &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TimeSeriesSelector)}
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*common.TimeSeriesSelector)}
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*monitoring_common.Aggregation)}
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*common.Aggregation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3342,12 +3340,12 @@ var _ AlertingConditionSpecTimeSeriesQuery_FieldPath = (*AlertingConditionSpecTi
 func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) Selector() AlertingConditionSpecTimeSeriesQuery_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) AsSelectorSubPath() (monitoring_common.TimeSeriesSelector_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.TimeSeriesSelector_FieldPath)
+func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) AsSelectorSubPath() (common.TimeSeriesSelector_FieldPath, bool) {
+	res, ok := fps.subPath.(common.TimeSeriesSelector_FieldPath)
 	return res, ok
 }
-func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) AsAggregationSubPath() (monitoring_common.Aggregation_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.Aggregation_FieldPath)
+func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) AsAggregationSubPath() (common.Aggregation_FieldPath, bool) {
+	res, ok := fps.subPath.(common.Aggregation_FieldPath)
 	return res, ok
 }
 
@@ -3496,12 +3494,12 @@ var _ AlertingConditionSpecTimeSeriesQuery_FieldPathValue = (*AlertingConditionS
 func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsSelectorValue() (*monitoring_common.TimeSeriesSelector, bool) {
-	res, ok := fpv.value.(*monitoring_common.TimeSeriesSelector)
+func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsSelectorValue() (*common.TimeSeriesSelector, bool) {
+	res, ok := fpv.value.(*common.TimeSeriesSelector)
 	return res, ok
 }
-func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsAggregationValue() (*monitoring_common.Aggregation, bool) {
-	res, ok := fpv.value.(*monitoring_common.Aggregation)
+func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsAggregationValue() (*common.Aggregation, bool) {
+	res, ok := fpv.value.(*common.Aggregation)
 	return res, ok
 }
 
@@ -3512,9 +3510,9 @@ func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) SetTo(ta
 	}
 	switch fpv.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		(*target).Selector = fpv.value.(*monitoring_common.TimeSeriesSelector)
+		(*target).Selector = fpv.value.(*common.TimeSeriesSelector)
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		(*target).Aggregation = fpv.value.(*monitoring_common.Aggregation)
+		(*target).Aggregation = fpv.value.(*common.Aggregation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpv.selector))
 	}
@@ -3548,12 +3546,12 @@ type AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue struct {
 
 var _ AlertingConditionSpecTimeSeriesQuery_FieldPathValue = (*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)(nil)
 
-func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) AsSelectorPathValue() (monitoring_common.TimeSeriesSelector_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.TimeSeriesSelector_FieldPathValue)
+func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) AsSelectorPathValue() (common.TimeSeriesSelector_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.TimeSeriesSelector_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) AsAggregationPathValue() (monitoring_common.Aggregation_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.Aggregation_FieldPathValue)
+func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) AsAggregationPathValue() (common.Aggregation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.Aggregation_FieldPathValue)
 	return res, ok
 }
 
@@ -3563,9 +3561,9 @@ func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) SetTo(target
 	}
 	switch fpvs.Selector() {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		fpvs.subPathValue.(monitoring_common.TimeSeriesSelector_FieldPathValue).SetTo(&(*target).Selector)
+		fpvs.subPathValue.(common.TimeSeriesSelector_FieldPathValue).SetTo(&(*target).Selector)
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		fpvs.subPathValue.(monitoring_common.Aggregation_FieldPathValue).SetTo(&(*target).Aggregation)
+		fpvs.subPathValue.(common.Aggregation_FieldPathValue).SetTo(&(*target).Aggregation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpvs.Selector()))
 	}
@@ -3583,9 +3581,9 @@ func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) GetRawValue(
 func (fpvs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue) CompareWith(source *AlertingCondition_Spec_TimeSeries_Query) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		return fpvs.subPathValue.(monitoring_common.TimeSeriesSelector_FieldPathValue).CompareWith(source.GetSelector())
+		return fpvs.subPathValue.(common.TimeSeriesSelector_FieldPathValue).CompareWith(source.GetSelector())
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		return fpvs.subPathValue.(monitoring_common.Aggregation_FieldPathValue).CompareWith(source.GetAggregation())
+		return fpvs.subPathValue.(common.Aggregation_FieldPathValue).CompareWith(source.GetAggregation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpvs.Selector()))
 	}
@@ -3668,12 +3666,12 @@ type AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) AsSelectorPathItemValue() (monitoring_common.TimeSeriesSelector_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.TimeSeriesSelector_FieldPathArrayItemValue)
+func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) AsSelectorPathItemValue() (common.TimeSeriesSelector_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.TimeSeriesSelector_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) AsAggregationPathItemValue() (monitoring_common.Aggregation_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.Aggregation_FieldPathArrayItemValue)
+func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) AsAggregationPathItemValue() (common.Aggregation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.Aggregation_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -3681,9 +3679,9 @@ func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) A
 func (fpaivs *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_TimeSeries_Query) bool {
 	switch fpaivs.Selector() {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		return fpaivs.subPathItemValue.(monitoring_common.TimeSeriesSelector_FieldPathArrayItemValue).ContainsValue(source.GetSelector())
+		return fpaivs.subPathItemValue.(common.TimeSeriesSelector_FieldPathArrayItemValue).ContainsValue(source.GetSelector())
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		return fpaivs.subPathItemValue.(monitoring_common.Aggregation_FieldPathArrayItemValue).ContainsValue(source.GetAggregation())
+		return fpaivs.subPathItemValue.(common.Aggregation_FieldPathArrayItemValue).ContainsValue(source.GetAggregation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpaivs.Selector()))
 	}
@@ -3725,22 +3723,22 @@ var _ AlertingConditionSpecTimeSeriesQuery_FieldPathArrayOfValues = (*AlertingCo
 func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-		for _, v := range fpaov.values.([]*monitoring_common.TimeSeriesSelector) {
+		for _, v := range fpaov.values.([]*common.TimeSeriesSelector) {
 			values = append(values, v)
 		}
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-		for _, v := range fpaov.values.([]*monitoring_common.Aggregation) {
+		for _, v := range fpaov.values.([]*common.Aggregation) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsSelectorArrayOfValues() ([]*monitoring_common.TimeSeriesSelector, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.TimeSeriesSelector)
+func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsSelectorArrayOfValues() ([]*common.TimeSeriesSelector, bool) {
+	res, ok := fpaov.values.([]*common.TimeSeriesSelector)
 	return res, ok
 }
-func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsAggregationArrayOfValues() ([]*monitoring_common.Aggregation, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.Aggregation)
+func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsAggregationArrayOfValues() ([]*common.Aggregation, bool) {
+	res, ok := fpaov.values.([]*common.Aggregation)
 	return res, ok
 }
 
@@ -3754,12 +3752,12 @@ var _ AlertingConditionSpecTimeSeriesQuery_FieldPathArrayOfValues = (*AlertingCo
 func (fpsaov *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues) AsSelectorPathArrayOfValues() (monitoring_common.TimeSeriesSelector_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TimeSeriesSelector_FieldPathArrayOfValues)
+func (fpsaov *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues) AsSelectorPathArrayOfValues() (common.TimeSeriesSelector_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.TimeSeriesSelector_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues) AsAggregationPathArrayOfValues() (monitoring_common.Aggregation_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.Aggregation_FieldPathArrayOfValues)
+func (fpsaov *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues) AsAggregationPathArrayOfValues() (common.Aggregation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.Aggregation_FieldPathArrayOfValues)
 	return res, ok
 }
 

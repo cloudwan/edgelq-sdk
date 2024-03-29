@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &os_image_profile.OsImageProfile{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetOsImageProfileDescriptorClientMsgHandle) ExtractResourceName(msg pro
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*os_image_profile.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetOsImageProfileDescriptorClientMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOsImageProfileDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetOsImageProfileRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOsImageProfileDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetOsImageProfileRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetOsImageProfileDescriptorServerMsgHandle) ExtractCollectionName(msg p
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetOsImageProfileDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*os_image_profile.OsImageProfile)
+}
+
+func (h *GetOsImageProfileDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*os_image_profile.OsImageProfile)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*os_image_profile.OsImageProfile) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetOsImageProfilesDescriptorClientMsgHandle) ExtractResourceNames(
 		return os_image_profile.OsImageProfileNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(os_image_profile.OsImageProfileNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return os_image_profile.OsImageProfileNameList(names)
 		}
 	}
 	return (os_image_profile.OsImageProfileNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetOsImageProfilesDescriptorClientMsgHandle) ExtractCollectionName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOsImageProfilesRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOsImageProfilesRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetOsImageProfilesDescriptorServerMsgHandle) ExtractCollectionName
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetOsImageProfilesResponse) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetOsImageProfilesResponse) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOsImageProfiles(); len(resources) > 0 {
+			return os_image_profile.OsImageProfileList(resources)
+		}
+	}
+	return (os_image_profile.OsImageProfileList)(nil)
 }
 
 func GetBatchGetOsImageProfilesDescriptor() *BatchGetOsImageProfilesDescriptor {
@@ -522,6 +611,30 @@ func (h *ListOsImageProfilesDescriptorClientMsgHandle) ExtractCollectionName(msg
 	return (*os_image_profile.ParentName)(nil)
 }
 
+func (h *ListOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOsImageProfilesRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOsImageProfilesRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListOsImageProfilesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListOsImageProfilesResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListOsImageProfilesDescriptorServerMsgHandle) ExtractCollectionName(msg
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListOsImageProfilesResponse) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListOsImageProfilesResponse) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOsImageProfiles(); len(resources) > 0 {
+			return os_image_profile.OsImageProfileList(resources)
+		}
+	}
+	return (os_image_profile.OsImageProfileList)(nil)
 }
 
 func GetListOsImageProfilesDescriptor() *ListOsImageProfilesDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchOsImageProfileDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*os_image_profile.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchOsImageProfileDescriptorClientMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOsImageProfileDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOsImageProfileRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOsImageProfileDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOsImageProfileRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchOsImageProfileDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOsImageProfileDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOsImageProfileResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOsImageProfileResponse) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *os_image_profile.OsImageProfileChange_Added_:
+				return tResChange.Added.GetOsImageProfile()
+			case *os_image_profile.OsImageProfileChange_Modified_:
+				return tResChange.Modified.GetOsImageProfile()
+			case *os_image_profile.OsImageProfileChange_Current_:
+				return tResChange.Current.GetOsImageProfile()
+			}
+		}
+	}
+	return (*os_image_profile.OsImageProfile)(nil)
+}
+
+func (h *WatchOsImageProfileDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOsImageProfileResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOsImageProfileResponse) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchOsImageProfilesDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*os_image_profile.ParentName)(nil)
+}
+
+func (h *WatchOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOsImageProfilesRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOsImageProfilesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOsImageProfilesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOsImageProfilesRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchOsImageProfilesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchOsImageProfilesDescriptorServerMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchOsImageProfilesResponse) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchOsImageProfilesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchOsImageProfilesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchOsImageProfilesResponse) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetOsImageProfileChanges(); len(resChanges) > 0 {
+			list := make(os_image_profile.OsImageProfileList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *os_image_profile.OsImageProfileChange_Added_:
+					list = append(list, tResChange.Added.GetOsImageProfile())
+				case *os_image_profile.OsImageProfileChange_Modified_:
+					list = append(list, tResChange.Modified.GetOsImageProfile())
+				case *os_image_profile.OsImageProfileChange_Current_:
+					list = append(list, tResChange.Current.GetOsImageProfile())
+				}
+			}
+			return list
+		}
+	}
+	return (os_image_profile.OsImageProfileList)(nil)
 }
 
 func GetWatchOsImageProfilesDescriptor() *WatchOsImageProfilesDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateOsImageProfileDescriptorClientMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*os_image_profile.ParentName)(nil)
+}
+
+func (h *CreateOsImageProfileDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateOsImageProfileRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOsImageProfile()
+	}
+	return (*os_image_profile.OsImageProfile)(nil)
+}
+
+func (h *CreateOsImageProfileDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateOsImageProfileRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateOsImageProfileDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateOsImageProfileDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateOsImageProfileDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*os_image_profile.OsImageProfile)
+}
+
+func (h *CreateOsImageProfileDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*os_image_profile.OsImageProfile)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*os_image_profile.OsImageProfile) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateOsImageProfileDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdateOsImageProfileDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateOsImageProfileRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetOsImageProfile()
+	}
+	return (*os_image_profile.OsImageProfile)(nil)
+}
+
+func (h *UpdateOsImageProfileDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateOsImageProfileRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateOsImageProfileDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*os_image_profile.OsImageProfile)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateOsImageProfileDescriptorServerMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
+func (h *UpdateOsImageProfileDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*os_image_profile.OsImageProfile)
+}
+
+func (h *UpdateOsImageProfileDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*os_image_profile.OsImageProfile)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*os_image_profile.OsImageProfile) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateOsImageProfileDescriptor() *UpdateOsImageProfileDescriptor {
 	return updateOsImageProfileDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteOsImageProfileDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteOsImageProfileDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteOsImageProfileDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteOsImageProfileDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*os_image_profile.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteOsImageProfileDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return nil
 }
 
-func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteOsImageProfileDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteOsImageProfileRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *os_image_profile.Name
+		OverrideExtractResourceBody(*DeleteOsImageProfileRequest) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOsImageProfileDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteOsImageProfileRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteOsImageProfileRequest) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *os_image_profile.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceName(msg 
 }
 
 func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*os_image_profile.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*os_image_profile.Name
 	})
 	if ok {
 		return os_image_profile.OsImageProfileNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceNames(msg
 }
 
 func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *os_image_profile.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *os_image_profile.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *os_image_profile.OsImageProfile
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteOsImageProfileDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*os_image_profile.OsImageProfile
+	})
+	if ok {
+		return os_image_profile.OsImageProfileList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

@@ -9,8 +9,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/condition;condition_client";
 option java_multiple_files = false;
@@ -19,7 +19,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Request message for method [GetCondition][ntt.iam.v1alpha2.GetCondition]
 message GetConditionRequest {
-  // Reference of ntt.iam.v1alpha2.Condition
+  // Name of ntt.iam.v1alpha2.Condition
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -28,7 +28,7 @@ message GetConditionRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -43,7 +43,7 @@ message BatchGetConditionsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -92,7 +92,7 @@ message ListConditionsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -125,7 +125,7 @@ message ListConditionsResponse {
 
 // Request message for method [WatchCondition][ntt.iam.v1alpha2.WatchCondition]
 message WatchConditionRequest {
-  // Reference to ntt.iam.v1alpha2.Condition
+  // Name of ntt.iam.v1alpha2.Condition
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -134,7 +134,7 @@ message WatchConditionRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchConditionResponse
@@ -145,9 +145,9 @@ message WatchConditionResponse { ConditionChange change = 1; }
 message WatchConditionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.iam.v1alpha2.Condition
+  // Parent name of ntt.iam.v1alpha2.Condition
   string parent = 1;
 
   // Requested page size. Server may return fewer Conditions than requested.
@@ -191,7 +191,7 @@ message WatchConditionsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // Condition that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -270,7 +270,7 @@ message WatchConditionsResponse {
 // Request message for method
 // [CreateCondition][ntt.iam.v1alpha2.CreateCondition]
 message CreateConditionRequest {
-  // Parent reference of ntt.iam.v1alpha2.Condition
+  // Parent name of ntt.iam.v1alpha2.Condition
   string parent = 1;
 
   // Condition resource body
@@ -316,7 +316,7 @@ message UpdateConditionRequest {
 // Request message for method
 // [DeleteCondition][ntt.iam.v1alpha2.DeleteCondition]
 message DeleteConditionRequest {
-  // Reference of ntt.iam.v1alpha2.Condition
+  // Name of ntt.iam.v1alpha2.Condition
   string name = 1;
 }
 

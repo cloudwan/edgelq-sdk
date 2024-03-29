@@ -7,7 +7,7 @@ import "edgelq-sdk/limits/proto/v1alpha2/accepted_plan.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request_change.proto";
 import "google/protobuf/field_mask.proto";
-import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/types/view.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan_assignment_request;plan_assignment_request_client";
 option java_multiple_files = false;
@@ -50,13 +50,13 @@ message ListApproverPlanAssignmentRequestsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 }
 
 // Request message for method
 // [AcceptPlanAssignment][ntt.limits.v1alpha2.AcceptPlanAssignment]
 message AcceptPlanAssignmentRequest {
-  // reference of ntt.limits.v1alpha2.PlanAssignmentRequest
+  // name of ntt.limits.v1alpha2.PlanAssignmentRequest
   string name = 1;
 
   // Entity approving plan assignment. It can be left empty if the one approving
@@ -71,7 +71,7 @@ message AcceptPlanAssignmentResponse { AcceptedPlan accepted_plan = 1; }
 // Request message for method
 // [DeclineAssignment][ntt.limits.v1alpha2.DeclineAssignment]
 message DeclinePlanAssignmentRequest {
-  //  reference of ntt.limits.v1alpha2.AssignmentRequest
+  //  name of ntt.limits.v1alpha2.AssignmentRequest
   string name = 1;
 
   // Entity approving plan assignment. It must match approver in

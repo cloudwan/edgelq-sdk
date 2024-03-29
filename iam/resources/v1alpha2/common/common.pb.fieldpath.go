@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -41,7 +40,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -683,7 +681,7 @@ func (fp *ServiceBusinessTier_FieldTerminalPath) GetSingleRaw(source proto.Messa
 func (fp *ServiceBusinessTier_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		return (*meta_service.Reference)(nil)
+		return (*meta_service.Name)(nil)
 	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
 		return BusinessTier_UNDEFINED
 	default:
@@ -721,7 +719,7 @@ func (fp *ServiceBusinessTier_FieldTerminalPath) SplitIntoTerminalIPaths() []got
 func (fp *ServiceBusinessTier_FieldTerminalPath) WithIValue(value interface{}) ServiceBusinessTier_FieldPathValue {
 	switch fp.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		return &ServiceBusinessTier_FieldTerminalPathValue{ServiceBusinessTier_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
+		return &ServiceBusinessTier_FieldTerminalPathValue{ServiceBusinessTier_FieldTerminalPath: *fp, value: value.(*meta_service.Name)}
 	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
 		return &ServiceBusinessTier_FieldTerminalPathValue{ServiceBusinessTier_FieldTerminalPath: *fp, value: value.(BusinessTier)}
 	default:
@@ -737,7 +735,7 @@ func (fp *ServiceBusinessTier_FieldTerminalPath) WithIArrayOfValues(values inter
 	fpaov := &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		return &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
+		return &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp, values: values.([]*meta_service.Name)}
 	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
 		return &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp, values: values.([]BusinessTier)}
 	default:
@@ -800,8 +798,8 @@ var _ ServiceBusinessTier_FieldPathValue = (*ServiceBusinessTier_FieldTerminalPa
 func (fpv *ServiceBusinessTier_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ServiceBusinessTier_FieldTerminalPathValue) AsServiceValue() (*meta_service.Reference, bool) {
-	res, ok := fpv.value.(*meta_service.Reference)
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) AsServiceValue() (*meta_service.Name, bool) {
+	res, ok := fpv.value.(*meta_service.Name)
 	return res, ok
 }
 func (fpv *ServiceBusinessTier_FieldTerminalPathValue) AsBusinessTierValue() (BusinessTier, bool) {
@@ -816,7 +814,7 @@ func (fpv *ServiceBusinessTier_FieldTerminalPathValue) SetTo(target **ServiceBus
 	}
 	switch fpv.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		(*target).Service = fpv.value.(*meta_service.Reference)
+		(*target).Service = fpv.value.(*meta_service.Name)
 	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
 		(*target).BusinessTier = fpv.value.(BusinessTier)
 	default:
@@ -833,7 +831,7 @@ func (fpv *ServiceBusinessTier_FieldTerminalPathValue) SetToRaw(target proto.Mes
 func (fpv *ServiceBusinessTier_FieldTerminalPathValue) CompareWith(source *ServiceBusinessTier) (int, bool) {
 	switch fpv.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		leftValue := fpv.value.(*meta_service.Reference)
+		leftValue := fpv.value.(*meta_service.Name)
 		rightValue := source.GetService()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -970,7 +968,7 @@ var _ ServiceBusinessTier_FieldPathArrayOfValues = (*ServiceBusinessTier_FieldTe
 func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ServiceBusinessTier_FieldPathSelectorService:
-		for _, v := range fpaov.values.([]*meta_service.Reference) {
+		for _, v := range fpaov.values.([]*meta_service.Name) {
 			values = append(values, v)
 		}
 	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
@@ -980,8 +978,8 @@ func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) GetRawValues() 
 	}
 	return
 }
-func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Reference, bool) {
-	res, ok := fpaov.values.([]*meta_service.Reference)
+func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Name, bool) {
+	res, ok := fpaov.values.([]*meta_service.Name)
 	return res, ok
 }
 func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() ([]BusinessTier, bool) {
@@ -1706,7 +1704,7 @@ func (fp *ServiceErrorsError_FieldTerminalPath) GetSingleRaw(source proto.Messag
 func (fp *ServiceErrorsError_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		return (*meta_service.Reference)(nil)
+		return (*meta_service.Name)(nil)
 	case ServiceErrorsError_FieldPathSelectorMessage:
 		return ""
 	default:
@@ -1744,7 +1742,7 @@ func (fp *ServiceErrorsError_FieldTerminalPath) SplitIntoTerminalIPaths() []gote
 func (fp *ServiceErrorsError_FieldTerminalPath) WithIValue(value interface{}) ServiceErrorsError_FieldPathValue {
 	switch fp.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		return &ServiceErrorsError_FieldTerminalPathValue{ServiceErrorsError_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
+		return &ServiceErrorsError_FieldTerminalPathValue{ServiceErrorsError_FieldTerminalPath: *fp, value: value.(*meta_service.Name)}
 	case ServiceErrorsError_FieldPathSelectorMessage:
 		return &ServiceErrorsError_FieldTerminalPathValue{ServiceErrorsError_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -1760,7 +1758,7 @@ func (fp *ServiceErrorsError_FieldTerminalPath) WithIArrayOfValues(values interf
 	fpaov := &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		return &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
+		return &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp, values: values.([]*meta_service.Name)}
 	case ServiceErrorsError_FieldPathSelectorMessage:
 		return &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -1823,8 +1821,8 @@ var _ ServiceErrorsError_FieldPathValue = (*ServiceErrorsError_FieldTerminalPath
 func (fpv *ServiceErrorsError_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ServiceErrorsError_FieldTerminalPathValue) AsServiceValue() (*meta_service.Reference, bool) {
-	res, ok := fpv.value.(*meta_service.Reference)
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) AsServiceValue() (*meta_service.Name, bool) {
+	res, ok := fpv.value.(*meta_service.Name)
 	return res, ok
 }
 func (fpv *ServiceErrorsError_FieldTerminalPathValue) AsMessageValue() (string, bool) {
@@ -1839,7 +1837,7 @@ func (fpv *ServiceErrorsError_FieldTerminalPathValue) SetTo(target **ServiceErro
 	}
 	switch fpv.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		(*target).Service = fpv.value.(*meta_service.Reference)
+		(*target).Service = fpv.value.(*meta_service.Name)
 	case ServiceErrorsError_FieldPathSelectorMessage:
 		(*target).Message = fpv.value.(string)
 	default:
@@ -1856,7 +1854,7 @@ func (fpv *ServiceErrorsError_FieldTerminalPathValue) SetToRaw(target proto.Mess
 func (fpv *ServiceErrorsError_FieldTerminalPathValue) CompareWith(source *ServiceErrors_Error) (int, bool) {
 	switch fpv.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		leftValue := fpv.value.(*meta_service.Reference)
+		leftValue := fpv.value.(*meta_service.Name)
 		rightValue := source.GetService()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1993,7 +1991,7 @@ var _ ServiceErrorsError_FieldPathArrayOfValues = (*ServiceErrorsError_FieldTerm
 func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ServiceErrorsError_FieldPathSelectorService:
-		for _, v := range fpaov.values.([]*meta_service.Reference) {
+		for _, v := range fpaov.values.([]*meta_service.Name) {
 			values = append(values, v)
 		}
 	case ServiceErrorsError_FieldPathSelectorMessage:
@@ -2003,8 +2001,8 @@ func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) GetRawValues() (
 	}
 	return
 }
-func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Reference, bool) {
-	res, ok := fpaov.values.([]*meta_service.Reference)
+func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Name, bool) {
+	res, ok := fpaov.values.([]*meta_service.Name)
 	return res, ok
 }
 func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) AsMessageArrayOfValues() ([]string, bool) {

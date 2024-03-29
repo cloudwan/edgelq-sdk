@@ -17,20 +17,19 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -47,20 +46,19 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -148,7 +146,7 @@ func BuildPlanAssignment_FieldPath(fp gotenobject.RawFieldPath) (PlanAssignment_
 				return &PlanAssignment_FieldSubPath{selector: PlanAssignment_FieldPathSelectorRegionalDistributions, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PlanAssignment_FieldSubPath{selector: PlanAssignment_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -286,7 +284,7 @@ func (fp *PlanAssignment_FieldTerminalPath) GetDefault() interface{} {
 	case PlanAssignment_FieldPathSelectorSource:
 		return (*accepted_plan.Reference)(nil)
 	case PlanAssignment_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fp.selector))
 	}
@@ -346,7 +344,7 @@ func (fp *PlanAssignment_FieldTerminalPath) WithIValue(value interface{}) PlanAs
 	case PlanAssignment_FieldPathSelectorSource:
 		return &PlanAssignment_FieldTerminalPathValue{PlanAssignment_FieldTerminalPath: *fp, value: value.(*accepted_plan.Reference)}
 	case PlanAssignment_FieldPathSelectorMetadata:
-		return &PlanAssignment_FieldTerminalPathValue{PlanAssignment_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &PlanAssignment_FieldTerminalPathValue{PlanAssignment_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fp.selector))
 	}
@@ -372,7 +370,7 @@ func (fp *PlanAssignment_FieldTerminalPath) WithIArrayOfValues(values interface{
 	case PlanAssignment_FieldPathSelectorSource:
 		return &PlanAssignment_FieldTerminalPathArrayOfValues{PlanAssignment_FieldTerminalPath: *fp, values: values.([]*accepted_plan.Reference)}
 	case PlanAssignment_FieldPathSelectorMetadata:
-		return &PlanAssignment_FieldTerminalPathArrayOfValues{PlanAssignment_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &PlanAssignment_FieldTerminalPathArrayOfValues{PlanAssignment_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fp.selector))
 	}
@@ -416,8 +414,8 @@ func (fps *PlanAssignment_FieldSubPath) AsRegionalDistributionsSubPath() (common
 	res, ok := fps.subPath.(common.RegionalDistribution_FieldPath)
 	return res, ok
 }
-func (fps *PlanAssignment_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *PlanAssignment_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -607,8 +605,8 @@ func (fpv *PlanAssignment_FieldTerminalPathValue) AsSourceValue() (*accepted_pla
 	res, ok := fpv.value.(*accepted_plan.Reference)
 	return res, ok
 }
-func (fpv *PlanAssignment_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *PlanAssignment_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -631,7 +629,7 @@ func (fpv *PlanAssignment_FieldTerminalPathValue) SetTo(target **PlanAssignment)
 	case PlanAssignment_FieldPathSelectorSource:
 		(*target).Source = fpv.value.(*accepted_plan.Reference)
 	case PlanAssignment_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fpv.selector))
 	}
@@ -751,8 +749,8 @@ func (fpvs *PlanAssignment_FieldSubPathValue) AsRegionalDistributionsPathValue()
 	res, ok := fpvs.subPathValue.(common.RegionalDistribution_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PlanAssignment_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *PlanAssignment_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -766,7 +764,7 @@ func (fpvs *PlanAssignment_FieldSubPathValue) SetTo(target **PlanAssignment) {
 	case PlanAssignment_FieldPathSelectorRegionalDistributions:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case PlanAssignment_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fpvs.Selector()))
 	}
@@ -788,7 +786,7 @@ func (fpvs *PlanAssignment_FieldSubPathValue) CompareWith(source *PlanAssignment
 	case PlanAssignment_FieldPathSelectorRegionalDistributions:
 		return 0, false // repeated field
 	case PlanAssignment_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fpvs.Selector()))
 	}
@@ -887,8 +885,8 @@ func (fpaivs *PlanAssignment_FieldSubPathArrayItemValue) AsRegionalDistributions
 	res, ok := fpaivs.subPathItemValue.(common.RegionalDistribution_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PlanAssignment_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *PlanAssignment_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -900,7 +898,7 @@ func (fpaivs *PlanAssignment_FieldSubPathArrayItemValue) ContainsValue(source *P
 	case PlanAssignment_FieldPathSelectorRegionalDistributions:
 		return false // repeated/map field
 	case PlanAssignment_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fpaivs.Selector()))
 	}
@@ -966,7 +964,7 @@ func (fpaov *PlanAssignment_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 			values = append(values, v)
 		}
 	case PlanAssignment_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -996,8 +994,8 @@ func (fpaov *PlanAssignment_FieldTerminalPathArrayOfValues) AsSourceArrayOfValue
 	res, ok := fpaov.values.([]*accepted_plan.Reference)
 	return res, ok
 }
-func (fpaov *PlanAssignment_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *PlanAssignment_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -1019,7 +1017,7 @@ func (fpsaov *PlanAssignment_FieldSubPathArrayOfValues) AsRegionalDistributionsP
 	res, ok := fpsaov.subPathArrayOfValues.(common.RegionalDistribution_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PlanAssignment_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *PlanAssignment_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

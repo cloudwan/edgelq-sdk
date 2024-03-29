@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	secret_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/secret"
 	secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiSecretAccess struct {
@@ -42,8 +44,11 @@ func NewApiSecretAccess(client secret_client.SecretServiceClient) secret.SecretA
 }
 
 func (a *apiSecretAccess) GetSecret(ctx context.Context, query *secret.GetQuery) (*secret.Secret, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &secret_client.GetSecretRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetSecret(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiSecretAccess) GetSecret(ctx context.Context, query *secret.GetQuery)
 
 func (a *apiSecretAccess) BatchGetSecrets(ctx context.Context, refs []*secret.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*secret.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &secret_client.BatchGetSecretsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(secret.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiSecretAccess) QuerySecrets(ctx context.Context, query *secret.ListQu
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListSecrets(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiSecretAccess) QuerySecrets(ctx context.Context, query *secret.ListQu
 }
 
 func (a *apiSecretAccess) WatchSecret(ctx context.Context, query *secret.GetQuery, observerCb func(*secret.SecretChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &secret_client.WatchSecretRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchSecret(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiSecretAccess) WatchSecrets(ctx context.Context, query *secret.WatchQ
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchSecrets(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiSecretAccess) SaveSecret(ctx context.Context, res *secret.Secret, op
 			}
 		}
 	}
-
+	var resp *secret.Secret
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &secret_client.UpdateSecretRequest{
 			Secret: res,
@@ -195,29 +217,76 @@ func (a *apiSecretAccess) SaveSecret(ctx context.Context, res *secret.Secret, op
 				FieldMask:        mask.(*secret.Secret_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateSecret(ctx, updateRequest)
+		resp, err = a.client.UpdateSecret(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &secret_client.CreateSecretRequest{
 			Secret: res,
 		}
-		_, err := a.client.CreateSecret(ctx, createRequest)
+		resp, err = a.client.CreateSecret(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiSecretAccess) DeleteSecret(ctx context.Context, ref *secret.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &secret_client.DeleteSecretRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteSecret(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *secret.Filter) (*secret.Filter, *secret.ParentName) {
+	var withParentExtraction func(cnd secret.FilterCondition) secret.FilterCondition
+	var resultParent *secret.ParentName
+	var resultFilter *secret.Filter
+	withParentExtraction = func(cnd secret.FilterCondition) secret.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *secret.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]secret.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return secret.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *secret.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*secret.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &secret.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

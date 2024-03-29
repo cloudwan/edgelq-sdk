@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission;permission";
 option java_multiple_files = true;
@@ -18,7 +18,7 @@ message Permission {
   };
 
   // Name of Permission
-  // Example: liquid.site.create
+  // Example: library.site.create
   string name = 1;
 
   // Title
@@ -28,5 +28,5 @@ message Permission {
   string description = 3;
 
   // Metadata
-  ntt.types.Meta metadata = 4;
+  goten.types.Meta metadata = 4;
 }

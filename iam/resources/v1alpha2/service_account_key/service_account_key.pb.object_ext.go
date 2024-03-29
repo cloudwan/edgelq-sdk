@@ -9,16 +9,16 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -27,16 +27,16 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service_account.ServiceAccount{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func (o *ServiceAccountKey) GotenObjectExt() {}
@@ -119,8 +119,8 @@ func (o *ServiceAccountKey) Clone() *ServiceAccountKey {
 	result.PrivateKeyData = o.PrivateKeyData
 	result.ApiKey = o.ApiKey
 	result.Algorithm = o.Algorithm
-	result.ValidNotBefore = proto.Clone(o.ValidNotBefore).(*timestamp.Timestamp)
-	result.ValidNotAfter = proto.Clone(o.ValidNotAfter).(*timestamp.Timestamp)
+	result.ValidNotBefore = proto.Clone(o.ValidNotBefore).(*timestamppb.Timestamp)
+	result.ValidNotAfter = proto.Clone(o.ValidNotAfter).(*timestamppb.Timestamp)
 	result.Metadata = o.Metadata.Clone()
 	return result
 }
@@ -149,19 +149,19 @@ func (o *ServiceAccountKey) Merge(source *ServiceAccountKey) {
 	o.Algorithm = source.GetAlgorithm()
 	if source.GetValidNotBefore() != nil {
 		if o.ValidNotBefore == nil {
-			o.ValidNotBefore = new(timestamp.Timestamp)
+			o.ValidNotBefore = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.ValidNotBefore, source.GetValidNotBefore())
 	}
 	if source.GetValidNotAfter() != nil {
 		if o.ValidNotAfter == nil {
-			o.ValidNotAfter = new(timestamp.Timestamp)
+			o.ValidNotAfter = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.ValidNotAfter, source.GetValidNotAfter())
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}

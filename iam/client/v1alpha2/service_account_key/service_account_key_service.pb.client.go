@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account_key"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &service_account_key.ServiceAccountKey{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ServiceAccountKeyServiceClient interface {
 	WatchServiceAccountKeys(ctx context.Context, in *WatchServiceAccountKeysRequest, opts ...grpc.CallOption) (WatchServiceAccountKeysClientStream, error)
 	CreateServiceAccountKey(ctx context.Context, in *CreateServiceAccountKeyRequest, opts ...grpc.CallOption) (*service_account_key.ServiceAccountKey, error)
 	UpdateServiceAccountKey(ctx context.Context, in *UpdateServiceAccountKeyRequest, opts ...grpc.CallOption) (*service_account_key.ServiceAccountKey, error)
-	DeleteServiceAccountKey(ctx context.Context, in *DeleteServiceAccountKeyRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteServiceAccountKey(ctx context.Context, in *DeleteServiceAccountKeyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateServiceAccountKey(ctx context.Context, in *UpdateServiceA
 	return out, nil
 }
 
-func (c *client) DeleteServiceAccountKey(ctx context.Context, in *DeleteServiceAccountKeyRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteServiceAccountKey(ctx context.Context, in *DeleteServiceAccountKeyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.ServiceAccountKeyService/DeleteServiceAccountKey", in, out, opts...)
 	if err != nil {
 		return nil, err

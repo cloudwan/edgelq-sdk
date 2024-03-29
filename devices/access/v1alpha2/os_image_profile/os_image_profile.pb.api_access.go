@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	os_image_profile_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/os_image_profile"
 	os_image_profile "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/os_image_profile"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiOsImageProfileAccess struct {
@@ -42,8 +44,11 @@ func NewApiOsImageProfileAccess(client os_image_profile_client.OsImageProfileSer
 }
 
 func (a *apiOsImageProfileAccess) GetOsImageProfile(ctx context.Context, query *os_image_profile.GetQuery) (*os_image_profile.OsImageProfile, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &os_image_profile_client.GetOsImageProfileRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetOsImageProfile(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiOsImageProfileAccess) GetOsImageProfile(ctx context.Context, query *
 
 func (a *apiOsImageProfileAccess) BatchGetOsImageProfiles(ctx context.Context, refs []*os_image_profile.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*os_image_profile.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &os_image_profile_client.BatchGetOsImageProfilesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(os_image_profile.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiOsImageProfileAccess) QueryOsImageProfiles(ctx context.Context, quer
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListOsImageProfiles(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiOsImageProfileAccess) QueryOsImageProfiles(ctx context.Context, quer
 }
 
 func (a *apiOsImageProfileAccess) WatchOsImageProfile(ctx context.Context, query *os_image_profile.GetQuery, observerCb func(*os_image_profile.OsImageProfileChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &os_image_profile_client.WatchOsImageProfileRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchOsImageProfile(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiOsImageProfileAccess) WatchOsImageProfiles(ctx context.Context, quer
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchOsImageProfiles(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiOsImageProfileAccess) SaveOsImageProfile(ctx context.Context, res *o
 			}
 		}
 	}
-
+	var resp *os_image_profile.OsImageProfile
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &os_image_profile_client.UpdateOsImageProfileRequest{
 			OsImageProfile: res,
@@ -195,29 +217,76 @@ func (a *apiOsImageProfileAccess) SaveOsImageProfile(ctx context.Context, res *o
 				FieldMask:        mask.(*os_image_profile.OsImageProfile_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateOsImageProfile(ctx, updateRequest)
+		resp, err = a.client.UpdateOsImageProfile(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &os_image_profile_client.CreateOsImageProfileRequest{
 			OsImageProfile: res,
 		}
-		_, err := a.client.CreateOsImageProfile(ctx, createRequest)
+		resp, err = a.client.CreateOsImageProfile(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiOsImageProfileAccess) DeleteOsImageProfile(ctx context.Context, ref *os_image_profile.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &os_image_profile_client.DeleteOsImageProfileRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteOsImageProfile(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *os_image_profile.Filter) (*os_image_profile.Filter, *os_image_profile.ParentName) {
+	var withParentExtraction func(cnd os_image_profile.FilterCondition) os_image_profile.FilterCondition
+	var resultParent *os_image_profile.ParentName
+	var resultFilter *os_image_profile.Filter
+	withParentExtraction = func(cnd os_image_profile.FilterCondition) os_image_profile.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *os_image_profile.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]os_image_profile.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return os_image_profile.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *os_image_profile.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*os_image_profile.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &os_image_profile.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

@@ -30,6 +30,13 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // * --filter 'service.name=[SERVICE_NAME] and
 // resource.name=[FULL_RESOURCE_NAME]' (can I see activities on this resource?)
 //
+// Its also possible to filter logs by their region of activity - by using field
+// service.region_id in a filter field. Its important to note that logs may be
+// present in multiple locations, if request was routed somewhere else or split
+// & merged across many regions. Those activity logs may have different activity
+// log names, but they will share same values in fields request_id and
+// request_routing.
+//
 // Be aware, that server will append scope filter condition (and scope=...) to
 // the filter. Scope(s) will be extracted from fields parents in
 // ListActivityLogsRequest object. Note you can query for multiple at once, both
@@ -64,70 +71,65 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // * Checks connections to all devices within ssh-demo project starting from 8th
 // of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/ssh-demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/ssh-demo'
 //   --filter 'service.name="devices.edgelq.com" and
-//   method.type="ConnectToDevice"'
+//   method.type="ConnectToDevice" and service.regionId="us-west"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // *Checks connections to device demo-device within ssh-demo project starting
 // from 8th of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/ssh-demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/ssh-demo'
 //   --filter 'service.name="devices.edgelq.com" and
-//   method.type="ConnectToDevice" and
+//   method.type="ConnectToDevice" and service.regionId="us-west" and
 //     resource.name="projects/ssh-demo/devices/demo-device"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // * Checks what is happening within whole iam service for project demo starting
 // from 8th of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
-//   --filter 'service.name="IAM.edgelq.com"'
+// $ cuttle audit query activity-log --parents 'project/demo'
+//   --filter 'service.name="iam.edgelq.com" and service.regionId="us-west"'
+//   --filter 'service.name="iam.edgelq.com"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // * Checks activities within one hour for whole iam service for selected
 // methods
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
-//   --filter 'service.name="IAM.edgelq.com" and method.type IN
-//   ["CreateRoleBinding", "UpdateRoleBinding", "DeleteRoleBinding"]'
+// $ cuttle audit query activity-log --parents 'project/demo'
+//   --filter 'service.name="iam.edgelq.com" and method.type IN
+//   ["CreateRoleBinding", "UpdateRoleBinding", "DeleteRoleBinding"]
+//   and service.regionId="us-west"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z",
 //   "endTime":"2020-09-08T13:00:00Z"}' -o json
 //
 // * Checks modification of RoleBinding
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
-//   --filter 'service.name="IAM.edgelq.com" and method.type="UpdateRoleBinding"
+// $ cuttle audit query activity-log --parents 'project/demo'
+//   --filter 'service.name="iam.edgelq.com" and method.type="UpdateRoleBinding"
 //   and labels.resource_name="projects/x/roleBindings/myRB"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // * Checks what was happening with some device
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/demo'
 //   --filter 'service.name="devices.edgelq.com" and
-//   resource.name="projects/x/devices/myDevice"'
+//   resource.name="projects/x/devices/myDevice" and service.regionId="us-west"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // * Checks activities made by specific user (we need their email)
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
-//   --filter 'authentication.principal="user:we.know.who@domain.com"'
+// $ cuttle audit query activity-log --parents 'project/demo'
+//   --filter 'authentication.principal="user:we.know.who@domain.com" and
+//   service.regionId="us-west"'
 //   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
 //
 // * Checks activities made by specific service account (we need it's email)
 //
-// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
-// us-west
+// $ cuttle audit query activity-log --parents 'project/demo'
 //   --filter
-//   'authentication.principal="serviceAccount:myServiceAccount@domain.com"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   'authentication.principal="serviceAccount:myServiceAccount@domain.com" and
+//   service.regionId="us-west"'
 message ListActivityLogsRequest {
   // Parent references of ntt.audit.v1alpha2.ActivityLog - provides list of all
   // scopes we want to query about
@@ -135,12 +137,6 @@ message ListActivityLogsRequest {
 
   // A audit filter that specifies which activity logs should be returned
   string filter = 2;
-
-  // Regions from which logs are queried. If empty, then global view is queried.
-  // Its possible also to specify global view (by not providing request_ids) BUT
-  // still provide negative filter condition (NOT IN, !=). In those cases some
-  // regions will be skipped.
-  repeated string region_ids = 3;
 
   // The time interval for which results should be returned. Only logs
   // that contain data points in the specified interval are included
@@ -160,6 +156,8 @@ message ListActivityLogsRequest {
   // taken from
   // [ListActivityLogsResponse.next_page_token][ntt.audit.v1alpha2.ListActivityLogsResponse.next_page_token].
   string page_token = 6;
+
+  reserved 3;
 }
 
 // Response message for method
@@ -214,7 +212,7 @@ message CreateActivityLogsRequest {
 // Response message for method
 // [CreateActivityLogs][ntt.audit.v1alpha2.CreateActivityLogs]
 message CreateActivityLogsResponse {
-  // Resource change log names - one name per each activity log, in same order
+  // Activity log names - one name per each activity log, in same order
   // as in the request
   repeated string log_names = 1;
 }

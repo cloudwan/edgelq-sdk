@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	phantom_time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiPhantomTimeSerieAccess struct {
@@ -42,8 +44,11 @@ func NewApiPhantomTimeSerieAccess(client phantom_time_serie_client.PhantomTimeSe
 }
 
 func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, query *phantom_time_serie.GetQuery) (*phantom_time_serie.PhantomTimeSerie, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &phantom_time_serie_client.GetPhantomTimeSerieRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetPhantomTimeSerie(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, que
 
 func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Context, refs []*phantom_time_serie.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*phantom_time_serie.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &phantom_time_serie_client.BatchGetPhantomTimeSeriesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(phantom_time_serie.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, 
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListPhantomTimeSeries(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, 
 }
 
 func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSerie(ctx context.Context, query *phantom_time_serie.GetQuery, observerCb func(*phantom_time_serie.PhantomTimeSerieChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &phantom_time_serie_client.WatchPhantomTimeSerieRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchPhantomTimeSerie(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSeries(ctx context.Context, 
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchPhantomTimeSeries(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, re
 			}
 		}
 	}
-
+	var resp *phantom_time_serie.PhantomTimeSerie
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &phantom_time_serie_client.UpdatePhantomTimeSerieRequest{
 			PhantomTimeSerie: res,
@@ -195,29 +217,76 @@ func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, re
 				FieldMask:        mask.(*phantom_time_serie.PhantomTimeSerie_FieldMask),
 			}
 		}
-		_, err := a.client.UpdatePhantomTimeSerie(ctx, updateRequest)
+		resp, err = a.client.UpdatePhantomTimeSerie(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &phantom_time_serie_client.CreatePhantomTimeSerieRequest{
 			PhantomTimeSerie: res,
 		}
-		_, err := a.client.CreatePhantomTimeSerie(ctx, createRequest)
+		resp, err = a.client.CreatePhantomTimeSerie(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiPhantomTimeSerieAccess) DeletePhantomTimeSerie(ctx context.Context, ref *phantom_time_serie.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &phantom_time_serie_client.DeletePhantomTimeSerieRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeletePhantomTimeSerie(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *phantom_time_serie.Filter) (*phantom_time_serie.Filter, *phantom_time_serie.ParentName) {
+	var withParentExtraction func(cnd phantom_time_serie.FilterCondition) phantom_time_serie.FilterCondition
+	var resultParent *phantom_time_serie.ParentName
+	var resultFilter *phantom_time_serie.Filter
+	withParentExtraction = func(cnd phantom_time_serie.FilterCondition) phantom_time_serie.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *phantom_time_serie.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]phantom_time_serie.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return phantom_time_serie.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *phantom_time_serie.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*phantom_time_serie.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &phantom_time_serie.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

@@ -17,22 +17,21 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -49,22 +48,21 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -135,7 +133,7 @@ func BuildDevice_FieldPath(fp gotenobject.RawFieldPath) (Device_FieldPath, error
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Device_FieldSubPath{selector: Device_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -271,7 +269,7 @@ func (fp *Device_FieldTerminalPath) GetDefault() interface{} {
 	case Device_FieldPathSelectorName:
 		return (*Name)(nil)
 	case Device_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Device_FieldPathSelectorSpec:
 		return (*Device_Spec)(nil)
 	case Device_FieldPathSelectorStatus:
@@ -325,7 +323,7 @@ func (fp *Device_FieldTerminalPath) WithIValue(value interface{}) Device_FieldPa
 	case Device_FieldPathSelectorName:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Device_FieldPathSelectorMetadata:
-		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Device_FieldPathSelectorSpec:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Device_Spec)}
 	case Device_FieldPathSelectorStatus:
@@ -349,7 +347,7 @@ func (fp *Device_FieldTerminalPath) WithIArrayOfValues(values interface{}) Devic
 	case Device_FieldPathSelectorName:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Device_FieldPathSelectorMetadata:
-		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Device_FieldPathSelectorSpec:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Device_Spec)}
 	case Device_FieldPathSelectorStatus:
@@ -389,8 +387,8 @@ var _ Device_FieldPath = (*Device_FieldSubPath)(nil)
 func (fps *Device_FieldSubPath) Selector() Device_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Device_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Device_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Device_FieldSubPath) AsSpecSubPath() (DeviceSpec_FieldPath, bool) {
@@ -573,8 +571,8 @@ func (fpv *Device_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *Device_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Device_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Device_FieldTerminalPathValue) AsSpecValue() (*Device_Spec, bool) {
@@ -603,7 +601,7 @@ func (fpv *Device_FieldTerminalPathValue) SetTo(target **Device) {
 	case Device_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case Device_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Device_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*Device_Spec)
 	case Device_FieldPathSelectorStatus:
@@ -678,8 +676,8 @@ type Device_FieldSubPathValue struct {
 
 var _ Device_FieldPathValue = (*Device_FieldSubPathValue)(nil)
 
-func (fpvs *Device_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Device_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Device_FieldSubPathValue) AsSpecPathValue() (DeviceSpec_FieldPathValue, bool) {
@@ -701,7 +699,7 @@ func (fpvs *Device_FieldSubPathValue) SetTo(target **Device) {
 	}
 	switch fpvs.Selector() {
 	case Device_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Device_FieldPathSelectorSpec:
 		fpvs.subPathValue.(DeviceSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case Device_FieldPathSelectorStatus:
@@ -725,7 +723,7 @@ func (fpvs *Device_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Device_FieldSubPathValue) CompareWith(source *Device) (int, bool) {
 	switch fpvs.Selector() {
 	case Device_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Device_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(DeviceSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case Device_FieldPathSelectorStatus:
@@ -814,8 +812,8 @@ type Device_FieldSubPathArrayItemValue struct {
 func (fpaivs *Device_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Device_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Device_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Device_FieldSubPathArrayItemValue) AsSpecPathItemValue() (DeviceSpec_FieldPathArrayItemValue, bool) {
@@ -835,7 +833,7 @@ func (fpaivs *Device_FieldSubPathArrayItemValue) AsPublicListingSpecPathItemValu
 func (fpaivs *Device_FieldSubPathArrayItemValue) ContainsValue(source *Device) bool {
 	switch fpaivs.Selector() {
 	case Device_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Device_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(DeviceSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case Device_FieldPathSelectorStatus:
@@ -887,7 +885,7 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 			values = append(values, v)
 		}
 	case Device_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Device_FieldPathSelectorSpec:
@@ -913,8 +911,8 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Na
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *Device_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Device_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Device_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*Device_Spec, bool) {
@@ -944,8 +942,8 @@ var _ Device_FieldPathArrayOfValues = (*Device_FieldSubPathArrayOfValues)(nil)
 func (fpsaov *Device_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Device_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Device_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Device_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (DeviceSpec_FieldPathArrayOfValues, bool) {
@@ -5508,7 +5506,7 @@ func (fp *DeviceSpecSSHConfig_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceSpecSSHConfig_FieldPathSelectorIpDenyList:
 		return ([]string)(nil)
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		return (*duration.Duration)(nil)
+		return (*durationpb.Duration)(nil)
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey:
 		return false
 	default:
@@ -5570,7 +5568,7 @@ func (fp *DeviceSpecSSHConfig_FieldTerminalPath) WithIValue(value interface{}) D
 	case DeviceSpecSSHConfig_FieldPathSelectorIpDenyList:
 		return &DeviceSpecSSHConfig_FieldTerminalPathValue{DeviceSpecSSHConfig_FieldTerminalPath: *fp, value: value.([]string)}
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		return &DeviceSpecSSHConfig_FieldTerminalPathValue{DeviceSpecSSHConfig_FieldTerminalPath: *fp, value: value.(*duration.Duration)}
+		return &DeviceSpecSSHConfig_FieldTerminalPathValue{DeviceSpecSSHConfig_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey:
 		return &DeviceSpecSSHConfig_FieldTerminalPathValue{DeviceSpecSSHConfig_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
@@ -5596,7 +5594,7 @@ func (fp *DeviceSpecSSHConfig_FieldTerminalPath) WithIArrayOfValues(values inter
 	case DeviceSpecSSHConfig_FieldPathSelectorIpDenyList:
 		return &DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues{DeviceSpecSSHConfig_FieldTerminalPath: *fp, values: values.([][]string)}
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		return &DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues{DeviceSpecSSHConfig_FieldTerminalPath: *fp, values: values.([]*duration.Duration)}
+		return &DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues{DeviceSpecSSHConfig_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey:
 		return &DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues{DeviceSpecSSHConfig_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
@@ -5801,8 +5799,8 @@ func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) AsIpDenyListValue() ([]st
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) AsRejectPeriodValue() (*duration.Duration, bool) {
-	res, ok := fpv.value.(*duration.Duration)
+func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) AsRejectPeriodValue() (*durationpb.Duration, bool) {
+	res, ok := fpv.value.(*durationpb.Duration)
 	return res, ok
 }
 func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) AsDisableSshAuthkeyValue() (bool, bool) {
@@ -5827,7 +5825,7 @@ func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) SetTo(target **Device_Spe
 	case DeviceSpecSSHConfig_FieldPathSelectorIpDenyList:
 		(*target).IpDenyList = fpv.value.([]string)
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		(*target).RejectPeriod = fpv.value.(*duration.Duration)
+		(*target).RejectPeriod = fpv.value.(*durationpb.Duration)
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey:
 		(*target).DisableSshAuthkey = fpv.value.(bool)
 	default:
@@ -5870,7 +5868,7 @@ func (fpv *DeviceSpecSSHConfig_FieldTerminalPathValue) CompareWith(source *Devic
 	case DeviceSpecSSHConfig_FieldPathSelectorIpDenyList:
 		return 0, false
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		leftValue := fpv.value.(*duration.Duration)
+		leftValue := fpv.value.(*durationpb.Duration)
 		rightValue := source.GetRejectPeriod()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -6109,7 +6107,7 @@ func (fpaov *DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues) GetRawValues() 
 			values = append(values, v)
 		}
 	case DeviceSpecSSHConfig_FieldPathSelectorRejectPeriod:
-		for _, v := range fpaov.values.([]*duration.Duration) {
+		for _, v := range fpaov.values.([]*durationpb.Duration) {
 			values = append(values, v)
 		}
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey:
@@ -6139,8 +6137,8 @@ func (fpaov *DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues) AsIpDenyListArr
 	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
-func (fpaov *DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues) AsRejectPeriodArrayOfValues() ([]*duration.Duration, bool) {
-	res, ok := fpaov.values.([]*duration.Duration)
+func (fpaov *DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues) AsRejectPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
+	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
 func (fpaov *DeviceSpecSSHConfig_FieldTerminalPathArrayOfValues) AsDisableSshAuthkeyArrayOfValues() ([]bool, bool) {
@@ -29600,9 +29598,9 @@ func (fp *DeviceStatusCondition_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceStatusCondition_FieldPathSelectorType:
 		return ""
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_Condition: %d", fp.selector))
 	}
@@ -29658,9 +29656,9 @@ func (fp *DeviceStatusCondition_FieldTerminalPath) WithIValue(value interface{})
 	case DeviceStatusCondition_FieldPathSelectorType:
 		return &DeviceStatusCondition_FieldTerminalPathValue{DeviceStatusCondition_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		return &DeviceStatusCondition_FieldTerminalPathValue{DeviceStatusCondition_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &DeviceStatusCondition_FieldTerminalPathValue{DeviceStatusCondition_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		return &DeviceStatusCondition_FieldTerminalPathValue{DeviceStatusCondition_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &DeviceStatusCondition_FieldTerminalPathValue{DeviceStatusCondition_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_Condition: %d", fp.selector))
 	}
@@ -29682,9 +29680,9 @@ func (fp *DeviceStatusCondition_FieldTerminalPath) WithIArrayOfValues(values int
 	case DeviceStatusCondition_FieldPathSelectorType:
 		return &DeviceStatusCondition_FieldTerminalPathArrayOfValues{DeviceStatusCondition_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		return &DeviceStatusCondition_FieldTerminalPathArrayOfValues{DeviceStatusCondition_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &DeviceStatusCondition_FieldTerminalPathArrayOfValues{DeviceStatusCondition_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		return &DeviceStatusCondition_FieldTerminalPathArrayOfValues{DeviceStatusCondition_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &DeviceStatusCondition_FieldTerminalPathArrayOfValues{DeviceStatusCondition_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_Condition: %d", fp.selector))
 	}
@@ -29761,12 +29759,12 @@ func (fpv *DeviceStatusCondition_FieldTerminalPathValue) AsTypeValue() (string, 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusCondition_FieldTerminalPathValue) AsLastHeartBeatTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *DeviceStatusCondition_FieldTerminalPathValue) AsLastHeartBeatTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *DeviceStatusCondition_FieldTerminalPathValue) AsLastTransitionTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *DeviceStatusCondition_FieldTerminalPathValue) AsLastTransitionTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -29785,9 +29783,9 @@ func (fpv *DeviceStatusCondition_FieldTerminalPathValue) SetTo(target **Device_S
 	case DeviceStatusCondition_FieldPathSelectorType:
 		(*target).Type = fpv.value.(string)
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		(*target).LastHeartBeatTime = fpv.value.(*timestamp.Timestamp)
+		(*target).LastHeartBeatTime = fpv.value.(*timestamppb.Timestamp)
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		(*target).LastTransitionTime = fpv.value.(*timestamp.Timestamp)
+		(*target).LastTransitionTime = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_Condition: %d", fpv.selector))
 	}
@@ -29842,7 +29840,7 @@ func (fpv *DeviceStatusCondition_FieldTerminalPathValue) CompareWith(source *Dev
 			return 1, true
 		}
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetLastHeartBeatTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -29861,7 +29859,7 @@ func (fpv *DeviceStatusCondition_FieldTerminalPathValue) CompareWith(source *Dev
 			return 1, true
 		}
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetLastTransitionTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -30004,11 +30002,11 @@ func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) GetRawValues(
 			values = append(values, v)
 		}
 	case DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case DeviceStatusCondition_FieldPathSelectorLastTransitionTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
@@ -30030,12 +30028,12 @@ func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsTypeArrayOf
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastHeartBeatTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastHeartBeatTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastTransitionTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *DeviceStatusCondition_FieldTerminalPathArrayOfValues) AsLastTransitionTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 

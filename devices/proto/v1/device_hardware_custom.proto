@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/devices/proto/v1/device_hardware.proto";
+import "edgelq-sdk/devices/proto/v1/device_hardware_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware;device_hardware_client";
+option java_multiple_files = false;
+option java_outer_classname = "DeviceHardwareCustomProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// Request message for method [Deregister][ntt.devices.v1.Deregister]
+message DeregisterRequest {
+  // Name of ntt.devices.v1.DeviceHardware
+  string name = 1;
+}
+
+// Response message for method [Deregister][ntt.devices.v1.Deregister]
+message DeregisterResponse {}

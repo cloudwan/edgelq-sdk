@@ -24,10 +24,10 @@ import (
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -45,10 +45,10 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 var parentRegexPath = regexp.MustCompile("^$")
@@ -628,56 +628,56 @@ func (name *ParentReference) Matches(other interface{}) bool {
 }
 
 // Google CEL integration Type
-var celParentReference = types.NewTypeValue("ParentReference", traits.ReceiverType)
+var celParentName = types.NewTypeValue("ParentName", traits.ReceiverType)
 
-func (name *ParentReference) TypeName() string {
-	return ".ntt.logging.v1alpha2.LogDescriptor.ParentReference"
+func (name *ParentName) TypeName() string {
+	return ".ntt.logging.v1alpha2.LogDescriptor.ParentName"
 }
 
-func (name *ParentReference) HasTrait(trait int) bool {
+func (name *ParentName) HasTrait(trait int) bool {
 	return trait == traits.ReceiverType
 }
 
-func (name *ParentReference) Equal(other ref.Val) ref.Val {
+func (name *ParentName) Equal(other ref.Val) ref.Val {
 	return types.Bool(false)
 }
 
-func (name *ParentReference) Value() interface{} {
+func (name *ParentName) Value() interface{} {
 	return name
 }
 
-func (name *ParentReference) Match(pattern ref.Val) ref.Val {
+func (name *ParentName) Match(pattern ref.Val) ref.Val {
 	return types.Bool(true)
 }
 
-func (name *ParentReference) Receive(function string, overload string, args []ref.Val) ref.Val {
+func (name *ParentName) Receive(function string, overload string, args []ref.Val) ref.Val {
 	switch function {
 	case "satisfies":
-		rhsName, err := ParseParentReference(string(args[0].(types.String)))
+		rhsName, err := ParseParentName(string(args[0].(types.String)))
 		if err != nil {
-			return types.ValOrErr(celParentReference, "function %s name parse error: %s", function, err)
+			return types.ValOrErr(celParentName, "function %s name parse error: %s", function, err)
 		}
 		return types.Bool(rhsName.Matches(name))
 	default:
-		return types.ValOrErr(celParentReference, "no such function - %s", function)
+		return types.ValOrErr(celParentName, "no such function - %s", function)
 	}
 }
 
-func (name *ParentReference) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
+func (name *ParentName) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
 	panic("not required")
 }
 
-func (name *ParentReference) ConvertToType(typeVal ref.Type) ref.Val {
+func (name *ParentName) ConvertToType(typeVal ref.Type) ref.Val {
 	switch typeVal.TypeName() {
 	case types.StringType.TypeName():
 		return types.String(name.String())
 	default:
-		panic(fmt.Errorf("unable to convert %s to CEL type %s", "ParentReference", typeVal.TypeName()))
+		panic(fmt.Errorf("unable to convert %s to CEL type %s", "ParentName", typeVal.TypeName()))
 	}
 }
 
-func (name *ParentReference) Type() ref.Type {
-	return celParentReference
+func (name *ParentName) Type() ref.Type {
+	return celParentName
 }
 
 // implement CustomTypeCliValue method

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &provisioning_policy.ProvisioningPolicy{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ProvisioningPolicyServiceClient interface {
 	WatchProvisioningPolicies(ctx context.Context, in *WatchProvisioningPoliciesRequest, opts ...grpc.CallOption) (WatchProvisioningPoliciesClientStream, error)
 	CreateProvisioningPolicy(ctx context.Context, in *CreateProvisioningPolicyRequest, opts ...grpc.CallOption) (*provisioning_policy.ProvisioningPolicy, error)
 	UpdateProvisioningPolicy(ctx context.Context, in *UpdateProvisioningPolicyRequest, opts ...grpc.CallOption) (*provisioning_policy.ProvisioningPolicy, error)
-	DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ProvisionServiceAccountToProvisioningPolicy(ctx context.Context, in *ProvisionServiceAccountToProvisioningPolicyRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToProvisioningPolicyResponse, error)
 	RemoveServiceAccountFromProvisioningPolicy(ctx context.Context, in *RemoveServiceAccountFromProvisioningPolicyRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromProvisioningPolicyResponse, error)
 	ProvisionDeviceViaPolicy(ctx context.Context, in *ProvisionDeviceViaPolicyRequest, opts ...grpc.CallOption) (*ProvisionDeviceViaPolicyResponse, error)
@@ -190,8 +190,8 @@ func (c *client) UpdateProvisioningPolicy(ctx context.Context, in *UpdateProvisi
 	return out, nil
 }
 
-func (c *client) DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.ProvisioningPolicyService/DeleteProvisioningPolicy", in, out, opts...)
 	if err != nil {
 		return nil, err

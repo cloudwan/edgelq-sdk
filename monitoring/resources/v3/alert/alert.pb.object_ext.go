@@ -9,16 +9,16 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -27,16 +27,16 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_condition.AlertingCondition{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 func (o *Alert) GotenObjectExt() {}
@@ -142,7 +142,7 @@ func (o *Alert) Merge(source *Alert) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -323,7 +323,7 @@ func (o *Alert_State) Merge(source *Alert_State) {
 	o.IsSilenced = source.GetIsSilenced()
 	if source.GetLifetime() != nil {
 		if o.Lifetime == nil {
-			o.Lifetime = new(monitoring_common.TimeRange)
+			o.Lifetime = new(common.TimeRange)
 		}
 		o.Lifetime.Merge(source.GetLifetime())
 	}
@@ -410,13 +410,13 @@ func (o *Alert_Info_TimeSerie) Merge(source *Alert_Info_TimeSerie) {
 	}
 	if source.GetMetric() != nil {
 		if o.Metric == nil {
-			o.Metric = new(monitoring_common.Metric)
+			o.Metric = new(common.Metric)
 		}
 		o.Metric.Merge(source.GetMetric())
 	}
 	if source.GetMonitoredResource() != nil {
 		if o.MonitoredResource == nil {
-			o.MonitoredResource = new(monitoring_common.MonitoredResource)
+			o.MonitoredResource = new(common.MonitoredResource)
 		}
 		o.MonitoredResource.Merge(source.GetMonitoredResource())
 	}

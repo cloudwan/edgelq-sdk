@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "edgelq-sdk/limits/proto/v1/limit_pool.proto";
+import "edgelq-sdk/limits/proto/v1/limit_pool_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1/limit_pool;limit_pool_client";
+option java_multiple_files = false;
+option java_outer_classname = "LimitPoolCustomProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// Request message for method
+// [MigrateLimitPoolSource][ntt.limits.v1.MigrateLimitPoolSource]
+message MigrateLimitPoolSourceRequest {
+  //  name of ntt.limits.v1.LimitPool
+  string name = 1;
+}

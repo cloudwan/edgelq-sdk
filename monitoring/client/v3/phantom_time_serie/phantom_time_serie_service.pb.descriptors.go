@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &phantom_time_serie.PhantomTimeSerie{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg p
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*phantom_time_serie.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetPhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetPhantomTimeSerieRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetPhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetPhantomTimeSerieRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*phantom_time_serie.PhantomTimeSerie)
+}
+
+func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceName
 		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return phantom_time_serie.PhantomTimeSerieNameList(names)
 		}
 	}
 	return (phantom_time_serie.PhantomTimeSerieNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionNa
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetPhantomTimeSeriesRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetPhantomTimeSeriesRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionNa
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetPhantomTimeSeriesResponse) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetPhantomTimeSeriesResponse) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPhantomTimeSeries(); len(resources) > 0 {
+			return phantom_time_serie.PhantomTimeSerieList(resources)
+		}
+	}
+	return (phantom_time_serie.PhantomTimeSerieList)(nil)
 }
 
 func GetBatchGetPhantomTimeSeriesDescriptor() *BatchGetPhantomTimeSeriesDescriptor {
@@ -522,6 +611,30 @@ func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(m
 	return (*phantom_time_serie.ParentName)(nil)
 }
 
+func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListPhantomTimeSeriesRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListPhantomTimeSeriesRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListPhantomTimeSeriesResponse) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListPhantomTimeSeriesResponse) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPhantomTimeSeries(); len(resources) > 0 {
+			return phantom_time_serie.PhantomTimeSerieList(resources)
+		}
+	}
+	return (phantom_time_serie.PhantomTimeSerieList)(nil)
 }
 
 func GetListPhantomTimeSeriesDescriptor() *ListPhantomTimeSeriesDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*phantom_time_serie.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPhantomTimeSerieRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPhantomTimeSerieRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPhantomTimeSerieResponse) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *phantom_time_serie.PhantomTimeSerieChange_Added_:
+				return tResChange.Added.GetPhantomTimeSerie()
+			case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
+				return tResChange.Modified.GetPhantomTimeSerie()
+			case *phantom_time_serie.PhantomTimeSerieChange_Current_:
+				return tResChange.Current.GetPhantomTimeSerie()
+			}
+		}
+	}
+	return (*phantom_time_serie.PhantomTimeSerie)(nil)
+}
+
+func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPhantomTimeSerieResponse) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*phantom_time_serie.ParentName)(nil)
+}
+
+func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPhantomTimeSeriesRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPhantomTimeSeriesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPhantomTimeSeriesRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchPhantomTimeSeriesResponse) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchPhantomTimeSeriesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchPhantomTimeSeriesResponse) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetPhantomTimeSerieChanges(); len(resChanges) > 0 {
+			list := make(phantom_time_serie.PhantomTimeSerieList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *phantom_time_serie.PhantomTimeSerieChange_Added_:
+					list = append(list, tResChange.Added.GetPhantomTimeSerie())
+				case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
+					list = append(list, tResChange.Modified.GetPhantomTimeSerie())
+				case *phantom_time_serie.PhantomTimeSerieChange_Current_:
+					list = append(list, tResChange.Current.GetPhantomTimeSerie())
+				}
+			}
+			return list
+		}
+	}
+	return (phantom_time_serie.PhantomTimeSerieList)(nil)
 }
 
 func GetWatchPhantomTimeSeriesDescriptor() *WatchPhantomTimeSeriesDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*phantom_time_serie.ParentName)(nil)
+}
+
+func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreatePhantomTimeSerieRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetPhantomTimeSerie()
+	}
+	return (*phantom_time_serie.PhantomTimeSerie)(nil)
+}
+
+func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreatePhantomTimeSerieRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*phantom_time_serie.PhantomTimeSerie)
+}
+
+func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdatePhantomTimeSerieRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetPhantomTimeSerie()
+	}
+	return (*phantom_time_serie.PhantomTimeSerie)(nil)
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdatePhantomTimeSerieRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(
 	return nil
 }
 
+func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*phantom_time_serie.PhantomTimeSerie)
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdatePhantomTimeSerieDescriptor() *UpdatePhantomTimeSerieDescriptor {
 	return updatePhantomTimeSerieDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeletePhantomTimeSerieDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeletePhantomTimeSerieDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeletePhantomTimeSerieDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(ms
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*phantom_time_serie.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(
 	return nil
 }
 
-func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeletePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *phantom_time_serie.Name
+		OverrideExtractResourceBody(*DeletePhantomTimeSerieRequest) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeletePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeletePhantomTimeSerieRequest) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *phantom_time_serie.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(ms
 }
 
 func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*phantom_time_serie.Name
 	})
 	if ok {
 		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(m
 }
 
 func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *phantom_time_serie.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*phantom_time_serie.PhantomTimeSerie
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

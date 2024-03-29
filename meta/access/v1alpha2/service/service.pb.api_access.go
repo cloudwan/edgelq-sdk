@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	service_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/service"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiServiceAccess struct {
@@ -42,8 +44,11 @@ func NewApiServiceAccess(client service_client.ServiceServiceClient) service.Ser
 }
 
 func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQuery) (*service.Service, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &service_client.GetServiceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetService(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQue
 
 func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*service.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &service_client.BatchGetServicesRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(service.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiServiceAccess) QueryServices(ctx context.Context, query *service.Lis
 }
 
 func (a *apiServiceAccess) WatchService(ctx context.Context, query *service.GetQuery, observerCb func(*service.ServiceChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &service_client.WatchServiceRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchService(ctx, request)
@@ -181,43 +196,11 @@ func (a *apiServiceAccess) SaveService(ctx context.Context, res *service.Service
 			}
 		}
 	}
-
-	if saveOpts.OnlyUpdate() || previousRes != nil {
-		updateRequest := &service_client.UpdateServiceRequest{
-			Service: res,
-		}
-		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
-			updateRequest.UpdateMask = updateMask.(*service.Service_FieldMask)
-		}
-		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
-			updateRequest.Cas = &service_client.UpdateServiceRequest_CAS{
-				ConditionalState: conditionalState.(*service.Service),
-				FieldMask:        mask.(*service.Service_FieldMask),
-			}
-		}
-		_, err := a.client.UpdateService(ctx, updateRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	} else {
-		createRequest := &service_client.CreateServiceRequest{
-			Service: res,
-		}
-		_, err := a.client.CreateService(ctx, createRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
+	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
 }
 
 func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Reference, opts ...gotenresource.DeleteOption) error {
-	request := &service_client.DeleteServiceRequest{
-		Name: ref,
-	}
-	_, err := a.client.DeleteService(ctx, request)
-	return err
+	return fmt.Errorf("Delete operation on Service is prohibited")
 }
 
 func init() {

@@ -14,7 +14,6 @@ import (
 // proto imports
 import (
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
-	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &region.Region{}
-	_ = &empty.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,9 +52,6 @@ type RegionServiceClient interface {
 	ListRegions(ctx context.Context, in *ListRegionsRequest, opts ...grpc.CallOption) (*ListRegionsResponse, error)
 	WatchRegion(ctx context.Context, in *WatchRegionRequest, opts ...grpc.CallOption) (WatchRegionClientStream, error)
 	WatchRegions(ctx context.Context, in *WatchRegionsRequest, opts ...grpc.CallOption) (WatchRegionsClientStream, error)
-	CreateRegion(ctx context.Context, in *CreateRegionRequest, opts ...grpc.CallOption) (*region.Region, error)
-	UpdateRegion(ctx context.Context, in *UpdateRegionRequest, opts ...grpc.CallOption) (*region.Region, error)
-	DeleteRegion(ctx context.Context, in *DeleteRegionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -166,31 +161,4 @@ func (x *watchRegionsWatchRegionsClient) Recv() (*WatchRegionsResponse, error) {
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *client) CreateRegion(ctx context.Context, in *CreateRegionRequest, opts ...grpc.CallOption) (*region.Region, error) {
-	out := new(region.Region)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.RegionService/CreateRegion", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) UpdateRegion(ctx context.Context, in *UpdateRegionRequest, opts ...grpc.CallOption) (*region.Region, error) {
-	out := new(region.Region)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.RegionService/UpdateRegion", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) DeleteRegion(ctx context.Context, in *DeleteRegionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ntt.meta.v1alpha2.RegionService/DeleteRegion", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }

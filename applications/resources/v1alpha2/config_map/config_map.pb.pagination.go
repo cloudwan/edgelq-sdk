@@ -20,13 +20,13 @@ import (
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // OrderByField is single item in order_by specification

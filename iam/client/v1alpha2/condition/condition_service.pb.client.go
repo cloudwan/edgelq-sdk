@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ConditionServiceClient interface {
 	WatchConditions(ctx context.Context, in *WatchConditionsRequest, opts ...grpc.CallOption) (WatchConditionsClientStream, error)
 	CreateCondition(ctx context.Context, in *CreateConditionRequest, opts ...grpc.CallOption) (*condition.Condition, error)
 	UpdateCondition(ctx context.Context, in *UpdateConditionRequest, opts ...grpc.CallOption) (*condition.Condition, error)
-	DeleteCondition(ctx context.Context, in *DeleteConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteCondition(ctx context.Context, in *DeleteConditionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -186,8 +186,8 @@ func (c *client) UpdateCondition(ctx context.Context, in *UpdateConditionRequest
 	return out, nil
 }
 
-func (c *client) DeleteCondition(ctx context.Context, in *DeleteConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteCondition(ctx context.Context, in *DeleteConditionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.ConditionService/DeleteCondition", in, out, opts...)
 	if err != nil {
 		return nil, err

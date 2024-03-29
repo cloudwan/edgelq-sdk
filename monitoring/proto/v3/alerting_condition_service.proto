@@ -9,8 +9,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alerting_condition;alerting_condition_client";
 option java_multiple_files = false;
@@ -20,7 +20,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // Request message for method
 // [GetAlertingCondition][ntt.monitoring.v3.GetAlertingCondition]
 message GetAlertingConditionRequest {
-  // Reference of ntt.monitoring.v3.AlertingCondition
+  // Name of ntt.monitoring.v3.AlertingCondition
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -29,7 +29,7 @@ message GetAlertingConditionRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -44,7 +44,7 @@ message BatchGetAlertingConditionsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -94,7 +94,7 @@ message ListAlertingConditionsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -130,7 +130,7 @@ message ListAlertingConditionsResponse {
 // Request message for method
 // [WatchAlertingCondition][ntt.monitoring.v3.WatchAlertingCondition]
 message WatchAlertingConditionRequest {
-  // Reference to ntt.monitoring.v3.AlertingCondition
+  // Name of ntt.monitoring.v3.AlertingCondition
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -139,7 +139,7 @@ message WatchAlertingConditionRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchAlertingConditionResponse
@@ -150,9 +150,9 @@ message WatchAlertingConditionResponse { AlertingConditionChange change = 1; }
 message WatchAlertingConditionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.monitoring.v3.AlertingCondition
+  // Parent name of ntt.monitoring.v3.AlertingCondition
   string parent = 1;
 
   // Requested page size. Server may return fewer AlertingConditions than
@@ -197,7 +197,7 @@ message WatchAlertingConditionsRequest {
   // Additional fields can be amended by request field field_mask Changes to
   // AlertingCondition that don't affect any of masked fields won't be sent
   // back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -276,7 +276,7 @@ message WatchAlertingConditionsResponse {
 // Request message for method
 // [CreateAlertingCondition][ntt.monitoring.v3.CreateAlertingCondition]
 message CreateAlertingConditionRequest {
-  // Parent reference of ntt.monitoring.v3.AlertingCondition
+  // Parent name of ntt.monitoring.v3.AlertingCondition
   string parent = 1;
 
   // AlertingCondition resource body
@@ -322,7 +322,7 @@ message UpdateAlertingConditionRequest {
 // Request message for method
 // [DeleteAlertingCondition][ntt.monitoring.v3.DeleteAlertingCondition]
 message DeleteAlertingConditionRequest {
-  // Reference of ntt.monitoring.v3.AlertingCondition
+  // Name of ntt.monitoring.v3.AlertingCondition
   string name = 1;
 }
 
@@ -362,7 +362,7 @@ message SearchAlertingConditionsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Optional search phrase used to further filter results.
   string phrase = 8;

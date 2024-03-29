@@ -9,8 +9,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/deployment;deployment_client";
 option java_multiple_files = false;
@@ -19,7 +19,7 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 
 // Request message for method [GetDeployment][ntt.meta.v1alpha2.GetDeployment]
 message GetDeploymentRequest {
-  // Reference of ntt.meta.v1alpha2.Deployment
+  // Name of ntt.meta.v1alpha2.Deployment
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -28,7 +28,7 @@ message GetDeploymentRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -43,7 +43,7 @@ message BatchGetDeploymentsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -93,7 +93,7 @@ message ListDeploymentsRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -128,7 +128,7 @@ message ListDeploymentsResponse {
 // Request message for method
 // [WatchDeployment][ntt.meta.v1alpha2.WatchDeployment]
 message WatchDeploymentRequest {
-  // Reference to ntt.meta.v1alpha2.Deployment
+  // Name of ntt.meta.v1alpha2.Deployment
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -137,7 +137,7 @@ message WatchDeploymentRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchDeploymentResponse
@@ -148,9 +148,9 @@ message WatchDeploymentResponse { DeploymentChange change = 1; }
 message WatchDeploymentsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.meta.v1alpha2.Deployment
+  // Parent name of ntt.meta.v1alpha2.Deployment
   string parent = 1;
 
   // Requested page size. Server may return fewer Deployments than requested.
@@ -194,7 +194,7 @@ message WatchDeploymentsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // Deployment that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -270,59 +270,6 @@ message WatchDeploymentsResponse {
   }
 }
 
-// Request message for method
-// [CreateDeployment][ntt.meta.v1alpha2.CreateDeployment]
-message CreateDeploymentRequest {
-  // Parent reference of ntt.meta.v1alpha2.Deployment
-  string parent = 1;
-
-  // Deployment resource body
-  Deployment deployment = 2;
-}
-
-// Request message for method
-// [UpdateDeployment][ntt.meta.v1alpha2.UpdateDeployment]
-message UpdateDeploymentRequest {
-  // Deployment resource body
-  Deployment deployment = 2;
-
-  // FieldMask applied to request - change will be applied only for fields in
-  // the mask
-  google.protobuf.FieldMask update_mask = 3;
-
-  // Conditional update applied to request if update should be executed only for
-  // specific resource state. If this field is populated, then server will fetch
-  // existing resource, compare with the one stored in the cas field (after
-  // applying field mask) and proceed with update only and only if they match.
-  // Otherwise RPC error Aborted will be returned.
-  CAS cas = 4;
-
-  // If set to true, and the resource is not found,
-  // a new resource will be created.  In this situation,
-  // 'field_mask' is ignored.
-  //
-  // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
-
-  // CAS - Compare and Swap. This object is used if user wants to make update
-  // conditional based upon previous resource version.
-  message CAS {
-    // Conditional desired state of a resource before update.
-    Deployment conditional_state = 1;
-
-    // Field paths from conditional state of resource server should check and
-    // compare.
-    google.protobuf.FieldMask field_mask = 2;
-  }
-}
-
-// Request message for method
-// [DeleteDeployment][ntt.meta.v1alpha2.DeleteDeployment]
-message DeleteDeploymentRequest {
-  // Reference of ntt.meta.v1alpha2.Deployment
-  string name = 1;
-}
-
 // Deployment service API for Meta
 service DeploymentService {
   option (google.api.default_host) = "meta.edgelq.com";
@@ -364,30 +311,6 @@ service DeploymentService {
       returns (stream WatchDeploymentsResponse) {
     option (google.api.http) = {
       post : "/v1alpha2/{parent=regions/*}/deployments:watch"
-    };
-  }
-
-  // CreateDeployment
-  rpc CreateDeployment(CreateDeploymentRequest) returns (Deployment) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/deployments"
-      body : "deployment"
-    };
-  }
-
-  // UpdateDeployment
-  rpc UpdateDeployment(UpdateDeploymentRequest) returns (Deployment) {
-    option (google.api.http) = {
-      put : "/v1alpha2/{deployment.name=regions/*/deployments/*}"
-      body : "deployment"
-    };
-  }
-
-  // DeleteDeployment
-  rpc DeleteDeployment(DeleteDeploymentRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1alpha2/{name=regions/*/deployments/*}"
     };
   }
 }

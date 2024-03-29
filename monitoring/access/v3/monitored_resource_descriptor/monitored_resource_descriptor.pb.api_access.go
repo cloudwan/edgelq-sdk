@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	monitored_resource_descriptor_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitored_resource_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiMonitoredResourceDescriptorAccess struct {
@@ -42,8 +44,11 @@ func NewApiMonitoredResourceDescriptorAccess(client monitored_resource_descripto
 }
 
 func (a *apiMonitoredResourceDescriptorAccess) GetMonitoredResourceDescriptor(ctx context.Context, query *monitored_resource_descriptor.GetQuery) (*monitored_resource_descriptor.MonitoredResourceDescriptor, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &monitored_resource_descriptor_client.GetMonitoredResourceDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetMonitoredResourceDescriptor(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiMonitoredResourceDescriptorAccess) GetMonitoredResourceDescriptor(ct
 
 func (a *apiMonitoredResourceDescriptorAccess) BatchGetMonitoredResourceDescriptors(ctx context.Context, refs []*monitored_resource_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*monitored_resource_descriptor.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &monitored_resource_descriptor_client.BatchGetMonitoredResourceDescriptorsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(monitored_resource_descriptor.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiMonitoredResourceDescriptorAccess) QueryMonitoredResourceDescriptors
 }
 
 func (a *apiMonitoredResourceDescriptorAccess) WatchMonitoredResourceDescriptor(ctx context.Context, query *monitored_resource_descriptor.GetQuery, observerCb func(*monitored_resource_descriptor.MonitoredResourceDescriptorChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &monitored_resource_descriptor_client.WatchMonitoredResourceDescriptorRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchMonitoredResourceDescriptor(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiMonitoredResourceDescriptorAccess) SaveMonitoredResourceDescriptor(c
 			}
 		}
 	}
-
+	var resp *monitored_resource_descriptor.MonitoredResourceDescriptor
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &monitored_resource_descriptor_client.UpdateMonitoredResourceDescriptorRequest{
 			MonitoredResourceDescriptor: res,
@@ -195,26 +211,30 @@ func (a *apiMonitoredResourceDescriptorAccess) SaveMonitoredResourceDescriptor(c
 				FieldMask:        mask.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateMonitoredResourceDescriptor(ctx, updateRequest)
+		resp, err = a.client.UpdateMonitoredResourceDescriptor(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &monitored_resource_descriptor_client.CreateMonitoredResourceDescriptorRequest{
 			MonitoredResourceDescriptor: res,
 		}
-		_, err := a.client.CreateMonitoredResourceDescriptor(ctx, createRequest)
+		resp, err = a.client.CreateMonitoredResourceDescriptor(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiMonitoredResourceDescriptorAccess) DeleteMonitoredResourceDescriptor(ctx context.Context, ref *monitored_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &monitored_resource_descriptor_client.DeleteMonitoredResourceDescriptorRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteMonitoredResourceDescriptor(ctx, request)
 	return err

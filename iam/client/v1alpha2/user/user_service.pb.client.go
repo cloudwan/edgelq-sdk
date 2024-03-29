@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &user.User{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,16 +56,16 @@ type UserServiceClient interface {
 	WatchUsers(ctx context.Context, in *WatchUsersRequest, opts ...grpc.CallOption) (WatchUsersClientStream, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*user.User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*user.User, error)
-	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*user.User, error)
 	BatchGetUsersByEmail(ctx context.Context, in *BatchGetUsersByEmailRequest, opts ...grpc.CallOption) (*BatchGetUsersByEmailResponse, error)
 	GetMySettings(ctx context.Context, in *GetMySettingsRequest, opts ...grpc.CallOption) (*GetMySettingsResponse, error)
-	SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFromIdTokenRequest, opts ...grpc.CallOption) (*RefreshUserFromIdTokenResponse, error)
-	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*empty.Empty, error)
+	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -195,8 +195,8 @@ func (c *client) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...
 	return out, nil
 }
 
-func (c *client) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/DeleteUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -231,8 +231,8 @@ func (c *client) GetMySettings(ctx context.Context, in *GetMySettingsRequest, op
 	return out, nil
 }
 
-func (c *client) SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/SetMySettings", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -249,8 +249,8 @@ func (c *client) RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFrom
 	return out, nil
 }
 
-func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResendVerificationEmail", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -258,8 +258,8 @@ func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerifica
 	return out, nil
 }
 
-func (c *client) IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/IsUserVerified", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -267,8 +267,8 @@ func (c *client) IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, 
 	return out, nil
 }
 
-func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResetMFAIfRecoveryKeyUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -276,8 +276,8 @@ func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRe
 	return out, nil
 }
 
-func (c *client) SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/SetUsersNameInAuth0", in, out, opts...)
 	if err != nil {
 		return nil, err

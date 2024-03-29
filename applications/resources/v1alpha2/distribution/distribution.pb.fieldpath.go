@@ -17,7 +17,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
@@ -26,7 +25,7 @@ import (
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -43,7 +42,6 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
@@ -52,7 +50,7 @@ var (
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -118,7 +116,7 @@ func BuildDistribution_FieldPath(fp gotenobject.RawFieldPath) (Distribution_Fiel
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Distribution_FieldSubPath{selector: Distribution_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -243,7 +241,7 @@ func (fp *Distribution_FieldTerminalPath) GetDefault() interface{} {
 	case Distribution_FieldPathSelectorDisplayName:
 		return ""
 	case Distribution_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case Distribution_FieldPathSelectorSpec:
 		return (*Distribution_Spec)(nil)
 	case Distribution_FieldPathSelectorStatus:
@@ -293,7 +291,7 @@ func (fp *Distribution_FieldTerminalPath) WithIValue(value interface{}) Distribu
 	case Distribution_FieldPathSelectorDisplayName:
 		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(string)}
 	case Distribution_FieldPathSelectorMetadata:
-		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Distribution_FieldPathSelectorSpec:
 		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(*Distribution_Spec)}
 	case Distribution_FieldPathSelectorStatus:
@@ -315,7 +313,7 @@ func (fp *Distribution_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Distribution_FieldPathSelectorDisplayName:
 		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]string)}
 	case Distribution_FieldPathSelectorMetadata:
-		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Distribution_FieldPathSelectorSpec:
 		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]*Distribution_Spec)}
 	case Distribution_FieldPathSelectorStatus:
@@ -351,8 +349,8 @@ var _ Distribution_FieldPath = (*Distribution_FieldSubPath)(nil)
 func (fps *Distribution_FieldSubPath) Selector() Distribution_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Distribution_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Distribution_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *Distribution_FieldSubPath) AsSpecSubPath() (DistributionSpec_FieldPath, bool) {
@@ -526,8 +524,8 @@ func (fpv *Distribution_FieldTerminalPathValue) AsDisplayNameValue() (string, bo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Distribution_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Distribution_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *Distribution_FieldTerminalPathValue) AsSpecValue() (*Distribution_Spec, bool) {
@@ -550,7 +548,7 @@ func (fpv *Distribution_FieldTerminalPathValue) SetTo(target **Distribution) {
 	case Distribution_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case Distribution_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Distribution_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*Distribution_Spec)
 	case Distribution_FieldPathSelectorStatus:
@@ -619,8 +617,8 @@ type Distribution_FieldSubPathValue struct {
 
 var _ Distribution_FieldPathValue = (*Distribution_FieldSubPathValue)(nil)
 
-func (fpvs *Distribution_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Distribution_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *Distribution_FieldSubPathValue) AsSpecPathValue() (DistributionSpec_FieldPathValue, bool) {
@@ -638,7 +636,7 @@ func (fpvs *Distribution_FieldSubPathValue) SetTo(target **Distribution) {
 	}
 	switch fpvs.Selector() {
 	case Distribution_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Distribution_FieldPathSelectorSpec:
 		fpvs.subPathValue.(DistributionSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case Distribution_FieldPathSelectorStatus:
@@ -660,7 +658,7 @@ func (fpvs *Distribution_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Distribution_FieldSubPathValue) CompareWith(source *Distribution) (int, bool) {
 	switch fpvs.Selector() {
 	case Distribution_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Distribution_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(DistributionSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case Distribution_FieldPathSelectorStatus:
@@ -747,8 +745,8 @@ type Distribution_FieldSubPathArrayItemValue struct {
 func (fpaivs *Distribution_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Distribution_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Distribution_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *Distribution_FieldSubPathArrayItemValue) AsSpecPathItemValue() (DistributionSpec_FieldPathArrayItemValue, bool) {
@@ -764,7 +762,7 @@ func (fpaivs *Distribution_FieldSubPathArrayItemValue) AsStatusPathItemValue() (
 func (fpaivs *Distribution_FieldSubPathArrayItemValue) ContainsValue(source *Distribution) bool {
 	switch fpaivs.Selector() {
 	case Distribution_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Distribution_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(DistributionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case Distribution_FieldPathSelectorStatus:
@@ -818,7 +816,7 @@ func (fpaov *Distribution_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case Distribution_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case Distribution_FieldPathSelectorSpec:
@@ -840,8 +838,8 @@ func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfVa
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*Distribution_Spec, bool) {
@@ -863,8 +861,8 @@ var _ Distribution_FieldPathArrayOfValues = (*Distribution_FieldSubPathArrayOfVa
 func (fpsaov *Distribution_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Distribution_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Distribution_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Distribution_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (DistributionSpec_FieldPathArrayOfValues, bool) {
@@ -1912,7 +1910,7 @@ func BuildDistributionSpecTemplate_FieldPath(fp gotenobject.RawFieldPath) (Distr
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &DistributionSpecTemplate_FieldSubPath{selector: DistributionSpecTemplate_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -2009,7 +2007,7 @@ func (fp *DistributionSpecTemplate_FieldTerminalPath) GetSingleRaw(source proto.
 func (fp *DistributionSpecTemplate_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		return (*common.PodSpec)(nil)
 	default:
@@ -2046,7 +2044,7 @@ func (fp *DistributionSpecTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() 
 func (fp *DistributionSpecTemplate_FieldTerminalPath) WithIValue(value interface{}) DistributionSpecTemplate_FieldPathValue {
 	switch fp.selector {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		return &DistributionSpecTemplate_FieldTerminalPathValue{DistributionSpecTemplate_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &DistributionSpecTemplate_FieldTerminalPathValue{DistributionSpecTemplate_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		return &DistributionSpecTemplate_FieldTerminalPathValue{DistributionSpecTemplate_FieldTerminalPath: *fp, value: value.(*common.PodSpec)}
 	default:
@@ -2062,7 +2060,7 @@ func (fp *DistributionSpecTemplate_FieldTerminalPath) WithIArrayOfValues(values 
 	fpaov := &DistributionSpecTemplate_FieldTerminalPathArrayOfValues{DistributionSpecTemplate_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		return &DistributionSpecTemplate_FieldTerminalPathArrayOfValues{DistributionSpecTemplate_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &DistributionSpecTemplate_FieldTerminalPathArrayOfValues{DistributionSpecTemplate_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		return &DistributionSpecTemplate_FieldTerminalPathArrayOfValues{DistributionSpecTemplate_FieldTerminalPath: *fp, values: values.([]*common.PodSpec)}
 	default:
@@ -2096,8 +2094,8 @@ var _ DistributionSpecTemplate_FieldPath = (*DistributionSpecTemplate_FieldSubPa
 func (fps *DistributionSpecTemplate_FieldSubPath) Selector() DistributionSpecTemplate_FieldPathSelector {
 	return fps.selector
 }
-func (fps *DistributionSpecTemplate_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *DistributionSpecTemplate_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *DistributionSpecTemplate_FieldSubPath) AsSpecSubPath() (common.PodSpec_FieldPath, bool) {
@@ -2250,8 +2248,8 @@ var _ DistributionSpecTemplate_FieldPathValue = (*DistributionSpecTemplate_Field
 func (fpv *DistributionSpecTemplate_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *DistributionSpecTemplate_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *DistributionSpecTemplate_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *DistributionSpecTemplate_FieldTerminalPathValue) AsSpecValue() (*common.PodSpec, bool) {
@@ -2266,7 +2264,7 @@ func (fpv *DistributionSpecTemplate_FieldTerminalPathValue) SetTo(target **Distr
 	}
 	switch fpv.selector {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*common.PodSpec)
 	default:
@@ -2302,8 +2300,8 @@ type DistributionSpecTemplate_FieldSubPathValue struct {
 
 var _ DistributionSpecTemplate_FieldPathValue = (*DistributionSpecTemplate_FieldSubPathValue)(nil)
 
-func (fpvs *DistributionSpecTemplate_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *DistributionSpecTemplate_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *DistributionSpecTemplate_FieldSubPathValue) AsSpecPathValue() (common.PodSpec_FieldPathValue, bool) {
@@ -2317,7 +2315,7 @@ func (fpvs *DistributionSpecTemplate_FieldSubPathValue) SetTo(target **Distribut
 	}
 	switch fpvs.Selector() {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		fpvs.subPathValue.(common.PodSpec_FieldPathValue).SetTo(&(*target).Spec)
 	default:
@@ -2337,7 +2335,7 @@ func (fpvs *DistributionSpecTemplate_FieldSubPathValue) GetRawValue() interface{
 func (fpvs *DistributionSpecTemplate_FieldSubPathValue) CompareWith(source *Distribution_Spec_Template) (int, bool) {
 	switch fpvs.Selector() {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(common.PodSpec_FieldPathValue).CompareWith(source.GetSpec())
 	default:
@@ -2422,8 +2420,8 @@ type DistributionSpecTemplate_FieldSubPathArrayItemValue struct {
 func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) AsSpecPathItemValue() (common.PodSpec_FieldPathArrayItemValue, bool) {
@@ -2435,7 +2433,7 @@ func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) AsSpecPathIte
 func (fpaivs *DistributionSpecTemplate_FieldSubPathArrayItemValue) ContainsValue(source *Distribution_Spec_Template) bool {
 	switch fpaivs.Selector() {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(common.PodSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	default:
@@ -2479,7 +2477,7 @@ var _ DistributionSpecTemplate_FieldPathArrayOfValues = (*DistributionSpecTempla
 func (fpaov *DistributionSpecTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case DistributionSpecTemplate_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case DistributionSpecTemplate_FieldPathSelectorSpec:
@@ -2489,8 +2487,8 @@ func (fpaov *DistributionSpecTemplate_FieldTerminalPathArrayOfValues) GetRawValu
 	}
 	return
 }
-func (fpaov *DistributionSpecTemplate_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *DistributionSpecTemplate_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *DistributionSpecTemplate_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*common.PodSpec, bool) {
@@ -2508,8 +2506,8 @@ var _ DistributionSpecTemplate_FieldPathArrayOfValues = (*DistributionSpecTempla
 func (fpsaov *DistributionSpecTemplate_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *DistributionSpecTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *DistributionSpecTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *DistributionSpecTemplate_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (common.PodSpec_FieldPathArrayOfValues, bool) {

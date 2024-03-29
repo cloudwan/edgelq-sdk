@@ -5,7 +5,7 @@ package ntt.monitoring.v3;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/common/v3;monitoring_common";
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common;common";
 option java_multiple_files = false;
 option java_outer_classname = "CommonProto";
 option java_package = "com.ntt.monitoring.pb.v3";
@@ -632,17 +632,6 @@ message MonitoredResource {
 
   // reduced labels in aggregations
   repeated string reduced_labels = 11;
-}
-
-// Auxiliary metadata for a [MonitoredResource][google.api.MonitoredResource]
-// object. [MonitoredResource][google.api.MonitoredResource] objects contain the
-// minimum set of information to uniquely identify a monitored resource
-// instance. There is some other useful auxiliary metadata. Monitoring and
-// Logging use an ingestion pipeline to extract metadata for cloud resources of
-// all types, and store the metadata in this message.
-message MonitoredResourceMetadata {
-  // Output only. A map of user-defined metadata labels.
-  map<string, string> user_labels = 2;
 }
 
 // Represents wrapped list of strings.

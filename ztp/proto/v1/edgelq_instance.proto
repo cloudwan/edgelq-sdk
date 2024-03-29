@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package ntt.ztp.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ztp/resources/v1/edgelq_instance;edgelq_instance";
+option java_multiple_files = true;
+option java_outer_classname = "EdgelqInstanceProto";
+option java_package = "com.ntt.ztp.pb.v1";
+
+// EdgelqInstance Resource
+message EdgelqInstance {
+  option (google.api.resource) = {
+    type : "ztp.edgelq.com/EdgelqInstance"
+    pattern : "projects/{project}/edgelqInstances/{edgelq_instance}"
+  };
+
+  // Name of EdgelqInstance
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  string display_name = 3;
+
+  string controller_domain = 4;
+
+  // endpoints is set for private edgelq deployments without dns
+  // map<serviceName, ipaddress> format
+  map<string, string> endpoints = 5;
+}

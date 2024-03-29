@@ -13,20 +13,20 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -39,20 +39,20 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &plan_assignment.PlanAssignment{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
 )
 
 type PlanAssignmentRequest_FieldMask struct {
@@ -142,14 +142,14 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) Subtract(other *PlanAssignment
 	result := &PlanAssignmentRequest_FieldMask{}
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[PlanAssignmentRequest_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequest_FieldPathSelectorRequest:  &PlanAssignmentRequest_Request_FieldMask{},
+		PlanAssignmentRequest_FieldPathSelectorRequest:  &PlanAssignmentRequest_RequestType_FieldMask{},
 		PlanAssignmentRequest_FieldPathSelectorStatus:   &PlanAssignmentRequest_Status_FieldMask{},
-		PlanAssignmentRequest_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		PlanAssignmentRequest_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[PlanAssignmentRequest_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequest_FieldPathSelectorRequest:  &PlanAssignmentRequest_Request_FieldMask{},
+		PlanAssignmentRequest_FieldPathSelectorRequest:  &PlanAssignmentRequest_RequestType_FieldMask{},
 		PlanAssignmentRequest_FieldPathSelectorStatus:   &PlanAssignmentRequest_Status_FieldMask{},
-		PlanAssignmentRequest_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		PlanAssignmentRequest_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -166,11 +166,11 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) Subtract(other *PlanAssignment
 				if tp, ok := path.(*PlanAssignmentRequest_FieldTerminalPath); ok {
 					switch tp.selector {
 					case PlanAssignmentRequest_FieldPathSelectorRequest:
-						mySubMasks[PlanAssignmentRequest_FieldPathSelectorRequest] = FullPlanAssignmentRequest_Request_FieldMask()
+						mySubMasks[PlanAssignmentRequest_FieldPathSelectorRequest] = FullPlanAssignmentRequest_RequestType_FieldMask()
 					case PlanAssignmentRequest_FieldPathSelectorStatus:
 						mySubMasks[PlanAssignmentRequest_FieldPathSelectorStatus] = FullPlanAssignmentRequest_Status_FieldMask()
 					case PlanAssignmentRequest_FieldPathSelectorMetadata:
-						mySubMasks[PlanAssignmentRequest_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[PlanAssignmentRequest_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*PlanAssignmentRequest_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -208,12 +208,12 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) FilterInputFields() *PlanAssig
 		case PlanAssignmentRequest_FieldPathSelectorStatus:
 		case PlanAssignmentRequest_FieldPathSelectorMetadata:
 			if _, ok := path.(*PlanAssignmentRequest_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PlanAssignmentRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*PlanAssignmentRequest_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &PlanAssignmentRequest_FieldSubPath{selector: PlanAssignmentRequest_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -227,15 +227,15 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) FilterInputFields() *PlanAssig
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -257,7 +257,7 @@ func (fieldMask PlanAssignmentRequest_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *PlanAssignmentRequest_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -276,7 +276,7 @@ func (fieldMask PlanAssignmentRequest_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *PlanAssignmentRequest_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -344,11 +344,11 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) Project(source *PlanAssignment
 		return source
 	}
 	result := &PlanAssignmentRequest{}
-	requestMask := &PlanAssignmentRequest_Request_FieldMask{}
+	requestMask := &PlanAssignmentRequest_RequestType_FieldMask{}
 	wholeRequestAccepted := false
 	statusMask := &PlanAssignmentRequest_Status_FieldMask{}
 	wholeStatusAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -374,11 +374,11 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) Project(source *PlanAssignment
 		case *PlanAssignmentRequest_FieldSubPath:
 			switch tp.selector {
 			case PlanAssignmentRequest_FieldPathSelectorRequest:
-				requestMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequest_FieldPath))
+				requestMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestType_FieldPath))
 			case PlanAssignmentRequest_FieldPathSelectorStatus:
 				statusMask.AppendPath(tp.subPath.(PlanAssignmentRequestStatus_FieldPath))
 			case PlanAssignmentRequest_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}
@@ -518,15 +518,15 @@ func (fieldMask *PlanAssignmentRequest_Status_FieldMask) FilterInputFields() *Pl
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Status_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Status_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -548,7 +548,7 @@ func (fieldMask PlanAssignmentRequest_Status_FieldMask) Marshal() ([]byte, error
 }
 
 func (fieldMask *PlanAssignmentRequest_Status_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -567,7 +567,7 @@ func (fieldMask PlanAssignmentRequest_Status_FieldMask) MarshalJSON() ([]byte, e
 }
 
 func (fieldMask *PlanAssignmentRequest_Status_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -661,20 +661,20 @@ func (fieldMask *PlanAssignmentRequest_Status_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type PlanAssignmentRequest_Request_FieldMask struct {
-	Paths []PlanAssignmentRequestRequest_FieldPath
+type PlanAssignmentRequest_RequestType_FieldMask struct {
+	Paths []PlanAssignmentRequestRequestType_FieldPath
 }
 
-func FullPlanAssignmentRequest_Request_FieldMask() *PlanAssignmentRequest_Request_FieldMask {
-	res := &PlanAssignmentRequest_Request_FieldMask{}
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorAssign})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorExtend})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorRedistribute})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequest_FieldTerminalPath{selector: PlanAssignmentRequestRequest_FieldPathSelectorUnassign})
+func FullPlanAssignmentRequest_RequestType_FieldMask() *PlanAssignmentRequest_RequestType_FieldMask {
+	res := &PlanAssignmentRequest_RequestType_FieldMask{}
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign})
 	return res
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) String() string {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -686,7 +686,7 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) String() string {
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -699,9 +699,9 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) EncodeFirestore() (*fi
 	}, nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePlanAssignmentRequestRequest_FieldPath(value.GetStringValue())
+		parsedPath, err := ParsePlanAssignmentRequestRequestType_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -710,13 +710,13 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) DecodeFirestore(fpbv *
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) IsFull() bool {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PlanAssignmentRequestRequest_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*PlanAssignmentRequestRequestType_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -728,59 +728,59 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePlanAssignmentRequestRequest_FieldPath(raw)
+		return ParsePlanAssignmentRequestRequestType_FieldPath(raw)
 	})
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) ProtoMessage() {}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) ProtoMessage() {}
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Reset() {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Subtract(other *PlanAssignmentRequest_Request_FieldMask) *PlanAssignmentRequest_Request_FieldMask {
-	result := &PlanAssignmentRequest_Request_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Subtract(other *PlanAssignmentRequest_RequestType_FieldMask) *PlanAssignmentRequest_RequestType_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_FieldMask{}
 	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[PlanAssignmentRequestRequest_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequest_FieldPathSelectorAssign:       &PlanAssignmentRequest_Request_Assign_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorExtend:       &PlanAssignmentRequest_Request_Extend_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorRedistribute: &PlanAssignmentRequest_Request_Redistribute_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorUnassign:     &PlanAssignmentRequest_Request_Unassign_FieldMask{},
+	otherSubMasks := map[PlanAssignmentRequestRequestType_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestType_FieldPathSelectorAssign:       &PlanAssignmentRequest_RequestType_Assign_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorExtend:       &PlanAssignmentRequest_RequestType_Extend_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute: &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:     &PlanAssignmentRequest_RequestType_Unassign_FieldMask{},
 	}
-	mySubMasks := map[PlanAssignmentRequestRequest_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequest_FieldPathSelectorAssign:       &PlanAssignmentRequest_Request_Assign_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorExtend:       &PlanAssignmentRequest_Request_Extend_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorRedistribute: &PlanAssignmentRequest_Request_Redistribute_FieldMask{},
-		PlanAssignmentRequestRequest_FieldPathSelectorUnassign:     &PlanAssignmentRequest_Request_Unassign_FieldMask{},
+	mySubMasks := map[PlanAssignmentRequestRequestType_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestType_FieldPathSelectorAssign:       &PlanAssignmentRequest_RequestType_Assign_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorExtend:       &PlanAssignmentRequest_RequestType_Extend_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute: &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{},
+		PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:     &PlanAssignmentRequest_RequestType_Unassign_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *PlanAssignmentRequestRequest_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestType_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *PlanAssignmentRequestRequest_FieldSubPath:
+		case *PlanAssignmentRequestRequestType_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*PlanAssignmentRequestRequest_FieldTerminalPath); ok {
+				if tp, ok := path.(*PlanAssignmentRequestRequestType_FieldTerminalPath); ok {
 					switch tp.selector {
-					case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-						mySubMasks[PlanAssignmentRequestRequest_FieldPathSelectorAssign] = FullPlanAssignmentRequest_Request_Assign_FieldMask()
-					case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-						mySubMasks[PlanAssignmentRequestRequest_FieldPathSelectorExtend] = FullPlanAssignmentRequest_Request_Extend_FieldMask()
-					case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-						mySubMasks[PlanAssignmentRequestRequest_FieldPathSelectorRedistribute] = FullPlanAssignmentRequest_Request_Redistribute_FieldMask()
-					case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-						mySubMasks[PlanAssignmentRequestRequest_FieldPathSelectorUnassign] = FullPlanAssignmentRequest_Request_Unassign_FieldMask()
+					case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+						mySubMasks[PlanAssignmentRequestRequestType_FieldPathSelectorAssign] = FullPlanAssignmentRequest_RequestType_Assign_FieldMask()
+					case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+						mySubMasks[PlanAssignmentRequestRequestType_FieldPathSelectorExtend] = FullPlanAssignmentRequest_RequestType_Extend_FieldMask()
+					case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+						mySubMasks[PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute] = FullPlanAssignmentRequest_RequestType_Redistribute_FieldMask()
+					case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+						mySubMasks[PlanAssignmentRequestRequestType_FieldPathSelectorUnassign] = FullPlanAssignmentRequest_RequestType_Unassign_FieldMask()
 					}
-				} else if tp, ok := path.(*PlanAssignmentRequestRequest_FieldSubPath); ok {
+				} else if tp, ok := path.(*PlanAssignmentRequestRequestType_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -791,7 +791,7 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Subtract(other *PlanAs
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &PlanAssignmentRequestRequest_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -802,33 +802,33 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Subtract(other *PlanAs
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PlanAssignmentRequest_Request_FieldMask))
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*PlanAssignmentRequest_RequestType_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) FilterInputFields() *PlanAssignmentRequest_Request_FieldMask {
-	result := &PlanAssignmentRequest_Request_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) FilterInputFields() *PlanAssignmentRequest_RequestType_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]PlanAssignmentRequestRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]PlanAssignmentRequestRequestType_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePlanAssignmentRequestRequest_FieldPath(strPath)
+		path, err := ParsePlanAssignmentRequestRequestType_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -838,13 +838,13 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) FromProtoFieldMask(pro
 }
 
 // implement methods required by customType
-func (fieldMask PlanAssignmentRequest_Request_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -854,16 +854,16 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Unmarshal(data []byte)
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Size() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask PlanAssignmentRequest_Request_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -873,22 +873,22 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) UnmarshalJSON(data []b
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) AppendPath(path PlanAssignmentRequestRequest_FieldPath) {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) AppendPath(path PlanAssignmentRequestRequestType_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequest_FieldPath))
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestType_FieldPath))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) GetPaths() []PlanAssignmentRequestRequest_FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) GetPaths() []PlanAssignmentRequestRequestType_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -899,8 +899,8 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) GetRawPaths() []goteno
 	return rawPaths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePlanAssignmentRequestRequest_FieldPath(raw)
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePlanAssignmentRequestRequestType_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -908,7 +908,7 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) SetFromCliFlag(raw str
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Set(target, source *PlanAssignmentRequest_Request) {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Set(target, source *PlanAssignmentRequest_RequestType) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -919,108 +919,108 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Set(target, source *Pl
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PlanAssignmentRequest_Request), source.(*PlanAssignmentRequest_Request))
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*PlanAssignmentRequest_RequestType), source.(*PlanAssignmentRequest_RequestType))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Project(source *PlanAssignmentRequest_Request) *PlanAssignmentRequest_Request {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) Project(source *PlanAssignmentRequest_RequestType) *PlanAssignmentRequest_RequestType {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &PlanAssignmentRequest_Request{}
-	assignMask := &PlanAssignmentRequest_Request_Assign_FieldMask{}
+	result := &PlanAssignmentRequest_RequestType{}
+	assignMask := &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
 	wholeAssignAccepted := false
-	extendMask := &PlanAssignmentRequest_Request_Extend_FieldMask{}
+	extendMask := &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
 	wholeExtendAccepted := false
-	redistributeMask := &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
+	redistributeMask := &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
 	wholeRedistributeAccepted := false
-	unassignMask := &PlanAssignmentRequest_Request_Unassign_FieldMask{}
+	unassignMask := &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
 	wholeUnassignAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *PlanAssignmentRequestRequest_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestType_FieldTerminalPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-				if source, ok := source.Request.(*PlanAssignmentRequest_Request_Assign_); ok {
-					result.Request = &PlanAssignmentRequest_Request_Assign_{
+			case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+				if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok {
+					result.Request = &PlanAssignmentRequest_RequestType_Assign_{
 						Assign: source.Assign,
 					}
 				}
 				wholeAssignAccepted = true
-			case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-				if source, ok := source.Request.(*PlanAssignmentRequest_Request_Extend_); ok {
-					result.Request = &PlanAssignmentRequest_Request_Extend_{
+			case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+				if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok {
+					result.Request = &PlanAssignmentRequest_RequestType_Extend_{
 						Extend: source.Extend,
 					}
 				}
 				wholeExtendAccepted = true
-			case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-				if source, ok := source.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok {
-					result.Request = &PlanAssignmentRequest_Request_Redistribute_{
+			case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+				if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
+					result.Request = &PlanAssignmentRequest_RequestType_Redistribute_{
 						Redistribute: source.Redistribute,
 					}
 				}
 				wholeRedistributeAccepted = true
-			case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-				if source, ok := source.Request.(*PlanAssignmentRequest_Request_Unassign_); ok {
-					result.Request = &PlanAssignmentRequest_Request_Unassign_{
+			case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+				if source, ok := source.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok {
+					result.Request = &PlanAssignmentRequest_RequestType_Unassign_{
 						Unassign: source.Unassign,
 					}
 				}
 				wholeUnassignAccepted = true
 			}
-		case *PlanAssignmentRequestRequest_FieldSubPath:
+		case *PlanAssignmentRequestRequestType_FieldSubPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequest_FieldPathSelectorAssign:
-				assignMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestAssign_FieldPath))
-			case PlanAssignmentRequestRequest_FieldPathSelectorExtend:
-				extendMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestExtend_FieldPath))
-			case PlanAssignmentRequestRequest_FieldPathSelectorRedistribute:
-				redistributeMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestRedistribute_FieldPath))
-			case PlanAssignmentRequestRequest_FieldPathSelectorUnassign:
-				unassignMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestUnassign_FieldPath))
+			case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+				assignMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestTypeAssign_FieldPath))
+			case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+				extendMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestTypeExtend_FieldPath))
+			case PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute:
+				redistributeMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestTypeRedistribute_FieldPath))
+			case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+				unassignMask.AppendPath(tp.subPath.(PlanAssignmentRequestRequestTypeUnassign_FieldPath))
 			}
 		}
 	}
 	if wholeAssignAccepted == false && len(assignMask.Paths) > 0 {
-		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_Request_Assign_); ok {
-			result.Request = (*PlanAssignmentRequest_Request_Assign_)(nil)
+		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_RequestType_Assign_); ok {
+			result.Request = (*PlanAssignmentRequest_RequestType_Assign_)(nil)
 			if asOneOf != nil {
-				oneOfRes := &PlanAssignmentRequest_Request_Assign_{}
+				oneOfRes := &PlanAssignmentRequest_RequestType_Assign_{}
 				oneOfRes.Assign = assignMask.Project(asOneOf.Assign)
 				result.Request = oneOfRes
 			}
 		}
 	}
 	if wholeExtendAccepted == false && len(extendMask.Paths) > 0 {
-		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_Request_Extend_); ok {
-			result.Request = (*PlanAssignmentRequest_Request_Extend_)(nil)
+		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_RequestType_Extend_); ok {
+			result.Request = (*PlanAssignmentRequest_RequestType_Extend_)(nil)
 			if asOneOf != nil {
-				oneOfRes := &PlanAssignmentRequest_Request_Extend_{}
+				oneOfRes := &PlanAssignmentRequest_RequestType_Extend_{}
 				oneOfRes.Extend = extendMask.Project(asOneOf.Extend)
 				result.Request = oneOfRes
 			}
 		}
 	}
 	if wholeRedistributeAccepted == false && len(redistributeMask.Paths) > 0 {
-		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_Request_Redistribute_); ok {
-			result.Request = (*PlanAssignmentRequest_Request_Redistribute_)(nil)
+		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_RequestType_Redistribute_); ok {
+			result.Request = (*PlanAssignmentRequest_RequestType_Redistribute_)(nil)
 			if asOneOf != nil {
-				oneOfRes := &PlanAssignmentRequest_Request_Redistribute_{}
+				oneOfRes := &PlanAssignmentRequest_RequestType_Redistribute_{}
 				oneOfRes.Redistribute = redistributeMask.Project(asOneOf.Redistribute)
 				result.Request = oneOfRes
 			}
 		}
 	}
 	if wholeUnassignAccepted == false && len(unassignMask.Paths) > 0 {
-		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_Request_Unassign_); ok {
-			result.Request = (*PlanAssignmentRequest_Request_Unassign_)(nil)
+		if asOneOf, ok := source.Request.(*PlanAssignmentRequest_RequestType_Unassign_); ok {
+			result.Request = (*PlanAssignmentRequest_RequestType_Unassign_)(nil)
 			if asOneOf != nil {
-				oneOfRes := &PlanAssignmentRequest_Request_Unassign_{}
+				oneOfRes := &PlanAssignmentRequest_RequestType_Unassign_{}
 				oneOfRes.Unassign = unassignMask.Project(asOneOf.Unassign)
 				result.Request = oneOfRes
 			}
@@ -1029,30 +1029,30 @@ func (fieldMask *PlanAssignmentRequest_Request_FieldMask) Project(source *PlanAs
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PlanAssignmentRequest_Request))
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*PlanAssignmentRequest_RequestType))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_FieldMask) PathsCount() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type PlanAssignmentRequest_Request_Assign_FieldMask struct {
-	Paths []PlanAssignmentRequestRequestAssign_FieldPath
+type PlanAssignmentRequest_RequestType_Assign_FieldMask struct {
+	Paths []PlanAssignmentRequestRequestTypeAssign_FieldPath
 }
 
-func FullPlanAssignmentRequest_Request_Assign_FieldMask() *PlanAssignmentRequest_Request_Assign_FieldMask {
-	res := &PlanAssignmentRequest_Request_Assign_FieldMask{}
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions})
+func FullPlanAssignmentRequest_RequestType_Assign_FieldMask() *PlanAssignmentRequest_RequestType_Assign_FieldMask {
+	res := &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions})
 	return res
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) String() string {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1064,7 +1064,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) String() string
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1077,9 +1077,9 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) EncodeFirestore
 	}, nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(value.GetStringValue())
+		parsedPath, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -1088,13 +1088,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) DecodeFirestore
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) IsFull() bool {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PlanAssignmentRequestRequestAssign_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1106,51 +1106,51 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePlanAssignmentRequestRequestAssign_FieldPath(raw)
+		return ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(raw)
 	})
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) ProtoMessage() {}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) ProtoMessage() {}
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Reset() {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Subtract(other *PlanAssignmentRequest_Request_Assign_FieldMask) *PlanAssignmentRequest_Request_Assign_FieldMask {
-	result := &PlanAssignmentRequest_Request_Assign_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Subtract(other *PlanAssignmentRequest_RequestType_Assign_FieldMask) *PlanAssignmentRequest_RequestType_Assign_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
 	removedSelectors := make([]bool, 3)
-	otherSubMasks := map[PlanAssignmentRequestRequestAssign_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
-		PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	otherSubMasks := map[PlanAssignmentRequestRequestTypeAssign_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
+		PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
-	mySubMasks := map[PlanAssignmentRequestRequestAssign_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
-		PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	mySubMasks := map[PlanAssignmentRequestRequestTypeAssign_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:            &common.Allowance_FieldMask{},
+		PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *PlanAssignmentRequestRequestAssign_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *PlanAssignmentRequestRequestAssign_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeAssign_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*PlanAssignmentRequestRequestAssign_FieldTerminalPath); ok {
+				if tp, ok := path.(*PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath); ok {
 					switch tp.selector {
-					case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
-						mySubMasks[PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions] = common.FullAllowance_FieldMask()
-					case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
-						mySubMasks[PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
+					case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
+						mySubMasks[PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions] = common.FullAllowance_FieldMask()
+					case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
+						mySubMasks[PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
 					}
-				} else if tp, ok := path.(*PlanAssignmentRequestRequestAssign_FieldSubPath); ok {
+				} else if tp, ok := path.(*PlanAssignmentRequestRequestTypeAssign_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -1161,7 +1161,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Subtract(other 
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestAssign_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestTypeAssign_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -1172,33 +1172,33 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Subtract(other 
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PlanAssignmentRequest_Request_Assign_FieldMask))
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*PlanAssignmentRequest_RequestType_Assign_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) FilterInputFields() *PlanAssignmentRequest_Request_Assign_FieldMask {
-	result := &PlanAssignmentRequest_Request_Assign_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) FilterInputFields() *PlanAssignmentRequest_RequestType_Assign_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Assign_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]PlanAssignmentRequestRequestAssign_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeAssign_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(strPath)
+		path, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1208,13 +1208,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) FromProtoFieldM
 }
 
 // implement methods required by customType
-func (fieldMask PlanAssignmentRequest_Request_Assign_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Assign_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1224,16 +1224,16 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Unmarshal(data 
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Size() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask PlanAssignmentRequest_Request_Assign_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Assign_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1243,22 +1243,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) UnmarshalJSON(d
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) AppendPath(path PlanAssignmentRequestRequestAssign_FieldPath) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) AppendPath(path PlanAssignmentRequestRequestTypeAssign_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestAssign_FieldPath))
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestTypeAssign_FieldPath))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) GetPaths() []PlanAssignmentRequestRequestAssign_FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) GetPaths() []PlanAssignmentRequestRequestTypeAssign_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1269,8 +1269,8 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) GetRawPaths() [
 	return rawPaths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePlanAssignmentRequestRequestAssign_FieldPath(raw)
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1278,7 +1278,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) SetFromCliFlag(
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Set(target, source *PlanAssignmentRequest_Request_Assign) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Set(target, source *PlanAssignmentRequest_RequestType_Assign) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1289,18 +1289,18 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Set(target, sou
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PlanAssignmentRequest_Request_Assign), source.(*PlanAssignmentRequest_Request_Assign))
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*PlanAssignmentRequest_RequestType_Assign), source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Project(source *PlanAssignmentRequest_Request_Assign) *PlanAssignmentRequest_Request_Assign {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) Project(source *PlanAssignmentRequest_RequestType_Assign) *PlanAssignmentRequest_RequestType_Assign {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &PlanAssignmentRequest_Request_Assign{}
+	result := &PlanAssignmentRequest_RequestType_Assign{}
 	extensionsMask := &common.Allowance_FieldMask{}
 	wholeExtensionsAccepted := false
 	regionalDistributionsMask := &common.RegionalDistribution_FieldMask{}
@@ -1308,22 +1308,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Project(source 
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *PlanAssignmentRequestRequestAssign_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeAssign_FieldTerminalPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestAssign_FieldPathSelectorPlan:
+			case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorPlan:
 				result.Plan = source.Plan
-			case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+			case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 				result.Extensions = source.Extensions
 				wholeExtensionsAccepted = true
-			case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 				result.RegionalDistributions = source.RegionalDistributions
 				wholeRegionalDistributionsAccepted = true
 			}
-		case *PlanAssignmentRequestRequestAssign_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeAssign_FieldSubPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestAssign_FieldPathSelectorExtensions:
+			case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorExtensions:
 				extensionsMask.AppendPath(tp.subPath.(common.Allowance_FieldPath))
-			case PlanAssignmentRequestRequestAssign_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeAssign_FieldPathSelectorRegionalDistributions:
 				regionalDistributionsMask.AppendPath(tp.subPath.(common.RegionalDistribution_FieldPath))
 			}
 		}
@@ -1341,30 +1341,30 @@ func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) Project(source 
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PlanAssignmentRequest_Request_Assign))
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*PlanAssignmentRequest_RequestType_Assign))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Assign_FieldMask) PathsCount() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type PlanAssignmentRequest_Request_Extend_FieldMask struct {
-	Paths []PlanAssignmentRequestRequestExtend_FieldPath
+type PlanAssignmentRequest_RequestType_Extend_FieldMask struct {
+	Paths []PlanAssignmentRequestRequestTypeExtend_FieldPath
 }
 
-func FullPlanAssignmentRequest_Request_Extend_FieldMask() *PlanAssignmentRequest_Request_Extend_FieldMask {
-	res := &PlanAssignmentRequest_Request_Extend_FieldMask{}
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions})
+func FullPlanAssignmentRequest_RequestType_Extend_FieldMask() *PlanAssignmentRequest_RequestType_Extend_FieldMask {
+	res := &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions})
 	return res
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) String() string {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1376,7 +1376,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) String() string
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1389,9 +1389,9 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) EncodeFirestore
 	}, nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(value.GetStringValue())
+		parsedPath, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -1400,13 +1400,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) DecodeFirestore
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) IsFull() bool {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PlanAssignmentRequestRequestExtend_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1418,51 +1418,51 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePlanAssignmentRequestRequestExtend_FieldPath(raw)
+		return ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(raw)
 	})
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) ProtoMessage() {}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) ProtoMessage() {}
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Reset() {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Subtract(other *PlanAssignmentRequest_Request_Extend_FieldMask) *PlanAssignmentRequest_Request_Extend_FieldMask {
-	result := &PlanAssignmentRequest_Request_Extend_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Subtract(other *PlanAssignmentRequest_RequestType_Extend_FieldMask) *PlanAssignmentRequest_RequestType_Extend_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
 	removedSelectors := make([]bool, 3)
-	otherSubMasks := map[PlanAssignmentRequestRequestExtend_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:             &common.Allowance_FieldMask{},
-		PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	otherSubMasks := map[PlanAssignmentRequestRequestTypeExtend_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:             &common.Allowance_FieldMask{},
+		PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
-	mySubMasks := map[PlanAssignmentRequestRequestExtend_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:             &common.Allowance_FieldMask{},
-		PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	mySubMasks := map[PlanAssignmentRequestRequestTypeExtend_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:             &common.Allowance_FieldMask{},
+		PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *PlanAssignmentRequestRequestExtend_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *PlanAssignmentRequestRequestExtend_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeExtend_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*PlanAssignmentRequestRequestExtend_FieldTerminalPath); ok {
+				if tp, ok := path.(*PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath); ok {
 					switch tp.selector {
-					case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
-						mySubMasks[PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions] = common.FullAllowance_FieldMask()
-					case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
-						mySubMasks[PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
+					case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
+						mySubMasks[PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions] = common.FullAllowance_FieldMask()
+					case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
+						mySubMasks[PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
 					}
-				} else if tp, ok := path.(*PlanAssignmentRequestRequestExtend_FieldSubPath); ok {
+				} else if tp, ok := path.(*PlanAssignmentRequestRequestTypeExtend_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -1473,7 +1473,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Subtract(other 
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestExtend_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestTypeExtend_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -1484,33 +1484,33 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Subtract(other 
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PlanAssignmentRequest_Request_Extend_FieldMask))
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*PlanAssignmentRequest_RequestType_Extend_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) FilterInputFields() *PlanAssignmentRequest_Request_Extend_FieldMask {
-	result := &PlanAssignmentRequest_Request_Extend_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) FilterInputFields() *PlanAssignmentRequest_RequestType_Extend_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Extend_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]PlanAssignmentRequestRequestExtend_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeExtend_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(strPath)
+		path, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1520,13 +1520,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) FromProtoFieldM
 }
 
 // implement methods required by customType
-func (fieldMask PlanAssignmentRequest_Request_Extend_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Extend_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1536,16 +1536,16 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Unmarshal(data 
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Size() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask PlanAssignmentRequest_Request_Extend_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Extend_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1555,22 +1555,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) UnmarshalJSON(d
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) AppendPath(path PlanAssignmentRequestRequestExtend_FieldPath) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) AppendPath(path PlanAssignmentRequestRequestTypeExtend_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestExtend_FieldPath))
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestTypeExtend_FieldPath))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) GetPaths() []PlanAssignmentRequestRequestExtend_FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) GetPaths() []PlanAssignmentRequestRequestTypeExtend_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1581,8 +1581,8 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) GetRawPaths() [
 	return rawPaths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePlanAssignmentRequestRequestExtend_FieldPath(raw)
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1590,7 +1590,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) SetFromCliFlag(
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Set(target, source *PlanAssignmentRequest_Request_Extend) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Set(target, source *PlanAssignmentRequest_RequestType_Extend) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1601,18 +1601,18 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Set(target, sou
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PlanAssignmentRequest_Request_Extend), source.(*PlanAssignmentRequest_Request_Extend))
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*PlanAssignmentRequest_RequestType_Extend), source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Project(source *PlanAssignmentRequest_Request_Extend) *PlanAssignmentRequest_Request_Extend {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) Project(source *PlanAssignmentRequest_RequestType_Extend) *PlanAssignmentRequest_RequestType_Extend {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &PlanAssignmentRequest_Request_Extend{}
+	result := &PlanAssignmentRequest_RequestType_Extend{}
 	additionsMask := &common.Allowance_FieldMask{}
 	wholeAdditionsAccepted := false
 	regionalDistributionsMask := &common.RegionalDistribution_FieldMask{}
@@ -1620,22 +1620,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Project(source 
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *PlanAssignmentRequestRequestExtend_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeExtend_FieldTerminalPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestExtend_FieldPathSelectorAssignment:
+			case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAssignment:
 				result.Assignment = source.Assignment
-			case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+			case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 				result.Additions = source.Additions
 				wholeAdditionsAccepted = true
-			case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 				result.RegionalDistributions = source.RegionalDistributions
 				wholeRegionalDistributionsAccepted = true
 			}
-		case *PlanAssignmentRequestRequestExtend_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeExtend_FieldSubPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestExtend_FieldPathSelectorAdditions:
+			case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorAdditions:
 				additionsMask.AppendPath(tp.subPath.(common.Allowance_FieldPath))
-			case PlanAssignmentRequestRequestExtend_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeExtend_FieldPathSelectorRegionalDistributions:
 				regionalDistributionsMask.AppendPath(tp.subPath.(common.RegionalDistribution_FieldPath))
 			}
 		}
@@ -1653,29 +1653,29 @@ func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) Project(source 
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PlanAssignmentRequest_Request_Extend))
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*PlanAssignmentRequest_RequestType_Extend))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Extend_FieldMask) PathsCount() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type PlanAssignmentRequest_Request_Redistribute_FieldMask struct {
-	Paths []PlanAssignmentRequestRequestRedistribute_FieldPath
+type PlanAssignmentRequest_RequestType_Redistribute_FieldMask struct {
+	Paths []PlanAssignmentRequestRequestTypeRedistribute_FieldPath
 }
 
-func FullPlanAssignmentRequest_Request_Redistribute_FieldMask() *PlanAssignmentRequest_Request_Redistribute_FieldMask {
-	res := &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment})
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions})
+func FullPlanAssignmentRequest_RequestType_Redistribute_FieldMask() *PlanAssignmentRequest_RequestType_Redistribute_FieldMask {
+	res := &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment})
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions})
 	return res
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) String() string {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1687,7 +1687,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) String() 
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1700,9 +1700,9 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) EncodeFir
 	}, nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(value.GetStringValue())
+		parsedPath, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -1711,13 +1711,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) DecodeFir
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) IsFull() bool {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1729,47 +1729,47 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) IsFull() 
 	return true
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePlanAssignmentRequestRequestRedistribute_FieldPath(raw)
+		return ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(raw)
 	})
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) ProtoMessage() {}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) ProtoMessage() {}
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Reset() {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Subtract(other *PlanAssignmentRequest_Request_Redistribute_FieldMask) *PlanAssignmentRequest_Request_Redistribute_FieldMask {
-	result := &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Subtract(other *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) *PlanAssignmentRequest_RequestType_Redistribute_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
 	removedSelectors := make([]bool, 2)
-	otherSubMasks := map[PlanAssignmentRequestRequestRedistribute_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	otherSubMasks := map[PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
-	mySubMasks := map[PlanAssignmentRequestRequestRedistribute_FieldPathSelector]gotenobject.FieldMask{
-		PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
+	mySubMasks := map[PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelector]gotenobject.FieldMask{
+		PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions: &common.RegionalDistribution_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *PlanAssignmentRequestRequestRedistribute_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*PlanAssignmentRequestRequestRedistribute_FieldTerminalPath); ok {
+				if tp, ok := path.(*PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath); ok {
 					switch tp.selector {
-					case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
-						mySubMasks[PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
+					case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
+						mySubMasks[PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions] = common.FullRegionalDistribution_FieldMask()
 					}
-				} else if tp, ok := path.(*PlanAssignmentRequestRequestRedistribute_FieldSubPath); ok {
+				} else if tp, ok := path.(*PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -1780,7 +1780,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Subtract(
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestRedistribute_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -1791,33 +1791,33 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Subtract(
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PlanAssignmentRequest_Request_Redistribute_FieldMask))
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*PlanAssignmentRequest_RequestType_Redistribute_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) FilterInputFields() *PlanAssignmentRequest_Request_Redistribute_FieldMask {
-	result := &PlanAssignmentRequest_Request_Redistribute_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) FilterInputFields() *PlanAssignmentRequest_RequestType_Redistribute_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Redistribute_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]PlanAssignmentRequestRequestRedistribute_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeRedistribute_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(strPath)
+		path, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1827,13 +1827,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) FromProto
 }
 
 // implement methods required by customType
-func (fieldMask PlanAssignmentRequest_Request_Redistribute_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1843,16 +1843,16 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Unmarshal
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Size() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask PlanAssignmentRequest_Request_Redistribute_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Redistribute_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1862,22 +1862,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Unmarshal
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) AppendPath(path PlanAssignmentRequestRequestRedistribute_FieldPath) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) AppendPath(path PlanAssignmentRequestRequestTypeRedistribute_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestRedistribute_FieldPath))
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestTypeRedistribute_FieldPath))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) GetPaths() []PlanAssignmentRequestRequestRedistribute_FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) GetPaths() []PlanAssignmentRequestRequestTypeRedistribute_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1888,8 +1888,8 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) GetRawPat
 	return rawPaths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePlanAssignmentRequestRequestRedistribute_FieldPath(raw)
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePlanAssignmentRequestRequestTypeRedistribute_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1897,7 +1897,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) SetFromCl
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Set(target, source *PlanAssignmentRequest_Request_Redistribute) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Set(target, source *PlanAssignmentRequest_RequestType_Redistribute) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1908,34 +1908,34 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Set(targe
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PlanAssignmentRequest_Request_Redistribute), source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*PlanAssignmentRequest_RequestType_Redistribute), source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Project(source *PlanAssignmentRequest_Request_Redistribute) *PlanAssignmentRequest_Request_Redistribute {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) Project(source *PlanAssignmentRequest_RequestType_Redistribute) *PlanAssignmentRequest_RequestType_Redistribute {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &PlanAssignmentRequest_Request_Redistribute{}
+	result := &PlanAssignmentRequest_RequestType_Redistribute{}
 	regionalDistributionsMask := &common.RegionalDistribution_FieldMask{}
 	wholeRegionalDistributionsAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *PlanAssignmentRequestRequestRedistribute_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeRedistribute_FieldTerminalPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorAssignment:
+			case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorAssignment:
 				result.Assignment = source.Assignment
-			case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 				result.RegionalDistributions = source.RegionalDistributions
 				wholeRegionalDistributionsAccepted = true
 			}
-		case *PlanAssignmentRequestRequestRedistribute_FieldSubPath:
+		case *PlanAssignmentRequestRequestTypeRedistribute_FieldSubPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestRedistribute_FieldPathSelectorRegionalDistributions:
+			case PlanAssignmentRequestRequestTypeRedistribute_FieldPathSelectorRegionalDistributions:
 				regionalDistributionsMask.AppendPath(tp.subPath.(common.RegionalDistribution_FieldPath))
 			}
 		}
@@ -1948,28 +1948,28 @@ func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) Project(s
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PlanAssignmentRequest_Request_Redistribute))
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*PlanAssignmentRequest_RequestType_Redistribute))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Redistribute_FieldMask) PathsCount() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Redistribute_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
 	return len(fieldMask.Paths)
 }
 
-type PlanAssignmentRequest_Request_Unassign_FieldMask struct {
-	Paths []PlanAssignmentRequestRequestUnassign_FieldPath
+type PlanAssignmentRequest_RequestType_Unassign_FieldMask struct {
+	Paths []PlanAssignmentRequestRequestTypeUnassign_FieldPath
 }
 
-func FullPlanAssignmentRequest_Request_Unassign_FieldMask() *PlanAssignmentRequest_Request_Unassign_FieldMask {
-	res := &PlanAssignmentRequest_Request_Unassign_FieldMask{}
-	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment})
+func FullPlanAssignmentRequest_RequestType_Unassign_FieldMask() *PlanAssignmentRequest_RequestType_Unassign_FieldMask {
+	res := &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
+	res.Paths = append(res.Paths, &PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath{selector: PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment})
 	return res
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) String() string {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1981,7 +1981,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) String() stri
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1994,9 +1994,9 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) EncodeFiresto
 	}, nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(value.GetStringValue())
+		parsedPath, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -2005,13 +2005,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) DecodeFiresto
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) IsFull() bool {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 1)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PlanAssignmentRequestRequestUnassign_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -2023,27 +2023,27 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) IsFull() bool
 	return true
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePlanAssignmentRequestRequestUnassign_FieldPath(raw)
+		return ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(raw)
 	})
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) ProtoMessage() {}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) ProtoMessage() {}
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Reset() {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Subtract(other *PlanAssignmentRequest_Request_Unassign_FieldMask) *PlanAssignmentRequest_Request_Unassign_FieldMask {
-	result := &PlanAssignmentRequest_Request_Unassign_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Subtract(other *PlanAssignmentRequest_RequestType_Unassign_FieldMask) *PlanAssignmentRequest_RequestType_Unassign_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
 	removedSelectors := make([]bool, 1)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *PlanAssignmentRequestRequestUnassign_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -2059,33 +2059,33 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Subtract(othe
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PlanAssignmentRequest_Request_Unassign_FieldMask))
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*PlanAssignmentRequest_RequestType_Unassign_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) FilterInputFields() *PlanAssignmentRequest_Request_Unassign_FieldMask {
-	result := &PlanAssignmentRequest_Request_Unassign_FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) FilterInputFields() *PlanAssignmentRequest_RequestType_Unassign_FieldMask {
+	result := &PlanAssignmentRequest_RequestType_Unassign_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]PlanAssignmentRequestRequestUnassign_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeUnassign_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(strPath)
+		path, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -2095,13 +2095,13 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) FromProtoFiel
 }
 
 // implement methods required by customType
-func (fieldMask PlanAssignmentRequest_Request_Unassign_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Unassign_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2111,16 +2111,16 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Unmarshal(dat
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Size() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask PlanAssignmentRequest_Request_Unassign_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask PlanAssignmentRequest_RequestType_Unassign_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2130,22 +2130,22 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) UnmarshalJSON
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) AppendPath(path PlanAssignmentRequestRequestUnassign_FieldPath) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) AppendPath(path PlanAssignmentRequestRequestTypeUnassign_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestUnassign_FieldPath))
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PlanAssignmentRequestRequestTypeUnassign_FieldPath))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) GetPaths() []PlanAssignmentRequestRequestUnassign_FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) GetPaths() []PlanAssignmentRequestRequestTypeUnassign_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -2156,8 +2156,8 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) GetRawPaths()
 	return rawPaths
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePlanAssignmentRequestRequestUnassign_FieldPath(raw)
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -2165,7 +2165,7 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) SetFromCliFla
 	return nil
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Set(target, source *PlanAssignmentRequest_Request_Unassign) {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Set(target, source *PlanAssignmentRequest_RequestType_Unassign) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -2176,24 +2176,24 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Set(target, s
 	}
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PlanAssignmentRequest_Request_Unassign), source.(*PlanAssignmentRequest_Request_Unassign))
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*PlanAssignmentRequest_RequestType_Unassign), source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Project(source *PlanAssignmentRequest_Request_Unassign) *PlanAssignmentRequest_Request_Unassign {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) Project(source *PlanAssignmentRequest_RequestType_Unassign) *PlanAssignmentRequest_RequestType_Unassign {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &PlanAssignmentRequest_Request_Unassign{}
+	result := &PlanAssignmentRequest_RequestType_Unassign{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *PlanAssignmentRequestRequestUnassign_FieldTerminalPath:
+		case *PlanAssignmentRequestRequestTypeUnassign_FieldTerminalPath:
 			switch tp.selector {
-			case PlanAssignmentRequestRequestUnassign_FieldPathSelectorAssignment:
+			case PlanAssignmentRequestRequestTypeUnassign_FieldPathSelectorAssignment:
 				result.Assignment = source.Assignment
 			}
 		}
@@ -2201,11 +2201,11 @@ func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) Project(sourc
 	return result
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PlanAssignmentRequest_Request_Unassign))
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*PlanAssignmentRequest_RequestType_Unassign))
 }
 
-func (fieldMask *PlanAssignmentRequest_Request_Unassign_FieldMask) PathsCount() int {
+func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

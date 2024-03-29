@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	distribution_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/distribution"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiDistributionAccess struct {
@@ -42,8 +44,11 @@ func NewApiDistributionAccess(client distribution_client.DistributionServiceClie
 }
 
 func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *distribution.GetQuery) (*distribution.Distribution, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &distribution_client.GetDistributionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetDistribution(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *dist
 
 func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs []*distribution.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*distribution.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &distribution_client.BatchGetDistributionsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(distribution.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *d
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListDistributions(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *d
 }
 
 func (a *apiDistributionAccess) WatchDistribution(ctx context.Context, query *distribution.GetQuery, observerCb func(*distribution.DistributionChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &distribution_client.WatchDistributionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchDistribution(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiDistributionAccess) WatchDistributions(ctx context.Context, query *d
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchDistributions(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiDistributionAccess) SaveDistribution(ctx context.Context, res *distr
 			}
 		}
 	}
-
+	var resp *distribution.Distribution
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &distribution_client.UpdateDistributionRequest{
 			Distribution: res,
@@ -195,29 +217,76 @@ func (a *apiDistributionAccess) SaveDistribution(ctx context.Context, res *distr
 				FieldMask:        mask.(*distribution.Distribution_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateDistribution(ctx, updateRequest)
+		resp, err = a.client.UpdateDistribution(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &distribution_client.CreateDistributionRequest{
 			Distribution: res,
 		}
-		_, err := a.client.CreateDistribution(ctx, createRequest)
+		resp, err = a.client.CreateDistribution(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiDistributionAccess) DeleteDistribution(ctx context.Context, ref *distribution.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &distribution_client.DeleteDistributionRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteDistribution(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *distribution.Filter) (*distribution.Filter, *distribution.ParentName) {
+	var withParentExtraction func(cnd distribution.FilterCondition) distribution.FilterCondition
+	var resultParent *distribution.ParentName
+	var resultFilter *distribution.Filter
+	withParentExtraction = func(cnd distribution.FilterCondition) distribution.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *distribution.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]distribution.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return distribution.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *distribution.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*distribution.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &distribution.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

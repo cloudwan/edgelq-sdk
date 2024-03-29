@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	service_account_key_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/service_account_key"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account_key"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiServiceAccountKeyAccess struct {
@@ -42,8 +44,11 @@ func NewApiServiceAccountKeyAccess(client service_account_key_client.ServiceAcco
 }
 
 func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, query *service_account_key.GetQuery) (*service_account_key.ServiceAccountKey, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &service_account_key_client.GetServiceAccountKeyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetServiceAccountKey(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, q
 
 func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Context, refs []*service_account_key.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*service_account_key.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &service_account_key_client.BatchGetServiceAccountKeysRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(service_account_key.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListServiceAccountKeys(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context
 }
 
 func (a *apiServiceAccountKeyAccess) WatchServiceAccountKey(ctx context.Context, query *service_account_key.GetQuery, observerCb func(*service_account_key.ServiceAccountKeyChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &service_account_key_client.WatchServiceAccountKeyRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchServiceAccountKey(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKeys(ctx context.Context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchServiceAccountKeys(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiServiceAccountKeyAccess) SaveServiceAccountKey(ctx context.Context, 
 			}
 		}
 	}
-
+	var resp *service_account_key.ServiceAccountKey
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &service_account_key_client.UpdateServiceAccountKeyRequest{
 			ServiceAccountKey: res,
@@ -195,29 +217,76 @@ func (a *apiServiceAccountKeyAccess) SaveServiceAccountKey(ctx context.Context, 
 				FieldMask:        mask.(*service_account_key.ServiceAccountKey_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateServiceAccountKey(ctx, updateRequest)
+		resp, err = a.client.UpdateServiceAccountKey(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &service_account_key_client.CreateServiceAccountKeyRequest{
 			ServiceAccountKey: res,
 		}
-		_, err := a.client.CreateServiceAccountKey(ctx, createRequest)
+		resp, err = a.client.CreateServiceAccountKey(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiServiceAccountKeyAccess) DeleteServiceAccountKey(ctx context.Context, ref *service_account_key.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &service_account_key_client.DeleteServiceAccountKeyRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteServiceAccountKey(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *service_account_key.Filter) (*service_account_key.Filter, *service_account_key.ParentName) {
+	var withParentExtraction func(cnd service_account_key.FilterCondition) service_account_key.FilterCondition
+	var resultParent *service_account_key.ParentName
+	var resultFilter *service_account_key.Filter
+	withParentExtraction = func(cnd service_account_key.FilterCondition) service_account_key.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *service_account_key.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]service_account_key.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return service_account_key.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *service_account_key.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*service_account_key.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &service_account_key.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

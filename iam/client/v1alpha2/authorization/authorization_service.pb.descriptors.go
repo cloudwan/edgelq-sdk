@@ -152,6 +152,30 @@ func (h *CheckPermissionsDescriptorClientMsgHandle) ExtractCollectionName(msg pr
 	return nil
 }
 
+func (h *CheckPermissionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckPermissionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckPermissionsRequest) *permission.Permission
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckPermissionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckPermissionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckPermissionsRequest) []*permission.Permission
+	})
+	if ok {
+		return permission.PermissionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CheckPermissionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CheckPermissionsResponse)
 	var asInterface interface{} = h
@@ -177,6 +201,30 @@ func (h *CheckPermissionsDescriptorServerMsgHandle) ExtractResourceNames(msg pro
 }
 
 func (h *CheckPermissionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CheckPermissionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckPermissionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckPermissionsResponse) *permission.Permission
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckPermissionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckPermissionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckPermissionsResponse) []*permission.Permission
+	})
+	if ok {
+		return permission.PermissionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -298,6 +346,30 @@ func (h *CheckMyPermissionsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	return nil
 }
 
+func (h *CheckMyPermissionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckMyPermissionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckMyPermissionsRequest) *permission.Permission
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyPermissionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckMyPermissionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckMyPermissionsRequest) []*permission.Permission
+	})
+	if ok {
+		return permission.PermissionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CheckMyPermissionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CheckMyPermissionsResponse)
 	var asInterface interface{} = h
@@ -323,6 +395,30 @@ func (h *CheckMyPermissionsDescriptorServerMsgHandle) ExtractResourceNames(msg p
 }
 
 func (h *CheckMyPermissionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CheckMyPermissionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckMyPermissionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckMyPermissionsResponse) *permission.Permission
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyPermissionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckMyPermissionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckMyPermissionsResponse) []*permission.Permission
+	})
+	if ok {
+		return permission.PermissionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -444,6 +540,30 @@ func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.
 	return nil
 }
 
+func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckMyRolesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckMyRolesRequest) *role.Role
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckMyRolesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckMyRolesRequest) []*role.Role
+	})
+	if ok {
+		return role.RoleList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CheckMyRolesResponse)
 	var asInterface interface{} = h
@@ -469,6 +589,30 @@ func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.M
 }
 
 func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CheckMyRolesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CheckMyRolesResponse) *role.Role
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CheckMyRolesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CheckMyRolesResponse) []*role.Role
+	})
+	if ok {
+		return role.RoleList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 

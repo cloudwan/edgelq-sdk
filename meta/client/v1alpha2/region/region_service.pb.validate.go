@@ -15,20 +15,16 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"google.golang.org/protobuf/types/known/durationpb"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	gotenvalidate "github.com/cloudwan/goten-sdk/runtime/validate"
 )
 
 // proto imports
 import (
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
-	view "github.com/cloudwan/goten-sdk/runtime/api/view"
-	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	view "github.com/cloudwan/goten-sdk/types/view"
+	watch_type "github.com/cloudwan/goten-sdk/types/watch_type"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -41,17 +37,14 @@ var (
 	_ = time.Now
 	_ = utf8.RuneCountInString
 	_ = url.Parse
-	_ = durationpb.Duration{}
-	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 )
 
 // make sure we're using proto imports
 var (
 	_ = &region.Region{}
-	_ = &empty.Empty{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -178,68 +171,6 @@ func (obj *WatchRegionsResponse) GotenValidate() error {
 	return nil
 }
 func (obj *WatchRegionsResponse_PageTokenChange) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *CreateRegionRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Region == nil {
-		return gotenvalidate.NewValidationError("CreateRegionRequest", "region", obj.Region, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Region).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CreateRegionRequest", "region", obj.Region, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *UpdateRegionRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Region == nil {
-		return gotenvalidate.NewValidationError("UpdateRegionRequest", "region", obj.Region, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Region).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("UpdateRegionRequest", "region", obj.Region, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Cas).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("UpdateRegionRequest", "cas", obj.Cas, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *UpdateRegionRequest_CAS) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.ConditionalState).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *DeleteRegionRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

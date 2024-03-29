@@ -9,14 +9,14 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	any "github.com/golang/protobuf/ptypes/any"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // ensure the imports are used
@@ -25,14 +25,14 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &any.Any{}
+	_ = &anypb.Any{}
 )
 
 func (o *Status) GotenObjectExt() {}
@@ -86,9 +86,9 @@ func (o *Status) Clone() *Status {
 	result := &Status{}
 	result.Code = o.Code
 	result.Message = o.Message
-	result.Details = make([]*any.Any, len(o.Details))
+	result.Details = make([]*anypb.Any, len(o.Details))
 	for i, sourceValue := range o.Details {
-		result.Details[i] = proto.Clone(sourceValue).(*any.Any)
+		result.Details[i] = proto.Clone(sourceValue).(*anypb.Any)
 	}
 	return result
 }
@@ -109,9 +109,9 @@ func (o *Status) Merge(source *Status) {
 			}
 		}
 		if !exists {
-			var newDstElement *any.Any
+			var newDstElement *anypb.Any
 			if sourceValue != nil {
-				newDstElement = new(any.Any)
+				newDstElement = new(anypb.Any)
 				proto.Merge(newDstElement, sourceValue)
 			}
 			o.Details = append(o.Details, newDstElement)

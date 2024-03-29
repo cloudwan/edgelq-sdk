@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	config_map "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &config_map.ConfigMap{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -139,8 +139,8 @@ func (h *GetConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Me
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*config_map.Name)(nil)
@@ -166,6 +166,30 @@ func (h *GetConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetConfigMapDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetConfigMapRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetConfigMapDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetConfigMapRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -207,6 +231,22 @@ func (h *GetConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetConfigMapDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*config_map.ConfigMap)
+}
+
+func (h *GetConfigMapDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*config_map.ConfigMap)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*config_map.ConfigMap) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -323,12 +363,8 @@ func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractResourceNames(msg p
 		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(config_map.ConfigMapNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return config_map.ConfigMapNameList(names)
 		}
 	}
 	return (config_map.ConfigMapNameList)(nil)
@@ -342,6 +378,30 @@ func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetConfigMapsRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetConfigMapsRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -389,6 +449,35 @@ func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg 
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetConfigMapsResponse) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetConfigMapsResponse) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			return config_map.ConfigMapList(resources)
+		}
+	}
+	return (config_map.ConfigMapList)(nil)
 }
 
 func GetBatchGetConfigMapsDescriptor() *BatchGetConfigMapsDescriptor {
@@ -522,6 +611,30 @@ func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	return (*config_map.ParentName)(nil)
 }
 
+func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListConfigMapsRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListConfigMapsRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListConfigMapsResponse)
 	var asInterface interface{} = h
@@ -565,6 +678,35 @@ func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListConfigMapsResponse) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListConfigMapsResponse) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			return config_map.ConfigMapList(resources)
+		}
+	}
+	return (config_map.ConfigMapList)(nil)
 }
 
 func GetListConfigMapsDescriptor() *ListConfigMapsDescriptor {
@@ -667,8 +809,8 @@ func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*config_map.Name)(nil)
@@ -694,6 +836,30 @@ func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchConfigMapRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchConfigMapRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -744,6 +910,42 @@ func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg prot
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchConfigMapResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchConfigMapResponse) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *config_map.ConfigMapChange_Added_:
+				return tResChange.Added.GetConfigMap()
+			case *config_map.ConfigMapChange_Modified_:
+				return tResChange.Modified.GetConfigMap()
+			case *config_map.ConfigMapChange_Current_:
+				return tResChange.Current.GetConfigMap()
+			}
+		}
+	}
+	return (*config_map.ConfigMap)(nil)
+}
+
+func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchConfigMapResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchConfigMapResponse) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -872,11 +1074,35 @@ func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*config_map.ParentName)(nil)
+}
+
+func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchConfigMapsRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchConfigMapsRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -931,6 +1157,46 @@ func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchConfigMapsResponse) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchConfigMapsResponse) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetConfigMapChanges(); len(resChanges) > 0 {
+			list := make(config_map.ConfigMapList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *config_map.ConfigMapChange_Added_:
+					list = append(list, tResChange.Added.GetConfigMap())
+				case *config_map.ConfigMapChange_Modified_:
+					list = append(list, tResChange.Modified.GetConfigMap())
+				case *config_map.ConfigMapChange_Current_:
+					list = append(list, tResChange.Current.GetConfigMap())
+				}
+			}
+			return list
+		}
+	}
+	return (config_map.ConfigMapList)(nil)
 }
 
 func GetWatchConfigMapsDescriptor() *WatchConfigMapsDescriptor {
@@ -1063,11 +1329,38 @@ func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*config_map.ParentName)(nil)
+}
+
+func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateConfigMapRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetConfigMap()
+	}
+	return (*config_map.ConfigMap)(nil)
+}
+
+func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateConfigMapRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1107,6 +1400,22 @@ func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*config_map.ConfigMap)
+}
+
+func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*config_map.ConfigMap)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*config_map.ConfigMap) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1243,6 +1552,33 @@ func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
+func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateConfigMapRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetConfigMap()
+	}
+	return (*config_map.ConfigMap)(nil)
+}
+
+func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateConfigMapRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
@@ -1284,6 +1620,22 @@ func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
+func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*config_map.ConfigMap)
+}
+
+func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*config_map.ConfigMap)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*config_map.ConfigMap) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateConfigMapDescriptor() *UpdateConfigMapDescriptor {
 	return updateConfigMapDescriptor
 }
@@ -1299,7 +1651,7 @@ func (d *DeleteConfigMapDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteConfigMapDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteConfigMapDescriptor) IsUnary() bool {
@@ -1384,8 +1736,8 @@ func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*config_map.Name)(nil)
@@ -1415,11 +1767,35 @@ func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg pro
 	return nil
 }
 
-func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *config_map.Name
+		OverrideExtractResourceBody(*DeleteConfigMapRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteConfigMapRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *config_map.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1428,10 +1804,10 @@ func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto
 }
 
 func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*config_map.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*config_map.Name
 	})
 	if ok {
 		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1440,13 +1816,37 @@ func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg prot
 }
 
 func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *config_map.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *config_map.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

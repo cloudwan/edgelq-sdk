@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package ntt.proxies.v1;
+
+import "edgelq-sdk/proxies/proto/v1/broker_custom.proto";
+import "edgelq-sdk/proxies/proto/v1/project.proto";
+import "edgelq-sdk/proxies/proto/v1/project_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/proxies/client/v1/broker;broker_client";
+option java_multiple_files = false;
+option java_outer_classname = "BrokerServiceProto";
+option java_package = "com.ntt.proxies.pb.v1";
+
+// Broker service API for Proxies
+service BrokerService {
+  option (google.api.default_host) = "proxies.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // Connect
+  rpc Connect(stream ConnectRequest) returns (stream ConnectResponse) {
+    option (google.api.http) = {
+      post : "/v1:connect"
+    };
+  }
+
+  // Listen
+  rpc Listen(stream ListenRequest) returns (stream ListenResponse) {
+    option (google.api.http) = {
+      post : "/v1:listen"
+    };
+  }
+
+  // Accept
+  rpc Accept(stream AcceptRequest) returns (stream AcceptResponse) {
+    option (google.api.http) = {
+      post : "/v1:accept"
+    };
+  }
+}

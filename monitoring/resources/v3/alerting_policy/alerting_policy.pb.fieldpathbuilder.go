@@ -6,20 +6,20 @@ package alerting_policy
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type AlertingPolicyFieldPathBuilder struct{}
@@ -69,27 +69,27 @@ func (AlertingPolicyPathSelectorMetadata) FieldPath() *AlertingPolicy_FieldTermi
 	return &AlertingPolicy_FieldTerminalPath{selector: AlertingPolicy_FieldPathSelectorMetadata}
 }
 
-func (s AlertingPolicyPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *AlertingPolicy_FieldTerminalPathValue {
+func (s AlertingPolicyPathSelectorMetadata) WithValue(value *meta.Meta) *AlertingPolicy_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldTerminalPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *AlertingPolicy_FieldTerminalPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *AlertingPolicy_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldTerminalPathArrayOfValues)
 }
 
-func (AlertingPolicyPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *AlertingPolicy_FieldSubPath {
+func (AlertingPolicyPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{selector: AlertingPolicy_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s AlertingPolicyPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *AlertingPolicy_FieldSubPathValue {
 	return &AlertingPolicy_FieldSubPathValue{AlertingPolicy_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s AlertingPolicyPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return &AlertingPolicy_FieldSubPathArrayOfValues{AlertingPolicy_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s AlertingPolicyPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *AlertingPolicy_FieldSubPathArrayItemValue {
+func (s AlertingPolicyPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *AlertingPolicy_FieldSubPathArrayItemValue {
 	return &AlertingPolicy_FieldSubPathArrayItemValue{AlertingPolicy_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -145,20 +145,24 @@ func (AlertingPolicyPathSelectorMetadata) Lifecycle() AlertingPolicyPathSelector
 	return AlertingPolicyPathSelectorMetadataLifecycle{}
 }
 
+func (AlertingPolicyPathSelectorMetadata) Services() AlertingPolicyPathSelectorMetadataServices {
+	return AlertingPolicyPathSelectorMetadataServices{}
+}
+
 type AlertingPolicyPathSelectorMetadataCreateTime struct{}
 
 func (AlertingPolicyPathSelectorMetadataCreateTime) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -167,15 +171,15 @@ type AlertingPolicyPathSelectorMetadataUpdateTime struct{}
 func (AlertingPolicyPathSelectorMetadataUpdateTime) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -184,15 +188,15 @@ type AlertingPolicyPathSelectorMetadataDeleteTime struct{}
 func (AlertingPolicyPathSelectorMetadataDeleteTime) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -201,7 +205,7 @@ type AlertingPolicyPathSelectorMetadataUuid struct{}
 func (AlertingPolicyPathSelectorMetadataUuid) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -218,7 +222,7 @@ type AlertingPolicyPathSelectorMetadataTags struct{}
 func (AlertingPolicyPathSelectorMetadataTags) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -239,7 +243,7 @@ type AlertingPolicyPathSelectorMetadataLabels struct{}
 func (AlertingPolicyPathSelectorMetadataLabels) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -262,7 +266,7 @@ type AlertingPolicyMapPathSelectorMetadataLabels struct {
 func (s AlertingPolicyMapPathSelectorMetadataLabels) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -279,7 +283,7 @@ type AlertingPolicyPathSelectorMetadataAnnotations struct{}
 func (AlertingPolicyPathSelectorMetadataAnnotations) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -302,7 +306,7 @@ type AlertingPolicyMapPathSelectorMetadataAnnotations struct {
 func (s AlertingPolicyMapPathSelectorMetadataAnnotations) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -319,7 +323,7 @@ type AlertingPolicyPathSelectorMetadataGeneration struct{}
 func (AlertingPolicyPathSelectorMetadataGeneration) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -336,7 +340,7 @@ type AlertingPolicyPathSelectorMetadataResourceVersion struct{}
 func (AlertingPolicyPathSelectorMetadataResourceVersion) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -353,19 +357,19 @@ type AlertingPolicyPathSelectorMetadataOwnerReferences struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferences) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
-func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *AlertingPolicy_FieldSubPathArrayItemValue {
+func (s AlertingPolicyPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *AlertingPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingPolicy_FieldSubPathArrayItemValue)
 }
 
@@ -389,10 +393,6 @@ func (AlertingPolicyPathSelectorMetadataOwnerReferences) Controller() AlertingPo
 	return AlertingPolicyPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (AlertingPolicyPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (AlertingPolicyPathSelectorMetadataOwnerReferences) RequiresOwnerReference() AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -402,7 +402,7 @@ type AlertingPolicyPathSelectorMetadataOwnerReferencesKind struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesKind) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -419,7 +419,7 @@ type AlertingPolicyPathSelectorMetadataOwnerReferencesVersion struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesVersion) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -436,7 +436,7 @@ type AlertingPolicyPathSelectorMetadataOwnerReferencesName struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesName) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -453,7 +453,7 @@ type AlertingPolicyPathSelectorMetadataOwnerReferencesRegion struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesRegion) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -470,7 +470,7 @@ type AlertingPolicyPathSelectorMetadataOwnerReferencesController struct{}
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesController) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -482,29 +482,12 @@ func (s AlertingPolicyPathSelectorMetadataOwnerReferencesController) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
-type AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *AlertingPolicy_FieldSubPath {
-	return &AlertingPolicy_FieldSubPath{
-		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *AlertingPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
-}
-
-func (s AlertingPolicyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *AlertingPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
-}
-
 type AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -521,7 +504,7 @@ type AlertingPolicyPathSelectorMetadataShards struct{}
 func (AlertingPolicyPathSelectorMetadataShards) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -544,7 +527,7 @@ type AlertingPolicyMapPathSelectorMetadataShards struct {
 func (s AlertingPolicyMapPathSelectorMetadataShards) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -561,15 +544,15 @@ type AlertingPolicyPathSelectorMetadataSyncing struct{}
 func (AlertingPolicyPathSelectorMetadataSyncing) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -586,7 +569,7 @@ type AlertingPolicyPathSelectorMetadataSyncingOwningRegion struct{}
 func (AlertingPolicyPathSelectorMetadataSyncingOwningRegion) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -603,7 +586,7 @@ type AlertingPolicyPathSelectorMetadataSyncingRegions struct{}
 func (AlertingPolicyPathSelectorMetadataSyncingRegions) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -624,15 +607,15 @@ type AlertingPolicyPathSelectorMetadataLifecycle struct{}
 func (AlertingPolicyPathSelectorMetadataLifecycle) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -649,15 +632,15 @@ type AlertingPolicyPathSelectorMetadataLifecycleState struct{}
 func (AlertingPolicyPathSelectorMetadataLifecycleState) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s AlertingPolicyPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -666,7 +649,7 @@ type AlertingPolicyPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (AlertingPolicyPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *AlertingPolicy_FieldSubPath {
 	return &AlertingPolicy_FieldSubPath{
 		selector: AlertingPolicy_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -676,6 +659,69 @@ func (s AlertingPolicyPathSelectorMetadataLifecycleBlockDeletion) WithValue(valu
 
 func (s AlertingPolicyPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
+}
+
+type AlertingPolicyPathSelectorMetadataServices struct{}
+
+func (AlertingPolicyPathSelectorMetadataServices) FieldPath() *AlertingPolicy_FieldSubPath {
+	return &AlertingPolicy_FieldSubPath{
+		selector: AlertingPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s AlertingPolicyPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *AlertingPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
+}
+
+func (s AlertingPolicyPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *AlertingPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
+}
+
+func (AlertingPolicyPathSelectorMetadataServices) OwningService() AlertingPolicyPathSelectorMetadataServicesOwningService {
+	return AlertingPolicyPathSelectorMetadataServicesOwningService{}
+}
+
+func (AlertingPolicyPathSelectorMetadataServices) AllowedServices() AlertingPolicyPathSelectorMetadataServicesAllowedServices {
+	return AlertingPolicyPathSelectorMetadataServicesAllowedServices{}
+}
+
+type AlertingPolicyPathSelectorMetadataServicesOwningService struct{}
+
+func (AlertingPolicyPathSelectorMetadataServicesOwningService) FieldPath() *AlertingPolicy_FieldSubPath {
+	return &AlertingPolicy_FieldSubPath{
+		selector: AlertingPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s AlertingPolicyPathSelectorMetadataServicesOwningService) WithValue(value string) *AlertingPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
+}
+
+func (s AlertingPolicyPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *AlertingPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
+}
+
+type AlertingPolicyPathSelectorMetadataServicesAllowedServices struct{}
+
+func (AlertingPolicyPathSelectorMetadataServicesAllowedServices) FieldPath() *AlertingPolicy_FieldSubPath {
+	return &AlertingPolicy_FieldSubPath{
+		selector: AlertingPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s AlertingPolicyPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *AlertingPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
+}
+
+func (s AlertingPolicyPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *AlertingPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingPolicyPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *AlertingPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingPolicy_FieldSubPathArrayItemValue)
 }
 
 type AlertingPolicyPathSelectorDisplayName struct{}

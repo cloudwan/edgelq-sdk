@@ -157,6 +157,30 @@ func (h *ListLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Mess
 	return nil
 }
 
+func (h *ListLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLogsRequest) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLogsRequest) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListLogsResponse)
 	var asInterface interface{} = h
@@ -189,6 +213,30 @@ func (h *ListLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Mess
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListLogsResponse) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListLogsResponse) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -236,7 +284,7 @@ func (d *CreateLogsDescriptor) HasResource() bool {
 }
 
 func (d *CreateLogsDescriptor) RequestHasResourceBody() bool {
-	return true
+	return false
 }
 
 func (d *CreateLogsDescriptor) GetVerb() string {
@@ -316,6 +364,35 @@ func (h *CreateLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*log.ParentName)(nil)
+}
+
+func (h *CreateLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateLogsRequest) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateLogsRequest) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
 	return nil
 }
 
@@ -351,6 +428,30 @@ func (h *CreateLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Me
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateLogsResponse) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateLogsResponse) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -140,25 +138,25 @@ func BuildPhantomTimeSerie_FieldPath(fp gotenobject.RawFieldPath) (PhantomTimeSe
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PhantomTimeSerie_FieldSubPath{selector: PhantomTimeSerie_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "metric":
-			if subpath, err := monitoring_common.BuildMetric_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildMetric_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PhantomTimeSerie_FieldSubPath{selector: PhantomTimeSerie_FieldPathSelectorMetric, subPath: subpath}, nil
 			}
 		case "resource":
-			if subpath, err := monitoring_common.BuildMonitoredResource_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildMonitoredResource_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PhantomTimeSerie_FieldSubPath{selector: PhantomTimeSerie_FieldPathSelectorResource, subPath: subpath}, nil
 			}
 		case "value":
-			if subpath, err := monitoring_common.BuildTypedValue_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildTypedValue_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PhantomTimeSerie_FieldSubPath{selector: PhantomTimeSerie_FieldPathSelectorValue, subPath: subpath}, nil
@@ -287,7 +285,7 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) GetSingleRaw(source proto.Message)
 func (fp *PhantomTimeSerie_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case PhantomTimeSerie_FieldPathSelectorName:
 		return (*Name)(nil)
 	case PhantomTimeSerie_FieldPathSelectorKey:
@@ -295,15 +293,15 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) GetDefault() interface{} {
 	case PhantomTimeSerie_FieldPathSelectorProject:
 		return ""
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		return (*monitoring_common.Metric)(nil)
+		return (*common.Metric)(nil)
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		return (*monitoring_common.MonitoredResource)(nil)
+		return (*common.MonitoredResource)(nil)
 	case PhantomTimeSerie_FieldPathSelectorMetricKind:
 		return metric_descriptor.MetricDescriptor_METRIC_KIND_UNSPECIFIED
 	case PhantomTimeSerie_FieldPathSelectorValueType:
 		return metric_descriptor.MetricDescriptor_VALUE_TYPE_UNSPECIFIED
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		return (*monitoring_common.TypedValue)(nil)
+		return (*common.TypedValue)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fp.selector))
 	}
@@ -356,7 +354,7 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) SplitIntoTerminalIPaths() []goteno
 func (fp *PhantomTimeSerie_FieldTerminalPath) WithIValue(value interface{}) PhantomTimeSerie_FieldPathValue {
 	switch fp.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case PhantomTimeSerie_FieldPathSelectorName:
 		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*Name)}
 	case PhantomTimeSerie_FieldPathSelectorKey:
@@ -364,15 +362,15 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) WithIValue(value interface{}) Phan
 	case PhantomTimeSerie_FieldPathSelectorProject:
 		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(string)}
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*monitoring_common.Metric)}
+		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*common.Metric)}
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*monitoring_common.MonitoredResource)}
+		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*common.MonitoredResource)}
 	case PhantomTimeSerie_FieldPathSelectorMetricKind:
 		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(metric_descriptor.MetricDescriptor_MetricKind)}
 	case PhantomTimeSerie_FieldPathSelectorValueType:
 		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(metric_descriptor.MetricDescriptor_ValueType)}
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*monitoring_common.TypedValue)}
+		return &PhantomTimeSerie_FieldTerminalPathValue{PhantomTimeSerie_FieldTerminalPath: *fp, value: value.(*common.TypedValue)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fp.selector))
 	}
@@ -386,7 +384,7 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) WithIArrayOfValues(values interfac
 	fpaov := &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case PhantomTimeSerie_FieldPathSelectorName:
 		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case PhantomTimeSerie_FieldPathSelectorKey:
@@ -394,15 +392,15 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) WithIArrayOfValues(values interfac
 	case PhantomTimeSerie_FieldPathSelectorProject:
 		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]string)}
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*monitoring_common.Metric)}
+		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.Metric)}
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*monitoring_common.MonitoredResource)}
+		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.MonitoredResource)}
 	case PhantomTimeSerie_FieldPathSelectorMetricKind:
 		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]metric_descriptor.MetricDescriptor_MetricKind)}
 	case PhantomTimeSerie_FieldPathSelectorValueType:
 		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]metric_descriptor.MetricDescriptor_ValueType)}
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TypedValue)}
+		return &PhantomTimeSerie_FieldTerminalPathArrayOfValues{PhantomTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.TypedValue)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fp.selector))
 	}
@@ -434,20 +432,20 @@ var _ PhantomTimeSerie_FieldPath = (*PhantomTimeSerie_FieldSubPath)(nil)
 func (fps *PhantomTimeSerie_FieldSubPath) Selector() PhantomTimeSerie_FieldPathSelector {
 	return fps.selector
 }
-func (fps *PhantomTimeSerie_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *PhantomTimeSerie_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *PhantomTimeSerie_FieldSubPath) AsMetricSubPath() (monitoring_common.Metric_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.Metric_FieldPath)
+func (fps *PhantomTimeSerie_FieldSubPath) AsMetricSubPath() (common.Metric_FieldPath, bool) {
+	res, ok := fps.subPath.(common.Metric_FieldPath)
 	return res, ok
 }
-func (fps *PhantomTimeSerie_FieldSubPath) AsResourceSubPath() (monitoring_common.MonitoredResource_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.MonitoredResource_FieldPath)
+func (fps *PhantomTimeSerie_FieldSubPath) AsResourceSubPath() (common.MonitoredResource_FieldPath, bool) {
+	res, ok := fps.subPath.(common.MonitoredResource_FieldPath)
 	return res, ok
 }
-func (fps *PhantomTimeSerie_FieldSubPath) AsValueSubPath() (monitoring_common.TypedValue_FieldPath, bool) {
-	res, ok := fps.subPath.(monitoring_common.TypedValue_FieldPath)
+func (fps *PhantomTimeSerie_FieldSubPath) AsValueSubPath() (common.TypedValue_FieldPath, bool) {
+	res, ok := fps.subPath.(common.TypedValue_FieldPath)
 	return res, ok
 }
 
@@ -614,8 +612,8 @@ var _ PhantomTimeSerie_FieldPathValue = (*PhantomTimeSerie_FieldTerminalPathValu
 func (fpv *PhantomTimeSerie_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
@@ -630,12 +628,12 @@ func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsProjectValue() (string, bo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsMetricValue() (*monitoring_common.Metric, bool) {
-	res, ok := fpv.value.(*monitoring_common.Metric)
+func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsMetricValue() (*common.Metric, bool) {
+	res, ok := fpv.value.(*common.Metric)
 	return res, ok
 }
-func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsResourceValue() (*monitoring_common.MonitoredResource, bool) {
-	res, ok := fpv.value.(*monitoring_common.MonitoredResource)
+func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsResourceValue() (*common.MonitoredResource, bool) {
+	res, ok := fpv.value.(*common.MonitoredResource)
 	return res, ok
 }
 func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsMetricKindValue() (metric_descriptor.MetricDescriptor_MetricKind, bool) {
@@ -646,8 +644,8 @@ func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsValueTypeValue() (metric_d
 	res, ok := fpv.value.(metric_descriptor.MetricDescriptor_ValueType)
 	return res, ok
 }
-func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsValueValue() (*monitoring_common.TypedValue, bool) {
-	res, ok := fpv.value.(*monitoring_common.TypedValue)
+func (fpv *PhantomTimeSerie_FieldTerminalPathValue) AsValueValue() (*common.TypedValue, bool) {
+	res, ok := fpv.value.(*common.TypedValue)
 	return res, ok
 }
 
@@ -658,7 +656,7 @@ func (fpv *PhantomTimeSerie_FieldTerminalPathValue) SetTo(target **PhantomTimeSe
 	}
 	switch fpv.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case PhantomTimeSerie_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case PhantomTimeSerie_FieldPathSelectorKey:
@@ -666,15 +664,15 @@ func (fpv *PhantomTimeSerie_FieldTerminalPathValue) SetTo(target **PhantomTimeSe
 	case PhantomTimeSerie_FieldPathSelectorProject:
 		(*target).Project = fpv.value.(string)
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		(*target).Metric = fpv.value.(*monitoring_common.Metric)
+		(*target).Metric = fpv.value.(*common.Metric)
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		(*target).Resource = fpv.value.(*monitoring_common.MonitoredResource)
+		(*target).Resource = fpv.value.(*common.MonitoredResource)
 	case PhantomTimeSerie_FieldPathSelectorMetricKind:
 		(*target).MetricKind = fpv.value.(metric_descriptor.MetricDescriptor_MetricKind)
 	case PhantomTimeSerie_FieldPathSelectorValueType:
 		(*target).ValueType = fpv.value.(metric_descriptor.MetricDescriptor_ValueType)
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		(*target).Value = fpv.value.(*monitoring_common.TypedValue)
+		(*target).Value = fpv.value.(*common.TypedValue)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fpv.selector))
 	}
@@ -763,20 +761,20 @@ type PhantomTimeSerie_FieldSubPathValue struct {
 
 var _ PhantomTimeSerie_FieldPathValue = (*PhantomTimeSerie_FieldSubPathValue)(nil)
 
-func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsMetricPathValue() (monitoring_common.Metric_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue)
+func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsMetricPathValue() (common.Metric_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.Metric_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsResourcePathValue() (monitoring_common.MonitoredResource_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue)
+func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsResourcePathValue() (common.MonitoredResource_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.MonitoredResource_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsValuePathValue() (monitoring_common.TypedValue_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(monitoring_common.TypedValue_FieldPathValue)
+func (fpvs *PhantomTimeSerie_FieldSubPathValue) AsValuePathValue() (common.TypedValue_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.TypedValue_FieldPathValue)
 	return res, ok
 }
 
@@ -786,13 +784,13 @@ func (fpvs *PhantomTimeSerie_FieldSubPathValue) SetTo(target **PhantomTimeSerie)
 	}
 	switch fpvs.Selector() {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue).SetTo(&(*target).Metric)
+		fpvs.subPathValue.(common.Metric_FieldPathValue).SetTo(&(*target).Metric)
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue).SetTo(&(*target).Resource)
+		fpvs.subPathValue.(common.MonitoredResource_FieldPathValue).SetTo(&(*target).Resource)
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		fpvs.subPathValue.(monitoring_common.TypedValue_FieldPathValue).SetTo(&(*target).Value)
+		fpvs.subPathValue.(common.TypedValue_FieldPathValue).SetTo(&(*target).Value)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fpvs.Selector()))
 	}
@@ -810,13 +808,13 @@ func (fpvs *PhantomTimeSerie_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *PhantomTimeSerie_FieldSubPathValue) CompareWith(source *PhantomTimeSerie) (int, bool) {
 	switch fpvs.Selector() {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		return fpvs.subPathValue.(monitoring_common.Metric_FieldPathValue).CompareWith(source.GetMetric())
+		return fpvs.subPathValue.(common.Metric_FieldPathValue).CompareWith(source.GetMetric())
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		return fpvs.subPathValue.(monitoring_common.MonitoredResource_FieldPathValue).CompareWith(source.GetResource())
+		return fpvs.subPathValue.(common.MonitoredResource_FieldPathValue).CompareWith(source.GetResource())
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		return fpvs.subPathValue.(monitoring_common.TypedValue_FieldPathValue).CompareWith(source.GetValue())
+		return fpvs.subPathValue.(common.TypedValue_FieldPathValue).CompareWith(source.GetValue())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fpvs.Selector()))
 	}
@@ -899,20 +897,20 @@ type PhantomTimeSerie_FieldSubPathArrayItemValue struct {
 func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsMetricPathItemValue() (monitoring_common.Metric_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.Metric_FieldPathArrayItemValue)
+func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsMetricPathItemValue() (common.Metric_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.Metric_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsResourcePathItemValue() (monitoring_common.MonitoredResource_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.MonitoredResource_FieldPathArrayItemValue)
+func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsResourcePathItemValue() (common.MonitoredResource_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.MonitoredResource_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsValuePathItemValue() (monitoring_common.TypedValue_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(monitoring_common.TypedValue_FieldPathArrayItemValue)
+func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsValuePathItemValue() (common.TypedValue_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.TypedValue_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -920,13 +918,13 @@ func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) AsValuePathItemValue(
 func (fpaivs *PhantomTimeSerie_FieldSubPathArrayItemValue) ContainsValue(source *PhantomTimeSerie) bool {
 	switch fpaivs.Selector() {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		return fpaivs.subPathItemValue.(monitoring_common.Metric_FieldPathArrayItemValue).ContainsValue(source.GetMetric())
+		return fpaivs.subPathItemValue.(common.Metric_FieldPathArrayItemValue).ContainsValue(source.GetMetric())
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		return fpaivs.subPathItemValue.(monitoring_common.MonitoredResource_FieldPathArrayItemValue).ContainsValue(source.GetResource())
+		return fpaivs.subPathItemValue.(common.MonitoredResource_FieldPathArrayItemValue).ContainsValue(source.GetResource())
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		return fpaivs.subPathItemValue.(monitoring_common.TypedValue_FieldPathArrayItemValue).ContainsValue(source.GetValue())
+		return fpaivs.subPathItemValue.(common.TypedValue_FieldPathArrayItemValue).ContainsValue(source.GetValue())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fpaivs.Selector()))
 	}
@@ -968,7 +966,7 @@ var _ PhantomTimeSerie_FieldPathArrayOfValues = (*PhantomTimeSerie_FieldTerminal
 func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case PhantomTimeSerie_FieldPathSelectorName:
@@ -984,11 +982,11 @@ func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case PhantomTimeSerie_FieldPathSelectorMetric:
-		for _, v := range fpaov.values.([]*monitoring_common.Metric) {
+		for _, v := range fpaov.values.([]*common.Metric) {
 			values = append(values, v)
 		}
 	case PhantomTimeSerie_FieldPathSelectorResource:
-		for _, v := range fpaov.values.([]*monitoring_common.MonitoredResource) {
+		for _, v := range fpaov.values.([]*common.MonitoredResource) {
 			values = append(values, v)
 		}
 	case PhantomTimeSerie_FieldPathSelectorMetricKind:
@@ -1000,14 +998,14 @@ func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (va
 			values = append(values, v)
 		}
 	case PhantomTimeSerie_FieldPathSelectorValue:
-		for _, v := range fpaov.values.([]*monitoring_common.TypedValue) {
+		for _, v := range fpaov.values.([]*common.TypedValue) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
@@ -1022,12 +1020,12 @@ func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsProjectArrayOfVa
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsMetricArrayOfValues() ([]*monitoring_common.Metric, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.Metric)
+func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsMetricArrayOfValues() ([]*common.Metric, bool) {
+	res, ok := fpaov.values.([]*common.Metric)
 	return res, ok
 }
-func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*monitoring_common.MonitoredResource, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.MonitoredResource)
+func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*common.MonitoredResource, bool) {
+	res, ok := fpaov.values.([]*common.MonitoredResource)
 	return res, ok
 }
 func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsMetricKindArrayOfValues() ([]metric_descriptor.MetricDescriptor_MetricKind, bool) {
@@ -1038,8 +1036,8 @@ func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsValueTypeArrayOf
 	res, ok := fpaov.values.([]metric_descriptor.MetricDescriptor_ValueType)
 	return res, ok
 }
-func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsValueArrayOfValues() ([]*monitoring_common.TypedValue, bool) {
-	res, ok := fpaov.values.([]*monitoring_common.TypedValue)
+func (fpaov *PhantomTimeSerie_FieldTerminalPathArrayOfValues) AsValueArrayOfValues() ([]*common.TypedValue, bool) {
+	res, ok := fpaov.values.([]*common.TypedValue)
 	return res, ok
 }
 
@@ -1053,19 +1051,19 @@ var _ PhantomTimeSerie_FieldPathArrayOfValues = (*PhantomTimeSerie_FieldSubPathA
 func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsMetricPathArrayOfValues() (monitoring_common.Metric_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.Metric_FieldPathArrayOfValues)
+func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsMetricPathArrayOfValues() (common.Metric_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.Metric_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (monitoring_common.MonitoredResource_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.MonitoredResource_FieldPathArrayOfValues)
+func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (common.MonitoredResource_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.MonitoredResource_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsValuePathArrayOfValues() (monitoring_common.TypedValue_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TypedValue_FieldPathArrayOfValues)
+func (fpsaov *PhantomTimeSerie_FieldSubPathArrayOfValues) AsValuePathArrayOfValues() (common.TypedValue_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.TypedValue_FieldPathArrayOfValues)
 	return res, ok
 }

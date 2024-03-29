@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	attestation_domain_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/attestation_domain"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiAttestationDomainAccess struct {
@@ -42,8 +44,11 @@ func NewApiAttestationDomainAccess(client attestation_domain_client.AttestationD
 }
 
 func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, query *attestation_domain.GetQuery) (*attestation_domain.AttestationDomain, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &attestation_domain_client.GetAttestationDomainRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetAttestationDomain(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, q
 
 func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Context, refs []*attestation_domain.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*attestation_domain.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &attestation_domain_client.BatchGetAttestationDomainsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(attestation_domain.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListAttestationDomains(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context
 }
 
 func (a *apiAttestationDomainAccess) WatchAttestationDomain(ctx context.Context, query *attestation_domain.GetQuery, observerCb func(*attestation_domain.AttestationDomainChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &attestation_domain_client.WatchAttestationDomainRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchAttestationDomain(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomains(ctx context.Context
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchAttestationDomains(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 			}
 		}
 	}
-
+	var resp *attestation_domain.AttestationDomain
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &attestation_domain_client.UpdateAttestationDomainRequest{
 			AttestationDomain: res,
@@ -195,29 +217,76 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 				FieldMask:        mask.(*attestation_domain.AttestationDomain_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateAttestationDomain(ctx, updateRequest)
+		resp, err = a.client.UpdateAttestationDomain(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &attestation_domain_client.CreateAttestationDomainRequest{
 			AttestationDomain: res,
 		}
-		_, err := a.client.CreateAttestationDomain(ctx, createRequest)
+		resp, err = a.client.CreateAttestationDomain(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context, ref *attestation_domain.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &attestation_domain_client.DeleteAttestationDomainRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteAttestationDomain(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *attestation_domain.Filter) (*attestation_domain.Filter, *attestation_domain.ParentName) {
+	var withParentExtraction func(cnd attestation_domain.FilterCondition) attestation_domain.FilterCondition
+	var resultParent *attestation_domain.ParentName
+	var resultFilter *attestation_domain.Filter
+	withParentExtraction = func(cnd attestation_domain.FilterCondition) attestation_domain.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *attestation_domain.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]attestation_domain.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return attestation_domain.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *attestation_domain.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*attestation_domain.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &attestation_domain.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

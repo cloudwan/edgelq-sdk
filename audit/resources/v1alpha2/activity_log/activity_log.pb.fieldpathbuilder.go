@@ -6,32 +6,32 @@ package activity_log
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &rpc.Status{}
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &meta_service.Service{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ActivityLogFieldPathBuilder struct{}
@@ -62,6 +62,9 @@ func (ActivityLogFieldPathBuilder) Method() ActivityLogPathSelectorMethod {
 }
 func (ActivityLogFieldPathBuilder) RequestMetadata() ActivityLogPathSelectorRequestMetadata {
 	return ActivityLogPathSelectorRequestMetadata{}
+}
+func (ActivityLogFieldPathBuilder) RequestRouting() ActivityLogPathSelectorRequestRouting {
+	return ActivityLogPathSelectorRequestRouting{}
 }
 func (ActivityLogFieldPathBuilder) Resource() ActivityLogPathSelectorResource {
 	return ActivityLogPathSelectorResource{}
@@ -124,27 +127,27 @@ func (ActivityLogPathSelectorAuthentication) FieldPath() *ActivityLog_FieldTermi
 	return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorAuthentication}
 }
 
-func (s ActivityLogPathSelectorAuthentication) WithValue(value *audit_common.Authentication) *ActivityLog_FieldTerminalPathValue {
+func (s ActivityLogPathSelectorAuthentication) WithValue(value *common.Authentication) *ActivityLog_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldTerminalPathValue)
 }
 
-func (s ActivityLogPathSelectorAuthentication) WithArrayOfValues(values []*audit_common.Authentication) *ActivityLog_FieldTerminalPathArrayOfValues {
+func (s ActivityLogPathSelectorAuthentication) WithArrayOfValues(values []*common.Authentication) *ActivityLog_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldTerminalPathArrayOfValues)
 }
 
-func (ActivityLogPathSelectorAuthentication) WithSubPath(subPath audit_common.Authentication_FieldPath) *ActivityLog_FieldSubPath {
+func (ActivityLogPathSelectorAuthentication) WithSubPath(subPath common.Authentication_FieldPath) *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorAuthentication, subPath: subPath}
 }
 
-func (s ActivityLogPathSelectorAuthentication) WithSubValue(subPathValue audit_common.Authentication_FieldPathValue) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorAuthentication) WithSubValue(subPathValue common.Authentication_FieldPathValue) *ActivityLog_FieldSubPathValue {
 	return &ActivityLog_FieldSubPathValue{ActivityLog_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ActivityLogPathSelectorAuthentication) WithSubArrayOfValues(subPathArrayOfValues audit_common.Authentication_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorAuthentication) WithSubArrayOfValues(subPathArrayOfValues common.Authentication_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
 	return &ActivityLog_FieldSubPathArrayOfValues{ActivityLog_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ActivityLogPathSelectorAuthentication) WithSubArrayItemValue(subPathArrayItemValue audit_common.Authentication_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
+func (s ActivityLogPathSelectorAuthentication) WithSubArrayItemValue(subPathArrayItemValue common.Authentication_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
 	return &ActivityLog_FieldSubPathArrayItemValue{ActivityLog_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -161,7 +164,7 @@ type ActivityLogPathSelectorAuthenticationPrincipal struct{}
 func (ActivityLogPathSelectorAuthenticationPrincipal) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorAuthentication,
-		subPath:  audit_common.NewAuthenticationFieldPathBuilder().Principal().FieldPath(),
+		subPath:  common.NewAuthenticationFieldPathBuilder().Principal().FieldPath(),
 	}
 }
 
@@ -178,7 +181,7 @@ type ActivityLogPathSelectorAuthenticationPrincipalType struct{}
 func (ActivityLogPathSelectorAuthenticationPrincipalType) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorAuthentication,
-		subPath:  audit_common.NewAuthenticationFieldPathBuilder().PrincipalType().FieldPath(),
+		subPath:  common.NewAuthenticationFieldPathBuilder().PrincipalType().FieldPath(),
 	}
 }
 
@@ -196,27 +199,27 @@ func (ActivityLogPathSelectorAuthorization) FieldPath() *ActivityLog_FieldTermin
 	return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorAuthorization}
 }
 
-func (s ActivityLogPathSelectorAuthorization) WithValue(value *audit_common.Authorization) *ActivityLog_FieldTerminalPathValue {
+func (s ActivityLogPathSelectorAuthorization) WithValue(value *common.Authorization) *ActivityLog_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldTerminalPathValue)
 }
 
-func (s ActivityLogPathSelectorAuthorization) WithArrayOfValues(values []*audit_common.Authorization) *ActivityLog_FieldTerminalPathArrayOfValues {
+func (s ActivityLogPathSelectorAuthorization) WithArrayOfValues(values []*common.Authorization) *ActivityLog_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldTerminalPathArrayOfValues)
 }
 
-func (ActivityLogPathSelectorAuthorization) WithSubPath(subPath audit_common.Authorization_FieldPath) *ActivityLog_FieldSubPath {
+func (ActivityLogPathSelectorAuthorization) WithSubPath(subPath common.Authorization_FieldPath) *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorAuthorization, subPath: subPath}
 }
 
-func (s ActivityLogPathSelectorAuthorization) WithSubValue(subPathValue audit_common.Authorization_FieldPathValue) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorAuthorization) WithSubValue(subPathValue common.Authorization_FieldPathValue) *ActivityLog_FieldSubPathValue {
 	return &ActivityLog_FieldSubPathValue{ActivityLog_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ActivityLogPathSelectorAuthorization) WithSubArrayOfValues(subPathArrayOfValues audit_common.Authorization_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorAuthorization) WithSubArrayOfValues(subPathArrayOfValues common.Authorization_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
 	return &ActivityLog_FieldSubPathArrayOfValues{ActivityLog_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ActivityLogPathSelectorAuthorization) WithSubArrayItemValue(subPathArrayItemValue audit_common.Authorization_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
+func (s ActivityLogPathSelectorAuthorization) WithSubArrayItemValue(subPathArrayItemValue common.Authorization_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
 	return &ActivityLog_FieldSubPathArrayItemValue{ActivityLog_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -233,7 +236,7 @@ type ActivityLogPathSelectorAuthorizationGrantedPermissions struct{}
 func (ActivityLogPathSelectorAuthorizationGrantedPermissions) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorAuthorization,
-		subPath:  audit_common.NewAuthorizationFieldPathBuilder().GrantedPermissions().FieldPath(),
+		subPath:  common.NewAuthorizationFieldPathBuilder().GrantedPermissions().FieldPath(),
 	}
 }
 
@@ -254,7 +257,7 @@ type ActivityLogPathSelectorAuthorizationDeniedPermissions struct{}
 func (ActivityLogPathSelectorAuthorizationDeniedPermissions) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorAuthorization,
-		subPath:  audit_common.NewAuthorizationFieldPathBuilder().DeniedPermissions().FieldPath(),
+		subPath:  common.NewAuthorizationFieldPathBuilder().DeniedPermissions().FieldPath(),
 	}
 }
 
@@ -276,27 +279,27 @@ func (ActivityLogPathSelectorService) FieldPath() *ActivityLog_FieldTerminalPath
 	return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorService}
 }
 
-func (s ActivityLogPathSelectorService) WithValue(value *audit_common.ServiceData) *ActivityLog_FieldTerminalPathValue {
+func (s ActivityLogPathSelectorService) WithValue(value *common.ServiceData) *ActivityLog_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldTerminalPathValue)
 }
 
-func (s ActivityLogPathSelectorService) WithArrayOfValues(values []*audit_common.ServiceData) *ActivityLog_FieldTerminalPathArrayOfValues {
+func (s ActivityLogPathSelectorService) WithArrayOfValues(values []*common.ServiceData) *ActivityLog_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldTerminalPathArrayOfValues)
 }
 
-func (ActivityLogPathSelectorService) WithSubPath(subPath audit_common.ServiceData_FieldPath) *ActivityLog_FieldSubPath {
+func (ActivityLogPathSelectorService) WithSubPath(subPath common.ServiceData_FieldPath) *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorService, subPath: subPath}
 }
 
-func (s ActivityLogPathSelectorService) WithSubValue(subPathValue audit_common.ServiceData_FieldPathValue) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorService) WithSubValue(subPathValue common.ServiceData_FieldPathValue) *ActivityLog_FieldSubPathValue {
 	return &ActivityLog_FieldSubPathValue{ActivityLog_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ActivityLogPathSelectorService) WithSubArrayOfValues(subPathArrayOfValues audit_common.ServiceData_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorService) WithSubArrayOfValues(subPathArrayOfValues common.ServiceData_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
 	return &ActivityLog_FieldSubPathArrayOfValues{ActivityLog_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ActivityLogPathSelectorService) WithSubArrayItemValue(subPathArrayItemValue audit_common.ServiceData_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
+func (s ActivityLogPathSelectorService) WithSubArrayItemValue(subPathArrayItemValue common.ServiceData_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
 	return &ActivityLog_FieldSubPathArrayItemValue{ActivityLog_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -313,7 +316,7 @@ type ActivityLogPathSelectorServiceName struct{}
 func (ActivityLogPathSelectorServiceName) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorService,
-		subPath:  audit_common.NewServiceDataFieldPathBuilder().Name().FieldPath(),
+		subPath:  common.NewServiceDataFieldPathBuilder().Name().FieldPath(),
 	}
 }
 
@@ -330,7 +333,7 @@ type ActivityLogPathSelectorServiceRegionId struct{}
 func (ActivityLogPathSelectorServiceRegionId) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorService,
-		subPath:  audit_common.NewServiceDataFieldPathBuilder().RegionId().FieldPath(),
+		subPath:  common.NewServiceDataFieldPathBuilder().RegionId().FieldPath(),
 	}
 }
 
@@ -486,6 +489,82 @@ func (s ActivityLogPathSelectorRequestMetadataUserAgent) WithArrayOfValues(value
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
+type ActivityLogPathSelectorRequestRouting struct{}
+
+func (ActivityLogPathSelectorRequestRouting) FieldPath() *ActivityLog_FieldTerminalPath {
+	return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestRouting}
+}
+
+func (s ActivityLogPathSelectorRequestRouting) WithValue(value *ActivityLog_RequestRouting) *ActivityLog_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldTerminalPathValue)
+}
+
+func (s ActivityLogPathSelectorRequestRouting) WithArrayOfValues(values []*ActivityLog_RequestRouting) *ActivityLog_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldTerminalPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorRequestRouting) WithSubPath(subPath ActivityLogRequestRouting_FieldPath) *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorRequestRouting, subPath: subPath}
+}
+
+func (s ActivityLogPathSelectorRequestRouting) WithSubValue(subPathValue ActivityLogRequestRouting_FieldPathValue) *ActivityLog_FieldSubPathValue {
+	return &ActivityLog_FieldSubPathValue{ActivityLog_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ActivityLogPathSelectorRequestRouting) WithSubArrayOfValues(subPathArrayOfValues ActivityLogRequestRouting_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
+	return &ActivityLog_FieldSubPathArrayOfValues{ActivityLog_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ActivityLogPathSelectorRequestRouting) WithSubArrayItemValue(subPathArrayItemValue ActivityLogRequestRouting_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
+	return &ActivityLog_FieldSubPathArrayItemValue{ActivityLog_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ActivityLogPathSelectorRequestRouting) ViaRegion() ActivityLogPathSelectorRequestRoutingViaRegion {
+	return ActivityLogPathSelectorRequestRoutingViaRegion{}
+}
+
+func (ActivityLogPathSelectorRequestRouting) DestRegions() ActivityLogPathSelectorRequestRoutingDestRegions {
+	return ActivityLogPathSelectorRequestRoutingDestRegions{}
+}
+
+type ActivityLogPathSelectorRequestRoutingViaRegion struct{}
+
+func (ActivityLogPathSelectorRequestRoutingViaRegion) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorRequestRouting,
+		subPath:  NewActivityLogRequestRoutingFieldPathBuilder().ViaRegion().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorRequestRoutingViaRegion) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorRequestRoutingViaRegion) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorRequestRoutingDestRegions struct{}
+
+func (ActivityLogPathSelectorRequestRoutingDestRegions) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorRequestRouting,
+		subPath:  NewActivityLogRequestRoutingFieldPathBuilder().DestRegions().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorRequestRoutingDestRegions) WithValue(value []string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorRequestRoutingDestRegions) WithArrayOfValues(values [][]string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (s ActivityLogPathSelectorRequestRoutingDestRegions) WithItemValue(value string) *ActivityLog_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLog_FieldSubPathArrayItemValue)
+}
+
 type ActivityLogPathSelectorResource struct{}
 
 func (ActivityLogPathSelectorResource) FieldPath() *ActivityLog_FieldTerminalPath {
@@ -579,11 +658,11 @@ func (ActivityLogPathSelectorResourceDifferenceFields) FieldPath() *ActivityLog_
 	}
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceFields) WithValue(value *field_mask.FieldMask) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorResourceDifferenceFields) WithValue(value *fieldmaskpb.FieldMask) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorResourceDifferenceFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -596,11 +675,11 @@ func (ActivityLogPathSelectorResourceDifferenceBefore) FieldPath() *ActivityLog_
 	}
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceBefore) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorResourceDifferenceBefore) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceBefore) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorResourceDifferenceBefore) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -613,11 +692,11 @@ func (ActivityLogPathSelectorResourceDifferenceAfter) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceAfter) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorResourceDifferenceAfter) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorResourceDifferenceAfter) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorResourceDifferenceAfter) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -756,11 +835,11 @@ func (ActivityLogPathSelectorEventsClientMessageData) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorEventsClientMessageData) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsClientMessageData) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsClientMessageData) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsClientMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -773,11 +852,11 @@ func (ActivityLogPathSelectorEventsClientMessageTime) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorEventsClientMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsClientMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsClientMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsClientMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -806,10 +885,6 @@ func (ActivityLogPathSelectorEventsServerMessage) Time() ActivityLogPathSelector
 	return ActivityLogPathSelectorEventsServerMessageTime{}
 }
 
-func (ActivityLogPathSelectorEventsServerMessage) RoutedRegionId() ActivityLogPathSelectorEventsServerMessageRoutedRegionId {
-	return ActivityLogPathSelectorEventsServerMessageRoutedRegionId{}
-}
-
 type ActivityLogPathSelectorEventsServerMessageData struct{}
 
 func (ActivityLogPathSelectorEventsServerMessageData) FieldPath() *ActivityLog_FieldSubPath {
@@ -819,11 +894,11 @@ func (ActivityLogPathSelectorEventsServerMessageData) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorEventsServerMessageData) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsServerMessageData) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsServerMessageData) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsServerMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -836,28 +911,11 @@ func (ActivityLogPathSelectorEventsServerMessageTime) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorEventsServerMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsServerMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsServerMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
-}
-
-type ActivityLogPathSelectorEventsServerMessageRoutedRegionId struct{}
-
-func (ActivityLogPathSelectorEventsServerMessageRoutedRegionId) FieldPath() *ActivityLog_FieldSubPath {
-	return &ActivityLog_FieldSubPath{
-		selector: ActivityLog_FieldPathSelectorEvents,
-		subPath:  NewActivityLogEventFieldPathBuilder().ServerMessage().RoutedRegionId().FieldPath(),
-	}
-}
-
-func (s ActivityLogPathSelectorEventsServerMessageRoutedRegionId) WithValue(value string) *ActivityLog_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
-}
-
-func (s ActivityLogPathSelectorEventsServerMessageRoutedRegionId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -958,15 +1016,15 @@ func (ActivityLogPathSelectorEventsExitStatusDetails) FieldPath() *ActivityLog_F
 	}
 }
 
-func (s ActivityLogPathSelectorEventsExitStatusDetails) WithValue(value []*any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsExitStatusDetails) WithValue(value []*anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsExitStatusDetails) WithArrayOfValues(values [][]*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsExitStatusDetails) WithArrayOfValues(values [][]*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
-func (s ActivityLogPathSelectorEventsExitStatusDetails) WithItemValue(value *any.Any) *ActivityLog_FieldSubPathArrayItemValue {
+func (s ActivityLogPathSelectorEventsExitStatusDetails) WithItemValue(value *anypb.Any) *ActivityLog_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLog_FieldSubPathArrayItemValue)
 }
 
@@ -979,11 +1037,11 @@ func (ActivityLogPathSelectorEventsExitTime) FieldPath() *ActivityLog_FieldSubPa
 	}
 }
 
-func (s ActivityLogPathSelectorEventsExitTime) WithValue(value *timestamp.Timestamp) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsExitTime) WithValue(value *timestamppb.Timestamp) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsExitTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsExitTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1025,11 +1083,11 @@ func (ActivityLogPathSelectorEventsRegionalServerMessageData) FieldPath() *Activ
 	}
 }
 
-func (s ActivityLogPathSelectorEventsRegionalServerMessageData) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsRegionalServerMessageData) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsRegionalServerMessageData) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsRegionalServerMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1042,11 +1100,11 @@ func (ActivityLogPathSelectorEventsRegionalServerMessageTime) FieldPath() *Activ
 	}
 }
 
-func (s ActivityLogPathSelectorEventsRegionalServerMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsRegionalServerMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsRegionalServerMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsRegionalServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1105,11 +1163,11 @@ func (ActivityLogPathSelectorEventsRegionalExitData) FieldPath() *ActivityLog_Fi
 	}
 }
 
-func (s ActivityLogPathSelectorEventsRegionalExitData) WithValue(value *any.Any) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsRegionalExitData) WithValue(value *anypb.Any) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsRegionalExitData) WithArrayOfValues(values []*any.Any) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsRegionalExitData) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1122,11 +1180,11 @@ func (ActivityLogPathSelectorEventsRegionalExitTime) FieldPath() *ActivityLog_Fi
 	}
 }
 
-func (s ActivityLogPathSelectorEventsRegionalExitTime) WithValue(value *timestamp.Timestamp) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorEventsRegionalExitTime) WithValue(value *timestamppb.Timestamp) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorEventsRegionalExitTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorEventsRegionalExitTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1215,11 +1273,11 @@ func (ActivityLog_EventPathSelectorClientMessageData) FieldPath() *ActivityLogEv
 	}
 }
 
-func (s ActivityLog_EventPathSelectorClientMessageData) WithValue(value *any.Any) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorClientMessageData) WithValue(value *anypb.Any) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorClientMessageData) WithArrayOfValues(values []*any.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorClientMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1232,11 +1290,11 @@ func (ActivityLog_EventPathSelectorClientMessageTime) FieldPath() *ActivityLogEv
 	}
 }
 
-func (s ActivityLog_EventPathSelectorClientMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorClientMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorClientMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorClientMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1278,10 +1336,6 @@ func (ActivityLog_EventPathSelectorServerMessage) Time() ActivityLog_EventPathSe
 	return ActivityLog_EventPathSelectorServerMessageTime{}
 }
 
-func (ActivityLog_EventPathSelectorServerMessage) RoutedRegionId() ActivityLog_EventPathSelectorServerMessageRoutedRegionId {
-	return ActivityLog_EventPathSelectorServerMessageRoutedRegionId{}
-}
-
 type ActivityLog_EventPathSelectorServerMessageData struct{}
 
 func (ActivityLog_EventPathSelectorServerMessageData) FieldPath() *ActivityLogEvent_FieldSubPath {
@@ -1291,11 +1345,11 @@ func (ActivityLog_EventPathSelectorServerMessageData) FieldPath() *ActivityLogEv
 	}
 }
 
-func (s ActivityLog_EventPathSelectorServerMessageData) WithValue(value *any.Any) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorServerMessageData) WithValue(value *anypb.Any) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorServerMessageData) WithArrayOfValues(values []*any.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorServerMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1308,28 +1362,11 @@ func (ActivityLog_EventPathSelectorServerMessageTime) FieldPath() *ActivityLogEv
 	}
 }
 
-func (s ActivityLog_EventPathSelectorServerMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorServerMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorServerMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
-}
-
-type ActivityLog_EventPathSelectorServerMessageRoutedRegionId struct{}
-
-func (ActivityLog_EventPathSelectorServerMessageRoutedRegionId) FieldPath() *ActivityLogEvent_FieldSubPath {
-	return &ActivityLogEvent_FieldSubPath{
-		selector: ActivityLogEvent_FieldPathSelectorServerMessage,
-		subPath:  NewActivityLogEventServerMsgEventFieldPathBuilder().RoutedRegionId().FieldPath(),
-	}
-}
-
-func (s ActivityLog_EventPathSelectorServerMessageRoutedRegionId) WithValue(value string) *ActivityLogEvent_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
-}
-
-func (s ActivityLog_EventPathSelectorServerMessageRoutedRegionId) WithArrayOfValues(values []string) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1443,15 +1480,15 @@ func (ActivityLog_EventPathSelectorExitStatusDetails) FieldPath() *ActivityLogEv
 	}
 }
 
-func (s ActivityLog_EventPathSelectorExitStatusDetails) WithValue(value []*any.Any) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorExitStatusDetails) WithValue(value []*anypb.Any) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorExitStatusDetails) WithArrayOfValues(values [][]*any.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorExitStatusDetails) WithArrayOfValues(values [][]*anypb.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
-func (s ActivityLog_EventPathSelectorExitStatusDetails) WithItemValue(value *any.Any) *ActivityLogEvent_FieldSubPathArrayItemValue {
+func (s ActivityLog_EventPathSelectorExitStatusDetails) WithItemValue(value *anypb.Any) *ActivityLogEvent_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLogEvent_FieldSubPathArrayItemValue)
 }
 
@@ -1464,11 +1501,11 @@ func (ActivityLog_EventPathSelectorExitTime) FieldPath() *ActivityLogEvent_Field
 	}
 }
 
-func (s ActivityLog_EventPathSelectorExitTime) WithValue(value *timestamp.Timestamp) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorExitTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorExitTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorExitTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1523,11 +1560,11 @@ func (ActivityLog_EventPathSelectorRegionalServerMessageData) FieldPath() *Activ
 	}
 }
 
-func (s ActivityLog_EventPathSelectorRegionalServerMessageData) WithValue(value *any.Any) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorRegionalServerMessageData) WithValue(value *anypb.Any) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorRegionalServerMessageData) WithArrayOfValues(values []*any.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorRegionalServerMessageData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1540,11 +1577,11 @@ func (ActivityLog_EventPathSelectorRegionalServerMessageTime) FieldPath() *Activ
 	}
 }
 
-func (s ActivityLog_EventPathSelectorRegionalServerMessageTime) WithValue(value *timestamp.Timestamp) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorRegionalServerMessageTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorRegionalServerMessageTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorRegionalServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1616,11 +1653,11 @@ func (ActivityLog_EventPathSelectorRegionalExitData) FieldPath() *ActivityLogEve
 	}
 }
 
-func (s ActivityLog_EventPathSelectorRegionalExitData) WithValue(value *any.Any) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorRegionalExitData) WithValue(value *anypb.Any) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorRegionalExitData) WithArrayOfValues(values []*any.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorRegionalExitData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1633,11 +1670,11 @@ func (ActivityLog_EventPathSelectorRegionalExitTime) FieldPath() *ActivityLogEve
 	}
 }
 
-func (s ActivityLog_EventPathSelectorRegionalExitTime) WithValue(value *timestamp.Timestamp) *ActivityLogEvent_FieldSubPathValue {
+func (s ActivityLog_EventPathSelectorRegionalExitTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_EventPathSelectorRegionalExitTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_EventPathSelectorRegionalExitTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1738,6 +1775,50 @@ func (s ActivityLog_RequestMetadataPathSelectorUserAgent) WithArrayOfValues(valu
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogRequestMetadata_FieldTerminalPathArrayOfValues)
 }
 
+type ActivityLogRequestRoutingFieldPathBuilder struct{}
+
+func NewActivityLogRequestRoutingFieldPathBuilder() ActivityLogRequestRoutingFieldPathBuilder {
+	return ActivityLogRequestRoutingFieldPathBuilder{}
+}
+func (ActivityLogRequestRoutingFieldPathBuilder) ViaRegion() ActivityLog_RequestRoutingPathSelectorViaRegion {
+	return ActivityLog_RequestRoutingPathSelectorViaRegion{}
+}
+func (ActivityLogRequestRoutingFieldPathBuilder) DestRegions() ActivityLog_RequestRoutingPathSelectorDestRegions {
+	return ActivityLog_RequestRoutingPathSelectorDestRegions{}
+}
+
+type ActivityLog_RequestRoutingPathSelectorViaRegion struct{}
+
+func (ActivityLog_RequestRoutingPathSelectorViaRegion) FieldPath() *ActivityLogRequestRouting_FieldTerminalPath {
+	return &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorViaRegion}
+}
+
+func (s ActivityLog_RequestRoutingPathSelectorViaRegion) WithValue(value string) *ActivityLogRequestRouting_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogRequestRouting_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_RequestRoutingPathSelectorViaRegion) WithArrayOfValues(values []string) *ActivityLogRequestRouting_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogRequestRouting_FieldTerminalPathArrayOfValues)
+}
+
+type ActivityLog_RequestRoutingPathSelectorDestRegions struct{}
+
+func (ActivityLog_RequestRoutingPathSelectorDestRegions) FieldPath() *ActivityLogRequestRouting_FieldTerminalPath {
+	return &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorDestRegions}
+}
+
+func (s ActivityLog_RequestRoutingPathSelectorDestRegions) WithValue(value []string) *ActivityLogRequestRouting_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogRequestRouting_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_RequestRoutingPathSelectorDestRegions) WithArrayOfValues(values [][]string) *ActivityLogRequestRouting_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogRequestRouting_FieldTerminalPathArrayOfValues)
+}
+
+func (s ActivityLog_RequestRoutingPathSelectorDestRegions) WithItemValue(value string) *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLogRequestRouting_FieldTerminalPathArrayItemValue)
+}
+
 type ActivityLogResourceFieldPathBuilder struct{}
 
 func NewActivityLogResourceFieldPathBuilder() ActivityLogResourceFieldPathBuilder {
@@ -1815,11 +1896,11 @@ func (ActivityLog_ResourcePathSelectorDifferenceFields) FieldPath() *ActivityLog
 	}
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithValue(value *field_mask.FieldMask) *ActivityLogResource_FieldSubPathValue {
+func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithValue(value *fieldmaskpb.FieldMask) *ActivityLogResource_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogResource_FieldSubPathArrayOfValues {
+func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *ActivityLogResource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
@@ -1832,11 +1913,11 @@ func (ActivityLog_ResourcePathSelectorDifferenceBefore) FieldPath() *ActivityLog
 	}
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithValue(value *any.Any) *ActivityLogResource_FieldSubPathValue {
+func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithValue(value *anypb.Any) *ActivityLogResource_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithArrayOfValues(values []*any.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
+func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithArrayOfValues(values []*anypb.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
@@ -1849,11 +1930,11 @@ func (ActivityLog_ResourcePathSelectorDifferenceAfter) FieldPath() *ActivityLogR
 	}
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithValue(value *any.Any) *ActivityLogResource_FieldSubPathValue {
+func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithValue(value *anypb.Any) *ActivityLogResource_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithArrayOfValues(values []*any.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
+func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithArrayOfValues(values []*anypb.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
@@ -1875,11 +1956,11 @@ func (ActivityLog_Event_ClientMsgEventPathSelectorData) FieldPath() *ActivityLog
 	return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorData}
 }
 
-func (s ActivityLog_Event_ClientMsgEventPathSelectorData) WithValue(value *any.Any) *ActivityLogEventClientMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_ClientMsgEventPathSelectorData) WithValue(value *anypb.Any) *ActivityLogEventClientMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventClientMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_ClientMsgEventPathSelectorData) WithArrayOfValues(values []*any.Any) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_ClientMsgEventPathSelectorData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -1889,11 +1970,11 @@ func (ActivityLog_Event_ClientMsgEventPathSelectorTime) FieldPath() *ActivityLog
 	return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorTime}
 }
 
-func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithValue(value *timestamp.Timestamp) *ActivityLogEventClientMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEventClientMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventClientMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -1918,11 +1999,11 @@ func (ActivityLog_Event_RegionalServerMsgEventPathSelectorData) FieldPath() *Act
 	return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData}
 }
 
-func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorData) WithValue(value *any.Any) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorData) WithValue(value *anypb.Any) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorData) WithArrayOfValues(values []*any.Any) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -1932,11 +2013,11 @@ func (ActivityLog_Event_RegionalServerMsgEventPathSelectorTime) FieldPath() *Act
 	return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime}
 }
 
-func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorTime) WithValue(value *timestamp.Timestamp) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_RegionalServerMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -1965,9 +2046,6 @@ func (ActivityLogEventServerMsgEventFieldPathBuilder) Data() ActivityLog_Event_S
 func (ActivityLogEventServerMsgEventFieldPathBuilder) Time() ActivityLog_Event_ServerMsgEventPathSelectorTime {
 	return ActivityLog_Event_ServerMsgEventPathSelectorTime{}
 }
-func (ActivityLogEventServerMsgEventFieldPathBuilder) RoutedRegionId() ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId {
-	return ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId{}
-}
 
 type ActivityLog_Event_ServerMsgEventPathSelectorData struct{}
 
@@ -1975,11 +2053,11 @@ func (ActivityLog_Event_ServerMsgEventPathSelectorData) FieldPath() *ActivityLog
 	return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorData}
 }
 
-func (s ActivityLog_Event_ServerMsgEventPathSelectorData) WithValue(value *any.Any) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_ServerMsgEventPathSelectorData) WithValue(value *anypb.Any) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventServerMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_ServerMsgEventPathSelectorData) WithArrayOfValues(values []*any.Any) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_ServerMsgEventPathSelectorData) WithArrayOfValues(values []*anypb.Any) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -1989,25 +2067,11 @@ func (ActivityLog_Event_ServerMsgEventPathSelectorTime) FieldPath() *ActivityLog
 	return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime}
 }
 
-func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithValue(value *timestamp.Timestamp) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventServerMsgEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues)
-}
-
-type ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId struct{}
-
-func (ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId) FieldPath() *ActivityLogEventServerMsgEvent_FieldTerminalPath {
-	return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId}
-}
-
-func (s ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId) WithValue(value string) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogEventServerMsgEvent_FieldTerminalPathValue)
-}
-
-func (s ActivityLog_Event_ServerMsgEventPathSelectorRoutedRegionId) WithArrayOfValues(values []string) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -2111,15 +2175,15 @@ func (ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) FieldPath() 
 	}
 }
 
-func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithValue(value []*any.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathValue {
+func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithValue(value []*anypb.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventRegionalExitEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithArrayOfValues(values [][]*any.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithArrayOfValues(values [][]*anypb.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventRegionalExitEvent_FieldSubPathArrayOfValues)
 }
 
-func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithItemValue(value *any.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathArrayItemValue {
+func (s ActivityLog_Event_RegionalExitEventPathSelectorStatusDetails) WithItemValue(value *anypb.Any) *ActivityLogEventRegionalExitEvent_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLogEventRegionalExitEvent_FieldSubPathArrayItemValue)
 }
 
@@ -2129,11 +2193,11 @@ func (ActivityLog_Event_RegionalExitEventPathSelectorTime) FieldPath() *Activity
 	return &ActivityLogEventRegionalExitEvent_FieldTerminalPath{selector: ActivityLogEventRegionalExitEvent_FieldPathSelectorTime}
 }
 
-func (s ActivityLog_Event_RegionalExitEventPathSelectorTime) WithValue(value *timestamp.Timestamp) *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_RegionalExitEventPathSelectorTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventRegionalExitEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_RegionalExitEventPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_RegionalExitEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -2248,15 +2312,15 @@ func (ActivityLog_Event_ExitEventPathSelectorStatusDetails) FieldPath() *Activit
 	}
 }
 
-func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithValue(value []*any.Any) *ActivityLogEventExitEvent_FieldSubPathValue {
+func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithValue(value []*anypb.Any) *ActivityLogEventExitEvent_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventExitEvent_FieldSubPathValue)
 }
 
-func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithArrayOfValues(values [][]*any.Any) *ActivityLogEventExitEvent_FieldSubPathArrayOfValues {
+func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithArrayOfValues(values [][]*anypb.Any) *ActivityLogEventExitEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventExitEvent_FieldSubPathArrayOfValues)
 }
 
-func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithItemValue(value *any.Any) *ActivityLogEventExitEvent_FieldSubPathArrayItemValue {
+func (s ActivityLog_Event_ExitEventPathSelectorStatusDetails) WithItemValue(value *anypb.Any) *ActivityLogEventExitEvent_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ActivityLogEventExitEvent_FieldSubPathArrayItemValue)
 }
 
@@ -2266,11 +2330,11 @@ func (ActivityLog_Event_ExitEventPathSelectorTime) FieldPath() *ActivityLogEvent
 	return &ActivityLogEventExitEvent_FieldTerminalPath{selector: ActivityLogEventExitEvent_FieldPathSelectorTime}
 }
 
-func (s ActivityLog_Event_ExitEventPathSelectorTime) WithValue(value *timestamp.Timestamp) *ActivityLogEventExitEvent_FieldTerminalPathValue {
+func (s ActivityLog_Event_ExitEventPathSelectorTime) WithValue(value *timestamppb.Timestamp) *ActivityLogEventExitEvent_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogEventExitEvent_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Event_ExitEventPathSelectorTime) WithArrayOfValues(values []*timestamp.Timestamp) *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Event_ExitEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues)
 }
 
@@ -2295,11 +2359,11 @@ func (ActivityLog_Resource_DifferencePathSelectorFields) FieldPath() *ActivityLo
 	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields}
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorFields) WithValue(value *field_mask.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathValue {
+func (s ActivityLog_Resource_DifferencePathSelectorFields) WithValue(value *fieldmaskpb.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Resource_DifferencePathSelectorFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }
 
@@ -2309,11 +2373,11 @@ func (ActivityLog_Resource_DifferencePathSelectorBefore) FieldPath() *ActivityLo
 	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore}
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithValue(value *any.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
+func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithValue(value *anypb.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithArrayOfValues(values []*any.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithArrayOfValues(values []*anypb.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }
 
@@ -2323,10 +2387,10 @@ func (ActivityLog_Resource_DifferencePathSelectorAfter) FieldPath() *ActivityLog
 	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter}
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithValue(value *any.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
+func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithValue(value *anypb.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
 }
 
-func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithArrayOfValues(values []*any.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithArrayOfValues(values []*anypb.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }

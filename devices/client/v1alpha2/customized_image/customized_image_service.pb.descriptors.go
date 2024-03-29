@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &customized_image.CustomizedImage{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -140,8 +140,8 @@ func (h *GetCustomizedImageDescriptorClientMsgHandle) ExtractResourceName(msg pr
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*customized_image.Name)(nil)
@@ -167,6 +167,30 @@ func (h *GetCustomizedImageDescriptorClientMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetCustomizedImageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetCustomizedImageRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetCustomizedImageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetCustomizedImageRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -208,6 +232,22 @@ func (h *GetCustomizedImageDescriptorServerMsgHandle) ExtractCollectionName(msg 
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetCustomizedImageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*customized_image.CustomizedImage)
+}
+
+func (h *GetCustomizedImageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*customized_image.CustomizedImage)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*customized_image.CustomizedImage) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -324,12 +364,8 @@ func (h *BatchGetCustomizedImagesDescriptorClientMsgHandle) ExtractResourceNames
 		return customized_image.CustomizedImageNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	{
-		if refs := typedMsg.GetNames(); len(refs) > 0 {
-			list := make(customized_image.CustomizedImageNameList, 0, len(refs))
-			for _, ref := range refs {
-				list = append(list, &ref.Name)
-			}
-			return list
+		if names := typedMsg.GetNames(); len(names) > 0 {
+			return customized_image.CustomizedImageNameList(names)
 		}
 	}
 	return (customized_image.CustomizedImageNameList)(nil)
@@ -343,6 +379,30 @@ func (h *BatchGetCustomizedImagesDescriptorClientMsgHandle) ExtractCollectionNam
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetCustomizedImagesRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetCustomizedImagesRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -390,6 +450,35 @@ func (h *BatchGetCustomizedImagesDescriptorServerMsgHandle) ExtractCollectionNam
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *BatchGetCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BatchGetCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BatchGetCustomizedImagesResponse) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BatchGetCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BatchGetCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BatchGetCustomizedImagesResponse) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetCustomizedImages(); len(resources) > 0 {
+			return customized_image.CustomizedImageList(resources)
+		}
+	}
+	return (customized_image.CustomizedImageList)(nil)
 }
 
 func GetBatchGetCustomizedImagesDescriptor() *BatchGetCustomizedImagesDescriptor {
@@ -523,6 +612,30 @@ func (h *ListCustomizedImagesDescriptorClientMsgHandle) ExtractCollectionName(ms
 	return (*customized_image.ParentName)(nil)
 }
 
+func (h *ListCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListCustomizedImagesRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListCustomizedImagesRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *ListCustomizedImagesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListCustomizedImagesResponse)
 	var asInterface interface{} = h
@@ -566,6 +679,35 @@ func (h *ListCustomizedImagesDescriptorServerMsgHandle) ExtractCollectionName(ms
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *ListCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListCustomizedImagesResponse) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListCustomizedImagesResponse) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetCustomizedImages(); len(resources) > 0 {
+			return customized_image.CustomizedImageList(resources)
+		}
+	}
+	return (customized_image.CustomizedImageList)(nil)
 }
 
 func GetListCustomizedImagesDescriptor() *ListCustomizedImagesDescriptor {
@@ -668,8 +810,8 @@ func (h *WatchCustomizedImageDescriptorClientMsgHandle) ExtractResourceName(msg 
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*customized_image.Name)(nil)
@@ -695,6 +837,30 @@ func (h *WatchCustomizedImageDescriptorClientMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchCustomizedImageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchCustomizedImageRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchCustomizedImageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchCustomizedImageRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -745,6 +911,42 @@ func (h *WatchCustomizedImageDescriptorServerMsgHandle) ExtractCollectionName(ms
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchCustomizedImageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchCustomizedImageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchCustomizedImageResponse) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *customized_image.CustomizedImageChange_Added_:
+				return tResChange.Added.GetCustomizedImage()
+			case *customized_image.CustomizedImageChange_Modified_:
+				return tResChange.Modified.GetCustomizedImage()
+			case *customized_image.CustomizedImageChange_Current_:
+				return tResChange.Current.GetCustomizedImage()
+			}
+		}
+	}
+	return (*customized_image.CustomizedImage)(nil)
+}
+
+func (h *WatchCustomizedImageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchCustomizedImageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchCustomizedImageResponse) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -873,11 +1075,35 @@ func (h *WatchCustomizedImagesDescriptorClientMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*customized_image.ParentName)(nil)
+}
+
+func (h *WatchCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchCustomizedImagesRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchCustomizedImagesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchCustomizedImagesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchCustomizedImagesRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *WatchCustomizedImagesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -932,6 +1158,46 @@ func (h *WatchCustomizedImagesDescriptorServerMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
+}
+
+func (h *WatchCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*WatchCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*WatchCustomizedImagesResponse) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchCustomizedImagesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*WatchCustomizedImagesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*WatchCustomizedImagesResponse) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resChanges := typedMsg.GetCustomizedImageChanges(); len(resChanges) > 0 {
+			list := make(customized_image.CustomizedImageList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *customized_image.CustomizedImageChange_Added_:
+					list = append(list, tResChange.Added.GetCustomizedImage())
+				case *customized_image.CustomizedImageChange_Modified_:
+					list = append(list, tResChange.Modified.GetCustomizedImage())
+				case *customized_image.CustomizedImageChange_Current_:
+					list = append(list, tResChange.Current.GetCustomizedImage())
+				}
+			}
+			return list
+		}
+	}
+	return (customized_image.CustomizedImageList)(nil)
 }
 
 func GetWatchCustomizedImagesDescriptor() *WatchCustomizedImagesDescriptor {
@@ -1064,11 +1330,38 @@ func (h *CreateCustomizedImageDescriptorClientMsgHandle) ExtractCollectionName(m
 		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
 		}
 	}
 	return (*customized_image.ParentName)(nil)
+}
+
+func (h *CreateCustomizedImageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateCustomizedImageRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetCustomizedImage()
+	}
+	return (*customized_image.CustomizedImage)(nil)
+}
+
+func (h *CreateCustomizedImageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateCustomizedImageRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
 }
 
 func (h *CreateCustomizedImageDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
@@ -1108,6 +1401,22 @@ func (h *CreateCustomizedImageDescriptorServerMsgHandle) ExtractCollectionName(m
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateCustomizedImageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*customized_image.CustomizedImage)
+}
+
+func (h *CreateCustomizedImageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*customized_image.CustomizedImage)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*customized_image.CustomizedImage) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1244,6 +1553,33 @@ func (h *UpdateCustomizedImageDescriptorClientMsgHandle) ExtractCollectionName(m
 	return nil
 }
 
+func (h *UpdateCustomizedImageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateCustomizedImageRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetCustomizedImage()
+	}
+	return (*customized_image.CustomizedImage)(nil)
+}
+
+func (h *UpdateCustomizedImageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateCustomizedImageRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func (h *UpdateCustomizedImageDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*customized_image.CustomizedImage)
 	var asInterface interface{} = h
@@ -1285,6 +1621,22 @@ func (h *UpdateCustomizedImageDescriptorServerMsgHandle) ExtractCollectionName(m
 	return nil
 }
 
+func (h *UpdateCustomizedImageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*customized_image.CustomizedImage)
+}
+
+func (h *UpdateCustomizedImageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*customized_image.CustomizedImage)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*customized_image.CustomizedImage) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
 func GetUpdateCustomizedImageDescriptor() *UpdateCustomizedImageDescriptor {
 	return updateCustomizedImageDescriptor
 }
@@ -1300,7 +1652,7 @@ func (d *DeleteCustomizedImageDescriptor) NewEmptyClientMsg() proto.Message {
 }
 
 func (d *DeleteCustomizedImageDescriptor) NewEmptyServerMsg() proto.Message {
-	return &empty.Empty{}
+	return &emptypb.Empty{}
 }
 
 func (d *DeleteCustomizedImageDescriptor) IsUnary() bool {
@@ -1385,8 +1737,8 @@ func (h *DeleteCustomizedImageDescriptorClientMsgHandle) ExtractResourceName(msg
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*customized_image.Name)(nil)
@@ -1416,11 +1768,35 @@ func (h *DeleteCustomizedImageDescriptorClientMsgHandle) ExtractCollectionName(m
 	return nil
 }
 
-func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+func (h *DeleteCustomizedImageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteCustomizedImageRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*empty.Empty) *customized_image.Name
+		OverrideExtractResourceBody(*DeleteCustomizedImageRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteCustomizedImageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteCustomizedImageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteCustomizedImageRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *customized_image.Name
 	})
 	if ok {
 		return override.OverrideExtractResourceName(typedMsg)
@@ -1429,10 +1805,10 @@ func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceName(msg
 }
 
 func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*empty.Empty) []*customized_image.Name
+		OverrideExtractResourceNames(*emptypb.Empty) []*customized_image.Name
 	})
 	if ok {
 		return customized_image.CustomizedImageNameList(override.OverrideExtractResourceNames(typedMsg))
@@ -1441,13 +1817,37 @@ func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceNames(ms
 }
 
 func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*empty.Empty)
+	typedMsg := msg.(*emptypb.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*empty.Empty) *customized_image.ParentName
+		OverrideExtractCollectionName(*emptypb.Empty) *customized_image.ParentName
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteCustomizedImageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1552,8 +1952,8 @@ func (h *RequestUrlDescriptorClientMsgHandle) ExtractResourceName(msg proto.Mess
 		return override.OverrideExtractResourceName(typedMsg)
 	}
 	{
-		if ref := typedMsg.GetName(); ref != nil {
-			return &ref.Name
+		if name := typedMsg.GetName(); name != nil {
+			return name
 		}
 	}
 	return (*customized_image.Name)(nil)
@@ -1579,6 +1979,30 @@ func (h *RequestUrlDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Me
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestUrlDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RequestUrlRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RequestUrlRequest) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestUrlDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RequestUrlRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RequestUrlRequest) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }
@@ -1615,6 +2039,30 @@ func (h *RequestUrlDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Me
 	})
 	if ok {
 		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestUrlDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*RequestUrlResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*RequestUrlResponse) *customized_image.CustomizedImage
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *RequestUrlDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*RequestUrlResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*RequestUrlResponse) []*customized_image.CustomizedImage
+	})
+	if ok {
+		return customized_image.CustomizedImageList(override.OverrideExtractResourceBodies(typedMsg))
 	}
 	return nil
 }

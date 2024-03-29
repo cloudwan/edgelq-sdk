@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	deployment_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/deployment"
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiDeploymentAccess struct {
@@ -42,8 +44,11 @@ func NewApiDeploymentAccess(client deployment_client.DeploymentServiceClient) de
 }
 
 func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployment.GetQuery) (*deployment.Deployment, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &deployment_client.GetDeploymentRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetDeployment(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployme
 
 func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*deployment.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*deployment.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &deployment_client.BatchGetDeploymentsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(deployment.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deplo
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListDeployments(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deplo
 }
 
 func (a *apiDeploymentAccess) WatchDeployment(ctx context.Context, query *deployment.GetQuery, observerCb func(*deployment.DeploymentChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &deployment_client.WatchDeploymentRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchDeployment(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiDeploymentAccess) WatchDeployments(ctx context.Context, query *deplo
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchDeployments(ctx, request)
 	if initErr != nil {
@@ -181,43 +202,54 @@ func (a *apiDeploymentAccess) SaveDeployment(ctx context.Context, res *deploymen
 			}
 		}
 	}
-
-	if saveOpts.OnlyUpdate() || previousRes != nil {
-		updateRequest := &deployment_client.UpdateDeploymentRequest{
-			Deployment: res,
-		}
-		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
-			updateRequest.UpdateMask = updateMask.(*deployment.Deployment_FieldMask)
-		}
-		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
-			updateRequest.Cas = &deployment_client.UpdateDeploymentRequest_CAS{
-				ConditionalState: conditionalState.(*deployment.Deployment),
-				FieldMask:        mask.(*deployment.Deployment_FieldMask),
-			}
-		}
-		_, err := a.client.UpdateDeployment(ctx, updateRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	} else {
-		createRequest := &deployment_client.CreateDeploymentRequest{
-			Deployment: res,
-		}
-		_, err := a.client.CreateDeployment(ctx, createRequest)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
+	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
 }
 
 func (a *apiDeploymentAccess) DeleteDeployment(ctx context.Context, ref *deployment.Reference, opts ...gotenresource.DeleteOption) error {
-	request := &deployment_client.DeleteDeploymentRequest{
-		Name: ref,
+	return fmt.Errorf("Delete operation on Deployment is prohibited")
+}
+func getParentAndFilter(fullFilter *deployment.Filter) (*deployment.Filter, *deployment.ParentName) {
+	var withParentExtraction func(cnd deployment.FilterCondition) deployment.FilterCondition
+	var resultParent *deployment.ParentName
+	var resultFilter *deployment.Filter
+	withParentExtraction = func(cnd deployment.FilterCondition) deployment.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *deployment.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]deployment.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return deployment.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *deployment.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*deployment.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
 	}
-	_, err := a.client.DeleteDeployment(ctx, request)
-	return err
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &deployment.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

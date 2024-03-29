@@ -6,8 +6,6 @@ package project_invitation
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
@@ -18,14 +16,14 @@ import (
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &iam_invitation.Actor{}
@@ -37,7 +35,9 @@ var (
 	_ = &user.User{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ProjectInvitationFieldPathBuilder struct{}
@@ -309,11 +309,11 @@ func (ProjectInvitationPathSelectorInvitationExpirationDate) FieldPath() *Projec
 	}
 }
 
-func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithValue(value *timestamp.Timestamp) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithValue(value *timestamppb.Timestamp) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamppb.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -380,27 +380,27 @@ func (ProjectInvitationPathSelectorMetadata) FieldPath() *ProjectInvitation_Fiel
 	return &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorMetadata}
 }
 
-func (s ProjectInvitationPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *ProjectInvitation_FieldTerminalPathValue {
+func (s ProjectInvitationPathSelectorMetadata) WithValue(value *meta.Meta) *ProjectInvitation_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldTerminalPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *ProjectInvitation_FieldTerminalPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *ProjectInvitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldTerminalPathArrayOfValues)
 }
 
-func (ProjectInvitationPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *ProjectInvitation_FieldSubPath {
+func (ProjectInvitationPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{selector: ProjectInvitation_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s ProjectInvitationPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *ProjectInvitation_FieldSubPathValue {
 	return &ProjectInvitation_FieldSubPathValue{ProjectInvitation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ProjectInvitationPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return &ProjectInvitation_FieldSubPathArrayOfValues{ProjectInvitation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ProjectInvitationPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *ProjectInvitation_FieldSubPathArrayItemValue {
+func (s ProjectInvitationPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *ProjectInvitation_FieldSubPathArrayItemValue {
 	return &ProjectInvitation_FieldSubPathArrayItemValue{ProjectInvitation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -456,20 +456,24 @@ func (ProjectInvitationPathSelectorMetadata) Lifecycle() ProjectInvitationPathSe
 	return ProjectInvitationPathSelectorMetadataLifecycle{}
 }
 
+func (ProjectInvitationPathSelectorMetadata) Services() ProjectInvitationPathSelectorMetadataServices {
+	return ProjectInvitationPathSelectorMetadataServices{}
+}
+
 type ProjectInvitationPathSelectorMetadataCreateTime struct{}
 
 func (ProjectInvitationPathSelectorMetadataCreateTime) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -478,15 +482,15 @@ type ProjectInvitationPathSelectorMetadataUpdateTime struct{}
 func (ProjectInvitationPathSelectorMetadataUpdateTime) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -495,15 +499,15 @@ type ProjectInvitationPathSelectorMetadataDeleteTime struct{}
 func (ProjectInvitationPathSelectorMetadataDeleteTime) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -512,7 +516,7 @@ type ProjectInvitationPathSelectorMetadataUuid struct{}
 func (ProjectInvitationPathSelectorMetadataUuid) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -529,7 +533,7 @@ type ProjectInvitationPathSelectorMetadataTags struct{}
 func (ProjectInvitationPathSelectorMetadataTags) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -550,7 +554,7 @@ type ProjectInvitationPathSelectorMetadataLabels struct{}
 func (ProjectInvitationPathSelectorMetadataLabels) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -573,7 +577,7 @@ type ProjectInvitationMapPathSelectorMetadataLabels struct {
 func (s ProjectInvitationMapPathSelectorMetadataLabels) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -590,7 +594,7 @@ type ProjectInvitationPathSelectorMetadataAnnotations struct{}
 func (ProjectInvitationPathSelectorMetadataAnnotations) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -613,7 +617,7 @@ type ProjectInvitationMapPathSelectorMetadataAnnotations struct {
 func (s ProjectInvitationMapPathSelectorMetadataAnnotations) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -630,7 +634,7 @@ type ProjectInvitationPathSelectorMetadataGeneration struct{}
 func (ProjectInvitationPathSelectorMetadataGeneration) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -647,7 +651,7 @@ type ProjectInvitationPathSelectorMetadataResourceVersion struct{}
 func (ProjectInvitationPathSelectorMetadataResourceVersion) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -664,19 +668,19 @@ type ProjectInvitationPathSelectorMetadataOwnerReferences struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferences) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
-func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *ProjectInvitation_FieldSubPathArrayItemValue {
+func (s ProjectInvitationPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *ProjectInvitation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProjectInvitation_FieldSubPathArrayItemValue)
 }
 
@@ -700,10 +704,6 @@ func (ProjectInvitationPathSelectorMetadataOwnerReferences) Controller() Project
 	return ProjectInvitationPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (ProjectInvitationPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (ProjectInvitationPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -713,7 +713,7 @@ type ProjectInvitationPathSelectorMetadataOwnerReferencesKind struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesKind) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -730,7 +730,7 @@ type ProjectInvitationPathSelectorMetadataOwnerReferencesVersion struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesVersion) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -747,7 +747,7 @@ type ProjectInvitationPathSelectorMetadataOwnerReferencesName struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesName) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -764,7 +764,7 @@ type ProjectInvitationPathSelectorMetadataOwnerReferencesRegion struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesRegion) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -781,7 +781,7 @@ type ProjectInvitationPathSelectorMetadataOwnerReferencesController struct{}
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesController) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -793,29 +793,12 @@ func (s ProjectInvitationPathSelectorMetadataOwnerReferencesController) WithArra
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
-type ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *ProjectInvitation_FieldSubPath {
-	return &ProjectInvitation_FieldSubPath{
-		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *ProjectInvitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
-}
-
-func (s ProjectInvitationPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProjectInvitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
-}
-
 type ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -832,7 +815,7 @@ type ProjectInvitationPathSelectorMetadataShards struct{}
 func (ProjectInvitationPathSelectorMetadataShards) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -855,7 +838,7 @@ type ProjectInvitationMapPathSelectorMetadataShards struct {
 func (s ProjectInvitationMapPathSelectorMetadataShards) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -872,15 +855,15 @@ type ProjectInvitationPathSelectorMetadataSyncing struct{}
 func (ProjectInvitationPathSelectorMetadataSyncing) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -897,7 +880,7 @@ type ProjectInvitationPathSelectorMetadataSyncingOwningRegion struct{}
 func (ProjectInvitationPathSelectorMetadataSyncingOwningRegion) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -914,7 +897,7 @@ type ProjectInvitationPathSelectorMetadataSyncingRegions struct{}
 func (ProjectInvitationPathSelectorMetadataSyncingRegions) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -935,15 +918,15 @@ type ProjectInvitationPathSelectorMetadataLifecycle struct{}
 func (ProjectInvitationPathSelectorMetadataLifecycle) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -960,15 +943,15 @@ type ProjectInvitationPathSelectorMetadataLifecycleState struct{}
 func (ProjectInvitationPathSelectorMetadataLifecycleState) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s ProjectInvitationPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -977,7 +960,7 @@ type ProjectInvitationPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (ProjectInvitationPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ProjectInvitation_FieldSubPath {
 	return &ProjectInvitation_FieldSubPath{
 		selector: ProjectInvitation_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -987,4 +970,67 @@ func (s ProjectInvitationPathSelectorMetadataLifecycleBlockDeletion) WithValue(v
 
 func (s ProjectInvitationPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+type ProjectInvitationPathSelectorMetadataServices struct{}
+
+func (ProjectInvitationPathSelectorMetadataServices) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s ProjectInvitationPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+func (ProjectInvitationPathSelectorMetadataServices) OwningService() ProjectInvitationPathSelectorMetadataServicesOwningService {
+	return ProjectInvitationPathSelectorMetadataServicesOwningService{}
+}
+
+func (ProjectInvitationPathSelectorMetadataServices) AllowedServices() ProjectInvitationPathSelectorMetadataServicesAllowedServices {
+	return ProjectInvitationPathSelectorMetadataServicesAllowedServices{}
+}
+
+type ProjectInvitationPathSelectorMetadataServicesOwningService struct{}
+
+func (ProjectInvitationPathSelectorMetadataServicesOwningService) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s ProjectInvitationPathSelectorMetadataServicesOwningService) WithValue(value string) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+type ProjectInvitationPathSelectorMetadataServicesAllowedServices struct{}
+
+func (ProjectInvitationPathSelectorMetadataServicesAllowedServices) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ProjectInvitationPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+func (s ProjectInvitationPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *ProjectInvitation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProjectInvitation_FieldSubPathArrayItemValue)
 }

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member;group_member";
 option java_multiple_files = true;
@@ -52,7 +52,7 @@ message GroupMember {
   repeated string min_ancestry_members = 6;
 
   // Metadata
-  ntt.types.Meta metadata = 7;
+  goten.types.Meta metadata = 7;
 
   reserved 3, 4;
 }

@@ -10,8 +10,8 @@ import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "goten-sdk/runtime/api/view.proto";
-import "goten-sdk/runtime/api/watch_type.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/device;device_client";
 option java_multiple_files = false;
@@ -20,7 +20,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // Request message for method [GetDevice][ntt.devices.v1alpha2.GetDevice]
 message GetDeviceRequest {
-  // Reference of ntt.devices.v1alpha2.Device
+  // Name of ntt.devices.v1alpha2.Device
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -29,7 +29,7 @@ message GetDeviceRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // Request message for method
@@ -44,7 +44,7 @@ message BatchGetDevicesRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 
   reserved 1;
 }
@@ -93,7 +93,7 @@ message ListDevicesRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 7;
+  goten.types.View view = 7;
 
   // Indicates if list response should contain total count and offset (fields
   // current_offset and total_results_count).
@@ -126,7 +126,7 @@ message ListDevicesResponse {
 
 // Request message for method [WatchDevice][ntt.devices.v1alpha2.WatchDevice]
 message WatchDeviceRequest {
-  // Reference to ntt.devices.v1alpha2.Device
+  // Name of ntt.devices.v1alpha2.Device
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -135,7 +135,7 @@ message WatchDeviceRequest {
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
-  goten.view.View view = 4;
+  goten.types.View view = 4;
 }
 
 // WatchDeviceResponse
@@ -145,9 +145,9 @@ message WatchDeviceResponse { DeviceChange change = 1; }
 message WatchDevicesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
-  goten.watch_type.WatchType type = 9;
+  goten.types.WatchType type = 9;
 
-  // Parent reference of ntt.devices.v1alpha2.Device
+  // Parent name of ntt.devices.v1alpha2.Device
   string parent = 1;
 
   // Requested page size. Server may return fewer Devices than requested.
@@ -191,7 +191,7 @@ message WatchDevicesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
   // Device that don't affect any of masked fields won't be sent back.
-  goten.view.View view = 8;
+  goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
   // is divided on the server side into chunks with size of a specified amount
@@ -269,7 +269,7 @@ message WatchDevicesResponse {
 
 // Request message for method [CreateDevice][ntt.devices.v1alpha2.CreateDevice]
 message CreateDeviceRequest {
-  // Parent reference of ntt.devices.v1alpha2.Device
+  // Parent name of ntt.devices.v1alpha2.Device
   string parent = 1;
 
   // Device resource body
@@ -313,7 +313,7 @@ message UpdateDeviceRequest {
 
 // Request message for method [DeleteDevice][ntt.devices.v1alpha2.DeleteDevice]
 message DeleteDeviceRequest {
-  // Reference of ntt.devices.v1alpha2.Device
+  // Name of ntt.devices.v1alpha2.Device
   string name = 1;
 }
 

@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	limit_pool_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/limit_pool"
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiLimitPoolAccess struct {
@@ -42,8 +44,11 @@ func NewApiLimitPoolAccess(client limit_pool_client.LimitPoolServiceClient) limi
 }
 
 func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool.GetQuery) (*limit_pool.LimitPool, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &limit_pool_client.GetLimitPoolRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetLimitPool(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool
 
 func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*limit_pool.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*limit_pool.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &limit_pool_client.BatchGetLimitPoolsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(limit_pool.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_p
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListLimitPools(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_p
 }
 
 func (a *apiLimitPoolAccess) WatchLimitPool(ctx context.Context, query *limit_pool.GetQuery, observerCb func(*limit_pool.LimitPoolChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &limit_pool_client.WatchLimitPoolRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchLimitPool(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiLimitPoolAccess) WatchLimitPools(ctx context.Context, query *limit_p
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchLimitPools(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiLimitPoolAccess) SaveLimitPool(ctx context.Context, res *limit_pool.
 			}
 		}
 	}
-
+	var resp *limit_pool.LimitPool
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &limit_pool_client.UpdateLimitPoolRequest{
 			LimitPool: res,
@@ -195,22 +217,70 @@ func (a *apiLimitPoolAccess) SaveLimitPool(ctx context.Context, res *limit_pool.
 				FieldMask:        mask.(*limit_pool.LimitPool_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateLimitPool(ctx, updateRequest)
+		resp, err = a.client.UpdateLimitPool(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		return fmt.Errorf("create operation on %s is prohibited", res.Name.AsReference().String())
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiLimitPoolAccess) DeleteLimitPool(ctx context.Context, ref *limit_pool.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &limit_pool_client.DeleteLimitPoolRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteLimitPool(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *limit_pool.Filter) (*limit_pool.Filter, *limit_pool.ParentName) {
+	var withParentExtraction func(cnd limit_pool.FilterCondition) limit_pool.FilterCondition
+	var resultParent *limit_pool.ParentName
+	var resultFilter *limit_pool.Filter
+	withParentExtraction = func(cnd limit_pool.FilterCondition) limit_pool.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *limit_pool.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]limit_pool.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return limit_pool.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *limit_pool.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*limit_pool.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &limit_pool.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

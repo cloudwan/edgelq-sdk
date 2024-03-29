@@ -17,19 +17,18 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -46,19 +45,18 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_condition.Condition{}
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -136,7 +134,7 @@ func BuildProvisioningPolicy_FieldPath(fp gotenobject.RawFieldPath) (Provisionin
 				return &ProvisioningPolicy_FieldSubPath{selector: ProvisioningPolicy_FieldPathSelectorStatus, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ProvisioningPolicy_FieldSubPath{selector: ProvisioningPolicy_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -253,7 +251,7 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) GetDefault() interface{} {
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		return (*ProvisioningPolicy_Status)(nil)
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fp.selector))
 	}
@@ -303,7 +301,7 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) WithIValue(value interface{}) Pr
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(*ProvisioningPolicy_Status)}
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fp.selector))
 	}
@@ -325,7 +323,7 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) WithIArrayOfValues(values interf
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]*ProvisioningPolicy_Status)}
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fp.selector))
 	}
@@ -365,8 +363,8 @@ func (fps *ProvisioningPolicy_FieldSubPath) AsStatusSubPath() (ProvisioningPolic
 	res, ok := fps.subPath.(ProvisioningPolicyStatus_FieldPath)
 	return res, ok
 }
-func (fps *ProvisioningPolicy_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *ProvisioningPolicy_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -540,8 +538,8 @@ func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsStatusValue() (*Provisio
 	res, ok := fpv.value.(*ProvisioningPolicy_Status)
 	return res, ok
 }
-func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -560,7 +558,7 @@ func (fpv *ProvisioningPolicy_FieldTerminalPathValue) SetTo(target **Provisionin
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*ProvisioningPolicy_Status)
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fpv.selector))
 	}
@@ -633,8 +631,8 @@ func (fpvs *ProvisioningPolicy_FieldSubPathValue) AsStatusPathValue() (Provision
 	res, ok := fpvs.subPathValue.(ProvisioningPolicyStatus_FieldPathValue)
 	return res, ok
 }
-func (fpvs *ProvisioningPolicy_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *ProvisioningPolicy_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -648,7 +646,7 @@ func (fpvs *ProvisioningPolicy_FieldSubPathValue) SetTo(target **ProvisioningPol
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		fpvs.subPathValue.(ProvisioningPolicyStatus_FieldPathValue).SetTo(&(*target).Status)
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fpvs.Selector()))
 	}
@@ -670,7 +668,7 @@ func (fpvs *ProvisioningPolicy_FieldSubPathValue) CompareWith(source *Provisioni
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		return fpvs.subPathValue.(ProvisioningPolicyStatus_FieldPathValue).CompareWith(source.GetStatus())
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fpvs.Selector()))
 	}
@@ -761,8 +759,8 @@ func (fpaivs *ProvisioningPolicy_FieldSubPathArrayItemValue) AsStatusPathItemVal
 	res, ok := fpaivs.subPathItemValue.(ProvisioningPolicyStatus_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *ProvisioningPolicy_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *ProvisioningPolicy_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -774,7 +772,7 @@ func (fpaivs *ProvisioningPolicy_FieldSubPathArrayItemValue) ContainsValue(sourc
 	case ProvisioningPolicy_FieldPathSelectorStatus:
 		return fpaivs.subPathItemValue.(ProvisioningPolicyStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fpaivs.Selector()))
 	}
@@ -832,7 +830,7 @@ func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) GetRawValues() (
 			values = append(values, v)
 		}
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -854,8 +852,8 @@ func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsStatusArrayOfV
 	res, ok := fpaov.values.([]*ProvisioningPolicy_Status)
 	return res, ok
 }
-func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -877,8 +875,8 @@ func (fpsaov *ProvisioningPolicy_FieldSubPathArrayOfValues) AsStatusPathArrayOfV
 	res, ok := fpsaov.subPathArrayOfValues.(ProvisioningPolicyStatus_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *ProvisioningPolicy_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *ProvisioningPolicy_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -2390,7 +2388,7 @@ func BuildProvisioningPolicySpecTemplate_FieldPath(fp gotenobject.RawFieldPath) 
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ProvisioningPolicySpecTemplate_FieldSubPath{selector: ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -2500,7 +2498,7 @@ func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) GetSingleRaw(source 
 func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		return (*device.Device_Spec)(nil)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2541,7 +2539,7 @@ func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) SplitIntoTerminalIPa
 func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) WithIValue(value interface{}) ProvisioningPolicySpecTemplate_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		return &ProvisioningPolicySpecTemplate_FieldTerminalPathValue{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &ProvisioningPolicySpecTemplate_FieldTerminalPathValue{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		return &ProvisioningPolicySpecTemplate_FieldTerminalPathValue{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, value: value.(*device.Device_Spec)}
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2559,7 +2557,7 @@ func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) WithIArrayOfValues(v
 	fpaov := &ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		return &ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		return &ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues{ProvisioningPolicySpecTemplate_FieldTerminalPath: *fp, values: values.([]*device.Device_Spec)}
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2595,8 +2593,8 @@ var _ ProvisioningPolicySpecTemplate_FieldPath = (*ProvisioningPolicySpecTemplat
 func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) Selector() ProvisioningPolicySpecTemplate_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) AsSpecSubPath() (device.DeviceSpec_FieldPath, bool) {
@@ -2762,8 +2760,8 @@ var _ ProvisioningPolicySpecTemplate_FieldPathValue = (*ProvisioningPolicySpecTe
 func (fpv *ProvisioningPolicySpecTemplate_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ProvisioningPolicySpecTemplate_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *ProvisioningPolicySpecTemplate_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 func (fpv *ProvisioningPolicySpecTemplate_FieldTerminalPathValue) AsSpecValue() (*device.Device_Spec, bool) {
@@ -2782,7 +2780,7 @@ func (fpv *ProvisioningPolicySpecTemplate_FieldTerminalPathValue) SetTo(target *
 	}
 	switch fpv.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*device.Device_Spec)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2822,8 +2820,8 @@ type ProvisioningPolicySpecTemplate_FieldSubPathValue struct {
 
 var _ ProvisioningPolicySpecTemplate_FieldPathValue = (*ProvisioningPolicySpecTemplate_FieldSubPathValue)(nil)
 
-func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) AsSpecPathValue() (device.DeviceSpec_FieldPathValue, bool) {
@@ -2841,7 +2839,7 @@ func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) SetTo(target **Pro
 	}
 	switch fpvs.Selector() {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		fpvs.subPathValue.(device.DeviceSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2863,7 +2861,7 @@ func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) GetRawValue() inte
 func (fpvs *ProvisioningPolicySpecTemplate_FieldSubPathValue) CompareWith(source *ProvisioningPolicy_Spec_Template) (int, bool) {
 	switch fpvs.Selector() {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		return fpvs.subPathValue.(device.DeviceSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -2950,8 +2948,8 @@ type ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue struct {
 func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) AsSpecPathItemValue() (device.DeviceSpec_FieldPathArrayItemValue, bool) {
@@ -2967,7 +2965,7 @@ func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) AsPubli
 func (fpaivs *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue) ContainsValue(source *ProvisioningPolicy_Spec_Template) bool {
 	switch fpaivs.Selector() {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
 		return fpaivs.subPathItemValue.(device.DeviceSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
@@ -3013,7 +3011,7 @@ var _ ProvisioningPolicySpecTemplate_FieldPathArrayOfValues = (*ProvisioningPoli
 func (fpaov *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
@@ -3027,8 +3025,8 @@ func (fpaov *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues) GetR
 	}
 	return
 }
-func (fpaov *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 func (fpaov *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*device.Device_Spec, bool) {
@@ -3050,8 +3048,8 @@ var _ ProvisioningPolicySpecTemplate_FieldPathArrayOfValues = (*ProvisioningPoli
 func (fpsaov *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (device.DeviceSpec_FieldPathArrayOfValues, bool) {

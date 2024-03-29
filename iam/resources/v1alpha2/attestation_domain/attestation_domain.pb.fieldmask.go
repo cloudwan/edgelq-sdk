@@ -13,16 +13,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -35,16 +35,16 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_common.PCR{}
 	_ = &project.Project{}
+	_ = &meta.Meta{}
 )
 
 type AttestationDomain_FieldMask struct {
@@ -134,12 +134,12 @@ func (fieldMask *AttestationDomain_FieldMask) Subtract(other *AttestationDomain_
 	result := &AttestationDomain_FieldMask{}
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[AttestationDomain_FieldPathSelector]gotenobject.FieldMask{
-		AttestationDomain_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		AttestationDomain_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 		AttestationDomain_FieldPathSelectorPolicies:       &AttestationDomain_Policy_FieldMask{},
 		AttestationDomain_FieldPathSelectorEnrollmentList: &AttestationDomain_EnrolledKey_FieldMask{},
 	}
 	mySubMasks := map[AttestationDomain_FieldPathSelector]gotenobject.FieldMask{
-		AttestationDomain_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
+		AttestationDomain_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 		AttestationDomain_FieldPathSelectorPolicies:       &AttestationDomain_Policy_FieldMask{},
 		AttestationDomain_FieldPathSelectorEnrollmentList: &AttestationDomain_EnrolledKey_FieldMask{},
 	}
@@ -158,7 +158,7 @@ func (fieldMask *AttestationDomain_FieldMask) Subtract(other *AttestationDomain_
 				if tp, ok := path.(*AttestationDomain_FieldTerminalPath); ok {
 					switch tp.selector {
 					case AttestationDomain_FieldPathSelectorMetadata:
-						mySubMasks[AttestationDomain_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[AttestationDomain_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case AttestationDomain_FieldPathSelectorPolicies:
 						mySubMasks[AttestationDomain_FieldPathSelectorPolicies] = FullAttestationDomain_Policy_FieldMask()
 					case AttestationDomain_FieldPathSelectorEnrollmentList:
@@ -197,12 +197,12 @@ func (fieldMask *AttestationDomain_FieldMask) FilterInputFields() *AttestationDo
 		switch path.Selector() {
 		case AttestationDomain_FieldPathSelectorMetadata:
 			if _, ok := path.(*AttestationDomain_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &AttestationDomain_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*AttestationDomain_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &AttestationDomain_FieldSubPath{selector: AttestationDomain_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -216,15 +216,15 @@ func (fieldMask *AttestationDomain_FieldMask) FilterInputFields() *AttestationDo
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AttestationDomain_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AttestationDomain_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AttestationDomain_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AttestationDomain_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -246,7 +246,7 @@ func (fieldMask AttestationDomain_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *AttestationDomain_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -265,7 +265,7 @@ func (fieldMask AttestationDomain_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *AttestationDomain_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -333,7 +333,7 @@ func (fieldMask *AttestationDomain_FieldMask) Project(source *AttestationDomain)
 		return source
 	}
 	result := &AttestationDomain{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	policiesMask := &AttestationDomain_Policy_FieldMask{}
 	wholePoliciesAccepted := false
@@ -363,7 +363,7 @@ func (fieldMask *AttestationDomain_FieldMask) Project(source *AttestationDomain)
 		case *AttestationDomain_FieldSubPath:
 			switch tp.selector {
 			case AttestationDomain_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case AttestationDomain_FieldPathSelectorPolicies:
 				policiesMask.AppendPath(tp.subPath.(AttestationDomainPolicy_FieldPath))
 			case AttestationDomain_FieldPathSelectorEnrollmentList:
@@ -539,15 +539,15 @@ func (fieldMask *AttestationDomain_Policy_FieldMask) FilterInputFields() *Attest
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AttestationDomain_Policy_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AttestationDomain_Policy_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AttestationDomain_Policy_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AttestationDomain_Policy_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -569,7 +569,7 @@ func (fieldMask AttestationDomain_Policy_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *AttestationDomain_Policy_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -588,7 +588,7 @@ func (fieldMask AttestationDomain_Policy_FieldMask) MarshalJSON() ([]byte, error
 }
 
 func (fieldMask *AttestationDomain_Policy_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -812,15 +812,15 @@ func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) FilterInputFields() *A
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -842,7 +842,7 @@ func (fieldMask AttestationDomain_EnrolledKey_FieldMask) Marshal() ([]byte, erro
 }
 
 func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -861,7 +861,7 @@ func (fieldMask AttestationDomain_EnrolledKey_FieldMask) MarshalJSON() ([]byte, 
 }
 
 func (fieldMask *AttestationDomain_EnrolledKey_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

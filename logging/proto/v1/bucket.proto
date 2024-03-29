@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket;bucket";
+option java_multiple_files = true;
+option java_outer_classname = "BucketProto";
+option java_package = "com.ntt.logging.pb.v1";
+
+// Bucket Resource
+message Bucket {
+  option (google.api.resource) = {
+    type : "logging.edgelq.com/Bucket"
+    pattern : "projects/{project}/regions/{region}/buckets/{bucket}"
+    pattern : "organizations/{organization}/regions/{region}/buckets/{bucket}"
+    pattern : "services/{service}/regions/{region}/buckets/{bucket}"
+  };
+
+  // Name of Bucket
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w./-]{2,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Optional service names (if required), for example "devices.edgelq.com"
+  repeated string services = 3;
+
+  // Oprional service versions (if required), for example "v1"
+  repeated string versions = 4;
+
+  // Allowed log combinations (OR). If empty, all log types are allowed.
+  repeated RequiredTypedLabels logs = 5;
+
+  // All combinations of key-values (in integer forms) - one of them must be
+  // passed by every Log object for given bucket. Its computed by server
+  // side and for internal use.
+  repeated ResolvedKeysWithValues required_alt_kvs = 6;
+
+  // ResolvedValues contains binary representation of types and labels and
+  // possible values. Due to limitations in some db backends (looking at
+  // firestore), we use int64 instead of uint64.
+  message ResolvedValues {
+    int64 key = 1;
+
+    repeated int64 values = 2;
+  }
+
+  // ResolvedKeysWithValues binds multiple keys with possible values.
+  message ResolvedKeysWithValues { repeated ResolvedValues resolved_kvs = 1; }
+
+  // RequiredTypedLabels describes required label values for specified
+  // log descriptors. All logs in Create operation must contain at least one
+  // allowed type and then labels must match all the labels. For list queries,
+  // filter must contain at least one type and all labels must be present in
+  // condition containing all or subset of allowed label values.
+  message RequiredTypedLabels {
+    repeated string descriptors = 1;
+
+    map<string, Strings> labels = 2;
+
+    message Strings { repeated string strings = 1; }
+  }
+}

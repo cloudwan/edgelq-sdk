@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	organization_invitation_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/organization_invitation"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiOrganizationInvitationAccess struct {
@@ -42,8 +44,11 @@ func NewApiOrganizationInvitationAccess(client organization_invitation_client.Or
 }
 
 func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.Context, query *organization_invitation.GetQuery) (*organization_invitation.OrganizationInvitation, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &organization_invitation_client.GetOrganizationInvitationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetOrganizationInvitation(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.
 
 func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx context.Context, refs []*organization_invitation.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*organization_invitation.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &organization_invitation_client.BatchGetOrganizationInvitationsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(organization_invitation.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx conte
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListOrganizationInvitations(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx conte
 }
 
 func (a *apiOrganizationInvitationAccess) WatchOrganizationInvitation(ctx context.Context, query *organization_invitation.GetQuery, observerCb func(*organization_invitation.OrganizationInvitationChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &organization_invitation_client.WatchOrganizationInvitationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchOrganizationInvitation(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiOrganizationInvitationAccess) WatchOrganizationInvitations(ctx conte
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchOrganizationInvitations(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiOrganizationInvitationAccess) SaveOrganizationInvitation(ctx context
 			}
 		}
 	}
-
+	var resp *organization_invitation.OrganizationInvitation
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &organization_invitation_client.UpdateOrganizationInvitationRequest{
 			OrganizationInvitation: res,
@@ -195,29 +217,76 @@ func (a *apiOrganizationInvitationAccess) SaveOrganizationInvitation(ctx context
 				FieldMask:        mask.(*organization_invitation.OrganizationInvitation_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateOrganizationInvitation(ctx, updateRequest)
+		resp, err = a.client.UpdateOrganizationInvitation(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &organization_invitation_client.CreateOrganizationInvitationRequest{
 			OrganizationInvitation: res,
 		}
-		_, err := a.client.CreateOrganizationInvitation(ctx, createRequest)
+		resp, err = a.client.CreateOrganizationInvitation(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiOrganizationInvitationAccess) DeleteOrganizationInvitation(ctx context.Context, ref *organization_invitation.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &organization_invitation_client.DeleteOrganizationInvitationRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteOrganizationInvitation(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *organization_invitation.Filter) (*organization_invitation.Filter, *organization_invitation.ParentName) {
+	var withParentExtraction func(cnd organization_invitation.FilterCondition) organization_invitation.FilterCondition
+	var resultParent *organization_invitation.ParentName
+	var resultFilter *organization_invitation.Filter
+	withParentExtraction = func(cnd organization_invitation.FilterCondition) organization_invitation.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *organization_invitation.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]organization_invitation.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return organization_invitation.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *organization_invitation.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*organization_invitation.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &organization_invitation.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

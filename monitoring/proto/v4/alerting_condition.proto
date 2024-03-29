@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_condition;alerting_condition";
+option java_multiple_files = true;
+option java_outer_classname = "AlertingConditionProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// AlertingCondition Resource
+message AlertingCondition {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/AlertingCondition"
+    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
+              "{alerting_policy}/alertingConditions/{alerting_condition}"
+  };
+
+  // Name of AlertingCondition
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Display Name
+  string display_name = 3;
+
+  // Long description
+  string description = 4;
+
+  Spec spec = 5;
+
+  State state = 6;
+
+  message Spec {
+    TimeSeries time_series = 1;
+
+    Trigger trigger = 5;
+
+    message TimeSeries {
+      // Time Series Query
+      Query query = 1;
+
+      // Either specify single threshold or combine threshold, which allows to
+      // pair each metric value to their specific thresholds,
+      // e.g. distinguish mean (loss, latency, jitter) in single query
+      Threshold threshold = 2;
+
+      CombineThreshold combine_threshold = 3;
+
+      // Duration describes length of time needed for the condition to trigger
+      // a new alert of resolve an existing one
+      google.protobuf.Duration duration = 4;
+
+      message Query {
+        // Selector is used to generate Time Series filter
+        string filter = 2;
+
+        // Time Series aggregation
+        Aggregation aggregation = 3;
+      }
+
+      message Threshold {
+        // Compare function specifies if observed value must be GreaterThan (GT)
+        // or LesserThan (LT) threshold value in order to trigger an alert.
+        //
+        // Example: for metric latency {compare: GT, value: 150} will trigger if
+        // actual latency is above 150ms.
+        Compare compare = 1;
+
+        // threshold value
+        double value = 2;
+
+        enum Compare {
+          COMPARE_UNSPECIFIED = 0;
+
+          GT = 1;
+
+          LT = 2;
+        }
+      }
+
+      message CombineThreshold {
+        // Per Metric threshold.
+        //
+        // If multiple metrics are selected each metric may specify a different
+        // threshold
+        map<string, Threshold> per_metric = 1;
+
+        // Combine describes how sub-conditions for each metric concerning
+        // single resource label set (determined by aggregation.groupByFields)
+        // must compose in order to trigger an alert.
+        // TODO: add support for AND
+        CombineOperator combine = 2;
+
+        enum CombineOperator {
+          OR = 0;
+
+          AND = 1;
+        }
+      }
+    }
+
+    message Trigger {
+      Type type = 1;
+
+      enum Type {
+        // Triggers on each unique TimeSeries label set violation
+        EACH = 0;
+      }
+    }
+  }
+
+  message State { int64 firing_alerts_count = 1; }
+}

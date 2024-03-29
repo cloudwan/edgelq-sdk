@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ntt.logging.v1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.logging.pb.v1";
+
+message LabelDescriptor {
+  // The label key.
+  string key = 1;
+
+  // Label description
+  string description = 2;
+}
+
+// LabelKeySet is used for defining PromotedLabelKeySets
+message LabelKeySet { repeated string label_keys = 1; }
+
+// A time interval extending just after a start time through an end time.
+// If the start time is the same as the end time, then the interval
+// represents a single point in time.
+message TimeInterval {
+  // Optional - end of the time interval. If not provided, current
+  // time will be assumed.
+  google.protobuf.Timestamp end_time = 2;
+
+  // Required. The beginning of the time interval. The start time must not be
+  // later than the end time.
+  google.protobuf.Timestamp start_time = 1;
+}

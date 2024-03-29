@@ -45,6 +45,8 @@ message ActivityLog {
   //   authentication.principal
   //   request_metadata.ip_address
   //   request_metadata.user_agent
+  //   request_routing.via_region
+  //   request_routing.dest_regions
   //   authorization.granted_permissions
   //   authorization.denied_permissions
   //   service.name
@@ -86,6 +88,9 @@ message ActivityLog {
 
   // Request metadata
   RequestMetadata request_metadata = 13;
+
+  // Request routing
+  RequestRouting request_routing = 14;
 
   // Primary resource for this activity.
   Resource resource = 11;
@@ -153,11 +158,6 @@ message ActivityLog {
 
       // Time of a message
       google.protobuf.Timestamp time = 2;
-
-      // If request was routed to another region and response received from
-      // other server, this field will be populated and contain region ID where
-      // request was routed.
-      string routed_region_id = 3;
     }
 
     // Describes exit code received from server in specific region.
@@ -203,6 +203,20 @@ message ActivityLog {
 
     // Agent used by the request caller
     string user_agent = 2;
+  }
+
+  // Additional information regarding request routing. Request can be:
+  // * Received and executed locally
+  // * Received and redirected to another region
+  // * Received, then split across multiple-regions. Responses are merged before
+  // sending back to client
+  message RequestRouting {
+    // ID of a region which originally received request, if redirection or split
+    // & merge was required
+    string via_region = 1;
+
+    // IDs of regions to which request was actually addressed.
+    repeated string dest_regions = 2;
   }
 
   // Description of the main resource activity refers to.

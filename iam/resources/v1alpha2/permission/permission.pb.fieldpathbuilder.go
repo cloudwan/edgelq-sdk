@@ -6,14 +6,14 @@ package permission
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type PermissionFieldPathBuilder struct{}
@@ -82,27 +82,27 @@ func (PermissionPathSelectorMetadata) FieldPath() *Permission_FieldTerminalPath 
 	return &Permission_FieldTerminalPath{selector: Permission_FieldPathSelectorMetadata}
 }
 
-func (s PermissionPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *Permission_FieldTerminalPathValue {
+func (s PermissionPathSelectorMetadata) WithValue(value *meta.Meta) *Permission_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldTerminalPathValue)
 }
 
-func (s PermissionPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Permission_FieldTerminalPathArrayOfValues {
+func (s PermissionPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *Permission_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldTerminalPathArrayOfValues)
 }
 
-func (PermissionPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *Permission_FieldSubPath {
+func (PermissionPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{selector: Permission_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s PermissionPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *Permission_FieldSubPathValue {
 	return &Permission_FieldSubPathValue{Permission_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PermissionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *Permission_FieldSubPathArrayOfValues {
 	return &Permission_FieldSubPathArrayOfValues{Permission_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PermissionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *Permission_FieldSubPathArrayItemValue {
+func (s PermissionPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *Permission_FieldSubPathArrayItemValue {
 	return &Permission_FieldSubPathArrayItemValue{Permission_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -158,20 +158,24 @@ func (PermissionPathSelectorMetadata) Lifecycle() PermissionPathSelectorMetadata
 	return PermissionPathSelectorMetadataLifecycle{}
 }
 
+func (PermissionPathSelectorMetadata) Services() PermissionPathSelectorMetadataServices {
+	return PermissionPathSelectorMetadataServices{}
+}
+
 type PermissionPathSelectorMetadataCreateTime struct{}
 
 func (PermissionPathSelectorMetadataCreateTime) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -180,15 +184,15 @@ type PermissionPathSelectorMetadataUpdateTime struct{}
 func (PermissionPathSelectorMetadataUpdateTime) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -197,15 +201,15 @@ type PermissionPathSelectorMetadataDeleteTime struct{}
 func (PermissionPathSelectorMetadataDeleteTime) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -214,7 +218,7 @@ type PermissionPathSelectorMetadataUuid struct{}
 func (PermissionPathSelectorMetadataUuid) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -231,7 +235,7 @@ type PermissionPathSelectorMetadataTags struct{}
 func (PermissionPathSelectorMetadataTags) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -252,7 +256,7 @@ type PermissionPathSelectorMetadataLabels struct{}
 func (PermissionPathSelectorMetadataLabels) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -275,7 +279,7 @@ type PermissionMapPathSelectorMetadataLabels struct {
 func (s PermissionMapPathSelectorMetadataLabels) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -292,7 +296,7 @@ type PermissionPathSelectorMetadataAnnotations struct{}
 func (PermissionPathSelectorMetadataAnnotations) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -315,7 +319,7 @@ type PermissionMapPathSelectorMetadataAnnotations struct {
 func (s PermissionMapPathSelectorMetadataAnnotations) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -332,7 +336,7 @@ type PermissionPathSelectorMetadataGeneration struct{}
 func (PermissionPathSelectorMetadataGeneration) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -349,7 +353,7 @@ type PermissionPathSelectorMetadataResourceVersion struct{}
 func (PermissionPathSelectorMetadataResourceVersion) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -366,19 +370,19 @@ type PermissionPathSelectorMetadataOwnerReferences struct{}
 func (PermissionPathSelectorMetadataOwnerReferences) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
-func (s PermissionPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Permission_FieldSubPathArrayItemValue {
+func (s PermissionPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Permission_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Permission_FieldSubPathArrayItemValue)
 }
 
@@ -402,10 +406,6 @@ func (PermissionPathSelectorMetadataOwnerReferences) Controller() PermissionPath
 	return PermissionPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (PermissionPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (PermissionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -415,7 +415,7 @@ type PermissionPathSelectorMetadataOwnerReferencesKind struct{}
 func (PermissionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -432,7 +432,7 @@ type PermissionPathSelectorMetadataOwnerReferencesVersion struct{}
 func (PermissionPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -449,7 +449,7 @@ type PermissionPathSelectorMetadataOwnerReferencesName struct{}
 func (PermissionPathSelectorMetadataOwnerReferencesName) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -466,7 +466,7 @@ type PermissionPathSelectorMetadataOwnerReferencesRegion struct{}
 func (PermissionPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -483,7 +483,7 @@ type PermissionPathSelectorMetadataOwnerReferencesController struct{}
 func (PermissionPathSelectorMetadataOwnerReferencesController) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -495,29 +495,12 @@ func (s PermissionPathSelectorMetadataOwnerReferencesController) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
-type PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Permission_FieldSubPath {
-	return &Permission_FieldSubPath{
-		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Permission_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
-}
-
-func (s PermissionPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Permission_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
-}
-
 type PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -534,7 +517,7 @@ type PermissionPathSelectorMetadataShards struct{}
 func (PermissionPathSelectorMetadataShards) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -557,7 +540,7 @@ type PermissionMapPathSelectorMetadataShards struct {
 func (s PermissionMapPathSelectorMetadataShards) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -574,15 +557,15 @@ type PermissionPathSelectorMetadataSyncing struct{}
 func (PermissionPathSelectorMetadataSyncing) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -599,7 +582,7 @@ type PermissionPathSelectorMetadataSyncingOwningRegion struct{}
 func (PermissionPathSelectorMetadataSyncingOwningRegion) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -616,7 +599,7 @@ type PermissionPathSelectorMetadataSyncingRegions struct{}
 func (PermissionPathSelectorMetadataSyncingRegions) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -637,15 +620,15 @@ type PermissionPathSelectorMetadataLifecycle struct{}
 func (PermissionPathSelectorMetadataLifecycle) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -662,15 +645,15 @@ type PermissionPathSelectorMetadataLifecycleState struct{}
 func (PermissionPathSelectorMetadataLifecycleState) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s PermissionPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 
@@ -679,7 +662,7 @@ type PermissionPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (PermissionPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Permission_FieldSubPath {
 	return &Permission_FieldSubPath{
 		selector: Permission_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -689,4 +672,67 @@ func (s PermissionPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bo
 
 func (s PermissionPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
+}
+
+type PermissionPathSelectorMetadataServices struct{}
+
+func (PermissionPathSelectorMetadataServices) FieldPath() *Permission_FieldSubPath {
+	return &Permission_FieldSubPath{
+		selector: Permission_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s PermissionPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *Permission_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
+}
+
+func (s PermissionPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Permission_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
+}
+
+func (PermissionPathSelectorMetadataServices) OwningService() PermissionPathSelectorMetadataServicesOwningService {
+	return PermissionPathSelectorMetadataServicesOwningService{}
+}
+
+func (PermissionPathSelectorMetadataServices) AllowedServices() PermissionPathSelectorMetadataServicesAllowedServices {
+	return PermissionPathSelectorMetadataServicesAllowedServices{}
+}
+
+type PermissionPathSelectorMetadataServicesOwningService struct{}
+
+func (PermissionPathSelectorMetadataServicesOwningService) FieldPath() *Permission_FieldSubPath {
+	return &Permission_FieldSubPath{
+		selector: Permission_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s PermissionPathSelectorMetadataServicesOwningService) WithValue(value string) *Permission_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
+}
+
+func (s PermissionPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *Permission_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
+}
+
+type PermissionPathSelectorMetadataServicesAllowedServices struct{}
+
+func (PermissionPathSelectorMetadataServicesAllowedServices) FieldPath() *Permission_FieldSubPath {
+	return &Permission_FieldSubPath{
+		selector: Permission_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s PermissionPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *Permission_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
+}
+
+func (s PermissionPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Permission_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
+}
+
+func (s PermissionPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Permission_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Permission_FieldSubPathArrayItemValue)
 }

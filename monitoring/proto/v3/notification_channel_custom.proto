@@ -13,6 +13,6 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // Request message for method
 // [TestNotificationChannel][ntt.monitoring.v3.TestNotificationChannel]
 message TestNotificationChannelRequest {
-  //  reference of ntt.monitoring.v3.NotificationChannel
+  // name of ntt.monitoring.v3.NotificationChannel
   string name = 1;
 }

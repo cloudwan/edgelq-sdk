@@ -6,16 +6,16 @@ package iam_common
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &meta_service.Service{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type PCRFieldPathBuilder struct{}
@@ -110,11 +110,11 @@ func (ServiceBusinessTierPathSelectorService) FieldPath() *ServiceBusinessTier_F
 	return &ServiceBusinessTier_FieldTerminalPath{selector: ServiceBusinessTier_FieldPathSelectorService}
 }
 
-func (s ServiceBusinessTierPathSelectorService) WithValue(value *meta_service.Reference) *ServiceBusinessTier_FieldTerminalPathValue {
+func (s ServiceBusinessTierPathSelectorService) WithValue(value *meta_service.Name) *ServiceBusinessTier_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ServiceBusinessTier_FieldTerminalPathValue)
 }
 
-func (s ServiceBusinessTierPathSelectorService) WithArrayOfValues(values []*meta_service.Reference) *ServiceBusinessTier_FieldTerminalPathArrayOfValues {
+func (s ServiceBusinessTierPathSelectorService) WithArrayOfValues(values []*meta_service.Name) *ServiceBusinessTier_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceBusinessTier_FieldTerminalPathArrayOfValues)
 }
 
@@ -191,11 +191,11 @@ func (ServiceErrorsPathSelectorErrorsService) FieldPath() *ServiceErrors_FieldSu
 	}
 }
 
-func (s ServiceErrorsPathSelectorErrorsService) WithValue(value *meta_service.Reference) *ServiceErrors_FieldSubPathValue {
+func (s ServiceErrorsPathSelectorErrorsService) WithValue(value *meta_service.Name) *ServiceErrors_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ServiceErrors_FieldSubPathValue)
 }
 
-func (s ServiceErrorsPathSelectorErrorsService) WithArrayOfValues(values []*meta_service.Reference) *ServiceErrors_FieldSubPathArrayOfValues {
+func (s ServiceErrorsPathSelectorErrorsService) WithArrayOfValues(values []*meta_service.Name) *ServiceErrors_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrors_FieldSubPathArrayOfValues)
 }
 
@@ -234,11 +234,11 @@ func (ServiceErrors_ErrorPathSelectorService) FieldPath() *ServiceErrorsError_Fi
 	return &ServiceErrorsError_FieldTerminalPath{selector: ServiceErrorsError_FieldPathSelectorService}
 }
 
-func (s ServiceErrors_ErrorPathSelectorService) WithValue(value *meta_service.Reference) *ServiceErrorsError_FieldTerminalPathValue {
+func (s ServiceErrors_ErrorPathSelectorService) WithValue(value *meta_service.Name) *ServiceErrorsError_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ServiceErrorsError_FieldTerminalPathValue)
 }
 
-func (s ServiceErrors_ErrorPathSelectorService) WithArrayOfValues(values []*meta_service.Reference) *ServiceErrorsError_FieldTerminalPathArrayOfValues {
+func (s ServiceErrors_ErrorPathSelectorService) WithArrayOfValues(values []*meta_service.Name) *ServiceErrorsError_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrorsError_FieldTerminalPathArrayOfValues)
 }
 

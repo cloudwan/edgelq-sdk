@@ -16,7 +16,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 // Request message for method
 // [ProvisionServiceAccountToProvisioningPolicy][ntt.devices.v1alpha2.ProvisionServiceAccountToProvisioningPolicy]
 message ProvisionServiceAccountToProvisioningPolicyRequest {
-  // Reference of ntt.devices.v1alpha2.ProvisioningPolicy
+  // Name of ntt.devices.v1alpha2.ProvisioningPolicy
   string name = 1;
 }
 
@@ -29,7 +29,7 @@ message ProvisionServiceAccountToProvisioningPolicyResponse {
 // Request message for method
 // [RemoveServiceAccountFromProvisioningPolicy][ntt.devices.v1alpha2.RemoveServiceAccountFromProvisioningPolicy]
 message RemoveServiceAccountFromProvisioningPolicyRequest {
-  // Reference of ntt.devices.v1alpha2.ProvisioningPolicy
+  // Name of ntt.devices.v1alpha2.ProvisioningPolicy
   string name = 1;
 }
 
@@ -40,7 +40,7 @@ message RemoveServiceAccountFromProvisioningPolicyResponse { bool removed = 1; }
 // Request message for method
 // [ProvisionDeviceViaPolicy][ntt.devices.v1alpha2.ProvisionDeviceViaPolicy]
 message ProvisionDeviceViaPolicyRequest {
-  // Reference of ntt.devices.v1alpha2.ProvisioningPolicy
+  // Name of ntt.devices.v1alpha2.ProvisioningPolicy
   string name = 1;
 
   Device.Status device_status = 2;
@@ -61,7 +61,7 @@ message ProvisionDeviceViaPolicyResponse {
 // Request message for method
 // [RequestProvisioningApproval][ntt.devices.v1alpha2.RequestProvisioningApproval]
 message RequestProvisioningApprovalRequest {
-  // Reference of ntt.devices.v1alpha2.ProvisioningPolicy
+  // Name of ntt.devices.v1alpha2.ProvisioningPolicy
   string name = 1;
 
   // external public key to use for service account for this device.

@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &limit_pool.LimitPool{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -55,7 +55,7 @@ type LimitPoolServiceClient interface {
 	WatchLimitPool(ctx context.Context, in *WatchLimitPoolRequest, opts ...grpc.CallOption) (WatchLimitPoolClientStream, error)
 	WatchLimitPools(ctx context.Context, in *WatchLimitPoolsRequest, opts ...grpc.CallOption) (WatchLimitPoolsClientStream, error)
 	UpdateLimitPool(ctx context.Context, in *UpdateLimitPoolRequest, opts ...grpc.CallOption) (*limit_pool.LimitPool, error)
-	DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	MigrateLimitPoolSource(ctx context.Context, in *MigrateLimitPoolSourceRequest, opts ...grpc.CallOption) (*limit_pool.LimitPool, error)
 }
 
@@ -177,8 +177,8 @@ func (c *client) UpdateLimitPool(ctx context.Context, in *UpdateLimitPoolRequest
 	return out, nil
 }
 
-func (c *client) DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitPoolService/DeleteLimitPool", in, out, opts...)
 	if err != nil {
 		return nil, err

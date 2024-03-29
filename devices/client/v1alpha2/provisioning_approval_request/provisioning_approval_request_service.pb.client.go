@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type ProvisioningApprovalRequestServiceClient interface {
 	WatchProvisioningApprovalRequests(ctx context.Context, in *WatchProvisioningApprovalRequestsRequest, opts ...grpc.CallOption) (WatchProvisioningApprovalRequestsClientStream, error)
 	CreateProvisioningApprovalRequest(ctx context.Context, in *CreateProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*provisioning_approval_request.ProvisioningApprovalRequest, error)
 	UpdateProvisioningApprovalRequest(ctx context.Context, in *UpdateProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*provisioning_approval_request.ProvisioningApprovalRequest, error)
-	DeleteProvisioningApprovalRequest(ctx context.Context, in *DeleteProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProvisioningApprovalRequest(ctx context.Context, in *DeleteProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ProvisionDeviceForApprovedRequest(ctx context.Context, in *ProvisionDeviceForApprovedRequestRequest, opts ...grpc.CallOption) (*ProvisionDeviceForApprovedRequestResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateProvisioningApprovalRequest(ctx context.Context, in *Upda
 	return out, nil
 }
 
-func (c *client) DeleteProvisioningApprovalRequest(ctx context.Context, in *DeleteProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteProvisioningApprovalRequest(ctx context.Context, in *DeleteProvisioningApprovalRequestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.ProvisioningApprovalRequestService/DeleteProvisioningApprovalRequest", in, out, opts...)
 	if err != nil {
 		return nil, err

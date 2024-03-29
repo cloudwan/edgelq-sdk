@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/project_invitation.proto";
+import "edgelq-sdk/iam/proto/v1/project_invitation_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_invitation;project_invitation_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProjectInvitationCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// Request message for method
+// [AcceptProjectInvitation][ntt.iam.v1.AcceptProjectInvitation]
+message AcceptProjectInvitationRequest {
+  //  name of ntt.iam.v1.ProjectInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [AcceptProjectInvitation][ntt.iam.v1.AcceptProjectInvitation]
+message AcceptProjectInvitationResponse {}
+
+// Request message for method
+// [DeclineProjectInvitation][ntt.iam.v1.DeclineProjectInvitation]
+message DeclineProjectInvitationRequest {
+  //  name of ntt.iam.v1.ProjectInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [DeclineProjectInvitation][ntt.iam.v1.DeclineProjectInvitation]
+message DeclineProjectInvitationResponse {}
+
+// Request message for method
+// [ListMyProjectInvitations][ntt.iam.v1.ListMyProjectInvitations]
+message ListMyProjectInvitationsRequest {
+  // Parent name of ntt.iam.v1.ProjectInvitation
+  string parent = 1;
+
+  // Additional filter for invitations, e.g. state = "PENDING"
+  string filter = 5;
+}
+
+// Response message for method
+// [ListMyProjectInvitations][ntt.iam.v1.ListMyProjectInvitations]
+message ListMyProjectInvitationsResponse {
+  repeated ProjectInvitation project_invitations = 1;
+}
+
+// Request message for method
+// [ResendProjectInvitation][ntt.iam.v1.ResendProjectInvitation]
+message ResendProjectInvitationRequest {
+  //  name of ntt.iam.v1.ProjectInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [ResendProjectInvitation][ntt.iam.v1.ResendProjectInvitation]
+message ResendProjectInvitationResponse {
+  ProjectInvitation project_invitation = 1;
+}

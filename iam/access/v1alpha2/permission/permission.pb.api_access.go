@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	permission_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/permission"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiPermissionAccess struct {
@@ -42,8 +44,11 @@ func NewApiPermissionAccess(client permission_client.PermissionServiceClient) pe
 }
 
 func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permission.GetQuery) (*permission.Permission, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &permission_client.GetPermissionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetPermission(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permissi
 
 func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*permission.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*permission.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &permission_client.BatchGetPermissionsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(permission.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiPermissionAccess) QueryPermissions(ctx context.Context, query *permi
 }
 
 func (a *apiPermissionAccess) WatchPermission(ctx context.Context, query *permission.GetQuery, observerCb func(*permission.PermissionChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &permission_client.WatchPermissionRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchPermission(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiPermissionAccess) SavePermission(ctx context.Context, res *permissio
 			}
 		}
 	}
-
+	var resp *permission.Permission
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &permission_client.UpdatePermissionRequest{
 			Permission: res,
@@ -195,26 +211,30 @@ func (a *apiPermissionAccess) SavePermission(ctx context.Context, res *permissio
 				FieldMask:        mask.(*permission.Permission_FieldMask),
 			}
 		}
-		_, err := a.client.UpdatePermission(ctx, updateRequest)
+		resp, err = a.client.UpdatePermission(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &permission_client.CreatePermissionRequest{
 			Permission: res,
 		}
-		_, err := a.client.CreatePermission(ctx, createRequest)
+		resp, err = a.client.CreatePermission(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiPermissionAccess) DeletePermission(ctx context.Context, ref *permission.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &permission_client.DeletePermissionRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeletePermission(ctx, request)
 	return err

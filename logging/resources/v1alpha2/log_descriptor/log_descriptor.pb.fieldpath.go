@@ -17,17 +17,16 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	logging_common "github.com/cloudwan/edgelq-sdk/logging/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -44,17 +43,16 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &logging_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -125,19 +123,19 @@ func BuildLogDescriptor_FieldPath(fp gotenobject.RawFieldPath) (LogDescriptor_Fi
 	} else {
 		switch fp[0] {
 		case "labels":
-			if subpath, err := logging_common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelDescriptor_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorLabels, subPath: subpath}, nil
 			}
 		case "promoted_label_key_sets", "promotedLabelKeySets", "promoted-label-key-sets":
-			if subpath, err := logging_common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildLabelKeySet_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorPromotedLabelKeySets, subPath: subpath}, nil
 			}
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LogDescriptor_FieldSubPath{selector: LogDescriptor_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -256,11 +254,11 @@ func (fp *LogDescriptor_FieldTerminalPath) GetDefault() interface{} {
 	case LogDescriptor_FieldPathSelectorDescription:
 		return ""
 	case LogDescriptor_FieldPathSelectorLabels:
-		return ([]*logging_common.LabelDescriptor)(nil)
+		return ([]*common.LabelDescriptor)(nil)
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return ([]*logging_common.LabelKeySet)(nil)
+		return ([]*common.LabelKeySet)(nil)
 	case LogDescriptor_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fp.selector))
 	}
@@ -311,11 +309,11 @@ func (fp *LogDescriptor_FieldTerminalPath) WithIValue(value interface{}) LogDesc
 	case LogDescriptor_FieldPathSelectorDescription:
 		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(string)}
 	case LogDescriptor_FieldPathSelectorLabels:
-		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.([]*logging_common.LabelDescriptor)}
+		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelDescriptor)}
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.([]*logging_common.LabelKeySet)}
+		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case LogDescriptor_FieldPathSelectorMetadata:
-		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &LogDescriptor_FieldTerminalPathValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fp.selector))
 	}
@@ -335,11 +333,11 @@ func (fp *LogDescriptor_FieldTerminalPath) WithIArrayOfValues(values interface{}
 	case LogDescriptor_FieldPathSelectorDescription:
 		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([]string)}
 	case LogDescriptor_FieldPathSelectorLabels:
-		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([][]*logging_common.LabelDescriptor)}
+		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelDescriptor)}
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([][]*logging_common.LabelKeySet)}
+		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case LogDescriptor_FieldPathSelectorMetadata:
-		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &LogDescriptor_FieldTerminalPathArrayOfValues{LogDescriptor_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fp.selector))
 	}
@@ -353,9 +351,9 @@ func (fp *LogDescriptor_FieldTerminalPath) WithRawIArrayOfValues(values interfac
 func (fp *LogDescriptor_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogDescriptor_FieldPathArrayItemValue {
 	switch fp.selector {
 	case LogDescriptor_FieldPathSelectorLabels:
-		return &LogDescriptor_FieldTerminalPathArrayItemValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*logging_common.LabelDescriptor)}
+		return &LogDescriptor_FieldTerminalPathArrayItemValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelDescriptor)}
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		return &LogDescriptor_FieldTerminalPathArrayItemValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*logging_common.LabelKeySet)}
+		return &LogDescriptor_FieldTerminalPathArrayItemValue{LogDescriptor_FieldTerminalPath: *fp, value: value.(*common.LabelKeySet)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fp.selector))
 	}
@@ -375,16 +373,16 @@ var _ LogDescriptor_FieldPath = (*LogDescriptor_FieldSubPath)(nil)
 func (fps *LogDescriptor_FieldSubPath) Selector() LogDescriptor_FieldPathSelector {
 	return fps.selector
 }
-func (fps *LogDescriptor_FieldSubPath) AsLabelsSubPath() (logging_common.LabelDescriptor_FieldPath, bool) {
-	res, ok := fps.subPath.(logging_common.LabelDescriptor_FieldPath)
+func (fps *LogDescriptor_FieldSubPath) AsLabelsSubPath() (common.LabelDescriptor_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelDescriptor_FieldPath)
 	return res, ok
 }
-func (fps *LogDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (logging_common.LabelKeySet_FieldPath, bool) {
-	res, ok := fps.subPath.(logging_common.LabelKeySet_FieldPath)
+func (fps *LogDescriptor_FieldSubPath) AsPromotedLabelKeySetsSubPath() (common.LabelKeySet_FieldPath, bool) {
+	res, ok := fps.subPath.(common.LabelKeySet_FieldPath)
 	return res, ok
 }
-func (fps *LogDescriptor_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *LogDescriptor_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -562,16 +560,16 @@ func (fpv *LogDescriptor_FieldTerminalPathValue) AsDescriptionValue() (string, b
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *LogDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*logging_common.LabelDescriptor, bool) {
-	res, ok := fpv.value.([]*logging_common.LabelDescriptor)
+func (fpv *LogDescriptor_FieldTerminalPathValue) AsLabelsValue() ([]*common.LabelDescriptor, bool) {
+	res, ok := fpv.value.([]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpv *LogDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*logging_common.LabelKeySet, bool) {
-	res, ok := fpv.value.([]*logging_common.LabelKeySet)
+func (fpv *LogDescriptor_FieldTerminalPathValue) AsPromotedLabelKeySetsValue() ([]*common.LabelKeySet, bool) {
+	res, ok := fpv.value.([]*common.LabelKeySet)
 	return res, ok
 }
-func (fpv *LogDescriptor_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *LogDescriptor_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -588,11 +586,11 @@ func (fpv *LogDescriptor_FieldTerminalPathValue) SetTo(target **LogDescriptor) {
 	case LogDescriptor_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
 	case LogDescriptor_FieldPathSelectorLabels:
-		(*target).Labels = fpv.value.([]*logging_common.LabelDescriptor)
+		(*target).Labels = fpv.value.([]*common.LabelDescriptor)
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		(*target).PromotedLabelKeySets = fpv.value.([]*logging_common.LabelKeySet)
+		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case LogDescriptor_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fpv.selector))
 	}
@@ -667,16 +665,16 @@ type LogDescriptor_FieldSubPathValue struct {
 
 var _ LogDescriptor_FieldPathValue = (*LogDescriptor_FieldSubPathValue)(nil)
 
-func (fpvs *LogDescriptor_FieldSubPathValue) AsLabelsPathValue() (logging_common.LabelDescriptor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(logging_common.LabelDescriptor_FieldPathValue)
+func (fpvs *LogDescriptor_FieldSubPathValue) AsLabelsPathValue() (common.LabelDescriptor_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelDescriptor_FieldPathValue)
 	return res, ok
 }
-func (fpvs *LogDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (logging_common.LabelKeySet_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(logging_common.LabelKeySet_FieldPathValue)
+func (fpvs *LogDescriptor_FieldSubPathValue) AsPromotedLabelKeySetsPathValue() (common.LabelKeySet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.LabelKeySet_FieldPathValue)
 	return res, ok
 }
-func (fpvs *LogDescriptor_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *LogDescriptor_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -690,7 +688,7 @@ func (fpvs *LogDescriptor_FieldSubPathValue) SetTo(target **LogDescriptor) {
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case LogDescriptor_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fpvs.Selector()))
 	}
@@ -712,7 +710,7 @@ func (fpvs *LogDescriptor_FieldSubPathValue) CompareWith(source *LogDescriptor) 
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return 0, false // repeated field
 	case LogDescriptor_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fpvs.Selector()))
 	}
@@ -762,12 +760,12 @@ var _ LogDescriptor_FieldPathArrayItemValue = (*LogDescriptor_FieldTerminalPathA
 func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*logging_common.LabelDescriptor, bool) {
-	res, ok := fpaiv.value.(*logging_common.LabelDescriptor)
+func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) AsLabelsItemValue() (*common.LabelDescriptor, bool) {
+	res, ok := fpaiv.value.(*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*logging_common.LabelKeySet, bool) {
-	res, ok := fpaiv.value.(*logging_common.LabelKeySet)
+func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) AsPromotedLabelKeySetsItemValue() (*common.LabelKeySet, bool) {
+	res, ok := fpaiv.value.(*common.LabelKeySet)
 	return res, ok
 }
 
@@ -803,16 +801,16 @@ type LogDescriptor_FieldSubPathArrayItemValue struct {
 func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (logging_common.LabelDescriptor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(logging_common.LabelDescriptor_FieldPathArrayItemValue)
+func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsLabelsPathItemValue() (common.LabelDescriptor_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelDescriptor_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (logging_common.LabelKeySet_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(logging_common.LabelKeySet_FieldPathArrayItemValue)
+func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsPromotedLabelKeySetsPathItemValue() (common.LabelKeySet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.LabelKeySet_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -824,7 +822,7 @@ func (fpaivs *LogDescriptor_FieldSubPathArrayItemValue) ContainsValue(source *Lo
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		return false // repeated/map field
 	case LogDescriptor_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogDescriptor: %d", fpaivs.Selector()))
 	}
@@ -878,15 +876,15 @@ func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (value
 			values = append(values, v)
 		}
 	case LogDescriptor_FieldPathSelectorLabels:
-		for _, v := range fpaov.values.([][]*logging_common.LabelDescriptor) {
+		for _, v := range fpaov.values.([][]*common.LabelDescriptor) {
 			values = append(values, v)
 		}
 	case LogDescriptor_FieldPathSelectorPromotedLabelKeySets:
-		for _, v := range fpaov.values.([][]*logging_common.LabelKeySet) {
+		for _, v := range fpaov.values.([][]*common.LabelKeySet) {
 			values = append(values, v)
 		}
 	case LogDescriptor_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -904,16 +902,16 @@ func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfV
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*logging_common.LabelDescriptor, bool) {
-	res, ok := fpaov.values.([][]*logging_common.LabelDescriptor)
+func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([][]*common.LabelDescriptor, bool) {
+	res, ok := fpaov.values.([][]*common.LabelDescriptor)
 	return res, ok
 }
-func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*logging_common.LabelKeySet, bool) {
-	res, ok := fpaov.values.([][]*logging_common.LabelKeySet)
+func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsPromotedLabelKeySetsArrayOfValues() ([][]*common.LabelKeySet, bool) {
+	res, ok := fpaov.values.([][]*common.LabelKeySet)
 	return res, ok
 }
-func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *LogDescriptor_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -927,15 +925,15 @@ var _ LogDescriptor_FieldPathArrayOfValues = (*LogDescriptor_FieldSubPathArrayOf
 func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (logging_common.LabelDescriptor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(logging_common.LabelDescriptor_FieldPathArrayOfValues)
+func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsLabelsPathArrayOfValues() (common.LabelDescriptor_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelDescriptor_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (logging_common.LabelKeySet_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(logging_common.LabelKeySet_FieldPathArrayOfValues)
+func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsPromotedLabelKeySetsPathArrayOfValues() (common.LabelKeySet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.LabelKeySet_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *LogDescriptor_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

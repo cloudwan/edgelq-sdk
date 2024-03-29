@@ -3,8 +3,8 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/common.proto";
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution;distribution";
 option java_multiple_files = true;
@@ -27,7 +27,7 @@ message Distribution {
   // Display name of Distribution
   string display_name = 2;
 
-  ntt.types.Meta metadata = 3;
+  goten.types.Meta metadata = 3;
 
   Spec spec = 4;
 
@@ -41,7 +41,7 @@ message Distribution {
     Template template = 2;
 
     message Template {
-      ntt.types.Meta metadata = 1;
+      goten.types.Meta metadata = 1;
 
       PodSpec spec = 2;
     }

@@ -11,7 +11,6 @@ import (
 
 // proto imports
 import (
-	encryption_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/encryption"
 	project_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/project"
 	secret_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha2/secret"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
@@ -53,7 +52,7 @@ func (d *SecretsDescriptor) GetVersion() string {
 
 func (d *SecretsDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *SecretsDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
@@ -65,7 +64,6 @@ func (d *SecretsDescriptor) AllResourceDescriptors() []gotenresource.Descriptor 
 
 func (d *SecretsDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
-		encryption_client.GetEncryptionServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
 		secret_client.GetSecretServiceDescriptor(),
 	}

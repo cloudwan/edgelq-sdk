@@ -13,14 +13,14 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -33,14 +33,14 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
+	_ = &meta.Meta{}
 )
 
 type Region_FieldMask struct {
@@ -133,12 +133,12 @@ func (fieldMask *Region_FieldMask) Subtract(other *Region_FieldMask) *Region_Fie
 	otherSubMasks := map[Region_FieldPathSelector]gotenobject.FieldMask{
 		Region_FieldPathSelectorLocation:           &Region_RegionLocation_FieldMask{},
 		Region_FieldPathSelectorConnectivityScores: &Region_RegionConnectivityPreference_FieldMask{},
-		Region_FieldPathSelectorMetadata:           &ntt_meta.Meta_FieldMask{},
+		Region_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Region_FieldPathSelector]gotenobject.FieldMask{
 		Region_FieldPathSelectorLocation:           &Region_RegionLocation_FieldMask{},
 		Region_FieldPathSelectorConnectivityScores: &Region_RegionConnectivityPreference_FieldMask{},
-		Region_FieldPathSelectorMetadata:           &ntt_meta.Meta_FieldMask{},
+		Region_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -159,7 +159,7 @@ func (fieldMask *Region_FieldMask) Subtract(other *Region_FieldMask) *Region_Fie
 					case Region_FieldPathSelectorConnectivityScores:
 						mySubMasks[Region_FieldPathSelectorConnectivityScores] = FullRegion_RegionConnectivityPreference_FieldMask()
 					case Region_FieldPathSelectorMetadata:
-						mySubMasks[Region_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Region_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Region_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -194,12 +194,12 @@ func (fieldMask *Region_FieldMask) FilterInputFields() *Region_FieldMask {
 		switch path.Selector() {
 		case Region_FieldPathSelectorMetadata:
 			if _, ok := path.(*Region_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Region_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Region_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Region_FieldSubPath{selector: Region_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -213,15 +213,15 @@ func (fieldMask *Region_FieldMask) FilterInputFields() *Region_FieldMask {
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Region_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Region_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Region_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Region_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -243,7 +243,7 @@ func (fieldMask Region_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Region_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -262,7 +262,7 @@ func (fieldMask Region_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Region_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -334,7 +334,7 @@ func (fieldMask *Region_FieldMask) Project(source *Region) *Region {
 	wholeLocationAccepted := false
 	connectivityScoresMask := &Region_RegionConnectivityPreference_FieldMask{}
 	wholeConnectivityScoresAccepted := false
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -366,7 +366,7 @@ func (fieldMask *Region_FieldMask) Project(source *Region) *Region {
 			case Region_FieldPathSelectorConnectivityScores:
 				connectivityScoresMask.AppendPath(tp.subPath.(RegionRegionConnectivityPreference_FieldPath))
 			case Region_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			}
 		}
 	}
@@ -511,15 +511,15 @@ func (fieldMask *Region_RegionLocation_FieldMask) FilterInputFields() *Region_Re
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Region_RegionLocation_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Region_RegionLocation_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Region_RegionLocation_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Region_RegionLocation_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -541,7 +541,7 @@ func (fieldMask Region_RegionLocation_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Region_RegionLocation_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -560,7 +560,7 @@ func (fieldMask Region_RegionLocation_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Region_RegionLocation_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -773,15 +773,15 @@ func (fieldMask *Region_RegionConnectivityPreference_FieldMask) FilterInputField
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Region_RegionConnectivityPreference_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Region_RegionConnectivityPreference_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Region_RegionConnectivityPreference_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Region_RegionConnectivityPreference_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -803,7 +803,7 @@ func (fieldMask Region_RegionConnectivityPreference_FieldMask) Marshal() ([]byte
 }
 
 func (fieldMask *Region_RegionConnectivityPreference_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -822,7 +822,7 @@ func (fieldMask Region_RegionConnectivityPreference_FieldMask) MarshalJSON() ([]
 }
 
 func (fieldMask *Region_RegionConnectivityPreference_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

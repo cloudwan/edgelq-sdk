@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	organization_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/organization"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiOrganizationAccess struct {
@@ -42,8 +44,11 @@ func NewApiOrganizationAccess(client organization_client.OrganizationServiceClie
 }
 
 func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *organization.GetQuery) (*organization.Organization, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &organization_client.GetOrganizationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetOrganization(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *orga
 
 func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs []*organization.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*organization.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &organization_client.BatchGetOrganizationsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(organization.GetDescriptor())
 	if fieldMask != nil {
@@ -108,8 +120,11 @@ func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *o
 }
 
 func (a *apiOrganizationAccess) WatchOrganization(ctx context.Context, query *organization.GetQuery, observerCb func(*organization.OrganizationChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &organization_client.WatchOrganizationRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchOrganization(ctx, request)
@@ -181,7 +196,8 @@ func (a *apiOrganizationAccess) SaveOrganization(ctx context.Context, res *organ
 			}
 		}
 	}
-
+	var resp *organization.Organization
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &organization_client.UpdateOrganizationRequest{
 			Organization: res,
@@ -195,26 +211,30 @@ func (a *apiOrganizationAccess) SaveOrganization(ctx context.Context, res *organ
 				FieldMask:        mask.(*organization.Organization_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateOrganization(ctx, updateRequest)
+		resp, err = a.client.UpdateOrganization(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &organization_client.CreateOrganizationRequest{
 			Organization: res,
 		}
-		_, err := a.client.CreateOrganization(ctx, createRequest)
+		resp, err = a.client.CreateOrganization(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiOrganizationAccess) DeleteOrganization(ctx context.Context, ref *organization.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &organization_client.DeleteOrganizationRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteOrganization(ctx, request)
 	return err

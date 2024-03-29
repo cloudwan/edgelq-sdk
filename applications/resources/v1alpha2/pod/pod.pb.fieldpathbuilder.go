@@ -9,8 +9,6 @@ import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -21,10 +19,12 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
@@ -32,8 +32,6 @@ var (
 	_ = &common.PodSpec{}
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -44,10 +42,12 @@ var (
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type PodFieldPathBuilder struct{}
@@ -108,27 +108,27 @@ func (PodPathSelectorMetadata) FieldPath() *Pod_FieldTerminalPath {
 	return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorMetadata}
 }
 
-func (s PodPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *Pod_FieldTerminalPathValue {
+func (s PodPathSelectorMetadata) WithValue(value *meta.Meta) *Pod_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldTerminalPathValue)
 }
 
-func (s PodPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *Pod_FieldTerminalPathArrayOfValues {
+func (s PodPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *Pod_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldTerminalPathArrayOfValues)
 }
 
-func (PodPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *Pod_FieldSubPath {
+func (PodPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{selector: Pod_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s PodPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *Pod_FieldSubPathValue {
 	return &Pod_FieldSubPathValue{Pod_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PodPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *Pod_FieldSubPathArrayOfValues {
 	return &Pod_FieldSubPathArrayOfValues{Pod_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PodPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *Pod_FieldSubPathArrayItemValue {
+func (s PodPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *Pod_FieldSubPathArrayItemValue {
 	return &Pod_FieldSubPathArrayItemValue{Pod_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -184,20 +184,24 @@ func (PodPathSelectorMetadata) Lifecycle() PodPathSelectorMetadataLifecycle {
 	return PodPathSelectorMetadataLifecycle{}
 }
 
+func (PodPathSelectorMetadata) Services() PodPathSelectorMetadataServices {
+	return PodPathSelectorMetadataServices{}
+}
+
 type PodPathSelectorMetadataCreateTime struct{}
 
 func (PodPathSelectorMetadataCreateTime) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -206,15 +210,15 @@ type PodPathSelectorMetadataUpdateTime struct{}
 func (PodPathSelectorMetadataUpdateTime) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -223,15 +227,15 @@ type PodPathSelectorMetadataDeleteTime struct{}
 func (PodPathSelectorMetadataDeleteTime) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -240,7 +244,7 @@ type PodPathSelectorMetadataUuid struct{}
 func (PodPathSelectorMetadataUuid) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -257,7 +261,7 @@ type PodPathSelectorMetadataTags struct{}
 func (PodPathSelectorMetadataTags) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -278,7 +282,7 @@ type PodPathSelectorMetadataLabels struct{}
 func (PodPathSelectorMetadataLabels) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -301,7 +305,7 @@ type PodMapPathSelectorMetadataLabels struct {
 func (s PodMapPathSelectorMetadataLabels) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -318,7 +322,7 @@ type PodPathSelectorMetadataAnnotations struct{}
 func (PodPathSelectorMetadataAnnotations) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -341,7 +345,7 @@ type PodMapPathSelectorMetadataAnnotations struct {
 func (s PodMapPathSelectorMetadataAnnotations) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -358,7 +362,7 @@ type PodPathSelectorMetadataGeneration struct{}
 func (PodPathSelectorMetadataGeneration) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -375,7 +379,7 @@ type PodPathSelectorMetadataResourceVersion struct{}
 func (PodPathSelectorMetadataResourceVersion) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -392,19 +396,19 @@ type PodPathSelectorMetadataOwnerReferences struct{}
 func (PodPathSelectorMetadataOwnerReferences) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
-func (s PodPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *Pod_FieldSubPathArrayItemValue {
+func (s PodPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *Pod_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Pod_FieldSubPathArrayItemValue)
 }
 
@@ -428,10 +432,6 @@ func (PodPathSelectorMetadataOwnerReferences) Controller() PodPathSelectorMetada
 	return PodPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (PodPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (PodPathSelectorMetadataOwnerReferences) RequiresOwnerReference() PodPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return PodPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -441,7 +441,7 @@ type PodPathSelectorMetadataOwnerReferencesKind struct{}
 func (PodPathSelectorMetadataOwnerReferencesKind) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -458,7 +458,7 @@ type PodPathSelectorMetadataOwnerReferencesVersion struct{}
 func (PodPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -475,7 +475,7 @@ type PodPathSelectorMetadataOwnerReferencesName struct{}
 func (PodPathSelectorMetadataOwnerReferencesName) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -492,7 +492,7 @@ type PodPathSelectorMetadataOwnerReferencesRegion struct{}
 func (PodPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -509,7 +509,7 @@ type PodPathSelectorMetadataOwnerReferencesController struct{}
 func (PodPathSelectorMetadataOwnerReferencesController) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -521,29 +521,12 @@ func (s PodPathSelectorMetadataOwnerReferencesController) WithArrayOfValues(valu
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
-type PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *Pod_FieldSubPath {
-	return &Pod_FieldSubPath{
-		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *Pod_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
-}
-
-func (s PodPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Pod_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
-}
-
 type PodPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (PodPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -560,7 +543,7 @@ type PodPathSelectorMetadataShards struct{}
 func (PodPathSelectorMetadataShards) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -583,7 +566,7 @@ type PodMapPathSelectorMetadataShards struct {
 func (s PodMapPathSelectorMetadataShards) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -600,15 +583,15 @@ type PodPathSelectorMetadataSyncing struct{}
 func (PodPathSelectorMetadataSyncing) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -625,7 +608,7 @@ type PodPathSelectorMetadataSyncingOwningRegion struct{}
 func (PodPathSelectorMetadataSyncingOwningRegion) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -642,7 +625,7 @@ type PodPathSelectorMetadataSyncingRegions struct{}
 func (PodPathSelectorMetadataSyncingRegions) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -663,15 +646,15 @@ type PodPathSelectorMetadataLifecycle struct{}
 func (PodPathSelectorMetadataLifecycle) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -688,15 +671,15 @@ type PodPathSelectorMetadataLifecycleState struct{}
 func (PodPathSelectorMetadataLifecycleState) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s PodPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -705,7 +688,7 @@ type PodPathSelectorMetadataLifecycleBlockDeletion struct{}
 func (PodPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Pod_FieldSubPath {
 	return &Pod_FieldSubPath{
 		selector: Pod_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -715,6 +698,69 @@ func (s PodPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Po
 
 func (s PodPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+type PodPathSelectorMetadataServices struct{}
+
+func (PodPathSelectorMetadataServices) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+func (PodPathSelectorMetadataServices) OwningService() PodPathSelectorMetadataServicesOwningService {
+	return PodPathSelectorMetadataServicesOwningService{}
+}
+
+func (PodPathSelectorMetadataServices) AllowedServices() PodPathSelectorMetadataServicesAllowedServices {
+	return PodPathSelectorMetadataServicesAllowedServices{}
+}
+
+type PodPathSelectorMetadataServicesOwningService struct{}
+
+func (PodPathSelectorMetadataServicesOwningService) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorMetadataServicesOwningService) WithValue(value string) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+type PodPathSelectorMetadataServicesAllowedServices struct{}
+
+func (PodPathSelectorMetadataServicesAllowedServices) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+func (s PodPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Pod_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Pod_FieldSubPathArrayItemValue)
 }
 
 type PodPathSelectorSpec struct{}
@@ -2498,11 +2544,11 @@ func (PodPathSelectorStatusContainerStatusesRunningStartedAt) FieldPath() *Pod_F
 	}
 }
 
-func (s PodPathSelectorStatusContainerStatusesRunningStartedAt) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorStatusContainerStatusesRunningStartedAt) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorStatusContainerStatusesRunningStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorStatusContainerStatusesRunningStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -2628,11 +2674,11 @@ func (PodPathSelectorStatusContainerStatusesTerminatedStartedAt) FieldPath() *Po
 	}
 }
 
-func (s PodPathSelectorStatusContainerStatusesTerminatedStartedAt) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorStatusContainerStatusesTerminatedStartedAt) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorStatusContainerStatusesTerminatedStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorStatusContainerStatusesTerminatedStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -2645,11 +2691,11 @@ func (PodPathSelectorStatusContainerStatusesTerminatedFinishedAt) FieldPath() *P
 	}
 }
 
-func (s PodPathSelectorStatusContainerStatusesTerminatedFinishedAt) WithValue(value *timestamp.Timestamp) *Pod_FieldSubPathValue {
+func (s PodPathSelectorStatusContainerStatusesTerminatedFinishedAt) WithValue(value *timestamppb.Timestamp) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorStatusContainerStatusesTerminatedFinishedAt) WithArrayOfValues(values []*timestamp.Timestamp) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorStatusContainerStatusesTerminatedFinishedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
@@ -2892,11 +2938,11 @@ func (Pod_StatusPathSelectorContainerStatusesRunningStartedAt) FieldPath() *PodS
 	}
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesRunningStartedAt) WithValue(value *timestamp.Timestamp) *PodStatus_FieldSubPathValue {
+func (s Pod_StatusPathSelectorContainerStatusesRunningStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesRunningStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
+func (s Pod_StatusPathSelectorContainerStatusesRunningStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
 }
 
@@ -3022,11 +3068,11 @@ func (Pod_StatusPathSelectorContainerStatusesTerminatedStartedAt) FieldPath() *P
 	}
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesTerminatedStartedAt) WithValue(value *timestamp.Timestamp) *PodStatus_FieldSubPathValue {
+func (s Pod_StatusPathSelectorContainerStatusesTerminatedStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesTerminatedStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
+func (s Pod_StatusPathSelectorContainerStatusesTerminatedStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
 }
 
@@ -3039,11 +3085,11 @@ func (Pod_StatusPathSelectorContainerStatusesTerminatedFinishedAt) FieldPath() *
 	}
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesTerminatedFinishedAt) WithValue(value *timestamp.Timestamp) *PodStatus_FieldSubPathValue {
+func (s Pod_StatusPathSelectorContainerStatusesTerminatedFinishedAt) WithValue(value *timestamppb.Timestamp) *PodStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
 }
 
-func (s Pod_StatusPathSelectorContainerStatusesTerminatedFinishedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
+func (s Pod_StatusPathSelectorContainerStatusesTerminatedFinishedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
 }
 
@@ -3242,11 +3288,11 @@ func (Pod_Status_ContainerPathSelectorRunningStartedAt) FieldPath() *PodStatusCo
 	}
 }
 
-func (s Pod_Status_ContainerPathSelectorRunningStartedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainer_FieldSubPathValue {
+func (s Pod_Status_ContainerPathSelectorRunningStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainer_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldSubPathValue)
 }
 
-func (s Pod_Status_ContainerPathSelectorRunningStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
+func (s Pod_Status_ContainerPathSelectorRunningStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
 }
 
@@ -3385,11 +3431,11 @@ func (Pod_Status_ContainerPathSelectorTerminatedStartedAt) FieldPath() *PodStatu
 	}
 }
 
-func (s Pod_Status_ContainerPathSelectorTerminatedStartedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainer_FieldSubPathValue {
+func (s Pod_Status_ContainerPathSelectorTerminatedStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainer_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldSubPathValue)
 }
 
-func (s Pod_Status_ContainerPathSelectorTerminatedStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
+func (s Pod_Status_ContainerPathSelectorTerminatedStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
 }
 
@@ -3402,11 +3448,11 @@ func (Pod_Status_ContainerPathSelectorTerminatedFinishedAt) FieldPath() *PodStat
 	}
 }
 
-func (s Pod_Status_ContainerPathSelectorTerminatedFinishedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainer_FieldSubPathValue {
+func (s Pod_Status_ContainerPathSelectorTerminatedFinishedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainer_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldSubPathValue)
 }
 
-func (s Pod_Status_ContainerPathSelectorTerminatedFinishedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
+func (s Pod_Status_ContainerPathSelectorTerminatedFinishedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainer_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
 }
 
@@ -3482,11 +3528,11 @@ func (Pod_Status_Container_StateRunningPathSelectorStartedAt) FieldPath() *PodSt
 	return &PodStatusContainerStateRunning_FieldTerminalPath{selector: PodStatusContainerStateRunning_FieldPathSelectorStartedAt}
 }
 
-func (s Pod_Status_Container_StateRunningPathSelectorStartedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainerStateRunning_FieldTerminalPathValue {
+func (s Pod_Status_Container_StateRunningPathSelectorStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainerStateRunning_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainerStateRunning_FieldTerminalPathValue)
 }
 
-func (s Pod_Status_Container_StateRunningPathSelectorStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues {
+func (s Pod_Status_Container_StateRunningPathSelectorStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateRunning_FieldTerminalPathArrayOfValues)
 }
 
@@ -3579,11 +3625,11 @@ func (Pod_Status_Container_StateTerminatedPathSelectorStartedAt) FieldPath() *Po
 	return &PodStatusContainerStateTerminated_FieldTerminalPath{selector: PodStatusContainerStateTerminated_FieldPathSelectorStartedAt}
 }
 
-func (s Pod_Status_Container_StateTerminatedPathSelectorStartedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathValue {
+func (s Pod_Status_Container_StateTerminatedPathSelectorStartedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainerStateTerminated_FieldTerminalPathValue)
 }
 
-func (s Pod_Status_Container_StateTerminatedPathSelectorStartedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues {
+func (s Pod_Status_Container_StateTerminatedPathSelectorStartedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues)
 }
 
@@ -3593,11 +3639,11 @@ func (Pod_Status_Container_StateTerminatedPathSelectorFinishedAt) FieldPath() *P
 	return &PodStatusContainerStateTerminated_FieldTerminalPath{selector: PodStatusContainerStateTerminated_FieldPathSelectorFinishedAt}
 }
 
-func (s Pod_Status_Container_StateTerminatedPathSelectorFinishedAt) WithValue(value *timestamp.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathValue {
+func (s Pod_Status_Container_StateTerminatedPathSelectorFinishedAt) WithValue(value *timestamppb.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PodStatusContainerStateTerminated_FieldTerminalPathValue)
 }
 
-func (s Pod_Status_Container_StateTerminatedPathSelectorFinishedAt) WithArrayOfValues(values []*timestamp.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues {
+func (s Pod_Status_Container_StateTerminatedPathSelectorFinishedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues)
 }
 

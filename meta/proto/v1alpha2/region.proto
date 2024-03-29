@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ntt.meta.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region;region";
 option java_multiple_files = true;
@@ -39,7 +39,7 @@ message Region {
   repeated RegionConnectivityPreference connectivity_scores = 6;
 
   // Metadata
-  ntt.types.Meta metadata = 7;
+  goten.types.Meta metadata = 7;
 
   // RegionLocation describes deployment location of a region.
   message RegionLocation {

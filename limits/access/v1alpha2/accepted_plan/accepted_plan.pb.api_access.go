@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	accepted_plan_client "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/accepted_plan"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiAcceptedPlanAccess struct {
@@ -42,8 +44,11 @@ func NewApiAcceptedPlanAccess(client accepted_plan_client.AcceptedPlanServiceCli
 }
 
 func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *accepted_plan.GetQuery) (*accepted_plan.AcceptedPlan, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &accepted_plan_client.GetAcceptedPlanRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetAcceptedPlan(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *acce
 
 func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs []*accepted_plan.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*accepted_plan.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &accepted_plan_client.BatchGetAcceptedPlansRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(accepted_plan.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *a
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListAcceptedPlans(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *a
 }
 
 func (a *apiAcceptedPlanAccess) WatchAcceptedPlan(ctx context.Context, query *accepted_plan.GetQuery, observerCb func(*accepted_plan.AcceptedPlanChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &accepted_plan_client.WatchAcceptedPlanRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchAcceptedPlan(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlans(ctx context.Context, query *a
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchAcceptedPlans(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiAcceptedPlanAccess) SaveAcceptedPlan(ctx context.Context, res *accep
 			}
 		}
 	}
-
+	var resp *accepted_plan.AcceptedPlan
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &accepted_plan_client.UpdateAcceptedPlanRequest{
 			AcceptedPlan: res,
@@ -195,29 +217,76 @@ func (a *apiAcceptedPlanAccess) SaveAcceptedPlan(ctx context.Context, res *accep
 				FieldMask:        mask.(*accepted_plan.AcceptedPlan_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateAcceptedPlan(ctx, updateRequest)
+		resp, err = a.client.UpdateAcceptedPlan(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &accepted_plan_client.CreateAcceptedPlanRequest{
 			AcceptedPlan: res,
 		}
-		_, err := a.client.CreateAcceptedPlan(ctx, createRequest)
+		resp, err = a.client.CreateAcceptedPlan(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiAcceptedPlanAccess) DeleteAcceptedPlan(ctx context.Context, ref *accepted_plan.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &accepted_plan_client.DeleteAcceptedPlanRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteAcceptedPlan(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *accepted_plan.Filter) (*accepted_plan.Filter, *accepted_plan.ParentName) {
+	var withParentExtraction func(cnd accepted_plan.FilterCondition) accepted_plan.FilterCondition
+	var resultParent *accepted_plan.ParentName
+	var resultFilter *accepted_plan.Filter
+	withParentExtraction = func(cnd accepted_plan.FilterCondition) accepted_plan.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *accepted_plan.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]accepted_plan.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return accepted_plan.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *accepted_plan.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*accepted_plan.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &accepted_plan.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

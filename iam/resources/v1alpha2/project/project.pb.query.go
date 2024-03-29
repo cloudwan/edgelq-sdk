@@ -7,19 +7,10 @@ package project
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	"github.com/cloudwan/goten-sdk/runtime/goten"
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
-)
-
-// proto imports
-import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 )
 
 // ensure the imports are used
@@ -29,15 +20,6 @@ var (
 	_ = new(goten.GotenMessage)
 	_ = new(gotenobject.FieldMask)
 	_ = new(gotenresource.ListQuery)
-)
-
-// make sure we're using proto imports
-var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.PCR{}
-	_ = &organization.Organization{}
-	_ = &meta_service.Service{}
 )
 
 type GetQuery struct {

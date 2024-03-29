@@ -6,16 +6,16 @@ package recovery_store_sharding_info
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 type RecoveryStoreShardingInfoFieldPathBuilder struct{}
@@ -97,11 +97,11 @@ func (RecoveryStoreShardingInfoPathSelectorValidityPeriodStartTime) FieldPath() 
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodStartTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodStartTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodStartTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -114,11 +114,11 @@ func (RecoveryStoreShardingInfoPathSelectorValidityPeriodEndTime) FieldPath() *R
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodEndTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodEndTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorValidityPeriodEndTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -169,11 +169,11 @@ func (RecoveryStoreShardingInfoPathSelectorSpecTsBlobPeriod) FieldPath() *Recove
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorSpecTsBlobPeriod) WithValue(value *duration.Duration) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorSpecTsBlobPeriod) WithValue(value *durationpb.Duration) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorSpecTsBlobPeriod) WithArrayOfValues(values []*duration.Duration) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorSpecTsBlobPeriod) WithArrayOfValues(values []*durationpb.Duration) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -200,27 +200,27 @@ func (RecoveryStoreShardingInfoPathSelectorMetadata) FieldPath() *RecoveryStoreS
 	return &RecoveryStoreShardingInfo_FieldTerminalPath{selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithValue(value *ntt_meta.Meta) *RecoveryStoreShardingInfo_FieldTerminalPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithValue(value *meta.Meta) *RecoveryStoreShardingInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldTerminalPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithArrayOfValues(values []*meta.Meta) *RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldTerminalPathArrayOfValues)
 }
 
-func (RecoveryStoreShardingInfoPathSelectorMetadata) WithSubPath(subPath ntt_meta.Meta_FieldPath) *RecoveryStoreShardingInfo_FieldSubPath {
+func (RecoveryStoreShardingInfoPathSelectorMetadata) WithSubPath(subPath meta.Meta_FieldPath) *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata, subPath: subPath}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubValue(subPathValue ntt_meta.Meta_FieldPathValue) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubValue(subPathValue meta.Meta_FieldPathValue) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return &RecoveryStoreShardingInfo_FieldSubPathValue{RecoveryStoreShardingInfo_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues ntt_meta.Meta_FieldPathArrayOfValues) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubArrayOfValues(subPathArrayOfValues meta.Meta_FieldPathArrayOfValues) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return &RecoveryStoreShardingInfo_FieldSubPathArrayOfValues{RecoveryStoreShardingInfo_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue ntt_meta.Meta_FieldPathArrayItemValue) *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadata) WithSubArrayItemValue(subPathArrayItemValue meta.Meta_FieldPathArrayItemValue) *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue {
 	return &RecoveryStoreShardingInfo_FieldSubPathArrayItemValue{RecoveryStoreShardingInfo_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -276,20 +276,24 @@ func (RecoveryStoreShardingInfoPathSelectorMetadata) Lifecycle() RecoveryStoreSh
 	return RecoveryStoreShardingInfoPathSelectorMetadataLifecycle{}
 }
 
+func (RecoveryStoreShardingInfoPathSelectorMetadata) Services() RecoveryStoreShardingInfoPathSelectorMetadataServices {
+	return RecoveryStoreShardingInfoPathSelectorMetadataServices{}
+}
+
 type RecoveryStoreShardingInfoPathSelectorMetadataCreateTime struct{}
 
 func (RecoveryStoreShardingInfoPathSelectorMetadataCreateTime) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().CreateTime().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataCreateTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataCreateTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataCreateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -298,15 +302,15 @@ type RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().UpdateTime().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -315,15 +319,15 @@ type RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -332,7 +336,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataUuid struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataUuid) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Uuid().FieldPath(),
 	}
 }
 
@@ -349,7 +353,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataTags struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataTags) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Tags().FieldPath(),
 	}
 }
 
@@ -370,7 +374,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataLabels struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataLabels) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().FieldPath(),
 	}
 }
 
@@ -393,7 +397,7 @@ type RecoveryStoreShardingInfoMapPathSelectorMetadataLabels struct {
 func (s RecoveryStoreShardingInfoMapPathSelectorMetadataLabels) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -410,7 +414,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataAnnotations struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataAnnotations) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().FieldPath(),
 	}
 }
 
@@ -433,7 +437,7 @@ type RecoveryStoreShardingInfoMapPathSelectorMetadataAnnotations struct {
 func (s RecoveryStoreShardingInfoMapPathSelectorMetadataAnnotations) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Annotations().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -450,7 +454,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataGeneration struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataGeneration) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Generation().FieldPath(),
 	}
 }
 
@@ -467,7 +471,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataResourceVersion struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataResourceVersion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().ResourceVersion().FieldPath(),
 	}
 }
 
@@ -484,19 +488,19 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithValue(value []*meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithArrayOfValues(values [][]*meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) WithItemValue(value *meta.OwnerReference) *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*RecoveryStoreShardingInfo_FieldSubPathArrayItemValue)
 }
 
@@ -520,10 +524,6 @@ func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) Controller()
 	return RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesController{}
 }
 
-func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion {
-	return RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
-}
-
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) RequiresOwnerReference() RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
 	return RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
@@ -533,7 +533,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesKind struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesKind) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Kind().FieldPath(),
 	}
 }
 
@@ -550,7 +550,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesVersion struct{
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesVersion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
 	}
 }
 
@@ -567,7 +567,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesName struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesName) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Name().FieldPath(),
 	}
 }
 
@@ -584,7 +584,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRegion struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRegion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
@@ -601,7 +601,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesController stru
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesController) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().Controller().FieldPath(),
 	}
 }
 
@@ -613,29 +613,12 @@ func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesController) 
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
-type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion struct{}
-
-func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
-	return &RecoveryStoreShardingInfo_FieldSubPath{
-		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	}
-}
-
-func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *RecoveryStoreShardingInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
-}
-
-func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
-}
-
 type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
 
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
 	}
 }
 
@@ -652,7 +635,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataShards struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataShards) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().FieldPath(),
 	}
 }
 
@@ -675,7 +658,7 @@ type RecoveryStoreShardingInfoMapPathSelectorMetadataShards struct {
 func (s RecoveryStoreShardingInfoMapPathSelectorMetadataShards) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Shards().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -692,15 +675,15 @@ type RecoveryStoreShardingInfoPathSelectorMetadataSyncing struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataSyncing) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataSyncing) WithValue(value *meta.SyncingMeta) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataSyncing) WithArrayOfValues(values []*meta.SyncingMeta) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -717,7 +700,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataSyncingOwningRegion struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataSyncingOwningRegion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().OwningRegion().FieldPath(),
 	}
 }
 
@@ -734,7 +717,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataSyncingRegions struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataSyncingRegions) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Syncing().Regions().FieldPath(),
 	}
 }
 
@@ -755,15 +738,15 @@ type RecoveryStoreShardingInfoPathSelectorMetadataLifecycle struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataLifecycle) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycle) WithValue(value *meta.Lifecycle) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycle) WithArrayOfValues(values []*meta.Lifecycle) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -780,15 +763,15 @@ type RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState struct{}
 func (RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
 	}
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *RecoveryStoreShardingInfo_FieldSubPathValue {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState) WithValue(value meta.Lifecycle_State) *RecoveryStoreShardingInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
 }
 
-func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleState) WithArrayOfValues(values []meta.Lifecycle_State) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 
@@ -797,7 +780,7 @@ type RecoveryStoreShardingInfoPathSelectorMetadataLifecycleBlockDeletion struct{
 func (RecoveryStoreShardingInfoPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
 	return &RecoveryStoreShardingInfo_FieldSubPath{
 		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+		subPath:  meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
 	}
 }
 
@@ -807,6 +790,69 @@ func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleBlockDeletion) Wit
 
 func (s RecoveryStoreShardingInfoPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
+}
+
+type RecoveryStoreShardingInfoPathSelectorMetadataServices struct{}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataServices) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
+	return &RecoveryStoreShardingInfo_FieldSubPath{
+		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().FieldPath(),
+	}
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServices) WithValue(value *meta.ServicesInfo) *RecoveryStoreShardingInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServices) WithArrayOfValues(values []*meta.ServicesInfo) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
+}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataServices) OwningService() RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService {
+	return RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService{}
+}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataServices) AllowedServices() RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices {
+	return RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices{}
+}
+
+type RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService struct{}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
+	return &RecoveryStoreShardingInfo_FieldSubPath{
+		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().OwningService().FieldPath(),
+	}
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService) WithValue(value string) *RecoveryStoreShardingInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServicesOwningService) WithArrayOfValues(values []string) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
+}
+
+type RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices struct{}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
+	return &RecoveryStoreShardingInfo_FieldSubPath{
+		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().Services().AllowedServices().FieldPath(),
+	}
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices) WithValue(value []string) *RecoveryStoreShardingInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(values [][]string) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *RecoveryStoreShardingInfo_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*RecoveryStoreShardingInfo_FieldSubPathArrayItemValue)
 }
 
 type RecoveryStoreShardingInfoValidityPeriodFieldPathBuilder struct{}
@@ -827,11 +873,11 @@ func (RecoveryStoreShardingInfo_ValidityPeriodPathSelectorStartTime) FieldPath()
 	return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath{selector: RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorStartTime}
 }
 
-func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorStartTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue {
+func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorStartTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue)
 }
 
-func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues {
+func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorStartTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues)
 }
 
@@ -841,11 +887,11 @@ func (RecoveryStoreShardingInfo_ValidityPeriodPathSelectorEndTime) FieldPath() *
 	return &RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPath{selector: RecoveryStoreShardingInfoValidityPeriod_FieldPathSelectorEndTime}
 }
 
-func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorEndTime) WithValue(value *timestamp.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue {
+func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorEndTime) WithValue(value *timestamppb.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathValue)
 }
 
-func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues {
+func (s RecoveryStoreShardingInfo_ValidityPeriodPathSelectorEndTime) WithArrayOfValues(values []*timestamppb.Timestamp) *RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfoValidityPeriod_FieldTerminalPathArrayOfValues)
 }
 
@@ -867,11 +913,11 @@ func (RecoveryStoreShardingInfo_ShardingSpecPathSelectorTsBlobPeriod) FieldPath(
 	return &RecoveryStoreShardingInfoShardingSpec_FieldTerminalPath{selector: RecoveryStoreShardingInfoShardingSpec_FieldPathSelectorTsBlobPeriod}
 }
 
-func (s RecoveryStoreShardingInfo_ShardingSpecPathSelectorTsBlobPeriod) WithValue(value *duration.Duration) *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue {
+func (s RecoveryStoreShardingInfo_ShardingSpecPathSelectorTsBlobPeriod) WithValue(value *durationpb.Duration) *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathValue)
 }
 
-func (s RecoveryStoreShardingInfo_ShardingSpecPathSelectorTsBlobPeriod) WithArrayOfValues(values []*duration.Duration) *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues {
+func (s RecoveryStoreShardingInfo_ShardingSpecPathSelectorTsBlobPeriod) WithArrayOfValues(values []*durationpb.Duration) *RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfoShardingSpec_FieldTerminalPathArrayOfValues)
 }
 

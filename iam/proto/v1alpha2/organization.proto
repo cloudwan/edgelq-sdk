@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+import "goten-sdk/types/multi_region_policy.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization;organization";
 option java_multiple_files = true;
@@ -47,10 +47,10 @@ message Organization {
       [ (google.api.resource_reference) = {type : "Organization"} ];
 
   // Metadata
-  ntt.types.Meta metadata = 6;
+  goten.types.Meta metadata = 6;
 
   // Multi region policy for child resources
-  ntt.types.MultiRegionPolicy multi_region_policy = 7;
+  goten.types.MultiRegionPolicy multi_region_policy = 7;
 
   // Allowed services for child organizations and projects. This field is
   // checked only for non-core edgelq services.

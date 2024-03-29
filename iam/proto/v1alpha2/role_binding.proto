@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding;role_binding";
 option java_multiple_files = true;
@@ -61,7 +61,7 @@ message RoleBinding {
   repeated Parent ancestry_path = 7;
 
   // Metadata
-  ntt.types.Meta metadata = 8;
+  goten.types.Meta metadata = 8;
 
   // Provides information about inheritance of this role binding - if it was
   // created from another role binding.

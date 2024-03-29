@@ -17,20 +17,19 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	rpc "github.com/cloudwan/edgelq-sdk/common/rpc"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -47,20 +46,19 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 )
 
 // FieldPath provides implementation to handle
@@ -90,10 +88,11 @@ const (
 	ActivityLog_FieldPathSelectorService         ActivityLog_FieldPathSelector = 5
 	ActivityLog_FieldPathSelectorMethod          ActivityLog_FieldPathSelector = 6
 	ActivityLog_FieldPathSelectorRequestMetadata ActivityLog_FieldPathSelector = 7
-	ActivityLog_FieldPathSelectorResource        ActivityLog_FieldPathSelector = 8
-	ActivityLog_FieldPathSelectorCategory        ActivityLog_FieldPathSelector = 9
-	ActivityLog_FieldPathSelectorLabels          ActivityLog_FieldPathSelector = 10
-	ActivityLog_FieldPathSelectorEvents          ActivityLog_FieldPathSelector = 11
+	ActivityLog_FieldPathSelectorRequestRouting  ActivityLog_FieldPathSelector = 8
+	ActivityLog_FieldPathSelectorResource        ActivityLog_FieldPathSelector = 9
+	ActivityLog_FieldPathSelectorCategory        ActivityLog_FieldPathSelector = 10
+	ActivityLog_FieldPathSelectorLabels          ActivityLog_FieldPathSelector = 11
+	ActivityLog_FieldPathSelectorEvents          ActivityLog_FieldPathSelector = 12
 )
 
 func (s ActivityLog_FieldPathSelector) String() string {
@@ -114,6 +113,8 @@ func (s ActivityLog_FieldPathSelector) String() string {
 		return "method"
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return "request_metadata"
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return "request_routing"
 	case ActivityLog_FieldPathSelectorResource:
 		return "resource"
 	case ActivityLog_FieldPathSelectorCategory:
@@ -149,6 +150,8 @@ func BuildActivityLog_FieldPath(fp gotenobject.RawFieldPath) (ActivityLog_FieldP
 			return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorMethod}, nil
 		case "request_metadata", "requestMetadata", "request-metadata":
 			return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestMetadata}, nil
+		case "request_routing", "requestRouting", "request-routing":
+			return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorRequestRouting}, nil
 		case "resource":
 			return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorResource}, nil
 		case "category":
@@ -161,19 +164,19 @@ func BuildActivityLog_FieldPath(fp gotenobject.RawFieldPath) (ActivityLog_FieldP
 	} else {
 		switch fp[0] {
 		case "authentication":
-			if subpath, err := audit_common.BuildAuthentication_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildAuthentication_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorAuthentication, subPath: subpath}, nil
 			}
 		case "authorization":
-			if subpath, err := audit_common.BuildAuthorization_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildAuthorization_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorAuthorization, subPath: subpath}, nil
 			}
 		case "service":
-			if subpath, err := audit_common.BuildServiceData_FieldPath(fp[1:]); err != nil {
+			if subpath, err := common.BuildServiceData_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorService, subPath: subpath}, nil
@@ -189,6 +192,12 @@ func BuildActivityLog_FieldPath(fp gotenobject.RawFieldPath) (ActivityLog_FieldP
 				return nil, err
 			} else {
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorRequestMetadata, subPath: subpath}, nil
+			}
+		case "request_routing", "requestRouting", "request-routing":
+			if subpath, err := BuildActivityLogRequestRouting_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorRequestRouting, subPath: subpath}, nil
 			}
 		case "resource":
 			if subpath, err := BuildActivityLogResource_FieldPath(fp[1:]); err != nil {
@@ -280,6 +289,10 @@ func (fp *ActivityLog_FieldTerminalPath) Get(source *ActivityLog) (values []inte
 			if source.RequestMetadata != nil {
 				values = append(values, source.RequestMetadata)
 			}
+		case ActivityLog_FieldPathSelectorRequestRouting:
+			if source.RequestRouting != nil {
+				values = append(values, source.RequestRouting)
+			}
 		case ActivityLog_FieldPathSelectorResource:
 			if source.Resource != nil {
 				values = append(values, source.Resource)
@@ -328,6 +341,9 @@ func (fp *ActivityLog_FieldTerminalPath) GetSingle(source *ActivityLog) (interfa
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		res := source.GetRequestMetadata()
 		return res, res != nil
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		res := source.GetRequestRouting()
+		return res, res != nil
 	case ActivityLog_FieldPathSelectorResource:
 		res := source.GetResource()
 		return res, res != nil
@@ -358,15 +374,17 @@ func (fp *ActivityLog_FieldTerminalPath) GetDefault() interface{} {
 	case ActivityLog_FieldPathSelectorRequestId:
 		return uint64(0)
 	case ActivityLog_FieldPathSelectorAuthentication:
-		return (*audit_common.Authentication)(nil)
+		return (*common.Authentication)(nil)
 	case ActivityLog_FieldPathSelectorAuthorization:
-		return (*audit_common.Authorization)(nil)
+		return (*common.Authorization)(nil)
 	case ActivityLog_FieldPathSelectorService:
-		return (*audit_common.ServiceData)(nil)
+		return (*common.ServiceData)(nil)
 	case ActivityLog_FieldPathSelectorMethod:
 		return (*ActivityLog_Method)(nil)
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return (*ActivityLog_RequestMetadata)(nil)
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return (*ActivityLog_RequestRouting)(nil)
 	case ActivityLog_FieldPathSelectorResource:
 		return (*ActivityLog_Resource)(nil)
 	case ActivityLog_FieldPathSelectorCategory:
@@ -399,6 +417,8 @@ func (fp *ActivityLog_FieldTerminalPath) ClearValue(item *ActivityLog) {
 			item.Method = nil
 		case ActivityLog_FieldPathSelectorRequestMetadata:
 			item.RequestMetadata = nil
+		case ActivityLog_FieldPathSelectorRequestRouting:
+			item.RequestRouting = nil
 		case ActivityLog_FieldPathSelectorResource:
 			item.Resource = nil
 		case ActivityLog_FieldPathSelectorCategory:
@@ -439,15 +459,17 @@ func (fp *ActivityLog_FieldTerminalPath) WithIValue(value interface{}) ActivityL
 	case ActivityLog_FieldPathSelectorRequestId:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(uint64)}
 	case ActivityLog_FieldPathSelectorAuthentication:
-		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*audit_common.Authentication)}
+		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*common.Authentication)}
 	case ActivityLog_FieldPathSelectorAuthorization:
-		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*audit_common.Authorization)}
+		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*common.Authorization)}
 	case ActivityLog_FieldPathSelectorService:
-		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*audit_common.ServiceData)}
+		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*common.ServiceData)}
 	case ActivityLog_FieldPathSelectorMethod:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_Method)}
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_RequestMetadata)}
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_RequestRouting)}
 	case ActivityLog_FieldPathSelectorResource:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_Resource)}
 	case ActivityLog_FieldPathSelectorCategory:
@@ -475,15 +497,17 @@ func (fp *ActivityLog_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 	case ActivityLog_FieldPathSelectorRequestId:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]uint64)}
 	case ActivityLog_FieldPathSelectorAuthentication:
-		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*audit_common.Authentication)}
+		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*common.Authentication)}
 	case ActivityLog_FieldPathSelectorAuthorization:
-		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*audit_common.Authorization)}
+		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*common.Authorization)}
 	case ActivityLog_FieldPathSelectorService:
-		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*audit_common.ServiceData)}
+		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*common.ServiceData)}
 	case ActivityLog_FieldPathSelectorMethod:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_Method)}
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_RequestMetadata)}
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_RequestRouting)}
 	case ActivityLog_FieldPathSelectorResource:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_Resource)}
 	case ActivityLog_FieldPathSelectorCategory:
@@ -657,16 +681,16 @@ var _ ActivityLog_FieldPath = (*ActivityLog_FieldSubPath)(nil)
 func (fps *ActivityLog_FieldSubPath) Selector() ActivityLog_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ActivityLog_FieldSubPath) AsAuthenticationSubPath() (audit_common.Authentication_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.Authentication_FieldPath)
+func (fps *ActivityLog_FieldSubPath) AsAuthenticationSubPath() (common.Authentication_FieldPath, bool) {
+	res, ok := fps.subPath.(common.Authentication_FieldPath)
 	return res, ok
 }
-func (fps *ActivityLog_FieldSubPath) AsAuthorizationSubPath() (audit_common.Authorization_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.Authorization_FieldPath)
+func (fps *ActivityLog_FieldSubPath) AsAuthorizationSubPath() (common.Authorization_FieldPath, bool) {
+	res, ok := fps.subPath.(common.Authorization_FieldPath)
 	return res, ok
 }
-func (fps *ActivityLog_FieldSubPath) AsServiceSubPath() (audit_common.ServiceData_FieldPath, bool) {
-	res, ok := fps.subPath.(audit_common.ServiceData_FieldPath)
+func (fps *ActivityLog_FieldSubPath) AsServiceSubPath() (common.ServiceData_FieldPath, bool) {
+	res, ok := fps.subPath.(common.ServiceData_FieldPath)
 	return res, ok
 }
 func (fps *ActivityLog_FieldSubPath) AsMethodSubPath() (ActivityLogMethod_FieldPath, bool) {
@@ -675,6 +699,10 @@ func (fps *ActivityLog_FieldSubPath) AsMethodSubPath() (ActivityLogMethod_FieldP
 }
 func (fps *ActivityLog_FieldSubPath) AsRequestMetadataSubPath() (ActivityLogRequestMetadata_FieldPath, bool) {
 	res, ok := fps.subPath.(ActivityLogRequestMetadata_FieldPath)
+	return res, ok
+}
+func (fps *ActivityLog_FieldSubPath) AsRequestRoutingSubPath() (ActivityLogRequestRouting_FieldPath, bool) {
+	res, ok := fps.subPath.(ActivityLogRequestRouting_FieldPath)
 	return res, ok
 }
 func (fps *ActivityLog_FieldSubPath) AsResourceSubPath() (ActivityLogResource_FieldPath, bool) {
@@ -709,6 +737,8 @@ func (fps *ActivityLog_FieldSubPath) Get(source *ActivityLog) (values []interfac
 		values = append(values, fps.subPath.GetRaw(source.GetMethod())...)
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetRequestMetadata())...)
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		values = append(values, fps.subPath.GetRaw(source.GetRequestRouting())...)
 	case ActivityLog_FieldPathSelectorResource:
 		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
 	case ActivityLog_FieldPathSelectorEvents:
@@ -753,6 +783,11 @@ func (fps *ActivityLog_FieldSubPath) GetSingle(source *ActivityLog) (interface{}
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRequestMetadata())
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		if source.GetRequestRouting() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetRequestRouting())
 	case ActivityLog_FieldPathSelectorResource:
 		if source.GetResource() == nil {
 			return nil, false
@@ -790,6 +825,8 @@ func (fps *ActivityLog_FieldSubPath) ClearValue(item *ActivityLog) {
 			fps.subPath.ClearValueRaw(item.Method)
 		case ActivityLog_FieldPathSelectorRequestMetadata:
 			fps.subPath.ClearValueRaw(item.RequestMetadata)
+		case ActivityLog_FieldPathSelectorRequestRouting:
+			fps.subPath.ClearValueRaw(item.RequestRouting)
 		case ActivityLog_FieldPathSelectorResource:
 			fps.subPath.ClearValueRaw(item.Resource)
 		case ActivityLog_FieldPathSelectorEvents:
@@ -892,16 +929,16 @@ func (fpv *ActivityLog_FieldTerminalPathValue) AsRequestIdValue() (uint64, bool)
 	res, ok := fpv.value.(uint64)
 	return res, ok
 }
-func (fpv *ActivityLog_FieldTerminalPathValue) AsAuthenticationValue() (*audit_common.Authentication, bool) {
-	res, ok := fpv.value.(*audit_common.Authentication)
+func (fpv *ActivityLog_FieldTerminalPathValue) AsAuthenticationValue() (*common.Authentication, bool) {
+	res, ok := fpv.value.(*common.Authentication)
 	return res, ok
 }
-func (fpv *ActivityLog_FieldTerminalPathValue) AsAuthorizationValue() (*audit_common.Authorization, bool) {
-	res, ok := fpv.value.(*audit_common.Authorization)
+func (fpv *ActivityLog_FieldTerminalPathValue) AsAuthorizationValue() (*common.Authorization, bool) {
+	res, ok := fpv.value.(*common.Authorization)
 	return res, ok
 }
-func (fpv *ActivityLog_FieldTerminalPathValue) AsServiceValue() (*audit_common.ServiceData, bool) {
-	res, ok := fpv.value.(*audit_common.ServiceData)
+func (fpv *ActivityLog_FieldTerminalPathValue) AsServiceValue() (*common.ServiceData, bool) {
+	res, ok := fpv.value.(*common.ServiceData)
 	return res, ok
 }
 func (fpv *ActivityLog_FieldTerminalPathValue) AsMethodValue() (*ActivityLog_Method, bool) {
@@ -910,6 +947,10 @@ func (fpv *ActivityLog_FieldTerminalPathValue) AsMethodValue() (*ActivityLog_Met
 }
 func (fpv *ActivityLog_FieldTerminalPathValue) AsRequestMetadataValue() (*ActivityLog_RequestMetadata, bool) {
 	res, ok := fpv.value.(*ActivityLog_RequestMetadata)
+	return res, ok
+}
+func (fpv *ActivityLog_FieldTerminalPathValue) AsRequestRoutingValue() (*ActivityLog_RequestRouting, bool) {
+	res, ok := fpv.value.(*ActivityLog_RequestRouting)
 	return res, ok
 }
 func (fpv *ActivityLog_FieldTerminalPathValue) AsResourceValue() (*ActivityLog_Resource, bool) {
@@ -942,15 +983,17 @@ func (fpv *ActivityLog_FieldTerminalPathValue) SetTo(target **ActivityLog) {
 	case ActivityLog_FieldPathSelectorRequestId:
 		(*target).RequestId = fpv.value.(uint64)
 	case ActivityLog_FieldPathSelectorAuthentication:
-		(*target).Authentication = fpv.value.(*audit_common.Authentication)
+		(*target).Authentication = fpv.value.(*common.Authentication)
 	case ActivityLog_FieldPathSelectorAuthorization:
-		(*target).Authorization = fpv.value.(*audit_common.Authorization)
+		(*target).Authorization = fpv.value.(*common.Authorization)
 	case ActivityLog_FieldPathSelectorService:
-		(*target).Service = fpv.value.(*audit_common.ServiceData)
+		(*target).Service = fpv.value.(*common.ServiceData)
 	case ActivityLog_FieldPathSelectorMethod:
 		(*target).Method = fpv.value.(*ActivityLog_Method)
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		(*target).RequestMetadata = fpv.value.(*ActivityLog_RequestMetadata)
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		(*target).RequestRouting = fpv.value.(*ActivityLog_RequestRouting)
 	case ActivityLog_FieldPathSelectorResource:
 		(*target).Resource = fpv.value.(*ActivityLog_Resource)
 	case ActivityLog_FieldPathSelectorCategory:
@@ -1020,6 +1063,8 @@ func (fpv *ActivityLog_FieldTerminalPathValue) CompareWith(source *ActivityLog) 
 	case ActivityLog_FieldPathSelectorMethod:
 		return 0, false
 	case ActivityLog_FieldPathSelectorRequestMetadata:
+		return 0, false
+	case ActivityLog_FieldPathSelectorRequestRouting:
 		return 0, false
 	case ActivityLog_FieldPathSelectorResource:
 		return 0, false
@@ -1112,16 +1157,16 @@ type ActivityLog_FieldSubPathValue struct {
 
 var _ ActivityLog_FieldPathValue = (*ActivityLog_FieldSubPathValue)(nil)
 
-func (fpvs *ActivityLog_FieldSubPathValue) AsAuthenticationPathValue() (audit_common.Authentication_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.Authentication_FieldPathValue)
+func (fpvs *ActivityLog_FieldSubPathValue) AsAuthenticationPathValue() (common.Authentication_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.Authentication_FieldPathValue)
 	return res, ok
 }
-func (fpvs *ActivityLog_FieldSubPathValue) AsAuthorizationPathValue() (audit_common.Authorization_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.Authorization_FieldPathValue)
+func (fpvs *ActivityLog_FieldSubPathValue) AsAuthorizationPathValue() (common.Authorization_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.Authorization_FieldPathValue)
 	return res, ok
 }
-func (fpvs *ActivityLog_FieldSubPathValue) AsServicePathValue() (audit_common.ServiceData_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(audit_common.ServiceData_FieldPathValue)
+func (fpvs *ActivityLog_FieldSubPathValue) AsServicePathValue() (common.ServiceData_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.ServiceData_FieldPathValue)
 	return res, ok
 }
 func (fpvs *ActivityLog_FieldSubPathValue) AsMethodPathValue() (ActivityLogMethod_FieldPathValue, bool) {
@@ -1130,6 +1175,10 @@ func (fpvs *ActivityLog_FieldSubPathValue) AsMethodPathValue() (ActivityLogMetho
 }
 func (fpvs *ActivityLog_FieldSubPathValue) AsRequestMetadataPathValue() (ActivityLogRequestMetadata_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue)
+	return res, ok
+}
+func (fpvs *ActivityLog_FieldSubPathValue) AsRequestRoutingPathValue() (ActivityLogRequestRouting_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ActivityLogRequestRouting_FieldPathValue)
 	return res, ok
 }
 func (fpvs *ActivityLog_FieldSubPathValue) AsResourcePathValue() (ActivityLogResource_FieldPathValue, bool) {
@@ -1147,15 +1196,17 @@ func (fpvs *ActivityLog_FieldSubPathValue) SetTo(target **ActivityLog) {
 	}
 	switch fpvs.Selector() {
 	case ActivityLog_FieldPathSelectorAuthentication:
-		fpvs.subPathValue.(audit_common.Authentication_FieldPathValue).SetTo(&(*target).Authentication)
+		fpvs.subPathValue.(common.Authentication_FieldPathValue).SetTo(&(*target).Authentication)
 	case ActivityLog_FieldPathSelectorAuthorization:
-		fpvs.subPathValue.(audit_common.Authorization_FieldPathValue).SetTo(&(*target).Authorization)
+		fpvs.subPathValue.(common.Authorization_FieldPathValue).SetTo(&(*target).Authorization)
 	case ActivityLog_FieldPathSelectorService:
-		fpvs.subPathValue.(audit_common.ServiceData_FieldPathValue).SetTo(&(*target).Service)
+		fpvs.subPathValue.(common.ServiceData_FieldPathValue).SetTo(&(*target).Service)
 	case ActivityLog_FieldPathSelectorMethod:
 		fpvs.subPathValue.(ActivityLogMethod_FieldPathValue).SetTo(&(*target).Method)
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue).SetTo(&(*target).RequestMetadata)
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		fpvs.subPathValue.(ActivityLogRequestRouting_FieldPathValue).SetTo(&(*target).RequestRouting)
 	case ActivityLog_FieldPathSelectorResource:
 		fpvs.subPathValue.(ActivityLogResource_FieldPathValue).SetTo(&(*target).Resource)
 	case ActivityLog_FieldPathSelectorEvents:
@@ -1177,15 +1228,17 @@ func (fpvs *ActivityLog_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *ActivityLog_FieldSubPathValue) CompareWith(source *ActivityLog) (int, bool) {
 	switch fpvs.Selector() {
 	case ActivityLog_FieldPathSelectorAuthentication:
-		return fpvs.subPathValue.(audit_common.Authentication_FieldPathValue).CompareWith(source.GetAuthentication())
+		return fpvs.subPathValue.(common.Authentication_FieldPathValue).CompareWith(source.GetAuthentication())
 	case ActivityLog_FieldPathSelectorAuthorization:
-		return fpvs.subPathValue.(audit_common.Authorization_FieldPathValue).CompareWith(source.GetAuthorization())
+		return fpvs.subPathValue.(common.Authorization_FieldPathValue).CompareWith(source.GetAuthorization())
 	case ActivityLog_FieldPathSelectorService:
-		return fpvs.subPathValue.(audit_common.ServiceData_FieldPathValue).CompareWith(source.GetService())
+		return fpvs.subPathValue.(common.ServiceData_FieldPathValue).CompareWith(source.GetService())
 	case ActivityLog_FieldPathSelectorMethod:
 		return fpvs.subPathValue.(ActivityLogMethod_FieldPathValue).CompareWith(source.GetMethod())
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue).CompareWith(source.GetRequestMetadata())
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return fpvs.subPathValue.(ActivityLogRequestRouting_FieldPathValue).CompareWith(source.GetRequestRouting())
 	case ActivityLog_FieldPathSelectorResource:
 		return fpvs.subPathValue.(ActivityLogResource_FieldPathValue).CompareWith(source.GetResource())
 	case ActivityLog_FieldPathSelectorEvents:
@@ -1276,16 +1329,16 @@ type ActivityLog_FieldSubPathArrayItemValue struct {
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsAuthenticationPathItemValue() (audit_common.Authentication_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.Authentication_FieldPathArrayItemValue)
+func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsAuthenticationPathItemValue() (common.Authentication_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.Authentication_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsAuthorizationPathItemValue() (audit_common.Authorization_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.Authorization_FieldPathArrayItemValue)
+func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsAuthorizationPathItemValue() (common.Authorization_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.Authorization_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsServicePathItemValue() (audit_common.ServiceData_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(audit_common.ServiceData_FieldPathArrayItemValue)
+func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsServicePathItemValue() (common.ServiceData_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.ServiceData_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsMethodPathItemValue() (ActivityLogMethod_FieldPathArrayItemValue, bool) {
@@ -1294,6 +1347,10 @@ func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsMethodPathItemValue() (A
 }
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsRequestMetadataPathItemValue() (ActivityLogRequestMetadata_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(ActivityLogRequestMetadata_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsRequestRoutingPathItemValue() (ActivityLogRequestRouting_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ActivityLogRequestRouting_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsResourcePathItemValue() (ActivityLogResource_FieldPathArrayItemValue, bool) {
@@ -1309,15 +1366,17 @@ func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsEventsPathItemValue() (A
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog) bool {
 	switch fpaivs.Selector() {
 	case ActivityLog_FieldPathSelectorAuthentication:
-		return fpaivs.subPathItemValue.(audit_common.Authentication_FieldPathArrayItemValue).ContainsValue(source.GetAuthentication())
+		return fpaivs.subPathItemValue.(common.Authentication_FieldPathArrayItemValue).ContainsValue(source.GetAuthentication())
 	case ActivityLog_FieldPathSelectorAuthorization:
-		return fpaivs.subPathItemValue.(audit_common.Authorization_FieldPathArrayItemValue).ContainsValue(source.GetAuthorization())
+		return fpaivs.subPathItemValue.(common.Authorization_FieldPathArrayItemValue).ContainsValue(source.GetAuthorization())
 	case ActivityLog_FieldPathSelectorService:
-		return fpaivs.subPathItemValue.(audit_common.ServiceData_FieldPathArrayItemValue).ContainsValue(source.GetService())
+		return fpaivs.subPathItemValue.(common.ServiceData_FieldPathArrayItemValue).ContainsValue(source.GetService())
 	case ActivityLog_FieldPathSelectorMethod:
 		return fpaivs.subPathItemValue.(ActivityLogMethod_FieldPathArrayItemValue).ContainsValue(source.GetMethod())
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return fpaivs.subPathItemValue.(ActivityLogRequestMetadata_FieldPathArrayItemValue).ContainsValue(source.GetRequestMetadata())
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		return fpaivs.subPathItemValue.(ActivityLogRequestRouting_FieldPathArrayItemValue).ContainsValue(source.GetRequestRouting())
 	case ActivityLog_FieldPathSelectorResource:
 		return fpaivs.subPathItemValue.(ActivityLogResource_FieldPathArrayItemValue).ContainsValue(source.GetResource())
 	case ActivityLog_FieldPathSelectorEvents:
@@ -1375,15 +1434,15 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorAuthentication:
-		for _, v := range fpaov.values.([]*audit_common.Authentication) {
+		for _, v := range fpaov.values.([]*common.Authentication) {
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorAuthorization:
-		for _, v := range fpaov.values.([]*audit_common.Authorization) {
+		for _, v := range fpaov.values.([]*common.Authorization) {
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorService:
-		for _, v := range fpaov.values.([]*audit_common.ServiceData) {
+		for _, v := range fpaov.values.([]*common.ServiceData) {
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorMethod:
@@ -1392,6 +1451,10 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		}
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		for _, v := range fpaov.values.([]*ActivityLog_RequestMetadata) {
+			values = append(values, v)
+		}
+	case ActivityLog_FieldPathSelectorRequestRouting:
+		for _, v := range fpaov.values.([]*ActivityLog_RequestRouting) {
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorResource:
@@ -1425,16 +1488,16 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsRequestIdArrayOfValue
 	res, ok := fpaov.values.([]uint64)
 	return res, ok
 }
-func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsAuthenticationArrayOfValues() ([]*audit_common.Authentication, bool) {
-	res, ok := fpaov.values.([]*audit_common.Authentication)
+func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsAuthenticationArrayOfValues() ([]*common.Authentication, bool) {
+	res, ok := fpaov.values.([]*common.Authentication)
 	return res, ok
 }
-func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsAuthorizationArrayOfValues() ([]*audit_common.Authorization, bool) {
-	res, ok := fpaov.values.([]*audit_common.Authorization)
+func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsAuthorizationArrayOfValues() ([]*common.Authorization, bool) {
+	res, ok := fpaov.values.([]*common.Authorization)
 	return res, ok
 }
-func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*audit_common.ServiceData, bool) {
-	res, ok := fpaov.values.([]*audit_common.ServiceData)
+func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*common.ServiceData, bool) {
+	res, ok := fpaov.values.([]*common.ServiceData)
 	return res, ok
 }
 func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsMethodArrayOfValues() ([]*ActivityLog_Method, bool) {
@@ -1443,6 +1506,10 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsMethodArrayOfValues()
 }
 func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsRequestMetadataArrayOfValues() ([]*ActivityLog_RequestMetadata, bool) {
 	res, ok := fpaov.values.([]*ActivityLog_RequestMetadata)
+	return res, ok
+}
+func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsRequestRoutingArrayOfValues() ([]*ActivityLog_RequestRouting, bool) {
+	res, ok := fpaov.values.([]*ActivityLog_RequestRouting)
 	return res, ok
 }
 func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*ActivityLog_Resource, bool) {
@@ -1493,16 +1560,16 @@ var _ ActivityLog_FieldPathArrayOfValues = (*ActivityLog_FieldSubPathArrayOfValu
 func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsAuthenticationPathArrayOfValues() (audit_common.Authentication_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.Authentication_FieldPathArrayOfValues)
+func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsAuthenticationPathArrayOfValues() (common.Authentication_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.Authentication_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsAuthorizationPathArrayOfValues() (audit_common.Authorization_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.Authorization_FieldPathArrayOfValues)
+func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsAuthorizationPathArrayOfValues() (common.Authorization_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.Authorization_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsServicePathArrayOfValues() (audit_common.ServiceData_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(audit_common.ServiceData_FieldPathArrayOfValues)
+func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsServicePathArrayOfValues() (common.ServiceData_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.ServiceData_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsMethodPathArrayOfValues() (ActivityLogMethod_FieldPathArrayOfValues, bool) {
@@ -1511,6 +1578,10 @@ func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsMethodPathArrayOfValues()
 }
 func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsRequestMetadataPathArrayOfValues() (ActivityLogRequestMetadata_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogRequestMetadata_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsRequestRoutingPathArrayOfValues() (ActivityLogRequestRouting_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogRequestRouting_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (ActivityLogResource_FieldPathArrayOfValues, bool) {
@@ -3308,6 +3379,428 @@ func (fpaov *ActivityLogRequestMetadata_FieldTerminalPathArrayOfValues) AsUserAg
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ActivityLogRequestRouting_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ActivityLogRequestRouting_FieldPathSelector
+	Get(source *ActivityLog_RequestRouting) []interface{}
+	GetSingle(source *ActivityLog_RequestRouting) (interface{}, bool)
+	ClearValue(item *ActivityLog_RequestRouting)
+
+	// Those methods build corresponding ActivityLogRequestRouting_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ActivityLogRequestRouting_FieldPathValue
+	WithIArrayOfValues(values interface{}) ActivityLogRequestRouting_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ActivityLogRequestRouting_FieldPathArrayItemValue
+}
+
+type ActivityLogRequestRouting_FieldPathSelector int32
+
+const (
+	ActivityLogRequestRouting_FieldPathSelectorViaRegion   ActivityLogRequestRouting_FieldPathSelector = 0
+	ActivityLogRequestRouting_FieldPathSelectorDestRegions ActivityLogRequestRouting_FieldPathSelector = 1
+)
+
+func (s ActivityLogRequestRouting_FieldPathSelector) String() string {
+	switch s {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		return "via_region"
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return "dest_regions"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", s))
+	}
+}
+
+func BuildActivityLogRequestRouting_FieldPath(fp gotenobject.RawFieldPath) (ActivityLogRequestRouting_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ActivityLog_RequestRouting")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "via_region", "viaRegion", "via-region":
+			return &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorViaRegion}, nil
+		case "dest_regions", "destRegions", "dest-regions":
+			return &ActivityLogRequestRouting_FieldTerminalPath{selector: ActivityLogRequestRouting_FieldPathSelectorDestRegions}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_RequestRouting", fp)
+}
+
+func ParseActivityLogRequestRouting_FieldPath(rawField string) (ActivityLogRequestRouting_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildActivityLogRequestRouting_FieldPath(fp)
+}
+
+func MustParseActivityLogRequestRouting_FieldPath(rawField string) ActivityLogRequestRouting_FieldPath {
+	fp, err := ParseActivityLogRequestRouting_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ActivityLogRequestRouting_FieldTerminalPath struct {
+	selector ActivityLogRequestRouting_FieldPathSelector
+}
+
+var _ ActivityLogRequestRouting_FieldPath = (*ActivityLogRequestRouting_FieldTerminalPath)(nil)
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) Selector() ActivityLogRequestRouting_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ActivityLog_RequestRouting
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) Get(source *ActivityLog_RequestRouting) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+			values = append(values, source.ViaRegion)
+		case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+			for _, value := range source.GetDestRegions() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ActivityLog_RequestRouting))
+}
+
+// GetSingle returns value pointed by specific field of from source ActivityLog_RequestRouting
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) GetSingle(source *ActivityLog_RequestRouting) (interface{}, bool) {
+	switch fp.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		return source.GetViaRegion(), source != nil
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		res := source.GetDestRegions()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+	}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ActivityLog_RequestRouting))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		return ""
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+	}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) ClearValue(item *ActivityLog_RequestRouting) {
+	if item != nil {
+		switch fp.selector {
+		case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+			item.ViaRegion = ""
+		case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+			item.DestRegions = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ActivityLog_RequestRouting))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ActivityLogRequestRouting_FieldPathSelectorViaRegion ||
+		fp.selector == ActivityLogRequestRouting_FieldPathSelectorDestRegions
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithIValue(value interface{}) ActivityLogRequestRouting_FieldPathValue {
+	switch fp.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		return &ActivityLogRequestRouting_FieldTerminalPathValue{ActivityLogRequestRouting_FieldTerminalPath: *fp, value: value.(string)}
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return &ActivityLogRequestRouting_FieldTerminalPathValue{ActivityLogRequestRouting_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+	}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithIArrayOfValues(values interface{}) ActivityLogRequestRouting_FieldPathArrayOfValues {
+	fpaov := &ActivityLogRequestRouting_FieldTerminalPathArrayOfValues{ActivityLogRequestRouting_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		return &ActivityLogRequestRouting_FieldTerminalPathArrayOfValues{ActivityLogRequestRouting_FieldTerminalPath: *fp, values: values.([]string)}
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return &ActivityLogRequestRouting_FieldTerminalPathArrayOfValues{ActivityLogRequestRouting_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithIArrayItemValue(value interface{}) ActivityLogRequestRouting_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return &ActivityLogRequestRouting_FieldTerminalPathArrayItemValue{ActivityLogRequestRouting_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fp.selector))
+	}
+}
+
+func (fp *ActivityLogRequestRouting_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ActivityLogRequestRouting_FieldPathValue allows storing values for RequestRouting fields according to their type
+type ActivityLogRequestRouting_FieldPathValue interface {
+	ActivityLogRequestRouting_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ActivityLog_RequestRouting)
+	CompareWith(*ActivityLog_RequestRouting) (cmp int, comparable bool)
+}
+
+func ParseActivityLogRequestRouting_FieldPathValue(pathStr, valueStr string) (ActivityLogRequestRouting_FieldPathValue, error) {
+	fp, err := ParseActivityLogRequestRouting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestRouting field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ActivityLogRequestRouting_FieldPathValue), nil
+}
+
+func MustParseActivityLogRequestRouting_FieldPathValue(pathStr, valueStr string) ActivityLogRequestRouting_FieldPathValue {
+	fpv, err := ParseActivityLogRequestRouting_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ActivityLogRequestRouting_FieldTerminalPathValue struct {
+	ActivityLogRequestRouting_FieldTerminalPath
+	value interface{}
+}
+
+var _ ActivityLogRequestRouting_FieldPathValue = (*ActivityLogRequestRouting_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'RequestRouting' as interface{}
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) AsViaRegionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) AsDestRegionsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object RequestRouting
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) SetTo(target **ActivityLog_RequestRouting) {
+	if *target == nil {
+		*target = new(ActivityLog_RequestRouting)
+	}
+	switch fpv.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		(*target).ViaRegion = fpv.value.(string)
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		(*target).DestRegions = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fpv.selector))
+	}
+}
+
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_RequestRouting)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ActivityLogRequestRouting_FieldTerminalPathValue' with the value under path in 'ActivityLog_RequestRouting'.
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) CompareWith(source *ActivityLog_RequestRouting) (int, bool) {
+	switch fpv.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetViaRegion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_RequestRouting: %d", fpv.selector))
+	}
+}
+
+func (fpv *ActivityLogRequestRouting_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ActivityLog_RequestRouting))
+}
+
+// ActivityLogRequestRouting_FieldPathArrayItemValue allows storing single item in Path-specific values for RequestRouting according to their type
+// Present only for array (repeated) types.
+type ActivityLogRequestRouting_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ActivityLogRequestRouting_FieldPath
+	ContainsValue(*ActivityLog_RequestRouting) bool
+}
+
+// ParseActivityLogRequestRouting_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseActivityLogRequestRouting_FieldPathArrayItemValue(pathStr, valueStr string) (ActivityLogRequestRouting_FieldPathArrayItemValue, error) {
+	fp, err := ParseActivityLogRequestRouting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestRouting field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ActivityLogRequestRouting_FieldPathArrayItemValue), nil
+}
+
+func MustParseActivityLogRequestRouting_FieldPathArrayItemValue(pathStr, valueStr string) ActivityLogRequestRouting_FieldPathArrayItemValue {
+	fpaiv, err := ParseActivityLogRequestRouting_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ActivityLogRequestRouting_FieldTerminalPathArrayItemValue struct {
+	ActivityLogRequestRouting_FieldTerminalPath
+	value interface{}
+}
+
+var _ ActivityLogRequestRouting_FieldPathArrayItemValue = (*ActivityLogRequestRouting_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ActivityLog_RequestRouting as interface{}
+func (fpaiv *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue) AsDestRegionsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue) GetSingle(source *ActivityLog_RequestRouting) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ActivityLog_RequestRouting))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'RequestRouting'
+func (fpaiv *ActivityLogRequestRouting_FieldTerminalPathArrayItemValue) ContainsValue(source *ActivityLog_RequestRouting) bool {
+	slice := fpaiv.ActivityLogRequestRouting_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ActivityLogRequestRouting_FieldPathArrayOfValues allows storing slice of values for RequestRouting fields according to their type
+type ActivityLogRequestRouting_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ActivityLogRequestRouting_FieldPath
+}
+
+func ParseActivityLogRequestRouting_FieldPathArrayOfValues(pathStr, valuesStr string) (ActivityLogRequestRouting_FieldPathArrayOfValues, error) {
+	fp, err := ParseActivityLogRequestRouting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing RequestRouting field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ActivityLogRequestRouting_FieldPathArrayOfValues), nil
+}
+
+func MustParseActivityLogRequestRouting_FieldPathArrayOfValues(pathStr, valuesStr string) ActivityLogRequestRouting_FieldPathArrayOfValues {
+	fpaov, err := ParseActivityLogRequestRouting_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ActivityLogRequestRouting_FieldTerminalPathArrayOfValues struct {
+	ActivityLogRequestRouting_FieldTerminalPath
+	values interface{}
+}
+
+var _ ActivityLogRequestRouting_FieldPathArrayOfValues = (*ActivityLogRequestRouting_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ActivityLogRequestRouting_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ActivityLogRequestRouting_FieldPathSelectorViaRegion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ActivityLogRequestRouting_FieldPathSelectorDestRegions:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ActivityLogRequestRouting_FieldTerminalPathArrayOfValues) AsViaRegionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ActivityLogRequestRouting_FieldTerminalPathArrayOfValues) AsDestRegionsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type ActivityLogResource_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() ActivityLogResource_FieldPathSelector
@@ -4057,9 +4550,9 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) GetSingleRaw(source 
 func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
-		return (*any.Any)(nil)
+		return (*anypb.Any)(nil)
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4095,9 +4588,9 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) SplitIntoTerminalIPa
 func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithIValue(value interface{}) ActivityLogEventClientMsgEvent_FieldPathValue {
 	switch fp.selector {
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4111,9 +4604,9 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithIArrayOfValues(v
 	fpaov := &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4174,12 +4667,12 @@ var _ ActivityLogEventClientMsgEvent_FieldPathValue = (*ActivityLogEventClientMs
 func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsDataValue() (*any.Any, bool) {
-	res, ok := fpv.value.(*any.Any)
+func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsDataValue() (*anypb.Any, bool) {
+	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
-func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -4190,9 +4683,9 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) SetTo(target *
 	}
 	switch fpv.selector {
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
-		(*target).Data = fpv.value.(*any.Any)
+		(*target).Data = fpv.value.(*anypb.Any)
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpv.selector))
 	}
@@ -4209,7 +4702,7 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) CompareWith(so
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
 		return 0, false
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -4336,22 +4829,22 @@ var _ ActivityLogEventClientMsgEvent_FieldPathArrayOfValues = (*ActivityLogEvent
 func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorData:
-		for _, v := range fpaov.values.([]*any.Any) {
+		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*any.Any, bool) {
-	res, ok := fpaov.values.([]*any.Any)
+func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*anypb.Any, bool) {
+	res, ok := fpaov.values.([]*anypb.Any)
 	return res, ok
 }
-func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -4494,9 +4987,9 @@ func (fp *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath) GetSingleRaw
 func (fp *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
-		return (*any.Any)(nil)
+		return (*anypb.Any)(nil)
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorRegionId:
 		return ""
 	default:
@@ -4537,9 +5030,9 @@ func (fp *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath) SplitIntoTer
 func (fp *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath) WithIValue(value interface{}) ActivityLogEventRegionalServerMsgEvent_FieldPathValue {
 	switch fp.selector {
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorRegionId:
 		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -4555,9 +5048,9 @@ func (fp *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath) WithIArrayOf
 	fpaov := &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorRegionId:
 		return &ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalServerMsgEvent_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -4620,12 +5113,12 @@ var _ ActivityLogEventRegionalServerMsgEvent_FieldPathValue = (*ActivityLogEvent
 func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) AsDataValue() (*any.Any, bool) {
-	res, ok := fpv.value.(*any.Any)
+func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) AsDataValue() (*anypb.Any, bool) {
+	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
-func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) AsRegionIdValue() (string, bool) {
@@ -4640,9 +5133,9 @@ func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) SetTo(
 	}
 	switch fpv.selector {
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
-		(*target).Data = fpv.value.(*any.Any)
+		(*target).Data = fpv.value.(*anypb.Any)
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorRegionId:
 		(*target).RegionId = fpv.value.(string)
 	default:
@@ -4661,7 +5154,7 @@ func (fpv *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathValue) Compar
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
 		return 0, false
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -4798,11 +5291,11 @@ var _ ActivityLogEventRegionalServerMsgEvent_FieldPathArrayOfValues = (*Activity
 func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorData:
-		for _, v := range fpaov.values.([]*any.Any) {
+		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case ActivityLogEventRegionalServerMsgEvent_FieldPathSelectorRegionId:
@@ -4812,12 +5305,12 @@ func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValu
 	}
 	return
 }
-func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*any.Any, bool) {
-	res, ok := fpaov.values.([]*any.Any)
+func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*anypb.Any, bool) {
+	res, ok := fpaov.values.([]*anypb.Any)
 	return res, ok
 }
-func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *ActivityLogEventRegionalServerMsgEvent_FieldTerminalPathArrayOfValues) AsRegionIdArrayOfValues() ([]string, bool) {
@@ -4844,9 +5337,8 @@ type ActivityLogEventServerMsgEvent_FieldPath interface {
 type ActivityLogEventServerMsgEvent_FieldPathSelector int32
 
 const (
-	ActivityLogEventServerMsgEvent_FieldPathSelectorData           ActivityLogEventServerMsgEvent_FieldPathSelector = 0
-	ActivityLogEventServerMsgEvent_FieldPathSelectorTime           ActivityLogEventServerMsgEvent_FieldPathSelector = 1
-	ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId ActivityLogEventServerMsgEvent_FieldPathSelector = 2
+	ActivityLogEventServerMsgEvent_FieldPathSelectorData ActivityLogEventServerMsgEvent_FieldPathSelector = 0
+	ActivityLogEventServerMsgEvent_FieldPathSelectorTime ActivityLogEventServerMsgEvent_FieldPathSelector = 1
 )
 
 func (s ActivityLogEventServerMsgEvent_FieldPathSelector) String() string {
@@ -4855,8 +5347,6 @@ func (s ActivityLogEventServerMsgEvent_FieldPathSelector) String() string {
 		return "data"
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		return "time"
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		return "routed_region_id"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", s))
 	}
@@ -4872,8 +5362,6 @@ func BuildActivityLogEventServerMsgEvent_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorData}, nil
 		case "time":
 			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime}, nil
-		case "routed_region_id", "routedRegionId", "routed-region-id":
-			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Event_ServerMsgEvent", fp)
@@ -4927,8 +5415,6 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) Get(source *Activity
 			if source.Time != nil {
 				values = append(values, source.Time)
 			}
-		case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-			values = append(values, source.RoutedRegionId)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 		}
@@ -4949,8 +5435,6 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) GetSingle(source *Ac
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		res := source.GetTime()
 		return res, res != nil
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		return source.GetRoutedRegionId(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -4964,11 +5448,9 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) GetSingleRaw(source 
 func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
-		return (*any.Any)(nil)
+		return (*anypb.Any)(nil)
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		return ""
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -4981,8 +5463,6 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) ClearValue(item *Act
 			item.Data = nil
 		case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 			item.Time = nil
-		case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-			item.RoutedRegionId = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 		}
@@ -4996,8 +5476,7 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ActivityLogEventServerMsgEvent_FieldPathSelectorData ||
-		fp.selector == ActivityLogEventServerMsgEvent_FieldPathSelectorTime ||
-		fp.selector == ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId
+		fp.selector == ActivityLogEventServerMsgEvent_FieldPathSelectorTime
 }
 
 func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -5007,11 +5486,9 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) SplitIntoTerminalIPa
 func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithIValue(value interface{}) ActivityLogEventServerMsgEvent_FieldPathValue {
 	switch fp.selector {
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(string)}
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5025,11 +5502,9 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithIArrayOfValues(v
 	fpaov := &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]string)}
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5090,16 +5565,12 @@ var _ ActivityLogEventServerMsgEvent_FieldPathValue = (*ActivityLogEventServerMs
 func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsDataValue() (*any.Any, bool) {
-	res, ok := fpv.value.(*any.Any)
+func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsDataValue() (*anypb.Any, bool) {
+	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
-func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
-	return res, ok
-}
-func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsRoutedRegionIdValue() (string, bool) {
-	res, ok := fpv.value.(string)
+func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -5110,11 +5581,9 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) SetTo(target *
 	}
 	switch fpv.selector {
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
-		(*target).Data = fpv.value.(*any.Any)
+		(*target).Data = fpv.value.(*anypb.Any)
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		(*target).RoutedRegionId = fpv.value.(string)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpv.selector))
 	}
@@ -5131,7 +5600,7 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) CompareWith(so
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
 		return 0, false
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -5145,16 +5614,6 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) CompareWith(so
 		if leftValue.AsTime().Equal(rightValue.AsTime()) {
 			return 0, true
 		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetRoutedRegionId()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -5268,30 +5727,22 @@ var _ ActivityLogEventServerMsgEvent_FieldPathArrayOfValues = (*ActivityLogEvent
 func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorData:
-		for _, v := range fpaov.values.([]*any.Any) {
+		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
-			values = append(values, v)
-		}
-	case ActivityLogEventServerMsgEvent_FieldPathSelectorRoutedRegionId:
-		for _, v := range fpaov.values.([]string) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*any.Any, bool) {
-	res, ok := fpaov.values.([]*any.Any)
+func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([]*anypb.Any, bool) {
+	res, ok := fpaov.values.([]*anypb.Any)
 	return res, ok
 }
-func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
-	return res, ok
-}
-func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsRoutedRegionIdArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
+func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -5445,7 +5896,7 @@ func (fp *ActivityLogEventRegionalExitEvent_FieldTerminalPath) GetDefault() inte
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorStatus:
 		return (*rpc.Status)(nil)
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorRegionId:
 		return ""
 	default:
@@ -5487,7 +5938,7 @@ func (fp *ActivityLogEventRegionalExitEvent_FieldTerminalPath) WithIValue(value 
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorStatus:
 		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathValue{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, value: value.(*rpc.Status)}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathValue{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathValue{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorRegionId:
 		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathValue{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -5505,7 +5956,7 @@ func (fp *ActivityLogEventRegionalExitEvent_FieldTerminalPath) WithIArrayOfValue
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorStatus:
 		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, values: values.([]*rpc.Status)}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorRegionId:
 		return &ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventRegionalExitEvent_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -5684,8 +6135,8 @@ func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) AsStatusVal
 	res, ok := fpv.value.(*rpc.Status)
 	return res, ok
 }
-func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) AsRegionIdValue() (string, bool) {
@@ -5702,7 +6153,7 @@ func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) SetTo(targe
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*rpc.Status)
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorRegionId:
 		(*target).RegionId = fpv.value.(string)
 	default:
@@ -5721,7 +6172,7 @@ func (fpv *ActivityLogEventRegionalExitEvent_FieldTerminalPathValue) CompareWith
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorStatus:
 		return 0, false
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -5932,7 +6383,7 @@ func (fpaov *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues) G
 			values = append(values, v)
 		}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	case ActivityLogEventRegionalExitEvent_FieldPathSelectorRegionId:
@@ -5946,8 +6397,8 @@ func (fpaov *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues) A
 	res, ok := fpaov.values.([]*rpc.Status)
 	return res, ok
 }
-func (fpaov *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 func (fpaov *ActivityLogEventRegionalExitEvent_FieldTerminalPathArrayOfValues) AsRegionIdArrayOfValues() ([]string, bool) {
@@ -6111,7 +6562,7 @@ func (fp *ActivityLogEventExitEvent_FieldTerminalPath) GetDefault() interface{} 
 	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
 		return (*rpc.Status)(nil)
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		return (*timestamp.Timestamp)(nil)
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ExitEvent: %d", fp.selector))
 	}
@@ -6148,7 +6599,7 @@ func (fp *ActivityLogEventExitEvent_FieldTerminalPath) WithIValue(value interfac
 	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
 		return &ActivityLogEventExitEvent_FieldTerminalPathValue{ActivityLogEventExitEvent_FieldTerminalPath: *fp, value: value.(*rpc.Status)}
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		return &ActivityLogEventExitEvent_FieldTerminalPathValue{ActivityLogEventExitEvent_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+		return &ActivityLogEventExitEvent_FieldTerminalPathValue{ActivityLogEventExitEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ExitEvent: %d", fp.selector))
 	}
@@ -6164,7 +6615,7 @@ func (fp *ActivityLogEventExitEvent_FieldTerminalPath) WithIArrayOfValues(values
 	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
 		return &ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventExitEvent_FieldTerminalPath: *fp, values: values.([]*rpc.Status)}
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		return &ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventExitEvent_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+		return &ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues{ActivityLogEventExitEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ExitEvent: %d", fp.selector))
 	}
@@ -6341,8 +6792,8 @@ func (fpv *ActivityLogEventExitEvent_FieldTerminalPathValue) AsStatusValue() (*r
 	res, ok := fpv.value.(*rpc.Status)
 	return res, ok
 }
-func (fpv *ActivityLogEventExitEvent_FieldTerminalPathValue) AsTimeValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
+func (fpv *ActivityLogEventExitEvent_FieldTerminalPathValue) AsTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -6355,7 +6806,7 @@ func (fpv *ActivityLogEventExitEvent_FieldTerminalPathValue) SetTo(target **Acti
 	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*rpc.Status)
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		(*target).Time = fpv.value.(*timestamp.Timestamp)
+		(*target).Time = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ExitEvent: %d", fpv.selector))
 	}
@@ -6372,7 +6823,7 @@ func (fpv *ActivityLogEventExitEvent_FieldTerminalPathValue) CompareWith(source 
 	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
 		return 0, false
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		leftValue := fpv.value.(*timestamp.Timestamp)
+		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetTime()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -6573,7 +7024,7 @@ func (fpaov *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues) GetRawVal
 			values = append(values, v)
 		}
 	case ActivityLogEventExitEvent_FieldPathSelectorTime:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
 	}
@@ -6583,8 +7034,8 @@ func (fpaov *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues) AsStatusA
 	res, ok := fpaov.values.([]*rpc.Status)
 	return res, ok
 }
-func (fpaov *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
+func (fpaov *ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -6745,11 +7196,11 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetSingleRaw(source p
 func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ActivityLogResourceDifference_FieldPathSelectorFields:
-		return (*field_mask.FieldMask)(nil)
+		return (*fieldmaskpb.FieldMask)(nil)
 	case ActivityLogResourceDifference_FieldPathSelectorBefore:
-		return (*any.Any)(nil)
+		return (*anypb.Any)(nil)
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
-		return (*any.Any)(nil)
+		return (*anypb.Any)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -6788,11 +7239,11 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) SplitIntoTerminalIPat
 func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIValue(value interface{}) ActivityLogResourceDifference_FieldPathValue {
 	switch fp.selector {
 	case ActivityLogResourceDifference_FieldPathSelectorFields:
-		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*field_mask.FieldMask)}
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
 	case ActivityLogResourceDifference_FieldPathSelectorBefore:
-		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
-		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -6806,11 +7257,11 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIArrayOfValues(va
 	fpaov := &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ActivityLogResourceDifference_FieldPathSelectorFields:
-		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*field_mask.FieldMask)}
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
 	case ActivityLogResourceDifference_FieldPathSelectorBefore:
-		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
-		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -6871,16 +7322,16 @@ var _ ActivityLogResourceDifference_FieldPathValue = (*ActivityLogResourceDiffer
 func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsFieldsValue() (*field_mask.FieldMask, bool) {
-	res, ok := fpv.value.(*field_mask.FieldMask)
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsFieldsValue() (*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
 	return res, ok
 }
-func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsBeforeValue() (*any.Any, bool) {
-	res, ok := fpv.value.(*any.Any)
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsBeforeValue() (*anypb.Any, bool) {
+	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
-func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsAfterValue() (*any.Any, bool) {
-	res, ok := fpv.value.(*any.Any)
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsAfterValue() (*anypb.Any, bool) {
+	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
 
@@ -6891,11 +7342,11 @@ func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) SetTo(target **
 	}
 	switch fpv.selector {
 	case ActivityLogResourceDifference_FieldPathSelectorFields:
-		(*target).Fields = fpv.value.(*field_mask.FieldMask)
+		(*target).Fields = fpv.value.(*fieldmaskpb.FieldMask)
 	case ActivityLogResourceDifference_FieldPathSelectorBefore:
-		(*target).Before = fpv.value.(*any.Any)
+		(*target).Before = fpv.value.(*anypb.Any)
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
-		(*target).After = fpv.value.(*any.Any)
+		(*target).After = fpv.value.(*anypb.Any)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpv.selector))
 	}
@@ -7024,29 +7475,29 @@ var _ ActivityLogResourceDifference_FieldPathArrayOfValues = (*ActivityLogResour
 func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ActivityLogResourceDifference_FieldPathSelectorFields:
-		for _, v := range fpaov.values.([]*field_mask.FieldMask) {
+		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
 			values = append(values, v)
 		}
 	case ActivityLogResourceDifference_FieldPathSelectorBefore:
-		for _, v := range fpaov.values.([]*any.Any) {
+		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
-		for _, v := range fpaov.values.([]*any.Any) {
+		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsFieldsArrayOfValues() ([]*field_mask.FieldMask, bool) {
-	res, ok := fpaov.values.([]*field_mask.FieldMask)
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsFieldsArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
 	return res, ok
 }
-func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsBeforeArrayOfValues() ([]*any.Any, bool) {
-	res, ok := fpaov.values.([]*any.Any)
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsBeforeArrayOfValues() ([]*anypb.Any, bool) {
+	res, ok := fpaov.values.([]*anypb.Any)
 	return res, ok
 }
-func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsAfterArrayOfValues() ([]*any.Any, bool) {
-	res, ok := fpaov.values.([]*any.Any)
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsAfterArrayOfValues() ([]*anypb.Any, bool) {
+	res, ok := fpaov.values.([]*anypb.Any)
 	return res, ok
 }

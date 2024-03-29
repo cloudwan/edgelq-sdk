@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor;monitored_resource_descriptor";
+option java_multiple_files = true;
+option java_outer_classname = "MonitoredResourceDescriptorProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// An object that describes the schema of a
+// [MonitoredResource][google.api.MonitoredResource] object using a type name
+// and a set of labels.  For example, the monitored resource descriptor for
+// Google Compute Engine VM instances has a type of
+// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
+// `"zone"` to identify particular VM instances.
+//
+// Different APIs can support different monitored resource types. APIs generally
+// provide a `list` method that returns the monitored resource descriptors used
+// by the API.
+message MonitoredResourceDescriptor {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/MonitoredResourceDescriptor"
+    pattern : "services/{service}/monitoredResourceDescriptors/"
+              "{monitored_resource_descriptor}"
+  };
+
+  // Name of MonitoredResourceDescriptor
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w./-]{2,128}
+  string name = 5;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 33;
+
+  // Required. The monitored resource type. For example, the type
+  // `"cloudsql_database"` represents databases in Google Cloud SQL.
+  // The maximum length of this value is 256 characters.
+  string type = 1;
+
+  // Optional. A concise name for the monitored resource type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners. For example,
+  // `"Google Cloud SQL Database"`.
+  string display_name = 2;
+
+  // Optional. A detailed description of the monitored resource type that might
+  // be used in documentation.
+  string description = 3;
+
+  // Required. A set of labels used to describe instances of this monitored
+  // resource type. For example, an individual Google Cloud SQL database is
+  // identified by values for the labels `"database_id"` and `"zone"`.
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations. Metric promoted label sets
+  // are combined with MonitoredResource promoted label sets and result in
+  // PromotedKeySet.
+  repeated LabelKeySet promoted_label_key_sets = 32;
+}

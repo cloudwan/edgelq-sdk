@@ -13,8 +13,6 @@ import (
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -25,10 +23,12 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	latlng "google.golang.org/genproto/googleapis/type/latlng"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -41,8 +41,6 @@ var (
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -53,10 +51,12 @@ var (
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
-	_ = &duration.Duration{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &latlng.LatLng{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -340,37 +340,37 @@ type filterCndBuilderMetadata struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadata) Eq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Eq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadata) Neq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Neq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadata) Gt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadata) Gte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadata) Lt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadata) Lte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadata) In(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) In(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadata) NotIn(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) NotIn(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
@@ -388,7 +388,7 @@ func (b *filterCndBuilderMetadata) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().WithValue(value),
@@ -447,41 +447,45 @@ func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycl
 	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) Services() *filterCndBuilderMetadataServices {
+	return &filterCndBuilderMetadataServices{builder: b.builder}
+}
+
 type filterCndBuilderMetadataCreateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
@@ -499,7 +503,7 @@ func (b *filterCndBuilderMetadataCreateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().CreateTime().WithValue(value),
@@ -510,37 +514,37 @@ type filterCndBuilderMetadataUpdateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
@@ -558,7 +562,7 @@ func (b *filterCndBuilderMetadataUpdateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
@@ -569,37 +573,37 @@ type filterCndBuilderMetadataDeleteTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
@@ -617,7 +621,7 @@ func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
@@ -1144,37 +1148,37 @@ type filterCndBuilderMetadataOwnerReferences struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
@@ -1192,7 +1196,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
@@ -1200,7 +1204,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.Owner
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1213,7 +1217,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_me
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1226,7 +1230,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().WithValue(value),
@@ -1251,10 +1255,6 @@ func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMeta
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
 	return &filterCndBuilderMetadataOwnerReferencesController{builder: b.builder}
-}
-
-func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion {
-	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
@@ -1556,65 +1556,6 @@ func (b *filterCndBuilderMetadataOwnerReferencesController) compare(op gotenfilt
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                    op,
-		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
-	})
-}
-
 type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
 	builder *FilterBuilder
 }
@@ -1801,37 +1742,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1849,7 +1790,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -2020,37 +1961,37 @@ type filterCndBuilderMetadataLifecycle struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) In(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
@@ -2068,7 +2009,7 @@ func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
@@ -2087,37 +2028,37 @@ type filterCndBuilderMetadataLifecycleState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) In(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
@@ -2135,7 +2076,7 @@ func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
@@ -2198,6 +2139,225 @@ func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServices) Eq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Neq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) In(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) NotIn(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) compare(op gotenfilter.CompareOperator, value *meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Services().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) OwningService() *filterCndBuilderMetadataServicesOwningService {
+	return &filterCndBuilderMetadataServicesOwningService{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataServices) AllowedServices() *filterCndBuilderMetadataServicesAllowedServices {
+	return &filterCndBuilderMetadataServicesAllowedServices{builder: b.builder}
+}
+
+type filterCndBuilderMetadataServicesOwningService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Services().OwningService().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServicesAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Value:     NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Services().AllowedServices().WithValue(value),
 	})
 }
 
@@ -2845,37 +3005,37 @@ type filterCndBuilderSpecTemplateMetadata struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Eq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Eq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Neq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Neq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Gt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Gt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Gte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Gte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Lt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Lt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) Lte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) Lte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) In(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) In(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) NotIn(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) NotIn(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().WithArrayOfValues(values),
 	})
@@ -2893,7 +3053,7 @@ func (b *filterCndBuilderSpecTemplateMetadata) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadata) compare(op gotenfilter.CompareOperator, value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadata) compare(op gotenfilter.CompareOperator, value *meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().WithValue(value),
@@ -2952,41 +3112,45 @@ func (b *filterCndBuilderSpecTemplateMetadata) Lifecycle() *filterCndBuilderSpec
 	return &filterCndBuilderSpecTemplateMetadataLifecycle{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateMetadata) Services() *filterCndBuilderSpecTemplateMetadataServices {
+	return &filterCndBuilderSpecTemplateMetadataServices{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateMetadataCreateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().CreateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().CreateTime().WithArrayOfValues(values),
 	})
@@ -3004,7 +3168,7 @@ func (b *filterCndBuilderSpecTemplateMetadataCreateTime) IsNan() *FilterBuilder 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().CreateTime().WithValue(value),
@@ -3015,37 +3179,37 @@ type filterCndBuilderSpecTemplateMetadataUpdateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
@@ -3063,7 +3227,7 @@ func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) IsNan() *FilterBuilder 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().UpdateTime().WithValue(value),
@@ -3074,37 +3238,37 @@ type filterCndBuilderSpecTemplateMetadataDeleteTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
@@ -3122,7 +3286,7 @@ func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) IsNan() *FilterBuilder 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithValue(value),
@@ -3649,37 +3813,37 @@ type filterCndBuilderSpecTemplateMetadataOwnerReferences struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Eq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Eq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Neq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Neq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Gt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Gt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Gte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Gte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Lt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Lt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Lte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Lte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) In(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) In(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) NotIn(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) NotIn(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
@@ -3697,7 +3861,7 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) IsNan() *FilterBui
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Contains(value *ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Contains(value *meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().FieldPath(),
@@ -3705,7 +3869,7 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Contains(value *nt
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAnyOf(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAnyOf(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3718,7 +3882,7 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAnyOf(valu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAll(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAll(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences()
 	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3731,7 +3895,7 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ContainsAll(values
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().WithValue(value),
@@ -3756,10 +3920,6 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Region() *filterCn
 
 func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Controller() *filterCndBuilderSpecTemplateMetadataOwnerReferencesController {
 	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesController{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) BlockOwnerDeletion() *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion {
-	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference {
@@ -4061,65 +4221,6 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesController) compare(
 	})
 }
 
-type filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                    op,
-		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
-	})
-}
-
 type filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference struct {
 	builder *FilterBuilder
 }
@@ -4306,37 +4407,37 @@ type filterCndBuilderSpecTemplateMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Eq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Neq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) In(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) NotIn(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -4354,7 +4455,7 @@ func (b *filterCndBuilderSpecTemplateMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) compare(op gotenfilter.CompareOperator, value *meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithValue(value),
@@ -4525,37 +4626,37 @@ type filterCndBuilderSpecTemplateMetadataLifecycle struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Eq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Neq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) In(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) NotIn(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
@@ -4573,7 +4674,7 @@ func (b *filterCndBuilderSpecTemplateMetadataLifecycle) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithValue(value),
@@ -4592,37 +4693,37 @@ type filterCndBuilderSpecTemplateMetadataLifecycleState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Eq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Neq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) In(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) NotIn(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
@@ -4640,7 +4741,7 @@ func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) IsNan() *FilterBuil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithValue(value),
@@ -4703,6 +4804,225 @@ func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) compare(op 
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Eq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Neq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Gt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Gte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Lt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) Lte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) In(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) NotIn(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) compare(op gotenfilter.CompareOperator, value *meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) OwningService() *filterCndBuilderSpecTemplateMetadataServicesOwningService {
+	return &filterCndBuilderSpecTemplateMetadataServicesOwningService{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServices) AllowedServices() *filterCndBuilderSpecTemplateMetadataServicesAllowedServices {
+	return &filterCndBuilderSpecTemplateMetadataServicesAllowedServices{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateMetadataServicesOwningService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesOwningService) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().OwningService().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataServicesAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().FieldPath(),
+		Value:     NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataServicesAllowedServices) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Services().AllowedServices().WithValue(value),
 	})
 }
 

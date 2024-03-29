@@ -13,17 +13,17 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
-	duration "github.com/golang/protobuf/ptypes/duration"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -36,17 +36,17 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &duration.Duration{}
+	_ = &common.LabelDescriptor{}
+	_ = &durationpb.Duration{}
+	_ = &meta.Meta{}
 )
 
 type AlertingCondition_FieldMask struct {
@@ -136,12 +136,12 @@ func (fieldMask *AlertingCondition_FieldMask) Subtract(other *AlertingCondition_
 	result := &AlertingCondition_FieldMask{}
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[AlertingCondition_FieldPathSelector]gotenobject.FieldMask{
-		AlertingCondition_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		AlertingCondition_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		AlertingCondition_FieldPathSelectorSpec:     &AlertingCondition_Spec_FieldMask{},
 		AlertingCondition_FieldPathSelectorState:    &AlertingCondition_State_FieldMask{},
 	}
 	mySubMasks := map[AlertingCondition_FieldPathSelector]gotenobject.FieldMask{
-		AlertingCondition_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
+		AlertingCondition_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		AlertingCondition_FieldPathSelectorSpec:     &AlertingCondition_Spec_FieldMask{},
 		AlertingCondition_FieldPathSelectorState:    &AlertingCondition_State_FieldMask{},
 	}
@@ -160,7 +160,7 @@ func (fieldMask *AlertingCondition_FieldMask) Subtract(other *AlertingCondition_
 				if tp, ok := path.(*AlertingCondition_FieldTerminalPath); ok {
 					switch tp.selector {
 					case AlertingCondition_FieldPathSelectorMetadata:
-						mySubMasks[AlertingCondition_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[AlertingCondition_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case AlertingCondition_FieldPathSelectorSpec:
 						mySubMasks[AlertingCondition_FieldPathSelectorSpec] = FullAlertingCondition_Spec_FieldMask()
 					case AlertingCondition_FieldPathSelectorState:
@@ -199,12 +199,12 @@ func (fieldMask *AlertingCondition_FieldMask) FilterInputFields() *AlertingCondi
 		switch path.Selector() {
 		case AlertingCondition_FieldPathSelectorMetadata:
 			if _, ok := path.(*AlertingCondition_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &AlertingCondition_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*AlertingCondition_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &AlertingCondition_FieldSubPath{selector: AlertingCondition_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -218,15 +218,15 @@ func (fieldMask *AlertingCondition_FieldMask) FilterInputFields() *AlertingCondi
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -248,7 +248,7 @@ func (fieldMask AlertingCondition_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *AlertingCondition_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -267,7 +267,7 @@ func (fieldMask AlertingCondition_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *AlertingCondition_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -335,7 +335,7 @@ func (fieldMask *AlertingCondition_FieldMask) Project(source *AlertingCondition)
 		return source
 	}
 	result := &AlertingCondition{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	specMask := &AlertingCondition_Spec_FieldMask{}
 	wholeSpecAccepted := false
@@ -365,7 +365,7 @@ func (fieldMask *AlertingCondition_FieldMask) Project(source *AlertingCondition)
 		case *AlertingCondition_FieldSubPath:
 			switch tp.selector {
 			case AlertingCondition_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case AlertingCondition_FieldPathSelectorSpec:
 				specMask.AppendPath(tp.subPath.(AlertingConditionSpec_FieldPath))
 			case AlertingCondition_FieldPathSelectorState:
@@ -539,15 +539,15 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) FilterInputFields() *Alerting
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -569,7 +569,7 @@ func (fieldMask AlertingCondition_Spec_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *AlertingCondition_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -588,7 +588,7 @@ func (fieldMask AlertingCondition_Spec_FieldMask) MarshalJSON() ([]byte, error) 
 }
 
 func (fieldMask *AlertingCondition_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -813,15 +813,15 @@ func (fieldMask *AlertingCondition_State_FieldMask) FilterInputFields() *Alertin
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_State_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_State_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_State_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_State_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -843,7 +843,7 @@ func (fieldMask AlertingCondition_State_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *AlertingCondition_State_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -862,7 +862,7 @@ func (fieldMask AlertingCondition_State_FieldMask) MarshalJSON() ([]byte, error)
 }
 
 func (fieldMask *AlertingCondition_State_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1103,15 +1103,15 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FilterInputFields(
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1133,7 +1133,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_FieldMask) Marshal() ([]byte, 
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1152,7 +1152,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_FieldMask) MarshalJSON() ([]by
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1389,15 +1389,15 @@ func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FilterInputFields() *
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1419,7 +1419,7 @@ func (fieldMask AlertingCondition_Spec_Trigger_FieldMask) Marshal() ([]byte, err
 }
 
 func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1438,7 +1438,7 @@ func (fieldMask AlertingCondition_Spec_Trigger_FieldMask) MarshalJSON() ([]byte,
 }
 
 func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1613,12 +1613,12 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Subtract(oth
 	result := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{}
 	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[AlertingConditionSpecTimeSeriesQuery_FieldPathSelector]gotenobject.FieldMask{
-		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &monitoring_common.TimeSeriesSelector_FieldMask{},
-		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &monitoring_common.Aggregation_FieldMask{},
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &common.TimeSeriesSelector_FieldMask{},
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 	mySubMasks := map[AlertingConditionSpecTimeSeriesQuery_FieldPathSelector]gotenobject.FieldMask{
-		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &monitoring_common.TimeSeriesSelector_FieldMask{},
-		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &monitoring_common.Aggregation_FieldMask{},
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &common.TimeSeriesSelector_FieldMask{},
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1635,9 +1635,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Subtract(oth
 				if tp, ok := path.(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath); ok {
 					switch tp.selector {
 					case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector] = monitoring_common.FullTimeSeriesSelector_FieldMask()
+						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector] = common.FullTimeSeriesSelector_FieldMask()
 					case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation] = monitoring_common.FullAggregation_FieldMask()
+						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation] = common.FullAggregation_FieldMask()
 					}
 				} else if tp, ok := path.(*AlertingConditionSpecTimeSeriesQuery_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1673,15 +1673,15 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) FilterInputF
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1703,7 +1703,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_Query_FieldMask) Marshal() ([]
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1722,7 +1722,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_Query_FieldMask) MarshalJSON()
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1790,9 +1790,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 		return source
 	}
 	result := &AlertingCondition_Spec_TimeSeries_Query{}
-	selectorMask := &monitoring_common.TimeSeriesSelector_FieldMask{}
+	selectorMask := &common.TimeSeriesSelector_FieldMask{}
 	wholeSelectorAccepted := false
-	aggregationMask := &monitoring_common.Aggregation_FieldMask{}
+	aggregationMask := &common.Aggregation_FieldMask{}
 	wholeAggregationAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -1809,9 +1809,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 		case *AlertingConditionSpecTimeSeriesQuery_FieldSubPath:
 			switch tp.selector {
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
-				selectorMask.AppendPath(tp.subPath.(monitoring_common.TimeSeriesSelector_FieldPath))
+				selectorMask.AppendPath(tp.subPath.(common.TimeSeriesSelector_FieldPath))
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
-				aggregationMask.AppendPath(tp.subPath.(monitoring_common.Aggregation_FieldPath))
+				aggregationMask.AppendPath(tp.subPath.(common.Aggregation_FieldPath))
 			}
 		}
 	}
@@ -1948,15 +1948,15 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) FilterIn
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -1978,7 +1978,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) Marshal()
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -1997,7 +1997,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) MarshalJS
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2204,15 +2204,15 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) F
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -2234,7 +2234,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) Ma
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -2253,7 +2253,7 @@ func (fieldMask AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) Ma
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}

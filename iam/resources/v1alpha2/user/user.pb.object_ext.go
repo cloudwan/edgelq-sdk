@@ -9,15 +9,15 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -26,15 +26,15 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &timestamp.Timestamp{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
 )
 
 func (o *User) GotenObjectExt() {}
@@ -134,7 +134,7 @@ func (o *User) Clone() *User {
 	for key, sourceValue := range o.Settings {
 		result.Settings[key] = sourceValue
 	}
-	result.RefreshedTime = proto.Clone(o.RefreshedTime).(*timestamp.Timestamp)
+	result.RefreshedTime = proto.Clone(o.RefreshedTime).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -158,7 +158,7 @@ func (o *User) Merge(source *User) {
 	o.FullName = source.GetFullName()
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -180,7 +180,7 @@ func (o *User) Merge(source *User) {
 	}
 	if source.GetRefreshedTime() != nil {
 		if o.RefreshedTime == nil {
-			o.RefreshedTime = new(timestamp.Timestamp)
+			o.RefreshedTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.RefreshedTime, source.GetRefreshedTime())
 	}

@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ntt.monitoring.v3;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info;recovery_store_sharding_info";
 option java_multiple_files = true;
@@ -33,7 +33,7 @@ message RecoveryStoreShardingInfo {
   ShardingSpec spec = 3;
 
   // metadata
-  ntt.types.Meta metadata = 4;
+  goten.types.Meta metadata = 4;
 
   // Validity period specifies for which period of time this sharding spec is
   // valid.

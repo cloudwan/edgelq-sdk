@@ -13,8 +13,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
-	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
+	gotenfilter "github.com/cloudwan/goten-sdk/runtime/resource/filter"
+	"github.com/cloudwan/goten-sdk/types/watch_type"
 
 	role_binding_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role_binding"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
@@ -31,6 +32,7 @@ var (
 	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
 	_ = new(gotenresource.ListQuery)
+	_ = gotenfilter.Eq
 )
 
 type apiRoleBindingAccess struct {
@@ -42,8 +44,11 @@ func NewApiRoleBindingAccess(client role_binding_client.RoleBindingServiceClient
 }
 
 func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_binding.GetQuery) (*role_binding.RoleBinding, error) {
+	if !query.Reference.IsFullyQualified() {
+		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &role_binding_client.GetRoleBindingRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	res, err := a.client.GetRoleBinding(ctx, request)
@@ -56,8 +61,15 @@ func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_b
 
 func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []*role_binding.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	asNames := make([]*role_binding.Name, 0, len(refs))
+	for _, ref := range refs {
+		if !ref.IsFullyQualified() {
+			return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+		}
+		asNames = append(asNames, &ref.Name)
+	}
 	request := &role_binding_client.BatchGetRoleBindingsRequest{
-		Names: refs,
+		Names: asNames,
 	}
 	fieldMask := batchGetOpts.GetFieldMask(role_binding.GetDescriptor())
 	if fieldMask != nil {
@@ -94,6 +106,9 @@ func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *rol
 		request.OrderBy = query.Pager.OrderBy
 		request.PageToken = query.Pager.Cursor
 	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
 	resp, err := a.client.ListRoleBindings(ctx, request)
 	if err != nil {
 		return nil, err
@@ -108,8 +123,11 @@ func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *rol
 }
 
 func (a *apiRoleBindingAccess) WatchRoleBinding(ctx context.Context, query *role_binding.GetQuery, observerCb func(*role_binding.RoleBindingChange) error) error {
+	if !query.Reference.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
+	}
 	request := &role_binding_client.WatchRoleBindingRequest{
-		Name:      query.Reference,
+		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
 	changesStream, initErr := a.client.WatchRoleBinding(ctx, request)
@@ -140,6 +158,9 @@ func (a *apiRoleBindingAccess) WatchRoleBindings(ctx context.Context, query *rol
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
 	changesStream, initErr := a.client.WatchRoleBindings(ctx, request)
 	if initErr != nil {
@@ -181,7 +202,8 @@ func (a *apiRoleBindingAccess) SaveRoleBinding(ctx context.Context, res *role_bi
 			}
 		}
 	}
-
+	var resp *role_binding.RoleBinding
+	var err error
 	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &role_binding_client.UpdateRoleBindingRequest{
 			RoleBinding: res,
@@ -195,29 +217,76 @@ func (a *apiRoleBindingAccess) SaveRoleBinding(ctx context.Context, res *role_bi
 				FieldMask:        mask.(*role_binding.RoleBinding_FieldMask),
 			}
 		}
-		_, err := a.client.UpdateRoleBinding(ctx, updateRequest)
+		resp, err = a.client.UpdateRoleBinding(ctx, updateRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	} else {
 		createRequest := &role_binding_client.CreateRoleBindingRequest{
 			RoleBinding: res,
 		}
-		_, err := a.client.CreateRoleBinding(ctx, createRequest)
+		resp, err = a.client.CreateRoleBinding(ctx, createRequest)
 		if err != nil {
 			return err
 		}
-		return nil
 	}
+	// Ensure object is updated - but in most shallow way possible
+	res.MakeDiffFieldMask(resp).Set(res, resp)
+	return nil
 }
 
 func (a *apiRoleBindingAccess) DeleteRoleBinding(ctx context.Context, ref *role_binding.Reference, opts ...gotenresource.DeleteOption) error {
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
 	request := &role_binding_client.DeleteRoleBindingRequest{
-		Name: ref,
+		Name: &ref.Name,
 	}
 	_, err := a.client.DeleteRoleBinding(ctx, request)
 	return err
+}
+func getParentAndFilter(fullFilter *role_binding.Filter) (*role_binding.Filter, *role_binding.ParentName) {
+	var withParentExtraction func(cnd role_binding.FilterCondition) role_binding.FilterCondition
+	var resultParent *role_binding.ParentName
+	var resultFilter *role_binding.Filter
+	withParentExtraction = func(cnd role_binding.FilterCondition) role_binding.FilterCondition {
+		switch tCnd := cnd.(type) {
+		case *role_binding.FilterConditionComposite:
+			if tCnd.GetOperator() == gotenfilter.AND {
+				withoutParentCnds := make([]role_binding.FilterCondition, 0)
+				for _, subCnd := range tCnd.Conditions {
+					if subCndNoParent := withParentExtraction(subCnd); subCndNoParent != nil {
+						withoutParentCnds = append(withoutParentCnds, subCndNoParent)
+					}
+				}
+				if len(withoutParentCnds) == 0 {
+					return nil
+				}
+				return role_binding.AndFilterConditions(withoutParentCnds...)
+			} else {
+				return tCnd
+			}
+		case *role_binding.FilterConditionCompare:
+			if tCnd.GetOperator() == gotenfilter.Eq && tCnd.GetRawFieldPath().String() == "name" {
+				nameValue := tCnd.GetRawValue().(*role_binding.Name)
+				if nameValue != nil && nameValue.ParentName.IsSpecified() {
+					resultParent = &nameValue.ParentName
+					if nameValue.IsFullyQualified() {
+						return tCnd
+					}
+					return nil
+				}
+			}
+			return tCnd
+		default:
+			return tCnd
+		}
+	}
+	cndWithoutParent := withParentExtraction(fullFilter.GetCondition())
+	if cndWithoutParent != nil {
+		resultFilter = &role_binding.Filter{FilterCondition: cndWithoutParent}
+	}
+	return resultFilter, resultParent
 }
 
 func init() {

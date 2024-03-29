@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware;device_hardware";
+option java_multiple_files = true;
+option java_outer_classname = "DeviceHardwareProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// DeviceHardware Resource
+message DeviceHardware {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/DeviceHardware"
+    pattern : "projects/{project}/regions/{region}/deviceHardwares/"
+              "{device_hardware}"
+  };
+
+  // Name of DeviceHardware
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  string display_name = 3;
+
+  string serial_number = 4;
+
+  string manufacturer = 5;
+
+  // Should be in the format "productname (sku)"
+  string product_name = 6;
+
+  repeated string mac_address = 7;
+
+  string sim_iccid = 8;
+
+  string imei = 9;
+
+  string associated_provisioning_policy_name = 10;
+
+  string associated_device = 11;
+
+  Status status = 12;
+
+  message Status {
+    PROVISIONING_STATE provisioning_state = 1;
+
+    enum PROVISIONING_STATE {
+      // Hardware was deregistered, so device state cannot be tracked
+      UNKNOWN = 0;
+
+      // Device has not tried to provision or provisioning could have failed
+      NOT_PROVISIONED = 1;
+
+      // Device passed attestation and service account is created
+      // Could be either provisioning policy scope for device scope account
+      PROVISIONED = 2;
+
+      // For device scope onboarding, the device was removed
+      // For provisioning policy based onboarding, the provisioning policy was
+      // removed
+      REVOKED = 3;
+    }
+  }
+}

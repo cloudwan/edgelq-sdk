@@ -12,7 +12,7 @@ import (
 import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -24,7 +24,7 @@ var (
 var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 func (c *PlanAssignmentRequestChange) IsAdd() bool {

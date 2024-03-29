@@ -87,7 +87,7 @@ func (d *MonitoringDescriptor) GetVersion() string {
 
 func (d *MonitoringDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v4"
 }
 
 func (d *MonitoringDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

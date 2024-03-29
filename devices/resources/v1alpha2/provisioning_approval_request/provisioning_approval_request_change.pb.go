@@ -18,7 +18,7 @@ import (
 // proto imports
 import (
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &provisioning_policy.ProvisioningPolicy{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 const (

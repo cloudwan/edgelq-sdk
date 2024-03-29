@@ -13,17 +13,17 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	preflect "google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -36,17 +36,17 @@ var (
 	_ = status.Status{}
 	_ = new(proto.Message)
 	_ = new(preflect.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.PCR{}
 	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type Organization_FieldMask struct {
@@ -141,12 +141,12 @@ func (fieldMask *Organization_FieldMask) Subtract(other *Organization_FieldMask)
 	result := &Organization_FieldMask{}
 	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[Organization_FieldPathSelector]gotenobject.FieldMask{
-		Organization_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Organization_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Organization_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 		Organization_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
 	mySubMasks := map[Organization_FieldPathSelector]gotenobject.FieldMask{
-		Organization_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
+		Organization_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Organization_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 		Organization_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
@@ -165,7 +165,7 @@ func (fieldMask *Organization_FieldMask) Subtract(other *Organization_FieldMask)
 				if tp, ok := path.(*Organization_FieldTerminalPath); ok {
 					switch tp.selector {
 					case Organization_FieldPathSelectorMetadata:
-						mySubMasks[Organization_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
+						mySubMasks[Organization_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Organization_FieldPathSelectorMultiRegionPolicy:
 						mySubMasks[Organization_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
 					case Organization_FieldPathSelectorServiceTiers:
@@ -204,12 +204,12 @@ func (fieldMask *Organization_FieldMask) FilterInputFields() *Organization_Field
 		switch path.Selector() {
 		case Organization_FieldPathSelectorMetadata:
 			if _, ok := path.(*Organization_FieldTerminalPath); ok {
-				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
+				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Organization_FieldSubPath{selector: path.Selector(), subPath: subpath})
 				}
 			} else if sub, ok := path.(*Organization_FieldSubPath); ok {
-				selectedMask := &ntt_meta.Meta_FieldMask{
-					Paths: []ntt_meta.Meta_FieldPath{sub.subPath.(ntt_meta.Meta_FieldPath)},
+				selectedMask := &meta.Meta_FieldMask{
+					Paths: []meta.Meta_FieldPath{sub.subPath.(meta.Meta_FieldPath)},
 				}
 				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
 					result.Paths = append(result.Paths, &Organization_FieldSubPath{selector: Organization_FieldPathSelectorMetadata, subPath: allowedPath})
@@ -223,15 +223,15 @@ func (fieldMask *Organization_FieldMask) FilterInputFields() *Organization_Field
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Organization_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+func (fieldMask *Organization_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
 	}
 	return protoFieldMask
 }
 
-func (fieldMask *Organization_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *Organization_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
@@ -253,7 +253,7 @@ func (fieldMask Organization_FieldMask) Marshal() ([]byte, error) {
 }
 
 func (fieldMask *Organization_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -272,7 +272,7 @@ func (fieldMask Organization_FieldMask) MarshalJSON() ([]byte, error) {
 }
 
 func (fieldMask *Organization_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
 	}
@@ -340,7 +340,7 @@ func (fieldMask *Organization_FieldMask) Project(source *Organization) *Organiza
 		return source
 	}
 	result := &Organization{}
-	metadataMask := &ntt_meta.Meta_FieldMask{}
+	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
@@ -383,7 +383,7 @@ func (fieldMask *Organization_FieldMask) Project(source *Organization) *Organiza
 		case *Organization_FieldSubPath:
 			switch tp.selector {
 			case Organization_FieldPathSelectorMetadata:
-				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
+				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Organization_FieldPathSelectorMultiRegionPolicy:
 				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
 			case Organization_FieldPathSelectorServiceTiers:

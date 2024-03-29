@@ -9,17 +9,17 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
-	duration "github.com/golang/protobuf/ptypes/duration"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -28,17 +28,17 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &alerting_policy.AlertingPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &duration.Duration{}
+	_ = &common.LabelDescriptor{}
+	_ = &durationpb.Duration{}
+	_ = &meta.Meta{}
 )
 
 func (o *AlertingCondition) GotenObjectExt() {}
@@ -148,7 +148,7 @@ func (o *AlertingCondition) Merge(source *AlertingCondition) {
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
-			o.Metadata = new(ntt_meta.Meta)
+			o.Metadata = new(meta.Meta)
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
@@ -368,7 +368,7 @@ func (o *AlertingCondition_Spec_TimeSeries) Clone() *AlertingCondition_Spec_Time
 	result.Query = o.Query.Clone()
 	result.Threshold = o.Threshold.Clone()
 	result.CombineThreshold = o.CombineThreshold.Clone()
-	result.Duration = proto.Clone(o.Duration).(*duration.Duration)
+	result.Duration = proto.Clone(o.Duration).(*durationpb.Duration)
 	return result
 }
 
@@ -397,7 +397,7 @@ func (o *AlertingCondition_Spec_TimeSeries) Merge(source *AlertingCondition_Spec
 	}
 	if source.GetDuration() != nil {
 		if o.Duration == nil {
-			o.Duration = new(duration.Duration)
+			o.Duration = new(durationpb.Duration)
 		}
 		proto.Merge(o.Duration, source.GetDuration())
 	}
@@ -520,13 +520,13 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) CloneRaw() gotenobject.GotenOb
 func (o *AlertingCondition_Spec_TimeSeries_Query) Merge(source *AlertingCondition_Spec_TimeSeries_Query) {
 	if source.GetSelector() != nil {
 		if o.Selector == nil {
-			o.Selector = new(monitoring_common.TimeSeriesSelector)
+			o.Selector = new(common.TimeSeriesSelector)
 		}
 		o.Selector.Merge(source.GetSelector())
 	}
 	if source.GetAggregation() != nil {
 		if o.Aggregation == nil {
-			o.Aggregation = new(monitoring_common.Aggregation)
+			o.Aggregation = new(common.Aggregation)
 		}
 		o.Aggregation.Merge(source.GetAggregation())
 	}

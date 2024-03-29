@@ -18,7 +18,7 @@ import (
 // proto imports
 import (
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &service_account.ServiceAccount{}
-	_ = &field_mask.FieldMask{}
+	_ = &fieldmaskpb.FieldMask{}
 )
 
 const (

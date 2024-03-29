@@ -12,13 +12,13 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
+	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/common"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -30,13 +30,13 @@ var (
 // make sure we're using proto imports
 var (
 	_ = api.LaunchStage(0)
-	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &monitoring_common.LabelDescriptor{}
+	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
-	_ = &duration.Duration{}
-	_ = &timestamp.Timestamp{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type FilterBuilderOrCondition interface {
@@ -242,37 +242,37 @@ type filterCndBuilderMetadata struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadata) Eq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Eq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadata) Neq(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Neq(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadata) Gt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadata) Gte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Gte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadata) Lt(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lt(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadata) Lte(value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) Lte(value *meta.Meta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadata) In(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) In(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadata) NotIn(values []*ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) NotIn(values []*meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().WithArrayOfValues(values),
 	})
@@ -290,7 +290,7 @@ func (b *filterCndBuilderMetadata) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *ntt_meta.Meta) *FilterBuilder {
+func (b *filterCndBuilderMetadata) compare(op gotenfilter.CompareOperator, value *meta.Meta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().WithValue(value),
@@ -349,41 +349,45 @@ func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycl
 	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) Services() *filterCndBuilderMetadataServices {
+	return &filterCndBuilderMetadataServices{builder: b.builder}
+}
+
 type filterCndBuilderMetadataCreateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().CreateTime().WithArrayOfValues(values),
 	})
@@ -401,7 +405,7 @@ func (b *filterCndBuilderMetadataCreateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataCreateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().CreateTime().WithValue(value),
@@ -412,37 +416,37 @@ type filterCndBuilderMetadataUpdateTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().UpdateTime().WithArrayOfValues(values),
 	})
@@ -460,7 +464,7 @@ func (b *filterCndBuilderMetadataUpdateTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
@@ -471,37 +475,37 @@ type filterCndBuilderMetadataDeleteTime struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
 	})
@@ -519,7 +523,7 @@ func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
@@ -1046,37 +1050,37 @@ type filterCndBuilderMetadataOwnerReferences struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Eq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Neq(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Gte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lt(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Lte(value []*meta.OwnerReference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) In(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) NotIn(values [][]*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().WithArrayOfValues(values),
 	})
@@ -1094,7 +1098,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
@@ -1102,7 +1106,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) Contains(value *ntt_meta.Owner
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1115,7 +1119,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAnyOf(values []*ntt_me
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*meta.OwnerReference) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -1128,7 +1132,7 @@ func (b *filterCndBuilderMetadataOwnerReferences) ContainsAll(values []*ntt_meta
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*ntt_meta.OwnerReference) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.CompareOperator, value []*meta.OwnerReference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().WithValue(value),
@@ -1153,10 +1157,6 @@ func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMeta
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
 	return &filterCndBuilderMetadataOwnerReferencesController{builder: b.builder}
-}
-
-func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion {
-	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
@@ -1458,65 +1458,6 @@ func (b *filterCndBuilderMetadataOwnerReferencesController) compare(op gotenfilt
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                        op,
-		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
-	})
-}
-
 type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
 	builder *FilterBuilder
 }
@@ -1703,37 +1644,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1751,7 +1692,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -1922,37 +1863,37 @@ type filterCndBuilderMetadataLifecycle struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *meta.Lifecycle) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) In(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
 	})
@@ -1970,7 +1911,7 @@ func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *meta.Lifecycle) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
@@ -1989,37 +1930,37 @@ type filterCndBuilderMetadataLifecycleState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value meta.Lifecycle_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) In(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
 	})
@@ -2037,7 +1978,7 @@ func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value meta.Lifecycle_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
@@ -2100,6 +2041,225 @@ func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServices) Eq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Neq(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Gte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lt(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServices) Lte(value *meta.ServicesInfo) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServices) In(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) NotIn(values []*meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) compare(op gotenfilter.CompareOperator, value *meta.ServicesInfo) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Services().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServices) OwningService() *filterCndBuilderMetadataServicesOwningService {
+	return &filterCndBuilderMetadataServicesOwningService{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataServices) AllowedServices() *filterCndBuilderMetadataServicesAllowedServices {
+	return &filterCndBuilderMetadataServicesAllowedServices{builder: b.builder}
+}
+
+type filterCndBuilderMetadataServicesOwningService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().OwningService().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().OwningService().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesOwningService) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Services().OwningService().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataServicesAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Metadata().Services().AllowedServices().WithValue(value),
 	})
 }
 
@@ -2318,37 +2478,37 @@ type filterCndBuilderLabels struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderLabels) Eq(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Eq(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderLabels) Neq(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Neq(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderLabels) Gt(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Gt(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderLabels) Gte(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Gte(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderLabels) Lt(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Lt(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderLabels) Lte(value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Lte(value []*common.LabelDescriptor) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderLabels) In(values [][]*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) In(values [][]*common.LabelDescriptor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Labels().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderLabels) NotIn(values [][]*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) NotIn(values [][]*common.LabelDescriptor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Labels().WithArrayOfValues(values),
 	})
@@ -2366,7 +2526,7 @@ func (b *filterCndBuilderLabels) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderLabels) Contains(value *monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) Contains(value *common.LabelDescriptor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewMetricDescriptorFieldPathBuilder().Labels().FieldPath(),
@@ -2374,7 +2534,7 @@ func (b *filterCndBuilderLabels) Contains(value *monitoring_common.LabelDescript
 	})
 }
 
-func (b *filterCndBuilderLabels) ContainsAnyOf(values []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) ContainsAnyOf(values []*common.LabelDescriptor) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().Labels()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2387,7 +2547,7 @@ func (b *filterCndBuilderLabels) ContainsAnyOf(values []*monitoring_common.Label
 	})
 }
 
-func (b *filterCndBuilderLabels) ContainsAll(values []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) ContainsAll(values []*common.LabelDescriptor) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().Labels()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2400,7 +2560,7 @@ func (b *filterCndBuilderLabels) ContainsAll(values []*monitoring_common.LabelDe
 	})
 }
 
-func (b *filterCndBuilderLabels) compare(op gotenfilter.CompareOperator, value []*monitoring_common.LabelDescriptor) *FilterBuilder {
+func (b *filterCndBuilderLabels) compare(op gotenfilter.CompareOperator, value []*common.LabelDescriptor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Labels().WithValue(value),
@@ -2490,37 +2650,37 @@ type filterCndBuilderLabelsValueType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderLabelsValueType) Eq(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Eq(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) Neq(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Neq(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) Gt(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Gt(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) Gte(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Gte(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) Lt(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Lt(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) Lte(value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) Lte(value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderLabelsValueType) In(values []monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) In(values []common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Labels().ValueType().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderLabelsValueType) NotIn(values []monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) NotIn(values []common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Labels().ValueType().WithArrayOfValues(values),
 	})
@@ -2538,7 +2698,7 @@ func (b *filterCndBuilderLabelsValueType) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderLabelsValueType) compare(op gotenfilter.CompareOperator, value monitoring_common.LabelDescriptor_ValueType) *FilterBuilder {
+func (b *filterCndBuilderLabelsValueType) compare(op gotenfilter.CompareOperator, value common.LabelDescriptor_ValueType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Labels().ValueType().WithValue(value),
@@ -3143,37 +3303,37 @@ type filterCndBuilderDistributionBucketOptions struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Eq(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Eq(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Neq(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Neq(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Gt(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Gt(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Gte(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Gte(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Lt(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Lt(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) Lte(value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) Lte(value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) In(values []*monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) In(values []*common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) NotIn(values []*monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) NotIn(values []*common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().WithArrayOfValues(values),
 	})
@@ -3191,7 +3351,7 @@ func (b *filterCndBuilderDistributionBucketOptions) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptions) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptions) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().WithValue(value),
@@ -3218,37 +3378,37 @@ type filterCndBuilderDistributionBucketOptionsLinearBuckets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Eq(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Neq(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Gt(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Gte(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Lt(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) Lte(value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) In(values []*common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().LinearBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) NotIn(values []*common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().LinearBuckets().WithArrayOfValues(values),
 	})
@@ -3266,7 +3426,7 @@ func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) IsNan() *Filter
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Linear) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsLinearBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Linear) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().LinearBuckets().WithValue(value),
@@ -3466,37 +3626,37 @@ type filterCndBuilderDistributionBucketOptionsExponentialBuckets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Eq(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Neq(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Gt(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Gte(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Lt(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) Lte(value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) In(values []*common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExponentialBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) NotIn(values []*common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExponentialBuckets().WithArrayOfValues(values),
 	})
@@ -3514,7 +3674,7 @@ func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) IsNan() *F
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Exponential) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExponentialBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Exponential) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExponentialBuckets().WithValue(value),
@@ -3714,37 +3874,37 @@ type filterCndBuilderDistributionBucketOptionsExplicitBuckets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Eq(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Neq(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Gt(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Gte(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Lt(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) Lte(value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) In(values []*common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExplicitBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) NotIn(values []*common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExplicitBuckets().WithArrayOfValues(values),
 	})
@@ -3762,7 +3922,7 @@ func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) IsNan() *Filt
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Explicit) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsExplicitBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Explicit) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().ExplicitBuckets().WithValue(value),
@@ -3870,37 +4030,37 @@ type filterCndBuilderDistributionBucketOptionsDynamicBuckets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Eq(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Eq(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Neq(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Neq(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Gt(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Gt(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Gte(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Gte(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Lt(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Lt(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Lte(value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) Lte(value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) In(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) In(values []*common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().DynamicBuckets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) NotIn(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) NotIn(values []*common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().DynamicBuckets().WithArrayOfValues(values),
 	})
@@ -3918,7 +4078,7 @@ func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) IsNan() *Filte
 	})
 }
 
-func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) compare(op gotenfilter.CompareOperator, value *monitoring_common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
+func (b *filterCndBuilderDistributionBucketOptionsDynamicBuckets) compare(op gotenfilter.CompareOperator, value *common.Distribution_BucketOptions_Dynamic) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().DistributionBucketOptions().DynamicBuckets().WithValue(value),
@@ -4089,37 +4249,37 @@ type filterCndBuilderPromotedLabelKeySets struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Eq(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Eq(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Neq(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Neq(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Gt(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Gt(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Gte(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Gte(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Lt(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Lt(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Lte(value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Lte(value []*common.LabelKeySet) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) In(values [][]*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) In(values [][]*common.LabelKeySet) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) NotIn(values [][]*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) NotIn(values [][]*common.LabelKeySet) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WithArrayOfValues(values),
 	})
@@ -4137,7 +4297,7 @@ func (b *filterCndBuilderPromotedLabelKeySets) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) Contains(value *monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) Contains(value *common.LabelKeySet) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().FieldPath(),
@@ -4145,7 +4305,7 @@ func (b *filterCndBuilderPromotedLabelKeySets) Contains(value *monitoring_common
 	})
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) ContainsAnyOf(values []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) ContainsAnyOf(values []*common.LabelKeySet) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4158,7 +4318,7 @@ func (b *filterCndBuilderPromotedLabelKeySets) ContainsAnyOf(values []*monitorin
 	})
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) ContainsAll(values []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) ContainsAll(values []*common.LabelKeySet) *FilterBuilder {
 	pathSelector := NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets()
 	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -4171,7 +4331,7 @@ func (b *filterCndBuilderPromotedLabelKeySets) ContainsAll(values []*monitoring_
 	})
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) compare(op gotenfilter.CompareOperator, value []*monitoring_common.LabelKeySet) *FilterBuilder {
+func (b *filterCndBuilderPromotedLabelKeySets) compare(op gotenfilter.CompareOperator, value []*common.LabelKeySet) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WithValue(value),

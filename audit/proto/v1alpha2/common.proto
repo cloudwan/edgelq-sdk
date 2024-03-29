@@ -5,7 +5,7 @@ package ntt.audit.v1alpha2;
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2;audit_common";
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common";
 option java_multiple_files = true;
 option java_outer_classname = "CommonProto";
 option java_package = "com.ntt.audit.pb.v1alpha2";
@@ -33,7 +33,7 @@ message ServiceData {
   // Fully qualified service name executing a request
   string name = 1;
 
-  // Region where request is coming from.
+  // Region of the service handling this request.
   string region_id = 2;
 }
 

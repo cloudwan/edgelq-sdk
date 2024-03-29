@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ntt.devices.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy;provisioning_policy";
 option java_multiple_files = true;
@@ -34,7 +34,7 @@ message ProvisioningPolicy {
 
   Status status = 4;
 
-  ntt.types.Meta metadata = 5;
+  goten.types.Meta metadata = 5;
 
   message Spec {
     // Provisioning mode.
@@ -73,7 +73,7 @@ message ProvisioningPolicy {
         [ (google.api.resource_reference) = {type : "Condition"} ];
 
     message Template {
-      ntt.types.Meta metadata = 1;
+      goten.types.Meta metadata = 1;
 
       // service_account will be ignored.
       Device.Spec spec = 2;

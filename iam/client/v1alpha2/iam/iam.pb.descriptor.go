@@ -102,7 +102,7 @@ func (d *IAMDescriptor) GetVersion() string {
 
 func (d *IAMDescriptor) GetNextVersion() string {
 
-	return ""
+	return "v1"
 }
 
 func (d *IAMDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {

@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ntt.devices.v1alpha2;
 
-import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image;customized_image";
 option java_multiple_files = true;
@@ -27,7 +27,7 @@ message CustomizedImage {
   string name = 1;
 
   // Metadata of CustomizedImage
-  ntt.types.Meta metadata = 2;
+  goten.types.Meta metadata = 2;
 
   Spec spec = 3;
 

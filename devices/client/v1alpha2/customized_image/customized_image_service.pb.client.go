@@ -14,7 +14,7 @@ import (
 // proto imports
 import (
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/customized_image"
-	empty "github.com/golang/protobuf/ptypes/empty"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,7 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &customized_image.CustomizedImage{}
-	_ = &empty.Empty{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -56,7 +56,7 @@ type CustomizedImageServiceClient interface {
 	WatchCustomizedImages(ctx context.Context, in *WatchCustomizedImagesRequest, opts ...grpc.CallOption) (WatchCustomizedImagesClientStream, error)
 	CreateCustomizedImage(ctx context.Context, in *CreateCustomizedImageRequest, opts ...grpc.CallOption) (*customized_image.CustomizedImage, error)
 	UpdateCustomizedImage(ctx context.Context, in *UpdateCustomizedImageRequest, opts ...grpc.CallOption) (*customized_image.CustomizedImage, error)
-	DeleteCustomizedImage(ctx context.Context, in *DeleteCustomizedImageRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteCustomizedImage(ctx context.Context, in *DeleteCustomizedImageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RequestUrl(ctx context.Context, in *RequestUrlRequest, opts ...grpc.CallOption) (*RequestUrlResponse, error)
 }
 
@@ -187,8 +187,8 @@ func (c *client) UpdateCustomizedImage(ctx context.Context, in *UpdateCustomized
 	return out, nil
 }
 
-func (c *client) DeleteCustomizedImage(ctx context.Context, in *DeleteCustomizedImageRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *client) DeleteCustomizedImage(ctx context.Context, in *DeleteCustomizedImageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1alpha2.CustomizedImageService/DeleteCustomizedImage", in, out, opts...)
 	if err != nil {
 		return nil, err

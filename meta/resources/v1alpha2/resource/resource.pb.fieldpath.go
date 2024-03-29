@@ -17,15 +17,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // ensure the imports are used
@@ -42,15 +41,14 @@ var (
 	_ = protojson.UnmarshalOptions{}
 	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
-	_ = fieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &ntt_meta.Meta{}
 	_ = &service.Service{}
+	_ = &meta.Meta{}
 )
 
 // FieldPath provides implementation to handle
@@ -116,7 +114,7 @@ func BuildResource_FieldPath(fp gotenobject.RawFieldPath) (Resource_FieldPath, e
 	} else {
 		switch fp[0] {
 		case "metadata":
-			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := meta.BuildMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Resource_FieldSubPath{selector: Resource_FieldPathSelectorMetadata, subPath: subpath}, nil
@@ -227,7 +225,7 @@ func (fp *Resource_FieldTerminalPath) GetDefault() interface{} {
 	case Resource_FieldPathSelectorIsRegional:
 		return false
 	case Resource_FieldPathSelectorMetadata:
-		return (*ntt_meta.Meta)(nil)
+		return (*meta.Meta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fp.selector))
 	}
@@ -279,7 +277,7 @@ func (fp *Resource_FieldTerminalPath) WithIValue(value interface{}) Resource_Fie
 	case Resource_FieldPathSelectorIsRegional:
 		return &Resource_FieldTerminalPathValue{Resource_FieldTerminalPath: *fp, value: value.(bool)}
 	case Resource_FieldPathSelectorMetadata:
-		return &Resource_FieldTerminalPathValue{Resource_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
+		return &Resource_FieldTerminalPathValue{Resource_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fp.selector))
 	}
@@ -301,7 +299,7 @@ func (fp *Resource_FieldTerminalPath) WithIArrayOfValues(values interface{}) Res
 	case Resource_FieldPathSelectorIsRegional:
 		return &Resource_FieldTerminalPathArrayOfValues{Resource_FieldTerminalPath: *fp, values: values.([]bool)}
 	case Resource_FieldPathSelectorMetadata:
-		return &Resource_FieldTerminalPathArrayOfValues{Resource_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
+		return &Resource_FieldTerminalPathArrayOfValues{Resource_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fp.selector))
 	}
@@ -333,8 +331,8 @@ var _ Resource_FieldPath = (*Resource_FieldSubPath)(nil)
 func (fps *Resource_FieldSubPath) Selector() Resource_FieldPathSelector {
 	return fps.selector
 }
-func (fps *Resource_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
-	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
+func (fps *Resource_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool) {
+	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
 
@@ -490,8 +488,8 @@ func (fpv *Resource_FieldTerminalPathValue) AsIsRegionalValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *Resource_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
-	res, ok := fpv.value.(*ntt_meta.Meta)
+func (fpv *Resource_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
+	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
 
@@ -510,7 +508,7 @@ func (fpv *Resource_FieldTerminalPathValue) SetTo(target **Resource) {
 	case Resource_FieldPathSelectorIsRegional:
 		(*target).IsRegional = fpv.value.(bool)
 	case Resource_FieldPathSelectorMetadata:
-		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
+		(*target).Metadata = fpv.value.(*meta.Meta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fpv.selector))
 	}
@@ -591,8 +589,8 @@ type Resource_FieldSubPathValue struct {
 
 var _ Resource_FieldPathValue = (*Resource_FieldSubPathValue)(nil)
 
-func (fpvs *Resource_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
+func (fpvs *Resource_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
 
@@ -602,7 +600,7 @@ func (fpvs *Resource_FieldSubPathValue) SetTo(target **Resource) {
 	}
 	switch fpvs.Selector() {
 	case Resource_FieldPathSelectorMetadata:
-		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fpvs.Selector()))
 	}
@@ -620,7 +618,7 @@ func (fpvs *Resource_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *Resource_FieldSubPathValue) CompareWith(source *Resource) (int, bool) {
 	switch fpvs.Selector() {
 	case Resource_FieldPathSelectorMetadata:
-		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fpvs.Selector()))
 	}
@@ -703,8 +701,8 @@ type Resource_FieldSubPathArrayItemValue struct {
 func (fpaivs *Resource_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *Resource_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
+func (fpaivs *Resource_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (meta.Meta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -712,7 +710,7 @@ func (fpaivs *Resource_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (nt
 func (fpaivs *Resource_FieldSubPathArrayItemValue) ContainsValue(source *Resource) bool {
 	switch fpaivs.Selector() {
 	case Resource_FieldPathSelectorMetadata:
-		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Resource: %d", fpaivs.Selector()))
 	}
@@ -770,7 +768,7 @@ func (fpaov *Resource_FieldTerminalPathArrayOfValues) GetRawValues() (values []i
 			values = append(values, v)
 		}
 	case Resource_FieldPathSelectorMetadata:
-		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
+		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
 	}
@@ -792,8 +790,8 @@ func (fpaov *Resource_FieldTerminalPathArrayOfValues) AsIsRegionalArrayOfValues(
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
-func (fpaov *Resource_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
-	res, ok := fpaov.values.([]*ntt_meta.Meta)
+func (fpaov *Resource_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
+	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
 
@@ -807,7 +805,7 @@ var _ Resource_FieldPathArrayOfValues = (*Resource_FieldSubPathArrayOfValues)(ni
 func (fpsaov *Resource_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *Resource_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
+func (fpsaov *Resource_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }

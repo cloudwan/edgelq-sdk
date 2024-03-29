@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package ntt.devices.v1;
+
+import "edgelq-sdk/devices/proto/v1/device.proto";
+import "edgelq-sdk/iam/proto/v1/role.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy;provisioning_policy";
+option java_multiple_files = true;
+option java_outer_classname = "ProvisioningPolicyProto";
+option java_package = "com.ntt.devices.pb.v1";
+
+// ProvisioningPolicy Resource
+message ProvisioningPolicy {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/ProvisioningPolicy"
+    pattern : "projects/{project}/regions/{region}/provisioningPolicies/"
+              "{provisioning_policy}"
+  };
+
+  // Name of ProvisioningPolicy
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 5;
+
+  // Display Name
+  string display_name = 6;
+
+  Spec spec = 3;
+
+  Status status = 4;
+
+  message Spec {
+    // Provisioning mode.
+    Mode mode = 1;
+
+    // The service account associated with the policy.
+    // Devices have to have a key of this service account to conduct
+    // self-provisioning.
+    string service_account = 2;
+
+    // Template for device name.
+    string device_name_format = 3;
+
+    // Deprecated: Use template instead.
+    // labels that provisioned Device resources will have.
+    map<string, string> labels = 4;
+
+    // Template for Devices to be generated.
+    // Used only on Device resource creation, changing the value won't affect
+    // existing Device resources.
+    Template template = 5;
+
+    // Device hardware identity paths (fields) to use for matching pre-existing
+    // device resources when provisioning.
+    repeated string identity_field_paths = 6;
+
+    // Role that the newly created service account should be bound to.
+    // If not specified, will use the default value of
+    // "services/devices.edgelq.com/roles/device-agent".
+    string role = 7 [ (google.api.resource_reference) = {type : "Role"} ];
+
+    // List of scope params to add IF role is specified. Ignored if role is
+    // empty.
+    repeated ntt.iam.v1.ScopeParam scope_params = 9;
+
+    // Optional condition for the role binding.
+    string condition = 8
+        [ (google.api.resource_reference) = {type : "Condition"} ];
+
+    // Condition params
+    google.protobuf.Struct condition_params = 10;
+
+    message Template {
+      goten.types.Meta metadata = 1;
+
+      // service_account will be ignored.
+      Device.Spec spec = 2;
+
+      Device.PublicListingSpec public_listing_spec = 3;
+    }
+  }
+
+  message Status {}
+
+  enum Mode {
+    // Mode is not defined, devices will do nothing when the policy is
+    // configured in this mode.
+    MODE_UNSPECIFIED = 0;
+
+    // Devices will create Device resources automatically without any human
+    // interaction.
+    UNATTENDED = 1;
+
+    // Devices will create ProvisioningApprovalRequests so that users can
+    // approve.
+    MANUAL_APPROVAL = 2;
+  }
+}

@@ -9,19 +9,19 @@ import (
 	"sort"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 )
 
 // proto imports
 import (
-	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
+	common "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	any "github.com/golang/protobuf/ptypes/any"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -30,19 +30,19 @@ var (
 	_ = new(sort.Interface)
 
 	_ = new(proto.Message)
-	_ = fieldmaskpb.FieldMask{}
+	_ = googlefieldmaskpb.FieldMask{}
 
 	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
-	_ = &audit_common.Authentication{}
+	_ = &common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
-	_ = &any.Any{}
-	_ = &field_mask.FieldMask{}
-	_ = &timestamp.Timestamp{}
+	_ = &anypb.Any{}
+	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (o *ResourceChangeLog) GotenObjectExt() {}
@@ -140,7 +140,7 @@ func (o *ResourceChangeLog) Clone() *ResourceChangeLog {
 	}
 	result.Scope = o.Scope
 	result.RequestId = o.RequestId
-	result.Timestamp = proto.Clone(o.Timestamp).(*timestamp.Timestamp)
+	result.Timestamp = proto.Clone(o.Timestamp).(*timestamppb.Timestamp)
 	result.Authentication = o.Authentication.Clone()
 	result.Service = o.Service.Clone()
 	result.Resource = o.Resource.Clone()
@@ -169,19 +169,19 @@ func (o *ResourceChangeLog) Merge(source *ResourceChangeLog) {
 	o.RequestId = source.GetRequestId()
 	if source.GetTimestamp() != nil {
 		if o.Timestamp == nil {
-			o.Timestamp = new(timestamp.Timestamp)
+			o.Timestamp = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Timestamp, source.GetTimestamp())
 	}
 	if source.GetAuthentication() != nil {
 		if o.Authentication == nil {
-			o.Authentication = new(audit_common.Authentication)
+			o.Authentication = new(common.Authentication)
 		}
 		o.Authentication.Merge(source.GetAuthentication())
 	}
 	if source.GetService() != nil {
 		if o.Service == nil {
-			o.Service = new(audit_common.ServiceData)
+			o.Service = new(common.ServiceData)
 		}
 		o.Service.Merge(source.GetService())
 	}
@@ -287,9 +287,9 @@ func (o *ResourceChangeLog_ResourceChange) Clone() *ResourceChangeLog_ResourceCh
 	result.Name = o.Name
 	result.Type = o.Type
 	result.Action = o.Action
-	result.UpdatedFields = proto.Clone(o.UpdatedFields).(*field_mask.FieldMask)
-	result.Previous = proto.Clone(o.Previous).(*any.Any)
-	result.Current = proto.Clone(o.Current).(*any.Any)
+	result.UpdatedFields = proto.Clone(o.UpdatedFields).(*fieldmaskpb.FieldMask)
+	result.Previous = proto.Clone(o.Previous).(*anypb.Any)
+	result.Current = proto.Clone(o.Current).(*anypb.Any)
 	result.Labels = map[string]string{}
 	for key, sourceValue := range o.Labels {
 		result.Labels[key] = sourceValue
@@ -309,19 +309,19 @@ func (o *ResourceChangeLog_ResourceChange) Merge(source *ResourceChangeLog_Resou
 	o.Action = source.GetAction()
 	if source.GetUpdatedFields() != nil {
 		if o.UpdatedFields == nil {
-			o.UpdatedFields = new(field_mask.FieldMask)
+			o.UpdatedFields = new(fieldmaskpb.FieldMask)
 		}
 		proto.Merge(o.UpdatedFields, source.GetUpdatedFields())
 	}
 	if source.GetPrevious() != nil {
 		if o.Previous == nil {
-			o.Previous = new(any.Any)
+			o.Previous = new(anypb.Any)
 		}
 		proto.Merge(o.Previous, source.GetPrevious())
 	}
 	if source.GetCurrent() != nil {
 		if o.Current == nil {
-			o.Current = new(any.Any)
+			o.Current = new(anypb.Any)
 		}
 		proto.Merge(o.Current, source.GetCurrent())
 	}
@@ -335,13 +335,13 @@ func (o *ResourceChangeLog_ResourceChange) Merge(source *ResourceChangeLog_Resou
 	}
 	if source.GetPre() != nil {
 		if o.Pre == nil {
-			o.Pre = new(audit_common.ObjectState)
+			o.Pre = new(common.ObjectState)
 		}
 		o.Pre.Merge(source.GetPre())
 	}
 	if source.GetPost() != nil {
 		if o.Post == nil {
-			o.Post = new(audit_common.ObjectState)
+			o.Post = new(common.ObjectState)
 		}
 		o.Post.Merge(source.GetPost())
 	}
