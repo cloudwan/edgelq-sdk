@@ -61,9 +61,9 @@ func main() {
 	// We are interested in devices from selected project (as provided in argument),
 	// we dont care about region, so we put a wildcard there.
 	cfg := &adevice.WatcherConfig{
-		WatcherConfig: gotenaccess.NewWatcherConfig(),
-		WatchType:     watch_type.WatchType_STATELESS,
-		View:          view.View_FULL,
+		WatcherConfigBase: gotenaccess.NewWatcherConfigBase(),
+		WatchType:         watch_type.WatchType_STATELESS,
+		View:              view.View_FULL,
 	}
 	filter := &adevice.WatcherFilterParams{
 		Parent: rdevice.NewNameBuilder().SetProjectId(*projectId).

@@ -133,7 +133,7 @@ func main() {
 	// lets read device, but only selected label... view NAME puts "name" and "displayName" in field
 	// mask, but thats all we should receive.
 	obtainedDevice, err := devicesClient.GetDevice(ctx, &cdevice.GetDeviceRequest{
-		Name: updatedDevice.GetName().AsReference(),
+		Name: updatedDevice.GetName(),
 		View: view.View_NAME,
 		FieldMask: &rdevice.Device_FieldMask{Paths: []rdevice.Device_FieldPath{
 			rdevice.NewDeviceFieldPathBuilder().Metadata().Labels().WithKey("other_label").FieldPath(),
@@ -153,7 +153,7 @@ func main() {
 	}
 
 	// just delete
-	_, err = devicesClient.DeleteDevice(ctx, &cdevice.DeleteDeviceRequest{Name: createdDevice.GetName().AsReference()})
+	_, err = devicesClient.DeleteDevice(ctx, &cdevice.DeleteDeviceRequest{Name: createdDevice.GetName()})
 	if err != nil {
 		_, _ = os.Stderr.WriteString(fmt.Sprintf("failed to delete device: %s\n", err))
 		os.Exit(1)
