@@ -54,9 +54,6 @@ func (obj *ServiceBusinessTier) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if _, ok := BusinessTier_name[int32(obj.BusinessTier)]; !ok {
-		return gotenvalidate.NewValidationError("ServiceBusinessTier", "businessTier", obj.BusinessTier, "field must be a defined enum value", nil)
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

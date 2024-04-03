@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.iam.v1;
 
 import "edgelq-sdk/common/api/credentials.proto";
+import "edgelq-sdk/iam/proto/v1/common.proto";
 import "edgelq-sdk/iam/proto/v1/project.proto";
 import "edgelq-sdk/iam/proto/v1/project_change.proto";
 import "edgelq-sdk/iam/proto/v1/service_account_key.proto";
@@ -77,6 +78,19 @@ message SetupServiceProjectRequest {
 
   // Multi region policy - it will have to match with Service regions later on.
   goten.types.MultiRegionPolicy multi_region_policy = 4;
+
+  // Default business tier to apply to a service project - it determines
+  // business tier for core edgelq services, influencing assigned limits.
+  // By default XSMALL will be set (UNDEFINED is replaced with XSMALL).
+  // If limits are not needed at all for core edgelq services, it is
+  // recommended to opt out from them using core_edgelq_service_opt_outs param.
+  BusinessTier default_business_tier = 5;
+
+  // Optional list of core edgelq services which are not needed for
+  // this service project. As of now, it has effect on devices/applications.
+  // If they are added to this list, then no limits are assigned for
+  // resources in those services.
+  repeated string core_edgelq_service_opt_outs = 6;
 }
 
 // Request message for method

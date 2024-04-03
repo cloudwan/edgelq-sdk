@@ -21,6 +21,7 @@ import (
 // proto imports
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
@@ -47,6 +48,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &api.Account{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &role.Role{}

@@ -80,7 +80,8 @@ type Organization struct {
 	// * Default business tier for child projects (if not defined on creation)
 	// * Default business tier to this organization.
 	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
-	// Overwrites business_tier for each service.
+	// Overwrites business_tier for each service - it may also override value
+	// for a core EdgeLQ service.
 	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty" firestore:"serviceTiers"`
 	// Top parent (internal)
 	RootOrganization *Name `protobuf:"bytes,4,opt,customtype=Name,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty" firestore:"rootOrganization"`

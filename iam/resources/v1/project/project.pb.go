@@ -78,7 +78,8 @@ type Project struct {
 	EnabledServices []*meta_service.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=enabled_services,json=enabledServices,proto3" json:"enabled_services,omitempty" firestore:"enabledServices"`
 	// Default business tier for core EdgeLQ services and all enabled services.
 	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
-	// Overwrites business_tier for each service.
+	// Overwrites business_tier for each service - it may also override value
+	// for a core EdgeLQ service.
 	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty" firestore:"serviceTiers"`
 	// Top parent
 	RootOrganization *organization.Name `protobuf:"bytes,4,opt,customtype=Name,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty" firestore:"rootOrganization"`

@@ -47,7 +47,8 @@ message Project {
   // Default business tier for core EdgeLQ services and all enabled services.
   BusinessTier business_tier = 9;
 
-  // Overwrites business_tier for each service.
+  // Overwrites business_tier for each service - it may also override value
+  // for a core EdgeLQ service.
   repeated ServiceBusinessTier service_tiers = 10;
 
   // Top parent

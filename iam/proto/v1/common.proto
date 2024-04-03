@@ -31,7 +31,9 @@ message ServiceBusinessTier {
   // Service
   string service = 1;
 
-  // Entity tier value for given service.
+  // Entity tier value for given service. It may be also set to UNDEFINED,
+  // if this service is not supposed to be used at all for given entity.
+  // This way we can opt out from core edgelq services if needed.
   BusinessTier business_tier = 2;
 }
 
