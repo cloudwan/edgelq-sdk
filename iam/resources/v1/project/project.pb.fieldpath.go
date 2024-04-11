@@ -79,15 +79,16 @@ const (
 	Project_FieldPathSelectorName               Project_FieldPathSelector = 0
 	Project_FieldPathSelectorMetadata           Project_FieldPathSelector = 1
 	Project_FieldPathSelectorTitle              Project_FieldPathSelector = 2
-	Project_FieldPathSelectorParentOrganization Project_FieldPathSelector = 3
-	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 4
-	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 5
-	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 6
-	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 7
-	Project_FieldPathSelectorRootOrganization   Project_FieldPathSelector = 8
-	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 9
-	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 10
-	Project_FieldPathSelectorServicesGeneration Project_FieldPathSelector = 11
+	Project_FieldPathSelectorDescription        Project_FieldPathSelector = 3
+	Project_FieldPathSelectorParentOrganization Project_FieldPathSelector = 4
+	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 5
+	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 6
+	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 7
+	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 8
+	Project_FieldPathSelectorRootOrganization   Project_FieldPathSelector = 9
+	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 10
+	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 11
+	Project_FieldPathSelectorServicesGeneration Project_FieldPathSelector = 12
 )
 
 func (s Project_FieldPathSelector) String() string {
@@ -98,6 +99,8 @@ func (s Project_FieldPathSelector) String() string {
 		return "metadata"
 	case Project_FieldPathSelectorTitle:
 		return "title"
+	case Project_FieldPathSelectorDescription:
+		return "description"
 	case Project_FieldPathSelectorParentOrganization:
 		return "parent_organization"
 	case Project_FieldPathSelectorMultiRegionPolicy:
@@ -133,6 +136,8 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMetadata}, nil
 		case "title":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorTitle}, nil
+		case "description":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorDescription}, nil
 		case "parent_organization", "parentOrganization", "parent-organization":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorParentOrganization}, nil
 		case "multi_region_policy", "multiRegionPolicy", "multi-region-policy":
@@ -232,6 +237,8 @@ func (fp *Project_FieldTerminalPath) Get(source *Project) (values []interface{})
 			}
 		case Project_FieldPathSelectorTitle:
 			values = append(values, source.Title)
+		case Project_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Project_FieldPathSelectorParentOrganization:
 			if source.ParentOrganization != nil {
 				values = append(values, source.ParentOrganization)
@@ -286,6 +293,8 @@ func (fp *Project_FieldTerminalPath) GetSingle(source *Project) (interface{}, bo
 		return res, res != nil
 	case Project_FieldPathSelectorTitle:
 		return source.GetTitle(), source != nil
+	case Project_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Project_FieldPathSelectorParentOrganization:
 		res := source.GetParentOrganization()
 		return res, res != nil
@@ -329,6 +338,8 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Project_FieldPathSelectorTitle:
 		return ""
+	case Project_FieldPathSelectorDescription:
+		return ""
 	case Project_FieldPathSelectorParentOrganization:
 		return (*organization.Reference)(nil)
 	case Project_FieldPathSelectorMultiRegionPolicy:
@@ -361,6 +372,8 @@ func (fp *Project_FieldTerminalPath) ClearValue(item *Project) {
 			item.Metadata = nil
 		case Project_FieldPathSelectorTitle:
 			item.Title = ""
+		case Project_FieldPathSelectorDescription:
+			item.Description = ""
 		case Project_FieldPathSelectorParentOrganization:
 			item.ParentOrganization = nil
 		case Project_FieldPathSelectorMultiRegionPolicy:
@@ -393,6 +406,7 @@ func (fp *Project_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Project_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Project_FieldPathSelectorName ||
 		fp.selector == Project_FieldPathSelectorTitle ||
+		fp.selector == Project_FieldPathSelectorDescription ||
 		fp.selector == Project_FieldPathSelectorParentOrganization ||
 		fp.selector == Project_FieldPathSelectorEnabledServices ||
 		fp.selector == Project_FieldPathSelectorBusinessTier ||
@@ -412,6 +426,8 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 	case Project_FieldPathSelectorMetadata:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Project_FieldPathSelectorTitle:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(string)}
+	case Project_FieldPathSelectorDescription:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(string)}
 	case Project_FieldPathSelectorParentOrganization:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*organization.Reference)}
@@ -448,6 +464,8 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 	case Project_FieldPathSelectorMetadata:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Project_FieldPathSelectorTitle:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]string)}
+	case Project_FieldPathSelectorDescription:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]string)}
 	case Project_FieldPathSelectorParentOrganization:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*organization.Reference)}
@@ -819,6 +837,10 @@ func (fpv *Project_FieldTerminalPathValue) AsTitleValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Project_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Project_FieldTerminalPathValue) AsParentOrganizationValue() (*organization.Reference, bool) {
 	res, ok := fpv.value.(*organization.Reference)
 	return res, ok
@@ -868,6 +890,8 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Project_FieldPathSelectorTitle:
 		(*target).Title = fpv.value.(string)
+	case Project_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Project_FieldPathSelectorParentOrganization:
 		(*target).ParentOrganization = fpv.value.(*organization.Reference)
 	case Project_FieldPathSelectorMultiRegionPolicy:
@@ -923,6 +947,16 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 	case Project_FieldPathSelectorTitle:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetTitle()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Project_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1279,6 +1313,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Project_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Project_FieldPathSelectorParentOrganization:
 		for _, v := range fpaov.values.([]*organization.Reference) {
 			values = append(values, v)
@@ -1327,6 +1365,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() (
 	return res, ok
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsTitleArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

@@ -35,6 +35,9 @@ message Project {
   // Title
   string title = 2;
 
+  // Description
+  string description = 13;
+
   // Parent organization
   string parent_organization = 3;
 

@@ -60,6 +60,7 @@ func FullProject_FieldMask() *Project_FieldMask {
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorTitle})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorParentOrganization})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
@@ -112,7 +113,7 @@ func (fieldMask *Project_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Project_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -142,7 +143,7 @@ func (fieldMask *Project_FieldMask) Reset() {
 
 func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_FieldMask {
 	result := &Project_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
@@ -364,6 +365,8 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				wholeMetadataAccepted = true
 			case Project_FieldPathSelectorTitle:
 				result.Title = source.Title
+			case Project_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Project_FieldPathSelectorParentOrganization:
 				result.ParentOrganization = source.ParentOrganization
 			case Project_FieldPathSelectorMultiRegionPolicy:

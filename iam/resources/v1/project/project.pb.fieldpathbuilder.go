@@ -38,6 +38,9 @@ func (ProjectFieldPathBuilder) Metadata() ProjectPathSelectorMetadata {
 func (ProjectFieldPathBuilder) Title() ProjectPathSelectorTitle {
 	return ProjectPathSelectorTitle{}
 }
+func (ProjectFieldPathBuilder) Description() ProjectPathSelectorDescription {
+	return ProjectPathSelectorDescription{}
+}
 func (ProjectFieldPathBuilder) ParentOrganization() ProjectPathSelectorParentOrganization {
 	return ProjectPathSelectorParentOrganization{}
 }
@@ -752,6 +755,20 @@ func (s ProjectPathSelectorTitle) WithValue(value string) *Project_FieldTerminal
 }
 
 func (s ProjectPathSelectorTitle) WithArrayOfValues(values []string) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+type ProjectPathSelectorDescription struct{}
+
+func (ProjectPathSelectorDescription) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorDescription}
+}
+
+func (s ProjectPathSelectorDescription) WithValue(value string) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorDescription) WithArrayOfValues(values []string) *Project_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
 }
 
