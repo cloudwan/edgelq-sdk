@@ -124,6 +124,11 @@ func (obj *Device_Spec) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Spec", "location", obj.Location, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.UsbGuard).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Spec", "usbGuard", obj.UsbGuard, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -257,6 +262,22 @@ func (obj *Device_Spec_ProxyConfig) GotenValidate() error {
 func (obj *Device_Spec_Location) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_USBGuard) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.WhiteList {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("USBGuard", "whiteList", obj.WhiteList[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -684,6 +705,15 @@ func (obj *Device_Spec_NetworkingConfig_TunnelsOpts_Key) GotenValidate() error {
 	return nil
 }
 func (obj *Device_Spec_SSHConfig_AuthKey) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_USBGuard_WhiteList) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

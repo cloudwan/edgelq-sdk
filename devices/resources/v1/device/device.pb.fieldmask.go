@@ -454,6 +454,7 @@ func FullDevice_Spec_FieldMask() *Device_Spec_FieldMask {
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorProxyConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLocation})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorUsbGuard})
 	return res
 }
 
@@ -497,7 +498,7 @@ func (fieldMask *Device_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 13)
+	presentSelectors := make([]bool, 14)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -527,7 +528,7 @@ func (fieldMask *Device_Spec_FieldMask) Reset() {
 
 func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *Device_Spec_FieldMask {
 	result := &Device_Spec_FieldMask{}
-	removedSelectors := make([]bool, 13)
+	removedSelectors := make([]bool, 14)
 	otherSubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
 		DeviceSpec_FieldPathSelectorNetplanConfig:     &Device_Spec_NetplanConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorSshConfig:         &Device_Spec_SSHConfig_FieldMask{},
@@ -535,6 +536,7 @@ func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *
 		DeviceSpec_FieldPathSelectorLoggingConfig:     &Device_Spec_LoggingConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorProxyConfig:       &Device_Spec_ProxyConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorLocation:          &Device_Spec_Location_FieldMask{},
+		DeviceSpec_FieldPathSelectorUsbGuard:          &Device_Spec_USBGuard_FieldMask{},
 	}
 	mySubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
 		DeviceSpec_FieldPathSelectorNetplanConfig:     &Device_Spec_NetplanConfig_FieldMask{},
@@ -543,6 +545,7 @@ func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *
 		DeviceSpec_FieldPathSelectorLoggingConfig:     &Device_Spec_LoggingConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorProxyConfig:       &Device_Spec_ProxyConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorLocation:          &Device_Spec_Location_FieldMask{},
+		DeviceSpec_FieldPathSelectorUsbGuard:          &Device_Spec_USBGuard_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -570,6 +573,8 @@ func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *
 						mySubMasks[DeviceSpec_FieldPathSelectorProxyConfig] = FullDevice_Spec_ProxyConfig_FieldMask()
 					case DeviceSpec_FieldPathSelectorLocation:
 						mySubMasks[DeviceSpec_FieldPathSelectorLocation] = FullDevice_Spec_Location_FieldMask()
+					case DeviceSpec_FieldPathSelectorUsbGuard:
+						mySubMasks[DeviceSpec_FieldPathSelectorUsbGuard] = FullDevice_Spec_USBGuard_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceSpec_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -741,6 +746,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 	wholeProxyConfigAccepted := false
 	locationMask := &Device_Spec_Location_FieldMask{}
 	wholeLocationAccepted := false
+	usbGuardMask := &Device_Spec_USBGuard_FieldMask{}
+	wholeUsbGuardAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -778,6 +785,9 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 			case DeviceSpec_FieldPathSelectorLocation:
 				result.Location = source.Location
 				wholeLocationAccepted = true
+			case DeviceSpec_FieldPathSelectorUsbGuard:
+				result.UsbGuard = source.UsbGuard
+				wholeUsbGuardAccepted = true
 			}
 		case *DeviceSpec_FieldSubPath:
 			switch tp.selector {
@@ -793,6 +803,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 				proxyConfigMask.AppendPath(tp.subPath.(DeviceSpecProxyConfig_FieldPath))
 			case DeviceSpec_FieldPathSelectorLocation:
 				locationMask.AppendPath(tp.subPath.(DeviceSpecLocation_FieldPath))
+			case DeviceSpec_FieldPathSelectorUsbGuard:
+				usbGuardMask.AppendPath(tp.subPath.(DeviceSpecUSBGuard_FieldPath))
 			}
 		}
 	}
@@ -813,6 +825,9 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 	}
 	if wholeLocationAccepted == false && len(locationMask.Paths) > 0 {
 		result.Location = locationMask.Project(source.GetLocation())
+	}
+	if wholeUsbGuardAccepted == false && len(usbGuardMask.Paths) > 0 {
+		result.UsbGuard = usbGuardMask.Project(source.GetUsbGuard())
 	}
 	return result
 }
@@ -3471,6 +3486,301 @@ func (fieldMask *Device_Spec_Location_FieldMask) ProjectRaw(source gotenobject.G
 }
 
 func (fieldMask *Device_Spec_Location_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_USBGuard_FieldMask struct {
+	Paths []DeviceSpecUSBGuard_FieldPath
+}
+
+func FullDevice_Spec_USBGuard_FieldMask() *Device_Spec_USBGuard_FieldMask {
+	res := &Device_Spec_USBGuard_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecUSBGuard_FieldTerminalPath{selector: DeviceSpecUSBGuard_FieldPathSelectorEnable})
+	res.Paths = append(res.Paths, &DeviceSpecUSBGuard_FieldTerminalPath{selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList})
+	return res
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_USBGuard_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecUSBGuard_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecUSBGuard_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecUSBGuard_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Subtract(other *Device_Spec_USBGuard_FieldMask) *Device_Spec_USBGuard_FieldMask {
+	result := &Device_Spec_USBGuard_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[DeviceSpecUSBGuard_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecUSBGuard_FieldPathSelectorWhiteList: &Device_Spec_USBGuard_WhiteList_FieldMask{},
+	}
+	mySubMasks := map[DeviceSpecUSBGuard_FieldPathSelector]gotenobject.FieldMask{
+		DeviceSpecUSBGuard_FieldPathSelectorWhiteList: &Device_Spec_USBGuard_WhiteList_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecUSBGuard_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *DeviceSpecUSBGuard_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*DeviceSpecUSBGuard_FieldTerminalPath); ok {
+					switch tp.selector {
+					case DeviceSpecUSBGuard_FieldPathSelectorWhiteList:
+						mySubMasks[DeviceSpecUSBGuard_FieldPathSelectorWhiteList] = FullDevice_Spec_USBGuard_WhiteList_FieldMask()
+					}
+				} else if tp, ok := path.(*DeviceSpecUSBGuard_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &DeviceSpecUSBGuard_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_USBGuard_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_USBGuard_FieldMask) FilterInputFields() *Device_Spec_USBGuard_FieldMask {
+	result := &Device_Spec_USBGuard_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_USBGuard_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecUSBGuard_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecUSBGuard_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_USBGuard_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_USBGuard_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) AppendPath(path DeviceSpecUSBGuard_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecUSBGuard_FieldPath))
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) GetPaths() []DeviceSpecUSBGuard_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecUSBGuard_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Set(target, source *Device_Spec_USBGuard) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_USBGuard), source.(*Device_Spec_USBGuard))
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) Project(source *Device_Spec_USBGuard) *Device_Spec_USBGuard {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_USBGuard{}
+	whiteListMask := &Device_Spec_USBGuard_WhiteList_FieldMask{}
+	wholeWhiteListAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecUSBGuard_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecUSBGuard_FieldPathSelectorEnable:
+				result.Enable = source.Enable
+			case DeviceSpecUSBGuard_FieldPathSelectorWhiteList:
+				result.WhiteList = source.WhiteList
+				wholeWhiteListAccepted = true
+			}
+		case *DeviceSpecUSBGuard_FieldSubPath:
+			switch tp.selector {
+			case DeviceSpecUSBGuard_FieldPathSelectorWhiteList:
+				whiteListMask.AppendPath(tp.subPath.(DeviceSpecUSBGuardWhiteList_FieldPath))
+			}
+		}
+	}
+	if wholeWhiteListAccepted == false && len(whiteListMask.Paths) > 0 {
+		for _, sourceItem := range source.GetWhiteList() {
+			result.WhiteList = append(result.WhiteList, whiteListMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_USBGuard))
+}
+
+func (fieldMask *Device_Spec_USBGuard_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -10060,6 +10370,265 @@ func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) ProjectRaw(source gote
 }
 
 func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Spec_USBGuard_WhiteList_FieldMask struct {
+	Paths []DeviceSpecUSBGuardWhiteList_FieldPath
+}
+
+func FullDevice_Spec_USBGuard_WhiteList_FieldMask() *Device_Spec_USBGuard_WhiteList_FieldMask {
+	res := &Device_Spec_USBGuard_WhiteList_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceName})
+	res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId})
+	res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort})
+	return res
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseDeviceSpecUSBGuardWhiteList_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceSpecUSBGuardWhiteList_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceSpecUSBGuardWhiteList_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Subtract(other *Device_Spec_USBGuard_WhiteList_FieldMask) *Device_Spec_USBGuard_WhiteList_FieldMask {
+	result := &Device_Spec_USBGuard_WhiteList_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceSpecUSBGuardWhiteList_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Spec_USBGuard_WhiteList_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) FilterInputFields() *Device_Spec_USBGuard_WhiteList_FieldMask {
+	result := &Device_Spec_USBGuard_WhiteList_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceSpecUSBGuardWhiteList_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceSpecUSBGuardWhiteList_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Spec_USBGuard_WhiteList_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Spec_USBGuard_WhiteList_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) AppendPath(path DeviceSpecUSBGuardWhiteList_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceSpecUSBGuardWhiteList_FieldPath))
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) GetPaths() []DeviceSpecUSBGuardWhiteList_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceSpecUSBGuardWhiteList_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Set(target, source *Device_Spec_USBGuard_WhiteList) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Spec_USBGuard_WhiteList), source.(*Device_Spec_USBGuard_WhiteList))
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) Project(source *Device_Spec_USBGuard_WhiteList) *Device_Spec_USBGuard_WhiteList {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Spec_USBGuard_WhiteList{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceSpecUSBGuardWhiteList_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceName:
+				result.DeviceName = source.DeviceName
+			case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
+				result.DeviceId = source.DeviceId
+			case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+				result.ViaPort = source.ViaPort
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Spec_USBGuard_WhiteList))
+}
+
+func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

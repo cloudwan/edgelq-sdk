@@ -1675,6 +1675,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) Location() ProvisioningPol
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecLocation{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) UsbGuard() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -2980,6 +2984,132 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLocationPlacement) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard) WithValue(value *device.Device_Spec_USBGuard) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard) WithArrayOfValues(values []*device.Device_Spec_USBGuard) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard) Enable() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard) WhiteList() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList{}
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().Enable().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardEnable) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) WithValue(value []*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) WithArrayOfValues(values [][]*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) WithItemValue(value *device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) DeviceName() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) DeviceId() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteList) ViaPort() ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort{}
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().WhiteList().DeviceName().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceName) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().WhiteList().DeviceId().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListDeviceId) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().UsbGuard().WhiteList().ViaPort().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListViaPort) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -4140,6 +4270,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) ProxyConfig() Provisionin
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) Location() ProvisioningPolicy_SpecPathSelectorTemplateSpecLocation {
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecLocation{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) UsbGuard() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard{}
 }
 
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount struct{}
@@ -5447,6 +5581,132 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLocationPlacement) WithAr
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard) WithValue(value *device.Device_Spec_USBGuard) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard) WithArrayOfValues(values []*device.Device_Spec_USBGuard) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard) Enable() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard) WhiteList() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().Enable().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable) WithValue(value bool) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardEnable) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().WhiteList().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) WithValue(value []*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) WithArrayOfValues(values [][]*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) WithItemValue(value *device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) DeviceName() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) DeviceId() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteList) ViaPort() ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().WhiteList().DeviceName().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceName) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().WhiteList().DeviceId().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListDeviceId) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().UsbGuard().WhiteList().ViaPort().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListViaPort) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -6470,6 +6730,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) ProxyConfig() Provisioni
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) Location() ProvisioningPolicy_Spec_TemplatePathSelectorSpecLocation {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecLocation{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) UsbGuard() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard{}
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecServiceAccount struct{}
@@ -7774,6 +8038,132 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLocationPlacement) WithV
 }
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLocationPlacement) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard) WithValue(value *device.Device_Spec_USBGuard) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard) WithArrayOfValues(values []*device.Device_Spec_USBGuard) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard) Enable() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard) WhiteList() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList{}
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().Enable().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable) WithValue(value bool) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardEnable) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) WithValue(value []*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) WithArrayOfValues(values [][]*device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) WithItemValue(value *device.Device_Spec_USBGuard_WhiteList) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue)
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) DeviceName() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) DeviceId() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteList) ViaPort() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort{}
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().DeviceName().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceName) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().DeviceId().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListDeviceId) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().ViaPort().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListViaPort) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

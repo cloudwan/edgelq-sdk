@@ -95,6 +95,8 @@ message Device {
 
     Location location = 13;
 
+    USBGuard usb_guard = 16;
+
     message NetworkingConfig {
       int32 version = 1;
 
@@ -841,6 +843,30 @@ message Device {
       string address = 1;
 
       string placement = 2;
+    }
+
+    // USB Guard. When enable is not set, USB guard service will not be started.
+    // When it is enabled, we can specify allowed device white list with
+    // WhiteList. Each device can be specified one of Device Name, Device ID or
+    // connected port number. We can specify multiple parameter for a device.
+    message USBGuard {
+      // Enable USB Guard service on the device.
+      bool enable = 1;
+
+      // This is array of white list of the USB devices.
+      repeated WhiteList white_list = 2;
+
+      // This is array of white list of the USB devices.
+      message WhiteList {
+        // USB device name to be allowed to connect.
+        string device_name = 1;
+
+        // USB device id to be allowed to connect.
+        string device_id = 2;
+
+        // USB port to be allowed to connect.
+        string via_port = 3;
+      }
     }
 
     // MERGE or REPLACE the api netplan_config with the baked in config in the

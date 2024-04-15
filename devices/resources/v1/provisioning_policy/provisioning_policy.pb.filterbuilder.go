@@ -4977,6 +4977,10 @@ func (b *filterCndBuilderSpecTemplateSpec) Location() *filterCndBuilderSpecTempl
 	return &filterCndBuilderSpecTemplateSpecLocation{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) UsbGuard() *filterCndBuilderSpecTemplateSpecUsbGuard {
+	return &filterCndBuilderSpecTemplateSpecUsbGuard{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -9068,6 +9072,414 @@ func (b *filterCndBuilderSpecTemplateSpecLocationPlacement) compare(op gotenfilt
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().Location().Placement().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuard struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Eq(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Neq(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Gt(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Gte(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Lt(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Lte(value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) In(values []*device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) NotIn(values []*device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) compare(op gotenfilter.CompareOperator, value *device.Device_Spec_USBGuard) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) Enable() *filterCndBuilderSpecTemplateSpecUsbGuardEnable {
+	return &filterCndBuilderSpecTemplateSpecUsbGuardEnable{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuard) WhiteList() *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList {
+	return &filterCndBuilderSpecTemplateSpecUsbGuardWhiteList{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuardEnable struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().Enable().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().Enable().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().Enable().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().Enable().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardEnable) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().Enable().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuardWhiteList struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Eq(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Neq(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Gt(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Gte(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Lt(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Lte(value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) In(values [][]*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) NotIn(values [][]*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) Contains(value *device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+		Value:     NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) ContainsAnyOf(values []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) ContainsAll(values []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) compare(op gotenfilter.CompareOperator, value []*device.Device_Spec_USBGuard_WhiteList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) DeviceName() *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName {
+	return &filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) DeviceId() *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId {
+	return &filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteList) ViaPort() *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort {
+	return &filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceName().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListDeviceId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().DeviceId().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().ViaPort().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().ViaPort().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().ViaPort().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().ViaPort().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListViaPort) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().ViaPort().WithValue(value),
 	})
 }
 
