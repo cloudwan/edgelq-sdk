@@ -1775,13 +1775,18 @@ func (m *Device_Spec_Location) SetPlacement(fv string) {
 	m.Placement = fv
 }
 
-// USB Guard.
+// USB Guard. When enable is not set, USB guard service will not be started.
+// When it is enabled, we can specify allowed device white list with
+// WhiteList. Each device can be specified one of Device Name, Device ID or
+// connected port number. We can specify multiple parameter for a device.
 type Device_Spec_USBGuard struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Enable        bool                              `protobuf:"varint,1,opt,name=enable,proto3" json:"enable,omitempty" firestore:"enable"`
-	WhiteList     []*Device_Spec_USBGuard_WhiteList `protobuf:"bytes,2,rep,name=white_list,json=whiteList,proto3" json:"white_list,omitempty" firestore:"whiteList"`
+	// Enable USB Guard service on the device.
+	Enable bool `protobuf:"varint,1,opt,name=enable,proto3" json:"enable,omitempty" firestore:"enable"`
+	// This is array of white list of the USB devices.
+	WhiteList []*Device_Spec_USBGuard_WhiteList `protobuf:"bytes,2,rep,name=white_list,json=whiteList,proto3" json:"white_list,omitempty" firestore:"whiteList"`
 }
 
 func (m *Device_Spec_USBGuard) Reset() {
@@ -6982,13 +6987,17 @@ func (m *Device_Spec_SSHConfig_AuthKey) SetRestrict(fv bool) {
 	m.Restrict = fv
 }
 
+// This is array of white list of the USB devices.
 type Device_Spec_USBGuard_WhiteList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	DeviceName    string `protobuf:"bytes,1,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
-	DeviceId      string `protobuf:"bytes,2,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty" firestore:"deviceId"`
-	ViaPort       string `protobuf:"bytes,3,opt,name=via_port,json=viaPort,proto3" json:"via_port,omitempty" firestore:"viaPort"`
+	// USB device name to be allowed to connect.
+	DeviceName string `protobuf:"bytes,1,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	// USB device id to be allowed to connect.
+	DeviceId string `protobuf:"bytes,2,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty" firestore:"deviceId"`
+	// USB port to be allowed to connect.
+	ViaPort string `protobuf:"bytes,3,opt,name=via_port,json=viaPort,proto3" json:"via_port,omitempty" firestore:"viaPort"`
 }
 
 func (m *Device_Spec_USBGuard_WhiteList) Reset() {
