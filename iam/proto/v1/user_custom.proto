@@ -88,7 +88,11 @@ message RefreshUserFromIdTokenResponse {}
 
 // Request message for method
 // [ResendVerificationEmail][ntt.iam.v1.ResendVerificationEmail]
-message ResendVerificationEmailRequest {}
+message ResendVerificationEmailRequest {
+  // Optional Auth client ID. May be defined per application to customize email
+  // template.
+  string client_id = 1;
+}
 
 // Request message for method [IsUserVerified][ntt.iam.v1.IsUserVerified]
 message IsUserVerifiedRequest {}
