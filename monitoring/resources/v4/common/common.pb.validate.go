@@ -266,3 +266,64 @@ func (obj *MonitoredResource) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *Strings) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MonitoredResourceSelector) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if len(obj.Types) < 1 {
+		return gotenvalidate.NewValidationError("MonitoredResourceSelector", "types", obj.Types, "field must have at least 1 items", nil)
+	}
+	if len(obj.Types) > 1 {
+		return gotenvalidate.NewValidationError("MonitoredResourceSelector", "types", obj.Types, "field must have at most 1 items", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricSelector) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if len(obj.Types) < 1 {
+		return gotenvalidate.NewValidationError("MetricSelector", "types", obj.Types, "field must have at least 1 items", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *TimeSeriesSelector) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.Metric == nil {
+		return gotenvalidate.NewValidationError("TimeSeriesSelector", "metric", obj.Metric, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.Metric).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TimeSeriesSelector", "metric", obj.Metric, "nested object validation failed", err)
+		}
+	}
+	if obj.Resource == nil {
+		return gotenvalidate.NewValidationError("TimeSeriesSelector", "resource", obj.Resource, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.Resource).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TimeSeriesSelector", "resource", obj.Resource, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

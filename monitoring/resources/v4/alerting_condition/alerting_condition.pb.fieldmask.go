@@ -212,6 +212,19 @@ func (fieldMask *AlertingCondition_FieldMask) FilterInputFields() *AlertingCondi
 					result.Paths = append(result.Paths, &AlertingCondition_FieldSubPath{selector: AlertingCondition_FieldPathSelectorMetadata, subPath: allowedPath})
 				}
 			}
+		case AlertingCondition_FieldPathSelectorSpec:
+			if _, ok := path.(*AlertingCondition_FieldTerminalPath); ok {
+				for _, subpath := range FullAlertingCondition_Spec_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingCondition_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*AlertingCondition_FieldSubPath); ok {
+				selectedMask := &AlertingCondition_Spec_FieldMask{
+					Paths: []AlertingConditionSpec_FieldPath{sub.subPath.(AlertingConditionSpec_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingCondition_FieldSubPath{selector: AlertingCondition_FieldPathSelectorSpec, subPath: allowedPath})
+				}
+			}
 		default:
 			result.Paths = append(result.Paths, path)
 		}
@@ -536,7 +549,25 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) SubtractRaw(other gotenobject
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *AlertingCondition_Spec_FieldMask) FilterInputFields() *AlertingCondition_Spec_FieldMask {
 	result := &AlertingCondition_Spec_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertingConditionSpec_FieldPathSelectorTimeSeries:
+			if _, ok := path.(*AlertingConditionSpec_FieldTerminalPath); ok {
+				for _, subpath := range FullAlertingCondition_Spec_TimeSeries_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpec_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*AlertingConditionSpec_FieldSubPath); ok {
+				selectedMask := &AlertingCondition_Spec_TimeSeries_FieldMask{
+					Paths: []AlertingConditionSpecTimeSeries_FieldPath{sub.subPath.(AlertingConditionSpecTimeSeries_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpec_FieldSubPath{selector: AlertingConditionSpec_FieldPathSelectorTimeSeries, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -1100,7 +1131,25 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) SubtractRaw(other 
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FilterInputFields() *AlertingCondition_Spec_TimeSeries_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertingConditionSpecTimeSeries_FieldPathSelectorQuery:
+			if _, ok := path.(*AlertingConditionSpecTimeSeries_FieldTerminalPath); ok {
+				for _, subpath := range FullAlertingCondition_Spec_TimeSeries_Query_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpecTimeSeries_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*AlertingConditionSpecTimeSeries_FieldSubPath); ok {
+				selectedMask := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{
+					Paths: []AlertingConditionSpecTimeSeriesQuery_FieldPath{sub.subPath.(AlertingConditionSpecTimeSeriesQuery_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpecTimeSeries_FieldSubPath{selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -1539,6 +1588,7 @@ type AlertingCondition_Spec_TimeSeries_Query_FieldMask struct {
 func FullAlertingCondition_Spec_TimeSeries_Query_FieldMask() *AlertingCondition_Spec_TimeSeries_Query_FieldMask {
 	res := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{}
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter})
+	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector})
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation})
 	return res
 }
@@ -1583,7 +1633,7 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) IsFull() boo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1613,11 +1663,13 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Reset() {
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Subtract(other *AlertingCondition_Spec_TimeSeries_Query_FieldMask) *AlertingCondition_Spec_TimeSeries_Query_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[AlertingConditionSpecTimeSeriesQuery_FieldPathSelector]gotenobject.FieldMask{
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &common.TimeSeriesSelector_FieldMask{},
 		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 	mySubMasks := map[AlertingConditionSpecTimeSeriesQuery_FieldPathSelector]gotenobject.FieldMask{
+		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &common.TimeSeriesSelector_FieldMask{},
 		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
 	}
 
@@ -1634,6 +1686,8 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Subtract(oth
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
 				if tp, ok := path.(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath); ok {
 					switch tp.selector {
+					case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
+						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector] = common.FullTimeSeriesSelector_FieldMask()
 					case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 						mySubMasks[AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation] = common.FullAggregation_FieldMask()
 					}
@@ -1666,7 +1720,13 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) SubtractRaw(
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) FilterInputFields() *AlertingCondition_Spec_TimeSeries_Query_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -1788,6 +1848,8 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 		return source
 	}
 	result := &AlertingCondition_Spec_TimeSeries_Query{}
+	selectorMask := &common.TimeSeriesSelector_FieldMask{}
+	wholeSelectorAccepted := false
 	aggregationMask := &common.Aggregation_FieldMask{}
 	wholeAggregationAccepted := false
 
@@ -1797,16 +1859,24 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 			switch tp.selector {
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter:
 				result.Filter = source.Filter
+			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
+				result.Selector = source.Selector
+				wholeSelectorAccepted = true
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 				result.Aggregation = source.Aggregation
 				wholeAggregationAccepted = true
 			}
 		case *AlertingConditionSpecTimeSeriesQuery_FieldSubPath:
 			switch tp.selector {
+			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
+				selectorMask.AppendPath(tp.subPath.(common.TimeSeriesSelector_FieldPath))
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 				aggregationMask.AppendPath(tp.subPath.(common.Aggregation_FieldPath))
 			}
 		}
+	}
+	if wholeSelectorAccepted == false && len(selectorMask.Paths) > 0 {
+		result.Selector = selectorMask.Project(source.GetSelector())
 	}
 	if wholeAggregationAccepted == false && len(aggregationMask.Paths) > 0 {
 		result.Aggregation = aggregationMask.Project(source.GetAggregation())

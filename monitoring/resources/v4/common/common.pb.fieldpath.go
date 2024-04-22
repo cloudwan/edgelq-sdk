@@ -8395,3 +8395,2292 @@ func (fpmaov *MonitoredResource_FieldPathMapArrayOfValues) AsLabelsArrayOfElemen
 	res, ok := fpmaov.values.([]string)
 	return res, ok
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type Strings_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() Strings_FieldPathSelector
+	Get(source *Strings) []interface{}
+	GetSingle(source *Strings) (interface{}, bool)
+	ClearValue(item *Strings)
+
+	// Those methods build corresponding Strings_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) Strings_FieldPathValue
+	WithIArrayOfValues(values interface{}) Strings_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) Strings_FieldPathArrayItemValue
+}
+
+type Strings_FieldPathSelector int32
+
+const (
+	Strings_FieldPathSelectorValues Strings_FieldPathSelector = 0
+)
+
+func (s Strings_FieldPathSelector) String() string {
+	switch s {
+	case Strings_FieldPathSelectorValues:
+		return "values"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", s))
+	}
+}
+
+func BuildStrings_FieldPath(fp gotenobject.RawFieldPath) (Strings_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Strings")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "values":
+			return &Strings_FieldTerminalPath{selector: Strings_FieldPathSelectorValues}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Strings", fp)
+}
+
+func ParseStrings_FieldPath(rawField string) (Strings_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildStrings_FieldPath(fp)
+}
+
+func MustParseStrings_FieldPath(rawField string) Strings_FieldPath {
+	fp, err := ParseStrings_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type Strings_FieldTerminalPath struct {
+	selector Strings_FieldPathSelector
+}
+
+var _ Strings_FieldPath = (*Strings_FieldTerminalPath)(nil)
+
+func (fp *Strings_FieldTerminalPath) Selector() Strings_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *Strings_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *Strings_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Strings
+func (fp *Strings_FieldTerminalPath) Get(source *Strings) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case Strings_FieldPathSelectorValues:
+			for _, value := range source.GetValues() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *Strings_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Strings))
+}
+
+// GetSingle returns value pointed by specific field of from source Strings
+func (fp *Strings_FieldTerminalPath) GetSingle(source *Strings) (interface{}, bool) {
+	switch fp.selector {
+	case Strings_FieldPathSelectorValues:
+		res := source.GetValues()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+	}
+}
+
+func (fp *Strings_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Strings))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *Strings_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case Strings_FieldPathSelectorValues:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+	}
+}
+
+func (fp *Strings_FieldTerminalPath) ClearValue(item *Strings) {
+	if item != nil {
+		switch fp.selector {
+		case Strings_FieldPathSelectorValues:
+			item.Values = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *Strings_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Strings))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *Strings_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == Strings_FieldPathSelectorValues
+}
+
+func (fp *Strings_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *Strings_FieldTerminalPath) WithIValue(value interface{}) Strings_FieldPathValue {
+	switch fp.selector {
+	case Strings_FieldPathSelectorValues:
+		return &Strings_FieldTerminalPathValue{Strings_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+	}
+}
+
+func (fp *Strings_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *Strings_FieldTerminalPath) WithIArrayOfValues(values interface{}) Strings_FieldPathArrayOfValues {
+	fpaov := &Strings_FieldTerminalPathArrayOfValues{Strings_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case Strings_FieldPathSelectorValues:
+		return &Strings_FieldTerminalPathArrayOfValues{Strings_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *Strings_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *Strings_FieldTerminalPath) WithIArrayItemValue(value interface{}) Strings_FieldPathArrayItemValue {
+	switch fp.selector {
+	case Strings_FieldPathSelectorValues:
+		return &Strings_FieldTerminalPathArrayItemValue{Strings_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fp.selector))
+	}
+}
+
+func (fp *Strings_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// Strings_FieldPathValue allows storing values for Strings fields according to their type
+type Strings_FieldPathValue interface {
+	Strings_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Strings)
+	CompareWith(*Strings) (cmp int, comparable bool)
+}
+
+func ParseStrings_FieldPathValue(pathStr, valueStr string) (Strings_FieldPathValue, error) {
+	fp, err := ParseStrings_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Strings field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(Strings_FieldPathValue), nil
+}
+
+func MustParseStrings_FieldPathValue(pathStr, valueStr string) Strings_FieldPathValue {
+	fpv, err := ParseStrings_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type Strings_FieldTerminalPathValue struct {
+	Strings_FieldTerminalPath
+	value interface{}
+}
+
+var _ Strings_FieldPathValue = (*Strings_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Strings' as interface{}
+func (fpv *Strings_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *Strings_FieldTerminalPathValue) AsValuesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Strings
+func (fpv *Strings_FieldTerminalPathValue) SetTo(target **Strings) {
+	if *target == nil {
+		*target = new(Strings)
+	}
+	switch fpv.selector {
+	case Strings_FieldPathSelectorValues:
+		(*target).Values = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fpv.selector))
+	}
+}
+
+func (fpv *Strings_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Strings)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Strings_FieldTerminalPathValue' with the value under path in 'Strings'.
+func (fpv *Strings_FieldTerminalPathValue) CompareWith(source *Strings) (int, bool) {
+	switch fpv.selector {
+	case Strings_FieldPathSelectorValues:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Strings: %d", fpv.selector))
+	}
+}
+
+func (fpv *Strings_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Strings))
+}
+
+// Strings_FieldPathArrayItemValue allows storing single item in Path-specific values for Strings according to their type
+// Present only for array (repeated) types.
+type Strings_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	Strings_FieldPath
+	ContainsValue(*Strings) bool
+}
+
+// ParseStrings_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseStrings_FieldPathArrayItemValue(pathStr, valueStr string) (Strings_FieldPathArrayItemValue, error) {
+	fp, err := ParseStrings_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Strings field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(Strings_FieldPathArrayItemValue), nil
+}
+
+func MustParseStrings_FieldPathArrayItemValue(pathStr, valueStr string) Strings_FieldPathArrayItemValue {
+	fpaiv, err := ParseStrings_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type Strings_FieldTerminalPathArrayItemValue struct {
+	Strings_FieldTerminalPath
+	value interface{}
+}
+
+var _ Strings_FieldPathArrayItemValue = (*Strings_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Strings as interface{}
+func (fpaiv *Strings_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *Strings_FieldTerminalPathArrayItemValue) AsValuesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *Strings_FieldTerminalPathArrayItemValue) GetSingle(source *Strings) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *Strings_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Strings))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Strings'
+func (fpaiv *Strings_FieldTerminalPathArrayItemValue) ContainsValue(source *Strings) bool {
+	slice := fpaiv.Strings_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// Strings_FieldPathArrayOfValues allows storing slice of values for Strings fields according to their type
+type Strings_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	Strings_FieldPath
+}
+
+func ParseStrings_FieldPathArrayOfValues(pathStr, valuesStr string) (Strings_FieldPathArrayOfValues, error) {
+	fp, err := ParseStrings_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Strings field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(Strings_FieldPathArrayOfValues), nil
+}
+
+func MustParseStrings_FieldPathArrayOfValues(pathStr, valuesStr string) Strings_FieldPathArrayOfValues {
+	fpaov, err := ParseStrings_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type Strings_FieldTerminalPathArrayOfValues struct {
+	Strings_FieldTerminalPath
+	values interface{}
+}
+
+var _ Strings_FieldPathArrayOfValues = (*Strings_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *Strings_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case Strings_FieldPathSelectorValues:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *Strings_FieldTerminalPathArrayOfValues) AsValuesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MonitoredResourceSelector_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MonitoredResourceSelector_FieldPathSelector
+	Get(source *MonitoredResourceSelector) []interface{}
+	GetSingle(source *MonitoredResourceSelector) (interface{}, bool)
+	ClearValue(item *MonitoredResourceSelector)
+
+	// Those methods build corresponding MonitoredResourceSelector_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MonitoredResourceSelector_FieldPathValue
+	WithIArrayOfValues(values interface{}) MonitoredResourceSelector_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MonitoredResourceSelector_FieldPathArrayItemValue
+}
+
+type MonitoredResourceSelector_FieldPathSelector int32
+
+const (
+	MonitoredResourceSelector_FieldPathSelectorTypes  MonitoredResourceSelector_FieldPathSelector = 0
+	MonitoredResourceSelector_FieldPathSelectorLabels MonitoredResourceSelector_FieldPathSelector = 1
+)
+
+func (s MonitoredResourceSelector_FieldPathSelector) String() string {
+	switch s {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return "types"
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return "labels"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", s))
+	}
+}
+
+func BuildMonitoredResourceSelector_FieldPath(fp gotenobject.RawFieldPath) (MonitoredResourceSelector_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MonitoredResourceSelector")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "types":
+			return &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorTypes}, nil
+		case "labels":
+			return &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorLabels}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "labels":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object MonitoredResourceSelector)", fp)
+			}
+			return &MonitoredResourceSelector_FieldPathMap{selector: MonitoredResourceSelector_FieldPathSelectorLabels, key: fp[1]}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MonitoredResourceSelector", fp)
+}
+
+func ParseMonitoredResourceSelector_FieldPath(rawField string) (MonitoredResourceSelector_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMonitoredResourceSelector_FieldPath(fp)
+}
+
+func MustParseMonitoredResourceSelector_FieldPath(rawField string) MonitoredResourceSelector_FieldPath {
+	fp, err := ParseMonitoredResourceSelector_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MonitoredResourceSelector_FieldTerminalPath struct {
+	selector MonitoredResourceSelector_FieldPathSelector
+}
+
+var _ MonitoredResourceSelector_FieldPath = (*MonitoredResourceSelector_FieldTerminalPath)(nil)
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) Selector() MonitoredResourceSelector_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MonitoredResourceSelector_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MonitoredResourceSelector_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MonitoredResourceSelector
+func (fp *MonitoredResourceSelector_FieldTerminalPath) Get(source *MonitoredResourceSelector) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MonitoredResourceSelector_FieldPathSelectorTypes:
+			for _, value := range source.GetTypes() {
+				values = append(values, value)
+			}
+		case MonitoredResourceSelector_FieldPathSelectorLabels:
+			if source.Labels != nil {
+				values = append(values, source.Labels)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MonitoredResourceSelector))
+}
+
+// GetSingle returns value pointed by specific field of from source MonitoredResourceSelector
+func (fp *MonitoredResourceSelector_FieldTerminalPath) GetSingle(source *MonitoredResourceSelector) (interface{}, bool) {
+	switch fp.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		res := source.GetTypes()
+		return res, res != nil
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		res := source.GetLabels()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MonitoredResourceSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MonitoredResourceSelector_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return ([]string)(nil)
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return (map[string]*Strings)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) ClearValue(item *MonitoredResourceSelector) {
+	if item != nil {
+		switch fp.selector {
+		case MonitoredResourceSelector_FieldPathSelectorTypes:
+			item.Types = nil
+		case MonitoredResourceSelector_FieldPathSelectorLabels:
+			item.Labels = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MonitoredResourceSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MonitoredResourceSelector_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MonitoredResourceSelector_FieldPathSelectorTypes
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithIValue(value interface{}) MonitoredResourceSelector_FieldPathValue {
+	switch fp.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return &MonitoredResourceSelector_FieldTerminalPathValue{MonitoredResourceSelector_FieldTerminalPath: *fp, value: value.([]string)}
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return &MonitoredResourceSelector_FieldTerminalPathValue{MonitoredResourceSelector_FieldTerminalPath: *fp, value: value.(map[string]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithIArrayOfValues(values interface{}) MonitoredResourceSelector_FieldPathArrayOfValues {
+	fpaov := &MonitoredResourceSelector_FieldTerminalPathArrayOfValues{MonitoredResourceSelector_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return &MonitoredResourceSelector_FieldTerminalPathArrayOfValues{MonitoredResourceSelector_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return &MonitoredResourceSelector_FieldTerminalPathArrayOfValues{MonitoredResourceSelector_FieldTerminalPath: *fp, values: values.([]map[string]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithIArrayItemValue(value interface{}) MonitoredResourceSelector_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return &MonitoredResourceSelector_FieldTerminalPathArrayItemValue{MonitoredResourceSelector_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MonitoredResourceSelector_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type MonitoredResourceSelector_FieldPathMap struct {
+	key      string
+	selector MonitoredResourceSelector_FieldPathSelector
+}
+
+var _ MonitoredResourceSelector_FieldPath = (*MonitoredResourceSelector_FieldPathMap)(nil)
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) Selector() MonitoredResourceSelector_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *MonitoredResourceSelector_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *MonitoredResourceSelector_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source MonitoredResourceSelector
+func (fpm *MonitoredResourceSelector_FieldPathMap) Get(source *MonitoredResourceSelector) (values []interface{}) {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		if value, ok := source.GetLabels()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*MonitoredResourceSelector))
+}
+
+// GetSingle returns value by selected field map key from source MonitoredResourceSelector
+func (fpm *MonitoredResourceSelector_FieldPathMap) GetSingle(source *MonitoredResourceSelector) (interface{}, bool) {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		res, ok := source.GetLabels()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*MonitoredResourceSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *MonitoredResourceSelector_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		var v *Strings
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) ClearValue(item *MonitoredResourceSelector) {
+	if item != nil {
+		switch fpm.selector {
+		case MonitoredResourceSelector_FieldPathSelectorLabels:
+			delete(item.Labels, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*MonitoredResourceSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *MonitoredResourceSelector_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithIValue(value interface{}) MonitoredResourceSelector_FieldPathValue {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return &MonitoredResourceSelector_FieldPathMapValue{MonitoredResourceSelector_FieldPathMap: *fpm, value: value.(*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithIArrayOfValues(values interface{}) MonitoredResourceSelector_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return &MonitoredResourceSelector_FieldPathMapArrayOfValues{MonitoredResourceSelector_FieldPathMap: *fpm, values: values.([]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithIArrayItemValue(value interface{}) MonitoredResourceSelector_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *MonitoredResourceSelector_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
+}
+
+// MonitoredResourceSelector_FieldPathValue allows storing values for MonitoredResourceSelector fields according to their type
+type MonitoredResourceSelector_FieldPathValue interface {
+	MonitoredResourceSelector_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MonitoredResourceSelector)
+	CompareWith(*MonitoredResourceSelector) (cmp int, comparable bool)
+}
+
+func ParseMonitoredResourceSelector_FieldPathValue(pathStr, valueStr string) (MonitoredResourceSelector_FieldPathValue, error) {
+	fp, err := ParseMonitoredResourceSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MonitoredResourceSelector field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MonitoredResourceSelector_FieldPathValue), nil
+}
+
+func MustParseMonitoredResourceSelector_FieldPathValue(pathStr, valueStr string) MonitoredResourceSelector_FieldPathValue {
+	fpv, err := ParseMonitoredResourceSelector_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MonitoredResourceSelector_FieldTerminalPathValue struct {
+	MonitoredResourceSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ MonitoredResourceSelector_FieldPathValue = (*MonitoredResourceSelector_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'MonitoredResourceSelector' as interface{}
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) AsTypesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) AsLabelsValue() (map[string]*Strings, bool) {
+	res, ok := fpv.value.(map[string]*Strings)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object MonitoredResourceSelector
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) SetTo(target **MonitoredResourceSelector) {
+	if *target == nil {
+		*target = new(MonitoredResourceSelector)
+	}
+	switch fpv.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		(*target).Types = fpv.value.([]string)
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		(*target).Labels = fpv.value.(map[string]*Strings)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MonitoredResourceSelector)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MonitoredResourceSelector_FieldTerminalPathValue' with the value under path in 'MonitoredResourceSelector'.
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) CompareWith(source *MonitoredResourceSelector) (int, bool) {
+	switch fpv.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		return 0, false
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *MonitoredResourceSelector_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MonitoredResourceSelector))
+}
+
+type MonitoredResourceSelector_FieldPathMapValue struct {
+	MonitoredResourceSelector_FieldPathMap
+	value interface{}
+}
+
+var _ MonitoredResourceSelector_FieldPathValue = (*MonitoredResourceSelector_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in MonitoredResourceSelector as interface{}
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) AsLabelsElementValue() (*Strings, bool) {
+	res, ok := fpmv.value.(*Strings)
+	return res, ok
+}
+
+// SetTo stores value for selected field in MonitoredResourceSelector
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) SetTo(target **MonitoredResourceSelector) {
+	if *target == nil {
+		*target = new(MonitoredResourceSelector)
+	}
+	switch fpmv.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		if (*target).Labels == nil {
+			(*target).Labels = make(map[string]*Strings)
+		}
+		(*target).Labels[fpmv.key] = fpmv.value.(*Strings)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MonitoredResourceSelector)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MonitoredResourceSelector_FieldPathMapValue' with the value under path in 'MonitoredResourceSelector'.
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) CompareWith(source *MonitoredResourceSelector) (int, bool) {
+	switch fpmv.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MonitoredResourceSelector: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *MonitoredResourceSelector_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*MonitoredResourceSelector))
+}
+
+// MonitoredResourceSelector_FieldPathArrayItemValue allows storing single item in Path-specific values for MonitoredResourceSelector according to their type
+// Present only for array (repeated) types.
+type MonitoredResourceSelector_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MonitoredResourceSelector_FieldPath
+	ContainsValue(*MonitoredResourceSelector) bool
+}
+
+// ParseMonitoredResourceSelector_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMonitoredResourceSelector_FieldPathArrayItemValue(pathStr, valueStr string) (MonitoredResourceSelector_FieldPathArrayItemValue, error) {
+	fp, err := ParseMonitoredResourceSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MonitoredResourceSelector field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MonitoredResourceSelector_FieldPathArrayItemValue), nil
+}
+
+func MustParseMonitoredResourceSelector_FieldPathArrayItemValue(pathStr, valueStr string) MonitoredResourceSelector_FieldPathArrayItemValue {
+	fpaiv, err := ParseMonitoredResourceSelector_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MonitoredResourceSelector_FieldTerminalPathArrayItemValue struct {
+	MonitoredResourceSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ MonitoredResourceSelector_FieldPathArrayItemValue = (*MonitoredResourceSelector_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MonitoredResourceSelector as interface{}
+func (fpaiv *MonitoredResourceSelector_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MonitoredResourceSelector_FieldTerminalPathArrayItemValue) AsTypesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *MonitoredResourceSelector_FieldTerminalPathArrayItemValue) GetSingle(source *MonitoredResourceSelector) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MonitoredResourceSelector_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MonitoredResourceSelector))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'MonitoredResourceSelector'
+func (fpaiv *MonitoredResourceSelector_FieldTerminalPathArrayItemValue) ContainsValue(source *MonitoredResourceSelector) bool {
+	slice := fpaiv.MonitoredResourceSelector_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MonitoredResourceSelector_FieldPathArrayOfValues allows storing slice of values for MonitoredResourceSelector fields according to their type
+type MonitoredResourceSelector_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MonitoredResourceSelector_FieldPath
+}
+
+func ParseMonitoredResourceSelector_FieldPathArrayOfValues(pathStr, valuesStr string) (MonitoredResourceSelector_FieldPathArrayOfValues, error) {
+	fp, err := ParseMonitoredResourceSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MonitoredResourceSelector field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MonitoredResourceSelector_FieldPathArrayOfValues), nil
+}
+
+func MustParseMonitoredResourceSelector_FieldPathArrayOfValues(pathStr, valuesStr string) MonitoredResourceSelector_FieldPathArrayOfValues {
+	fpaov, err := ParseMonitoredResourceSelector_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MonitoredResourceSelector_FieldTerminalPathArrayOfValues struct {
+	MonitoredResourceSelector_FieldTerminalPath
+	values interface{}
+}
+
+var _ MonitoredResourceSelector_FieldPathArrayOfValues = (*MonitoredResourceSelector_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MonitoredResourceSelector_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MonitoredResourceSelector_FieldPathSelectorTypes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		for _, v := range fpaov.values.([]map[string]*Strings) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MonitoredResourceSelector_FieldTerminalPathArrayOfValues) AsTypesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MonitoredResourceSelector_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([]map[string]*Strings, bool) {
+	res, ok := fpaov.values.([]map[string]*Strings)
+	return res, ok
+}
+
+type MonitoredResourceSelector_FieldPathMapArrayOfValues struct {
+	MonitoredResourceSelector_FieldPathMap
+	values interface{}
+}
+
+var _ MonitoredResourceSelector_FieldPathArrayOfValues = (*MonitoredResourceSelector_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *MonitoredResourceSelector_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case MonitoredResourceSelector_FieldPathSelectorLabels:
+		for _, v := range fpmaov.values.([]*Strings) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *MonitoredResourceSelector_FieldPathMapArrayOfValues) AsLabelsArrayOfElementValues() ([]*Strings, bool) {
+	res, ok := fpmaov.values.([]*Strings)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricSelector_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricSelector_FieldPathSelector
+	Get(source *MetricSelector) []interface{}
+	GetSingle(source *MetricSelector) (interface{}, bool)
+	ClearValue(item *MetricSelector)
+
+	// Those methods build corresponding MetricSelector_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricSelector_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricSelector_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricSelector_FieldPathArrayItemValue
+}
+
+type MetricSelector_FieldPathSelector int32
+
+const (
+	MetricSelector_FieldPathSelectorTypes  MetricSelector_FieldPathSelector = 0
+	MetricSelector_FieldPathSelectorLabels MetricSelector_FieldPathSelector = 1
+)
+
+func (s MetricSelector_FieldPathSelector) String() string {
+	switch s {
+	case MetricSelector_FieldPathSelectorTypes:
+		return "types"
+	case MetricSelector_FieldPathSelectorLabels:
+		return "labels"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", s))
+	}
+}
+
+func BuildMetricSelector_FieldPath(fp gotenobject.RawFieldPath) (MetricSelector_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricSelector")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "types":
+			return &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorTypes}, nil
+		case "labels":
+			return &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorLabels}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "labels":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object MetricSelector)", fp)
+			}
+			return &MetricSelector_FieldPathMap{selector: MetricSelector_FieldPathSelectorLabels, key: fp[1]}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricSelector", fp)
+}
+
+func ParseMetricSelector_FieldPath(rawField string) (MetricSelector_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricSelector_FieldPath(fp)
+}
+
+func MustParseMetricSelector_FieldPath(rawField string) MetricSelector_FieldPath {
+	fp, err := ParseMetricSelector_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricSelector_FieldTerminalPath struct {
+	selector MetricSelector_FieldPathSelector
+}
+
+var _ MetricSelector_FieldPath = (*MetricSelector_FieldTerminalPath)(nil)
+
+func (fp *MetricSelector_FieldTerminalPath) Selector() MetricSelector_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricSelector_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricSelector_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricSelector
+func (fp *MetricSelector_FieldTerminalPath) Get(source *MetricSelector) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricSelector_FieldPathSelectorTypes:
+			for _, value := range source.GetTypes() {
+				values = append(values, value)
+			}
+		case MetricSelector_FieldPathSelectorLabels:
+			if source.Labels != nil {
+				values = append(values, source.Labels)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricSelector_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricSelector))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricSelector
+func (fp *MetricSelector_FieldTerminalPath) GetSingle(source *MetricSelector) (interface{}, bool) {
+	switch fp.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		res := source.GetTypes()
+		return res, res != nil
+	case MetricSelector_FieldPathSelectorLabels:
+		res := source.GetLabels()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricSelector_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		return ([]string)(nil)
+	case MetricSelector_FieldPathSelectorLabels:
+		return (map[string]*Strings)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) ClearValue(item *MetricSelector) {
+	if item != nil {
+		switch fp.selector {
+		case MetricSelector_FieldPathSelectorTypes:
+			item.Types = nil
+		case MetricSelector_FieldPathSelectorLabels:
+			item.Labels = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricSelector_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricSelector_FieldPathSelectorTypes
+}
+
+func (fp *MetricSelector_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithIValue(value interface{}) MetricSelector_FieldPathValue {
+	switch fp.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		return &MetricSelector_FieldTerminalPathValue{MetricSelector_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricSelector_FieldPathSelectorLabels:
+		return &MetricSelector_FieldTerminalPathValue{MetricSelector_FieldTerminalPath: *fp, value: value.(map[string]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricSelector_FieldPathArrayOfValues {
+	fpaov := &MetricSelector_FieldTerminalPathArrayOfValues{MetricSelector_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		return &MetricSelector_FieldTerminalPathArrayOfValues{MetricSelector_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricSelector_FieldPathSelectorLabels:
+		return &MetricSelector_FieldTerminalPathArrayOfValues{MetricSelector_FieldTerminalPath: *fp, values: values.([]map[string]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricSelector_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		return &MetricSelector_FieldTerminalPathArrayItemValue{MetricSelector_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fp.selector))
+	}
+}
+
+func (fp *MetricSelector_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type MetricSelector_FieldPathMap struct {
+	key      string
+	selector MetricSelector_FieldPathSelector
+}
+
+var _ MetricSelector_FieldPath = (*MetricSelector_FieldPathMap)(nil)
+
+func (fpm *MetricSelector_FieldPathMap) Selector() MetricSelector_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *MetricSelector_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *MetricSelector_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *MetricSelector_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source MetricSelector
+func (fpm *MetricSelector_FieldPathMap) Get(source *MetricSelector) (values []interface{}) {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		if value, ok := source.GetLabels()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *MetricSelector_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*MetricSelector))
+}
+
+// GetSingle returns value by selected field map key from source MetricSelector
+func (fpm *MetricSelector_FieldPathMap) GetSingle(source *MetricSelector) (interface{}, bool) {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		res, ok := source.GetLabels()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*MetricSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *MetricSelector_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		var v *Strings
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) ClearValue(item *MetricSelector) {
+	if item != nil {
+		switch fpm.selector {
+		case MetricSelector_FieldPathSelectorLabels:
+			delete(item.Labels, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*MetricSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *MetricSelector_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithIValue(value interface{}) MetricSelector_FieldPathValue {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		return &MetricSelector_FieldPathMapValue{MetricSelector_FieldPathMap: *fpm, value: value.(*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithIArrayOfValues(values interface{}) MetricSelector_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		return &MetricSelector_FieldPathMapArrayOfValues{MetricSelector_FieldPathMap: *fpm, values: values.([]*Strings)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpm.selector))
+	}
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithIArrayItemValue(value interface{}) MetricSelector_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *MetricSelector_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
+}
+
+// MetricSelector_FieldPathValue allows storing values for MetricSelector fields according to their type
+type MetricSelector_FieldPathValue interface {
+	MetricSelector_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricSelector)
+	CompareWith(*MetricSelector) (cmp int, comparable bool)
+}
+
+func ParseMetricSelector_FieldPathValue(pathStr, valueStr string) (MetricSelector_FieldPathValue, error) {
+	fp, err := ParseMetricSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MetricSelector field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricSelector_FieldPathValue), nil
+}
+
+func MustParseMetricSelector_FieldPathValue(pathStr, valueStr string) MetricSelector_FieldPathValue {
+	fpv, err := ParseMetricSelector_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricSelector_FieldTerminalPathValue struct {
+	MetricSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricSelector_FieldPathValue = (*MetricSelector_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'MetricSelector' as interface{}
+func (fpv *MetricSelector_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricSelector_FieldTerminalPathValue) AsTypesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricSelector_FieldTerminalPathValue) AsLabelsValue() (map[string]*Strings, bool) {
+	res, ok := fpv.value.(map[string]*Strings)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object MetricSelector
+func (fpv *MetricSelector_FieldTerminalPathValue) SetTo(target **MetricSelector) {
+	if *target == nil {
+		*target = new(MetricSelector)
+	}
+	switch fpv.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		(*target).Types = fpv.value.([]string)
+	case MetricSelector_FieldPathSelectorLabels:
+		(*target).Labels = fpv.value.(map[string]*Strings)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricSelector_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricSelector)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricSelector_FieldTerminalPathValue' with the value under path in 'MetricSelector'.
+func (fpv *MetricSelector_FieldTerminalPathValue) CompareWith(source *MetricSelector) (int, bool) {
+	switch fpv.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		return 0, false
+	case MetricSelector_FieldPathSelectorLabels:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricSelector_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricSelector))
+}
+
+type MetricSelector_FieldPathMapValue struct {
+	MetricSelector_FieldPathMap
+	value interface{}
+}
+
+var _ MetricSelector_FieldPathValue = (*MetricSelector_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in MetricSelector as interface{}
+func (fpmv *MetricSelector_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *MetricSelector_FieldPathMapValue) AsLabelsElementValue() (*Strings, bool) {
+	res, ok := fpmv.value.(*Strings)
+	return res, ok
+}
+
+// SetTo stores value for selected field in MetricSelector
+func (fpmv *MetricSelector_FieldPathMapValue) SetTo(target **MetricSelector) {
+	if *target == nil {
+		*target = new(MetricSelector)
+	}
+	switch fpmv.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		if (*target).Labels == nil {
+			(*target).Labels = make(map[string]*Strings)
+		}
+		(*target).Labels[fpmv.key] = fpmv.value.(*Strings)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *MetricSelector_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricSelector)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricSelector_FieldPathMapValue' with the value under path in 'MetricSelector'.
+func (fpmv *MetricSelector_FieldPathMapValue) CompareWith(source *MetricSelector) (int, bool) {
+	switch fpmv.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricSelector: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *MetricSelector_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*MetricSelector))
+}
+
+// MetricSelector_FieldPathArrayItemValue allows storing single item in Path-specific values for MetricSelector according to their type
+// Present only for array (repeated) types.
+type MetricSelector_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricSelector_FieldPath
+	ContainsValue(*MetricSelector) bool
+}
+
+// ParseMetricSelector_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricSelector_FieldPathArrayItemValue(pathStr, valueStr string) (MetricSelector_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MetricSelector field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricSelector_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricSelector_FieldPathArrayItemValue(pathStr, valueStr string) MetricSelector_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricSelector_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricSelector_FieldTerminalPathArrayItemValue struct {
+	MetricSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricSelector_FieldPathArrayItemValue = (*MetricSelector_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricSelector as interface{}
+func (fpaiv *MetricSelector_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricSelector_FieldTerminalPathArrayItemValue) AsTypesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *MetricSelector_FieldTerminalPathArrayItemValue) GetSingle(source *MetricSelector) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricSelector_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricSelector))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'MetricSelector'
+func (fpaiv *MetricSelector_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricSelector) bool {
+	slice := fpaiv.MetricSelector_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricSelector_FieldPathArrayOfValues allows storing slice of values for MetricSelector fields according to their type
+type MetricSelector_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricSelector_FieldPath
+}
+
+func ParseMetricSelector_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricSelector_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing MetricSelector field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricSelector_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricSelector_FieldPathArrayOfValues(pathStr, valuesStr string) MetricSelector_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricSelector_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricSelector_FieldTerminalPathArrayOfValues struct {
+	MetricSelector_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricSelector_FieldPathArrayOfValues = (*MetricSelector_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricSelector_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricSelector_FieldPathSelectorTypes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricSelector_FieldPathSelectorLabels:
+		for _, v := range fpaov.values.([]map[string]*Strings) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricSelector_FieldTerminalPathArrayOfValues) AsTypesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricSelector_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([]map[string]*Strings, bool) {
+	res, ok := fpaov.values.([]map[string]*Strings)
+	return res, ok
+}
+
+type MetricSelector_FieldPathMapArrayOfValues struct {
+	MetricSelector_FieldPathMap
+	values interface{}
+}
+
+var _ MetricSelector_FieldPathArrayOfValues = (*MetricSelector_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *MetricSelector_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case MetricSelector_FieldPathSelectorLabels:
+		for _, v := range fpmaov.values.([]*Strings) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *MetricSelector_FieldPathMapArrayOfValues) AsLabelsArrayOfElementValues() ([]*Strings, bool) {
+	res, ok := fpmaov.values.([]*Strings)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type TimeSeriesSelector_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() TimeSeriesSelector_FieldPathSelector
+	Get(source *TimeSeriesSelector) []interface{}
+	GetSingle(source *TimeSeriesSelector) (interface{}, bool)
+	ClearValue(item *TimeSeriesSelector)
+
+	// Those methods build corresponding TimeSeriesSelector_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) TimeSeriesSelector_FieldPathValue
+	WithIArrayOfValues(values interface{}) TimeSeriesSelector_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) TimeSeriesSelector_FieldPathArrayItemValue
+}
+
+type TimeSeriesSelector_FieldPathSelector int32
+
+const (
+	TimeSeriesSelector_FieldPathSelectorMetric   TimeSeriesSelector_FieldPathSelector = 0
+	TimeSeriesSelector_FieldPathSelectorResource TimeSeriesSelector_FieldPathSelector = 1
+)
+
+func (s TimeSeriesSelector_FieldPathSelector) String() string {
+	switch s {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return "metric"
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return "resource"
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", s))
+	}
+}
+
+func BuildTimeSeriesSelector_FieldPath(fp gotenobject.RawFieldPath) (TimeSeriesSelector_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object TimeSeriesSelector")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "metric":
+			return &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorMetric}, nil
+		case "resource":
+			return &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorResource}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "metric":
+			if subpath, err := BuildMetricSelector_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorMetric, subPath: subpath}, nil
+			}
+		case "resource":
+			if subpath, err := BuildMonitoredResourceSelector_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorResource, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TimeSeriesSelector", fp)
+}
+
+func ParseTimeSeriesSelector_FieldPath(rawField string) (TimeSeriesSelector_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildTimeSeriesSelector_FieldPath(fp)
+}
+
+func MustParseTimeSeriesSelector_FieldPath(rawField string) TimeSeriesSelector_FieldPath {
+	fp, err := ParseTimeSeriesSelector_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type TimeSeriesSelector_FieldTerminalPath struct {
+	selector TimeSeriesSelector_FieldPathSelector
+}
+
+var _ TimeSeriesSelector_FieldPath = (*TimeSeriesSelector_FieldTerminalPath)(nil)
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) Selector() TimeSeriesSelector_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *TimeSeriesSelector_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *TimeSeriesSelector_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source TimeSeriesSelector
+func (fp *TimeSeriesSelector_FieldTerminalPath) Get(source *TimeSeriesSelector) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case TimeSeriesSelector_FieldPathSelectorMetric:
+			if source.Metric != nil {
+				values = append(values, source.Metric)
+			}
+		case TimeSeriesSelector_FieldPathSelectorResource:
+			if source.Resource != nil {
+				values = append(values, source.Resource)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*TimeSeriesSelector))
+}
+
+// GetSingle returns value pointed by specific field of from source TimeSeriesSelector
+func (fp *TimeSeriesSelector_FieldTerminalPath) GetSingle(source *TimeSeriesSelector) (interface{}, bool) {
+	switch fp.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		res := source.GetMetric()
+		return res, res != nil
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		res := source.GetResource()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+	}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*TimeSeriesSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *TimeSeriesSelector_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return (*MetricSelector)(nil)
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return (*MonitoredResourceSelector)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+	}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) ClearValue(item *TimeSeriesSelector) {
+	if item != nil {
+		switch fp.selector {
+		case TimeSeriesSelector_FieldPathSelectorMetric:
+			item.Metric = nil
+		case TimeSeriesSelector_FieldPathSelectorResource:
+			item.Resource = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*TimeSeriesSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *TimeSeriesSelector_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithIValue(value interface{}) TimeSeriesSelector_FieldPathValue {
+	switch fp.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return &TimeSeriesSelector_FieldTerminalPathValue{TimeSeriesSelector_FieldTerminalPath: *fp, value: value.(*MetricSelector)}
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return &TimeSeriesSelector_FieldTerminalPathValue{TimeSeriesSelector_FieldTerminalPath: *fp, value: value.(*MonitoredResourceSelector)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+	}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithIArrayOfValues(values interface{}) TimeSeriesSelector_FieldPathArrayOfValues {
+	fpaov := &TimeSeriesSelector_FieldTerminalPathArrayOfValues{TimeSeriesSelector_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return &TimeSeriesSelector_FieldTerminalPathArrayOfValues{TimeSeriesSelector_FieldTerminalPath: *fp, values: values.([]*MetricSelector)}
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return &TimeSeriesSelector_FieldTerminalPathArrayOfValues{TimeSeriesSelector_FieldTerminalPath: *fp, values: values.([]*MonitoredResourceSelector)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithIArrayItemValue(value interface{}) TimeSeriesSelector_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fp.selector))
+	}
+}
+
+func (fp *TimeSeriesSelector_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type TimeSeriesSelector_FieldSubPath struct {
+	selector TimeSeriesSelector_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ TimeSeriesSelector_FieldPath = (*TimeSeriesSelector_FieldSubPath)(nil)
+
+func (fps *TimeSeriesSelector_FieldSubPath) Selector() TimeSeriesSelector_FieldPathSelector {
+	return fps.selector
+}
+func (fps *TimeSeriesSelector_FieldSubPath) AsMetricSubPath() (MetricSelector_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricSelector_FieldPath)
+	return res, ok
+}
+func (fps *TimeSeriesSelector_FieldSubPath) AsResourceSubPath() (MonitoredResourceSelector_FieldPath, bool) {
+	res, ok := fps.subPath.(MonitoredResourceSelector_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *TimeSeriesSelector_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *TimeSeriesSelector_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source TimeSeriesSelector
+func (fps *TimeSeriesSelector_FieldSubPath) Get(source *TimeSeriesSelector) (values []interface{}) {
+	switch fps.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		values = append(values, fps.subPath.GetRaw(source.GetMetric())...)
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*TimeSeriesSelector))
+}
+
+// GetSingle returns value of selected field from source TimeSeriesSelector
+func (fps *TimeSeriesSelector_FieldSubPath) GetSingle(source *TimeSeriesSelector) (interface{}, bool) {
+	switch fps.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		if source.GetMetric() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetMetric())
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		if source.GetResource() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetResource())
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fps.selector))
+	}
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*TimeSeriesSelector))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *TimeSeriesSelector_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) ClearValue(item *TimeSeriesSelector) {
+	if item != nil {
+		switch fps.selector {
+		case TimeSeriesSelector_FieldPathSelectorMetric:
+			fps.subPath.ClearValueRaw(item.Metric)
+		case TimeSeriesSelector_FieldPathSelectorResource:
+			fps.subPath.ClearValueRaw(item.Resource)
+		default:
+			panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*TimeSeriesSelector))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *TimeSeriesSelector_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&TimeSeriesSelector_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithIValue(value interface{}) TimeSeriesSelector_FieldPathValue {
+	return &TimeSeriesSelector_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithIArrayOfValues(values interface{}) TimeSeriesSelector_FieldPathArrayOfValues {
+	return &TimeSeriesSelector_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithIArrayItemValue(value interface{}) TimeSeriesSelector_FieldPathArrayItemValue {
+	return &TimeSeriesSelector_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *TimeSeriesSelector_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// TimeSeriesSelector_FieldPathValue allows storing values for TimeSeriesSelector fields according to their type
+type TimeSeriesSelector_FieldPathValue interface {
+	TimeSeriesSelector_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **TimeSeriesSelector)
+	CompareWith(*TimeSeriesSelector) (cmp int, comparable bool)
+}
+
+func ParseTimeSeriesSelector_FieldPathValue(pathStr, valueStr string) (TimeSeriesSelector_FieldPathValue, error) {
+	fp, err := ParseTimeSeriesSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TimeSeriesSelector field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(TimeSeriesSelector_FieldPathValue), nil
+}
+
+func MustParseTimeSeriesSelector_FieldPathValue(pathStr, valueStr string) TimeSeriesSelector_FieldPathValue {
+	fpv, err := ParseTimeSeriesSelector_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type TimeSeriesSelector_FieldTerminalPathValue struct {
+	TimeSeriesSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ TimeSeriesSelector_FieldPathValue = (*TimeSeriesSelector_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'TimeSeriesSelector' as interface{}
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) AsMetricValue() (*MetricSelector, bool) {
+	res, ok := fpv.value.(*MetricSelector)
+	return res, ok
+}
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) AsResourceValue() (*MonitoredResourceSelector, bool) {
+	res, ok := fpv.value.(*MonitoredResourceSelector)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object TimeSeriesSelector
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) SetTo(target **TimeSeriesSelector) {
+	if *target == nil {
+		*target = new(TimeSeriesSelector)
+	}
+	switch fpv.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		(*target).Metric = fpv.value.(*MetricSelector)
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		(*target).Resource = fpv.value.(*MonitoredResourceSelector)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*TimeSeriesSelector)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'TimeSeriesSelector_FieldTerminalPathValue' with the value under path in 'TimeSeriesSelector'.
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) CompareWith(source *TimeSeriesSelector) (int, bool) {
+	switch fpv.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return 0, false
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fpv.selector))
+	}
+}
+
+func (fpv *TimeSeriesSelector_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*TimeSeriesSelector))
+}
+
+type TimeSeriesSelector_FieldSubPathValue struct {
+	TimeSeriesSelector_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ TimeSeriesSelector_FieldPathValue = (*TimeSeriesSelector_FieldSubPathValue)(nil)
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) AsMetricPathValue() (MetricSelector_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricSelector_FieldPathValue)
+	return res, ok
+}
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) AsResourcePathValue() (MonitoredResourceSelector_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MonitoredResourceSelector_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) SetTo(target **TimeSeriesSelector) {
+	if *target == nil {
+		*target = new(TimeSeriesSelector)
+	}
+	switch fpvs.Selector() {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		fpvs.subPathValue.(MetricSelector_FieldPathValue).SetTo(&(*target).Metric)
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		fpvs.subPathValue.(MonitoredResourceSelector_FieldPathValue).SetTo(&(*target).Resource)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*TimeSeriesSelector)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) CompareWith(source *TimeSeriesSelector) (int, bool) {
+	switch fpvs.Selector() {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return fpvs.subPathValue.(MetricSelector_FieldPathValue).CompareWith(source.GetMetric())
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return fpvs.subPathValue.(MonitoredResourceSelector_FieldPathValue).CompareWith(source.GetResource())
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *TimeSeriesSelector_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*TimeSeriesSelector))
+}
+
+// TimeSeriesSelector_FieldPathArrayItemValue allows storing single item in Path-specific values for TimeSeriesSelector according to their type
+// Present only for array (repeated) types.
+type TimeSeriesSelector_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	TimeSeriesSelector_FieldPath
+	ContainsValue(*TimeSeriesSelector) bool
+}
+
+// ParseTimeSeriesSelector_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseTimeSeriesSelector_FieldPathArrayItemValue(pathStr, valueStr string) (TimeSeriesSelector_FieldPathArrayItemValue, error) {
+	fp, err := ParseTimeSeriesSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TimeSeriesSelector field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(TimeSeriesSelector_FieldPathArrayItemValue), nil
+}
+
+func MustParseTimeSeriesSelector_FieldPathArrayItemValue(pathStr, valueStr string) TimeSeriesSelector_FieldPathArrayItemValue {
+	fpaiv, err := ParseTimeSeriesSelector_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type TimeSeriesSelector_FieldTerminalPathArrayItemValue struct {
+	TimeSeriesSelector_FieldTerminalPath
+	value interface{}
+}
+
+var _ TimeSeriesSelector_FieldPathArrayItemValue = (*TimeSeriesSelector_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object TimeSeriesSelector as interface{}
+func (fpaiv *TimeSeriesSelector_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *TimeSeriesSelector_FieldTerminalPathArrayItemValue) GetSingle(source *TimeSeriesSelector) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *TimeSeriesSelector_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*TimeSeriesSelector))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'TimeSeriesSelector'
+func (fpaiv *TimeSeriesSelector_FieldTerminalPathArrayItemValue) ContainsValue(source *TimeSeriesSelector) bool {
+	slice := fpaiv.TimeSeriesSelector_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type TimeSeriesSelector_FieldSubPathArrayItemValue struct {
+	TimeSeriesSelector_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *TimeSeriesSelector_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *TimeSeriesSelector_FieldSubPathArrayItemValue) AsMetricPathItemValue() (MetricSelector_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricSelector_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *TimeSeriesSelector_FieldSubPathArrayItemValue) AsResourcePathItemValue() (MonitoredResourceSelector_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MonitoredResourceSelector_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'TimeSeriesSelector'
+func (fpaivs *TimeSeriesSelector_FieldSubPathArrayItemValue) ContainsValue(source *TimeSeriesSelector) bool {
+	switch fpaivs.Selector() {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		return fpaivs.subPathItemValue.(MetricSelector_FieldPathArrayItemValue).ContainsValue(source.GetMetric())
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		return fpaivs.subPathItemValue.(MonitoredResourceSelector_FieldPathArrayItemValue).ContainsValue(source.GetResource())
+	default:
+		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fpaivs.Selector()))
+	}
+}
+
+// TimeSeriesSelector_FieldPathArrayOfValues allows storing slice of values for TimeSeriesSelector fields according to their type
+type TimeSeriesSelector_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	TimeSeriesSelector_FieldPath
+}
+
+func ParseTimeSeriesSelector_FieldPathArrayOfValues(pathStr, valuesStr string) (TimeSeriesSelector_FieldPathArrayOfValues, error) {
+	fp, err := ParseTimeSeriesSelector_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TimeSeriesSelector field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(TimeSeriesSelector_FieldPathArrayOfValues), nil
+}
+
+func MustParseTimeSeriesSelector_FieldPathArrayOfValues(pathStr, valuesStr string) TimeSeriesSelector_FieldPathArrayOfValues {
+	fpaov, err := ParseTimeSeriesSelector_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type TimeSeriesSelector_FieldTerminalPathArrayOfValues struct {
+	TimeSeriesSelector_FieldTerminalPath
+	values interface{}
+}
+
+var _ TimeSeriesSelector_FieldPathArrayOfValues = (*TimeSeriesSelector_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *TimeSeriesSelector_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		for _, v := range fpaov.values.([]*MetricSelector) {
+			values = append(values, v)
+		}
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		for _, v := range fpaov.values.([]*MonitoredResourceSelector) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *TimeSeriesSelector_FieldTerminalPathArrayOfValues) AsMetricArrayOfValues() ([]*MetricSelector, bool) {
+	res, ok := fpaov.values.([]*MetricSelector)
+	return res, ok
+}
+func (fpaov *TimeSeriesSelector_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*MonitoredResourceSelector, bool) {
+	res, ok := fpaov.values.([]*MonitoredResourceSelector)
+	return res, ok
+}
+
+type TimeSeriesSelector_FieldSubPathArrayOfValues struct {
+	TimeSeriesSelector_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ TimeSeriesSelector_FieldPathArrayOfValues = (*TimeSeriesSelector_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *TimeSeriesSelector_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *TimeSeriesSelector_FieldSubPathArrayOfValues) AsMetricPathArrayOfValues() (MetricSelector_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricSelector_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *TimeSeriesSelector_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (MonitoredResourceSelector_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MonitoredResourceSelector_FieldPathArrayOfValues)
+	return res, ok
+}

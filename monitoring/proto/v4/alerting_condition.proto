@@ -65,8 +65,14 @@ message AlertingCondition {
       google.protobuf.Duration duration = 4;
 
       message Query {
-        // Selector is used to generate Time Series filter
-        string filter = 2;
+        // Filter used for time-series.
+        string filter = 1;
+
+        // Generated, filter-able selector, extracted from filter value. It will
+        // contain all extracted conditions for '==' and 'IN' operators.
+        // It will exclude conditions for operators '!=' and 'NOT IN'.
+        // This allows filtering AlertingConditions by filter conditions.
+        TimeSeriesSelector selector = 2;
 
         // Time Series aggregation
         Aggregation aggregation = 3;

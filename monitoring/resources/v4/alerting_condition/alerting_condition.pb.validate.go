@@ -165,6 +165,11 @@ func (obj *AlertingCondition_Spec_TimeSeries_Query) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.Selector).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Query", "selector", obj.Selector, "nested object validation failed", err)
+		}
+	}
 	if obj.Aggregation == nil {
 		return gotenvalidate.NewValidationError("Query", "aggregation", obj.Aggregation, "field is required", nil)
 	}

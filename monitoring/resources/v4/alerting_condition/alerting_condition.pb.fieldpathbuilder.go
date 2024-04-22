@@ -857,6 +857,10 @@ func (AlertingConditionPathSelectorSpecTimeSeriesQuery) Filter() AlertingConditi
 	return AlertingConditionPathSelectorSpecTimeSeriesQueryFilter{}
 }
 
+func (AlertingConditionPathSelectorSpecTimeSeriesQuery) Selector() AlertingConditionPathSelectorSpecTimeSeriesQuerySelector {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelector{}
+}
+
 func (AlertingConditionPathSelectorSpecTimeSeriesQuery) Aggregation() AlertingConditionPathSelectorSpecTimeSeriesQueryAggregation {
 	return AlertingConditionPathSelectorSpecTimeSeriesQueryAggregation{}
 }
@@ -875,6 +879,203 @@ func (s AlertingConditionPathSelectorSpecTimeSeriesQueryFilter) WithValue(value 
 }
 
 func (s AlertingConditionPathSelectorSpecTimeSeriesQueryFilter) WithArrayOfValues(values []*time_serie.Filter) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelector struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelector) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelector) WithValue(value *common.TimeSeriesSelector) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelector) WithArrayOfValues(values []*common.TimeSeriesSelector) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelector) Metric() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric{}
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelector) Resource() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource{}
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Metric().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric) WithValue(value *common.MetricSelector) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric) WithArrayOfValues(values []*common.MetricSelector) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric) Types() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes{}
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetric) Labels() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels{}
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes) WithValue(value []string) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes) WithArrayOfValues(values [][]string) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricTypes) WithItemValue(value string) *AlertingCondition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingCondition_FieldSubPathArrayItemValue)
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) WithValue(value map[string]*common.Strings) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) WithKey(key string) AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels {
+	return AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels{key: key}
+}
+
+type AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels struct {
+	key string
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) WithValue(value *common.Strings) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []*common.Strings) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Resource().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource) WithValue(value *common.MonitoredResourceSelector) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource) WithArrayOfValues(values []*common.MonitoredResourceSelector) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource) Types() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes{}
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResource) Labels() AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels {
+	return AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels{}
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes) WithValue(value []string) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes) WithArrayOfValues(values [][]string) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceTypes) WithItemValue(value string) *AlertingCondition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingCondition_FieldSubPathArrayItemValue)
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) WithValue(value map[string]*common.Strings) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) WithKey(key string) AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels {
+	return AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels{key: key}
+}
+
+type AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels struct {
+	key string
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().Selector().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) WithValue(value *common.Strings) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []*common.Strings) *AlertingCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1309,6 +1510,10 @@ func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) Filter() AlertingCondit
 	return AlertingCondition_SpecPathSelectorTimeSeriesQueryFilter{}
 }
 
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) Selector() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector{}
+}
+
 func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) Aggregation() AlertingCondition_SpecPathSelectorTimeSeriesQueryAggregation {
 	return AlertingCondition_SpecPathSelectorTimeSeriesQueryAggregation{}
 }
@@ -1327,6 +1532,203 @@ func (s AlertingCondition_SpecPathSelectorTimeSeriesQueryFilter) WithValue(value
 }
 
 func (s AlertingCondition_SpecPathSelectorTimeSeriesQueryFilter) WithArrayOfValues(values []*time_serie.Filter) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector) WithValue(value *common.TimeSeriesSelector) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector) WithArrayOfValues(values []*common.TimeSeriesSelector) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector) Metric() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric{}
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelector) Resource() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource{}
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Metric().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric) WithValue(value *common.MetricSelector) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric) WithArrayOfValues(values []*common.MetricSelector) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric) Types() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes{}
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetric) Labels() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels{}
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Metric().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes) WithValue(value []string) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricTypes) WithItemValue(value string) *AlertingConditionSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpec_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorMetricLabels) WithKey(key string) AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels {
+	return AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels{key: key}
+}
+
+type AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels struct {
+	key string
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels) WithValue(value *common.Strings) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Resource().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource) WithValue(value *common.MonitoredResourceSelector) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource) WithArrayOfValues(values []*common.MonitoredResourceSelector) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource) Types() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes{}
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResource) Labels() AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels{}
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Resource().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes) WithValue(value []string) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceTypes) WithItemValue(value string) *AlertingConditionSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpec_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuerySelectorResourceLabels) WithKey(key string) AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels {
+	return AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels{key: key}
+}
+
+type AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels struct {
+	key string
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().Selector().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels) WithValue(value *common.Strings) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -1719,6 +2121,10 @@ func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) Filter() AlertingCondi
 	return AlertingCondition_Spec_TimeSeriesPathSelectorQueryFilter{}
 }
 
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) Selector() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector{}
+}
+
 func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) Aggregation() AlertingCondition_Spec_TimeSeriesPathSelectorQueryAggregation {
 	return AlertingCondition_Spec_TimeSeriesPathSelectorQueryAggregation{}
 }
@@ -1737,6 +2143,203 @@ func (s AlertingCondition_Spec_TimeSeriesPathSelectorQueryFilter) WithValue(valu
 }
 
 func (s AlertingCondition_Spec_TimeSeriesPathSelectorQueryFilter) WithArrayOfValues(values []*time_serie.Filter) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector) WithValue(value *common.TimeSeriesSelector) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector) WithArrayOfValues(values []*common.TimeSeriesSelector) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector) Metric() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric{}
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelector) Resource() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource{}
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Metric().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric) WithValue(value *common.MetricSelector) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric) WithArrayOfValues(values []*common.MetricSelector) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric) Types() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes{}
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetric) Labels() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels{}
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Metric().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes) WithValue(value []string) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricTypes) WithItemValue(value string) *AlertingConditionSpecTimeSeries_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorMetricLabels) WithKey(key string) AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels {
+	return AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels) WithValue(value *common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorMetricLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Resource().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource) WithValue(value *common.MonitoredResourceSelector) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource) WithArrayOfValues(values []*common.MonitoredResourceSelector) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource) Types() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes{}
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResource) Labels() AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels{}
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Resource().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes) WithValue(value []string) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceTypes) WithItemValue(value string) *AlertingConditionSpecTimeSeries_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuerySelectorResourceLabels) WithKey(key string) AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels {
+	return AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().Selector().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels) WithValue(value *common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQuerySelectorResourceLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2057,6 +2660,9 @@ func NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder() AlertingCondition
 func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) Filter() AlertingCondition_Spec_TimeSeries_QueryPathSelectorFilter {
 	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorFilter{}
 }
+func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) Selector() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector{}
+}
 func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) Aggregation() AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregation {
 	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregation{}
 }
@@ -2073,6 +2679,216 @@ func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorFilter) WithValue(val
 
 func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorFilter) WithArrayOfValues(values []*time_serie.Filter) *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithValue(value *common.TimeSeriesSelector) *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithArrayOfValues(values []*common.TimeSeriesSelector) *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithSubPath(subPath common.TimeSeriesSelector_FieldPath) *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector, subPath: subPath}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithSubValue(subPathValue common.TimeSeriesSelector_FieldPathValue) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue{AlertingConditionSpecTimeSeriesQuery_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithSubArrayOfValues(subPathArrayOfValues common.TimeSeriesSelector_FieldPathArrayOfValues) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) WithSubArrayItemValue(subPathArrayItemValue common.TimeSeriesSelector_FieldPathArrayItemValue) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue{AlertingConditionSpecTimeSeriesQuery_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) Metric() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric{}
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelector) Resource() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource{}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Metric().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric) WithValue(value *common.MetricSelector) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric) WithArrayOfValues(values []*common.MetricSelector) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric) Types() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes{}
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetric) Labels() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels{}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Metric().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes) WithValue(value []string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricTypes) WithItemValue(value string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorMetricLabels) WithKey(key string) AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels {
+	return AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels) WithValue(value *common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorMetricLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Resource().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource) WithValue(value *common.MonitoredResourceSelector) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource) WithArrayOfValues(values []*common.MonitoredResourceSelector) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource) Types() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes{}
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResource) Labels() AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels{}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Resource().Types().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes) WithValue(value []string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes) WithArrayOfValues(values [][]string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceTypes) WithItemValue(value string) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue)
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels) WithValue(value map[string]*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels) WithArrayOfValues(values []map[string]*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorSelectorResourceLabels) WithKey(key string) AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels {
+	return AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldSubPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector,
+		subPath:  common.NewTimeSeriesSelectorFieldPathBuilder().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels) WithValue(value *common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorSelectorResourceLabels) WithArrayOfValues(values []*common.Strings) *AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayOfValues)
 }
 
 type AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregation struct{}

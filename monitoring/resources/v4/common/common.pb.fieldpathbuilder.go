@@ -2057,3 +2057,368 @@ func (s MonitoredResourcePathSelectorReducedLabels) WithArrayOfValues(values [][
 func (s MonitoredResourcePathSelectorReducedLabels) WithItemValue(value string) *MonitoredResource_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MonitoredResource_FieldTerminalPathArrayItemValue)
 }
+
+type StringsFieldPathBuilder struct{}
+
+func NewStringsFieldPathBuilder() StringsFieldPathBuilder {
+	return StringsFieldPathBuilder{}
+}
+func (StringsFieldPathBuilder) Values() StringsPathSelectorValues {
+	return StringsPathSelectorValues{}
+}
+
+type StringsPathSelectorValues struct{}
+
+func (StringsPathSelectorValues) FieldPath() *Strings_FieldTerminalPath {
+	return &Strings_FieldTerminalPath{selector: Strings_FieldPathSelectorValues}
+}
+
+func (s StringsPathSelectorValues) WithValue(value []string) *Strings_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Strings_FieldTerminalPathValue)
+}
+
+func (s StringsPathSelectorValues) WithArrayOfValues(values [][]string) *Strings_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Strings_FieldTerminalPathArrayOfValues)
+}
+
+func (s StringsPathSelectorValues) WithItemValue(value string) *Strings_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Strings_FieldTerminalPathArrayItemValue)
+}
+
+type MonitoredResourceSelectorFieldPathBuilder struct{}
+
+func NewMonitoredResourceSelectorFieldPathBuilder() MonitoredResourceSelectorFieldPathBuilder {
+	return MonitoredResourceSelectorFieldPathBuilder{}
+}
+func (MonitoredResourceSelectorFieldPathBuilder) Types() MonitoredResourceSelectorPathSelectorTypes {
+	return MonitoredResourceSelectorPathSelectorTypes{}
+}
+func (MonitoredResourceSelectorFieldPathBuilder) Labels() MonitoredResourceSelectorPathSelectorLabels {
+	return MonitoredResourceSelectorPathSelectorLabels{}
+}
+
+type MonitoredResourceSelectorPathSelectorTypes struct{}
+
+func (MonitoredResourceSelectorPathSelectorTypes) FieldPath() *MonitoredResourceSelector_FieldTerminalPath {
+	return &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorTypes}
+}
+
+func (s MonitoredResourceSelectorPathSelectorTypes) WithValue(value []string) *MonitoredResourceSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MonitoredResourceSelector_FieldTerminalPathValue)
+}
+
+func (s MonitoredResourceSelectorPathSelectorTypes) WithArrayOfValues(values [][]string) *MonitoredResourceSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MonitoredResourceSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (s MonitoredResourceSelectorPathSelectorTypes) WithItemValue(value string) *MonitoredResourceSelector_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MonitoredResourceSelector_FieldTerminalPathArrayItemValue)
+}
+
+type MonitoredResourceSelectorPathSelectorLabels struct{}
+
+func (MonitoredResourceSelectorPathSelectorLabels) FieldPath() *MonitoredResourceSelector_FieldTerminalPath {
+	return &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorLabels}
+}
+
+func (s MonitoredResourceSelectorPathSelectorLabels) WithValue(value map[string]*Strings) *MonitoredResourceSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MonitoredResourceSelector_FieldTerminalPathValue)
+}
+
+func (s MonitoredResourceSelectorPathSelectorLabels) WithArrayOfValues(values []map[string]*Strings) *MonitoredResourceSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MonitoredResourceSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (MonitoredResourceSelectorPathSelectorLabels) WithKey(key string) MonitoredResourceSelectorMapPathSelectorLabels {
+	return MonitoredResourceSelectorMapPathSelectorLabels{key: key}
+}
+
+type MonitoredResourceSelectorMapPathSelectorLabels struct {
+	key string
+}
+
+func (s MonitoredResourceSelectorMapPathSelectorLabels) FieldPath() *MonitoredResourceSelector_FieldPathMap {
+	return &MonitoredResourceSelector_FieldPathMap{selector: MonitoredResourceSelector_FieldPathSelectorLabels, key: s.key}
+}
+
+func (s MonitoredResourceSelectorMapPathSelectorLabels) WithValue(value *Strings) *MonitoredResourceSelector_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*MonitoredResourceSelector_FieldPathMapValue)
+}
+
+func (s MonitoredResourceSelectorMapPathSelectorLabels) WithArrayOfValues(values []*Strings) *MonitoredResourceSelector_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MonitoredResourceSelector_FieldPathMapArrayOfValues)
+}
+
+type MetricSelectorFieldPathBuilder struct{}
+
+func NewMetricSelectorFieldPathBuilder() MetricSelectorFieldPathBuilder {
+	return MetricSelectorFieldPathBuilder{}
+}
+func (MetricSelectorFieldPathBuilder) Types() MetricSelectorPathSelectorTypes {
+	return MetricSelectorPathSelectorTypes{}
+}
+func (MetricSelectorFieldPathBuilder) Labels() MetricSelectorPathSelectorLabels {
+	return MetricSelectorPathSelectorLabels{}
+}
+
+type MetricSelectorPathSelectorTypes struct{}
+
+func (MetricSelectorPathSelectorTypes) FieldPath() *MetricSelector_FieldTerminalPath {
+	return &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorTypes}
+}
+
+func (s MetricSelectorPathSelectorTypes) WithValue(value []string) *MetricSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricSelector_FieldTerminalPathValue)
+}
+
+func (s MetricSelectorPathSelectorTypes) WithArrayOfValues(values [][]string) *MetricSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricSelectorPathSelectorTypes) WithItemValue(value string) *MetricSelector_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricSelector_FieldTerminalPathArrayItemValue)
+}
+
+type MetricSelectorPathSelectorLabels struct{}
+
+func (MetricSelectorPathSelectorLabels) FieldPath() *MetricSelector_FieldTerminalPath {
+	return &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorLabels}
+}
+
+func (s MetricSelectorPathSelectorLabels) WithValue(value map[string]*Strings) *MetricSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricSelector_FieldTerminalPathValue)
+}
+
+func (s MetricSelectorPathSelectorLabels) WithArrayOfValues(values []map[string]*Strings) *MetricSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (MetricSelectorPathSelectorLabels) WithKey(key string) MetricSelectorMapPathSelectorLabels {
+	return MetricSelectorMapPathSelectorLabels{key: key}
+}
+
+type MetricSelectorMapPathSelectorLabels struct {
+	key string
+}
+
+func (s MetricSelectorMapPathSelectorLabels) FieldPath() *MetricSelector_FieldPathMap {
+	return &MetricSelector_FieldPathMap{selector: MetricSelector_FieldPathSelectorLabels, key: s.key}
+}
+
+func (s MetricSelectorMapPathSelectorLabels) WithValue(value *Strings) *MetricSelector_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*MetricSelector_FieldPathMapValue)
+}
+
+func (s MetricSelectorMapPathSelectorLabels) WithArrayOfValues(values []*Strings) *MetricSelector_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricSelector_FieldPathMapArrayOfValues)
+}
+
+type TimeSeriesSelectorFieldPathBuilder struct{}
+
+func NewTimeSeriesSelectorFieldPathBuilder() TimeSeriesSelectorFieldPathBuilder {
+	return TimeSeriesSelectorFieldPathBuilder{}
+}
+func (TimeSeriesSelectorFieldPathBuilder) Metric() TimeSeriesSelectorPathSelectorMetric {
+	return TimeSeriesSelectorPathSelectorMetric{}
+}
+func (TimeSeriesSelectorFieldPathBuilder) Resource() TimeSeriesSelectorPathSelectorResource {
+	return TimeSeriesSelectorPathSelectorResource{}
+}
+
+type TimeSeriesSelectorPathSelectorMetric struct{}
+
+func (TimeSeriesSelectorPathSelectorMetric) FieldPath() *TimeSeriesSelector_FieldTerminalPath {
+	return &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorMetric}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetric) WithValue(value *MetricSelector) *TimeSeriesSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldTerminalPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorMetric) WithArrayOfValues(values []*MetricSelector) *TimeSeriesSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (TimeSeriesSelectorPathSelectorMetric) WithSubPath(subPath MetricSelector_FieldPath) *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorMetric, subPath: subPath}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetric) WithSubValue(subPathValue MetricSelector_FieldPathValue) *TimeSeriesSelector_FieldSubPathValue {
+	return &TimeSeriesSelector_FieldSubPathValue{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetric) WithSubArrayOfValues(subPathArrayOfValues MetricSelector_FieldPathArrayOfValues) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return &TimeSeriesSelector_FieldSubPathArrayOfValues{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetric) WithSubArrayItemValue(subPathArrayItemValue MetricSelector_FieldPathArrayItemValue) *TimeSeriesSelector_FieldSubPathArrayItemValue {
+	return &TimeSeriesSelector_FieldSubPathArrayItemValue{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (TimeSeriesSelectorPathSelectorMetric) Types() TimeSeriesSelectorPathSelectorMetricTypes {
+	return TimeSeriesSelectorPathSelectorMetricTypes{}
+}
+
+func (TimeSeriesSelectorPathSelectorMetric) Labels() TimeSeriesSelectorPathSelectorMetricLabels {
+	return TimeSeriesSelectorPathSelectorMetricLabels{}
+}
+
+type TimeSeriesSelectorPathSelectorMetricTypes struct{}
+
+func (TimeSeriesSelectorPathSelectorMetricTypes) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorMetric,
+		subPath:  NewMetricSelectorFieldPathBuilder().Types().FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetricTypes) WithValue(value []string) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorMetricTypes) WithArrayOfValues(values [][]string) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}
+
+func (s TimeSeriesSelectorPathSelectorMetricTypes) WithItemValue(value string) *TimeSeriesSelector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*TimeSeriesSelector_FieldSubPathArrayItemValue)
+}
+
+type TimeSeriesSelectorPathSelectorMetricLabels struct{}
+
+func (TimeSeriesSelectorPathSelectorMetricLabels) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorMetric,
+		subPath:  NewMetricSelectorFieldPathBuilder().Labels().FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorPathSelectorMetricLabels) WithValue(value map[string]*Strings) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorMetricLabels) WithArrayOfValues(values []map[string]*Strings) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}
+
+func (TimeSeriesSelectorPathSelectorMetricLabels) WithKey(key string) TimeSeriesSelectorMapPathSelectorMetricLabels {
+	return TimeSeriesSelectorMapPathSelectorMetricLabels{key: key}
+}
+
+type TimeSeriesSelectorMapPathSelectorMetricLabels struct {
+	key string
+}
+
+func (s TimeSeriesSelectorMapPathSelectorMetricLabels) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorMetric,
+		subPath:  NewMetricSelectorFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorMapPathSelectorMetricLabels) WithValue(value *Strings) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorMapPathSelectorMetricLabels) WithArrayOfValues(values []*Strings) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}
+
+type TimeSeriesSelectorPathSelectorResource struct{}
+
+func (TimeSeriesSelectorPathSelectorResource) FieldPath() *TimeSeriesSelector_FieldTerminalPath {
+	return &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorResource}
+}
+
+func (s TimeSeriesSelectorPathSelectorResource) WithValue(value *MonitoredResourceSelector) *TimeSeriesSelector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldTerminalPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorResource) WithArrayOfValues(values []*MonitoredResourceSelector) *TimeSeriesSelector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldTerminalPathArrayOfValues)
+}
+
+func (TimeSeriesSelectorPathSelectorResource) WithSubPath(subPath MonitoredResourceSelector_FieldPath) *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorResource, subPath: subPath}
+}
+
+func (s TimeSeriesSelectorPathSelectorResource) WithSubValue(subPathValue MonitoredResourceSelector_FieldPathValue) *TimeSeriesSelector_FieldSubPathValue {
+	return &TimeSeriesSelector_FieldSubPathValue{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s TimeSeriesSelectorPathSelectorResource) WithSubArrayOfValues(subPathArrayOfValues MonitoredResourceSelector_FieldPathArrayOfValues) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return &TimeSeriesSelector_FieldSubPathArrayOfValues{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s TimeSeriesSelectorPathSelectorResource) WithSubArrayItemValue(subPathArrayItemValue MonitoredResourceSelector_FieldPathArrayItemValue) *TimeSeriesSelector_FieldSubPathArrayItemValue {
+	return &TimeSeriesSelector_FieldSubPathArrayItemValue{TimeSeriesSelector_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (TimeSeriesSelectorPathSelectorResource) Types() TimeSeriesSelectorPathSelectorResourceTypes {
+	return TimeSeriesSelectorPathSelectorResourceTypes{}
+}
+
+func (TimeSeriesSelectorPathSelectorResource) Labels() TimeSeriesSelectorPathSelectorResourceLabels {
+	return TimeSeriesSelectorPathSelectorResourceLabels{}
+}
+
+type TimeSeriesSelectorPathSelectorResourceTypes struct{}
+
+func (TimeSeriesSelectorPathSelectorResourceTypes) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorResource,
+		subPath:  NewMonitoredResourceSelectorFieldPathBuilder().Types().FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorPathSelectorResourceTypes) WithValue(value []string) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorResourceTypes) WithArrayOfValues(values [][]string) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}
+
+func (s TimeSeriesSelectorPathSelectorResourceTypes) WithItemValue(value string) *TimeSeriesSelector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*TimeSeriesSelector_FieldSubPathArrayItemValue)
+}
+
+type TimeSeriesSelectorPathSelectorResourceLabels struct{}
+
+func (TimeSeriesSelectorPathSelectorResourceLabels) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorResource,
+		subPath:  NewMonitoredResourceSelectorFieldPathBuilder().Labels().FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorPathSelectorResourceLabels) WithValue(value map[string]*Strings) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorPathSelectorResourceLabels) WithArrayOfValues(values []map[string]*Strings) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}
+
+func (TimeSeriesSelectorPathSelectorResourceLabels) WithKey(key string) TimeSeriesSelectorMapPathSelectorResourceLabels {
+	return TimeSeriesSelectorMapPathSelectorResourceLabels{key: key}
+}
+
+type TimeSeriesSelectorMapPathSelectorResourceLabels struct {
+	key string
+}
+
+func (s TimeSeriesSelectorMapPathSelectorResourceLabels) FieldPath() *TimeSeriesSelector_FieldSubPath {
+	return &TimeSeriesSelector_FieldSubPath{
+		selector: TimeSeriesSelector_FieldPathSelectorResource,
+		subPath:  NewMonitoredResourceSelectorFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s TimeSeriesSelectorMapPathSelectorResourceLabels) WithValue(value *Strings) *TimeSeriesSelector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesSelector_FieldSubPathValue)
+}
+
+func (s TimeSeriesSelectorMapPathSelectorResourceLabels) WithArrayOfValues(values []*Strings) *TimeSeriesSelector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesSelector_FieldSubPathArrayOfValues)
+}

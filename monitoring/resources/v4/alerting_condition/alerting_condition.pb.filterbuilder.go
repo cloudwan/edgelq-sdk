@@ -2619,6 +2619,10 @@ func (b *filterCndBuilderSpecTimeSeriesQuery) Filter() *filterCndBuilderSpecTime
 	return &filterCndBuilderSpecTimeSeriesQueryFilter{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTimeSeriesQuery) Selector() *filterCndBuilderSpecTimeSeriesQuerySelector {
+	return &filterCndBuilderSpecTimeSeriesQuerySelector{builder: b.builder}
+}
+
 func (b *filterCndBuilderSpecTimeSeriesQuery) Aggregation() *filterCndBuilderSpecTimeSeriesQueryAggregation {
 	return &filterCndBuilderSpecTimeSeriesQueryAggregation{builder: b.builder}
 }
@@ -2679,6 +2683,639 @@ func (b *filterCndBuilderSpecTimeSeriesQueryFilter) compare(op gotenfilter.Compa
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Filter().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelector struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Eq(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Neq(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Gt(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Gte(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Lt(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Lte(value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) In(values []*common.TimeSeriesSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) NotIn(values []*common.TimeSeriesSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) compare(op gotenfilter.CompareOperator, value *common.TimeSeriesSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Metric() *filterCndBuilderSpecTimeSeriesQuerySelectorMetric {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorMetric{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelector) Resource() *filterCndBuilderSpecTimeSeriesQuerySelectorResource {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorResource{builder: b.builder}
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorMetric struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Eq(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Neq(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Gt(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Gte(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Lt(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Lte(value *common.MetricSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) In(values []*common.MetricSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) NotIn(values []*common.MetricSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) compare(op gotenfilter.CompareOperator, value *common.MetricSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Types() *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetric) Labels() *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels{builder: b.builder}
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+		Value:     NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types()
+	itemValues := make([]AlertingCondition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types()
+	itemValues := make([]AlertingCondition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Eq(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Neq(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Gt(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Gte(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Lt(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Lte(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) In(values []map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) NotIn(values []map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) compare(op gotenfilter.CompareOperator, value map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) WithKey(key string) *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels {
+	return &mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Eq(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Neq(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Gt(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Gte(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Lt(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) Lte(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) In(values []*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) NotIn(values []*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorMetricLabels) compare(op gotenfilter.CompareOperator, value *common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorResource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Eq(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Neq(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Gt(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Gte(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Lt(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Lte(value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) In(values []*common.MonitoredResourceSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) NotIn(values []*common.MonitoredResourceSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) compare(op gotenfilter.CompareOperator, value *common.MonitoredResourceSelector) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Types() *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResource) Labels() *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels {
+	return &filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels{builder: b.builder}
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+		Value:     NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types()
+	itemValues := make([]AlertingCondition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types()
+	itemValues := make([]AlertingCondition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Eq(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Neq(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Gt(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Gte(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Lt(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Lte(value map[string]*common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) In(values []map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) NotIn(values []map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) compare(op gotenfilter.CompareOperator, value map[string]*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) WithKey(key string) *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels {
+	return &mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Eq(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Neq(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Gt(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Gte(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Lt(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) Lte(value *common.Strings) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) In(values []*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) NotIn(values []*common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQuerySelectorResourceLabels) compare(op gotenfilter.CompareOperator, value *common.Strings) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(b.key).WithValue(value),
 	})
 }
 

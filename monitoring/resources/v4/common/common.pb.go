@@ -1675,6 +1675,361 @@ func (m *MonitoredResource) SetReducedLabels(fv []string) {
 	m.ReducedLabels = fv
 }
 
+// Represents wrapped list of strings.
+type Strings struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Values        []string `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty" firestore:"values"`
+}
+
+func (m *Strings) Reset() {
+	*m = Strings{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *Strings) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*Strings) ProtoMessage() {}
+
+func (m *Strings) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*Strings) GotenMessage() {}
+
+// Deprecated, Use Strings.ProtoReflect.Descriptor instead.
+func (*Strings) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_common_proto_rawDescGZIP(), []int{9}
+}
+
+func (m *Strings) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *Strings) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *Strings) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *Strings) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *Strings) GetValues() []string {
+	if m != nil {
+		return m.Values
+	}
+	return nil
+}
+
+func (m *Strings) SetValues(fv []string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Values", "Strings"))
+	}
+	m.Values = fv
+}
+
+// MonitoredResourceSelector selects `resource.type` and list of labels used to
+// build query, like:
+//
+// ```
+// resource.type IN ("type0", "type1", ...) AND
+// resource.labels.<key0> IN (label0_0, label0_1, ...) AND
+// resource.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+//
+// Note: Only one resource.type per query is currently allowed
+type MonitoredResourceSelector struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" firestore:"types"`
+	// label key, e.g. "project_id", "target_id", etc
+	// Note the missing "resource.labels." prefix.
+	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+}
+
+func (m *MonitoredResourceSelector) Reset() {
+	*m = MonitoredResourceSelector{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *MonitoredResourceSelector) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*MonitoredResourceSelector) ProtoMessage() {}
+
+func (m *MonitoredResourceSelector) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*MonitoredResourceSelector) GotenMessage() {}
+
+// Deprecated, Use MonitoredResourceSelector.ProtoReflect.Descriptor instead.
+func (*MonitoredResourceSelector) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_common_proto_rawDescGZIP(), []int{10}
+}
+
+func (m *MonitoredResourceSelector) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *MonitoredResourceSelector) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *MonitoredResourceSelector) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *MonitoredResourceSelector) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *MonitoredResourceSelector) GetTypes() []string {
+	if m != nil {
+		return m.Types
+	}
+	return nil
+}
+
+func (m *MonitoredResourceSelector) GetLabels() map[string]*Strings {
+	if m != nil {
+		return m.Labels
+	}
+	return nil
+}
+
+func (m *MonitoredResourceSelector) SetTypes(fv []string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Types", "MonitoredResourceSelector"))
+	}
+	m.Types = fv
+}
+
+func (m *MonitoredResourceSelector) SetLabels(fv map[string]*Strings) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Labels", "MonitoredResourceSelector"))
+	}
+	m.Labels = fv
+}
+
+// Metric selects `metric.type` and list of labels used to
+// build query, like:
+//
+// ```
+// metric.type IN ("type0", "type1", ...) AND
+// metric.labels.<key0> IN (label0_0, label0_1, ...) AND
+// metric.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+type MetricSelector struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" firestore:"types"`
+	// label key, e.g. "project_id", "target_id", etc
+	// Note the missing "metric.labels." prefix.
+	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+}
+
+func (m *MetricSelector) Reset() {
+	*m = MetricSelector{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *MetricSelector) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*MetricSelector) ProtoMessage() {}
+
+func (m *MetricSelector) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*MetricSelector) GotenMessage() {}
+
+// Deprecated, Use MetricSelector.ProtoReflect.Descriptor instead.
+func (*MetricSelector) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_common_proto_rawDescGZIP(), []int{11}
+}
+
+func (m *MetricSelector) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *MetricSelector) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *MetricSelector) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *MetricSelector) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *MetricSelector) GetTypes() []string {
+	if m != nil {
+		return m.Types
+	}
+	return nil
+}
+
+func (m *MetricSelector) GetLabels() map[string]*Strings {
+	if m != nil {
+		return m.Labels
+	}
+	return nil
+}
+
+func (m *MetricSelector) SetTypes(fv []string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Types", "MetricSelector"))
+	}
+	m.Types = fv
+}
+
+func (m *MetricSelector) SetLabels(fv map[string]*Strings) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Labels", "MetricSelector"))
+	}
+	m.Labels = fv
+}
+
+type TimeSeriesSelector struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Metric Selector used to specify filtered Metric types and labels
+	Metric *MetricSelector `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty" firestore:"metric"`
+	// Resource Selector used to specify filtered Monitored Resource
+	// types and labels
+	Resource *MonitoredResourceSelector `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+}
+
+func (m *TimeSeriesSelector) Reset() {
+	*m = TimeSeriesSelector{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *TimeSeriesSelector) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*TimeSeriesSelector) ProtoMessage() {}
+
+func (m *TimeSeriesSelector) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*TimeSeriesSelector) GotenMessage() {}
+
+// Deprecated, Use TimeSeriesSelector.ProtoReflect.Descriptor instead.
+func (*TimeSeriesSelector) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_common_proto_rawDescGZIP(), []int{12}
+}
+
+func (m *TimeSeriesSelector) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *TimeSeriesSelector) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *TimeSeriesSelector) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *TimeSeriesSelector) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *TimeSeriesSelector) GetMetric() *MetricSelector {
+	if m != nil {
+		return m.Metric
+	}
+	return nil
+}
+
+func (m *TimeSeriesSelector) GetResource() *MonitoredResourceSelector {
+	if m != nil {
+		return m.Resource
+	}
+	return nil
+}
+
+func (m *TimeSeriesSelector) SetMetric(fv *MetricSelector) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Metric", "TimeSeriesSelector"))
+	}
+	m.Metric = fv
+}
+
+func (m *TimeSeriesSelector) SetResource(fv *MonitoredResourceSelector) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Resource", "TimeSeriesSelector"))
+	}
+	m.Resource = fv
+}
+
 // The range of the population values.
 type Distribution_Range struct {
 	state         protoimpl.MessageState
@@ -1689,7 +2044,7 @@ type Distribution_Range struct {
 func (m *Distribution_Range) Reset() {
 	*m = Distribution_Range{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[9]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1702,7 +2057,7 @@ func (m *Distribution_Range) String() string {
 func (*Distribution_Range) ProtoMessage() {}
 
 func (m *Distribution_Range) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[9]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1804,7 +2159,7 @@ type Distribution_BucketOptions struct {
 func (m *Distribution_BucketOptions) Reset() {
 	*m = Distribution_BucketOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[10]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1817,7 +2172,7 @@ func (m *Distribution_BucketOptions) String() string {
 func (*Distribution_BucketOptions) ProtoMessage() {}
 
 func (m *Distribution_BucketOptions) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[10]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1949,7 +2304,7 @@ type Distribution_BucketOptions_Linear struct {
 func (m *Distribution_BucketOptions_Linear) Reset() {
 	*m = Distribution_BucketOptions_Linear{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[11]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1962,7 +2317,7 @@ func (m *Distribution_BucketOptions_Linear) String() string {
 func (*Distribution_BucketOptions_Linear) ProtoMessage() {}
 
 func (m *Distribution_BucketOptions_Linear) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[11]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2062,7 +2417,7 @@ type Distribution_BucketOptions_Exponential struct {
 func (m *Distribution_BucketOptions_Exponential) Reset() {
 	*m = Distribution_BucketOptions_Exponential{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[12]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2075,7 +2430,7 @@ func (m *Distribution_BucketOptions_Exponential) String() string {
 func (*Distribution_BucketOptions_Exponential) ProtoMessage() {}
 
 func (m *Distribution_BucketOptions_Exponential) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[12]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2173,7 +2528,7 @@ type Distribution_BucketOptions_Explicit struct {
 func (m *Distribution_BucketOptions_Explicit) Reset() {
 	*m = Distribution_BucketOptions_Explicit{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[13]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2186,7 +2541,7 @@ func (m *Distribution_BucketOptions_Explicit) String() string {
 func (*Distribution_BucketOptions_Explicit) ProtoMessage() {}
 
 func (m *Distribution_BucketOptions_Explicit) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[13]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2249,7 +2604,7 @@ type Distribution_BucketOptions_Dynamic struct {
 func (m *Distribution_BucketOptions_Dynamic) Reset() {
 	*m = Distribution_BucketOptions_Dynamic{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[14]
+		mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2262,7 +2617,7 @@ func (m *Distribution_BucketOptions_Dynamic) String() string {
 func (*Distribution_BucketOptions_Dynamic) ProtoMessage() {}
 
 func (m *Distribution_BucketOptions_Dynamic) ProtoReflect() preflect.Message {
-	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[14]
+	mi := &edgelq_monitoring_proto_v4_common_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2565,17 +2920,58 @@ var edgelq_monitoring_proto_v4_common_proto_rawDesc = []byte{
 	0x0b, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
 	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14,
 	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x2a, 0x27, 0x0a, 0x0e, 0x54, 0x69, 0x6d, 0x65,
-	0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x56, 0x69, 0x65, 0x77, 0x12, 0x08, 0x0a, 0x04, 0x46, 0x55,
-	0x4c, 0x4c, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x48, 0x45, 0x41, 0x44, 0x45, 0x52, 0x53, 0x10,
-	0x01, 0x42, 0x6f, 0xe8, 0xde, 0x21, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74,
-	0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x70, 0x62, 0x2e, 0x76,
-	0x34, 0x42, 0x0b, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00,
-	0x5a, 0x40, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f,
-	0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x6d, 0x6f, 0x6e,
-	0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x73, 0x2f, 0x76, 0x34, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x3b, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x21, 0x0a, 0x07, 0x53, 0x74, 0x72, 0x69,
+	0x6e, 0x67, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x09, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x22, 0xea, 0x01, 0x0a, 0x19,
+	0x4d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x24, 0x0a, 0x05, 0x74, 0x79, 0x70,
+	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x42, 0x0e, 0xca, 0xc6, 0x27, 0x0a, 0x42, 0x08,
+	0x0a, 0x02, 0x08, 0x01, 0x12, 0x02, 0x08, 0x01, 0x52, 0x05, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12,
+	0x50, 0x0a, 0x06, 0x6c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x38, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67,
+	0x2e, 0x76, 0x34, 0x2e, 0x4d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x65, 0x64, 0x52, 0x65, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x61,
+	0x62, 0x65, 0x6c, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x6c, 0x61, 0x62, 0x65, 0x6c,
+	0x73, 0x1a, 0x55, 0x0a, 0x0b, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b,
+	0x65, 0x79, 0x12, 0x30, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69,
+	0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xd0, 0x01, 0x0a, 0x0e, 0x4d, 0x65, 0x74,
+	0x72, 0x69, 0x63, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x20, 0x0a, 0x05, 0x74,
+	0x79, 0x70, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x42, 0x0a, 0xca, 0xc6, 0x27, 0x06,
+	0x42, 0x04, 0x0a, 0x02, 0x08, 0x01, 0x52, 0x05, 0x74, 0x79, 0x70, 0x65, 0x73, 0x12, 0x45, 0x0a,
+	0x06, 0x6c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2d, 0x2e,
+	0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x76,
+	0x34, 0x2e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72,
+	0x2e, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x6c, 0x61,
+	0x62, 0x65, 0x6c, 0x73, 0x1a, 0x55, 0x0a, 0x0b, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x73, 0x45, 0x6e,
+	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x30, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74,
+	0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x73,
+	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xad, 0x01, 0x0a, 0x12,
+	0x54, 0x69, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74,
+	0x6f, 0x72, 0x12, 0x43, 0x0a, 0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72,
+	0x69, 0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x53, 0x65, 0x6c,
+	0x65, 0x63, 0x74, 0x6f, 0x72, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52,
+	0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x12, 0x52, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x6e, 0x74, 0x74, 0x2e,
+	0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x4d, 0x6f,
+	0x6e, 0x69, 0x74, 0x6f, 0x72, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53,
+	0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08,
+	0x01, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2a, 0x27, 0x0a, 0x0e, 0x54,
+	0x69, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x56, 0x69, 0x65, 0x77, 0x12, 0x08, 0x0a,
+	0x04, 0x46, 0x55, 0x4c, 0x4c, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x48, 0x45, 0x41, 0x44, 0x45,
+	0x52, 0x53, 0x10, 0x01, 0x42, 0x6f, 0xe8, 0xde, 0x21, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e,
+	0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x70,
+	0x62, 0x2e, 0x76, 0x34, 0x42, 0x0b, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x50, 0x00, 0x5a, 0x40, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f,
+	0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x73, 0x2f, 0x76, 0x34, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x3b, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2591,7 +2987,7 @@ func edgelq_monitoring_proto_v4_common_proto_rawDescGZIP() []byte {
 }
 
 var edgelq_monitoring_proto_v4_common_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var edgelq_monitoring_proto_v4_common_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var edgelq_monitoring_proto_v4_common_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var edgelq_monitoring_proto_v4_common_proto_goTypes = []interface{}{
 	(TimeSeriesView)(0),                            // 0: ntt.monitoring.v4.TimeSeriesView
 	(LabelDescriptor_ValueType)(0),                 // 1: ntt.monitoring.v4.LabelDescriptor_ValueType
@@ -2606,40 +3002,52 @@ var edgelq_monitoring_proto_v4_common_proto_goTypes = []interface{}{
 	(*Aggregation)(nil),                            // 10: ntt.monitoring.v4.Aggregation
 	(*Metric)(nil),                                 // 11: ntt.monitoring.v4.Metric
 	(*MonitoredResource)(nil),                      // 12: ntt.monitoring.v4.MonitoredResource
-	(*Distribution_Range)(nil),                     // 13: ntt.monitoring.v4.Distribution.Range
-	(*Distribution_BucketOptions)(nil),             // 14: ntt.monitoring.v4.Distribution.BucketOptions
-	(*Distribution_BucketOptions_Linear)(nil),      // 15: ntt.monitoring.v4.Distribution.BucketOptions.Linear
-	(*Distribution_BucketOptions_Exponential)(nil), // 16: ntt.monitoring.v4.Distribution.BucketOptions.Exponential
-	(*Distribution_BucketOptions_Explicit)(nil),    // 17: ntt.monitoring.v4.Distribution.BucketOptions.Explicit
-	(*Distribution_BucketOptions_Dynamic)(nil),     // 18: ntt.monitoring.v4.Distribution.BucketOptions.Dynamic
-	nil,                           // 19: ntt.monitoring.v4.Metric.LabelsEntry
-	nil,                           // 20: ntt.monitoring.v4.MonitoredResource.LabelsEntry
-	(*timestamppb.Timestamp)(nil), // 21: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),   // 22: google.protobuf.Duration
+	(*Strings)(nil),                                // 13: ntt.monitoring.v4.Strings
+	(*MonitoredResourceSelector)(nil),              // 14: ntt.monitoring.v4.MonitoredResourceSelector
+	(*MetricSelector)(nil),                         // 15: ntt.monitoring.v4.MetricSelector
+	(*TimeSeriesSelector)(nil),                     // 16: ntt.monitoring.v4.TimeSeriesSelector
+	(*Distribution_Range)(nil),                     // 17: ntt.monitoring.v4.Distribution.Range
+	(*Distribution_BucketOptions)(nil),             // 18: ntt.monitoring.v4.Distribution.BucketOptions
+	(*Distribution_BucketOptions_Linear)(nil),      // 19: ntt.monitoring.v4.Distribution.BucketOptions.Linear
+	(*Distribution_BucketOptions_Exponential)(nil), // 20: ntt.monitoring.v4.Distribution.BucketOptions.Exponential
+	(*Distribution_BucketOptions_Explicit)(nil),    // 21: ntt.monitoring.v4.Distribution.BucketOptions.Explicit
+	(*Distribution_BucketOptions_Dynamic)(nil),     // 22: ntt.monitoring.v4.Distribution.BucketOptions.Dynamic
+	nil,                           // 23: ntt.monitoring.v4.Metric.LabelsEntry
+	nil,                           // 24: ntt.monitoring.v4.MonitoredResource.LabelsEntry
+	nil,                           // 25: ntt.monitoring.v4.MonitoredResourceSelector.LabelsEntry
+	nil,                           // 26: ntt.monitoring.v4.MetricSelector.LabelsEntry
+	(*timestamppb.Timestamp)(nil), // 27: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 28: google.protobuf.Duration
 }
 var edgelq_monitoring_proto_v4_common_proto_depIdxs = []int32{
 	1,  // 0: ntt.monitoring.v4.LabelDescriptor.value_type:type_name -> ntt.monitoring.v4.LabelDescriptor_ValueType
-	13, // 1: ntt.monitoring.v4.Distribution.range:type_name -> ntt.monitoring.v4.Distribution.Range
-	14, // 2: ntt.monitoring.v4.Distribution.bucket_options:type_name -> ntt.monitoring.v4.Distribution.BucketOptions
+	17, // 1: ntt.monitoring.v4.Distribution.range:type_name -> ntt.monitoring.v4.Distribution.Range
+	18, // 2: ntt.monitoring.v4.Distribution.bucket_options:type_name -> ntt.monitoring.v4.Distribution.BucketOptions
 	6,  // 3: ntt.monitoring.v4.TypedValue.distribution_value:type_name -> ntt.monitoring.v4.Distribution
-	21, // 4: ntt.monitoring.v4.TimeInterval.end_time:type_name -> google.protobuf.Timestamp
-	21, // 5: ntt.monitoring.v4.TimeInterval.start_time:type_name -> google.protobuf.Timestamp
-	21, // 6: ntt.monitoring.v4.TimeRange.start_time:type_name -> google.protobuf.Timestamp
-	21, // 7: ntt.monitoring.v4.TimeRange.end_time:type_name -> google.protobuf.Timestamp
-	22, // 8: ntt.monitoring.v4.Aggregation.alignment_period:type_name -> google.protobuf.Duration
+	27, // 4: ntt.monitoring.v4.TimeInterval.end_time:type_name -> google.protobuf.Timestamp
+	27, // 5: ntt.monitoring.v4.TimeInterval.start_time:type_name -> google.protobuf.Timestamp
+	27, // 6: ntt.monitoring.v4.TimeRange.start_time:type_name -> google.protobuf.Timestamp
+	27, // 7: ntt.monitoring.v4.TimeRange.end_time:type_name -> google.protobuf.Timestamp
+	28, // 8: ntt.monitoring.v4.Aggregation.alignment_period:type_name -> google.protobuf.Duration
 	2,  // 9: ntt.monitoring.v4.Aggregation.per_series_aligner:type_name -> ntt.monitoring.v4.Aggregation_Aligner
 	3,  // 10: ntt.monitoring.v4.Aggregation.cross_series_reducer:type_name -> ntt.monitoring.v4.Aggregation_Reducer
-	19, // 11: ntt.monitoring.v4.Metric.labels:type_name -> ntt.monitoring.v4.Metric.LabelsEntry
-	20, // 12: ntt.monitoring.v4.MonitoredResource.labels:type_name -> ntt.monitoring.v4.MonitoredResource.LabelsEntry
-	15, // 13: ntt.monitoring.v4.Distribution.BucketOptions.linear_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Linear
-	16, // 14: ntt.monitoring.v4.Distribution.BucketOptions.exponential_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Exponential
-	17, // 15: ntt.monitoring.v4.Distribution.BucketOptions.explicit_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Explicit
-	18, // 16: ntt.monitoring.v4.Distribution.BucketOptions.dynamic_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Dynamic
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	23, // 11: ntt.monitoring.v4.Metric.labels:type_name -> ntt.monitoring.v4.Metric.LabelsEntry
+	24, // 12: ntt.monitoring.v4.MonitoredResource.labels:type_name -> ntt.monitoring.v4.MonitoredResource.LabelsEntry
+	25, // 13: ntt.monitoring.v4.MonitoredResourceSelector.labels:type_name -> ntt.monitoring.v4.MonitoredResourceSelector.LabelsEntry
+	26, // 14: ntt.monitoring.v4.MetricSelector.labels:type_name -> ntt.monitoring.v4.MetricSelector.LabelsEntry
+	15, // 15: ntt.monitoring.v4.TimeSeriesSelector.metric:type_name -> ntt.monitoring.v4.MetricSelector
+	14, // 16: ntt.monitoring.v4.TimeSeriesSelector.resource:type_name -> ntt.monitoring.v4.MonitoredResourceSelector
+	19, // 17: ntt.monitoring.v4.Distribution.BucketOptions.linear_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Linear
+	20, // 18: ntt.monitoring.v4.Distribution.BucketOptions.exponential_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Exponential
+	21, // 19: ntt.monitoring.v4.Distribution.BucketOptions.explicit_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Explicit
+	22, // 20: ntt.monitoring.v4.Distribution.BucketOptions.dynamic_buckets:type_name -> ntt.monitoring.v4.Distribution.BucketOptions.Dynamic
+	13, // 21: ntt.monitoring.v4.MonitoredResourceSelector.LabelsEntry.value:type_name -> ntt.monitoring.v4.Strings
+	13, // 22: ntt.monitoring.v4.MetricSelector.LabelsEntry.value:type_name -> ntt.monitoring.v4.Strings
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { edgelq_monitoring_proto_v4_common_proto_init() }
@@ -2758,7 +3166,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Distribution_Range); i {
+			switch v := v.(*Strings); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2770,7 +3178,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Distribution_BucketOptions); i {
+			switch v := v.(*MonitoredResourceSelector); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2782,7 +3190,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Distribution_BucketOptions_Linear); i {
+			switch v := v.(*MetricSelector); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2794,7 +3202,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Distribution_BucketOptions_Exponential); i {
+			switch v := v.(*TimeSeriesSelector); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2806,7 +3214,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Distribution_BucketOptions_Explicit); i {
+			switch v := v.(*Distribution_Range); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2818,6 +3226,54 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			}
 		}
 		edgelq_monitoring_proto_v4_common_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Distribution_BucketOptions); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_monitoring_proto_v4_common_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Distribution_BucketOptions_Linear); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_monitoring_proto_v4_common_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Distribution_BucketOptions_Exponential); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_monitoring_proto_v4_common_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Distribution_BucketOptions_Explicit); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_monitoring_proto_v4_common_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Distribution_BucketOptions_Dynamic); i {
 			case 0:
 				return &v.state
@@ -2838,7 +3294,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 		(*TypedValue_StringValue)(nil),
 		(*TypedValue_DistributionValue)(nil),
 	}
-	edgelq_monitoring_proto_v4_common_proto_msgTypes[10].OneofWrappers = []interface{}{
+	edgelq_monitoring_proto_v4_common_proto_msgTypes[14].OneofWrappers = []interface{}{
 		(*Distribution_BucketOptions_LinearBuckets)(nil),
 		(*Distribution_BucketOptions_ExponentialBuckets)(nil),
 		(*Distribution_BucketOptions_ExplicitBuckets)(nil),
@@ -2850,7 +3306,7 @@ func edgelq_monitoring_proto_v4_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_monitoring_proto_v4_common_proto_rawDesc,
 			NumEnums:      4,
-			NumMessages:   17,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

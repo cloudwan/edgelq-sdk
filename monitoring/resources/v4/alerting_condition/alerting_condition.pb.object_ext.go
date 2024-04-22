@@ -482,6 +482,16 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) MakeDiffFieldMask(other *Alert
 		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter})
 	}
 	{
+		subMask := o.GetSelector().MakeDiffFieldMask(other.GetSelector())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector, subPath: subpath})
+			}
+		}
+	}
+	{
 		subMask := o.GetAggregation().MakeDiffFieldMask(other.GetAggregation())
 		if subMask.IsFull() {
 			res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation})
@@ -513,6 +523,7 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) Clone() *AlertingCondition_Spe
 			panic(err)
 		}
 	}
+	result.Selector = o.Selector.Clone()
 	result.Aggregation = o.Aggregation.Clone()
 	return result
 }
@@ -533,6 +544,12 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) Merge(source *AlertingConditio
 		}
 	} else {
 		o.Filter = nil
+	}
+	if source.GetSelector() != nil {
+		if o.Selector == nil {
+			o.Selector = new(common.TimeSeriesSelector)
+		}
+		o.Selector.Merge(source.GetSelector())
 	}
 	if source.GetAggregation() != nil {
 		if o.Aggregation == nil {

@@ -634,6 +634,53 @@ message MonitoredResource {
   repeated string reduced_labels = 11;
 }
 
+// Represents wrapped list of strings.
+message Strings { repeated string values = 1; }
+
+// MonitoredResourceSelector selects `resource.type` and list of labels used to
+// build query, like:
+//
+// ```
+// resource.type IN ("type0", "type1", ...) AND
+// resource.labels.<key0> IN (label0_0, label0_1, ...) AND
+// resource.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+//
+// Note: Only one resource.type per query is currently allowed
+message MonitoredResourceSelector {
+  repeated string types = 1;
+
+  // label key, e.g. "project_id", "target_id", etc
+  // Note the missing "resource.labels." prefix.
+  map<string, Strings> labels = 2;
+}
+
+// Metric selects `metric.type` and list of labels used to
+// build query, like:
+//
+// ```
+// metric.type IN ("type0", "type1", ...) AND
+// metric.labels.<key0> IN (label0_0, label0_1, ...) AND
+// metric.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+//
+message MetricSelector {
+  repeated string types = 1;
+
+  // label key, e.g. "project_id", "target_id", etc
+  // Note the missing "metric.labels." prefix.
+  map<string, Strings> labels = 2;
+}
+
+message TimeSeriesSelector {
+  // Metric Selector used to specify filtered Metric types and labels
+  MetricSelector metric = 1;
+
+  // Resource Selector used to specify filtered Monitored Resource
+  // types and labels
+  MonitoredResourceSelector resource = 2;
+}
+
 // Controls which fields are returned by `ListTimeSeries`.
 enum TimeSeriesView {
   // Returns the identity of the metric(s), the time series,

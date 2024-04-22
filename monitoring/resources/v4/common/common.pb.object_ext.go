@@ -1410,3 +1410,368 @@ func (o *MonitoredResource) Merge(source *MonitoredResource) {
 func (o *MonitoredResource) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*MonitoredResource))
 }
+
+func (o *Strings) GotenObjectExt() {}
+
+func (o *Strings) MakeFullFieldMask() *Strings_FieldMask {
+	return FullStrings_FieldMask()
+}
+
+func (o *Strings) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullStrings_FieldMask()
+}
+
+func (o *Strings) MakeDiffFieldMask(other *Strings) *Strings_FieldMask {
+	if o == nil && other == nil {
+		return &Strings_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullStrings_FieldMask()
+	}
+
+	res := &Strings_FieldMask{}
+
+	if len(o.GetValues()) == len(other.GetValues()) {
+		for i, lValue := range o.GetValues() {
+			rValue := other.GetValues()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &Strings_FieldTerminalPath{selector: Strings_FieldPathSelectorValues})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Strings_FieldTerminalPath{selector: Strings_FieldPathSelectorValues})
+	}
+	return res
+}
+
+func (o *Strings) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Strings))
+}
+
+func (o *Strings) Clone() *Strings {
+	if o == nil {
+		return nil
+	}
+	result := &Strings{}
+	result.Values = make([]string, len(o.Values))
+	for i, sourceValue := range o.Values {
+		result.Values[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Strings) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Strings) Merge(source *Strings) {
+	for _, sourceValue := range source.GetValues() {
+		exists := false
+		for _, currentValue := range o.Values {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Values = append(o.Values, newDstElement)
+		}
+	}
+
+}
+
+func (o *Strings) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Strings))
+}
+
+func (o *MonitoredResourceSelector) GotenObjectExt() {}
+
+func (o *MonitoredResourceSelector) MakeFullFieldMask() *MonitoredResourceSelector_FieldMask {
+	return FullMonitoredResourceSelector_FieldMask()
+}
+
+func (o *MonitoredResourceSelector) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMonitoredResourceSelector_FieldMask()
+}
+
+func (o *MonitoredResourceSelector) MakeDiffFieldMask(other *MonitoredResourceSelector) *MonitoredResourceSelector_FieldMask {
+	if o == nil && other == nil {
+		return &MonitoredResourceSelector_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMonitoredResourceSelector_FieldMask()
+	}
+
+	res := &MonitoredResourceSelector_FieldMask{}
+
+	if len(o.GetTypes()) == len(other.GetTypes()) {
+		for i, lValue := range o.GetTypes() {
+			rValue := other.GetTypes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorTypes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorTypes})
+	}
+
+	if len(o.GetLabels()) == len(other.GetLabels()) {
+		for i, lValue := range o.GetLabels() {
+			rValue := other.GetLabels()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorLabels})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MonitoredResourceSelector_FieldTerminalPath{selector: MonitoredResourceSelector_FieldPathSelectorLabels})
+	}
+	return res
+}
+
+func (o *MonitoredResourceSelector) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MonitoredResourceSelector))
+}
+
+func (o *MonitoredResourceSelector) Clone() *MonitoredResourceSelector {
+	if o == nil {
+		return nil
+	}
+	result := &MonitoredResourceSelector{}
+	result.Types = make([]string, len(o.Types))
+	for i, sourceValue := range o.Types {
+		result.Types[i] = sourceValue
+	}
+	result.Labels = map[string]*Strings{}
+	for key, sourceValue := range o.Labels {
+		result.Labels[key] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MonitoredResourceSelector) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MonitoredResourceSelector) Merge(source *MonitoredResourceSelector) {
+	for _, sourceValue := range source.GetTypes() {
+		exists := false
+		for _, currentValue := range o.Types {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Types = append(o.Types, newDstElement)
+		}
+	}
+
+	if source.GetLabels() != nil {
+		if o.Labels == nil {
+			o.Labels = make(map[string]*Strings, len(source.GetLabels()))
+		}
+		for key, sourceValue := range source.GetLabels() {
+			if sourceValue != nil {
+				if o.Labels[key] == nil {
+					o.Labels[key] = new(Strings)
+				}
+				o.Labels[key].Merge(sourceValue)
+			}
+		}
+	}
+}
+
+func (o *MonitoredResourceSelector) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MonitoredResourceSelector))
+}
+
+func (o *MetricSelector) GotenObjectExt() {}
+
+func (o *MetricSelector) MakeFullFieldMask() *MetricSelector_FieldMask {
+	return FullMetricSelector_FieldMask()
+}
+
+func (o *MetricSelector) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricSelector_FieldMask()
+}
+
+func (o *MetricSelector) MakeDiffFieldMask(other *MetricSelector) *MetricSelector_FieldMask {
+	if o == nil && other == nil {
+		return &MetricSelector_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricSelector_FieldMask()
+	}
+
+	res := &MetricSelector_FieldMask{}
+
+	if len(o.GetTypes()) == len(other.GetTypes()) {
+		for i, lValue := range o.GetTypes() {
+			rValue := other.GetTypes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorTypes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorTypes})
+	}
+
+	if len(o.GetLabels()) == len(other.GetLabels()) {
+		for i, lValue := range o.GetLabels() {
+			rValue := other.GetLabels()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorLabels})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricSelector_FieldTerminalPath{selector: MetricSelector_FieldPathSelectorLabels})
+	}
+	return res
+}
+
+func (o *MetricSelector) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricSelector))
+}
+
+func (o *MetricSelector) Clone() *MetricSelector {
+	if o == nil {
+		return nil
+	}
+	result := &MetricSelector{}
+	result.Types = make([]string, len(o.Types))
+	for i, sourceValue := range o.Types {
+		result.Types[i] = sourceValue
+	}
+	result.Labels = map[string]*Strings{}
+	for key, sourceValue := range o.Labels {
+		result.Labels[key] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricSelector) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricSelector) Merge(source *MetricSelector) {
+	for _, sourceValue := range source.GetTypes() {
+		exists := false
+		for _, currentValue := range o.Types {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Types = append(o.Types, newDstElement)
+		}
+	}
+
+	if source.GetLabels() != nil {
+		if o.Labels == nil {
+			o.Labels = make(map[string]*Strings, len(source.GetLabels()))
+		}
+		for key, sourceValue := range source.GetLabels() {
+			if sourceValue != nil {
+				if o.Labels[key] == nil {
+					o.Labels[key] = new(Strings)
+				}
+				o.Labels[key].Merge(sourceValue)
+			}
+		}
+	}
+}
+
+func (o *MetricSelector) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricSelector))
+}
+
+func (o *TimeSeriesSelector) GotenObjectExt() {}
+
+func (o *TimeSeriesSelector) MakeFullFieldMask() *TimeSeriesSelector_FieldMask {
+	return FullTimeSeriesSelector_FieldMask()
+}
+
+func (o *TimeSeriesSelector) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTimeSeriesSelector_FieldMask()
+}
+
+func (o *TimeSeriesSelector) MakeDiffFieldMask(other *TimeSeriesSelector) *TimeSeriesSelector_FieldMask {
+	if o == nil && other == nil {
+		return &TimeSeriesSelector_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullTimeSeriesSelector_FieldMask()
+	}
+
+	res := &TimeSeriesSelector_FieldMask{}
+	{
+		subMask := o.GetMetric().MakeDiffFieldMask(other.GetMetric())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorMetric})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorMetric, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetResource().MakeDiffFieldMask(other.GetResource())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &TimeSeriesSelector_FieldTerminalPath{selector: TimeSeriesSelector_FieldPathSelectorResource})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &TimeSeriesSelector_FieldSubPath{selector: TimeSeriesSelector_FieldPathSelectorResource, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *TimeSeriesSelector) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TimeSeriesSelector))
+}
+
+func (o *TimeSeriesSelector) Clone() *TimeSeriesSelector {
+	if o == nil {
+		return nil
+	}
+	result := &TimeSeriesSelector{}
+	result.Metric = o.Metric.Clone()
+	result.Resource = o.Resource.Clone()
+	return result
+}
+
+func (o *TimeSeriesSelector) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *TimeSeriesSelector) Merge(source *TimeSeriesSelector) {
+	if source.GetMetric() != nil {
+		if o.Metric == nil {
+			o.Metric = new(MetricSelector)
+		}
+		o.Metric.Merge(source.GetMetric())
+	}
+	if source.GetResource() != nil {
+		if o.Resource == nil {
+			o.Resource = new(MonitoredResourceSelector)
+		}
+		o.Resource.Merge(source.GetResource())
+	}
+}
+
+func (o *TimeSeriesSelector) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TimeSeriesSelector))
+}
