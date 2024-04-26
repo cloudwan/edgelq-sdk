@@ -6,6 +6,7 @@ package device
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -28,6 +29,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -4216,6 +4218,10 @@ func (DevicePathSelectorStatusDeviceInfo) Architecture() DevicePathSelectorStatu
 	return DevicePathSelectorStatusDeviceInfoArchitecture{}
 }
 
+func (DevicePathSelectorStatusDeviceInfo) Hardware() DevicePathSelectorStatusDeviceInfoHardware {
+	return DevicePathSelectorStatusDeviceInfoHardware{}
+}
+
 func (DevicePathSelectorStatusDeviceInfo) OperatingSystem() DevicePathSelectorStatusDeviceInfoOperatingSystem {
 	return DevicePathSelectorStatusDeviceInfoOperatingSystem{}
 }
@@ -4266,6 +4272,23 @@ func (s DevicePathSelectorStatusDeviceInfoArchitecture) WithValue(value string) 
 }
 
 func (s DevicePathSelectorStatusDeviceInfoArchitecture) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoHardware struct{}
+
+func (DevicePathSelectorStatusDeviceInfoHardware) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().Hardware().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithValue(value device_type.DeviceType_Platform) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -13124,6 +13147,10 @@ func (Device_StatusPathSelectorDeviceInfo) Architecture() Device_StatusPathSelec
 	return Device_StatusPathSelectorDeviceInfoArchitecture{}
 }
 
+func (Device_StatusPathSelectorDeviceInfo) Hardware() Device_StatusPathSelectorDeviceInfoHardware {
+	return Device_StatusPathSelectorDeviceInfoHardware{}
+}
+
 func (Device_StatusPathSelectorDeviceInfo) OperatingSystem() Device_StatusPathSelectorDeviceInfoOperatingSystem {
 	return Device_StatusPathSelectorDeviceInfoOperatingSystem{}
 }
@@ -13174,6 +13201,23 @@ func (s Device_StatusPathSelectorDeviceInfoArchitecture) WithValue(value string)
 }
 
 func (s Device_StatusPathSelectorDeviceInfoArchitecture) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoHardware struct{}
+
+func (Device_StatusPathSelectorDeviceInfoHardware) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().Hardware().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithValue(value device_type.DeviceType_Platform) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
@@ -34506,6 +34550,9 @@ func NewDeviceStatusDeviceInfoFieldPathBuilder() DeviceStatusDeviceInfoFieldPath
 func (DeviceStatusDeviceInfoFieldPathBuilder) Architecture() Device_Status_DeviceInfoPathSelectorArchitecture {
 	return Device_Status_DeviceInfoPathSelectorArchitecture{}
 }
+func (DeviceStatusDeviceInfoFieldPathBuilder) Hardware() Device_Status_DeviceInfoPathSelectorHardware {
+	return Device_Status_DeviceInfoPathSelectorHardware{}
+}
 func (DeviceStatusDeviceInfoFieldPathBuilder) OperatingSystem() Device_Status_DeviceInfoPathSelectorOperatingSystem {
 	return Device_Status_DeviceInfoPathSelectorOperatingSystem{}
 }
@@ -34545,6 +34592,20 @@ func (s Device_Status_DeviceInfoPathSelectorArchitecture) WithValue(value string
 }
 
 func (s Device_Status_DeviceInfoPathSelectorArchitecture) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorHardware struct{}
+
+func (Device_Status_DeviceInfoPathSelectorHardware) FieldPath() *DeviceStatusDeviceInfo_FieldTerminalPath {
+	return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardware}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithValue(value device_type.DeviceType_Platform) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues)
 }
 

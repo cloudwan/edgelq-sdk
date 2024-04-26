@@ -12,6 +12,7 @@ import (
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -34,6 +35,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}

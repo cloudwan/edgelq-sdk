@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -39,6 +40,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -12729,6 +12731,10 @@ func (b *filterCndBuilderStatusDeviceInfo) Architecture() *filterCndBuilderStatu
 	return &filterCndBuilderStatusDeviceInfoArchitecture{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatusDeviceInfo) Hardware() *filterCndBuilderStatusDeviceInfoHardware {
+	return &filterCndBuilderStatusDeviceInfoHardware{builder: b.builder}
+}
+
 func (b *filterCndBuilderStatusDeviceInfo) OperatingSystem() *filterCndBuilderStatusDeviceInfoOperatingSystem {
 	return &filterCndBuilderStatusDeviceInfoOperatingSystem{builder: b.builder}
 }
@@ -12821,6 +12827,65 @@ func (b *filterCndBuilderStatusDeviceInfoArchitecture) compare(op gotenfilter.Co
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().Architecture().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardware struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Eq(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Neq(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Gt(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Gte(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Lt(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) Lte(value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) In(values []device_type.DeviceType_Platform) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) NotIn(values []device_type.DeviceType_Platform) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardware) compare(op gotenfilter.CompareOperator, value device_type.DeviceType_Platform) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithValue(value),
 	})
 }
 

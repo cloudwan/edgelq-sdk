@@ -8,6 +8,7 @@ package device_hardware_register_session
 import (
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	device_hardware "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware"
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -37,6 +38,7 @@ import (
 var (
 	_ = &device.Device{}
 	_ = &device_hardware.DeviceHardware{}
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &iam_attestation_domain.AttestationDomain{}

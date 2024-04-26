@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -50,6 +51,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -11824,6 +11826,7 @@ type Device_Status_DeviceInfo_FieldMask struct {
 func FullDevice_Status_DeviceInfo_FieldMask() *Device_Status_DeviceInfo_FieldMask {
 	res := &Device_Status_DeviceInfo_FieldMask{}
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorArchitecture})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardware})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorOsImage})
@@ -11876,7 +11879,7 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfo_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -11906,7 +11909,7 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_FieldMask) *Device_Status_DeviceInfo_FieldMask {
 	result := &Device_Status_DeviceInfo_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[DeviceStatusDeviceInfo_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:       &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
 		DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo: &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{},
@@ -12098,6 +12101,8 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 			switch tp.selector {
 			case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 				result.Architecture = source.Architecture
+			case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
+				result.Hardware = source.Hardware
 			case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 				result.OperatingSystem = source.OperatingSystem
 			case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:

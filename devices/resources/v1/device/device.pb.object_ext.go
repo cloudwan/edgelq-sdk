@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -5669,6 +5671,9 @@ func (o *Device_Status_DeviceInfo) MakeDiffFieldMask(other *Device_Status_Device
 	if o.GetArchitecture() != other.GetArchitecture() {
 		res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorArchitecture})
 	}
+	if o.GetHardware() != other.GetHardware() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardware})
+	}
 	if o.GetOperatingSystem() != other.GetOperatingSystem() {
 		res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem})
 	}
@@ -5732,6 +5737,7 @@ func (o *Device_Status_DeviceInfo) Clone() *Device_Status_DeviceInfo {
 	}
 	result := &Device_Status_DeviceInfo{}
 	result.Architecture = o.Architecture
+	result.Hardware = o.Hardware
 	result.OperatingSystem = o.OperatingSystem
 	result.KernelVersion = o.KernelVersion
 	result.OsImage = o.OsImage
@@ -5753,6 +5759,7 @@ func (o *Device_Status_DeviceInfo) CloneRaw() gotenobject.GotenObjectExt {
 
 func (o *Device_Status_DeviceInfo) Merge(source *Device_Status_DeviceInfo) {
 	o.Architecture = source.GetArchitecture()
+	o.Hardware = source.GetHardware()
 	o.OperatingSystem = source.GetOperatingSystem()
 	o.KernelVersion = source.GetKernelVersion()
 	o.OsImage = source.GetOsImage()

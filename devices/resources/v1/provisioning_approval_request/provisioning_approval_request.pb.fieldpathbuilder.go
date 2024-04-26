@@ -7,6 +7,7 @@ package provisioning_approval_request
 // proto imports
 import (
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -35,6 +36,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &device.Device{}
+	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &iam_attestation_domain.AttestationDomain{}

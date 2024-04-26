@@ -10,6 +10,7 @@ import (
 	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1/distribution"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1/project"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	devices_device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -38,6 +39,7 @@ var (
 	_ = &distribution.Distribution{}
 	_ = &project.Project{}
 	_ = &devices_device.Device{}
+	_ = &devices_device_type.DeviceType{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
