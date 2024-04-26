@@ -45,8 +45,11 @@ func ResourceViewFieldMask(viewName view.View, extraMask *DeviceHardwareRegister
 		return extraMask
 	case view.View_FULL:
 		return nil
+	case view.View_BASIC:
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "start_time", "expiration_time", "user_email", "provisioning_policy_name", "device_name", "single_use", "token", "status.device_hardwares")
+		break
 	case view.View_NAME:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")
 		break
 	default:
 		return extraMask

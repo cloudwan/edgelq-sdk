@@ -79,24 +79,27 @@ type DeviceHardwareRegisterSession_FieldPathSelector int32
 
 const (
 	DeviceHardwareRegisterSession_FieldPathSelectorName                   DeviceHardwareRegisterSession_FieldPathSelector = 0
-	DeviceHardwareRegisterSession_FieldPathSelectorMetadata               DeviceHardwareRegisterSession_FieldPathSelector = 1
-	DeviceHardwareRegisterSession_FieldPathSelectorStartTime              DeviceHardwareRegisterSession_FieldPathSelector = 2
-	DeviceHardwareRegisterSession_FieldPathSelectorExpirationTime         DeviceHardwareRegisterSession_FieldPathSelector = 3
-	DeviceHardwareRegisterSession_FieldPathSelectorUserEmail              DeviceHardwareRegisterSession_FieldPathSelector = 4
-	DeviceHardwareRegisterSession_FieldPathSelectorInviterEmail           DeviceHardwareRegisterSession_FieldPathSelector = 5
-	DeviceHardwareRegisterSession_FieldPathSelectorLanguageCode           DeviceHardwareRegisterSession_FieldPathSelector = 6
-	DeviceHardwareRegisterSession_FieldPathSelectorExtras                 DeviceHardwareRegisterSession_FieldPathSelector = 7
-	DeviceHardwareRegisterSession_FieldPathSelectorProvisioningPolicyName DeviceHardwareRegisterSession_FieldPathSelector = 8
-	DeviceHardwareRegisterSession_FieldPathSelectorDeviceName             DeviceHardwareRegisterSession_FieldPathSelector = 9
-	DeviceHardwareRegisterSession_FieldPathSelectorSingleUse              DeviceHardwareRegisterSession_FieldPathSelector = 10
-	DeviceHardwareRegisterSession_FieldPathSelectorToken                  DeviceHardwareRegisterSession_FieldPathSelector = 11
-	DeviceHardwareRegisterSession_FieldPathSelectorStatus                 DeviceHardwareRegisterSession_FieldPathSelector = 12
+	DeviceHardwareRegisterSession_FieldPathSelectorDisplayName            DeviceHardwareRegisterSession_FieldPathSelector = 1
+	DeviceHardwareRegisterSession_FieldPathSelectorMetadata               DeviceHardwareRegisterSession_FieldPathSelector = 2
+	DeviceHardwareRegisterSession_FieldPathSelectorStartTime              DeviceHardwareRegisterSession_FieldPathSelector = 3
+	DeviceHardwareRegisterSession_FieldPathSelectorExpirationTime         DeviceHardwareRegisterSession_FieldPathSelector = 4
+	DeviceHardwareRegisterSession_FieldPathSelectorUserEmail              DeviceHardwareRegisterSession_FieldPathSelector = 5
+	DeviceHardwareRegisterSession_FieldPathSelectorInviterEmail           DeviceHardwareRegisterSession_FieldPathSelector = 6
+	DeviceHardwareRegisterSession_FieldPathSelectorLanguageCode           DeviceHardwareRegisterSession_FieldPathSelector = 7
+	DeviceHardwareRegisterSession_FieldPathSelectorExtras                 DeviceHardwareRegisterSession_FieldPathSelector = 8
+	DeviceHardwareRegisterSession_FieldPathSelectorProvisioningPolicyName DeviceHardwareRegisterSession_FieldPathSelector = 9
+	DeviceHardwareRegisterSession_FieldPathSelectorDeviceName             DeviceHardwareRegisterSession_FieldPathSelector = 10
+	DeviceHardwareRegisterSession_FieldPathSelectorSingleUse              DeviceHardwareRegisterSession_FieldPathSelector = 11
+	DeviceHardwareRegisterSession_FieldPathSelectorToken                  DeviceHardwareRegisterSession_FieldPathSelector = 12
+	DeviceHardwareRegisterSession_FieldPathSelectorStatus                 DeviceHardwareRegisterSession_FieldPathSelector = 13
 )
 
 func (s DeviceHardwareRegisterSession_FieldPathSelector) String() string {
 	switch s {
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		return "name"
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		return "display_name"
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		return "metadata"
 	case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -134,6 +137,8 @@ func BuildDeviceHardwareRegisterSession_FieldPath(fp gotenobject.RawFieldPath) (
 		switch fp[0] {
 		case "name":
 			return &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorName}, nil
+		case "display_name", "displayName", "display-name":
+			return &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorDisplayName}, nil
 		case "metadata":
 			return &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorMetadata}, nil
 		case "start_time", "startTime", "start-time":
@@ -227,6 +232,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) Get(source *DeviceHar
 			if source.Name != nil {
 				values = append(values, source.Name)
 			}
+		case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
 		case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
@@ -280,6 +287,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) GetSingle(source *Dev
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		res := source.GetName()
 		return res, res != nil
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
@@ -325,6 +334,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) GetDefault() interfac
 	switch fp.selector {
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		return (*Name)(nil)
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		return ""
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		return (*meta.Meta)(nil)
 	case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -359,6 +370,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) ClearValue(item *Devi
 		switch fp.selector {
 		case DeviceHardwareRegisterSession_FieldPathSelectorName:
 			item.Name = nil
+		case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
 		case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -396,6 +409,7 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeviceHardwareRegisterSession_FieldPathSelectorName ||
+		fp.selector == DeviceHardwareRegisterSession_FieldPathSelectorDisplayName ||
 		fp.selector == DeviceHardwareRegisterSession_FieldPathSelectorStartTime ||
 		fp.selector == DeviceHardwareRegisterSession_FieldPathSelectorExpirationTime ||
 		fp.selector == DeviceHardwareRegisterSession_FieldPathSelectorUserEmail ||
@@ -416,6 +430,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) WithIValue(value inte
 	switch fp.selector {
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		return &DeviceHardwareRegisterSession_FieldTerminalPathValue{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, value: value.(*Name)}
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		return &DeviceHardwareRegisterSession_FieldTerminalPathValue{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		return &DeviceHardwareRegisterSession_FieldTerminalPathValue{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -454,6 +470,8 @@ func (fp *DeviceHardwareRegisterSession_FieldTerminalPath) WithIArrayOfValues(va
 	switch fp.selector {
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		return &DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, values: values.([]*Name)}
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		return &DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		return &DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues{DeviceHardwareRegisterSession_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -799,6 +817,10 @@ func (fpv *DeviceHardwareRegisterSession_FieldTerminalPathValue) AsNameValue() (
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
+func (fpv *DeviceHardwareRegisterSession_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *DeviceHardwareRegisterSession_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
 	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
@@ -856,6 +878,8 @@ func (fpv *DeviceHardwareRegisterSession_FieldTerminalPathValue) SetTo(target **
 	switch fpv.selector {
 	case DeviceHardwareRegisterSession_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case DeviceHardwareRegisterSession_FieldPathSelectorStartTime:
@@ -908,6 +932,16 @@ func (fpv *DeviceHardwareRegisterSession_FieldTerminalPathValue) CompareWith(sou
 		if leftValue.String() == rightValue.String() {
 			return 0, true
 		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1299,6 +1333,10 @@ func (fpaov *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*Name) {
 			values = append(values, v)
 		}
+	case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
@@ -1352,6 +1390,10 @@ func (fpaov *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues) GetRa
 }
 func (fpaov *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
 	res, ok := fpaov.values.([]*Name)
+	return res, ok
+}
+func (fpaov *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {

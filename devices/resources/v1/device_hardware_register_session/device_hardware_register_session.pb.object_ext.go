@@ -67,6 +67,9 @@ func (o *DeviceHardwareRegisterSession) MakeDiffFieldMask(other *DeviceHardwareR
 	if o.GetName().String() != other.GetName().String() {
 		res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorName})
 	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorDisplayName})
+	}
 	{
 		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
 		if subMask.IsFull() {
@@ -148,6 +151,7 @@ func (o *DeviceHardwareRegisterSession) Clone() *DeviceHardwareRegisterSession {
 			panic(err)
 		}
 	}
+	result.DisplayName = o.DisplayName
 	result.Metadata = o.Metadata.Clone()
 	result.StartTime = proto.Clone(o.StartTime).(*timestamppb.Timestamp)
 	result.ExpirationTime = proto.Clone(o.ExpirationTime).(*timestamppb.Timestamp)
@@ -201,6 +205,7 @@ func (o *DeviceHardwareRegisterSession) Merge(source *DeviceHardwareRegisterSess
 	} else {
 		o.Name = nil
 	}
+	o.DisplayName = source.GetDisplayName()
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
 			o.Metadata = new(meta.Meta)

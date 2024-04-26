@@ -37,6 +37,9 @@ func ResourceViewFieldMask(viewName view.View, extraMask *EdgelqInstance_FieldMa
 		return extraMask
 	case view.View_FULL:
 		return nil
+	case view.View_BASIC:
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "controller_domain", "endpoints")
+		break
 	case view.View_NAME:
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")
 		break

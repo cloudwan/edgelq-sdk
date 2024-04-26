@@ -60,6 +60,7 @@ type DeviceHardwareRegisterSession_FieldMask struct {
 func FullDeviceHardwareRegisterSession_FieldMask() *DeviceHardwareRegisterSession_FieldMask {
 	res := &DeviceHardwareRegisterSession_FieldMask{}
 	res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorStartTime})
 	res.Paths = append(res.Paths, &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorExpirationTime})
@@ -115,7 +116,7 @@ func (fieldMask *DeviceHardwareRegisterSession_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 13)
+	presentSelectors := make([]bool, 14)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceHardwareRegisterSession_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -145,7 +146,7 @@ func (fieldMask *DeviceHardwareRegisterSession_FieldMask) Reset() {
 
 func (fieldMask *DeviceHardwareRegisterSession_FieldMask) Subtract(other *DeviceHardwareRegisterSession_FieldMask) *DeviceHardwareRegisterSession_FieldMask {
 	result := &DeviceHardwareRegisterSession_FieldMask{}
-	removedSelectors := make([]bool, 13)
+	removedSelectors := make([]bool, 14)
 	otherSubMasks := map[DeviceHardwareRegisterSession_FieldPathSelector]gotenobject.FieldMask{
 		DeviceHardwareRegisterSession_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		DeviceHardwareRegisterSession_FieldPathSelectorStatus:   &DeviceHardwareRegisterSession_Status_FieldMask{},
@@ -356,6 +357,8 @@ func (fieldMask *DeviceHardwareRegisterSession_FieldMask) Project(source *Device
 			switch tp.selector {
 			case DeviceHardwareRegisterSession_FieldPathSelectorName:
 				result.Name = source.Name
+			case DeviceHardwareRegisterSession_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
 			case DeviceHardwareRegisterSession_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true

@@ -72,6 +72,9 @@ func NewDeviceHardwareRegisterSessionFieldPathBuilder() DeviceHardwareRegisterSe
 func (DeviceHardwareRegisterSessionFieldPathBuilder) Name() DeviceHardwareRegisterSessionPathSelectorName {
 	return DeviceHardwareRegisterSessionPathSelectorName{}
 }
+func (DeviceHardwareRegisterSessionFieldPathBuilder) DisplayName() DeviceHardwareRegisterSessionPathSelectorDisplayName {
+	return DeviceHardwareRegisterSessionPathSelectorDisplayName{}
+}
 func (DeviceHardwareRegisterSessionFieldPathBuilder) Metadata() DeviceHardwareRegisterSessionPathSelectorMetadata {
 	return DeviceHardwareRegisterSessionPathSelectorMetadata{}
 }
@@ -120,6 +123,20 @@ func (s DeviceHardwareRegisterSessionPathSelectorName) WithValue(value *Name) *D
 }
 
 func (s DeviceHardwareRegisterSessionPathSelectorName) WithArrayOfValues(values []*Name) *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues)
+}
+
+type DeviceHardwareRegisterSessionPathSelectorDisplayName struct{}
+
+func (DeviceHardwareRegisterSessionPathSelectorDisplayName) FieldPath() *DeviceHardwareRegisterSession_FieldTerminalPath {
+	return &DeviceHardwareRegisterSession_FieldTerminalPath{selector: DeviceHardwareRegisterSession_FieldPathSelectorDisplayName}
+}
+
+func (s DeviceHardwareRegisterSessionPathSelectorDisplayName) WithValue(value string) *DeviceHardwareRegisterSession_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceHardwareRegisterSession_FieldTerminalPathValue)
+}
+
+func (s DeviceHardwareRegisterSessionPathSelectorDisplayName) WithArrayOfValues(values []string) *DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardwareRegisterSession_FieldTerminalPathArrayOfValues)
 }
 

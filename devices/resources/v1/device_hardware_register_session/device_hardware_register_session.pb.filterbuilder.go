@@ -218,6 +218,10 @@ func (b *filterCndBuilder) Name() *filterCndBuilderName {
 	return &filterCndBuilderName{builder: b.builder}
 }
 
+func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
+	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 	return &filterCndBuilderMetadata{builder: b.builder}
 }
@@ -322,6 +326,65 @@ func (b *filterCndBuilderName) compare(op gotenfilter.CompareOperator, value *Na
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator: op,
 		DeviceHardwareRegisterSession_FieldPathValue: NewDeviceHardwareRegisterSessionFieldPathBuilder().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		DeviceHardwareRegisterSession_FieldPathArrayOfValues: NewDeviceHardwareRegisterSessionFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		DeviceHardwareRegisterSession_FieldPathArrayOfValues: NewDeviceHardwareRegisterSessionFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceHardwareRegisterSessionFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceHardwareRegisterSessionFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator: op,
+		DeviceHardwareRegisterSession_FieldPathValue: NewDeviceHardwareRegisterSessionFieldPathBuilder().DisplayName().WithValue(value),
 	})
 }
 
