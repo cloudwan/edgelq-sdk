@@ -986,8 +986,8 @@ message Device {
       // `arm64`)
       string architecture = 1;
 
-      // The platform hardware (e.g. `raspberry-pi-4`, `generic`)
-      DeviceType.Hardware hardware = 7;
+      // The platform hardware (e.g. `raspberry`, `generic`)
+      string hardware = 7;
 
       // Base OS name (e.g. `Linux`)
       string operating_system = 2;

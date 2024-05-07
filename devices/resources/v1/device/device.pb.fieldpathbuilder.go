@@ -6,7 +6,6 @@ package device
 
 // proto imports
 import (
-	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -29,7 +28,6 @@ import (
 
 // make sure we're using proto imports
 var (
-	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -4284,11 +4282,11 @@ func (DevicePathSelectorStatusDeviceInfoHardware) FieldPath() *Device_FieldSubPa
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardware) WithValue(value device_type.DeviceType_Hardware) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -13213,11 +13211,11 @@ func (Device_StatusPathSelectorDeviceInfoHardware) FieldPath() *DeviceStatus_Fie
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardware) WithValue(value device_type.DeviceType_Hardware) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
@@ -34601,11 +34599,11 @@ func (Device_Status_DeviceInfoPathSelectorHardware) FieldPath() *DeviceStatusDev
 	return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardware}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardware) WithValue(value device_type.DeviceType_Hardware) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithValue(value string) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues)
 }
 

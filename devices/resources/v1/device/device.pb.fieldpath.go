@@ -23,7 +23,6 @@ import (
 
 // proto imports
 import (
-	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -57,7 +56,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &device_type.DeviceType{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -33256,7 +33254,7 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 		return ""
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		return device_type.DeviceType_HARDWARE_UNSPECIFIED
+		return ""
 	case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 		return ""
 	case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:
@@ -33286,7 +33284,7 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) ClearValue(item *Device_Stat
 		case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 			item.Architecture = ""
 		case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-			item.Hardware = device_type.DeviceType_HARDWARE_UNSPECIFIED
+			item.Hardware = ""
 		case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 			item.OperatingSystem = ""
 		case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:
@@ -33336,7 +33334,7 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) WithIValue(value interface{}
 	case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(device_type.DeviceType_Hardware)}
+		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:
@@ -33370,7 +33368,7 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) WithIArrayOfValues(values in
 	case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]device_type.DeviceType_Hardware)}
+		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:
@@ -33710,8 +33708,8 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsArchitectureValue() 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsHardwareValue() (device_type.DeviceType_Hardware, bool) {
-	res, ok := fpv.value.(device_type.DeviceType_Hardware)
+func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsHardwareValue() (string, bool) {
+	res, ok := fpv.value.(string)
 	return res, ok
 }
 func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsOperatingSystemValue() (string, bool) {
@@ -33760,7 +33758,7 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) SetTo(target **Device_
 	case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
 		(*target).Architecture = fpv.value.(string)
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		(*target).Hardware = fpv.value.(device_type.DeviceType_Hardware)
+		(*target).Hardware = fpv.value.(string)
 	case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
 		(*target).OperatingSystem = fpv.value.(string)
 	case DeviceStatusDeviceInfo_FieldPathSelectorKernelVersion:
@@ -33803,7 +33801,7 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) CompareWith(source *De
 			return 1, true
 		}
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		leftValue := fpv.value.(device_type.DeviceType_Hardware)
+		leftValue := fpv.value.(string)
 		rightValue := source.GetHardware()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -34126,7 +34124,7 @@ func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) GetRawValues
 			values = append(values, v)
 		}
 	case DeviceStatusDeviceInfo_FieldPathSelectorHardware:
-		for _, v := range fpaov.values.([]device_type.DeviceType_Hardware) {
+		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
 	case DeviceStatusDeviceInfo_FieldPathSelectorOperatingSystem:
@@ -34172,8 +34170,8 @@ func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsArchitectu
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsHardwareArrayOfValues() ([]device_type.DeviceType_Hardware, bool) {
-	res, ok := fpaov.values.([]device_type.DeviceType_Hardware)
+func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsHardwareArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsOperatingSystemArrayOfValues() ([]string, bool) {
