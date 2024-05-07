@@ -4284,11 +4284,11 @@ func (DevicePathSelectorStatusDeviceInfoHardware) FieldPath() *Device_FieldSubPa
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardware) WithValue(value device_type.DeviceType_Platform) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithValue(value device_type.DeviceType_Hardware) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -13213,11 +13213,11 @@ func (Device_StatusPathSelectorDeviceInfoHardware) FieldPath() *DeviceStatus_Fie
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardware) WithValue(value device_type.DeviceType_Platform) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithValue(value device_type.DeviceType_Hardware) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
@@ -34601,11 +34601,11 @@ func (Device_Status_DeviceInfoPathSelectorHardware) FieldPath() *DeviceStatusDev
 	return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardware}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardware) WithValue(value device_type.DeviceType_Platform) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithValue(value device_type.DeviceType_Hardware) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardware) WithArrayOfValues(values []device_type.DeviceType_Platform) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardware) WithArrayOfValues(values []device_type.DeviceType_Hardware) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues)
 }
 

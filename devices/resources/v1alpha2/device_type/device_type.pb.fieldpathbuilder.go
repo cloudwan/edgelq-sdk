@@ -735,11 +735,11 @@ func (DeviceTypePathSelectorHardware) FieldPath() *DeviceType_FieldTerminalPath 
 	return &DeviceType_FieldTerminalPath{selector: DeviceType_FieldPathSelectorHardware}
 }
 
-func (s DeviceTypePathSelectorHardware) WithValue(value DeviceType_Platform) *DeviceType_FieldTerminalPathValue {
+func (s DeviceTypePathSelectorHardware) WithValue(value DeviceType_Hardware) *DeviceType_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceType_FieldTerminalPathValue)
 }
 
-func (s DeviceTypePathSelectorHardware) WithArrayOfValues(values []DeviceType_Platform) *DeviceType_FieldTerminalPathArrayOfValues {
+func (s DeviceTypePathSelectorHardware) WithArrayOfValues(values []DeviceType_Hardware) *DeviceType_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceType_FieldTerminalPathArrayOfValues)
 }
 

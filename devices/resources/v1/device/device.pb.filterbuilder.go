@@ -12834,37 +12834,37 @@ type filterCndBuilderStatusDeviceInfoHardware struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Eq(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Eq(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Neq(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Neq(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Gt(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Gt(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Gte(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Gte(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Lt(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Lt(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) Lte(value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) Lte(value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) In(values []device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) In(values []device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) NotIn(values []device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) NotIn(values []device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithArrayOfValues(values),
 	})
@@ -12882,7 +12882,7 @@ func (b *filterCndBuilderStatusDeviceInfoHardware) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardware) compare(op gotenfilter.CompareOperator, value device_type.DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardware) compare(op gotenfilter.CompareOperator, value device_type.DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().Hardware().WithValue(value),

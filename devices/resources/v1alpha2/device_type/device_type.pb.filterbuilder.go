@@ -2337,37 +2337,37 @@ type filterCndBuilderHardware struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderHardware) Eq(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Eq(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderHardware) Neq(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Neq(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderHardware) Gt(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Gt(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderHardware) Gte(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Gte(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderHardware) Lt(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Lt(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderHardware) Lte(value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) Lte(value DeviceType_Hardware) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderHardware) In(values []DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) In(values []DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		DeviceType_FieldPathArrayOfValues: NewDeviceTypeFieldPathBuilder().Hardware().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderHardware) NotIn(values []DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) NotIn(values []DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		DeviceType_FieldPathArrayOfValues: NewDeviceTypeFieldPathBuilder().Hardware().WithArrayOfValues(values),
 	})
@@ -2385,7 +2385,7 @@ func (b *filterCndBuilderHardware) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderHardware) compare(op gotenfilter.CompareOperator, value DeviceType_Platform) *FilterBuilder {
+func (b *filterCndBuilderHardware) compare(op gotenfilter.CompareOperator, value DeviceType_Hardware) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                  op,
 		DeviceType_FieldPathValue: NewDeviceTypeFieldPathBuilder().Hardware().WithValue(value),

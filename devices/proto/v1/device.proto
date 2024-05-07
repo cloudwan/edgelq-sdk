@@ -987,7 +987,7 @@ message Device {
       string architecture = 1;
 
       // The platform hardware (e.g. `raspberry-pi-4`, `generic`)
-      DeviceType.Platform hardware = 7;
+      DeviceType.Hardware hardware = 7;
 
       // Base OS name (e.g. `Linux`)
       string operating_system = 2;

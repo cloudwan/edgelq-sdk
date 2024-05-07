@@ -29,20 +29,20 @@ message DeviceType {
   // Display name of Device Type
   string display_name = 3;
 
-  Platform hardware = 4;
+  Hardware hardware = 4;
 
   Architecture architecture = 5;
 
   // Description of the Device Type
   string description = 6;
 
-  // Platform (e.g. Generic, Raspberry Pi)
-  enum Platform {
-    PLATFORM_UNSPECIFIED = 0;
+  // Hardware (e.g. Generic, Raspberry Pi)
+  enum Hardware {
+    HARDWARE_UNSPECIFIED = 0;
 
     GENERIC = 1;
 
-    RASPBERRY_PI = 2;
+    RASPBERRYPI = 2;
   }
 
   // Architecture name (e.g. amd64)

@@ -230,7 +230,7 @@ func (fp *DeviceType_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceType_FieldPathSelectorDisplayName:
 		return ""
 	case DeviceType_FieldPathSelectorHardware:
-		return DeviceType_PLATFORM_UNSPECIFIED
+		return DeviceType_HARDWARE_UNSPECIFIED
 	case DeviceType_FieldPathSelectorArchitecture:
 		return DeviceType_ARCHITECTURE_UNSPECIFIED
 	case DeviceType_FieldPathSelectorDescription:
@@ -250,7 +250,7 @@ func (fp *DeviceType_FieldTerminalPath) ClearValue(item *DeviceType) {
 		case DeviceType_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
 		case DeviceType_FieldPathSelectorHardware:
-			item.Hardware = DeviceType_PLATFORM_UNSPECIFIED
+			item.Hardware = DeviceType_HARDWARE_UNSPECIFIED
 		case DeviceType_FieldPathSelectorArchitecture:
 			item.Architecture = DeviceType_ARCHITECTURE_UNSPECIFIED
 		case DeviceType_FieldPathSelectorDescription:
@@ -287,7 +287,7 @@ func (fp *DeviceType_FieldTerminalPath) WithIValue(value interface{}) DeviceType
 	case DeviceType_FieldPathSelectorDisplayName:
 		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceType_FieldPathSelectorHardware:
-		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(DeviceType_Platform)}
+		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(DeviceType_Hardware)}
 	case DeviceType_FieldPathSelectorArchitecture:
 		return &DeviceType_FieldTerminalPathValue{DeviceType_FieldTerminalPath: *fp, value: value.(DeviceType_Architecture)}
 	case DeviceType_FieldPathSelectorDescription:
@@ -311,7 +311,7 @@ func (fp *DeviceType_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 	case DeviceType_FieldPathSelectorDisplayName:
 		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceType_FieldPathSelectorHardware:
-		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]DeviceType_Platform)}
+		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]DeviceType_Hardware)}
 	case DeviceType_FieldPathSelectorArchitecture:
 		return &DeviceType_FieldTerminalPathArrayOfValues{DeviceType_FieldTerminalPath: *fp, values: values.([]DeviceType_Architecture)}
 	case DeviceType_FieldPathSelectorDescription:
@@ -500,8 +500,8 @@ func (fpv *DeviceType_FieldTerminalPathValue) AsDisplayNameValue() (string, bool
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceType_FieldTerminalPathValue) AsHardwareValue() (DeviceType_Platform, bool) {
-	res, ok := fpv.value.(DeviceType_Platform)
+func (fpv *DeviceType_FieldTerminalPathValue) AsHardwareValue() (DeviceType_Hardware, bool) {
+	res, ok := fpv.value.(DeviceType_Hardware)
 	return res, ok
 }
 func (fpv *DeviceType_FieldTerminalPathValue) AsArchitectureValue() (DeviceType_Architecture, bool) {
@@ -526,7 +526,7 @@ func (fpv *DeviceType_FieldTerminalPathValue) SetTo(target **DeviceType) {
 	case DeviceType_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case DeviceType_FieldPathSelectorHardware:
-		(*target).Hardware = fpv.value.(DeviceType_Platform)
+		(*target).Hardware = fpv.value.(DeviceType_Hardware)
 	case DeviceType_FieldPathSelectorArchitecture:
 		(*target).Architecture = fpv.value.(DeviceType_Architecture)
 	case DeviceType_FieldPathSelectorDescription:
@@ -576,7 +576,7 @@ func (fpv *DeviceType_FieldTerminalPathValue) CompareWith(source *DeviceType) (i
 			return 1, true
 		}
 	case DeviceType_FieldPathSelectorHardware:
-		leftValue := fpv.value.(DeviceType_Platform)
+		leftValue := fpv.value.(DeviceType_Hardware)
 		rightValue := source.GetHardware()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -796,7 +796,7 @@ func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case DeviceType_FieldPathSelectorHardware:
-		for _, v := range fpaov.values.([]DeviceType_Platform) {
+		for _, v := range fpaov.values.([]DeviceType_Hardware) {
 			values = append(values, v)
 		}
 	case DeviceType_FieldPathSelectorArchitecture:
@@ -822,8 +822,8 @@ func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValu
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsHardwareArrayOfValues() ([]DeviceType_Platform, bool) {
-	res, ok := fpaov.values.([]DeviceType_Platform)
+func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsHardwareArrayOfValues() ([]DeviceType_Hardware, bool) {
+	res, ok := fpaov.values.([]DeviceType_Hardware)
 	return res, ok
 }
 func (fpaov *DeviceType_FieldTerminalPathArrayOfValues) AsArchitectureArrayOfValues() ([]DeviceType_Architecture, bool) {

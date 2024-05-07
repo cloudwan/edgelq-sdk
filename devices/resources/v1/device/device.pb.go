@@ -7637,7 +7637,7 @@ type Device_Status_DeviceInfo struct {
 	// `arm64`)
 	Architecture string `protobuf:"bytes,1,opt,name=architecture,proto3" json:"architecture,omitempty" firestore:"architecture"`
 	// The platform hardware (e.g. `raspberry-pi-4`, `generic`)
-	Hardware device_type.DeviceType_Platform `protobuf:"varint,7,opt,name=hardware,proto3,enum=ntt.devices.v1.DeviceType_Platform" json:"hardware,omitempty" firestore:"hardware"`
+	Hardware device_type.DeviceType_Hardware `protobuf:"varint,7,opt,name=hardware,proto3,enum=ntt.devices.v1.DeviceType_Hardware" json:"hardware,omitempty" firestore:"hardware"`
 	// Base OS name (e.g. `Linux`)
 	OperatingSystem string `protobuf:"bytes,2,opt,name=operating_system,json=operatingSystem,proto3" json:"operating_system,omitempty" firestore:"operatingSystem"`
 	// OS kernel version
@@ -7712,11 +7712,11 @@ func (m *Device_Status_DeviceInfo) GetArchitecture() string {
 	return ""
 }
 
-func (m *Device_Status_DeviceInfo) GetHardware() device_type.DeviceType_Platform {
+func (m *Device_Status_DeviceInfo) GetHardware() device_type.DeviceType_Hardware {
 	if m != nil {
 		return m.Hardware
 	}
-	return device_type.DeviceType_PLATFORM_UNSPECIFIED
+	return device_type.DeviceType_HARDWARE_UNSPECIFIED
 }
 
 func (m *Device_Status_DeviceInfo) GetOperatingSystem() string {
@@ -7789,7 +7789,7 @@ func (m *Device_Status_DeviceInfo) SetArchitecture(fv string) {
 	m.Architecture = fv
 }
 
-func (m *Device_Status_DeviceInfo) SetHardware(fv device_type.DeviceType_Platform) {
+func (m *Device_Status_DeviceInfo) SetHardware(fv device_type.DeviceType_Hardware) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Hardware", "Device_Status_DeviceInfo"))
 	}
@@ -15740,7 +15740,7 @@ var edgelq_devices_proto_v1_device_proto_rawDesc = []byte{
 	0x75, 0x72, 0x65, 0x12, 0x3f, 0x0a, 0x08, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x18,
 	0x07, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x23, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x64, 0x65, 0x76, 0x69,
 	0x63, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x54, 0x79, 0x70,
-	0x65, 0x2e, 0x50, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x52, 0x08, 0x68, 0x61, 0x72, 0x64,
+	0x65, 0x2e, 0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x52, 0x08, 0x68, 0x61, 0x72, 0x64,
 	0x77, 0x61, 0x72, 0x65, 0x12, 0x29, 0x0a, 0x10, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6e,
 	0x67, 0x5f, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f,
 	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x12,
@@ -16769,7 +16769,7 @@ var edgelq_devices_proto_v1_device_proto_goTypes = []interface{}{
 	(*durationpb.Duration)(nil),          // 103: google.protobuf.Duration
 	(*iam_iam_common.PCR)(nil),           // 104: ntt.iam.v1.PCR
 	(*timestamppb.Timestamp)(nil),        // 105: google.protobuf.Timestamp
-	(device_type.DeviceType_Platform)(0), // 106: ntt.devices.v1.DeviceType_Platform
+	(device_type.DeviceType_Hardware)(0), // 106: ntt.devices.v1.DeviceType_Hardware
 	(*latlng.LatLng)(nil),                // 107: google.type.LatLng
 	(*Device_FieldMask)(nil),             // 108: ntt.devices.v1.Device_FieldMask
 }
@@ -16873,7 +16873,7 @@ var edgelq_devices_proto_v1_device_proto_depIdxs = []int32{
 	12,  // 96: ntt.devices.v1.Device.Status.ProxyConfigStatus.default_config:type_name -> ntt.devices.v1.Device.Spec.ProxyConfig
 	12,  // 97: ntt.devices.v1.Device.Status.ProxyConfigStatus.active_config:type_name -> ntt.devices.v1.Device.Spec.ProxyConfig
 	12,  // 98: ntt.devices.v1.Device.Status.ProxyConfigStatus.api_config:type_name -> ntt.devices.v1.Device.Spec.ProxyConfig
-	106, // 99: ntt.devices.v1.Device.Status.DeviceInfo.hardware:type_name -> ntt.devices.v1.DeviceType_Platform
+	106, // 99: ntt.devices.v1.Device.Status.DeviceInfo.hardware:type_name -> ntt.devices.v1.DeviceType_Hardware
 	50,  // 100: ntt.devices.v1.Device.Status.DeviceInfo.hardware_information:type_name -> ntt.devices.v1.Device.Status.DeviceInfo.HardwareInformation
 	52,  // 101: ntt.devices.v1.Device.Status.DeviceInfo.network_interfaces:type_name -> ntt.devices.v1.Device.Status.DeviceInfo.NetworkInterfacesEntry
 	53,  // 102: ntt.devices.v1.Device.Status.DeviceInfo.control_plane_interface_info:type_name -> ntt.devices.v1.Device.Status.DeviceInfo.ControlPlaneInterfaceInfo
