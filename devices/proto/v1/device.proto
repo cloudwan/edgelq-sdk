@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ntt.devices.v1;
 
-import "edgelq-sdk/devices/proto/v1/device_type.proto";
 import "edgelq-sdk/iam/proto/v1/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
