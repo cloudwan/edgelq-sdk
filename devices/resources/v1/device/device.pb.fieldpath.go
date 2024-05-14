@@ -29821,6 +29821,852 @@ func (fpaov *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues) AsRestri
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceSpecUSBGuardPort_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceSpecUSBGuardPort_FieldPathSelector
+	Get(source *Device_Spec_USBGuard_Port) []interface{}
+	GetSingle(source *Device_Spec_USBGuard_Port) (interface{}, bool)
+	ClearValue(item *Device_Spec_USBGuard_Port)
+
+	// Those methods build corresponding DeviceSpecUSBGuardPort_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceSpecUSBGuardPort_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceSpecUSBGuardPort_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceSpecUSBGuardPort_FieldPathArrayItemValue
+}
+
+type DeviceSpecUSBGuardPort_FieldPathSelector int32
+
+const (
+	DeviceSpecUSBGuardPort_FieldPathSelectorEquals DeviceSpecUSBGuardPort_FieldPathSelector = 0
+	DeviceSpecUSBGuardPort_FieldPathSelectorOneOf  DeviceSpecUSBGuardPort_FieldPathSelector = 1
+)
+
+func (s DeviceSpecUSBGuardPort_FieldPathSelector) String() string {
+	switch s {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return "equals"
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return "one_of"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", s))
+	}
+}
+
+func BuildDeviceSpecUSBGuardPort_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpecUSBGuardPort_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Spec_USBGuard_Port")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "equals":
+			return &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorEquals}, nil
+		case "one_of", "oneOf", "one-of":
+			return &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorOneOf}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_USBGuard_Port", fp)
+}
+
+func ParseDeviceSpecUSBGuardPort_FieldPath(rawField string) (DeviceSpecUSBGuardPort_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceSpecUSBGuardPort_FieldPath(fp)
+}
+
+func MustParseDeviceSpecUSBGuardPort_FieldPath(rawField string) DeviceSpecUSBGuardPort_FieldPath {
+	fp, err := ParseDeviceSpecUSBGuardPort_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceSpecUSBGuardPort_FieldTerminalPath struct {
+	selector DeviceSpecUSBGuardPort_FieldPathSelector
+}
+
+var _ DeviceSpecUSBGuardPort_FieldPath = (*DeviceSpecUSBGuardPort_FieldTerminalPath)(nil)
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) Selector() DeviceSpecUSBGuardPort_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Spec_USBGuard_Port
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) Get(source *Device_Spec_USBGuard_Port) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+			for _, value := range source.GetEquals() {
+				values = append(values, value)
+			}
+		case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+			for _, value := range source.GetOneOf() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Spec_USBGuard_Port))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Spec_USBGuard_Port
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) GetSingle(source *Device_Spec_USBGuard_Port) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		res := source.GetEquals()
+		return res, res != nil
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		res := source.GetOneOf()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Spec_USBGuard_Port))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return ([]string)(nil)
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) ClearValue(item *Device_Spec_USBGuard_Port) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+			item.Equals = nil
+		case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+			item.OneOf = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Spec_USBGuard_Port))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceSpecUSBGuardPort_FieldPathSelectorEquals ||
+		fp.selector == DeviceSpecUSBGuardPort_FieldPathSelectorOneOf
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecUSBGuardPort_FieldPathValue {
+	switch fp.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathValue{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, value: value.([]string)}
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathValue{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceSpecUSBGuardPort_FieldPathArrayOfValues {
+	fpaov := &DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, values: values.([][]string)}
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceSpecUSBGuardPort_FieldPathArrayItemValue {
+	switch fp.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue{DeviceSpecUSBGuardPort_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardPort_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceSpecUSBGuardPort_FieldPathValue allows storing values for Port fields according to their type
+type DeviceSpecUSBGuardPort_FieldPathValue interface {
+	DeviceSpecUSBGuardPort_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Spec_USBGuard_Port)
+	CompareWith(*Device_Spec_USBGuard_Port) (cmp int, comparable bool)
+}
+
+func ParseDeviceSpecUSBGuardPort_FieldPathValue(pathStr, valueStr string) (DeviceSpecUSBGuardPort_FieldPathValue, error) {
+	fp, err := ParseDeviceSpecUSBGuardPort_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Port field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceSpecUSBGuardPort_FieldPathValue), nil
+}
+
+func MustParseDeviceSpecUSBGuardPort_FieldPathValue(pathStr, valueStr string) DeviceSpecUSBGuardPort_FieldPathValue {
+	fpv, err := ParseDeviceSpecUSBGuardPort_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceSpecUSBGuardPort_FieldTerminalPathValue struct {
+	DeviceSpecUSBGuardPort_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecUSBGuardPort_FieldPathValue = (*DeviceSpecUSBGuardPort_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Port' as interface{}
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) AsEqualsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) AsOneOfValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Port
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) SetTo(target **Device_Spec_USBGuard_Port) {
+	if *target == nil {
+		*target = new(Device_Spec_USBGuard_Port)
+	}
+	switch fpv.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		(*target).Equals = fpv.value.([]string)
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		(*target).OneOf = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_USBGuard_Port)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceSpecUSBGuardPort_FieldTerminalPathValue' with the value under path in 'Device_Spec_USBGuard_Port'.
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) CompareWith(source *Device_Spec_USBGuard_Port) (int, bool) {
+	switch fpv.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		return 0, false
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Port: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecUSBGuardPort_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Spec_USBGuard_Port))
+}
+
+// DeviceSpecUSBGuardPort_FieldPathArrayItemValue allows storing single item in Path-specific values for Port according to their type
+// Present only for array (repeated) types.
+type DeviceSpecUSBGuardPort_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceSpecUSBGuardPort_FieldPath
+	ContainsValue(*Device_Spec_USBGuard_Port) bool
+}
+
+// ParseDeviceSpecUSBGuardPort_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceSpecUSBGuardPort_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceSpecUSBGuardPort_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceSpecUSBGuardPort_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Port field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceSpecUSBGuardPort_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceSpecUSBGuardPort_FieldPathArrayItemValue(pathStr, valueStr string) DeviceSpecUSBGuardPort_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceSpecUSBGuardPort_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue struct {
+	DeviceSpecUSBGuardPort_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecUSBGuardPort_FieldPathArrayItemValue = (*DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Spec_USBGuard_Port as interface{}
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) AsEqualsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) AsOneOfItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Spec_USBGuard_Port) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Spec_USBGuard_Port))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Port'
+func (fpaiv *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_USBGuard_Port) bool {
+	slice := fpaiv.DeviceSpecUSBGuardPort_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceSpecUSBGuardPort_FieldPathArrayOfValues allows storing slice of values for Port fields according to their type
+type DeviceSpecUSBGuardPort_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceSpecUSBGuardPort_FieldPath
+}
+
+func ParseDeviceSpecUSBGuardPort_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceSpecUSBGuardPort_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceSpecUSBGuardPort_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Port field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceSpecUSBGuardPort_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceSpecUSBGuardPort_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceSpecUSBGuardPort_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceSpecUSBGuardPort_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues struct {
+	DeviceSpecUSBGuardPort_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceSpecUSBGuardPort_FieldPathArrayOfValues = (*DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceSpecUSBGuardPort_FieldPathSelectorEquals:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case DeviceSpecUSBGuardPort_FieldPathSelectorOneOf:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues) AsEqualsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues) AsOneOfArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceSpecUSBGuardInterface_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceSpecUSBGuardInterface_FieldPathSelector
+	Get(source *Device_Spec_USBGuard_Interface) []interface{}
+	GetSingle(source *Device_Spec_USBGuard_Interface) (interface{}, bool)
+	ClearValue(item *Device_Spec_USBGuard_Interface)
+
+	// Those methods build corresponding DeviceSpecUSBGuardInterface_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceSpecUSBGuardInterface_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceSpecUSBGuardInterface_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceSpecUSBGuardInterface_FieldPathArrayItemValue
+}
+
+type DeviceSpecUSBGuardInterface_FieldPathSelector int32
+
+const (
+	DeviceSpecUSBGuardInterface_FieldPathSelectorEquals DeviceSpecUSBGuardInterface_FieldPathSelector = 0
+	DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf  DeviceSpecUSBGuardInterface_FieldPathSelector = 1
+)
+
+func (s DeviceSpecUSBGuardInterface_FieldPathSelector) String() string {
+	switch s {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return "equals"
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return "one_of"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", s))
+	}
+}
+
+func BuildDeviceSpecUSBGuardInterface_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpecUSBGuardInterface_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Spec_USBGuard_Interface")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "equals":
+			return &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorEquals}, nil
+		case "one_of", "oneOf", "one-of":
+			return &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_USBGuard_Interface", fp)
+}
+
+func ParseDeviceSpecUSBGuardInterface_FieldPath(rawField string) (DeviceSpecUSBGuardInterface_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceSpecUSBGuardInterface_FieldPath(fp)
+}
+
+func MustParseDeviceSpecUSBGuardInterface_FieldPath(rawField string) DeviceSpecUSBGuardInterface_FieldPath {
+	fp, err := ParseDeviceSpecUSBGuardInterface_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceSpecUSBGuardInterface_FieldTerminalPath struct {
+	selector DeviceSpecUSBGuardInterface_FieldPathSelector
+}
+
+var _ DeviceSpecUSBGuardInterface_FieldPath = (*DeviceSpecUSBGuardInterface_FieldTerminalPath)(nil)
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) Selector() DeviceSpecUSBGuardInterface_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Spec_USBGuard_Interface
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) Get(source *Device_Spec_USBGuard_Interface) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+			for _, value := range source.GetEquals() {
+				values = append(values, value)
+			}
+		case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+			for _, value := range source.GetOneOf() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Spec_USBGuard_Interface))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Spec_USBGuard_Interface
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) GetSingle(source *Device_Spec_USBGuard_Interface) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		res := source.GetEquals()
+		return res, res != nil
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		res := source.GetOneOf()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Spec_USBGuard_Interface))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return ([]string)(nil)
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) ClearValue(item *Device_Spec_USBGuard_Interface) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+			item.Equals = nil
+		case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+			item.OneOf = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Spec_USBGuard_Interface))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceSpecUSBGuardInterface_FieldPathSelectorEquals ||
+		fp.selector == DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecUSBGuardInterface_FieldPathValue {
+	switch fp.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathValue{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, value: value.([]string)}
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathValue{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceSpecUSBGuardInterface_FieldPathArrayOfValues {
+	fpaov := &DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, values: values.([][]string)}
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceSpecUSBGuardInterface_FieldPathArrayItemValue {
+	switch fp.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return &DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue{DeviceSpecUSBGuardInterface_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecUSBGuardInterface_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceSpecUSBGuardInterface_FieldPathValue allows storing values for Interface fields according to their type
+type DeviceSpecUSBGuardInterface_FieldPathValue interface {
+	DeviceSpecUSBGuardInterface_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Spec_USBGuard_Interface)
+	CompareWith(*Device_Spec_USBGuard_Interface) (cmp int, comparable bool)
+}
+
+func ParseDeviceSpecUSBGuardInterface_FieldPathValue(pathStr, valueStr string) (DeviceSpecUSBGuardInterface_FieldPathValue, error) {
+	fp, err := ParseDeviceSpecUSBGuardInterface_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Interface field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceSpecUSBGuardInterface_FieldPathValue), nil
+}
+
+func MustParseDeviceSpecUSBGuardInterface_FieldPathValue(pathStr, valueStr string) DeviceSpecUSBGuardInterface_FieldPathValue {
+	fpv, err := ParseDeviceSpecUSBGuardInterface_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceSpecUSBGuardInterface_FieldTerminalPathValue struct {
+	DeviceSpecUSBGuardInterface_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecUSBGuardInterface_FieldPathValue = (*DeviceSpecUSBGuardInterface_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Interface' as interface{}
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) AsEqualsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) AsOneOfValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Interface
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) SetTo(target **Device_Spec_USBGuard_Interface) {
+	if *target == nil {
+		*target = new(Device_Spec_USBGuard_Interface)
+	}
+	switch fpv.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		(*target).Equals = fpv.value.([]string)
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		(*target).OneOf = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_USBGuard_Interface)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceSpecUSBGuardInterface_FieldTerminalPathValue' with the value under path in 'Device_Spec_USBGuard_Interface'.
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) CompareWith(source *Device_Spec_USBGuard_Interface) (int, bool) {
+	switch fpv.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		return 0, false
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_Interface: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecUSBGuardInterface_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Spec_USBGuard_Interface))
+}
+
+// DeviceSpecUSBGuardInterface_FieldPathArrayItemValue allows storing single item in Path-specific values for Interface according to their type
+// Present only for array (repeated) types.
+type DeviceSpecUSBGuardInterface_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceSpecUSBGuardInterface_FieldPath
+	ContainsValue(*Device_Spec_USBGuard_Interface) bool
+}
+
+// ParseDeviceSpecUSBGuardInterface_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceSpecUSBGuardInterface_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceSpecUSBGuardInterface_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceSpecUSBGuardInterface_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Interface field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceSpecUSBGuardInterface_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceSpecUSBGuardInterface_FieldPathArrayItemValue(pathStr, valueStr string) DeviceSpecUSBGuardInterface_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceSpecUSBGuardInterface_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue struct {
+	DeviceSpecUSBGuardInterface_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecUSBGuardInterface_FieldPathArrayItemValue = (*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Spec_USBGuard_Interface as interface{}
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) AsEqualsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) AsOneOfItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Spec_USBGuard_Interface) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Spec_USBGuard_Interface))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Interface'
+func (fpaiv *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_USBGuard_Interface) bool {
+	slice := fpaiv.DeviceSpecUSBGuardInterface_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceSpecUSBGuardInterface_FieldPathArrayOfValues allows storing slice of values for Interface fields according to their type
+type DeviceSpecUSBGuardInterface_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceSpecUSBGuardInterface_FieldPath
+}
+
+func ParseDeviceSpecUSBGuardInterface_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceSpecUSBGuardInterface_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceSpecUSBGuardInterface_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Interface field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceSpecUSBGuardInterface_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceSpecUSBGuardInterface_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceSpecUSBGuardInterface_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceSpecUSBGuardInterface_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues struct {
+	DeviceSpecUSBGuardInterface_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceSpecUSBGuardInterface_FieldPathArrayOfValues = (*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorEquals:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues) AsEqualsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues) AsOneOfArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type DeviceSpecUSBGuardWhiteList_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() DeviceSpecUSBGuardWhiteList_FieldPathSelector
@@ -29838,9 +30684,11 @@ type DeviceSpecUSBGuardWhiteList_FieldPath interface {
 type DeviceSpecUSBGuardWhiteList_FieldPathSelector int32
 
 const (
-	DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceName DeviceSpecUSBGuardWhiteList_FieldPathSelector = 0
-	DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId   DeviceSpecUSBGuardWhiteList_FieldPathSelector = 1
-	DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort    DeviceSpecUSBGuardWhiteList_FieldPathSelector = 2
+	DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceName      DeviceSpecUSBGuardWhiteList_FieldPathSelector = 0
+	DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId        DeviceSpecUSBGuardWhiteList_FieldPathSelector = 1
+	DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort         DeviceSpecUSBGuardWhiteList_FieldPathSelector = 2
+	DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface   DeviceSpecUSBGuardWhiteList_FieldPathSelector = 3
+	DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType DeviceSpecUSBGuardWhiteList_FieldPathSelector = 4
 )
 
 func (s DeviceSpecUSBGuardWhiteList_FieldPathSelector) String() string {
@@ -29851,6 +30699,10 @@ func (s DeviceSpecUSBGuardWhiteList_FieldPathSelector) String() string {
 		return "device_id"
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
 		return "via_port"
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return "with_interface"
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
+		return "with_connect_type"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", s))
 	}
@@ -29868,6 +30720,25 @@ func BuildDeviceSpecUSBGuardWhiteList_FieldPath(fp gotenobject.RawFieldPath) (De
 			return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId}, nil
 		case "via_port", "viaPort", "via-port":
 			return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort}, nil
+		case "with_interface", "withInterface", "with-interface":
+			return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface}, nil
+		case "with_connect_type", "withConnectType", "with-connect-type":
+			return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "via_port", "viaPort", "via-port":
+			if subpath, err := BuildDeviceSpecUSBGuardPort_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort, subPath: subpath}, nil
+			}
+		case "with_interface", "withInterface", "with-interface":
+			if subpath, err := BuildDeviceSpecUSBGuardInterface_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_USBGuard_WhiteList", fp)
@@ -29918,7 +30789,15 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) Get(source *Device_Spec
 		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 			values = append(values, source.DeviceId)
 		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
-			values = append(values, source.ViaPort)
+			if source.ViaPort != nil {
+				values = append(values, source.ViaPort)
+			}
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+			if source.WithInterface != nil {
+				values = append(values, source.WithInterface)
+			}
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
+			values = append(values, source.WithConnectType)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
 		}
@@ -29938,7 +30817,13 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) GetSingle(source *Devic
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 		return source.GetDeviceId(), source != nil
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
-		return source.GetViaPort(), source != nil
+		res := source.GetViaPort()
+		return res, res != nil
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		res := source.GetWithInterface()
+		return res, res != nil
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
+		return source.GetWithConnectType(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
 	}
@@ -29956,6 +30841,10 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) GetDefault() interface{
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 		return ""
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return (*Device_Spec_USBGuard_Port)(nil)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return (*Device_Spec_USBGuard_Interface)(nil)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
 		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
@@ -29970,7 +30859,11 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) ClearValue(item *Device
 		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 			item.DeviceId = ""
 		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
-			item.ViaPort = ""
+			item.ViaPort = nil
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+			item.WithInterface = nil
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
+			item.WithConnectType = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
 		}
@@ -29985,7 +30878,7 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) ClearValueRaw(item prot
 func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceName ||
 		fp.selector == DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId ||
-		fp.selector == DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort
+		fp.selector == DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType
 }
 
 func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -29999,6 +30892,10 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) WithIValue(value interf
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, value: value.(string)}
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, value: value.(*Device_Spec_USBGuard_Port)}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, value: value.(*Device_Spec_USBGuard_Interface)}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
 		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
@@ -30017,6 +30914,10 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) WithIArrayOfValues(valu
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, values: values.([]string)}
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, values: values.([]*Device_Spec_USBGuard_Port)}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, values: values.([]*Device_Spec_USBGuard_Interface)}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
 		return &DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fp.selector))
@@ -30037,6 +30938,131 @@ func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) WithIArrayItemValue(val
 
 func (fp *DeviceSpecUSBGuardWhiteList_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceSpecUSBGuardWhiteList_FieldSubPath struct {
+	selector DeviceSpecUSBGuardWhiteList_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceSpecUSBGuardWhiteList_FieldPath = (*DeviceSpecUSBGuardWhiteList_FieldSubPath)(nil)
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) Selector() DeviceSpecUSBGuardWhiteList_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) AsViaPortSubPath() (DeviceSpecUSBGuardPort_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecUSBGuardPort_FieldPath)
+	return res, ok
+}
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) AsWithInterfaceSubPath() (DeviceSpecUSBGuardInterface_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecUSBGuardInterface_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Spec_USBGuard_WhiteList
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) Get(source *Device_Spec_USBGuard_WhiteList) (values []interface{}) {
+	switch fps.selector {
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		values = append(values, fps.subPath.GetRaw(source.GetViaPort())...)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		values = append(values, fps.subPath.GetRaw(source.GetWithInterface())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Spec_USBGuard_WhiteList))
+}
+
+// GetSingle returns value of selected field from source Device_Spec_USBGuard_WhiteList
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) GetSingle(source *Device_Spec_USBGuard_WhiteList) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		if source.GetViaPort() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetViaPort())
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		if source.GetWithInterface() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetWithInterface())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Spec_USBGuard_WhiteList))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) ClearValue(item *Device_Spec_USBGuard_WhiteList) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+			fps.subPath.ClearValueRaw(item.ViaPort)
+		case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+			fps.subPath.ClearValueRaw(item.WithInterface)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Spec_USBGuard_WhiteList))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithIValue(value interface{}) DeviceSpecUSBGuardWhiteList_FieldPathValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceSpecUSBGuardWhiteList_FieldPathArrayOfValues {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceSpecUSBGuardWhiteList_FieldPathArrayItemValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceSpecUSBGuardWhiteList_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // DeviceSpecUSBGuardWhiteList_FieldPathValue allows storing values for WhiteList fields according to their type
@@ -30086,7 +31112,15 @@ func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) AsDeviceIdValue()
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) AsViaPortValue() (string, bool) {
+func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) AsViaPortValue() (*Device_Spec_USBGuard_Port, bool) {
+	res, ok := fpv.value.(*Device_Spec_USBGuard_Port)
+	return res, ok
+}
+func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) AsWithInterfaceValue() (*Device_Spec_USBGuard_Interface, bool) {
+	res, ok := fpv.value.(*Device_Spec_USBGuard_Interface)
+	return res, ok
+}
+func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) AsWithConnectTypeValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
@@ -30102,7 +31136,11 @@ func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) SetTo(target **De
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId:
 		(*target).DeviceId = fpv.value.(string)
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
-		(*target).ViaPort = fpv.value.(string)
+		(*target).ViaPort = fpv.value.(*Device_Spec_USBGuard_Port)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		(*target).WithInterface = fpv.value.(*Device_Spec_USBGuard_Interface)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
+		(*target).WithConnectType = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fpv.selector))
 	}
@@ -30137,8 +31175,12 @@ func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) CompareWith(sourc
 			return 1, true
 		}
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return 0, false
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return 0, false
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
 		leftValue := fpv.value.(string)
-		rightValue := source.GetViaPort()
+		rightValue := source.GetWithConnectType()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -30153,6 +31195,60 @@ func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) CompareWith(sourc
 
 func (fpv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*Device_Spec_USBGuard_WhiteList))
+}
+
+type DeviceSpecUSBGuardWhiteList_FieldSubPathValue struct {
+	DeviceSpecUSBGuardWhiteList_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceSpecUSBGuardWhiteList_FieldPathValue = (*DeviceSpecUSBGuardWhiteList_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) AsViaPortPathValue() (DeviceSpecUSBGuardPort_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecUSBGuardPort_FieldPathValue)
+	return res, ok
+}
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) AsWithInterfacePathValue() (DeviceSpecUSBGuardInterface_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecUSBGuardInterface_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) SetTo(target **Device_Spec_USBGuard_WhiteList) {
+	if *target == nil {
+		*target = new(Device_Spec_USBGuard_WhiteList)
+	}
+	switch fpvs.Selector() {
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		fpvs.subPathValue.(DeviceSpecUSBGuardPort_FieldPathValue).SetTo(&(*target).ViaPort)
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		fpvs.subPathValue.(DeviceSpecUSBGuardInterface_FieldPathValue).SetTo(&(*target).WithInterface)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_USBGuard_WhiteList)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) CompareWith(source *Device_Spec_USBGuard_WhiteList) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return fpvs.subPathValue.(DeviceSpecUSBGuardPort_FieldPathValue).CompareWith(source.GetViaPort())
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return fpvs.subPathValue.(DeviceSpecUSBGuardInterface_FieldPathValue).CompareWith(source.GetWithInterface())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceSpecUSBGuardWhiteList_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Spec_USBGuard_WhiteList))
 }
 
 // DeviceSpecUSBGuardWhiteList_FieldPathArrayItemValue allows storing single item in Path-specific values for WhiteList according to their type
@@ -30219,6 +31315,36 @@ func (fpaiv *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayItemValue) Contai
 	return false
 }
 
+type DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue struct {
+	DeviceSpecUSBGuardWhiteList_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue) AsViaPortPathItemValue() (DeviceSpecUSBGuardPort_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecUSBGuardPort_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue) AsWithInterfacePathItemValue() (DeviceSpecUSBGuardInterface_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecUSBGuardInterface_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'WhiteList'
+func (fpaivs *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue) ContainsValue(source *Device_Spec_USBGuard_WhiteList) bool {
+	switch fpaivs.Selector() {
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		return fpaivs.subPathItemValue.(DeviceSpecUSBGuardPort_FieldPathArrayItemValue).ContainsValue(source.GetViaPort())
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		return fpaivs.subPathItemValue.(DeviceSpecUSBGuardInterface_FieldPathArrayItemValue).ContainsValue(source.GetWithInterface())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_USBGuard_WhiteList: %d", fpaivs.Selector()))
+	}
+}
+
 // DeviceSpecUSBGuardWhiteList_FieldPathArrayOfValues allows storing slice of values for WhiteList fields according to their type
 type DeviceSpecUSBGuardWhiteList_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -30263,6 +31389,14 @@ func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) GetRawV
 			values = append(values, v)
 		}
 	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort:
+		for _, v := range fpaov.values.([]*Device_Spec_USBGuard_Port) {
+			values = append(values, v)
+		}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface:
+		for _, v := range fpaov.values.([]*Device_Spec_USBGuard_Interface) {
+			values = append(values, v)
+		}
+	case DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
@@ -30277,8 +31411,35 @@ func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) AsDevic
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) AsViaPortArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) AsViaPortArrayOfValues() ([]*Device_Spec_USBGuard_Port, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_USBGuard_Port)
+	return res, ok
+}
+func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) AsWithInterfaceArrayOfValues() ([]*Device_Spec_USBGuard_Interface, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_USBGuard_Interface)
+	return res, ok
+}
+func (fpaov *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues) AsWithConnectTypeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+type DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues struct {
+	DeviceSpecUSBGuardWhiteList_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceSpecUSBGuardWhiteList_FieldPathArrayOfValues = (*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues) AsViaPortPathArrayOfValues() (DeviceSpecUSBGuardPort_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecUSBGuardPort_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues) AsWithInterfacePathArrayOfValues() (DeviceSpecUSBGuardInterface_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecUSBGuardInterface_FieldPathArrayOfValues)
 	return res, ok
 }
 

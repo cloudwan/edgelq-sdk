@@ -713,9 +713,37 @@ func (obj *Device_Spec_SSHConfig_AuthKey) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *Device_Spec_USBGuard_Port) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_USBGuard_Interface) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Device_Spec_USBGuard_WhiteList) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if subobj, ok := interface{}(obj.ViaPort).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WhiteList", "viaPort", obj.ViaPort, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.WithInterface).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("WhiteList", "withInterface", obj.WithInterface, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

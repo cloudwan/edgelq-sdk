@@ -2213,6 +2213,14 @@ func (DevicePathSelectorSpecUsbGuardWhiteList) ViaPort() DevicePathSelectorSpecU
 	return DevicePathSelectorSpecUsbGuardWhiteListViaPort{}
 }
 
+func (DevicePathSelectorSpecUsbGuardWhiteList) WithInterface() DevicePathSelectorSpecUsbGuardWhiteListWithInterface {
+	return DevicePathSelectorSpecUsbGuardWhiteListWithInterface{}
+}
+
+func (DevicePathSelectorSpecUsbGuardWhiteList) WithConnectType() DevicePathSelectorSpecUsbGuardWhiteListWithConnectType {
+	return DevicePathSelectorSpecUsbGuardWhiteListWithConnectType{}
+}
+
 type DevicePathSelectorSpecUsbGuardWhiteListDeviceName struct{}
 
 func (DevicePathSelectorSpecUsbGuardWhiteListDeviceName) FieldPath() *Device_FieldSubPath {
@@ -2256,11 +2264,145 @@ func (DevicePathSelectorSpecUsbGuardWhiteListViaPort) FieldPath() *Device_FieldS
 	}
 }
 
-func (s DevicePathSelectorSpecUsbGuardWhiteListViaPort) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPort) WithValue(value *Device_Spec_USBGuard_Port) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorSpecUsbGuardWhiteListViaPort) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPort) WithArrayOfValues(values []*Device_Spec_USBGuard_Port) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListViaPort) Equals() DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals {
+	return DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals{}
+}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListViaPort) OneOf() DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf {
+	return DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf{}
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().ViaPort().Equals().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortEquals) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().ViaPort().OneOf().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListViaPortOneOf) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListWithInterface struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithInterface) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().WithInterface().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterface) WithValue(value *Device_Spec_USBGuard_Interface) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterface) WithArrayOfValues(values []*Device_Spec_USBGuard_Interface) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithInterface) Equals() DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals {
+	return DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals{}
+}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithInterface) OneOf() DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf {
+	return DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf{}
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().WithInterface().Equals().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceEquals) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().WithInterface().OneOf().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf) WithValue(value []string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf) WithArrayOfValues(values [][]string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithInterfaceOneOf) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorSpecUsbGuardWhiteListWithConnectType struct{}
+
+func (DevicePathSelectorSpecUsbGuardWhiteListWithConnectType) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().UsbGuard().WhiteList().WithConnectType().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithConnectType) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -11110,6 +11252,14 @@ func (Device_SpecPathSelectorUsbGuardWhiteList) ViaPort() Device_SpecPathSelecto
 	return Device_SpecPathSelectorUsbGuardWhiteListViaPort{}
 }
 
+func (Device_SpecPathSelectorUsbGuardWhiteList) WithInterface() Device_SpecPathSelectorUsbGuardWhiteListWithInterface {
+	return Device_SpecPathSelectorUsbGuardWhiteListWithInterface{}
+}
+
+func (Device_SpecPathSelectorUsbGuardWhiteList) WithConnectType() Device_SpecPathSelectorUsbGuardWhiteListWithConnectType {
+	return Device_SpecPathSelectorUsbGuardWhiteListWithConnectType{}
+}
+
 type Device_SpecPathSelectorUsbGuardWhiteListDeviceName struct{}
 
 func (Device_SpecPathSelectorUsbGuardWhiteListDeviceName) FieldPath() *DeviceSpec_FieldSubPath {
@@ -11153,11 +11303,145 @@ func (Device_SpecPathSelectorUsbGuardWhiteListViaPort) FieldPath() *DeviceSpec_F
 	}
 }
 
-func (s Device_SpecPathSelectorUsbGuardWhiteListViaPort) WithValue(value string) *DeviceSpec_FieldSubPathValue {
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPort) WithValue(value *Device_Spec_USBGuard_Port) *DeviceSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
 }
 
-func (s Device_SpecPathSelectorUsbGuardWhiteListViaPort) WithArrayOfValues(values []string) *DeviceSpec_FieldSubPathArrayOfValues {
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPort) WithArrayOfValues(values []*Device_Spec_USBGuard_Port) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListViaPort) Equals() Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals {
+	return Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals{}
+}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListViaPort) OneOf() Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf {
+	return Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf{}
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().ViaPort().Equals().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals) WithValue(value []string) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals) WithArrayOfValues(values [][]string) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortEquals) WithItemValue(value string) *DeviceSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldSubPathArrayItemValue)
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().ViaPort().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf) WithValue(value []string) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf) WithArrayOfValues(values [][]string) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListViaPortOneOf) WithItemValue(value string) *DeviceSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldSubPathArrayItemValue)
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListWithInterface struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithInterface) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().WithInterface().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterface) WithValue(value *Device_Spec_USBGuard_Interface) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterface) WithArrayOfValues(values []*Device_Spec_USBGuard_Interface) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithInterface) Equals() Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals {
+	return Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals{}
+}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithInterface) OneOf() Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf {
+	return Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf{}
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().WithInterface().Equals().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals) WithValue(value []string) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals) WithArrayOfValues(values [][]string) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceEquals) WithItemValue(value string) *DeviceSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldSubPathArrayItemValue)
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().WithInterface().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf) WithValue(value []string) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf) WithArrayOfValues(values [][]string) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithInterfaceOneOf) WithItemValue(value string) *DeviceSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldSubPathArrayItemValue)
+}
+
+type Device_SpecPathSelectorUsbGuardWhiteListWithConnectType struct{}
+
+func (Device_SpecPathSelectorUsbGuardWhiteListWithConnectType) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorUsbGuard,
+		subPath:  NewDeviceSpecUSBGuardFieldPathBuilder().WhiteList().WithConnectType().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithConnectType) WithValue(value string) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *DeviceSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
 }
 
@@ -19961,6 +20245,14 @@ func (Device_Spec_USBGuardPathSelectorWhiteList) ViaPort() Device_Spec_USBGuardP
 	return Device_Spec_USBGuardPathSelectorWhiteListViaPort{}
 }
 
+func (Device_Spec_USBGuardPathSelectorWhiteList) WithInterface() Device_Spec_USBGuardPathSelectorWhiteListWithInterface {
+	return Device_Spec_USBGuardPathSelectorWhiteListWithInterface{}
+}
+
+func (Device_Spec_USBGuardPathSelectorWhiteList) WithConnectType() Device_Spec_USBGuardPathSelectorWhiteListWithConnectType {
+	return Device_Spec_USBGuardPathSelectorWhiteListWithConnectType{}
+}
+
 type Device_Spec_USBGuardPathSelectorWhiteListDeviceName struct{}
 
 func (Device_Spec_USBGuardPathSelectorWhiteListDeviceName) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
@@ -20004,11 +20296,145 @@ func (Device_Spec_USBGuardPathSelectorWhiteListViaPort) FieldPath() *DeviceSpecU
 	}
 }
 
-func (s Device_Spec_USBGuardPathSelectorWhiteListViaPort) WithValue(value string) *DeviceSpecUSBGuard_FieldSubPathValue {
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPort) WithValue(value *Device_Spec_USBGuard_Port) *DeviceSpecUSBGuard_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
 }
 
-func (s Device_Spec_USBGuardPathSelectorWhiteListViaPort) WithArrayOfValues(values []string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPort) WithArrayOfValues(values []*Device_Spec_USBGuard_Port) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListViaPort) Equals() Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals {
+	return Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals{}
+}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListViaPort) OneOf() Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf {
+	return Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf{}
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().ViaPort().Equals().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals) WithValue(value []string) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortEquals) WithItemValue(value string) *DeviceSpecUSBGuard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuard_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().ViaPort().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf) WithValue(value []string) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListViaPortOneOf) WithItemValue(value string) *DeviceSpecUSBGuard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuard_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListWithInterface struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithInterface) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().WithInterface().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterface) WithValue(value *Device_Spec_USBGuard_Interface) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterface) WithArrayOfValues(values []*Device_Spec_USBGuard_Interface) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithInterface) Equals() Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals {
+	return Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals{}
+}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithInterface) OneOf() Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf {
+	return Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf{}
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().WithInterface().Equals().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals) WithValue(value []string) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceEquals) WithItemValue(value string) *DeviceSpecUSBGuard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuard_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().WithInterface().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf) WithValue(value []string) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithInterfaceOneOf) WithItemValue(value string) *DeviceSpecUSBGuard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuard_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuardPathSelectorWhiteListWithConnectType struct{}
+
+func (Device_Spec_USBGuardPathSelectorWhiteListWithConnectType) FieldPath() *DeviceSpecUSBGuard_FieldSubPath {
+	return &DeviceSpecUSBGuard_FieldSubPath{
+		selector: DeviceSpecUSBGuard_FieldPathSelectorWhiteList,
+		subPath:  NewDeviceSpecUSBGuardWhiteListFieldPathBuilder().WithConnectType().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithConnectType) WithValue(value string) *DeviceSpecUSBGuard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuard_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuardPathSelectorWhiteListWithConnectType) WithArrayOfValues(values []string) *DeviceSpecUSBGuard_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuard_FieldSubPathArrayOfValues)
 }
 
@@ -32646,6 +33072,102 @@ func (s Device_Spec_SSHConfig_AuthKeyPathSelectorRestrict) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues)
 }
 
+type DeviceSpecUSBGuardPortFieldPathBuilder struct{}
+
+func NewDeviceSpecUSBGuardPortFieldPathBuilder() DeviceSpecUSBGuardPortFieldPathBuilder {
+	return DeviceSpecUSBGuardPortFieldPathBuilder{}
+}
+func (DeviceSpecUSBGuardPortFieldPathBuilder) Equals() Device_Spec_USBGuard_PortPathSelectorEquals {
+	return Device_Spec_USBGuard_PortPathSelectorEquals{}
+}
+func (DeviceSpecUSBGuardPortFieldPathBuilder) OneOf() Device_Spec_USBGuard_PortPathSelectorOneOf {
+	return Device_Spec_USBGuard_PortPathSelectorOneOf{}
+}
+
+type Device_Spec_USBGuard_PortPathSelectorEquals struct{}
+
+func (Device_Spec_USBGuard_PortPathSelectorEquals) FieldPath() *DeviceSpecUSBGuardPort_FieldTerminalPath {
+	return &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorEquals}
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorEquals) WithValue(value []string) *DeviceSpecUSBGuardPort_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardPort_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorEquals) WithItemValue(value string) *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_PortPathSelectorOneOf struct{}
+
+func (Device_Spec_USBGuard_PortPathSelectorOneOf) FieldPath() *DeviceSpecUSBGuardPort_FieldTerminalPath {
+	return &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorOneOf}
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorOneOf) WithValue(value []string) *DeviceSpecUSBGuardPort_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardPort_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardPort_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_PortPathSelectorOneOf) WithItemValue(value string) *DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardPort_FieldTerminalPathArrayItemValue)
+}
+
+type DeviceSpecUSBGuardInterfaceFieldPathBuilder struct{}
+
+func NewDeviceSpecUSBGuardInterfaceFieldPathBuilder() DeviceSpecUSBGuardInterfaceFieldPathBuilder {
+	return DeviceSpecUSBGuardInterfaceFieldPathBuilder{}
+}
+func (DeviceSpecUSBGuardInterfaceFieldPathBuilder) Equals() Device_Spec_USBGuard_InterfacePathSelectorEquals {
+	return Device_Spec_USBGuard_InterfacePathSelectorEquals{}
+}
+func (DeviceSpecUSBGuardInterfaceFieldPathBuilder) OneOf() Device_Spec_USBGuard_InterfacePathSelectorOneOf {
+	return Device_Spec_USBGuard_InterfacePathSelectorOneOf{}
+}
+
+type Device_Spec_USBGuard_InterfacePathSelectorEquals struct{}
+
+func (Device_Spec_USBGuard_InterfacePathSelectorEquals) FieldPath() *DeviceSpecUSBGuardInterface_FieldTerminalPath {
+	return &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorEquals}
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorEquals) WithValue(value []string) *DeviceSpecUSBGuardInterface_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardInterface_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorEquals) WithItemValue(value string) *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_InterfacePathSelectorOneOf struct{}
+
+func (Device_Spec_USBGuard_InterfacePathSelectorOneOf) FieldPath() *DeviceSpecUSBGuardInterface_FieldTerminalPath {
+	return &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf}
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorOneOf) WithValue(value []string) *DeviceSpecUSBGuardInterface_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardInterface_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_InterfacePathSelectorOneOf) WithItemValue(value string) *DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardInterface_FieldTerminalPathArrayItemValue)
+}
+
 type DeviceSpecUSBGuardWhiteListFieldPathBuilder struct{}
 
 func NewDeviceSpecUSBGuardWhiteListFieldPathBuilder() DeviceSpecUSBGuardWhiteListFieldPathBuilder {
@@ -32659,6 +33181,12 @@ func (DeviceSpecUSBGuardWhiteListFieldPathBuilder) DeviceId() Device_Spec_USBGua
 }
 func (DeviceSpecUSBGuardWhiteListFieldPathBuilder) ViaPort() Device_Spec_USBGuard_WhiteListPathSelectorViaPort {
 	return Device_Spec_USBGuard_WhiteListPathSelectorViaPort{}
+}
+func (DeviceSpecUSBGuardWhiteListFieldPathBuilder) WithInterface() Device_Spec_USBGuard_WhiteListPathSelectorWithInterface {
+	return Device_Spec_USBGuard_WhiteListPathSelectorWithInterface{}
+}
+func (DeviceSpecUSBGuardWhiteListFieldPathBuilder) WithConnectType() Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType {
+	return Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType{}
 }
 
 type Device_Spec_USBGuard_WhiteListPathSelectorDeviceName struct{}
@@ -32695,11 +33223,171 @@ func (Device_Spec_USBGuard_WhiteListPathSelectorViaPort) FieldPath() *DeviceSpec
 	return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort}
 }
 
-func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithValue(value string) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue {
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithValue(value *Device_Spec_USBGuard_Port) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue)
 }
 
-func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithArrayOfValues(values []string) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues {
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithArrayOfValues(values []*Device_Spec_USBGuard_Port) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithSubPath(subPath DeviceSpecUSBGuardPort_FieldPath) *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort, subPath: subPath}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithSubValue(subPathValue DeviceSpecUSBGuardPort_FieldPathValue) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathValue{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecUSBGuardPort_FieldPathArrayOfValues) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPort) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecUSBGuardPort_FieldPathArrayItemValue) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorViaPort) Equals() Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals {
+	return Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals{}
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorViaPort) OneOf() Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf {
+	return Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf{}
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{
+		selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort,
+		subPath:  NewDeviceSpecUSBGuardPortFieldPathBuilder().Equals().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals) WithValue(value []string) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortEquals) WithItemValue(value string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{
+		selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort,
+		subPath:  NewDeviceSpecUSBGuardPortFieldPathBuilder().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf) WithValue(value []string) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorViaPortOneOf) WithItemValue(value string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorWithInterface struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldTerminalPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithValue(value *Device_Spec_USBGuard_Interface) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithArrayOfValues(values []*Device_Spec_USBGuard_Interface) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithSubPath(subPath DeviceSpecUSBGuardInterface_FieldPath) *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface, subPath: subPath}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithSubValue(subPathValue DeviceSpecUSBGuardInterface_FieldPathValue) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathValue{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecUSBGuardInterface_FieldPathArrayOfValues) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecUSBGuardInterface_FieldPathArrayItemValue) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue{DeviceSpecUSBGuardWhiteList_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) Equals() Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals {
+	return Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals{}
+}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterface) OneOf() Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf {
+	return Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf{}
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{
+		selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface,
+		subPath:  NewDeviceSpecUSBGuardInterfaceFieldPathBuilder().Equals().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals) WithValue(value []string) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceEquals) WithItemValue(value string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldSubPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldSubPath{
+		selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface,
+		subPath:  NewDeviceSpecUSBGuardInterfaceFieldPathBuilder().OneOf().FieldPath(),
+	}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf) WithValue(value []string) *DeviceSpecUSBGuardWhiteList_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf) WithArrayOfValues(values [][]string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithInterfaceOneOf) WithItemValue(value string) *DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpecUSBGuardWhiteList_FieldSubPathArrayItemValue)
+}
+
+type Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType struct{}
+
+func (Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType) FieldPath() *DeviceSpecUSBGuardWhiteList_FieldTerminalPath {
+	return &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType}
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType) WithValue(value string) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_USBGuard_WhiteListPathSelectorWithConnectType) WithArrayOfValues(values []string) *DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecUSBGuardWhiteList_FieldTerminalPathArrayOfValues)
 }
 

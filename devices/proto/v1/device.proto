@@ -856,6 +856,20 @@ message Device {
       // This is array of white list of the USB devices.
       repeated WhiteList white_list = 2;
 
+      // USB match operator for "via-port".
+      message Port {
+        repeated string equals = 1;
+
+        repeated string one_of = 2;
+      }
+
+      // USB match operator for "with-interface".
+      message Interface {
+        repeated string equals = 1;
+
+        repeated string one_of = 2;
+      }
+
       // This is array of white list of the USB devices.
       message WhiteList {
         // USB device name to be allowed to connect.
@@ -865,7 +879,13 @@ message Device {
         string device_id = 2;
 
         // USB port to be allowed to connect.
-        string via_port = 3;
+        Port via_port = 3;
+
+        // USB interface to be allowed to connect.
+        Interface with_interface = 4;
+
+        // USB connect type to be allowed to connect.
+        string with_connect_type = 5;
       }
     }
 

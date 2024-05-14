@@ -5225,6 +5225,220 @@ func (o *Device_Spec_SSHConfig_AuthKey) MergeRaw(source gotenobject.GotenObjectE
 	o.Merge(source.(*Device_Spec_SSHConfig_AuthKey))
 }
 
+func (o *Device_Spec_USBGuard_Port) GotenObjectExt() {}
+
+func (o *Device_Spec_USBGuard_Port) MakeFullFieldMask() *Device_Spec_USBGuard_Port_FieldMask {
+	return FullDevice_Spec_USBGuard_Port_FieldMask()
+}
+
+func (o *Device_Spec_USBGuard_Port) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Spec_USBGuard_Port_FieldMask()
+}
+
+func (o *Device_Spec_USBGuard_Port) MakeDiffFieldMask(other *Device_Spec_USBGuard_Port) *Device_Spec_USBGuard_Port_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Spec_USBGuard_Port_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Spec_USBGuard_Port_FieldMask()
+	}
+
+	res := &Device_Spec_USBGuard_Port_FieldMask{}
+
+	if len(o.GetEquals()) == len(other.GetEquals()) {
+		for i, lValue := range o.GetEquals() {
+			rValue := other.GetEquals()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorEquals})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorEquals})
+	}
+
+	if len(o.GetOneOf()) == len(other.GetOneOf()) {
+		for i, lValue := range o.GetOneOf() {
+			rValue := other.GetOneOf()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorOneOf})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpecUSBGuardPort_FieldTerminalPath{selector: DeviceSpecUSBGuardPort_FieldPathSelectorOneOf})
+	}
+	return res
+}
+
+func (o *Device_Spec_USBGuard_Port) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Spec_USBGuard_Port))
+}
+
+func (o *Device_Spec_USBGuard_Port) Clone() *Device_Spec_USBGuard_Port {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Spec_USBGuard_Port{}
+	result.Equals = make([]string, len(o.Equals))
+	for i, sourceValue := range o.Equals {
+		result.Equals[i] = sourceValue
+	}
+	result.OneOf = make([]string, len(o.OneOf))
+	for i, sourceValue := range o.OneOf {
+		result.OneOf[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Device_Spec_USBGuard_Port) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Spec_USBGuard_Port) Merge(source *Device_Spec_USBGuard_Port) {
+	for _, sourceValue := range source.GetEquals() {
+		exists := false
+		for _, currentValue := range o.Equals {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Equals = append(o.Equals, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetOneOf() {
+		exists := false
+		for _, currentValue := range o.OneOf {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.OneOf = append(o.OneOf, newDstElement)
+		}
+	}
+
+}
+
+func (o *Device_Spec_USBGuard_Port) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Spec_USBGuard_Port))
+}
+
+func (o *Device_Spec_USBGuard_Interface) GotenObjectExt() {}
+
+func (o *Device_Spec_USBGuard_Interface) MakeFullFieldMask() *Device_Spec_USBGuard_Interface_FieldMask {
+	return FullDevice_Spec_USBGuard_Interface_FieldMask()
+}
+
+func (o *Device_Spec_USBGuard_Interface) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Spec_USBGuard_Interface_FieldMask()
+}
+
+func (o *Device_Spec_USBGuard_Interface) MakeDiffFieldMask(other *Device_Spec_USBGuard_Interface) *Device_Spec_USBGuard_Interface_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Spec_USBGuard_Interface_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Spec_USBGuard_Interface_FieldMask()
+	}
+
+	res := &Device_Spec_USBGuard_Interface_FieldMask{}
+
+	if len(o.GetEquals()) == len(other.GetEquals()) {
+		for i, lValue := range o.GetEquals() {
+			rValue := other.GetEquals()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorEquals})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorEquals})
+	}
+
+	if len(o.GetOneOf()) == len(other.GetOneOf()) {
+		for i, lValue := range o.GetOneOf() {
+			rValue := other.GetOneOf()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpecUSBGuardInterface_FieldTerminalPath{selector: DeviceSpecUSBGuardInterface_FieldPathSelectorOneOf})
+	}
+	return res
+}
+
+func (o *Device_Spec_USBGuard_Interface) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Spec_USBGuard_Interface))
+}
+
+func (o *Device_Spec_USBGuard_Interface) Clone() *Device_Spec_USBGuard_Interface {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Spec_USBGuard_Interface{}
+	result.Equals = make([]string, len(o.Equals))
+	for i, sourceValue := range o.Equals {
+		result.Equals[i] = sourceValue
+	}
+	result.OneOf = make([]string, len(o.OneOf))
+	for i, sourceValue := range o.OneOf {
+		result.OneOf[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Device_Spec_USBGuard_Interface) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Spec_USBGuard_Interface) Merge(source *Device_Spec_USBGuard_Interface) {
+	for _, sourceValue := range source.GetEquals() {
+		exists := false
+		for _, currentValue := range o.Equals {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Equals = append(o.Equals, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetOneOf() {
+		exists := false
+		for _, currentValue := range o.OneOf {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.OneOf = append(o.OneOf, newDstElement)
+		}
+	}
+
+}
+
+func (o *Device_Spec_USBGuard_Interface) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Spec_USBGuard_Interface))
+}
+
 func (o *Device_Spec_USBGuard_WhiteList) GotenObjectExt() {}
 
 func (o *Device_Spec_USBGuard_WhiteList) MakeFullFieldMask() *Device_Spec_USBGuard_WhiteList_FieldMask {
@@ -5250,8 +5464,28 @@ func (o *Device_Spec_USBGuard_WhiteList) MakeDiffFieldMask(other *Device_Spec_US
 	if o.GetDeviceId() != other.GetDeviceId() {
 		res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorDeviceId})
 	}
-	if o.GetViaPort() != other.GetViaPort() {
-		res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort})
+	{
+		subMask := o.GetViaPort().MakeDiffFieldMask(other.GetViaPort())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorViaPort, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetWithInterface().MakeDiffFieldMask(other.GetWithInterface())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldSubPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithInterface, subPath: subpath})
+			}
+		}
+	}
+	if o.GetWithConnectType() != other.GetWithConnectType() {
+		res.Paths = append(res.Paths, &DeviceSpecUSBGuardWhiteList_FieldTerminalPath{selector: DeviceSpecUSBGuardWhiteList_FieldPathSelectorWithConnectType})
 	}
 	return res
 }
@@ -5267,7 +5501,9 @@ func (o *Device_Spec_USBGuard_WhiteList) Clone() *Device_Spec_USBGuard_WhiteList
 	result := &Device_Spec_USBGuard_WhiteList{}
 	result.DeviceName = o.DeviceName
 	result.DeviceId = o.DeviceId
-	result.ViaPort = o.ViaPort
+	result.ViaPort = o.ViaPort.Clone()
+	result.WithInterface = o.WithInterface.Clone()
+	result.WithConnectType = o.WithConnectType
 	return result
 }
 
@@ -5278,7 +5514,19 @@ func (o *Device_Spec_USBGuard_WhiteList) CloneRaw() gotenobject.GotenObjectExt {
 func (o *Device_Spec_USBGuard_WhiteList) Merge(source *Device_Spec_USBGuard_WhiteList) {
 	o.DeviceName = source.GetDeviceName()
 	o.DeviceId = source.GetDeviceId()
-	o.ViaPort = source.GetViaPort()
+	if source.GetViaPort() != nil {
+		if o.ViaPort == nil {
+			o.ViaPort = new(Device_Spec_USBGuard_Port)
+		}
+		o.ViaPort.Merge(source.GetViaPort())
+	}
+	if source.GetWithInterface() != nil {
+		if o.WithInterface == nil {
+			o.WithInterface = new(Device_Spec_USBGuard_Interface)
+		}
+		o.WithInterface.Merge(source.GetWithInterface())
+	}
+	o.WithConnectType = source.GetWithConnectType()
 }
 
 func (o *Device_Spec_USBGuard_WhiteList) MergeRaw(source gotenobject.GotenObjectExt) {
