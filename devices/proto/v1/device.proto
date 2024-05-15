@@ -919,6 +919,11 @@ message Device {
     // Normalized Address.
     NormalizedAddress normalized_address = 5;
 
+    ConnectionStatus connection_status = 6;
+
+    // Last change of connection_status
+    google.protobuf.Timestamp connection_status_change_time = 7;
+
     // Interface addresses of the Device.
     message Address {
       // IPv4 or IPv6 address such as `203.0.113.5` (no suffix for subnet)
@@ -1675,6 +1680,14 @@ message Device {
 
       // location accuracy in meters
       double accuracy = 17;
+    }
+
+    enum ConnectionStatus {
+      CONNECTION_STATUS_UNSPECIFIED = 0;
+
+      CONNECTED = 1;
+
+      DISCONNECTED = 2;
     }
   }
 

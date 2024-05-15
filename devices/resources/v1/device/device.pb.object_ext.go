@@ -552,6 +552,12 @@ func (o *Device_Status) MakeDiffFieldMask(other *Device_Status) *Device_Status_F
 			}
 		}
 	}
+	if o.GetConnectionStatus() != other.GetConnectionStatus() {
+		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatus})
+	}
+	if !proto.Equal(o.GetConnectionStatusChangeTime(), other.GetConnectionStatusChangeTime()) {
+		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatusChangeTime})
+	}
 	return res
 }
 
@@ -580,6 +586,8 @@ func (o *Device_Status) Clone() *Device_Status {
 		result.AttestationStatus[i] = sourceValue.Clone()
 	}
 	result.NormalizedAddress = o.NormalizedAddress.Clone()
+	result.ConnectionStatus = o.ConnectionStatus
+	result.ConnectionStatusChangeTime = proto.Clone(o.ConnectionStatusChangeTime).(*timestamppb.Timestamp)
 	return result
 }
 
@@ -665,6 +673,13 @@ func (o *Device_Status) Merge(source *Device_Status) {
 			o.NormalizedAddress = new(Device_Status_NormalizedAddress)
 		}
 		o.NormalizedAddress.Merge(source.GetNormalizedAddress())
+	}
+	o.ConnectionStatus = source.GetConnectionStatus()
+	if source.GetConnectionStatusChangeTime() != nil {
+		if o.ConnectionStatusChangeTime == nil {
+			o.ConnectionStatusChangeTime = new(timestamppb.Timestamp)
+		}
+		proto.Merge(o.ConnectionStatusChangeTime, source.GetConnectionStatusChangeTime())
 	}
 }
 

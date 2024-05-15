@@ -5,6 +5,7 @@ package ntt.devices.v1;
 import "edgelq-sdk/common/api/credentials.proto";
 import "edgelq-sdk/devices/proto/v1/device.proto";
 import "edgelq-sdk/devices/proto/v1/device_change.proto";
+import "google/protobuf/duration.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/device;device_client";
 option java_multiple_files = false;
@@ -46,3 +47,21 @@ message RemoveServiceAccountFromDeviceRequest {
 // Response message for method
 // [RemoveServiceAccountFromDevice][ntt.devices.v1.RemoveServiceAccountFromDevice]
 message RemoveServiceAccountFromDeviceResponse {}
+
+message HeartbeatMsg {
+  string name = 1;
+
+  oneof msg {
+    Register register = 2;
+
+    Heartbeat heartbeat = 3;
+  }
+
+  message Register {}
+
+  message Heartbeat {}
+}
+
+message HeartbeatResponse {
+  google.protobuf.Duration desired_heartbeat_interval = 1;
+}

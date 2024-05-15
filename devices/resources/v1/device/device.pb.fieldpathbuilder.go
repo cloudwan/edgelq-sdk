@@ -2464,6 +2464,14 @@ func (DevicePathSelectorStatus) NormalizedAddress() DevicePathSelectorStatusNorm
 	return DevicePathSelectorStatusNormalizedAddress{}
 }
 
+func (DevicePathSelectorStatus) ConnectionStatus() DevicePathSelectorStatusConnectionStatus {
+	return DevicePathSelectorStatusConnectionStatus{}
+}
+
+func (DevicePathSelectorStatus) ConnectionStatusChangeTime() DevicePathSelectorStatusConnectionStatusChangeTime {
+	return DevicePathSelectorStatusConnectionStatusChangeTime{}
+}
+
 type DevicePathSelectorStatusAddresses struct{}
 
 func (DevicePathSelectorStatusAddresses) FieldPath() *Device_FieldSubPath {
@@ -9668,6 +9676,40 @@ func (s DevicePathSelectorStatusNormalizedAddressAccuracy) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
+type DevicePathSelectorStatusConnectionStatus struct{}
+
+func (DevicePathSelectorStatusConnectionStatus) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ConnectionStatus().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusConnectionStatus) WithValue(value Device_Status_ConnectionStatus) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusConnectionStatus) WithArrayOfValues(values []Device_Status_ConnectionStatus) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusConnectionStatusChangeTime struct{}
+
+func (DevicePathSelectorStatusConnectionStatusChangeTime) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().ConnectionStatusChangeTime().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusConnectionStatusChangeTime) WithValue(value *timestamppb.Timestamp) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusConnectionStatusChangeTime) WithArrayOfValues(values []*timestamppb.Timestamp) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
 type DevicePathSelectorPublicListingSpec struct{}
 
 func (DevicePathSelectorPublicListingSpec) FieldPath() *Device_FieldTerminalPath {
@@ -11470,6 +11512,12 @@ func (DeviceStatusFieldPathBuilder) AttestationStatus() Device_StatusPathSelecto
 }
 func (DeviceStatusFieldPathBuilder) NormalizedAddress() Device_StatusPathSelectorNormalizedAddress {
 	return Device_StatusPathSelectorNormalizedAddress{}
+}
+func (DeviceStatusFieldPathBuilder) ConnectionStatus() Device_StatusPathSelectorConnectionStatus {
+	return Device_StatusPathSelectorConnectionStatus{}
+}
+func (DeviceStatusFieldPathBuilder) ConnectionStatusChangeTime() Device_StatusPathSelectorConnectionStatusChangeTime {
+	return Device_StatusPathSelectorConnectionStatusChangeTime{}
 }
 
 type Device_StatusPathSelectorAddresses struct{}
@@ -18762,6 +18810,34 @@ func (s Device_StatusPathSelectorNormalizedAddressAccuracy) WithValue(value floa
 
 func (s Device_StatusPathSelectorNormalizedAddressAccuracy) WithArrayOfValues(values []float64) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorConnectionStatus struct{}
+
+func (Device_StatusPathSelectorConnectionStatus) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatus}
+}
+
+func (s Device_StatusPathSelectorConnectionStatus) WithValue(value Device_Status_ConnectionStatus) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorConnectionStatus) WithArrayOfValues(values []Device_Status_ConnectionStatus) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorConnectionStatusChangeTime struct{}
+
+func (Device_StatusPathSelectorConnectionStatusChangeTime) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatusChangeTime}
+}
+
+func (s Device_StatusPathSelectorConnectionStatusChangeTime) WithValue(value *timestamppb.Timestamp) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorConnectionStatusChangeTime) WithArrayOfValues(values []*timestamppb.Timestamp) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
 }
 
 type DevicePublicListingSpecFieldPathBuilder struct{}

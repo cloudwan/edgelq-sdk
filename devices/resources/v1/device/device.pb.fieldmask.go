@@ -856,6 +856,8 @@ func FullDevice_Status_FieldMask() *Device_Status_FieldMask {
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatus})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatusChangeTime})
 	return res
 }
 
@@ -899,7 +901,7 @@ func (fieldMask *Device_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -929,7 +931,7 @@ func (fieldMask *Device_Status_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMask) *Device_Status_FieldMask {
 	result := &Device_Status_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatus_FieldPathSelectorAddresses:          &Device_Status_Address_FieldMask{},
 		DeviceStatus_FieldPathSelectorConditions:         &Device_Status_Condition_FieldMask{},
@@ -1168,6 +1170,10 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 			case DeviceStatus_FieldPathSelectorNormalizedAddress:
 				result.NormalizedAddress = source.NormalizedAddress
 				wholeNormalizedAddressAccepted = true
+			case DeviceStatus_FieldPathSelectorConnectionStatus:
+				result.ConnectionStatus = source.ConnectionStatus
+			case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+				result.ConnectionStatusChangeTime = source.ConnectionStatusChangeTime
 			}
 		case *DeviceStatus_FieldSubPath:
 			switch tp.selector {

@@ -397,4 +397,11 @@ service DeviceService {
              "*}:removeServiceAccountFromDevice"
     };
   }
+
+  // Heartbeat
+  rpc Heartbeat(stream HeartbeatMsg) returns (stream HeartbeatResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*/regions/*/devices/*}:heartbeat"
+    };
+  }
 }

@@ -2329,13 +2329,15 @@ type DeviceStatus_FieldPath interface {
 type DeviceStatus_FieldPathSelector int32
 
 const (
-	DeviceStatus_FieldPathSelectorAddresses          DeviceStatus_FieldPathSelector = 0
-	DeviceStatus_FieldPathSelectorConditions         DeviceStatus_FieldPathSelector = 1
-	DeviceStatus_FieldPathSelectorNetworkConfigState DeviceStatus_FieldPathSelector = 2
-	DeviceStatus_FieldPathSelectorProxyConfigStatus  DeviceStatus_FieldPathSelector = 3
-	DeviceStatus_FieldPathSelectorDeviceInfo         DeviceStatus_FieldPathSelector = 4
-	DeviceStatus_FieldPathSelectorAttestationStatus  DeviceStatus_FieldPathSelector = 5
-	DeviceStatus_FieldPathSelectorNormalizedAddress  DeviceStatus_FieldPathSelector = 6
+	DeviceStatus_FieldPathSelectorAddresses                  DeviceStatus_FieldPathSelector = 0
+	DeviceStatus_FieldPathSelectorConditions                 DeviceStatus_FieldPathSelector = 1
+	DeviceStatus_FieldPathSelectorNetworkConfigState         DeviceStatus_FieldPathSelector = 2
+	DeviceStatus_FieldPathSelectorProxyConfigStatus          DeviceStatus_FieldPathSelector = 3
+	DeviceStatus_FieldPathSelectorDeviceInfo                 DeviceStatus_FieldPathSelector = 4
+	DeviceStatus_FieldPathSelectorAttestationStatus          DeviceStatus_FieldPathSelector = 5
+	DeviceStatus_FieldPathSelectorNormalizedAddress          DeviceStatus_FieldPathSelector = 6
+	DeviceStatus_FieldPathSelectorConnectionStatus           DeviceStatus_FieldPathSelector = 7
+	DeviceStatus_FieldPathSelectorConnectionStatusChangeTime DeviceStatus_FieldPathSelector = 8
 )
 
 func (s DeviceStatus_FieldPathSelector) String() string {
@@ -2354,6 +2356,10 @@ func (s DeviceStatus_FieldPathSelector) String() string {
 		return "attestation_status"
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return "normalized_address"
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		return "connection_status"
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		return "connection_status_change_time"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", s))
 	}
@@ -2379,6 +2385,10 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus}, nil
 		case "normalized_address", "normalizedAddress", "normalized-address":
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorNormalizedAddress}, nil
+		case "connection_status", "connectionStatus", "connection-status":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatus}, nil
+		case "connection_status_change_time", "connectionStatusChangeTime", "connection-status-change-time":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConnectionStatusChangeTime}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2497,6 +2507,12 @@ func (fp *DeviceStatus_FieldTerminalPath) Get(source *Device_Status) (values []i
 			if source.NormalizedAddress != nil {
 				values = append(values, source.NormalizedAddress)
 			}
+		case DeviceStatus_FieldPathSelectorConnectionStatus:
+			values = append(values, source.ConnectionStatus)
+		case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+			if source.ConnectionStatusChangeTime != nil {
+				values = append(values, source.ConnectionStatusChangeTime)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2532,6 +2548,11 @@ func (fp *DeviceStatus_FieldTerminalPath) GetSingle(source *Device_Status) (inte
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		res := source.GetNormalizedAddress()
 		return res, res != nil
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		return source.GetConnectionStatus(), source != nil
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		res := source.GetConnectionStatusChangeTime()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2558,6 +2579,10 @@ func (fp *DeviceStatus_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*iam_iam_common.PCR)(nil)
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return (*Device_Status_NormalizedAddress)(nil)
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		return Device_Status_CONNECTION_STATUS_UNSPECIFIED
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		return (*timestamppb.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2580,6 +2605,10 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValue(item *Device_Status) {
 			item.AttestationStatus = nil
 		case DeviceStatus_FieldPathSelectorNormalizedAddress:
 			item.NormalizedAddress = nil
+		case DeviceStatus_FieldPathSelectorConnectionStatus:
+			item.ConnectionStatus = Device_Status_CONNECTION_STATUS_UNSPECIFIED
+		case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+			item.ConnectionStatusChangeTime = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2592,7 +2621,8 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *DeviceStatus_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == DeviceStatus_FieldPathSelectorConnectionStatus ||
+		fp.selector == DeviceStatus_FieldPathSelectorConnectionStatusChangeTime
 }
 
 func (fp *DeviceStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2615,6 +2645,10 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceSt
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*iam_iam_common.PCR)}
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_NormalizedAddress)}
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(Device_Status_ConnectionStatus)}
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2641,6 +2675,10 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*iam_iam_common.PCR)}
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_NormalizedAddress)}
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]Device_Status_ConnectionStatus)}
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2937,6 +2975,14 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) AsNormalizedAddressValue() (*Dev
 	res, ok := fpv.value.(*Device_Status_NormalizedAddress)
 	return res, ok
 }
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsConnectionStatusValue() (Device_Status_ConnectionStatus, bool) {
+	res, ok := fpv.value.(Device_Status_ConnectionStatus)
+	return res, ok
+}
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsConnectionStatusChangeTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Status
 func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
@@ -2958,6 +3004,10 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
 		(*target).AttestationStatus = fpv.value.([]*iam_iam_common.PCR)
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		(*target).NormalizedAddress = fpv.value.(*Device_Status_NormalizedAddress)
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		(*target).ConnectionStatus = fpv.value.(Device_Status_ConnectionStatus)
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		(*target).ConnectionStatusChangeTime = fpv.value.(*timestamppb.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2985,6 +3035,35 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) CompareWith(source *Device_Statu
 		return 0, false
 	case DeviceStatus_FieldPathSelectorNormalizedAddress:
 		return 0, false
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		leftValue := fpv.value.(Device_Status_ConnectionStatus)
+		rightValue := source.GetConnectionStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		leftValue := fpv.value.(*timestamppb.Timestamp)
+		rightValue := source.GetConnectionStatusChangeTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -3287,6 +3366,14 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]*Device_Status_NormalizedAddress) {
 			values = append(values, v)
 		}
+	case DeviceStatus_FieldPathSelectorConnectionStatus:
+		for _, v := range fpaov.values.([]Device_Status_ConnectionStatus) {
+			values = append(values, v)
+		}
+	case DeviceStatus_FieldPathSelectorConnectionStatusChangeTime:
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3316,6 +3403,14 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAttestationStatusArr
 }
 func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsNormalizedAddressArrayOfValues() ([]*Device_Status_NormalizedAddress, bool) {
 	res, ok := fpaov.values.([]*Device_Status_NormalizedAddress)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsConnectionStatusArrayOfValues() ([]Device_Status_ConnectionStatus, bool) {
+	res, ok := fpaov.values.([]Device_Status_ConnectionStatus)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsConnectionStatusChangeTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 

@@ -20,6 +20,7 @@ import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -39,6 +40,7 @@ var (
 	_ = &api.Account{}
 	_ = &device.Device{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 )
 
 const (
@@ -352,13 +354,317 @@ func (m *RemoveServiceAccountFromDeviceResponse) UnmarshalJSON(data []byte) erro
 	return protojson.Unmarshal(data, m)
 }
 
+type HeartbeatMsg struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Name          *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	// Types that are valid to be assigned to Msg:
+	//	*HeartbeatMsg_Register_
+	//	*HeartbeatMsg_Heartbeat_
+	Msg isHeartbeatMsg_Msg `protobuf_oneof:"msg"`
+}
+
+func (m *HeartbeatMsg) Reset() {
+	*m = HeartbeatMsg{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *HeartbeatMsg) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*HeartbeatMsg) ProtoMessage() {}
+
+func (m *HeartbeatMsg) ProtoReflect() preflect.Message {
+	mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*HeartbeatMsg) GotenMessage() {}
+
+// Deprecated, Use HeartbeatMsg.ProtoReflect.Descriptor instead.
+func (*HeartbeatMsg) Descriptor() ([]byte, []int) {
+	return edgelq_devices_proto_v1_device_custom_proto_rawDescGZIP(), []int{4}
+}
+
+func (m *HeartbeatMsg) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *HeartbeatMsg) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *HeartbeatMsg) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *HeartbeatMsg) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isHeartbeatMsg_Msg interface {
+	isHeartbeatMsg_Msg()
+}
+
+type HeartbeatMsg_Register_ struct {
+	Register *HeartbeatMsg_Register `protobuf:"bytes,2,opt,name=register,proto3,oneof" firestore:"register"`
+}
+type HeartbeatMsg_Heartbeat_ struct {
+	Heartbeat *HeartbeatMsg_Heartbeat `protobuf:"bytes,3,opt,name=heartbeat,proto3,oneof" firestore:"heartbeat"`
+}
+
+func (*HeartbeatMsg_Register_) isHeartbeatMsg_Msg()  {}
+func (*HeartbeatMsg_Heartbeat_) isHeartbeatMsg_Msg() {}
+func (m *HeartbeatMsg) GetName() *device.Name {
+	if m != nil {
+		return m.Name
+	}
+	return nil
+}
+
+func (m *HeartbeatMsg) GetMsg() isHeartbeatMsg_Msg {
+	if m != nil {
+		return m.Msg
+	}
+	return nil
+}
+func (m *HeartbeatMsg) GetRegister() *HeartbeatMsg_Register {
+	if x, ok := m.GetMsg().(*HeartbeatMsg_Register_); ok {
+		return x.Register
+	}
+	return nil
+}
+func (m *HeartbeatMsg) GetHeartbeat() *HeartbeatMsg_Heartbeat {
+	if x, ok := m.GetMsg().(*HeartbeatMsg_Heartbeat_); ok {
+		return x.Heartbeat
+	}
+	return nil
+}
+func (m *HeartbeatMsg) SetName(fv *device.Name) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Name", "HeartbeatMsg"))
+	}
+	m.Name = fv
+}
+
+func (m *HeartbeatMsg) SetMsg(ofv isHeartbeatMsg_Msg) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isHeartbeatMsg_Msg", "HeartbeatMsg"))
+	}
+	m.Msg = ofv
+}
+func (m *HeartbeatMsg) SetRegister(fv *HeartbeatMsg_Register) {
+	m.SetMsg(&HeartbeatMsg_Register_{Register: fv})
+}
+func (m *HeartbeatMsg) SetHeartbeat(fv *HeartbeatMsg_Heartbeat) {
+	m.SetMsg(&HeartbeatMsg_Heartbeat_{Heartbeat: fv})
+}
+
+type HeartbeatResponse struct {
+	state                    protoimpl.MessageState
+	sizeCache                protoimpl.SizeCache
+	unknownFields            protoimpl.UnknownFields
+	DesiredHeartbeatInterval *durationpb.Duration `protobuf:"bytes,1,opt,name=desired_heartbeat_interval,json=desiredHeartbeatInterval,proto3" json:"desired_heartbeat_interval,omitempty" firestore:"desiredHeartbeatInterval"`
+}
+
+func (m *HeartbeatResponse) Reset() {
+	*m = HeartbeatResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *HeartbeatResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*HeartbeatResponse) ProtoMessage() {}
+
+func (m *HeartbeatResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*HeartbeatResponse) GotenMessage() {}
+
+// Deprecated, Use HeartbeatResponse.ProtoReflect.Descriptor instead.
+func (*HeartbeatResponse) Descriptor() ([]byte, []int) {
+	return edgelq_devices_proto_v1_device_custom_proto_rawDescGZIP(), []int{5}
+}
+
+func (m *HeartbeatResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *HeartbeatResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *HeartbeatResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *HeartbeatResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *HeartbeatResponse) GetDesiredHeartbeatInterval() *durationpb.Duration {
+	if m != nil {
+		return m.DesiredHeartbeatInterval
+	}
+	return nil
+}
+
+func (m *HeartbeatResponse) SetDesiredHeartbeatInterval(fv *durationpb.Duration) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "DesiredHeartbeatInterval", "HeartbeatResponse"))
+	}
+	m.DesiredHeartbeatInterval = fv
+}
+
+type HeartbeatMsg_Register struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (m *HeartbeatMsg_Register) Reset() {
+	*m = HeartbeatMsg_Register{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *HeartbeatMsg_Register) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*HeartbeatMsg_Register) ProtoMessage() {}
+
+func (m *HeartbeatMsg_Register) ProtoReflect() preflect.Message {
+	mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*HeartbeatMsg_Register) GotenMessage() {}
+
+// Deprecated, Use HeartbeatMsg_Register.ProtoReflect.Descriptor instead.
+func (*HeartbeatMsg_Register) Descriptor() ([]byte, []int) {
+	return edgelq_devices_proto_v1_device_custom_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (m *HeartbeatMsg_Register) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *HeartbeatMsg_Register) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *HeartbeatMsg_Register) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *HeartbeatMsg_Register) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type HeartbeatMsg_Heartbeat struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (m *HeartbeatMsg_Heartbeat) Reset() {
+	*m = HeartbeatMsg_Heartbeat{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *HeartbeatMsg_Heartbeat) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*HeartbeatMsg_Heartbeat) ProtoMessage() {}
+
+func (m *HeartbeatMsg_Heartbeat) ProtoReflect() preflect.Message {
+	mi := &edgelq_devices_proto_v1_device_custom_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*HeartbeatMsg_Heartbeat) GotenMessage() {}
+
+// Deprecated, Use HeartbeatMsg_Heartbeat.ProtoReflect.Descriptor instead.
+func (*HeartbeatMsg_Heartbeat) Descriptor() ([]byte, []int) {
+	return edgelq_devices_proto_v1_device_custom_proto_rawDescGZIP(), []int{4, 1}
+}
+
+func (m *HeartbeatMsg_Heartbeat) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *HeartbeatMsg_Heartbeat) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *HeartbeatMsg_Heartbeat) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *HeartbeatMsg_Heartbeat) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
 var edgelq_devices_proto_v1_device_custom_proto preflect.FileDescriptor
 
 var edgelq_devices_proto_v1_device_custom_proto_rawDesc = []byte{
 	0x0a, 0x2b, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73,
 	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65,
 	0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0e, 0x6e,
-	0x74, 0x74, 0x2e, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x1a, 0x20, 0x67,
+	0x74, 0x74, 0x2e, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x1a, 0x1e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64,
+	0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x20, 0x67,
 	0x6f, 0x74, 0x65, 0x6e, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
 	0x2f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
 	0x1d, 0x67, 0x6f, 0x74, 0x65, 0x6e, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f,
@@ -401,7 +707,28 @@ var edgelq_devices_proto_v1_device_custom_proto_rawDesc = []byte{
 	0x63, 0x65, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x28, 0x0a, 0x26, 0x52, 0x65, 0x6d, 0x6f,
 	0x76, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
 	0x46, 0x72, 0x6f, 0x6d, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x42, 0x73, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74,
+	0x73, 0x65, 0x22, 0xdf, 0x01, 0x0a, 0x0c, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74,
+	0x4d, 0x73, 0x67, 0x12, 0x22, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x42, 0x0e, 0xb2, 0xda, 0x21, 0x0a, 0x0a, 0x08, 0x0a, 0x06, 0x44, 0x65, 0x76, 0x69, 0x63,
+	0x65, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x43, 0x0a, 0x08, 0x72, 0x65, 0x67, 0x69, 0x73,
+	0x74, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x6e, 0x74, 0x74, 0x2e,
+	0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x48, 0x65, 0x61, 0x72, 0x74,
+	0x62, 0x65, 0x61, 0x74, 0x4d, 0x73, 0x67, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72,
+	0x48, 0x00, 0x52, 0x08, 0x72, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x12, 0x46, 0x0a, 0x09,
+	0x68, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x26, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x4d, 0x73, 0x67, 0x2e, 0x48, 0x65,
+	0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x48, 0x00, 0x52, 0x09, 0x68, 0x65, 0x61, 0x72, 0x74,
+	0x62, 0x65, 0x61, 0x74, 0x1a, 0x0a, 0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72,
+	0x1a, 0x0b, 0x0a, 0x09, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x42, 0x05, 0x0a,
+	0x03, 0x6d, 0x73, 0x67, 0x22, 0x6c, 0x0a, 0x11, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x57, 0x0a, 0x1a, 0x64, 0x65, 0x73,
+	0x69, 0x72, 0x65, 0x64, 0x5f, 0x68, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x5f, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x18, 0x64, 0x65, 0x73, 0x69, 0x72, 0x65,
+	0x64, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x76,
+	0x61, 0x6c, 0x42, 0x73, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74,
 	0x74, 0x2e, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42,
 	0x11, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f,
 	0x74, 0x6f, 0x50, 0x00, 0x5a, 0x41, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
@@ -423,21 +750,29 @@ func edgelq_devices_proto_v1_device_custom_proto_rawDescGZIP() []byte {
 	return edgelq_devices_proto_v1_device_custom_proto_rawDescData
 }
 
-var edgelq_devices_proto_v1_device_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var edgelq_devices_proto_v1_device_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var edgelq_devices_proto_v1_device_custom_proto_goTypes = []interface{}{
 	(*ProvisionServiceAccountToDeviceRequest)(nil),  // 0: ntt.devices.v1.ProvisionServiceAccountToDeviceRequest
 	(*ProvisionServiceAccountToDeviceResponse)(nil), // 1: ntt.devices.v1.ProvisionServiceAccountToDeviceResponse
 	(*RemoveServiceAccountFromDeviceRequest)(nil),   // 2: ntt.devices.v1.RemoveServiceAccountFromDeviceRequest
 	(*RemoveServiceAccountFromDeviceResponse)(nil),  // 3: ntt.devices.v1.RemoveServiceAccountFromDeviceResponse
-	(*api.ServiceAccount)(nil),                      // 4: ntt.api.ServiceAccount
+	(*HeartbeatMsg)(nil),                            // 4: ntt.devices.v1.HeartbeatMsg
+	(*HeartbeatResponse)(nil),                       // 5: ntt.devices.v1.HeartbeatResponse
+	(*HeartbeatMsg_Register)(nil),                   // 6: ntt.devices.v1.HeartbeatMsg.Register
+	(*HeartbeatMsg_Heartbeat)(nil),                  // 7: ntt.devices.v1.HeartbeatMsg.Heartbeat
+	(*api.ServiceAccount)(nil),                      // 8: ntt.api.ServiceAccount
+	(*durationpb.Duration)(nil),                     // 9: google.protobuf.Duration
 }
 var edgelq_devices_proto_v1_device_custom_proto_depIdxs = []int32{
-	4, // 0: ntt.devices.v1.ProvisionServiceAccountToDeviceResponse.service_account:type_name -> ntt.api.ServiceAccount
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8, // 0: ntt.devices.v1.ProvisionServiceAccountToDeviceResponse.service_account:type_name -> ntt.api.ServiceAccount
+	6, // 1: ntt.devices.v1.HeartbeatMsg.register:type_name -> ntt.devices.v1.HeartbeatMsg.Register
+	7, // 2: ntt.devices.v1.HeartbeatMsg.heartbeat:type_name -> ntt.devices.v1.HeartbeatMsg.Heartbeat
+	9, // 3: ntt.devices.v1.HeartbeatResponse.desired_heartbeat_interval:type_name -> google.protobuf.Duration
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { edgelq_devices_proto_v1_device_custom_proto_init() }
@@ -495,15 +830,67 @@ func edgelq_devices_proto_v1_device_custom_proto_init() {
 				return nil
 			}
 		}
+		edgelq_devices_proto_v1_device_custom_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartbeatMsg); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_devices_proto_v1_device_custom_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartbeatResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_devices_proto_v1_device_custom_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartbeatMsg_Register); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_devices_proto_v1_device_custom_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartbeatMsg_Heartbeat); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
+	edgelq_devices_proto_v1_device_custom_proto_msgTypes[4].OneofWrappers = []interface{}{
+		(*HeartbeatMsg_Register_)(nil),
+		(*HeartbeatMsg_Heartbeat_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_devices_proto_v1_device_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

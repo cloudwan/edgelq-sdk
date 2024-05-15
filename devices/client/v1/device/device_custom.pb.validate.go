@@ -23,6 +23,7 @@ import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 var (
@@ -43,6 +44,7 @@ var (
 	_ = &api.Account{}
 	_ = &device.Device{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 )
 
 func (obj *ProvisionServiceAccountToDeviceRequest) GotenValidate() error {
@@ -78,6 +80,58 @@ func (obj *RemoveServiceAccountFromDeviceRequest) GotenValidate() error {
 	return nil
 }
 func (obj *RemoveServiceAccountFromDeviceResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *HeartbeatMsg) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Msg.(type) {
+	case *HeartbeatMsg_Register_:
+		if subobj, ok := interface{}(opt.Register).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("HeartbeatMsg", "register", opt.Register, "nested object validation failed", err)
+			}
+		}
+	case *HeartbeatMsg_Heartbeat_:
+		if subobj, ok := interface{}(opt.Heartbeat).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("HeartbeatMsg", "heartbeat", opt.Heartbeat, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *HeartbeatMsg_Register) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *HeartbeatMsg_Heartbeat) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *HeartbeatResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

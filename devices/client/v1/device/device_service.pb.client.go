@@ -59,6 +59,7 @@ type DeviceServiceClient interface {
 	DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ProvisionServiceAccountToDevice(ctx context.Context, in *ProvisionServiceAccountToDeviceRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToDeviceResponse, error)
 	RemoveServiceAccountFromDevice(ctx context.Context, in *RemoveServiceAccountFromDeviceRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromDeviceResponse, error)
+	Heartbeat(ctx context.Context, opts ...grpc.CallOption) (HeartbeatClientStream, error)
 }
 
 type client struct {
@@ -213,4 +214,41 @@ func (c *client) RemoveServiceAccountFromDevice(ctx context.Context, in *RemoveS
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *client) Heartbeat(ctx context.Context, opts ...grpc.CallOption) (HeartbeatClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "Heartbeat",
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		"/ntt.devices.v1.DeviceService/Heartbeat", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &heartbeatHeartbeatClient{stream}
+	return x, nil
+}
+
+type HeartbeatClientStream interface {
+	Send(*HeartbeatMsg) error
+	Recv() (*HeartbeatResponse, error)
+	grpc.ClientStream
+}
+
+type heartbeatHeartbeatClient struct {
+	grpc.ClientStream
+}
+
+func (x *heartbeatHeartbeatClient) Send(m *HeartbeatMsg) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *heartbeatHeartbeatClient) Recv() (*HeartbeatResponse, error) {
+	m := new(HeartbeatResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }

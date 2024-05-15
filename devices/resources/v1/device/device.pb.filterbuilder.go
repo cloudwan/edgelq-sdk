@@ -7524,6 +7524,14 @@ func (b *filterCndBuilderStatus) NormalizedAddress() *filterCndBuilderStatusNorm
 	return &filterCndBuilderStatusNormalizedAddress{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatus) ConnectionStatus() *filterCndBuilderStatusConnectionStatus {
+	return &filterCndBuilderStatusConnectionStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) ConnectionStatusChangeTime() *filterCndBuilderStatusConnectionStatusChangeTime {
+	return &filterCndBuilderStatusConnectionStatusChangeTime{builder: b.builder}
+}
+
 type filterCndBuilderStatusAddresses struct {
 	builder *FilterBuilder
 }
@@ -29773,6 +29781,124 @@ func (b *filterCndBuilderStatusNormalizedAddressAccuracy) compare(op gotenfilter
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().NormalizedAddress().Accuracy().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusConnectionStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Eq(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Neq(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Gt(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Gte(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Lt(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) Lte(value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) In(values []Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ConnectionStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) NotIn(values []Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ConnectionStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ConnectionStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ConnectionStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatus) compare(op gotenfilter.CompareOperator, value Device_Status_ConnectionStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ConnectionStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusConnectionStatusChangeTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ConnectionStatusChangeTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().ConnectionStatusChangeTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ConnectionStatusChangeTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().ConnectionStatusChangeTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusConnectionStatusChangeTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().ConnectionStatusChangeTime().WithValue(value),
 	})
 }
 

@@ -43,6 +43,7 @@ var (
 	deleteDeviceDescriptor                    *DeleteDeviceDescriptor
 	provisionServiceAccountToDeviceDescriptor *ProvisionServiceAccountToDeviceDescriptor
 	removeServiceAccountFromDeviceDescriptor  *RemoveServiceAccountFromDeviceDescriptor
+	heartbeatDescriptor                       *HeartbeatDescriptor
 )
 
 type GetDeviceDescriptor struct{}
@@ -2287,6 +2288,221 @@ func GetRemoveServiceAccountFromDeviceDescriptor() *RemoveServiceAccountFromDevi
 	return removeServiceAccountFromDeviceDescriptor
 }
 
+type HeartbeatDescriptor struct{}
+
+type HeartbeatDescriptorClientMsgHandle struct{}
+
+type HeartbeatDescriptorServerMsgHandle struct{}
+
+func (d *HeartbeatDescriptor) NewEmptyClientMsg() proto.Message {
+	return &HeartbeatMsg{}
+}
+
+func (d *HeartbeatDescriptor) NewEmptyServerMsg() proto.Message {
+	return &HeartbeatResponse{}
+}
+
+func (d *HeartbeatDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *HeartbeatDescriptor) IsClientStream() bool {
+	return true
+}
+
+func (d *HeartbeatDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *HeartbeatDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *HeartbeatDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *HeartbeatDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *HeartbeatDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *HeartbeatDescriptor) GetVerb() string {
+	return "heartbeat"
+}
+
+func (d *HeartbeatDescriptor) GetMethodName() string {
+	return "Heartbeat"
+}
+
+func (d *HeartbeatDescriptor) GetFullMethodName() string {
+	return "/ntt.devices.v1.DeviceService/Heartbeat"
+}
+
+func (d *HeartbeatDescriptor) GetProtoPkgName() string {
+	return "ntt.devices.v1"
+}
+
+func (d *HeartbeatDescriptor) GetApiName() string {
+	return "DeviceService"
+}
+
+func (d *HeartbeatDescriptor) GetServiceDomain() string {
+	return "devices.edgelq.com"
+}
+
+func (d *HeartbeatDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *HeartbeatDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return deviceServiceDescriptor
+}
+
+func (d *HeartbeatDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return device.GetDescriptor()
+}
+
+func (d *HeartbeatDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &HeartbeatDescriptorClientMsgHandle{}
+}
+
+func (d *HeartbeatDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &HeartbeatDescriptorServerMsgHandle{}
+}
+
+func (h *HeartbeatDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*HeartbeatMsg)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*HeartbeatMsg) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*device.Name)(nil)
+}
+
+func (h *HeartbeatDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*HeartbeatMsg)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*HeartbeatMsg) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*HeartbeatMsg)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*HeartbeatMsg) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*HeartbeatMsg)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*HeartbeatMsg) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*HeartbeatMsg)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*HeartbeatMsg) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*HeartbeatResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*HeartbeatResponse) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*HeartbeatResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*HeartbeatResponse) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*HeartbeatResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*HeartbeatResponse) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*HeartbeatResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*HeartbeatResponse) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *HeartbeatDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*HeartbeatResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*HeartbeatResponse) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetHeartbeatDescriptor() *HeartbeatDescriptor {
+	return heartbeatDescriptor
+}
+
 type DeviceServiceDescriptor struct{}
 
 func (d *DeviceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2301,6 +2517,7 @@ func (d *DeviceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDes
 		deleteDeviceDescriptor,
 		provisionServiceAccountToDeviceDescriptor,
 		removeServiceAccountFromDeviceDescriptor,
+		heartbeatDescriptor,
 	}
 }
 
@@ -2340,6 +2557,7 @@ func initDescriptors() {
 	deleteDeviceDescriptor = &DeleteDeviceDescriptor{}
 	provisionServiceAccountToDeviceDescriptor = &ProvisionServiceAccountToDeviceDescriptor{}
 	removeServiceAccountFromDeviceDescriptor = &RemoveServiceAccountFromDeviceDescriptor{}
+	heartbeatDescriptor = &HeartbeatDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(deviceServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetDevicesDescriptor)
@@ -2351,6 +2569,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(provisionServiceAccountToDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(removeServiceAccountFromDeviceDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(heartbeatDescriptor)
 }
 
 func init() {
