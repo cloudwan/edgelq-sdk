@@ -52,8 +52,8 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cloudwan/goten-protobuf v1.26.0 h1:CnuPyRkIuufgyjKJi9+VcaZxPQ5j5wN0L+B/VhXdM6M=
 github.com/cloudwan/goten-protobuf v1.26.0/go.mod h1:5tAABm0IYSHOJX1vUbyhlAoQ2o5gEI++NTkJzVdwf44=
-github.com/cloudwan/goten-sdk v1.2.3 h1:gkayDx6cT9WVD78oZyovzaFghGborf3ORg0MeOnJn88=
-github.com/cloudwan/goten-sdk v1.2.3/go.mod h1:npYf5XU7TjPl4/AXJAuMAKI0DuR6vMSZbhA2ZiXWEEE=
+github.com/cloudwan/goten-sdk v1.3.0 h1:V7p4++F/x/jZD/bx41mY5qw+ix4JdcfyVFpuTM9Yv2w=
+github.com/cloudwan/goten-sdk v1.3.0/go.mod h1:npYf5XU7TjPl4/AXJAuMAKI0DuR6vMSZbhA2ZiXWEEE=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=

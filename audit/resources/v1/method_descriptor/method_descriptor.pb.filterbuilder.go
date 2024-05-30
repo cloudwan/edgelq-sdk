@@ -163,6 +163,38 @@ func (b *filterCndBuilderAnyPath) IsNan() *FilterBuilder {
 	})
 }
 
+func (b *filterCndBuilderAnyPath) Contains(value interface{}) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: b.fp,
+		Value:     b.fp.WithIArrayItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAnyPath) ContainsAnyOf(values []interface{}) *FilterBuilder {
+	itemValues := make([]MethodDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, b.fp.WithIArrayItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: b.fp,
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAnyPath) ContainsAll(values []interface{}) *FilterBuilder {
+	itemValues := make([]MethodDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, b.fp.WithIArrayItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: b.fp,
+		Values:    itemValues,
+	})
+}
+
 func (b *filterCndBuilderAnyPath) compare(op gotenfilter.CompareOperator, value interface{}) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
