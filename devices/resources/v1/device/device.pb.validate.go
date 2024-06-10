@@ -1362,127 +1362,6 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) Got
 	}
 	return nil
 }
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal5G) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalCdma1X) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalEvdo) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalGsm) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalLte) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalRefresh) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalThreshold) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalUmts) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.FiveG).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "fiveG", obj.FiveG, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Cdma1X).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "cdma1X", obj.Cdma1X, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Evdo).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "evdo", obj.Evdo, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Gsm).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "gsm", obj.Gsm, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.LteSignal).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "lteSignal", obj.LteSignal, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Refresh).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "refresh", obj.Refresh, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Threshold).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "threshold", obj.Threshold, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Umts).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Signal", "umts", obj.Umts, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -1509,11 +1388,6 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) Goten
 	if subobj, ok := interface{}(obj.Generic).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Modem", "generic", obj.Generic, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Signal).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Modem", "signal", obj.Signal, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

@@ -948,6 +948,7 @@ message Device {
       string type = 4;
 
       // When the status has been updated last time.
+      // Deprecated
       google.protobuf.Timestamp last_heart_beat_time = 5;
 
       // When the status has tuned into the current value.
@@ -1439,90 +1440,6 @@ message Device {
             repeated string unlock_retries = 32;
           }
 
-          message Signal5g {
-            string error_rate = 1;
-
-            string rsrp = 2;
-
-            string rsrq = 3;
-
-            string snr = 4;
-          }
-
-          message SignalCdma1x {
-            string ecio = 1;
-
-            string error_rate = 2;
-
-            string rssi = 3;
-          }
-
-          message SignalEvdo {
-            string ecio = 1;
-
-            string error_rate = 2;
-
-            string io = 3;
-
-            string rssi = 4;
-
-            string sinr = 5;
-          }
-
-          message SignalGsm {
-            string error_rate = 1;
-
-            string rssi = 2;
-          }
-
-          message SignalLte {
-            string error_rate = 1;
-
-            string rsrp = 2;
-
-            string rsrq = 3;
-
-            string rssi = 4;
-
-            string snr = 5;
-          }
-
-          message SignalRefresh { string rate = 1; }
-
-          message SignalThreshold {
-            string error_rate = 1;
-
-            string rssi = 2;
-          }
-
-          message SignalUmts {
-            string ecio = 1;
-
-            string error_rate = 2;
-
-            string rscp = 3;
-
-            string rssi = 4;
-          }
-
-          message Signal {
-            Signal5g five_g = 1;
-
-            SignalCdma1x cdma1x = 2;
-
-            SignalEvdo evdo = 3;
-
-            SignalGsm gsm = 4;
-
-            SignalLte lte_signal = 5;
-
-            SignalRefresh refresh = 6;
-
-            SignalThreshold threshold = 7;
-
-            SignalUmts umts = 8;
-          }
-
           message SimStatus {
             string dbus_path = 1;
 
@@ -1560,11 +1477,9 @@ message Device {
 
             Generic generic = 4;
 
-            Signal signal = 5;
-
             map<string, SimStatus> sim_status = 7;
 
-            reserved 6;
+            reserved 5, 6;
           }
         }
       }

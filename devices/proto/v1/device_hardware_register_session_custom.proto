@@ -17,9 +17,6 @@ message RegisterHardwareRequest {
   // token from hardware_register_session
   string token = 1;
 
-  // one of encrypted_serial_number or serial_number is required
-  string encrypted_serial_number = 2;
-
   string serial_number = 3;
 
   string manufacturer = 4;
@@ -32,6 +29,11 @@ message RegisterHardwareRequest {
   string sim_iccid = 7;
 
   string imei = 8;
+
+  // MD5 HMAC of '{"ICCID":"<>","MODEL":"<>","SN":"<>"}'
+  string md5_hmac_digest = 9;
+
+  reserved 2;
 }
 
 // Response message for method
@@ -43,9 +45,6 @@ message HardwareStatusRequest {
   // token for hardware_register_session
   string token = 1;
 
-  // one of encrypted_serial_number or serial_number or sim_iccid is mandatory
-  string encrypted_serial_number = 2;
-
   string serial_number = 3;
 
   // manufacturer is typically not required, only required in case of serial
@@ -56,6 +55,8 @@ message HardwareStatusRequest {
   // number conflict with different productname/skus Should be in the format
   // "productname (sku)"
   string product_name = 5;
+
+  reserved 2;
 }
 
 // Response message for method [HardwareStatus][ntt.devices.v1.HardwareStatus]
