@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *tpm_attestation_cert.Filter) (*tpm_attestati
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return tpm_attestation_cert.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

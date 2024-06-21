@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *distribution.Filter) (*distribution.Filter, 
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return distribution.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

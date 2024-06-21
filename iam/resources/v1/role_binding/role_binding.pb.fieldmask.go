@@ -67,9 +67,12 @@ func FullRoleBinding_FieldMask() *RoleBinding_FieldMask {
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorScopeParams})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorExecutableConditions})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMemberType})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorCategory})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorAncestryPath})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorParentByOrg})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorSpecGeneration})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorHasOwnedObjects})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes})
 	return res
 }
 
@@ -113,7 +116,7 @@ func (fieldMask *RoleBinding_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 14)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*RoleBinding_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -143,7 +146,7 @@ func (fieldMask *RoleBinding_FieldMask) Reset() {
 
 func (fieldMask *RoleBinding_FieldMask) Subtract(other *RoleBinding_FieldMask) *RoleBinding_FieldMask {
 	result := &RoleBinding_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 14)
 	otherSubMasks := map[RoleBinding_FieldPathSelector]gotenobject.FieldMask{
 		RoleBinding_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 		RoleBinding_FieldPathSelectorScopeParams:          &role.ScopeParam_FieldMask{},
@@ -212,8 +215,10 @@ func (fieldMask *RoleBinding_FieldMask) FilterInputFields() *RoleBinding_FieldMa
 		switch path.Selector() {
 		case RoleBinding_FieldPathSelectorOwnedObjects:
 		case RoleBinding_FieldPathSelectorMemberType:
+		case RoleBinding_FieldPathSelectorCategory:
 		case RoleBinding_FieldPathSelectorSpecGeneration:
 		case RoleBinding_FieldPathSelectorHasOwnedObjects:
+		case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		case RoleBinding_FieldPathSelectorMetadata:
 			if _, ok := path.(*RoleBinding_FieldTerminalPath); ok {
 				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
@@ -384,13 +389,19 @@ func (fieldMask *RoleBinding_FieldMask) Project(source *RoleBinding) *RoleBindin
 				wholeExecutableConditionsAccepted = true
 			case RoleBinding_FieldPathSelectorMemberType:
 				result.MemberType = source.MemberType
+			case RoleBinding_FieldPathSelectorCategory:
+				result.Category = source.Category
 			case RoleBinding_FieldPathSelectorAncestryPath:
 				result.AncestryPath = source.AncestryPath
 				wholeAncestryPathAccepted = true
+			case RoleBinding_FieldPathSelectorParentByOrg:
+				result.ParentByOrg = source.ParentByOrg
 			case RoleBinding_FieldPathSelectorSpecGeneration:
 				result.SpecGeneration = source.SpecGeneration
 			case RoleBinding_FieldPathSelectorHasOwnedObjects:
 				result.HasOwnedObjects = source.HasOwnedObjects
+			case RoleBinding_FieldPathSelectorDisableForChildScopes:
+				result.DisableForChildScopes = source.DisableForChildScopes
 			}
 		case *RoleBinding_FieldSubPath:
 			switch tp.selector {

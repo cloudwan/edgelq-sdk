@@ -324,6 +324,8 @@ service RoleService {
   rpc GetRole(GetRoleRequest) returns (Role) {
     option (google.api.http) = {
       get : "/v1/{name=services/*/roles/*}"
+      additional_bindings : <get : "/v1/{name=projects/*/roles/*}">
+      additional_bindings : <get : "/v1/{name=organizations/*/roles/*}">
     };
   }
 
@@ -338,6 +340,8 @@ service RoleService {
   rpc ListRoles(ListRolesRequest) returns (ListRolesResponse) {
     option (google.api.http) = {
       get : "/v1/{parent=services/*}/roles"
+      additional_bindings : <get : "/v1/{parent=projects/*}/roles">
+      additional_bindings : <get : "/v1/{parent=organizations/*}/roles">
     };
   }
 
@@ -345,6 +349,8 @@ service RoleService {
   rpc WatchRole(WatchRoleRequest) returns (stream WatchRoleResponse) {
     option (google.api.http) = {
       post : "/v1/{name=services/*/roles/*}:watch"
+      additional_bindings : <post : "/v1/{name=projects/*/roles/*}:watch">
+      additional_bindings : <post : "/v1/{name=organizations/*/roles/*}:watch">
     };
   }
 
@@ -352,6 +358,8 @@ service RoleService {
   rpc WatchRoles(WatchRolesRequest) returns (stream WatchRolesResponse) {
     option (google.api.http) = {
       post : "/v1/{parent=services/*}/roles:watch"
+      additional_bindings : <post : "/v1/{parent=projects/*}/roles:watch">
+      additional_bindings : <post : "/v1/{parent=organizations/*}/roles:watch">
     };
   }
 
@@ -360,6 +368,8 @@ service RoleService {
     option (google.api.http) = {
       post : "/v1/{parent=services/*}/roles"
       body : "role"
+      additional_bindings : <post : "/v1/{parent=projects/*}/roles">
+      additional_bindings : <post : "/v1/{parent=organizations/*}/roles">
     };
   }
 
@@ -368,6 +378,8 @@ service RoleService {
     option (google.api.http) = {
       put : "/v1/{role.name=services/*/roles/*}"
       body : "role"
+      additional_bindings : <put : "/v1/{role.name=projects/*/roles/*}">
+      additional_bindings : <put : "/v1/{role.name=organizations/*/roles/*}">
     };
   }
 
@@ -375,6 +387,8 @@ service RoleService {
   rpc DeleteRole(DeleteRoleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v1/{name=services/*/roles/*}"
+      additional_bindings : <delete : "/v1/{name=projects/*/roles/*}">
+      additional_bindings : <delete : "/v1/{name=organizations/*/roles/*}">
     };
   }
 }
