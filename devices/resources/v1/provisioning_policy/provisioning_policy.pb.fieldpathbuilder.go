@@ -72,6 +72,9 @@ func (ProvisioningPolicyFieldPathBuilder) Metadata() ProvisioningPolicyPathSelec
 func (ProvisioningPolicyFieldPathBuilder) DisplayName() ProvisioningPolicyPathSelectorDisplayName {
 	return ProvisioningPolicyPathSelectorDisplayName{}
 }
+func (ProvisioningPolicyFieldPathBuilder) Description() ProvisioningPolicyPathSelectorDescription {
+	return ProvisioningPolicyPathSelectorDescription{}
+}
 func (ProvisioningPolicyFieldPathBuilder) Spec() ProvisioningPolicyPathSelectorSpec {
 	return ProvisioningPolicyPathSelectorSpec{}
 }
@@ -765,6 +768,20 @@ func (s ProvisioningPolicyPathSelectorDisplayName) WithValue(value string) *Prov
 }
 
 func (s ProvisioningPolicyPathSelectorDisplayName) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorDescription struct{}
+
+func (ProvisioningPolicyPathSelectorDescription) FieldPath() *ProvisioningPolicy_FieldTerminalPath {
+	return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription}
+}
+
+func (s ProvisioningPolicyPathSelectorDescription) WithValue(value string) *ProvisioningPolicy_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldTerminalPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorDescription) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
 }
 
