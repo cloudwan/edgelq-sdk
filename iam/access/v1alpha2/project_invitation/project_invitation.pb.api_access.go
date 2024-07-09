@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *project_invitation.Filter) (*project_invitat
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return project_invitation.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

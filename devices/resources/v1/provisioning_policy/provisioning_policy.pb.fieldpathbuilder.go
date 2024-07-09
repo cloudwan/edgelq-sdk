@@ -72,9 +72,6 @@ func (ProvisioningPolicyFieldPathBuilder) Metadata() ProvisioningPolicyPathSelec
 func (ProvisioningPolicyFieldPathBuilder) DisplayName() ProvisioningPolicyPathSelectorDisplayName {
 	return ProvisioningPolicyPathSelectorDisplayName{}
 }
-func (ProvisioningPolicyFieldPathBuilder) Description() ProvisioningPolicyPathSelectorDescription {
-	return ProvisioningPolicyPathSelectorDescription{}
-}
 func (ProvisioningPolicyFieldPathBuilder) Spec() ProvisioningPolicyPathSelectorSpec {
 	return ProvisioningPolicyPathSelectorSpec{}
 }
@@ -768,20 +765,6 @@ func (s ProvisioningPolicyPathSelectorDisplayName) WithValue(value string) *Prov
 }
 
 func (s ProvisioningPolicyPathSelectorDisplayName) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorDescription struct{}
-
-func (ProvisioningPolicyPathSelectorDescription) FieldPath() *ProvisioningPolicy_FieldTerminalPath {
-	return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription}
-}
-
-func (s ProvisioningPolicyPathSelectorDescription) WithValue(value string) *ProvisioningPolicy_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldTerminalPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorDescription) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
 }
 
@@ -1656,8 +1639,8 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) OsVersion() ProvisioningPo
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecOsVersion{}
 }
 
-func (ProvisioningPolicyPathSelectorSpecTemplateSpec) NetplanConfig() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig{}
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) NetplanYamlConfig() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig{}
 }
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpec) NetplanApiConfigMode() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanApiConfigMode {
@@ -1764,391 +1747,20 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecOsVersion) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig struct{}
+type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig struct{}
 
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig) FieldPath() *ProvisioningPolicy_FieldSubPath {
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig) FieldPath() *ProvisioningPolicy_FieldSubPath {
 	return &ProvisioningPolicy_FieldSubPath{
 		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().FieldPath(),
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanYamlConfig().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig) WithValue(value *device.Device_Spec_NetplanConfig) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig) WithArrayOfValues(values []*device.Device_Spec_NetplanConfig) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfig) Network() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork{}
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) WithValue(value *device.Device_Spec_NetworkingConfig) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Version() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Renderer() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Ethernets() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Wifis() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Bridges() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Bonds() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Tunnels() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Vlans() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetwork) Modems() ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems{}
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Version().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion) WithValue(value int32) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVersion) WithArrayOfValues(values []int32) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Renderer().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkRenderer) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Ethernets().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) WithValue(value *device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Wifis().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Wifis().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) WithValue(value *device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Bridges().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Bridges().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) WithValue(value *device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Bonds().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Bonds().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) WithValue(value *device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Tunnels().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) WithValue(value *device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Vlans().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Vlans().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) WithValue(value *device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Modems().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) WithKey(key string) ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems{key: key}
-}
-
-type ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems struct {
-	key string
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().NetplanConfig().Network().Modems().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) WithValue(value *device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyMapPathSelectorSpecTemplateSpecNetplanConfigNetworkModems) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecNetplanYamlConfig) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2681,10 +2293,6 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfig) Attestati
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigAttestationDomain{}
 }
 
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfig) InsecureUseTpmSimulatorSeed() ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed {
-	return ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed{}
-}
-
 type ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigAttestationExpected struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigAttestationExpected) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -2716,23 +2324,6 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigAttestati
 }
 
 func (s ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigAttestationDomain) WithArrayOfValues(values []*iam_attestation_domain.Reference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed struct{}
-
-func (ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().AttestationConfig().InsecureUseTpmSimulatorSeed().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithValue(value int32) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -3399,10 +2990,6 @@ func (ProvisioningPolicyPathSelectorSpecScopeParams) Strings() ProvisioningPolic
 	return ProvisioningPolicyPathSelectorSpecScopeParamsStrings{}
 }
 
-func (ProvisioningPolicyPathSelectorSpecScopeParams) ValueFrom() ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom{}
-}
-
 type ProvisioningPolicyPathSelectorSpecScopeParamsName struct{}
 
 func (ProvisioningPolicyPathSelectorSpecScopeParamsName) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -3498,65 +3085,6 @@ func (s ProvisioningPolicyPathSelectorSpecScopeParamsStringsValues) WithArrayOfV
 
 func (s ProvisioningPolicyPathSelectorSpecScopeParamsStringsValues) WithItemValue(value string) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) WithValue(value *iam_role.ScopeParam_FromValue) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) WithArrayOfValues(values []*iam_role.ScopeParam_FromValue) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) Source() ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) Path() ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath{}
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) WithValue(value iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) WithArrayOfValues(values []iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicyPathSelectorSpecCondition struct{}
@@ -4458,8 +3986,8 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) OsVersion() ProvisioningP
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecOsVersion{}
 }
 
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) NetplanConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig{}
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) NetplanYamlConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig{}
 }
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) NetplanApiConfigMode() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanApiConfigMode {
@@ -4566,391 +4094,20 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecOsVersion) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig struct{}
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig struct{}
 
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
 	return &ProvisioningPolicySpec_FieldSubPath{
 		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().FieldPath(),
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanYamlConfig().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig) WithValue(value *device.Device_Spec_NetplanConfig) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig) WithArrayOfValues(values []*device.Device_Spec_NetplanConfig) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfig) Network() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork{}
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) WithValue(value *device.Device_Spec_NetworkingConfig) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Version() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Renderer() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Ethernets() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Wifis() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Bridges() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Bonds() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Tunnels() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Vlans() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetwork) Modems() ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems{}
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Version().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion) WithValue(value int32) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVersion) WithArrayOfValues(values []int32) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Renderer().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkRenderer) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Ethernets().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkEthernets) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets) WithValue(value *device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Wifis().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkWifis) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Wifis().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis) WithValue(value *device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Bridges().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBridges) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Bridges().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges) WithValue(value *device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Bonds().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkBonds) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Bonds().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds) WithValue(value *device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Tunnels().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkTunnels) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels) WithValue(value *device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Vlans().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkVlans) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Vlans().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans) WithValue(value *device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Modems().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanConfigNetworkModems) WithKey(key string) ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems{key: key}
-}
-
-type ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems struct {
-	key string
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().NetplanConfig().Network().Modems().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems) WithValue(value *device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecMapPathSelectorTemplateSpecNetplanConfigNetworkModems) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecNetplanYamlConfig) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -5483,10 +4640,6 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfig) Attestat
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigAttestationDomain{}
 }
 
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfig) InsecureUseTpmSimulatorSeed() ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed {
-	return ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed{}
-}
-
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigAttestationExpected struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigAttestationExpected) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -5518,23 +4671,6 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigAttestat
 }
 
 func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigAttestationDomain) WithArrayOfValues(values []*iam_attestation_domain.Reference) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
-		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().AttestationConfig().InsecureUseTpmSimulatorSeed().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithValue(value int32) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -6207,10 +5343,6 @@ func (ProvisioningPolicy_SpecPathSelectorScopeParams) Strings() ProvisioningPoli
 	return ProvisioningPolicy_SpecPathSelectorScopeParamsStrings{}
 }
 
-func (ProvisioningPolicy_SpecPathSelectorScopeParams) ValueFrom() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom{}
-}
-
 type ProvisioningPolicy_SpecPathSelectorScopeParamsName struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorScopeParamsName) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -6306,65 +5438,6 @@ func (s ProvisioningPolicy_SpecPathSelectorScopeParamsStringsValues) WithArrayOf
 
 func (s ProvisioningPolicy_SpecPathSelectorScopeParamsStringsValues) WithItemValue(value string) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) WithValue(value *iam_role.ScopeParam_FromValue) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) WithArrayOfValues(values []*iam_role.ScopeParam_FromValue) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) Source() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) Path() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath{}
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) WithValue(value iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) WithArrayOfValues(values []iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicy_SpecPathSelectorCondition struct{}
@@ -7123,8 +6196,8 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) OsVersion() Provisioning
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecOsVersion{}
 }
 
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) NetplanConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig{}
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) NetplanYamlConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig{}
 }
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) NetplanApiConfigMode() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanApiConfigMode {
@@ -7231,391 +6304,20 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecOsVersion) WithArrayOfVa
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig struct{}
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig struct{}
 
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
 	return &ProvisioningPolicySpecTemplate_FieldSubPath{
 		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().FieldPath(),
+		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanYamlConfig().FieldPath(),
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig) WithValue(value *device.Device_Spec_NetplanConfig) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig) WithArrayOfValues(values []*device.Device_Spec_NetplanConfig) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfig) Network() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork{}
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) WithValue(value *device.Device_Spec_NetworkingConfig) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Version() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Renderer() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Ethernets() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Wifis() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Bridges() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Bonds() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Tunnels() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Vlans() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans{}
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetwork) Modems() ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems{}
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Version().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion) WithValue(value int32) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVersion) WithArrayOfValues(values []int32) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Renderer().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkRenderer) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Ethernets().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkEthernets) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Ethernets().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets) WithValue(value *device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkEthernets) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_EthOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Wifis().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkWifis) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Wifis().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis) WithValue(value *device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkWifis) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_WifiOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Bridges().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBridges) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Bridges().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges) WithValue(value *device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBridges) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BridgesOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Bonds().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkBonds) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Bonds().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds) WithValue(value *device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkBonds) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_BondsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Tunnels().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkTunnels) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Tunnels().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels) WithValue(value *device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkTunnels) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_TunnelsOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Vlans().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkVlans) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Vlans().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans) WithValue(value *device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkVlans) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_VlansOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Modems().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems) WithValue(value map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems) WithArrayOfValues(values []map[string]*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanConfigNetworkModems) WithKey(key string) ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems {
-	return ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems{key: key}
-}
-
-type ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems struct {
-	key string
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().NetplanConfig().Network().Modems().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems) WithValue(value *device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplateMapPathSelectorSpecNetplanConfigNetworkModems) WithArrayOfValues(values []*device.Device_Spec_NetworkingConfig_ModemOpts) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecNetplanYamlConfig) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -8148,10 +6850,6 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfig) Attesta
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigAttestationDomain{}
 }
 
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfig) InsecureUseTpmSimulatorSeed() ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed {
-	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed{}
-}
-
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigAttestationExpected struct{}
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigAttestationExpected) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
@@ -8183,23 +6881,6 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigAttesta
 }
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigAttestationDomain) WithArrayOfValues(values []*iam_attestation_domain.Reference) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed struct{}
-
-func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
-	return &ProvisioningPolicySpecTemplate_FieldSubPath{
-		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
-		subPath:  device.NewDeviceSpecFieldPathBuilder().AttestationConfig().InsecureUseTpmSimulatorSeed().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithValue(value int32) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

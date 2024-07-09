@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *device.Filter) (*device.Filter, *device.Pare
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return device.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

@@ -46,12 +46,6 @@ func (RoleFieldPathBuilder) Metadata() RolePathSelectorMetadata {
 func (RoleFieldPathBuilder) DisplayName() RolePathSelectorDisplayName {
 	return RolePathSelectorDisplayName{}
 }
-func (RoleFieldPathBuilder) Description() RolePathSelectorDescription {
-	return RolePathSelectorDescription{}
-}
-func (RoleFieldPathBuilder) Category() RolePathSelectorCategory {
-	return RolePathSelectorCategory{}
-}
 func (RoleFieldPathBuilder) ScopeParams() RolePathSelectorScopeParams {
 	return RolePathSelectorScopeParams{}
 }
@@ -754,34 +748,6 @@ func (s RolePathSelectorDisplayName) WithValue(value string) *Role_FieldTerminal
 }
 
 func (s RolePathSelectorDisplayName) WithArrayOfValues(values []string) *Role_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldTerminalPathArrayOfValues)
-}
-
-type RolePathSelectorDescription struct{}
-
-func (RolePathSelectorDescription) FieldPath() *Role_FieldTerminalPath {
-	return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDescription}
-}
-
-func (s RolePathSelectorDescription) WithValue(value string) *Role_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Role_FieldTerminalPathValue)
-}
-
-func (s RolePathSelectorDescription) WithArrayOfValues(values []string) *Role_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldTerminalPathArrayOfValues)
-}
-
-type RolePathSelectorCategory struct{}
-
-func (RolePathSelectorCategory) FieldPath() *Role_FieldTerminalPath {
-	return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory}
-}
-
-func (s RolePathSelectorCategory) WithValue(value Role_Category) *Role_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Role_FieldTerminalPathValue)
-}
-
-func (s RolePathSelectorCategory) WithArrayOfValues(values []Role_Category) *Role_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldTerminalPathArrayOfValues)
 }
 
@@ -1562,9 +1528,6 @@ func (ScopeParamFieldPathBuilder) String_() ScopeParamPathSelectorString {
 func (ScopeParamFieldPathBuilder) Strings() ScopeParamPathSelectorStrings {
 	return ScopeParamPathSelectorStrings{}
 }
-func (ScopeParamFieldPathBuilder) ValueFrom() ScopeParamPathSelectorValueFrom {
-	return ScopeParamPathSelectorValueFrom{}
-}
 
 type ScopeParamPathSelectorName struct{}
 
@@ -1686,78 +1649,6 @@ func (s ScopeParamPathSelectorStringsValues) WithItemValue(value string) *ScopeP
 	return s.FieldPath().WithIArrayItemValue(value).(*ScopeParam_FieldSubPathArrayItemValue)
 }
 
-type ScopeParamPathSelectorValueFrom struct{}
-
-func (ScopeParamPathSelectorValueFrom) FieldPath() *ScopeParam_FieldTerminalPath {
-	return &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom}
-}
-
-func (s ScopeParamPathSelectorValueFrom) WithValue(value *ScopeParam_FromValue) *ScopeParam_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ScopeParam_FieldTerminalPathValue)
-}
-
-func (s ScopeParamPathSelectorValueFrom) WithArrayOfValues(values []*ScopeParam_FromValue) *ScopeParam_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ScopeParam_FieldTerminalPathArrayOfValues)
-}
-
-func (ScopeParamPathSelectorValueFrom) WithSubPath(subPath ScopeParamFromValue_FieldPath) *ScopeParam_FieldSubPath {
-	return &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorValueFrom, subPath: subPath}
-}
-
-func (s ScopeParamPathSelectorValueFrom) WithSubValue(subPathValue ScopeParamFromValue_FieldPathValue) *ScopeParam_FieldSubPathValue {
-	return &ScopeParam_FieldSubPathValue{ScopeParam_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s ScopeParamPathSelectorValueFrom) WithSubArrayOfValues(subPathArrayOfValues ScopeParamFromValue_FieldPathArrayOfValues) *ScopeParam_FieldSubPathArrayOfValues {
-	return &ScopeParam_FieldSubPathArrayOfValues{ScopeParam_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s ScopeParamPathSelectorValueFrom) WithSubArrayItemValue(subPathArrayItemValue ScopeParamFromValue_FieldPathArrayItemValue) *ScopeParam_FieldSubPathArrayItemValue {
-	return &ScopeParam_FieldSubPathArrayItemValue{ScopeParam_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (ScopeParamPathSelectorValueFrom) Source() ScopeParamPathSelectorValueFromSource {
-	return ScopeParamPathSelectorValueFromSource{}
-}
-
-func (ScopeParamPathSelectorValueFrom) Path() ScopeParamPathSelectorValueFromPath {
-	return ScopeParamPathSelectorValueFromPath{}
-}
-
-type ScopeParamPathSelectorValueFromSource struct{}
-
-func (ScopeParamPathSelectorValueFromSource) FieldPath() *ScopeParam_FieldSubPath {
-	return &ScopeParam_FieldSubPath{
-		selector: ScopeParam_FieldPathSelectorValueFrom,
-		subPath:  NewScopeParamFromValueFieldPathBuilder().Source().FieldPath(),
-	}
-}
-
-func (s ScopeParamPathSelectorValueFromSource) WithValue(value ScopeParam_FromValue_Source) *ScopeParam_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ScopeParam_FieldSubPathValue)
-}
-
-func (s ScopeParamPathSelectorValueFromSource) WithArrayOfValues(values []ScopeParam_FromValue_Source) *ScopeParam_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ScopeParam_FieldSubPathArrayOfValues)
-}
-
-type ScopeParamPathSelectorValueFromPath struct{}
-
-func (ScopeParamPathSelectorValueFromPath) FieldPath() *ScopeParam_FieldSubPath {
-	return &ScopeParam_FieldSubPath{
-		selector: ScopeParam_FieldPathSelectorValueFrom,
-		subPath:  NewScopeParamFromValueFieldPathBuilder().Path().FieldPath(),
-	}
-}
-
-func (s ScopeParamPathSelectorValueFromPath) WithValue(value string) *ScopeParam_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ScopeParam_FieldSubPathValue)
-}
-
-func (s ScopeParamPathSelectorValueFromPath) WithArrayOfValues(values []string) *ScopeParam_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ScopeParam_FieldSubPathArrayOfValues)
-}
-
 type ScopeParamStringValueFieldPathBuilder struct{}
 
 func NewScopeParamStringValueFieldPathBuilder() ScopeParamStringValueFieldPathBuilder {
@@ -1806,44 +1697,4 @@ func (s ScopeParam_ArrayOfStringsValuePathSelectorValues) WithArrayOfValues(valu
 
 func (s ScopeParam_ArrayOfStringsValuePathSelectorValues) WithItemValue(value string) *ScopeParamArrayOfStringsValue_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ScopeParamArrayOfStringsValue_FieldTerminalPathArrayItemValue)
-}
-
-type ScopeParamFromValueFieldPathBuilder struct{}
-
-func NewScopeParamFromValueFieldPathBuilder() ScopeParamFromValueFieldPathBuilder {
-	return ScopeParamFromValueFieldPathBuilder{}
-}
-func (ScopeParamFromValueFieldPathBuilder) Source() ScopeParam_FromValuePathSelectorSource {
-	return ScopeParam_FromValuePathSelectorSource{}
-}
-func (ScopeParamFromValueFieldPathBuilder) Path() ScopeParam_FromValuePathSelectorPath {
-	return ScopeParam_FromValuePathSelectorPath{}
-}
-
-type ScopeParam_FromValuePathSelectorSource struct{}
-
-func (ScopeParam_FromValuePathSelectorSource) FieldPath() *ScopeParamFromValue_FieldTerminalPath {
-	return &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorSource}
-}
-
-func (s ScopeParam_FromValuePathSelectorSource) WithValue(value ScopeParam_FromValue_Source) *ScopeParamFromValue_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ScopeParamFromValue_FieldTerminalPathValue)
-}
-
-func (s ScopeParam_FromValuePathSelectorSource) WithArrayOfValues(values []ScopeParam_FromValue_Source) *ScopeParamFromValue_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ScopeParamFromValue_FieldTerminalPathArrayOfValues)
-}
-
-type ScopeParam_FromValuePathSelectorPath struct{}
-
-func (ScopeParam_FromValuePathSelectorPath) FieldPath() *ScopeParamFromValue_FieldTerminalPath {
-	return &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorPath}
-}
-
-func (s ScopeParam_FromValuePathSelectorPath) WithValue(value string) *ScopeParamFromValue_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ScopeParamFromValue_FieldTerminalPathValue)
-}
-
-func (s ScopeParam_FromValuePathSelectorPath) WithArrayOfValues(values []string) *ScopeParamFromValue_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ScopeParamFromValue_FieldTerminalPathArrayOfValues)
 }

@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *service_account_key.Filter) (*service_accoun
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return service_account_key.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

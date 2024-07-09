@@ -51,11 +51,11 @@ var (
 	_ = &meta.Meta{}
 )
 
-var condition_RegexpId = regexp.MustCompile("^(?P<condition_id>[a-z][a-z0-9\\-]{0,72}[a-z0-9])$")
-var regexPath = regexp.MustCompile("^conditions/(?P<condition_id>-|[a-z][a-z0-9\\-]{0,72}[a-z0-9])$")
-var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[a-z][a-z0-9\\-]{0,72}[a-z0-9])$")
-var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[a-z][a-z0-9\\-]{0,72}[a-z0-9])$")
-var regexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[a-z][a-z0-9\\-.]{0,28}[a-z0-9])/conditions/(?P<condition_id>-|[a-z][a-z0-9\\-]{0,72}[a-z0-9])$")
+var condition_RegexpId = regexp.MustCompile("^(?P<condition_id>[\\w][\\w.-]{0,127})$")
+var regexPath = regexp.MustCompile("^conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[a-z][a-z0-9\\-.]{0,28}[a-z0-9])/conditions/(?P<condition_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *Condition) MaybePopulateDefaults() error {
 	conditionInterface := interface{}(r)

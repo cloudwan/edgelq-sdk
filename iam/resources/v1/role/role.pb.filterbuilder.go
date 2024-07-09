@@ -226,14 +226,6 @@ func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
 }
 
-func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
-	return &filterCndBuilderDescription{builder: b.builder}
-}
-
-func (b *filterCndBuilder) Category() *filterCndBuilderCategory {
-	return &filterCndBuilderCategory{builder: b.builder}
-}
-
 func (b *filterCndBuilder) ScopeParams() *filterCndBuilderScopeParams {
 	return &filterCndBuilderScopeParams{builder: b.builder}
 }
@@ -2394,124 +2386,6 @@ func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:            op,
 		Role_FieldPathValue: NewRoleFieldPathBuilder().DisplayName().WithValue(value),
-	})
-}
-
-type filterCndBuilderDescription struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().Description().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().Description().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleFieldPathBuilder().Description().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleFieldPathBuilder().Description().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:            op,
-		Role_FieldPathValue: NewRoleFieldPathBuilder().Description().WithValue(value),
-	})
-}
-
-type filterCndBuilderCategory struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderCategory) Eq(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderCategory) Neq(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderCategory) Gt(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderCategory) Gte(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderCategory) Lt(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderCategory) Lte(value Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderCategory) In(values []Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().Category().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCategory) NotIn(values []Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().Category().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCategory) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleFieldPathBuilder().Category().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCategory) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleFieldPathBuilder().Category().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCategory) compare(op gotenfilter.CompareOperator, value Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:            op,
-		Role_FieldPathValue: NewRoleFieldPathBuilder().Category().WithValue(value),
 	})
 }
 

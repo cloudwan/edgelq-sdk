@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *os_image_profile.Filter) (*os_image_profile.
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return os_image_profile.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

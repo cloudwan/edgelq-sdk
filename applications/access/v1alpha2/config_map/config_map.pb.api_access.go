@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *config_map.Filter) (*config_map.Filter, *con
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return config_map.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

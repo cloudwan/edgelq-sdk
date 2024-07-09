@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *recovery_store_sharding_info.Filter) (*recov
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return recovery_store_sharding_info.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

@@ -21,9 +21,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -46,9 +44,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -62,8 +58,6 @@ func FullRole_FieldMask() *Role_FieldMask {
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDisplayName})
-	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDescription})
-	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorScopeParams})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorGrants})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorOwnedObjects})
@@ -112,7 +106,7 @@ func (fieldMask *Role_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Role_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -142,7 +136,7 @@ func (fieldMask *Role_FieldMask) Reset() {
 
 func (fieldMask *Role_FieldMask) Subtract(other *Role_FieldMask) *Role_FieldMask {
 	result := &Role_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[Role_FieldPathSelector]gotenobject.FieldMask{
 		Role_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
 		Role_FieldPathSelectorScopeParams: &Role_ScopeParamType_FieldMask{},
@@ -363,10 +357,6 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 				wholeMetadataAccepted = true
 			case Role_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
-			case Role_FieldPathSelectorDescription:
-				result.Description = source.Description
-			case Role_FieldPathSelectorCategory:
-				result.Category = source.Category
 			case Role_FieldPathSelectorScopeParams:
 				result.ScopeParams = source.ScopeParams
 				wholeScopeParamsAccepted = true
@@ -1271,7 +1261,6 @@ func FullScopeParam_FieldMask() *ScopeParam_FieldMask {
 	res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorString})
 	res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorStrings})
-	res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom})
 	return res
 }
 
@@ -1315,7 +1304,7 @@ func (fieldMask *ScopeParam_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ScopeParam_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1345,16 +1334,14 @@ func (fieldMask *ScopeParam_FieldMask) Reset() {
 
 func (fieldMask *ScopeParam_FieldMask) Subtract(other *ScopeParam_FieldMask) *ScopeParam_FieldMask {
 	result := &ScopeParam_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[ScopeParam_FieldPathSelector]gotenobject.FieldMask{
-		ScopeParam_FieldPathSelectorString:    &ScopeParam_StringValue_FieldMask{},
-		ScopeParam_FieldPathSelectorStrings:   &ScopeParam_ArrayOfStringsValue_FieldMask{},
-		ScopeParam_FieldPathSelectorValueFrom: &ScopeParam_FromValue_FieldMask{},
+		ScopeParam_FieldPathSelectorString:  &ScopeParam_StringValue_FieldMask{},
+		ScopeParam_FieldPathSelectorStrings: &ScopeParam_ArrayOfStringsValue_FieldMask{},
 	}
 	mySubMasks := map[ScopeParam_FieldPathSelector]gotenobject.FieldMask{
-		ScopeParam_FieldPathSelectorString:    &ScopeParam_StringValue_FieldMask{},
-		ScopeParam_FieldPathSelectorStrings:   &ScopeParam_ArrayOfStringsValue_FieldMask{},
-		ScopeParam_FieldPathSelectorValueFrom: &ScopeParam_FromValue_FieldMask{},
+		ScopeParam_FieldPathSelectorString:  &ScopeParam_StringValue_FieldMask{},
+		ScopeParam_FieldPathSelectorStrings: &ScopeParam_ArrayOfStringsValue_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1374,8 +1361,6 @@ func (fieldMask *ScopeParam_FieldMask) Subtract(other *ScopeParam_FieldMask) *Sc
 						mySubMasks[ScopeParam_FieldPathSelectorString] = FullScopeParam_StringValue_FieldMask()
 					case ScopeParam_FieldPathSelectorStrings:
 						mySubMasks[ScopeParam_FieldPathSelectorStrings] = FullScopeParam_ArrayOfStringsValue_FieldMask()
-					case ScopeParam_FieldPathSelectorValueFrom:
-						mySubMasks[ScopeParam_FieldPathSelectorValueFrom] = FullScopeParam_FromValue_FieldMask()
 					}
 				} else if tp, ok := path.(*ScopeParam_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1532,8 +1517,6 @@ func (fieldMask *ScopeParam_FieldMask) Project(source *ScopeParam) *ScopeParam {
 	wholeStringAccepted := false
 	stringsMask := &ScopeParam_ArrayOfStringsValue_FieldMask{}
 	wholeStringsAccepted := false
-	valueFromMask := &ScopeParam_FromValue_FieldMask{}
-	wholeValueFromAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1555,13 +1538,6 @@ func (fieldMask *ScopeParam_FieldMask) Project(source *ScopeParam) *ScopeParam {
 					}
 				}
 				wholeStringsAccepted = true
-			case ScopeParam_FieldPathSelectorValueFrom:
-				if source, ok := source.Value.(*ScopeParam_ValueFrom); ok {
-					result.Value = &ScopeParam_ValueFrom{
-						ValueFrom: source.ValueFrom,
-					}
-				}
-				wholeValueFromAccepted = true
 			}
 		case *ScopeParam_FieldSubPath:
 			switch tp.selector {
@@ -1569,8 +1545,6 @@ func (fieldMask *ScopeParam_FieldMask) Project(source *ScopeParam) *ScopeParam {
 				stringMask.AppendPath(tp.subPath.(ScopeParamStringValue_FieldPath))
 			case ScopeParam_FieldPathSelectorStrings:
 				stringsMask.AppendPath(tp.subPath.(ScopeParamArrayOfStringsValue_FieldPath))
-			case ScopeParam_FieldPathSelectorValueFrom:
-				valueFromMask.AppendPath(tp.subPath.(ScopeParamFromValue_FieldPath))
 			}
 		}
 	}
@@ -1590,16 +1564,6 @@ func (fieldMask *ScopeParam_FieldMask) Project(source *ScopeParam) *ScopeParam {
 			if asOneOf != nil {
 				oneOfRes := &ScopeParam_Strings{}
 				oneOfRes.Strings = stringsMask.Project(asOneOf.Strings)
-				result.Value = oneOfRes
-			}
-		}
-	}
-	if wholeValueFromAccepted == false && len(valueFromMask.Paths) > 0 {
-		if asOneOf, ok := source.Value.(*ScopeParam_ValueFrom); ok {
-			result.Value = (*ScopeParam_ValueFrom)(nil)
-			if asOneOf != nil {
-				oneOfRes := &ScopeParam_ValueFrom{}
-				oneOfRes.ValueFrom = valueFromMask.Project(asOneOf.ValueFrom)
 				result.Value = oneOfRes
 			}
 		}
@@ -2118,262 +2082,6 @@ func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) ProjectRaw(source got
 }
 
 func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type ScopeParam_FromValue_FieldMask struct {
-	Paths []ScopeParamFromValue_FieldPath
-}
-
-func FullScopeParam_FromValue_FieldMask() *ScopeParam_FromValue_FieldMask {
-	res := &ScopeParam_FromValue_FieldMask{}
-	res.Paths = append(res.Paths, &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorSource})
-	res.Paths = append(res.Paths, &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorPath})
-	return res
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *ScopeParam_FromValue_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseScopeParamFromValue_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 2)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*ScopeParamFromValue_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseScopeParamFromValue_FieldPath(raw)
-	})
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) ProtoMessage() {}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Subtract(other *ScopeParam_FromValue_FieldMask) *ScopeParam_FromValue_FieldMask {
-	result := &ScopeParam_FromValue_FieldMask{}
-	removedSelectors := make([]bool, 2)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *ScopeParamFromValue_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*ScopeParam_FromValue_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *ScopeParam_FromValue_FieldMask) FilterInputFields() *ScopeParam_FromValue_FieldMask {
-	result := &ScopeParam_FromValue_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *ScopeParam_FromValue_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]ScopeParamFromValue_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseScopeParamFromValue_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask ScopeParam_FromValue_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask ScopeParam_FromValue_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) AppendPath(path ScopeParamFromValue_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(ScopeParamFromValue_FieldPath))
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) GetPaths() []ScopeParamFromValue_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseScopeParamFromValue_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Set(target, source *ScopeParam_FromValue) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*ScopeParam_FromValue), source.(*ScopeParam_FromValue))
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) Project(source *ScopeParam_FromValue) *ScopeParam_FromValue {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &ScopeParam_FromValue{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *ScopeParamFromValue_FieldTerminalPath:
-			switch tp.selector {
-			case ScopeParamFromValue_FieldPathSelectorSource:
-				result.Source = source.Source
-			case ScopeParamFromValue_FieldPathSelectorPath:
-				result.Path = source.Path
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*ScopeParam_FromValue))
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

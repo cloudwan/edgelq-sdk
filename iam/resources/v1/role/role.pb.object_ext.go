@@ -17,9 +17,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -38,9 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -79,12 +75,6 @@ func (o *Role) MakeDiffFieldMask(other *Role) *Role_FieldMask {
 	}
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDisplayName})
-	}
-	if o.GetDescription() != other.GetDescription() {
-		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDescription})
-	}
-	if o.GetCategory() != other.GetCategory() {
-		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory})
 	}
 
 	if len(o.GetScopeParams()) == len(other.GetScopeParams()) {
@@ -161,8 +151,6 @@ func (o *Role) Clone() *Role {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
-	result.Description = o.Description
-	result.Category = o.Category
 	result.ScopeParams = make([]*Role_ScopeParamType, len(o.ScopeParams))
 	for i, sourceValue := range o.ScopeParams {
 		result.ScopeParams[i] = sourceValue.Clone()
@@ -216,8 +204,6 @@ func (o *Role) Merge(source *Role) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
-	o.Description = source.GetDescription()
-	o.Category = source.GetCategory()
 	for _, sourceValue := range source.GetScopeParams() {
 		exists := false
 		for _, currentValue := range o.ScopeParams {
@@ -657,16 +643,6 @@ func (o *ScopeParam) MakeDiffFieldMask(other *ScopeParam) *ScopeParam_FieldMask 
 			}
 		}
 	}
-	{
-		subMask := o.GetValueFrom().MakeDiffFieldMask(other.GetValueFrom())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorValueFrom, subPath: subpath})
-			}
-		}
-	}
 	return res
 }
 
@@ -694,14 +670,6 @@ func (o *ScopeParam) Clone() *ScopeParam {
 			result.Value = &ScopeParam_Strings{}
 			result := result.Value.(*ScopeParam_Strings)
 			result.Strings = o.Strings.Clone()
-		}
-	}
-	if o, ok := o.Value.(*ScopeParam_ValueFrom); ok {
-		result.Value = (*ScopeParam_ValueFrom)(nil)
-		if o != nil {
-			result.Value = &ScopeParam_ValueFrom{}
-			result := result.Value.(*ScopeParam_ValueFrom)
-			result.ValueFrom = o.ValueFrom.Clone()
 		}
 	}
 	return result
@@ -738,20 +706,6 @@ func (o *ScopeParam) Merge(source *ScopeParam) {
 					o.Strings = new(ScopeParam_ArrayOfStringsValue)
 				}
 				o.Strings.Merge(source.Strings)
-			}
-		}
-	}
-	if source, ok := source.GetValue().(*ScopeParam_ValueFrom); ok {
-		if dstOneOf, ok := o.Value.(*ScopeParam_ValueFrom); !ok || dstOneOf == nil {
-			o.Value = &ScopeParam_ValueFrom{}
-		}
-		if source != nil {
-			o := o.Value.(*ScopeParam_ValueFrom)
-			if source.ValueFrom != nil {
-				if o.ValueFrom == nil {
-					o.ValueFrom = new(ScopeParam_FromValue)
-				}
-				o.ValueFrom.Merge(source.ValueFrom)
 			}
 		}
 	}
@@ -885,59 +839,4 @@ func (o *ScopeParam_ArrayOfStringsValue) Merge(source *ScopeParam_ArrayOfStrings
 
 func (o *ScopeParam_ArrayOfStringsValue) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ScopeParam_ArrayOfStringsValue))
-}
-
-func (o *ScopeParam_FromValue) GotenObjectExt() {}
-
-func (o *ScopeParam_FromValue) MakeFullFieldMask() *ScopeParam_FromValue_FieldMask {
-	return FullScopeParam_FromValue_FieldMask()
-}
-
-func (o *ScopeParam_FromValue) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullScopeParam_FromValue_FieldMask()
-}
-
-func (o *ScopeParam_FromValue) MakeDiffFieldMask(other *ScopeParam_FromValue) *ScopeParam_FromValue_FieldMask {
-	if o == nil && other == nil {
-		return &ScopeParam_FromValue_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullScopeParam_FromValue_FieldMask()
-	}
-
-	res := &ScopeParam_FromValue_FieldMask{}
-	if o.GetSource() != other.GetSource() {
-		res.Paths = append(res.Paths, &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorSource})
-	}
-	if o.GetPath() != other.GetPath() {
-		res.Paths = append(res.Paths, &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorPath})
-	}
-	return res
-}
-
-func (o *ScopeParam_FromValue) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*ScopeParam_FromValue))
-}
-
-func (o *ScopeParam_FromValue) Clone() *ScopeParam_FromValue {
-	if o == nil {
-		return nil
-	}
-	result := &ScopeParam_FromValue{}
-	result.Source = o.Source
-	result.Path = o.Path
-	return result
-}
-
-func (o *ScopeParam_FromValue) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *ScopeParam_FromValue) Merge(source *ScopeParam_FromValue) {
-	o.Source = source.GetSource()
-	o.Path = source.GetPath()
-}
-
-func (o *ScopeParam_FromValue) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*ScopeParam_FromValue))
 }

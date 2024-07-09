@@ -63,23 +63,14 @@ func (RoleBindingFieldPathBuilder) ExecutableConditions() RoleBindingPathSelecto
 func (RoleBindingFieldPathBuilder) MemberType() RoleBindingPathSelectorMemberType {
 	return RoleBindingPathSelectorMemberType{}
 }
-func (RoleBindingFieldPathBuilder) Category() RoleBindingPathSelectorCategory {
-	return RoleBindingPathSelectorCategory{}
-}
 func (RoleBindingFieldPathBuilder) AncestryPath() RoleBindingPathSelectorAncestryPath {
 	return RoleBindingPathSelectorAncestryPath{}
-}
-func (RoleBindingFieldPathBuilder) ParentByOrg() RoleBindingPathSelectorParentByOrg {
-	return RoleBindingPathSelectorParentByOrg{}
 }
 func (RoleBindingFieldPathBuilder) SpecGeneration() RoleBindingPathSelectorSpecGeneration {
 	return RoleBindingPathSelectorSpecGeneration{}
 }
 func (RoleBindingFieldPathBuilder) HasOwnedObjects() RoleBindingPathSelectorHasOwnedObjects {
 	return RoleBindingPathSelectorHasOwnedObjects{}
-}
-func (RoleBindingFieldPathBuilder) DisableForChildScopes() RoleBindingPathSelectorDisableForChildScopes {
-	return RoleBindingPathSelectorDisableForChildScopes{}
 }
 
 type RoleBindingPathSelectorName struct{}
@@ -848,10 +839,6 @@ func (RoleBindingPathSelectorScopeParams) Strings() RoleBindingPathSelectorScope
 	return RoleBindingPathSelectorScopeParamsStrings{}
 }
 
-func (RoleBindingPathSelectorScopeParams) ValueFrom() RoleBindingPathSelectorScopeParamsValueFrom {
-	return RoleBindingPathSelectorScopeParamsValueFrom{}
-}
-
 type RoleBindingPathSelectorScopeParamsName struct{}
 
 func (RoleBindingPathSelectorScopeParamsName) FieldPath() *RoleBinding_FieldSubPath {
@@ -949,65 +936,6 @@ func (s RoleBindingPathSelectorScopeParamsStringsValues) WithItemValue(value str
 	return s.FieldPath().WithIArrayItemValue(value).(*RoleBinding_FieldSubPathArrayItemValue)
 }
 
-type RoleBindingPathSelectorScopeParamsValueFrom struct{}
-
-func (RoleBindingPathSelectorScopeParamsValueFrom) FieldPath() *RoleBinding_FieldSubPath {
-	return &RoleBinding_FieldSubPath{
-		selector: RoleBinding_FieldPathSelectorScopeParams,
-		subPath:  role.NewScopeParamFieldPathBuilder().ValueFrom().FieldPath(),
-	}
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFrom) WithValue(value *role.ScopeParam_FromValue) *RoleBinding_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFrom) WithArrayOfValues(values []*role.ScopeParam_FromValue) *RoleBinding_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
-}
-
-func (RoleBindingPathSelectorScopeParamsValueFrom) Source() RoleBindingPathSelectorScopeParamsValueFromSource {
-	return RoleBindingPathSelectorScopeParamsValueFromSource{}
-}
-
-func (RoleBindingPathSelectorScopeParamsValueFrom) Path() RoleBindingPathSelectorScopeParamsValueFromPath {
-	return RoleBindingPathSelectorScopeParamsValueFromPath{}
-}
-
-type RoleBindingPathSelectorScopeParamsValueFromSource struct{}
-
-func (RoleBindingPathSelectorScopeParamsValueFromSource) FieldPath() *RoleBinding_FieldSubPath {
-	return &RoleBinding_FieldSubPath{
-		selector: RoleBinding_FieldPathSelectorScopeParams,
-		subPath:  role.NewScopeParamFieldPathBuilder().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFromSource) WithValue(value role.ScopeParam_FromValue_Source) *RoleBinding_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFromSource) WithArrayOfValues(values []role.ScopeParam_FromValue_Source) *RoleBinding_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
-}
-
-type RoleBindingPathSelectorScopeParamsValueFromPath struct{}
-
-func (RoleBindingPathSelectorScopeParamsValueFromPath) FieldPath() *RoleBinding_FieldSubPath {
-	return &RoleBinding_FieldSubPath{
-		selector: RoleBinding_FieldPathSelectorScopeParams,
-		subPath:  role.NewScopeParamFieldPathBuilder().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFromPath) WithValue(value string) *RoleBinding_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
-}
-
-func (s RoleBindingPathSelectorScopeParamsValueFromPath) WithArrayOfValues(values []string) *RoleBinding_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
-}
-
 type RoleBindingPathSelectorExecutableConditions struct{}
 
 func (RoleBindingPathSelectorExecutableConditions) FieldPath() *RoleBinding_FieldTerminalPath {
@@ -1097,20 +1025,6 @@ func (s RoleBindingPathSelectorMemberType) WithArrayOfValues(values []string) *R
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
 }
 
-type RoleBindingPathSelectorCategory struct{}
-
-func (RoleBindingPathSelectorCategory) FieldPath() *RoleBinding_FieldTerminalPath {
-	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorCategory}
-}
-
-func (s RoleBindingPathSelectorCategory) WithValue(value role.Role_Category) *RoleBinding_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
-}
-
-func (s RoleBindingPathSelectorCategory) WithArrayOfValues(values []role.Role_Category) *RoleBinding_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
-}
-
 type RoleBindingPathSelectorAncestryPath struct{}
 
 func (RoleBindingPathSelectorAncestryPath) FieldPath() *RoleBinding_FieldTerminalPath {
@@ -1186,20 +1100,6 @@ func (s RoleBindingPathSelectorAncestryPathMember) WithArrayOfValues(values []st
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
 }
 
-type RoleBindingPathSelectorParentByOrg struct{}
-
-func (RoleBindingPathSelectorParentByOrg) FieldPath() *RoleBinding_FieldTerminalPath {
-	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorParentByOrg}
-}
-
-func (s RoleBindingPathSelectorParentByOrg) WithValue(value *Reference) *RoleBinding_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
-}
-
-func (s RoleBindingPathSelectorParentByOrg) WithArrayOfValues(values []*Reference) *RoleBinding_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
-}
-
 type RoleBindingPathSelectorSpecGeneration struct{}
 
 func (RoleBindingPathSelectorSpecGeneration) FieldPath() *RoleBinding_FieldTerminalPath {
@@ -1225,20 +1125,6 @@ func (s RoleBindingPathSelectorHasOwnedObjects) WithValue(value bool) *RoleBindi
 }
 
 func (s RoleBindingPathSelectorHasOwnedObjects) WithArrayOfValues(values []bool) *RoleBinding_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
-}
-
-type RoleBindingPathSelectorDisableForChildScopes struct{}
-
-func (RoleBindingPathSelectorDisableForChildScopes) FieldPath() *RoleBinding_FieldTerminalPath {
-	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes}
-}
-
-func (s RoleBindingPathSelectorDisableForChildScopes) WithValue(value bool) *RoleBinding_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
-}
-
-func (s RoleBindingPathSelectorDisableForChildScopes) WithArrayOfValues(values []bool) *RoleBinding_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
 }
 
