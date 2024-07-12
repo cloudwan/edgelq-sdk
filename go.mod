@@ -3,7 +3,7 @@ module github.com/cloudwan/edgelq-sdk
 go 1.21
 
 require (
-	github.com/cloudwan/goten-sdk v1.3.0
+	github.com/cloudwan/goten-sdk v1.4.3
 	github.com/google/cel-go v0.20.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/iancoleman/strcase v0.0.0-20180726023541-3605ed457bf7

@@ -11,7 +11,9 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -19,13 +21,17 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &organization.Organization{}
 	_ = &permission.Permission{}
+	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
 
 const (
-	NamePattern_Service = "services/{service}/roles/{role}"
+	NamePattern_Service      = "services/{service}/roles/{role}"
+	NamePattern_Project      = "projects/{project}/roles/{role}"
+	NamePattern_Organization = "organizations/{organization}/roles/{role}"
 )
 
 type NamePattern struct {
@@ -84,6 +90,28 @@ func (b *NameBuilder) SetService(parent *meta_service.Name) *NameBuilder {
 	return b
 }
 
+func (b *NameBuilder) SetProject(parent *project.Name) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+
+	switch parent.Pattern {
+	case project.NamePattern_Nil:
+		parentName.Pattern = NamePattern_Project
+	}
+	parentName.ProjectId = parent.ProjectId
+	return b
+}
+
+func (b *NameBuilder) SetOrganization(parent *organization.Name) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+
+	switch parent.Pattern {
+	case organization.NamePattern_Nil:
+		parentName.Pattern = NamePattern_Organization
+	}
+	parentName.OrganizationId = parent.OrganizationId
+	return b
+}
+
 func (b *NameBuilder) SetServiceId(id string) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 	parentName.ServiceId = id
@@ -91,6 +119,28 @@ func (b *NameBuilder) SetServiceId(id string) *NameBuilder {
 	// Set pattern if something matches for this set of IDs
 	if parentName.ServiceId != "" {
 		parentName.Pattern = NamePattern_Service
+	}
+	return b
+}
+
+func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+	parentName.ProjectId = id
+
+	// Set pattern if something matches for this set of IDs
+	if parentName.ProjectId != "" {
+		parentName.Pattern = NamePattern_Project
+	}
+	return b
+}
+
+func (b *NameBuilder) SetOrganizationId(id string) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+	parentName.OrganizationId = id
+
+	// Set pattern if something matches for this set of IDs
+	if parentName.OrganizationId != "" {
+		parentName.Pattern = NamePattern_Organization
 	}
 	return b
 }

@@ -225,6 +225,9 @@ func getParentAndFilter(fullFilter *deployment.Filter) (*deployment.Filter, *dep
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return deployment.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *role_binding.Filter) (*role_binding.Filter, 
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return role_binding.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

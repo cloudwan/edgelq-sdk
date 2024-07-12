@@ -82,6 +82,9 @@ func (o *ProvisioningPolicy) MakeDiffFieldMask(other *ProvisioningPolicy) *Provi
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription})
+	}
 	{
 		subMask := o.GetSpec().MakeDiffFieldMask(other.GetSpec())
 		if subMask.IsFull() {
@@ -126,6 +129,7 @@ func (o *ProvisioningPolicy) Clone() *ProvisioningPolicy {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Spec = o.Spec.Clone()
 	result.Status = o.Status.Clone()
 	return result
@@ -155,6 +159,7 @@ func (o *ProvisioningPolicy) Merge(source *ProvisioningPolicy) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
 			o.Spec = new(ProvisioningPolicy_Spec)
