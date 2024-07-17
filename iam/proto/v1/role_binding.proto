@@ -68,21 +68,8 @@ message RoleBinding {
   // If member has no ':' (like allUsers), then it will contain same value.
   string member_type = 9;
 
-  // Role category, taken from role itself, allows for additional filtering.
-  Role.Category category = 14;
-
   // Internal field used by IAM controller to note role binding ancestry path
-  // for Group type (RoleBindings inherited from Group)
   repeated Parent ancestry_path = 7;
-
-  // Internal field used by IAM controller to note parent role binding
-  // from Parent Organization type. It is much different compared to
-  // "ancestry_path", we just need direct parent. This is because it is simpler
-  // - controller for this inheritance does not need full ancestry path for loop
-  // detection. Groups are complicated and it is legal for two groups containing
-  // each other as members. But organization ancestry path does not allow loops,
-  // so we can afford simple field!
-  string parent_by_org = 12;
 
   // Internal field used to synchronize role binding with role.
   // This value increases when we spec in a role changes in a way requiring role
@@ -93,11 +80,6 @@ message RoleBinding {
   // It is used for filtering, as its not possible to filter by
   // len(owned_objects) > 0
   bool has_owned_objects = 11;
-
-  // If true, then this RoleBinding DOES NOT apply to child entities.
-  // TODO: For now IAM Server decides if this RB is not assignable, consider
-  // opening this.
-  bool disable_for_child_scopes = 13;
 
   // Provides information about inheritance of this role binding - if it was
   // created from another role binding.

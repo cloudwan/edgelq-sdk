@@ -137,6 +137,7 @@ type ServiceAccountKey struct {
 	// $ curl -X GET -H "Authorization: Bearer $API_KEY" -s $URL
 	ApiKey string `protobuf:"bytes,9,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty" firestore:"apiKey"`
 	// The algorithm used to generate the key.
+	// TODO: This field should not be updateable
 	Algorithm ServiceAccountKey_Algorithm `protobuf:"varint,4,opt,name=algorithm,proto3,enum=ntt.iam.v1.ServiceAccountKey_Algorithm" json:"algorithm,omitempty" firestore:"algorithm"`
 	// The key is not valid before this timestamp.
 	ValidNotBefore *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=valid_not_before,json=validNotBefore,proto3" json:"valid_not_before,omitempty" firestore:"validNotBefore"`

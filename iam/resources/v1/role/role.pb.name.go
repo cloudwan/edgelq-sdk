@@ -25,9 +25,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -48,17 +46,13 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
 
 var role_RegexpId = regexp.MustCompile("^(?P<role_id>[a-zA-Z0-9-]{1,128})$")
 var regexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[a-z][a-z0-9\\-.]{0,28}[a-z0-9])/roles/(?P<role_id>-|[a-zA-Z0-9-]{1,128})$")
-var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/roles/(?P<role_id>-|[a-zA-Z0-9-]{1,128})$")
-var regexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})/roles/(?P<role_id>-|[a-zA-Z0-9-]{1,128})$")
 
 func (r *Role) MaybePopulateDefaults() error {
 	roleInterface := interface{}(r)
@@ -78,18 +72,6 @@ func ParseName(name string) (*Name, error) {
 	if matches = regexPath_Service.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetServiceId(matches[1]).
-			SetId(matches[2]).
-			Name(), nil
-	}
-	if matches = regexPath_Project.FindStringSubmatch(name); matches != nil {
-		return NewNameBuilder().
-			SetProjectId(matches[1]).
-			SetId(matches[2]).
-			Name(), nil
-	}
-	if matches = regexPath_Organization.FindStringSubmatch(name); matches != nil {
-		return NewNameBuilder().
-			SetOrganizationId(matches[1]).
 			SetId(matches[2]).
 			Name(), nil
 	}
@@ -136,18 +118,6 @@ func (name *Name) GetServiceName() *meta_service.Name {
 		return nil
 	}
 	return name.ParentName.GetServiceName()
-}
-func (name *Name) GetProjectName() *project.Name {
-	if name == nil {
-		return nil
-	}
-	return name.ParentName.GetProjectName()
-}
-func (name *Name) GetOrganizationName() *organization.Name {
-	if name == nil {
-		return nil
-	}
-	return name.ParentName.GetOrganizationName()
 }
 
 func (name *Name) IsSpecified() bool {
@@ -210,17 +180,13 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"serviceId":      name.ServiceId,
-			"roleId":         name.RoleId,
-			"projectId":      name.ProjectId,
-			"organizationId": name.OrganizationId,
+			"serviceId": name.ServiceId,
+			"roleId":    name.RoleId,
 		}
 	}
 	return map[string]string{
-		"serviceId":      "",
-		"roleId":         "",
-		"projectId":      "",
-		"organizationId": "",
+		"serviceId": "",
+		"roleId":    "",
 	}
 }
 
@@ -244,12 +210,6 @@ func (name *Name) GetIParentName() gotenresource.Name {
 
 func (name *Name) GetIUnderlyingParentName() gotenresource.Name {
 	if parentName := name.GetServiceName(); parentName != nil {
-		return parentName
-	}
-	if parentName := name.GetProjectName(); parentName != nil {
-		return parentName
-	}
-	if parentName := name.GetOrganizationName(); parentName != nil {
 		return parentName
 	}
 	return nil
@@ -508,10 +468,8 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
-		"serviceId":      "",
-		"roleId":         "",
-		"projectId":      "",
-		"organizationId": "",
+		"serviceId": "",
+		"roleId":    "",
 	}
 }
 

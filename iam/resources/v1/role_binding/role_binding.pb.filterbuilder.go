@@ -248,16 +248,8 @@ func (b *filterCndBuilder) MemberType() *filterCndBuilderMemberType {
 	return &filterCndBuilderMemberType{builder: b.builder}
 }
 
-func (b *filterCndBuilder) Category() *filterCndBuilderCategory {
-	return &filterCndBuilderCategory{builder: b.builder}
-}
-
 func (b *filterCndBuilder) AncestryPath() *filterCndBuilderAncestryPath {
 	return &filterCndBuilderAncestryPath{builder: b.builder}
-}
-
-func (b *filterCndBuilder) ParentByOrg() *filterCndBuilderParentByOrg {
-	return &filterCndBuilderParentByOrg{builder: b.builder}
 }
 
 func (b *filterCndBuilder) SpecGeneration() *filterCndBuilderSpecGeneration {
@@ -266,10 +258,6 @@ func (b *filterCndBuilder) SpecGeneration() *filterCndBuilderSpecGeneration {
 
 func (b *filterCndBuilder) HasOwnedObjects() *filterCndBuilderHasOwnedObjects {
 	return &filterCndBuilderHasOwnedObjects{builder: b.builder}
-}
-
-func (b *filterCndBuilder) DisableForChildScopes() *filterCndBuilderDisableForChildScopes {
-	return &filterCndBuilderDisableForChildScopes{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2672,10 +2660,6 @@ func (b *filterCndBuilderScopeParams) Strings() *filterCndBuilderScopeParamsStri
 	return &filterCndBuilderScopeParamsStrings{builder: b.builder}
 }
 
-func (b *filterCndBuilderScopeParams) ValueFrom() *filterCndBuilderScopeParamsValueFrom {
-	return &filterCndBuilderScopeParamsValueFrom{builder: b.builder}
-}
-
 type filterCndBuilderScopeParamsName struct {
 	builder *FilterBuilder
 }
@@ -3013,191 +2997,6 @@ func (b *filterCndBuilderScopeParamsStringsValues) compare(op gotenfilter.Compar
 	})
 }
 
-type filterCndBuilderScopeParamsValueFrom struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Eq(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Neq(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Gt(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Gte(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Lt(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Lte(value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) In(values []*role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) NotIn(values []*role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) compare(op gotenfilter.CompareOperator, value *role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Source() *filterCndBuilderScopeParamsValueFromSource {
-	return &filterCndBuilderScopeParamsValueFromSource{builder: b.builder}
-}
-
-func (b *filterCndBuilderScopeParamsValueFrom) Path() *filterCndBuilderScopeParamsValueFromPath {
-	return &filterCndBuilderScopeParamsValueFromPath{builder: b.builder}
-}
-
-type filterCndBuilderScopeParamsValueFromSource struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Eq(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Neq(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Gt(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Gte(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Lt(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) Lte(value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) In(values []role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Source().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) NotIn(values []role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Source().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Source().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Source().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromSource) compare(op gotenfilter.CompareOperator, value role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Source().WithValue(value),
-	})
-}
-
-type filterCndBuilderScopeParamsValueFromPath struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Path().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Path().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Path().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Path().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderScopeParamsValueFromPath) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ScopeParams().ValueFrom().Path().WithValue(value),
-	})
-}
-
 type filterCndBuilderExecutableConditions struct {
 	builder *FilterBuilder
 }
@@ -3476,65 +3275,6 @@ func (b *filterCndBuilderMemberType) compare(op gotenfilter.CompareOperator, val
 	})
 }
 
-type filterCndBuilderCategory struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderCategory) Eq(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderCategory) Neq(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderCategory) Gt(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderCategory) Gte(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderCategory) Lt(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderCategory) Lte(value role.Role_Category) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderCategory) In(values []role.Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Category().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCategory) NotIn(values []role.Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().Category().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCategory) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().Category().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCategory) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().Category().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCategory) compare(op gotenfilter.CompareOperator, value role.Role_Category) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().Category().WithValue(value),
-	})
-}
-
 type filterCndBuilderAncestryPath struct {
 	builder *FilterBuilder
 }
@@ -3754,65 +3494,6 @@ func (b *filterCndBuilderAncestryPathMember) compare(op gotenfilter.CompareOpera
 	})
 }
 
-type filterCndBuilderParentByOrg struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderParentByOrg) Eq(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderParentByOrg) Neq(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderParentByOrg) Gt(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderParentByOrg) Gte(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderParentByOrg) Lt(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderParentByOrg) Lte(value *Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderParentByOrg) In(values []*Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ParentByOrg().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderParentByOrg) NotIn(values []*Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ParentByOrg().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderParentByOrg) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().ParentByOrg().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderParentByOrg) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().ParentByOrg().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderParentByOrg) compare(op gotenfilter.CompareOperator, value *Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ParentByOrg().WithValue(value),
-	})
-}
-
 type filterCndBuilderSpecGeneration struct {
 	builder *FilterBuilder
 }
@@ -3928,64 +3609,5 @@ func (b *filterCndBuilderHasOwnedObjects) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().HasOwnedObjects().WithValue(value),
-	})
-}
-
-type filterCndBuilderDisableForChildScopes struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderDisableForChildScopes) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().DisableForChildScopes().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDisableForChildScopes) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().DisableForChildScopes().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDisableForChildScopes) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().DisableForChildScopes().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDisableForChildScopes) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().DisableForChildScopes().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDisableForChildScopes) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().DisableForChildScopes().WithValue(value),
 	})
 }

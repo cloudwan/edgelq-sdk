@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *monitored_resource_descriptor.Filter) (*moni
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return monitored_resource_descriptor.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *device_hardware_register_session.Filter) (*d
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return device_hardware_register_session.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

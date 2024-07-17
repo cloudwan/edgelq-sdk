@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *condition.Filter) (*condition.Filter, *condi
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return condition.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

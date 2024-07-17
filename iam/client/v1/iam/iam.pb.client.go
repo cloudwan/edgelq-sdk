@@ -16,7 +16,6 @@ import (
 	condition_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/condition"
 	group_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/group"
 	group_member_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/group_member"
-	member_assignment_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/member_assignment"
 	organization_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/organization"
 	organization_invitation_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/organization_invitation"
 	permission_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/permission"
@@ -32,7 +31,6 @@ import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group_member"
-	member_assignment "github.com/cloudwan/edgelq-sdk/iam/resources/v1/member_assignment"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization_invitation"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
@@ -60,8 +58,6 @@ var (
 	_ = &group_member.GroupMember{}
 	_ = &group_member_client.GetGroupMemberRequest{}
 	_ = &group_client.GetGroupRequest{}
-	_ = &member_assignment.MemberAssignment{}
-	_ = &member_assignment_client.GetMemberAssignmentRequest{}
 	_ = &organization.Organization{}
 	_ = &organization_invitation.OrganizationInvitation{}
 	_ = &organization_invitation_client.GetOrganizationInvitationRequest{}
@@ -91,7 +87,6 @@ type IAMClient interface {
 	condition_client.ConditionServiceClient
 	group_member_client.GroupMemberServiceClient
 	group_client.GroupServiceClient
-	member_assignment_client.MemberAssignmentServiceClient
 	organization_invitation_client.OrganizationInvitationServiceClient
 	organization_client.OrganizationServiceClient
 	permission_client.PermissionServiceClient
@@ -112,7 +107,6 @@ type iamClient struct {
 	condition_client.ConditionServiceClient
 	group_member_client.GroupMemberServiceClient
 	group_client.GroupServiceClient
-	member_assignment_client.MemberAssignmentServiceClient
 	organization_invitation_client.OrganizationInvitationServiceClient
 	organization_client.OrganizationServiceClient
 	permission_client.PermissionServiceClient
@@ -134,7 +128,6 @@ func NewIAMClient(cc grpc.ClientConnInterface) IAMClient {
 		ConditionServiceClient:                 condition_client.NewConditionServiceClient(cc),
 		GroupMemberServiceClient:               group_member_client.NewGroupMemberServiceClient(cc),
 		GroupServiceClient:                     group_client.NewGroupServiceClient(cc),
-		MemberAssignmentServiceClient:          member_assignment_client.NewMemberAssignmentServiceClient(cc),
 		OrganizationInvitationServiceClient:    organization_invitation_client.NewOrganizationInvitationServiceClient(cc),
 		OrganizationServiceClient:              organization_client.NewOrganizationServiceClient(cc),
 		PermissionServiceClient:                permission_client.NewPermissionServiceClient(cc),

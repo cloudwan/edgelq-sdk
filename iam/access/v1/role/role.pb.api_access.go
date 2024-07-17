@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *role.Filter) (*role.Filter, *role.ParentName
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return role.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

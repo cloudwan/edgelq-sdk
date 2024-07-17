@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *notification_channel.Filter) (*notification_
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return notification_channel.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

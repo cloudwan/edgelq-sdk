@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *pod.Filter) (*pod.Filter, *pod.ParentName) {
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return pod.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

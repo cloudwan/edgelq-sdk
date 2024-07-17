@@ -72,9 +72,6 @@ func (ProvisioningPolicyFieldPathBuilder) Metadata() ProvisioningPolicyPathSelec
 func (ProvisioningPolicyFieldPathBuilder) DisplayName() ProvisioningPolicyPathSelectorDisplayName {
 	return ProvisioningPolicyPathSelectorDisplayName{}
 }
-func (ProvisioningPolicyFieldPathBuilder) Description() ProvisioningPolicyPathSelectorDescription {
-	return ProvisioningPolicyPathSelectorDescription{}
-}
 func (ProvisioningPolicyFieldPathBuilder) Spec() ProvisioningPolicyPathSelectorSpec {
 	return ProvisioningPolicyPathSelectorSpec{}
 }
@@ -768,20 +765,6 @@ func (s ProvisioningPolicyPathSelectorDisplayName) WithValue(value string) *Prov
 }
 
 func (s ProvisioningPolicyPathSelectorDisplayName) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorDescription struct{}
-
-func (ProvisioningPolicyPathSelectorDescription) FieldPath() *ProvisioningPolicy_FieldTerminalPath {
-	return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription}
-}
-
-func (s ProvisioningPolicyPathSelectorDescription) WithValue(value string) *ProvisioningPolicy_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldTerminalPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorDescription) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldTerminalPathArrayOfValues)
 }
 
@@ -3007,10 +2990,6 @@ func (ProvisioningPolicyPathSelectorSpecScopeParams) Strings() ProvisioningPolic
 	return ProvisioningPolicyPathSelectorSpecScopeParamsStrings{}
 }
 
-func (ProvisioningPolicyPathSelectorSpecScopeParams) ValueFrom() ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom{}
-}
-
 type ProvisioningPolicyPathSelectorSpecScopeParamsName struct{}
 
 func (ProvisioningPolicyPathSelectorSpecScopeParamsName) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -3106,65 +3085,6 @@ func (s ProvisioningPolicyPathSelectorSpecScopeParamsStringsValues) WithArrayOfV
 
 func (s ProvisioningPolicyPathSelectorSpecScopeParamsStringsValues) WithItemValue(value string) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) WithValue(value *iam_role.ScopeParam_FromValue) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) WithArrayOfValues(values []*iam_role.ScopeParam_FromValue) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) Source() ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource{}
-}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFrom) Path() ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath {
-	return ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath{}
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) WithValue(value iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromSource) WithArrayOfValues(values []iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath struct{}
-
-func (ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) FieldPath() *ProvisioningPolicy_FieldSubPath {
-	return &ProvisioningPolicy_FieldSubPath{
-		selector: ProvisioningPolicy_FieldPathSelectorSpec,
-		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ScopeParams().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicyPathSelectorSpecScopeParamsValueFromPath) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicyPathSelectorSpecCondition struct{}
@@ -5423,10 +5343,6 @@ func (ProvisioningPolicy_SpecPathSelectorScopeParams) Strings() ProvisioningPoli
 	return ProvisioningPolicy_SpecPathSelectorScopeParamsStrings{}
 }
 
-func (ProvisioningPolicy_SpecPathSelectorScopeParams) ValueFrom() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom{}
-}
-
 type ProvisioningPolicy_SpecPathSelectorScopeParamsName struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorScopeParamsName) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -5522,65 +5438,6 @@ func (s ProvisioningPolicy_SpecPathSelectorScopeParamsStringsValues) WithArrayOf
 
 func (s ProvisioningPolicy_SpecPathSelectorScopeParamsStringsValues) WithItemValue(value string) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) WithValue(value *iam_role.ScopeParam_FromValue) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) WithArrayOfValues(values []*iam_role.ScopeParam_FromValue) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) Source() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource{}
-}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFrom) Path() ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath {
-	return ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath{}
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) WithValue(value iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromSource) WithArrayOfValues(values []iam_role.ScopeParam_FromValue_Source) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
-}
-
-type ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath struct{}
-
-func (ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
-	return &ProvisioningPolicySpec_FieldSubPath{
-		selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams,
-		subPath:  iam_role.NewScopeParamFieldPathBuilder().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
-}
-
-func (s ProvisioningPolicy_SpecPathSelectorScopeParamsValueFromPath) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicy_SpecPathSelectorCondition struct{}
