@@ -11,6 +11,7 @@ import (
 	condition_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/condition"
 	group_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/group"
 	group_member_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/group_member"
+	member_assignment_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/member_assignment"
 	organization_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/organization"
 	organization_invitation_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/organization_invitation"
 	permission_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/permission"
@@ -26,6 +27,7 @@ import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group_member"
+	member_assignment "github.com/cloudwan/edgelq-sdk/iam/resources/v1/member_assignment"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization_invitation"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
@@ -45,6 +47,7 @@ type IAMApiAccess interface {
 	condition.ConditionAccess
 	group.GroupAccess
 	group_member.GroupMemberAccess
+	member_assignment.MemberAssignmentAccess
 	organization.OrganizationAccess
 	organization_invitation.OrganizationInvitationAccess
 	permission.PermissionAccess
@@ -64,6 +67,7 @@ type apiIAMAccess struct {
 	condition.ConditionAccess
 	group.GroupAccess
 	group_member.GroupMemberAccess
+	member_assignment.MemberAssignmentAccess
 	organization.OrganizationAccess
 	organization_invitation.OrganizationInvitationAccess
 	permission.PermissionAccess
@@ -82,6 +86,7 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 	conditionAccess := condition_access.NewApiConditionAccess(client)
 	groupAccess := group_access.NewApiGroupAccess(client)
 	groupMemberAccess := group_member_access.NewApiGroupMemberAccess(client)
+	memberAssignmentAccess := member_assignment_access.NewApiMemberAssignmentAccess(client)
 	organizationAccess := organization_access.NewApiOrganizationAccess(client)
 	organizationInvitationAccess := organization_invitation_access.NewApiOrganizationInvitationAccess(client)
 	permissionAccess := permission_access.NewApiPermissionAccess(client)
@@ -100,6 +105,7 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 			condition.AsAnyCastAccess(conditionAccess),
 			group.AsAnyCastAccess(groupAccess),
 			group_member.AsAnyCastAccess(groupMemberAccess),
+			member_assignment.AsAnyCastAccess(memberAssignmentAccess),
 			organization.AsAnyCastAccess(organizationAccess),
 			organization_invitation.AsAnyCastAccess(organizationInvitationAccess),
 			permission.AsAnyCastAccess(permissionAccess),
@@ -116,6 +122,7 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 		ConditionAccess:              conditionAccess,
 		GroupAccess:                  groupAccess,
 		GroupMemberAccess:            groupMemberAccess,
+		MemberAssignmentAccess:       memberAssignmentAccess,
 		OrganizationAccess:           organizationAccess,
 		OrganizationInvitationAccess: organizationInvitationAccess,
 		PermissionAccess:             permissionAccess,

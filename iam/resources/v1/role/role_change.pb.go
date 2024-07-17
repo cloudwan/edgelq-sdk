@@ -17,6 +17,8 @@ import (
 
 // proto imports
 import (
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
@@ -35,6 +37,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &organization.Organization{}
+	_ = &project.Project{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_service.Service{}
 )

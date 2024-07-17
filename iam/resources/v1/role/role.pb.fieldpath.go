@@ -24,7 +24,9 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -50,7 +52,9 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &organization.Organization{}
 	_ = &permission.Permission{}
+	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -77,11 +81,13 @@ const (
 	Role_FieldPathSelectorName             Role_FieldPathSelector = 0
 	Role_FieldPathSelectorMetadata         Role_FieldPathSelector = 1
 	Role_FieldPathSelectorDisplayName      Role_FieldPathSelector = 2
-	Role_FieldPathSelectorScopeParams      Role_FieldPathSelector = 3
-	Role_FieldPathSelectorGrants           Role_FieldPathSelector = 4
-	Role_FieldPathSelectorOwnedObjects     Role_FieldPathSelector = 5
-	Role_FieldPathSelectorServices         Role_FieldPathSelector = 6
-	Role_FieldPathSelectorRbSpecGeneration Role_FieldPathSelector = 7
+	Role_FieldPathSelectorDescription      Role_FieldPathSelector = 3
+	Role_FieldPathSelectorCategory         Role_FieldPathSelector = 4
+	Role_FieldPathSelectorScopeParams      Role_FieldPathSelector = 5
+	Role_FieldPathSelectorGrants           Role_FieldPathSelector = 6
+	Role_FieldPathSelectorOwnedObjects     Role_FieldPathSelector = 7
+	Role_FieldPathSelectorServices         Role_FieldPathSelector = 8
+	Role_FieldPathSelectorRbSpecGeneration Role_FieldPathSelector = 9
 )
 
 func (s Role_FieldPathSelector) String() string {
@@ -92,6 +98,10 @@ func (s Role_FieldPathSelector) String() string {
 		return "metadata"
 	case Role_FieldPathSelectorDisplayName:
 		return "display_name"
+	case Role_FieldPathSelectorDescription:
+		return "description"
+	case Role_FieldPathSelectorCategory:
+		return "category"
 	case Role_FieldPathSelectorScopeParams:
 		return "scope_params"
 	case Role_FieldPathSelectorGrants:
@@ -119,6 +129,10 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDescription}, nil
+		case "category":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory}, nil
 		case "scope_params", "scopeParams", "scope-params":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorScopeParams}, nil
 		case "grants":
@@ -205,6 +219,10 @@ func (fp *Role_FieldTerminalPath) Get(source *Role) (values []interface{}) {
 			}
 		case Role_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case Role_FieldPathSelectorDescription:
+			values = append(values, source.Description)
+		case Role_FieldPathSelectorCategory:
+			values = append(values, source.Category)
 		case Role_FieldPathSelectorScopeParams:
 			for _, value := range source.GetScopeParams() {
 				values = append(values, value)
@@ -245,6 +263,10 @@ func (fp *Role_FieldTerminalPath) GetSingle(source *Role) (interface{}, bool) {
 		return res, res != nil
 	case Role_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case Role_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
+	case Role_FieldPathSelectorCategory:
+		return source.GetCategory(), source != nil
 	case Role_FieldPathSelectorScopeParams:
 		res := source.GetScopeParams()
 		return res, res != nil
@@ -277,6 +299,10 @@ func (fp *Role_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Role_FieldPathSelectorDisplayName:
 		return ""
+	case Role_FieldPathSelectorDescription:
+		return ""
+	case Role_FieldPathSelectorCategory:
+		return Role_UNDEFINED
 	case Role_FieldPathSelectorScopeParams:
 		return ([]*Role_ScopeParamType)(nil)
 	case Role_FieldPathSelectorGrants:
@@ -301,6 +327,10 @@ func (fp *Role_FieldTerminalPath) ClearValue(item *Role) {
 			item.Metadata = nil
 		case Role_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case Role_FieldPathSelectorDescription:
+			item.Description = ""
+		case Role_FieldPathSelectorCategory:
+			item.Category = Role_UNDEFINED
 		case Role_FieldPathSelectorScopeParams:
 			item.ScopeParams = nil
 		case Role_FieldPathSelectorGrants:
@@ -325,6 +355,8 @@ func (fp *Role_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Role_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Role_FieldPathSelectorName ||
 		fp.selector == Role_FieldPathSelectorDisplayName ||
+		fp.selector == Role_FieldPathSelectorDescription ||
+		fp.selector == Role_FieldPathSelectorCategory ||
 		fp.selector == Role_FieldPathSelectorOwnedObjects ||
 		fp.selector == Role_FieldPathSelectorServices ||
 		fp.selector == Role_FieldPathSelectorRbSpecGeneration
@@ -342,6 +374,10 @@ func (fp *Role_FieldTerminalPath) WithIValue(value interface{}) Role_FieldPathVa
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Role_FieldPathSelectorDisplayName:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(string)}
+	case Role_FieldPathSelectorDescription:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(string)}
+	case Role_FieldPathSelectorCategory:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(Role_Category)}
 	case Role_FieldPathSelectorScopeParams:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*Role_ScopeParamType)}
 	case Role_FieldPathSelectorGrants:
@@ -370,6 +406,10 @@ func (fp *Role_FieldTerminalPath) WithIArrayOfValues(values interface{}) Role_Fi
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Role_FieldPathSelectorDisplayName:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]string)}
+	case Role_FieldPathSelectorDescription:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]string)}
+	case Role_FieldPathSelectorCategory:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]Role_Category)}
 	case Role_FieldPathSelectorScopeParams:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*Role_ScopeParamType)}
 	case Role_FieldPathSelectorGrants:
@@ -606,6 +646,14 @@ func (fpv *Role_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Role_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Role_FieldTerminalPathValue) AsCategoryValue() (Role_Category, bool) {
+	res, ok := fpv.value.(Role_Category)
+	return res, ok
+}
 func (fpv *Role_FieldTerminalPathValue) AsScopeParamsValue() ([]*Role_ScopeParamType, bool) {
 	res, ok := fpv.value.([]*Role_ScopeParamType)
 	return res, ok
@@ -639,6 +687,10 @@ func (fpv *Role_FieldTerminalPathValue) SetTo(target **Role) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Role_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case Role_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
+	case Role_FieldPathSelectorCategory:
+		(*target).Category = fpv.value.(Role_Category)
 	case Role_FieldPathSelectorScopeParams:
 		(*target).ScopeParams = fpv.value.([]*Role_ScopeParamType)
 	case Role_FieldPathSelectorGrants:
@@ -686,6 +738,26 @@ func (fpv *Role_FieldTerminalPathValue) CompareWith(source *Role) (int, bool) {
 	case Role_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Role_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Role_FieldPathSelectorCategory:
+		leftValue := fpv.value.(Role_Category)
+		rightValue := source.GetCategory()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -945,6 +1017,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Role_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Role_FieldPathSelectorCategory:
+		for _, v := range fpaov.values.([]Role_Category) {
+			values = append(values, v)
+		}
 	case Role_FieldPathSelectorScopeParams:
 		for _, v := range fpaov.values.([][]*Role_ScopeParamType) {
 			values = append(values, v)
@@ -978,6 +1058,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*
 }
 func (fpaov *Role_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsCategoryArrayOfValues() ([]Role_Category, bool) {
+	res, ok := fpaov.values.([]Role_Category)
 	return res, ok
 }
 func (fpaov *Role_FieldTerminalPathArrayOfValues) AsScopeParamsArrayOfValues() ([][]*Role_ScopeParamType, bool) {
@@ -2725,9 +2813,10 @@ type ScopeParam_FieldPath interface {
 type ScopeParam_FieldPathSelector int32
 
 const (
-	ScopeParam_FieldPathSelectorName    ScopeParam_FieldPathSelector = 0
-	ScopeParam_FieldPathSelectorString  ScopeParam_FieldPathSelector = 1
-	ScopeParam_FieldPathSelectorStrings ScopeParam_FieldPathSelector = 2
+	ScopeParam_FieldPathSelectorName      ScopeParam_FieldPathSelector = 0
+	ScopeParam_FieldPathSelectorString    ScopeParam_FieldPathSelector = 1
+	ScopeParam_FieldPathSelectorStrings   ScopeParam_FieldPathSelector = 2
+	ScopeParam_FieldPathSelectorValueFrom ScopeParam_FieldPathSelector = 3
 )
 
 func (s ScopeParam_FieldPathSelector) String() string {
@@ -2738,6 +2827,8 @@ func (s ScopeParam_FieldPathSelector) String() string {
 		return "string"
 	case ScopeParam_FieldPathSelectorStrings:
 		return "strings"
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return "value_from"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", s))
 	}
@@ -2755,6 +2846,8 @@ func BuildScopeParam_FieldPath(fp gotenobject.RawFieldPath) (ScopeParam_FieldPat
 			return &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorString}, nil
 		case "strings":
 			return &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorStrings}, nil
+		case "value_from", "valueFrom", "value-from":
+			return &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2769,6 +2862,12 @@ func BuildScopeParam_FieldPath(fp gotenobject.RawFieldPath) (ScopeParam_FieldPat
 				return nil, err
 			} else {
 				return &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorStrings, subPath: subpath}, nil
+			}
+		case "value_from", "valueFrom", "value-from":
+			if subpath, err := BuildScopeParamFromValue_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorValueFrom, subPath: subpath}, nil
 			}
 		}
 	}
@@ -2829,6 +2928,12 @@ func (fp *ScopeParam_FieldTerminalPath) Get(source *ScopeParam) (values []interf
 					values = append(values, source.Strings)
 				}
 			}
+		case ScopeParam_FieldPathSelectorValueFrom:
+			if source, ok := source.Value.(*ScopeParam_ValueFrom); ok && source != nil {
+				if source.ValueFrom != nil {
+					values = append(values, source.ValueFrom)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
 		}
@@ -2851,6 +2956,9 @@ func (fp *ScopeParam_FieldTerminalPath) GetSingle(source *ScopeParam) (interface
 	case ScopeParam_FieldPathSelectorStrings:
 		res := source.GetStrings()
 		return res, res != nil
+	case ScopeParam_FieldPathSelectorValueFrom:
+		res := source.GetValueFrom()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
 	}
@@ -2869,6 +2977,8 @@ func (fp *ScopeParam_FieldTerminalPath) GetDefault() interface{} {
 		return (*ScopeParam_StringValue)(nil)
 	case ScopeParam_FieldPathSelectorStrings:
 		return (*ScopeParam_ArrayOfStringsValue)(nil)
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return (*ScopeParam_FromValue)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
 	}
@@ -2886,6 +2996,10 @@ func (fp *ScopeParam_FieldTerminalPath) ClearValue(item *ScopeParam) {
 		case ScopeParam_FieldPathSelectorStrings:
 			if item, ok := item.Value.(*ScopeParam_Strings); ok {
 				item.Strings = nil
+			}
+		case ScopeParam_FieldPathSelectorValueFrom:
+			if item, ok := item.Value.(*ScopeParam_ValueFrom); ok {
+				item.ValueFrom = nil
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
@@ -2914,6 +3028,8 @@ func (fp *ScopeParam_FieldTerminalPath) WithIValue(value interface{}) ScopeParam
 		return &ScopeParam_FieldTerminalPathValue{ScopeParam_FieldTerminalPath: *fp, value: value.(*ScopeParam_StringValue)}
 	case ScopeParam_FieldPathSelectorStrings:
 		return &ScopeParam_FieldTerminalPathValue{ScopeParam_FieldTerminalPath: *fp, value: value.(*ScopeParam_ArrayOfStringsValue)}
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return &ScopeParam_FieldTerminalPathValue{ScopeParam_FieldTerminalPath: *fp, value: value.(*ScopeParam_FromValue)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
 	}
@@ -2932,6 +3048,8 @@ func (fp *ScopeParam_FieldTerminalPath) WithIArrayOfValues(values interface{}) S
 		return &ScopeParam_FieldTerminalPathArrayOfValues{ScopeParam_FieldTerminalPath: *fp, values: values.([]*ScopeParam_StringValue)}
 	case ScopeParam_FieldPathSelectorStrings:
 		return &ScopeParam_FieldTerminalPathArrayOfValues{ScopeParam_FieldTerminalPath: *fp, values: values.([]*ScopeParam_ArrayOfStringsValue)}
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return &ScopeParam_FieldTerminalPathArrayOfValues{ScopeParam_FieldTerminalPath: *fp, values: values.([]*ScopeParam_FromValue)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fp.selector))
 	}
@@ -2971,6 +3089,10 @@ func (fps *ScopeParam_FieldSubPath) AsStringsSubPath() (ScopeParamArrayOfStrings
 	res, ok := fps.subPath.(ScopeParamArrayOfStringsValue_FieldPath)
 	return res, ok
 }
+func (fps *ScopeParam_FieldSubPath) AsValueFromSubPath() (ScopeParamFromValue_FieldPath, bool) {
+	res, ok := fps.subPath.(ScopeParamFromValue_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ScopeParam_FieldSubPath) String() string {
@@ -2989,6 +3111,8 @@ func (fps *ScopeParam_FieldSubPath) Get(source *ScopeParam) (values []interface{
 		values = append(values, fps.subPath.GetRaw(source.GetString_())...)
 	case ScopeParam_FieldPathSelectorStrings:
 		values = append(values, fps.subPath.GetRaw(source.GetStrings())...)
+	case ScopeParam_FieldPathSelectorValueFrom:
+		values = append(values, fps.subPath.GetRaw(source.GetValueFrom())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fps.selector))
 	}
@@ -3012,6 +3136,11 @@ func (fps *ScopeParam_FieldSubPath) GetSingle(source *ScopeParam) (interface{}, 
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetStrings())
+	case ScopeParam_FieldPathSelectorValueFrom:
+		if source.GetValueFrom() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetValueFrom())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fps.selector))
 	}
@@ -3039,6 +3168,12 @@ func (fps *ScopeParam_FieldSubPath) ClearValue(item *ScopeParam) {
 			if item.Value != nil {
 				if item, ok := item.Value.(*ScopeParam_Strings); ok {
 					fps.subPath.ClearValueRaw(item.Strings)
+				}
+			}
+		case ScopeParam_FieldPathSelectorValueFrom:
+			if item.Value != nil {
+				if item, ok := item.Value.(*ScopeParam_ValueFrom); ok {
+					fps.subPath.ClearValueRaw(item.ValueFrom)
 				}
 			}
 		default:
@@ -3137,6 +3272,10 @@ func (fpv *ScopeParam_FieldTerminalPathValue) AsStringsValue() (*ScopeParam_Arra
 	res, ok := fpv.value.(*ScopeParam_ArrayOfStringsValue)
 	return res, ok
 }
+func (fpv *ScopeParam_FieldTerminalPathValue) AsValueFromValue() (*ScopeParam_FromValue, bool) {
+	res, ok := fpv.value.(*ScopeParam_FromValue)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ScopeParam
 func (fpv *ScopeParam_FieldTerminalPathValue) SetTo(target **ScopeParam) {
@@ -3156,6 +3295,11 @@ func (fpv *ScopeParam_FieldTerminalPathValue) SetTo(target **ScopeParam) {
 			(*target).Value = &ScopeParam_Strings{}
 		}
 		(*target).Value.(*ScopeParam_Strings).Strings = fpv.value.(*ScopeParam_ArrayOfStringsValue)
+	case ScopeParam_FieldPathSelectorValueFrom:
+		if _, ok := (*target).Value.(*ScopeParam_ValueFrom); !ok {
+			(*target).Value = &ScopeParam_ValueFrom{}
+		}
+		(*target).Value.(*ScopeParam_ValueFrom).ValueFrom = fpv.value.(*ScopeParam_FromValue)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fpv.selector))
 	}
@@ -3183,6 +3327,8 @@ func (fpv *ScopeParam_FieldTerminalPathValue) CompareWith(source *ScopeParam) (i
 		return 0, false
 	case ScopeParam_FieldPathSelectorStrings:
 		return 0, false
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fpv.selector))
 	}
@@ -3207,6 +3353,10 @@ func (fpvs *ScopeParam_FieldSubPathValue) AsStringsPathValue() (ScopeParamArrayO
 	res, ok := fpvs.subPathValue.(ScopeParamArrayOfStringsValue_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ScopeParam_FieldSubPathValue) AsValueFromPathValue() (ScopeParamFromValue_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ScopeParamFromValue_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ScopeParam_FieldSubPathValue) SetTo(target **ScopeParam) {
 	if *target == nil {
@@ -3223,6 +3373,11 @@ func (fpvs *ScopeParam_FieldSubPathValue) SetTo(target **ScopeParam) {
 			(*target).Value = &ScopeParam_Strings{}
 		}
 		fpvs.subPathValue.(ScopeParamArrayOfStringsValue_FieldPathValue).SetTo(&(*target).Value.(*ScopeParam_Strings).Strings)
+	case ScopeParam_FieldPathSelectorValueFrom:
+		if _, ok := (*target).Value.(*ScopeParam_ValueFrom); !ok {
+			(*target).Value = &ScopeParam_ValueFrom{}
+		}
+		fpvs.subPathValue.(ScopeParamFromValue_FieldPathValue).SetTo(&(*target).Value.(*ScopeParam_ValueFrom).ValueFrom)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fpvs.Selector()))
 	}
@@ -3243,6 +3398,8 @@ func (fpvs *ScopeParam_FieldSubPathValue) CompareWith(source *ScopeParam) (int, 
 		return fpvs.subPathValue.(ScopeParamStringValue_FieldPathValue).CompareWith(source.GetString_())
 	case ScopeParam_FieldPathSelectorStrings:
 		return fpvs.subPathValue.(ScopeParamArrayOfStringsValue_FieldPathValue).CompareWith(source.GetStrings())
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return fpvs.subPathValue.(ScopeParamFromValue_FieldPathValue).CompareWith(source.GetValueFrom())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fpvs.Selector()))
 	}
@@ -3333,6 +3490,10 @@ func (fpaivs *ScopeParam_FieldSubPathArrayItemValue) AsStringsPathItemValue() (S
 	res, ok := fpaivs.subPathItemValue.(ScopeParamArrayOfStringsValue_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ScopeParam_FieldSubPathArrayItemValue) AsValueFromPathItemValue() (ScopeParamFromValue_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ScopeParamFromValue_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ScopeParam'
 func (fpaivs *ScopeParam_FieldSubPathArrayItemValue) ContainsValue(source *ScopeParam) bool {
@@ -3341,6 +3502,8 @@ func (fpaivs *ScopeParam_FieldSubPathArrayItemValue) ContainsValue(source *Scope
 		return fpaivs.subPathItemValue.(ScopeParamStringValue_FieldPathArrayItemValue).ContainsValue(source.GetString_())
 	case ScopeParam_FieldPathSelectorStrings:
 		return fpaivs.subPathItemValue.(ScopeParamArrayOfStringsValue_FieldPathArrayItemValue).ContainsValue(source.GetStrings())
+	case ScopeParam_FieldPathSelectorValueFrom:
+		return fpaivs.subPathItemValue.(ScopeParamFromValue_FieldPathArrayItemValue).ContainsValue(source.GetValueFrom())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ScopeParam: %d", fpaivs.Selector()))
 	}
@@ -3393,6 +3556,10 @@ func (fpaov *ScopeParam_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*ScopeParam_ArrayOfStringsValue) {
 			values = append(values, v)
 		}
+	case ScopeParam_FieldPathSelectorValueFrom:
+		for _, v := range fpaov.values.([]*ScopeParam_FromValue) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3406,6 +3573,10 @@ func (fpaov *ScopeParam_FieldTerminalPathArrayOfValues) AsStringArrayOfValues() 
 }
 func (fpaov *ScopeParam_FieldTerminalPathArrayOfValues) AsStringsArrayOfValues() ([]*ScopeParam_ArrayOfStringsValue, bool) {
 	res, ok := fpaov.values.([]*ScopeParam_ArrayOfStringsValue)
+	return res, ok
+}
+func (fpaov *ScopeParam_FieldTerminalPathArrayOfValues) AsValueFromArrayOfValues() ([]*ScopeParam_FromValue, bool) {
+	res, ok := fpaov.values.([]*ScopeParam_FromValue)
 	return res, ok
 }
 
@@ -3425,6 +3596,10 @@ func (fpsaov *ScopeParam_FieldSubPathArrayOfValues) AsStringPathArrayOfValues() 
 }
 func (fpsaov *ScopeParam_FieldSubPathArrayOfValues) AsStringsPathArrayOfValues() (ScopeParamArrayOfStringsValue_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ScopeParamArrayOfStringsValue_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ScopeParam_FieldSubPathArrayOfValues) AsValueFromPathArrayOfValues() (ScopeParamFromValue_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ScopeParamFromValue_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4184,5 +4359,426 @@ func (fpaov *ScopeParamArrayOfStringsValue_FieldTerminalPathArrayOfValues) GetRa
 }
 func (fpaov *ScopeParamArrayOfStringsValue_FieldTerminalPathArrayOfValues) AsValuesArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ScopeParamFromValue_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ScopeParamFromValue_FieldPathSelector
+	Get(source *ScopeParam_FromValue) []interface{}
+	GetSingle(source *ScopeParam_FromValue) (interface{}, bool)
+	ClearValue(item *ScopeParam_FromValue)
+
+	// Those methods build corresponding ScopeParamFromValue_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ScopeParamFromValue_FieldPathValue
+	WithIArrayOfValues(values interface{}) ScopeParamFromValue_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ScopeParamFromValue_FieldPathArrayItemValue
+}
+
+type ScopeParamFromValue_FieldPathSelector int32
+
+const (
+	ScopeParamFromValue_FieldPathSelectorSource ScopeParamFromValue_FieldPathSelector = 0
+	ScopeParamFromValue_FieldPathSelectorPath   ScopeParamFromValue_FieldPathSelector = 1
+)
+
+func (s ScopeParamFromValue_FieldPathSelector) String() string {
+	switch s {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		return "source"
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		return "path"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", s))
+	}
+}
+
+func BuildScopeParamFromValue_FieldPath(fp gotenobject.RawFieldPath) (ScopeParamFromValue_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ScopeParam_FromValue")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "source":
+			return &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorSource}, nil
+		case "path":
+			return &ScopeParamFromValue_FieldTerminalPath{selector: ScopeParamFromValue_FieldPathSelectorPath}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ScopeParam_FromValue", fp)
+}
+
+func ParseScopeParamFromValue_FieldPath(rawField string) (ScopeParamFromValue_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildScopeParamFromValue_FieldPath(fp)
+}
+
+func MustParseScopeParamFromValue_FieldPath(rawField string) ScopeParamFromValue_FieldPath {
+	fp, err := ParseScopeParamFromValue_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ScopeParamFromValue_FieldTerminalPath struct {
+	selector ScopeParamFromValue_FieldPathSelector
+}
+
+var _ ScopeParamFromValue_FieldPath = (*ScopeParamFromValue_FieldTerminalPath)(nil)
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) Selector() ScopeParamFromValue_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ScopeParamFromValue_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ScopeParamFromValue_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ScopeParam_FromValue
+func (fp *ScopeParamFromValue_FieldTerminalPath) Get(source *ScopeParam_FromValue) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ScopeParamFromValue_FieldPathSelectorSource:
+			values = append(values, source.Source)
+		case ScopeParamFromValue_FieldPathSelectorPath:
+			values = append(values, source.Path)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ScopeParam_FromValue))
+}
+
+// GetSingle returns value pointed by specific field of from source ScopeParam_FromValue
+func (fp *ScopeParamFromValue_FieldTerminalPath) GetSingle(source *ScopeParam_FromValue) (interface{}, bool) {
+	switch fp.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		return source.GetSource(), source != nil
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		return source.GetPath(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+	}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ScopeParam_FromValue))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ScopeParamFromValue_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		return ScopeParam_FromValue_UNDEFINED
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+	}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) ClearValue(item *ScopeParam_FromValue) {
+	if item != nil {
+		switch fp.selector {
+		case ScopeParamFromValue_FieldPathSelectorSource:
+			item.Source = ScopeParam_FromValue_UNDEFINED
+		case ScopeParamFromValue_FieldPathSelectorPath:
+			item.Path = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ScopeParam_FromValue))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ScopeParamFromValue_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ScopeParamFromValue_FieldPathSelectorSource ||
+		fp.selector == ScopeParamFromValue_FieldPathSelectorPath
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithIValue(value interface{}) ScopeParamFromValue_FieldPathValue {
+	switch fp.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		return &ScopeParamFromValue_FieldTerminalPathValue{ScopeParamFromValue_FieldTerminalPath: *fp, value: value.(ScopeParam_FromValue_Source)}
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		return &ScopeParamFromValue_FieldTerminalPathValue{ScopeParamFromValue_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+	}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithIArrayOfValues(values interface{}) ScopeParamFromValue_FieldPathArrayOfValues {
+	fpaov := &ScopeParamFromValue_FieldTerminalPathArrayOfValues{ScopeParamFromValue_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		return &ScopeParamFromValue_FieldTerminalPathArrayOfValues{ScopeParamFromValue_FieldTerminalPath: *fp, values: values.([]ScopeParam_FromValue_Source)}
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		return &ScopeParamFromValue_FieldTerminalPathArrayOfValues{ScopeParamFromValue_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithIArrayItemValue(value interface{}) ScopeParamFromValue_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fp.selector))
+	}
+}
+
+func (fp *ScopeParamFromValue_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ScopeParamFromValue_FieldPathValue allows storing values for FromValue fields according to their type
+type ScopeParamFromValue_FieldPathValue interface {
+	ScopeParamFromValue_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ScopeParam_FromValue)
+	CompareWith(*ScopeParam_FromValue) (cmp int, comparable bool)
+}
+
+func ParseScopeParamFromValue_FieldPathValue(pathStr, valueStr string) (ScopeParamFromValue_FieldPathValue, error) {
+	fp, err := ParseScopeParamFromValue_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FromValue field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ScopeParamFromValue_FieldPathValue), nil
+}
+
+func MustParseScopeParamFromValue_FieldPathValue(pathStr, valueStr string) ScopeParamFromValue_FieldPathValue {
+	fpv, err := ParseScopeParamFromValue_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ScopeParamFromValue_FieldTerminalPathValue struct {
+	ScopeParamFromValue_FieldTerminalPath
+	value interface{}
+}
+
+var _ ScopeParamFromValue_FieldPathValue = (*ScopeParamFromValue_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'FromValue' as interface{}
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) AsSourceValue() (ScopeParam_FromValue_Source, bool) {
+	res, ok := fpv.value.(ScopeParam_FromValue_Source)
+	return res, ok
+}
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) AsPathValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object FromValue
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) SetTo(target **ScopeParam_FromValue) {
+	if *target == nil {
+		*target = new(ScopeParam_FromValue)
+	}
+	switch fpv.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		(*target).Source = fpv.value.(ScopeParam_FromValue_Source)
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		(*target).Path = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fpv.selector))
+	}
+}
+
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ScopeParam_FromValue)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ScopeParamFromValue_FieldTerminalPathValue' with the value under path in 'ScopeParam_FromValue'.
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) CompareWith(source *ScopeParam_FromValue) (int, bool) {
+	switch fpv.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		leftValue := fpv.value.(ScopeParam_FromValue_Source)
+		rightValue := source.GetSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPath()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ScopeParam_FromValue: %d", fpv.selector))
+	}
+}
+
+func (fpv *ScopeParamFromValue_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ScopeParam_FromValue))
+}
+
+// ScopeParamFromValue_FieldPathArrayItemValue allows storing single item in Path-specific values for FromValue according to their type
+// Present only for array (repeated) types.
+type ScopeParamFromValue_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ScopeParamFromValue_FieldPath
+	ContainsValue(*ScopeParam_FromValue) bool
+}
+
+// ParseScopeParamFromValue_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseScopeParamFromValue_FieldPathArrayItemValue(pathStr, valueStr string) (ScopeParamFromValue_FieldPathArrayItemValue, error) {
+	fp, err := ParseScopeParamFromValue_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FromValue field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ScopeParamFromValue_FieldPathArrayItemValue), nil
+}
+
+func MustParseScopeParamFromValue_FieldPathArrayItemValue(pathStr, valueStr string) ScopeParamFromValue_FieldPathArrayItemValue {
+	fpaiv, err := ParseScopeParamFromValue_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ScopeParamFromValue_FieldTerminalPathArrayItemValue struct {
+	ScopeParamFromValue_FieldTerminalPath
+	value interface{}
+}
+
+var _ ScopeParamFromValue_FieldPathArrayItemValue = (*ScopeParamFromValue_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ScopeParam_FromValue as interface{}
+func (fpaiv *ScopeParamFromValue_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ScopeParamFromValue_FieldTerminalPathArrayItemValue) GetSingle(source *ScopeParam_FromValue) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ScopeParamFromValue_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ScopeParam_FromValue))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'FromValue'
+func (fpaiv *ScopeParamFromValue_FieldTerminalPathArrayItemValue) ContainsValue(source *ScopeParam_FromValue) bool {
+	slice := fpaiv.ScopeParamFromValue_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ScopeParamFromValue_FieldPathArrayOfValues allows storing slice of values for FromValue fields according to their type
+type ScopeParamFromValue_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ScopeParamFromValue_FieldPath
+}
+
+func ParseScopeParamFromValue_FieldPathArrayOfValues(pathStr, valuesStr string) (ScopeParamFromValue_FieldPathArrayOfValues, error) {
+	fp, err := ParseScopeParamFromValue_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FromValue field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ScopeParamFromValue_FieldPathArrayOfValues), nil
+}
+
+func MustParseScopeParamFromValue_FieldPathArrayOfValues(pathStr, valuesStr string) ScopeParamFromValue_FieldPathArrayOfValues {
+	fpaov, err := ParseScopeParamFromValue_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ScopeParamFromValue_FieldTerminalPathArrayOfValues struct {
+	ScopeParamFromValue_FieldTerminalPath
+	values interface{}
+}
+
+var _ ScopeParamFromValue_FieldPathArrayOfValues = (*ScopeParamFromValue_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ScopeParamFromValue_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ScopeParamFromValue_FieldPathSelectorSource:
+		for _, v := range fpaov.values.([]ScopeParam_FromValue_Source) {
+			values = append(values, v)
+		}
+	case ScopeParamFromValue_FieldPathSelectorPath:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ScopeParamFromValue_FieldTerminalPathArrayOfValues) AsSourceArrayOfValues() ([]ScopeParam_FromValue_Source, bool) {
+	res, ok := fpaov.values.([]ScopeParam_FromValue_Source)
+	return res, ok
+}
+func (fpaov *ScopeParamFromValue_FieldTerminalPathArrayOfValues) AsPathArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }

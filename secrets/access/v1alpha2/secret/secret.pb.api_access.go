@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *secret.Filter) (*secret.Filter, *secret.Pare
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return secret.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

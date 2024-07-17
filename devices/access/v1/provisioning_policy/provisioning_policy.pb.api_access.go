@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *provisioning_policy.Filter) (*provisioning_p
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return provisioning_policy.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd
