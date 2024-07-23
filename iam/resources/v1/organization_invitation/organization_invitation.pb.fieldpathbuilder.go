@@ -1069,10 +1069,6 @@ func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParams) Strin
 	return OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsStrings{}
 }
 
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParams) ValueFrom() OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom {
-	return OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom{}
-}
-
 type OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsName struct{}
 
 func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsName) FieldPath() *OrganizationInvitation_FieldSubPath {
@@ -1168,65 +1164,6 @@ func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsStrin
 
 func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsStringsValues) WithItemValue(value string) *OrganizationInvitation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*OrganizationInvitation_FieldSubPathArrayItemValue)
-}
-
-type OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom struct{}
-
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom) FieldPath() *OrganizationInvitation_FieldSubPath {
-	return &OrganizationInvitation_FieldSubPath{
-		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_invitation.NewInvitationFieldPathBuilder().BindingRoles().ScopeParams().ValueFrom().FieldPath(),
-	}
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom) WithValue(value *role.ScopeParam_FromValue) *OrganizationInvitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom) WithArrayOfValues(values []*role.ScopeParam_FromValue) *OrganizationInvitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
-}
-
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom) Source() OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource {
-	return OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource{}
-}
-
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFrom) Path() OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath {
-	return OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath{}
-}
-
-type OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource struct{}
-
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource) FieldPath() *OrganizationInvitation_FieldSubPath {
-	return &OrganizationInvitation_FieldSubPath{
-		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_invitation.NewInvitationFieldPathBuilder().BindingRoles().ScopeParams().ValueFrom().Source().FieldPath(),
-	}
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource) WithValue(value role.ScopeParam_FromValue_Source) *OrganizationInvitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromSource) WithArrayOfValues(values []role.ScopeParam_FromValue_Source) *OrganizationInvitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
-}
-
-type OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath struct{}
-
-func (OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath) FieldPath() *OrganizationInvitation_FieldSubPath {
-	return &OrganizationInvitation_FieldSubPath{
-		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_invitation.NewInvitationFieldPathBuilder().BindingRoles().ScopeParams().ValueFrom().Path().FieldPath(),
-	}
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath) WithValue(value string) *OrganizationInvitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
-}
-
-func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
 type OrganizationInvitationPathSelectorInvitationExpirationDate struct{}

@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *edgelq_instance.Filter) (*edgelq_instance.Fi
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return edgelq_instance.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

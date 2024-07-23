@@ -21,9 +21,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -44,9 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -59,12 +55,6 @@ func (obj *Role) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Role", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
-	}
-	if len(obj.Description) > 4096 {
-		return gotenvalidate.NewValidationError("Role", "description", obj.Description, "field must contain at most 4096 characters", nil)
-	}
-	if _, ok := Role_Category_name[int32(obj.Category)]; !ok {
-		return gotenvalidate.NewValidationError("Role", "category", obj.Category, "field must be a defined enum value", nil)
 	}
 	for idx, elem := range obj.ScopeParams {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
@@ -174,12 +164,6 @@ func (obj *ScopeParam) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ScopeParam", "strings", opt.Strings, "nested object validation failed", err)
 			}
 		}
-	case *ScopeParam_ValueFrom:
-		if subobj, ok := interface{}(opt.ValueFrom).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("ScopeParam", "valueFrom", opt.ValueFrom, "nested object validation failed", err)
-			}
-		}
 	default:
 		_ = opt
 	}
@@ -198,15 +182,6 @@ func (obj *ScopeParam_StringValue) GotenValidate() error {
 	return nil
 }
 func (obj *ScopeParam_ArrayOfStringsValue) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ScopeParam_FromValue) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

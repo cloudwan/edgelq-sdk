@@ -17,7 +17,6 @@ import (
 	condition_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/condition"
 	group_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/group"
 	group_member_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/group_member"
-	member_assignment_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/member_assignment"
 	organization_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/organization"
 	organization_invitation_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/organization_invitation"
 	permission_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/permission"
@@ -33,7 +32,6 @@ import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group_member"
-	member_assignment "github.com/cloudwan/edgelq-sdk/iam/resources/v1/member_assignment"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization_invitation"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
@@ -62,8 +60,6 @@ var (
 	_ = &group_member.GroupMember{}
 	_ = &group_member_client.GetGroupMemberRequest{}
 	_ = &group_client.GetGroupRequest{}
-	_ = &member_assignment.MemberAssignment{}
-	_ = &member_assignment_client.GetMemberAssignmentRequest{}
 	_ = &organization.Organization{}
 	_ = &organization_invitation.OrganizationInvitation{}
 	_ = &organization_invitation_client.GetOrganizationInvitationRequest{}
@@ -116,7 +112,6 @@ func (d *IAMDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 		condition.GetDescriptor(),
 		group.GetDescriptor(),
 		group_member.GetDescriptor(),
-		member_assignment.GetDescriptor(),
 		organization.GetDescriptor(),
 		organization_invitation.GetDescriptor(),
 		permission.GetDescriptor(),
@@ -138,7 +133,6 @@ func (d *IAMDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		condition_client.GetConditionServiceDescriptor(),
 		group_member_client.GetGroupMemberServiceDescriptor(),
 		group_client.GetGroupServiceDescriptor(),
-		member_assignment_client.GetMemberAssignmentServiceDescriptor(),
 		organization_invitation_client.GetOrganizationInvitationServiceDescriptor(),
 		organization_client.GetOrganizationServiceDescriptor(),
 		permission_client.GetPermissionServiceDescriptor(),

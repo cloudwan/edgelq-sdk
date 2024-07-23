@@ -83,9 +83,8 @@ const (
 	ProvisioningPolicy_FieldPathSelectorName        ProvisioningPolicy_FieldPathSelector = 0
 	ProvisioningPolicy_FieldPathSelectorMetadata    ProvisioningPolicy_FieldPathSelector = 1
 	ProvisioningPolicy_FieldPathSelectorDisplayName ProvisioningPolicy_FieldPathSelector = 2
-	ProvisioningPolicy_FieldPathSelectorDescription ProvisioningPolicy_FieldPathSelector = 3
-	ProvisioningPolicy_FieldPathSelectorSpec        ProvisioningPolicy_FieldPathSelector = 4
-	ProvisioningPolicy_FieldPathSelectorStatus      ProvisioningPolicy_FieldPathSelector = 5
+	ProvisioningPolicy_FieldPathSelectorSpec        ProvisioningPolicy_FieldPathSelector = 3
+	ProvisioningPolicy_FieldPathSelectorStatus      ProvisioningPolicy_FieldPathSelector = 4
 )
 
 func (s ProvisioningPolicy_FieldPathSelector) String() string {
@@ -96,8 +95,6 @@ func (s ProvisioningPolicy_FieldPathSelector) String() string {
 		return "metadata"
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
 		return "display_name"
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		return "description"
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		return "spec"
 	case ProvisioningPolicy_FieldPathSelectorStatus:
@@ -119,8 +116,6 @@ func BuildProvisioningPolicy_FieldPath(fp gotenobject.RawFieldPath) (Provisionin
 			return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDisplayName}, nil
-		case "description":
-			return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription}, nil
 		case "spec":
 			return &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorSpec}, nil
 		case "status":
@@ -201,8 +196,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) Get(source *ProvisioningPolicy) 
 			}
 		case ProvisioningPolicy_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
-		case ProvisioningPolicy_FieldPathSelectorDescription:
-			values = append(values, source.Description)
 		case ProvisioningPolicy_FieldPathSelectorSpec:
 			if source.Spec != nil {
 				values = append(values, source.Spec)
@@ -233,8 +226,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) GetSingle(source *ProvisioningPo
 		return res, res != nil
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		return source.GetDescription(), source != nil
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		res := source.GetSpec()
 		return res, res != nil
@@ -259,8 +250,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
 		return ""
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		return ""
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		return (*ProvisioningPolicy_Spec)(nil)
 	case ProvisioningPolicy_FieldPathSelectorStatus:
@@ -279,8 +268,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) ClearValue(item *ProvisioningPol
 			item.Metadata = nil
 		case ProvisioningPolicy_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
-		case ProvisioningPolicy_FieldPathSelectorDescription:
-			item.Description = ""
 		case ProvisioningPolicy_FieldPathSelectorSpec:
 			item.Spec = nil
 		case ProvisioningPolicy_FieldPathSelectorStatus:
@@ -298,8 +285,7 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fp *ProvisioningPolicy_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ProvisioningPolicy_FieldPathSelectorName ||
-		fp.selector == ProvisioningPolicy_FieldPathSelectorDisplayName ||
-		fp.selector == ProvisioningPolicy_FieldPathSelectorDescription
+		fp.selector == ProvisioningPolicy_FieldPathSelectorDisplayName
 }
 
 func (fp *ProvisioningPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -313,8 +299,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) WithIValue(value interface{}) Pr
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
 		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
-		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(string)}
-	case ProvisioningPolicy_FieldPathSelectorDescription:
 		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(string)}
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		return &ProvisioningPolicy_FieldTerminalPathValue{ProvisioningPolicy_FieldTerminalPath: *fp, value: value.(*ProvisioningPolicy_Spec)}
@@ -337,8 +321,6 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) WithIArrayOfValues(values interf
 	case ProvisioningPolicy_FieldPathSelectorMetadata:
 		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
-		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]string)}
-	case ProvisioningPolicy_FieldPathSelectorDescription:
 		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]string)}
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		return &ProvisioningPolicy_FieldTerminalPathArrayOfValues{ProvisioningPolicy_FieldTerminalPath: *fp, values: values.([]*ProvisioningPolicy_Spec)}
@@ -554,10 +536,6 @@ func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsDisplayNameValue() (stri
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
 func (fpv *ProvisioningPolicy_FieldTerminalPathValue) AsSpecValue() (*ProvisioningPolicy_Spec, bool) {
 	res, ok := fpv.value.(*ProvisioningPolicy_Spec)
 	return res, ok
@@ -579,8 +557,6 @@ func (fpv *ProvisioningPolicy_FieldTerminalPathValue) SetTo(target **Provisionin
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		(*target).Description = fpv.value.(string)
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*ProvisioningPolicy_Spec)
 	case ProvisioningPolicy_FieldPathSelectorStatus:
@@ -622,16 +598,6 @@ func (fpv *ProvisioningPolicy_FieldTerminalPathValue) CompareWith(source *Provis
 	case ProvisioningPolicy_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -861,10 +827,6 @@ func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case ProvisioningPolicy_FieldPathSelectorDescription:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
 	case ProvisioningPolicy_FieldPathSelectorSpec:
 		for _, v := range fpaov.values.([]*ProvisioningPolicy_Spec) {
 			values = append(values, v)
@@ -885,10 +847,6 @@ func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsMetadataArrayO
 	return res, ok
 }
 func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *ProvisioningPolicy_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *attestation_domain.Filter) (*attestation_dom
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return attestation_domain.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

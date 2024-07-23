@@ -252,10 +252,6 @@ func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
 }
 
-func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
-	return &filterCndBuilderDescription{builder: b.builder}
-}
-
 func (b *filterCndBuilder) Spec() *filterCndBuilderSpec {
 	return &filterCndBuilderSpec{builder: b.builder}
 }
@@ -2404,65 +2400,6 @@ func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().DisplayName().WithValue(value),
-	})
-}
-
-type filterCndBuilderDescription struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Description().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Description().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Description().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Description().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Description().WithValue(value),
 	})
 }
 
@@ -9393,10 +9330,6 @@ func (b *filterCndBuilderSpecScopeParams) Strings() *filterCndBuilderSpecScopePa
 	return &filterCndBuilderSpecScopeParamsStrings{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecScopeParams) ValueFrom() *filterCndBuilderSpecScopeParamsValueFrom {
-	return &filterCndBuilderSpecScopeParamsValueFrom{builder: b.builder}
-}
-
 type filterCndBuilderSpecScopeParamsName struct {
 	builder *FilterBuilder
 }
@@ -9731,191 +9664,6 @@ func (b *filterCndBuilderSpecScopeParamsStringsValues) compare(op gotenfilter.Co
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().Strings().Values().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecScopeParamsValueFrom struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Eq(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Neq(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Gt(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Gte(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Lt(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Lte(value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) In(values []*iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) NotIn(values []*iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) compare(op gotenfilter.CompareOperator, value *iam_role.ScopeParam_FromValue) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Source() *filterCndBuilderSpecScopeParamsValueFromSource {
-	return &filterCndBuilderSpecScopeParamsValueFromSource{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFrom) Path() *filterCndBuilderSpecScopeParamsValueFromPath {
-	return &filterCndBuilderSpecScopeParamsValueFromPath{builder: b.builder}
-}
-
-type filterCndBuilderSpecScopeParamsValueFromSource struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Eq(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Neq(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Gt(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Gte(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Lt(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) Lte(value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) In(values []iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Source().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) NotIn(values []iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Source().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Source().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Source().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromSource) compare(op gotenfilter.CompareOperator, value iam_role.ScopeParam_FromValue_Source) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Source().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecScopeParamsValueFromPath struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Path().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Path().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Path().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Path().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecScopeParamsValueFromPath) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ScopeParams().ValueFrom().Path().WithValue(value),
 	})
 }
 

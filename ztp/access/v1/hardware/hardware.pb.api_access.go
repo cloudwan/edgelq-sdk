@@ -262,9 +262,6 @@ func getParentAndFilter(fullFilter *hardware.Filter) (*hardware.Filter, *hardwar
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
-				if len(withoutParentCnds) == 1 {
-					return withoutParentCnds[0]
-				}
 				return hardware.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

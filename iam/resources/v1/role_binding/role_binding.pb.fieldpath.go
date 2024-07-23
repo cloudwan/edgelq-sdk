@@ -78,20 +78,17 @@ type RoleBinding_FieldPath interface {
 type RoleBinding_FieldPathSelector int32
 
 const (
-	RoleBinding_FieldPathSelectorName                  RoleBinding_FieldPathSelector = 0
-	RoleBinding_FieldPathSelectorMetadata              RoleBinding_FieldPathSelector = 1
-	RoleBinding_FieldPathSelectorRole                  RoleBinding_FieldPathSelector = 2
-	RoleBinding_FieldPathSelectorOwnedObjects          RoleBinding_FieldPathSelector = 3
-	RoleBinding_FieldPathSelectorMember                RoleBinding_FieldPathSelector = 4
-	RoleBinding_FieldPathSelectorScopeParams           RoleBinding_FieldPathSelector = 5
-	RoleBinding_FieldPathSelectorExecutableConditions  RoleBinding_FieldPathSelector = 6
-	RoleBinding_FieldPathSelectorMemberType            RoleBinding_FieldPathSelector = 7
-	RoleBinding_FieldPathSelectorCategory              RoleBinding_FieldPathSelector = 8
-	RoleBinding_FieldPathSelectorAncestryPath          RoleBinding_FieldPathSelector = 9
-	RoleBinding_FieldPathSelectorParentByOrg           RoleBinding_FieldPathSelector = 10
-	RoleBinding_FieldPathSelectorSpecGeneration        RoleBinding_FieldPathSelector = 11
-	RoleBinding_FieldPathSelectorHasOwnedObjects       RoleBinding_FieldPathSelector = 12
-	RoleBinding_FieldPathSelectorDisableForChildScopes RoleBinding_FieldPathSelector = 13
+	RoleBinding_FieldPathSelectorName                 RoleBinding_FieldPathSelector = 0
+	RoleBinding_FieldPathSelectorMetadata             RoleBinding_FieldPathSelector = 1
+	RoleBinding_FieldPathSelectorRole                 RoleBinding_FieldPathSelector = 2
+	RoleBinding_FieldPathSelectorOwnedObjects         RoleBinding_FieldPathSelector = 3
+	RoleBinding_FieldPathSelectorMember               RoleBinding_FieldPathSelector = 4
+	RoleBinding_FieldPathSelectorScopeParams          RoleBinding_FieldPathSelector = 5
+	RoleBinding_FieldPathSelectorExecutableConditions RoleBinding_FieldPathSelector = 6
+	RoleBinding_FieldPathSelectorMemberType           RoleBinding_FieldPathSelector = 7
+	RoleBinding_FieldPathSelectorAncestryPath         RoleBinding_FieldPathSelector = 8
+	RoleBinding_FieldPathSelectorSpecGeneration       RoleBinding_FieldPathSelector = 9
+	RoleBinding_FieldPathSelectorHasOwnedObjects      RoleBinding_FieldPathSelector = 10
 )
 
 func (s RoleBinding_FieldPathSelector) String() string {
@@ -112,18 +109,12 @@ func (s RoleBinding_FieldPathSelector) String() string {
 		return "executable_conditions"
 	case RoleBinding_FieldPathSelectorMemberType:
 		return "member_type"
-	case RoleBinding_FieldPathSelectorCategory:
-		return "category"
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		return "ancestry_path"
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		return "parent_by_org"
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		return "spec_generation"
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
 		return "has_owned_objects"
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
-		return "disable_for_child_scopes"
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", s))
 	}
@@ -151,18 +142,12 @@ func BuildRoleBinding_FieldPath(fp gotenobject.RawFieldPath) (RoleBinding_FieldP
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorExecutableConditions}, nil
 		case "member_type", "memberType", "member-type":
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMemberType}, nil
-		case "category":
-			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorCategory}, nil
 		case "ancestry_path", "ancestryPath", "ancestry-path":
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorAncestryPath}, nil
-		case "parent_by_org", "parentByOrg", "parent-by-org":
-			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorParentByOrg}, nil
 		case "spec_generation", "specGeneration", "spec-generation":
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorSpecGeneration}, nil
 		case "has_owned_objects", "hasOwnedObjects", "has-owned-objects":
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorHasOwnedObjects}, nil
-		case "disable_for_child_scopes", "disableForChildScopes", "disable-for-child-scopes":
-			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -263,22 +248,14 @@ func (fp *RoleBinding_FieldTerminalPath) Get(source *RoleBinding) (values []inte
 			}
 		case RoleBinding_FieldPathSelectorMemberType:
 			values = append(values, source.MemberType)
-		case RoleBinding_FieldPathSelectorCategory:
-			values = append(values, source.Category)
 		case RoleBinding_FieldPathSelectorAncestryPath:
 			for _, value := range source.GetAncestryPath() {
 				values = append(values, value)
-			}
-		case RoleBinding_FieldPathSelectorParentByOrg:
-			if source.ParentByOrg != nil {
-				values = append(values, source.ParentByOrg)
 			}
 		case RoleBinding_FieldPathSelectorSpecGeneration:
 			values = append(values, source.SpecGeneration)
 		case RoleBinding_FieldPathSelectorHasOwnedObjects:
 			values = append(values, source.HasOwnedObjects)
-		case RoleBinding_FieldPathSelectorDisableForChildScopes:
-			values = append(values, source.DisableForChildScopes)
 		default:
 			panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 		}
@@ -315,20 +292,13 @@ func (fp *RoleBinding_FieldTerminalPath) GetSingle(source *RoleBinding) (interfa
 		return res, res != nil
 	case RoleBinding_FieldPathSelectorMemberType:
 		return source.GetMemberType(), source != nil
-	case RoleBinding_FieldPathSelectorCategory:
-		return source.GetCategory(), source != nil
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		res := source.GetAncestryPath()
-		return res, res != nil
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		res := source.GetParentByOrg()
 		return res, res != nil
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		return source.GetSpecGeneration(), source != nil
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
 		return source.GetHasOwnedObjects(), source != nil
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
-		return source.GetDisableForChildScopes(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 	}
@@ -357,17 +327,11 @@ func (fp *RoleBinding_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*condition.ExecutableCondition)(nil)
 	case RoleBinding_FieldPathSelectorMemberType:
 		return ""
-	case RoleBinding_FieldPathSelectorCategory:
-		return role.Role_UNDEFINED
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		return ([]*RoleBinding_Parent)(nil)
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		return (*Reference)(nil)
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		return int64(0)
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
-		return false
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
@@ -393,18 +357,12 @@ func (fp *RoleBinding_FieldTerminalPath) ClearValue(item *RoleBinding) {
 			item.ExecutableConditions = nil
 		case RoleBinding_FieldPathSelectorMemberType:
 			item.MemberType = ""
-		case RoleBinding_FieldPathSelectorCategory:
-			item.Category = role.Role_UNDEFINED
 		case RoleBinding_FieldPathSelectorAncestryPath:
 			item.AncestryPath = nil
-		case RoleBinding_FieldPathSelectorParentByOrg:
-			item.ParentByOrg = nil
 		case RoleBinding_FieldPathSelectorSpecGeneration:
 			item.SpecGeneration = int64(0)
 		case RoleBinding_FieldPathSelectorHasOwnedObjects:
 			item.HasOwnedObjects = false
-		case RoleBinding_FieldPathSelectorDisableForChildScopes:
-			item.DisableForChildScopes = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 		}
@@ -422,11 +380,8 @@ func (fp *RoleBinding_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == RoleBinding_FieldPathSelectorOwnedObjects ||
 		fp.selector == RoleBinding_FieldPathSelectorMember ||
 		fp.selector == RoleBinding_FieldPathSelectorMemberType ||
-		fp.selector == RoleBinding_FieldPathSelectorCategory ||
-		fp.selector == RoleBinding_FieldPathSelectorParentByOrg ||
 		fp.selector == RoleBinding_FieldPathSelectorSpecGeneration ||
-		fp.selector == RoleBinding_FieldPathSelectorHasOwnedObjects ||
-		fp.selector == RoleBinding_FieldPathSelectorDisableForChildScopes
+		fp.selector == RoleBinding_FieldPathSelectorHasOwnedObjects
 }
 
 func (fp *RoleBinding_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -451,17 +406,11 @@ func (fp *RoleBinding_FieldTerminalPath) WithIValue(value interface{}) RoleBindi
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.([]*condition.ExecutableCondition)}
 	case RoleBinding_FieldPathSelectorMemberType:
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(string)}
-	case RoleBinding_FieldPathSelectorCategory:
-		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(role.Role_Category)}
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.([]*RoleBinding_Parent)}
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(*Reference)}
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(int64)}
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
-		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(bool)}
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
@@ -491,17 +440,11 @@ func (fp *RoleBinding_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([][]*condition.ExecutableCondition)}
 	case RoleBinding_FieldPathSelectorMemberType:
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]string)}
-	case RoleBinding_FieldPathSelectorCategory:
-		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]role.Role_Category)}
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([][]*RoleBinding_Parent)}
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]*Reference)}
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]int64)}
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
-		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]bool)}
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
@@ -766,16 +709,8 @@ func (fpv *RoleBinding_FieldTerminalPathValue) AsMemberTypeValue() (string, bool
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *RoleBinding_FieldTerminalPathValue) AsCategoryValue() (role.Role_Category, bool) {
-	res, ok := fpv.value.(role.Role_Category)
-	return res, ok
-}
 func (fpv *RoleBinding_FieldTerminalPathValue) AsAncestryPathValue() ([]*RoleBinding_Parent, bool) {
 	res, ok := fpv.value.([]*RoleBinding_Parent)
-	return res, ok
-}
-func (fpv *RoleBinding_FieldTerminalPathValue) AsParentByOrgValue() (*Reference, bool) {
-	res, ok := fpv.value.(*Reference)
 	return res, ok
 }
 func (fpv *RoleBinding_FieldTerminalPathValue) AsSpecGenerationValue() (int64, bool) {
@@ -783,10 +718,6 @@ func (fpv *RoleBinding_FieldTerminalPathValue) AsSpecGenerationValue() (int64, b
 	return res, ok
 }
 func (fpv *RoleBinding_FieldTerminalPathValue) AsHasOwnedObjectsValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-func (fpv *RoleBinding_FieldTerminalPathValue) AsDisableForChildScopesValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
@@ -813,18 +744,12 @@ func (fpv *RoleBinding_FieldTerminalPathValue) SetTo(target **RoleBinding) {
 		(*target).ExecutableConditions = fpv.value.([]*condition.ExecutableCondition)
 	case RoleBinding_FieldPathSelectorMemberType:
 		(*target).MemberType = fpv.value.(string)
-	case RoleBinding_FieldPathSelectorCategory:
-		(*target).Category = fpv.value.(role.Role_Category)
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		(*target).AncestryPath = fpv.value.([]*RoleBinding_Parent)
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		(*target).ParentByOrg = fpv.value.(*Reference)
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		(*target).SpecGeneration = fpv.value.(int64)
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
 		(*target).HasOwnedObjects = fpv.value.(bool)
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
-		(*target).DisableForChildScopes = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fpv.selector))
 	}
@@ -904,37 +829,8 @@ func (fpv *RoleBinding_FieldTerminalPathValue) CompareWith(source *RoleBinding) 
 		} else {
 			return 1, true
 		}
-	case RoleBinding_FieldPathSelectorCategory:
-		leftValue := fpv.value.(role.Role_Category)
-		rightValue := source.GetCategory()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		return 0, false
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		leftValue := fpv.value.(*Reference)
-		rightValue := source.GetParentByOrg()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case RoleBinding_FieldPathSelectorSpecGeneration:
 		leftValue := fpv.value.(int64)
 		rightValue := source.GetSpecGeneration()
@@ -948,16 +844,6 @@ func (fpv *RoleBinding_FieldTerminalPathValue) CompareWith(source *RoleBinding) 
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
 		leftValue := fpv.value.(bool)
 		rightValue := source.GetHasOwnedObjects()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetDisableForChildScopes()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -1233,16 +1119,8 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case RoleBinding_FieldPathSelectorCategory:
-		for _, v := range fpaov.values.([]role.Role_Category) {
-			values = append(values, v)
-		}
 	case RoleBinding_FieldPathSelectorAncestryPath:
 		for _, v := range fpaov.values.([][]*RoleBinding_Parent) {
-			values = append(values, v)
-		}
-	case RoleBinding_FieldPathSelectorParentByOrg:
-		for _, v := range fpaov.values.([]*Reference) {
 			values = append(values, v)
 		}
 	case RoleBinding_FieldPathSelectorSpecGeneration:
@@ -1250,10 +1128,6 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 			values = append(values, v)
 		}
 	case RoleBinding_FieldPathSelectorHasOwnedObjects:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
@@ -1292,16 +1166,8 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsMemberTypeArrayOfValu
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsCategoryArrayOfValues() ([]role.Role_Category, bool) {
-	res, ok := fpaov.values.([]role.Role_Category)
-	return res, ok
-}
 func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsAncestryPathArrayOfValues() ([][]*RoleBinding_Parent, bool) {
 	res, ok := fpaov.values.([][]*RoleBinding_Parent)
-	return res, ok
-}
-func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsParentByOrgArrayOfValues() ([]*Reference, bool) {
-	res, ok := fpaov.values.([]*Reference)
 	return res, ok
 }
 func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsSpecGenerationArrayOfValues() ([]int64, bool) {
@@ -1309,10 +1175,6 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsSpecGenerationArrayOf
 	return res, ok
 }
 func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsHasOwnedObjectsArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
-	return res, ok
-}
-func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsDisableForChildScopesArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

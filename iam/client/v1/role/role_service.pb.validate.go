@@ -20,8 +20,6 @@ import (
 
 // proto imports
 import (
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	view "github.com/cloudwan/goten-sdk/types/view"
@@ -46,8 +44,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &organization.Organization{}
-	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}

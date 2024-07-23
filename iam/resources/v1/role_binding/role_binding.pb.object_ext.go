@@ -122,9 +122,6 @@ func (o *RoleBinding) MakeDiffFieldMask(other *RoleBinding) *RoleBinding_FieldMa
 	if o.GetMemberType() != other.GetMemberType() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMemberType})
 	}
-	if o.GetCategory() != other.GetCategory() {
-		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorCategory})
-	}
 
 	if len(o.GetAncestryPath()) == len(other.GetAncestryPath()) {
 		for i, lValue := range o.GetAncestryPath() {
@@ -137,17 +134,11 @@ func (o *RoleBinding) MakeDiffFieldMask(other *RoleBinding) *RoleBinding_FieldMa
 	} else {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorAncestryPath})
 	}
-	if o.GetParentByOrg().String() != other.GetParentByOrg().String() {
-		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorParentByOrg})
-	}
 	if o.GetSpecGeneration() != other.GetSpecGeneration() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorSpecGeneration})
 	}
 	if o.GetHasOwnedObjects() != other.GetHasOwnedObjects() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorHasOwnedObjects})
-	}
-	if o.GetDisableForChildScopes() != other.GetDisableForChildScopes() {
-		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes})
 	}
 	return res
 }
@@ -196,24 +187,12 @@ func (o *RoleBinding) Clone() *RoleBinding {
 		result.ExecutableConditions[i] = sourceValue.Clone()
 	}
 	result.MemberType = o.MemberType
-	result.Category = o.Category
 	result.AncestryPath = make([]*RoleBinding_Parent, len(o.AncestryPath))
 	for i, sourceValue := range o.AncestryPath {
 		result.AncestryPath[i] = sourceValue.Clone()
 	}
-	if o.ParentByOrg == nil {
-		result.ParentByOrg = nil
-	} else if data, err := o.ParentByOrg.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.ParentByOrg = &Reference{}
-		if err := result.ParentByOrg.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.SpecGeneration = o.SpecGeneration
 	result.HasOwnedObjects = o.HasOwnedObjects
-	result.DisableForChildScopes = o.DisableForChildScopes
 	return result
 }
 
@@ -305,7 +284,6 @@ func (o *RoleBinding) Merge(source *RoleBinding) {
 	}
 
 	o.MemberType = source.GetMemberType()
-	o.Category = source.GetCategory()
 	for _, sourceValue := range source.GetAncestryPath() {
 		exists := false
 		for _, currentValue := range o.AncestryPath {
@@ -324,21 +302,8 @@ func (o *RoleBinding) Merge(source *RoleBinding) {
 		}
 	}
 
-	if source.GetParentByOrg() != nil {
-		if data, err := source.GetParentByOrg().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.ParentByOrg = &Reference{}
-			if err := o.ParentByOrg.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.ParentByOrg = nil
-	}
 	o.SpecGeneration = source.GetSpecGeneration()
 	o.HasOwnedObjects = source.GetHasOwnedObjects()
-	o.DisableForChildScopes = source.GetDisableForChildScopes()
 }
 
 func (o *RoleBinding) MergeRaw(source gotenobject.GotenObjectExt) {
